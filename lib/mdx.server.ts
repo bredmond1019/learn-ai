@@ -13,24 +13,28 @@ declare module 'gray-matter'
 
 const CONTENT_BASE = path.join(process.cwd(), 'content')
 
-// Get blog directory
-function getBlogDirectory(): string {
-  return path.join(CONTENT_BASE, 'blog', 'published')
+// Get blog directory with locale support
+function getBlogDirectory(locale?: string): string {
+  const basePath = path.join(CONTENT_BASE, 'blog', 'published')
+  if (locale && locale !== 'en') {
+    return path.join(basePath, locale)
+  }
+  return basePath
 }
 
 // Ensure blog directory exists
-export function ensureBlogDirectory() {
-  const dir = getBlogDirectory()
+export function ensureBlogDirectory(locale?: string) {
+  const dir = getBlogDirectory(locale)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true })
   }
 }
 
-// Get all blog post slugs
-export function getAllPostSlugs(): string[] {
-  ensureBlogDirectory()
+// Get all blog post slugs with locale support
+export function getAllPostSlugs(locale?: string): string[] {
+  ensureBlogDirectory(locale)
   
-  const dir = getBlogDirectory()
+  const dir = getBlogDirectory(locale)
   
   try {
     const files = fs.readdirSync(dir)
@@ -43,14 +47,18 @@ export function getAllPostSlugs(): string[] {
   }
 }
 
-// Get a single blog post by slug
-const getPostBySlugUncached = (slug: string): BlogPost | null => {
+// Get a single blog post by slug with locale support
+const getPostBySlugUncached = (slug: string, locale?: string): BlogPost | null => {
   try {
-    const dir = getBlogDirectory()
+    const dir = getBlogDirectory(locale)
     const fullPath = path.join(dir, `${slug}.mdx`)
     
     // Check if file exists
     if (!fs.existsSync(fullPath)) {
+      // If locale version doesn't exist, try fallback to English
+      if (locale && locale !== 'en') {
+        return getPostBySlugUncached(slug, 'en')
+      }
       return null
     }
     
@@ -81,16 +89,16 @@ const getPostBySlugUncached = (slug: string): BlogPost | null => {
   }
 }
 
-// Cached version with synchronous wrapper
-export function getPostBySlug(slug: string): BlogPost | null {
-  const cacheKey = cacheKeys.blog.post(slug);
+// Cached version with synchronous wrapper and locale support
+export function getPostBySlug(slug: string, locale?: string): BlogPost | null {
+  const cacheKey = cacheKeys.blog.post(`${slug}-${locale || 'en'}`);
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
     return cached;
   }
   
-  const post = getPostBySlugUncached(slug);
+  const post = getPostBySlugUncached(slug, locale);
   
   if (post) {
     blogCache.set(cacheKey, post);
@@ -99,18 +107,18 @@ export function getPostBySlug(slug: string): BlogPost | null {
   return post;
 }
 
-// Get all blog posts sorted by date (newest first)
-export function getAllPosts(): BlogPost[] {
-  const cacheKey = cacheKeys.blog.allPosts();
+// Get all blog posts sorted by date (newest first) with locale support
+export function getAllPosts(locale?: string): BlogPost[] {
+  const cacheKey = cacheKeys.blog.allPosts(`-${locale || 'en'}`);
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
     return cached;
   }
   
-  const slugs = getAllPostSlugs()
+  const slugs = getAllPostSlugs(locale)
   const posts = slugs
-    .map(slug => getPostBySlug(slug))
+    .map(slug => getPostBySlug(slug, locale))
     .filter((post): post is BlogPost => post !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   
@@ -118,16 +126,16 @@ export function getAllPosts(): BlogPost[] {
   return posts
 }
 
-// Get blog post metadata only (for listing pages)
-export function getAllPostsMeta(): BlogPostMeta[] {
-  const cacheKey = cacheKeys.blog.postsMeta();
+// Get blog post metadata only (for listing pages) with locale support
+export function getAllPostsMeta(locale?: string): BlogPostMeta[] {
+  const cacheKey = cacheKeys.blog.postsMeta(`-${locale || 'en'}`);
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
     return cached;
   }
   
-  const meta = getAllPosts().map((post) => ({
+  const meta = getAllPosts(locale).map((post) => ({
     slug: post.slug,
     title: post.title,
     date: post.date,
@@ -141,30 +149,30 @@ export function getAllPostsMeta(): BlogPostMeta[] {
   return meta;
 }
 
-// Get recent posts (for homepage preview)
-export function getRecentPosts(limit: number = 3): BlogPostMeta[] {
-  const cacheKey = cacheKeys.blog.recentPosts(limit);
+// Get recent posts (for homepage preview) with locale support
+export function getRecentPosts(limit: number = 3, locale?: string): BlogPostMeta[] {
+  const cacheKey = cacheKeys.blog.recentPosts(`${limit}-${locale || 'en'}`);
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
     return cached;
   }
   
-  const recent = getAllPostsMeta().slice(0, limit);
+  const recent = getAllPostsMeta(locale).slice(0, limit);
   blogCache.set(cacheKey, recent);
   return recent;
 }
 
-// Get posts by tag
-export function getPostsByTag(tag: string): BlogPost[] {
-  const cacheKey = cacheKeys.blog.postsByTag(tag);
+// Get posts by tag with locale support
+export function getPostsByTag(tag: string, locale?: string): BlogPost[] {
+  const cacheKey = cacheKeys.blog.postsByTag(`${tag}-${locale || 'en'}`);
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
     return cached;
   }
   
-  const posts = getAllPosts().filter(post => 
+  const posts = getAllPosts(locale).filter(post => 
     post.tags?.map(t => t.toLowerCase()).includes(tag.toLowerCase())
   );
   
@@ -172,16 +180,16 @@ export function getPostsByTag(tag: string): BlogPost[] {
   return posts;
 }
 
-// Get all unique tags
-export function getAllTags(): string[] {
-  const cacheKey = cacheKeys.blog.allTags();
+// Get all unique tags with locale support
+export function getAllTags(locale?: string): string[] {
+  const cacheKey = cacheKeys.blog.allTags(`-${locale || 'en'}`);
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
     return cached;
   }
   
-  const posts = getAllPosts()
+  const posts = getAllPosts(locale)
   const tagSet = new Set<string>()
   
   posts.forEach(post => {

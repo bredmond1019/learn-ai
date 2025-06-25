@@ -10,6 +10,7 @@ const nextConfig = {
     webVitalsAttribution: ['CLS', 'LCP'],
   },
   
+  
   // ESLint and TypeScript configuration for build
   eslint: {
     ignoreDuringBuilds: true, // Allow production builds to complete

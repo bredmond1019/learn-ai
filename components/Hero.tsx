@@ -5,8 +5,14 @@ import Button from './Button';
 import Link from 'next/link';
 import { HeroImage } from './ui/optimized-image';
 import { generateBlurDataURL } from '@/lib/image-optimization';
+import { createTranslator, type Locale } from '@/lib/translations';
 
-export default function Hero() {
+interface HeroProps {
+  locale: string;
+}
+
+export default function Hero({ locale }: HeroProps) {
+  const t = createTranslator(locale as Locale);
   return (
     <section className="relative overflow-hidden pt-20 pb-16 sm:pt-32 sm:pb-24">
       <Container>
@@ -14,21 +20,21 @@ export default function Hero() {
           {/* Text Content */}
           <div className="order-2 lg:order-1">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              From Teaching Math to{' '}
-              <span className="text-primary">Building AI Minds</span>
+              {t('hero.title')}{' '}
+              <span className="text-primary">{t('hero.titleHighlight')}</span>
             </h1>
             <p className="text-xl text-foreground/80 mb-8 leading-relaxed">
-              I help engineers and entrepreneurs build intelligent systems that solve real problems
+              {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/projects">
+              <Link href={`/${locale}/projects`}>
                 <Button size="lg" variant="primary">
-                  Explore My Work
+                  {t('hero.ctaPrimary')}
                 </Button>
               </Link>
-              <Link href="/learn">
+              <Link href={`/${locale}/learn`}>
                 <Button size="lg" variant="secondary">
-                  Learn Agentic AI
+                  {t('hero.ctaSecondary')}
                 </Button>
               </Link>
             </div>
@@ -37,27 +43,27 @@ export default function Hero() {
             <div className="flex flex-wrap gap-3 mt-8">
               <div className="flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-full">
                 <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <span className="text-sm font-medium">São Paulo, Brazil</span>
+                <span className="text-sm font-medium">{t('hero.locationSP')}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-full">
                 <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <span className="text-sm font-medium">New York, NY</span>
+                <span className="text-sm font-medium">{t('hero.locationNY')}</span>
               </div>
             </div>
             
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-6 mt-12">
               <div>
-                <p className="text-3xl font-bold text-primary">5+</p>
-                <p className="text-sm text-foreground/60">Years Engineering</p>
+                <p className="text-3xl font-bold text-primary">{t('hero.statsYearsValue')}</p>
+                <p className="text-sm text-foreground/60">{t('hero.statsYearsLabel')}</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-primary">10+</p>
-                <p className="text-sm text-foreground/60">MCP Servers Built</p>
+                <p className="text-3xl font-bold text-primary">{t('hero.statsMCPValue')}</p>
+                <p className="text-sm text-foreground/60">{t('hero.statsMCPLabel')}</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-primary">100+</p>
-                <p className="text-sm text-foreground/60">Students Taught</p>
+                <p className="text-3xl font-bold text-primary">{t('hero.statsStudentsValue')}</p>
+                <p className="text-sm text-foreground/60">{t('hero.statsStudentsLabel')}</p>
               </div>
             </div>
           </div>

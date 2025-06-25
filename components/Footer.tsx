@@ -1,18 +1,25 @@
 'use client';
 
 import Link from 'next/link';
+import { createTranslator, type Locale } from '@/lib/translations';
 
-export default function Footer() {
+interface FooterProps {
+  locale: string;
+}
+
+export default function Footer({ locale }: FooterProps) {
+  const t = createTranslator(locale as Locale);
+  
   const quickLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Projects', href: '/projects' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Contact', href: '/contact' },
+    { name: t('nav.home'), href: `/${locale}` },
+    { name: t('nav.about'), href: `/${locale}/${locale === 'pt-BR' ? 'sobre' : 'about'}` },
+    { name: t('nav.projects'), href: `/${locale}/${locale === 'pt-BR' ? 'projetos' : 'projects'}` },
+    { name: t('nav.blog'), href: `/${locale}/blog` },
+    { name: t('nav.contact'), href: `/${locale}/${locale === 'pt-BR' ? 'contato' : 'contact'}` },
   ];
 
   const platformLinks = [
-    { name: 'Learn Agentic AI', href: '/learn' },
+    { name: t('nav.learn'), href: `/${locale}/${locale === 'pt-BR' ? 'aprender' : 'learn'}` },
   ];
 
   // Use a stable year to avoid hydration mismatches
@@ -24,18 +31,18 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="md:col-span-2">
-            <Link href="/" className="text-xl font-bold text-primary hover:text-primary-hover transition-colors">
+            <Link href={`/${locale}`} className="text-xl font-bold text-primary hover:text-primary-hover transition-colors">
               Brandon J. Redmond
             </Link>
             <p className="mt-4 text-foreground/60 max-w-md">
-              AI Engineer passionate about building intelligent systems that make a real impact. Specializing in agentic AI, full stack web development, and technical leadership.
+              {t('about.subtitle')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
-              Quick Links
+              {t('footer.quickLinks')}
             </h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
@@ -54,7 +61,7 @@ export default function Footer() {
           {/* Platform Links */}
           <div>
             <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
-              Platforms
+              {t('footer.platforms')}
             </h3>
             <ul className="space-y-3">
               {platformLinks.map((link) => (
@@ -75,7 +82,7 @@ export default function Footer() {
         <div className="mt-8 pt-8 border-t border-accent/20">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-foreground/40 text-sm">
-              © {currentYear} Brandon J. Redmond. All rights reserved.
+              © {currentYear} Brandon J. Redmond. {t('footer.copyright')}.
             </p>
             <div className="mt-4 md:mt-0 flex space-x-6">
               <Link

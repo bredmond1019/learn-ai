@@ -4,24 +4,28 @@ import Section from './Section';
 import Container from './Container';
 import Button from './Button';
 import Link from 'next/link';
+import { createTranslator, type Locale } from '@/lib/translations';
 
-export default function CTASection() {
+interface CTASectionProps {
+  locale: string;
+}
+
+export default function CTASection({ locale }: CTASectionProps) {
+  const t = createTranslator(locale as Locale);
   return (
     <Section spacing="xl" className="relative overflow-hidden">
       <Container>
         <div className="relative z-10 text-center max-w-3xl mx-auto">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-            Let&apos;s Build Something{' '}
-            <span className="text-primary">Amazing Together</span>
+            {t('cta.title')}
           </h2>
           <p className="text-lg sm:text-xl text-foreground/80 mb-8">
-            Whether you&apos;re looking to integrate AI into your business, need expertise on a 
-            challenging ML project, or want to explore partnership opportunities, I&apos;m here to help.
+            {t('cta.subtitle')}
           </p>
           <div className="flex justify-center">
-            <Link href="/contact">
+            <Link href={`/${locale}/contact`}>
               <Button size="lg" variant="primary">
-                Start a Conversation
+                {t('cta.button')}
               </Button>
             </Link>
           </div>
