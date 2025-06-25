@@ -1,5 +1,7 @@
 // Learning content data structure and utilities
 
+export type Locale = 'en' | 'pt-BR';
+
 export interface LearningPath {
   id: string;
   title: string;
@@ -32,7 +34,8 @@ export interface Concept {
   relatedConcepts?: string[];
 }
 
-export const learningPaths: LearningPath[] = [
+// English learning paths
+const learningPathsEn: LearningPath[] = [
   {
     id: 'mcp-fundamentals',
     title: 'MCP Server Fundamentals',
@@ -208,7 +211,191 @@ export const learningPaths: LearningPath[] = [
   }
 ];
 
-export const concepts: Concept[] = [
+// Portuguese learning paths
+const learningPathsPtBR: LearningPath[] = [
+  {
+    id: 'mcp-fundamentals',
+    title: 'Fundamentos de Servidor MCP',
+    description: 'Construa seu primeiro servidor Model Context Protocol do zero. Aprenda os conceitos centrais, padrões de arquitetura e melhores práticas.',
+    level: 'Iniciante',
+    duration: '4-6 horas',
+    topics: ['Arquitetura MCP', 'Configuração de Servidor', 'Gerenciamento de Recursos', 'Integração de Ferramentas'],
+    color: 'primary',
+    outcomes: [
+      'Entender os fundamentos do protocolo MCP',
+      'Construir um servidor MCP básico do zero',
+      'Implementar provedores de recursos e ferramentas',
+      'Conectar servidor MCP a aplicações de IA'
+    ],
+    modules: [
+      {
+        id: 'introduction-to-mcp',
+        title: 'O que é MCP?',
+        description: 'Entendendo o Model Context Protocol e seu papel em sistemas de IA modernos',
+        duration: '30 minutos',
+        type: 'theory',
+        content: 'Introdução aos conceitos e arquitetura MCP'
+      },
+      {
+        id: 'setting-up-environment',
+        title: 'Configurando Seu Primeiro Servidor MCP',
+        description: 'Configuração prática do ambiente de desenvolvimento e estrutura básica do servidor',
+        duration: '1 hora',
+        type: 'hands-on',
+        content: 'Configuração passo a passo do servidor com TypeScript'
+      },
+      {
+        id: 'implementing-resources',
+        title: 'Implementando Provedores de Recursos',
+        description: 'Aprenda a expor dados e conteúdo através de recursos MCP',
+        duration: '1.5 horas',
+        type: 'hands-on',
+        content: 'Construindo provedores de recursos para diferentes tipos de dados'
+      },
+      {
+        id: 'creating-tools',
+        title: 'Criando Provedores de Ferramentas',
+        description: 'Permita que agentes de IA realizem ações através do seu servidor MCP',
+        duration: '1.5 horas',
+        type: 'hands-on',
+        content: 'Implementando ferramentas e funções executáveis'
+      },
+      {
+        id: 'capstone-project',
+        title: 'Construa um Servidor MCP Completo',
+        description: 'Projeto final: Construa um servidor MCP de dados meteorológicos com múltiplos recursos e ferramentas',
+        duration: '2 horas',
+        type: 'project',
+        content: 'Implementação de projeto de ponta a ponta'
+      }
+    ]
+  },
+  {
+    id: 'agentic-workflows',
+    title: 'Fluxos de Trabalho de IA Agêntica',
+    description: 'Projete sistemas inteligentes que podem raciocinar, planejar e executar tarefas complexas de forma autônoma com supervisão humana.',
+    level: 'Intermediário',
+    duration: '6-8 horas',
+    topics: ['Arquitetura de Agente', 'Sistemas de Planejamento', 'Uso de Ferramentas', 'Humano no Loop'],
+    color: 'accent',
+    prerequisites: ['mcp-fundamentals'],
+    outcomes: [
+      'Projetar arquiteturas de agente para tarefas complexas',
+      'Implementar sistemas de planejamento e raciocínio',
+      'Construir fluxos de trabalho com humano no loop',
+      'Criar sistemas agênticos prontos para produção'
+    ],
+    modules: [
+      {
+        id: 'agent-architecture-patterns',
+        title: 'Padrões de Arquitetura de Agente',
+        description: 'Padrões comuns para estruturar agentes inteligentes',
+        duration: '1 hora',
+        type: 'theory',
+        content: 'ReAct, Plan-and-Execute, e outros padrões de agente'
+      },
+      {
+        id: 'building-planning-systems',
+        title: 'Construindo Sistemas de Planejamento',
+        description: 'Implemente planejamento orientado a objetivos em agentes de IA',
+        duration: '2 horas',
+        type: 'hands-on',
+        content: 'Decomposição de tarefas e planejamento de execução'
+      },
+      {
+        id: 'tool-orchestration',
+        title: 'Orquestração de Ferramentas',
+        description: 'Coordene múltiplas ferramentas e serviços em fluxos de trabalho de agente',
+        duration: '1.5 horas',
+        type: 'hands-on',
+        content: 'Coordenação multi-ferramenta e tratamento de erros'
+      },
+      {
+        id: 'human-in-the-loop-design',
+        title: 'Design com Humano no Loop',
+        description: 'Implemente fluxos de trabalho de aprovação e supervisão humana',
+        duration: '1.5 horas',
+        type: 'hands-on',
+        content: 'Sistemas de aprovação e pontos de intervenção'
+      },
+      {
+        id: 'build-research-agent',
+        title: 'Construa um Agente de Pesquisa',
+        description: 'Crie um agente que pode pesquisar tópicos, sintetizar informações e gerar relatórios',
+        duration: '3 horas',
+        type: 'project',
+        content: 'Implementação completa de agente de pesquisa'
+      }
+    ]
+  },
+  {
+    id: 'production-ai',
+    title: 'Sistemas de IA em Produção',
+    description: 'Implante, monitore e escale sistemas de IA em produção. Aprenda padrões empresariais para aplicações de IA confiáveis.',
+    level: 'Avançado',
+    duration: '8-10 horas',
+    topics: ['Estratégias de Deploy', 'Monitoramento', 'Escalabilidade', 'Segurança'],
+    color: 'primary',
+    prerequisites: ['mcp-fundamentals', 'agentic-workflows'],
+    outcomes: [
+      'Implantar sistemas de IA em ambientes de produção',
+      'Implementar monitoramento e observabilidade abrangentes',
+      'Projetar sistemas que escalam com a demanda',
+      'Proteger aplicações de IA contra ameaças comuns'
+    ],
+    modules: [
+      {
+        id: 'deployment-strategies',
+        title: 'Estratégias de Deploy',
+        description: 'Padrões para implantar sistemas de IA com segurança em produção',
+        duration: '1.5 horas',
+        type: 'theory',
+        content: 'Deploys blue-green, canary e feature flag'
+      },
+      {
+        id: 'monitoring-ai',
+        title: 'Monitoramento de Sistema de IA',
+        description: 'Monitore performance, custos e confiabilidade de IA',
+        duration: '2 horas',
+        type: 'hands-on',
+        content: 'Métricas, logging e alertas para sistemas de IA'
+      },
+      {
+        id: 'scaling-strategies',
+        title: 'Escalando Aplicações de IA',
+        description: 'Gerencie carga e complexidade aumentadas em sistemas de IA',
+        duration: '2 horas',
+        type: 'hands-on',
+        content: 'Balanceamento de carga, cache e auto-scaling'
+      },
+      {
+        id: 'ai-security',
+        title: 'Melhores Práticas de Segurança de IA',
+        description: 'Proteja sistemas de IA contra injeção de prompt e outras ameaças',
+        duration: '1.5 horas',
+        type: 'theory',
+        content: 'Padrões de segurança e mitigação de ameaças'
+      },
+      {
+        id: 'production-project',
+        title: 'Implantar uma Plataforma de IA Completa',
+        description: 'Implante uma aplicação de IA full-stack com monitoramento, escalabilidade e segurança',
+        duration: '4 horas',
+        type: 'project',
+        content: 'Deploy de produção de ponta a ponta'
+      }
+    ]
+  }
+];
+
+// Learning paths by locale
+export const learningPaths: Record<Locale, LearningPath[]> = {
+  'en': learningPathsEn,
+  'pt-BR': learningPathsPtBR
+};
+
+// English concepts
+const conceptsEn: Concept[] = [
   {
     id: 'mcp',
     title: 'Model Context Protocol (MCP)',
@@ -265,37 +452,101 @@ export const concepts: Concept[] = [
   }
 ];
 
+// Portuguese concepts
+const conceptsPtBR: Concept[] = [
+  {
+    id: 'mcp',
+    title: 'Model Context Protocol (MCP)',
+    description: 'Uma maneira padronizada para aplicações de IA se conectarem com fontes de dados e ferramentas externas, permitindo sistemas de IA mais poderosos e flexíveis.',
+    learnMore: '/aprender/conceitos/mcp',
+    category: 'fundamentals',
+    difficulty: 'beginner',
+    relatedConcepts: ['tool-use', 'ai-integration']
+  },
+  {
+    id: 'agentic-ai',
+    title: 'Sistemas de IA Agêntica',
+    description: 'Sistemas de IA que podem planejar, raciocinar e executar tarefas complexas de forma autônoma, mantendo supervisão e controle humano.',
+    learnMore: '/aprender/conceitos/agentic-ai',
+    category: 'architecture',
+    difficulty: 'intermediate',
+    relatedConcepts: ['planning', 'tool-use', 'human-in-loop']
+  },
+  {
+    id: 'tool-use',
+    title: 'IA com Uso de Ferramentas',
+    description: 'Modelos de IA aprimorados com a capacidade de usar ferramentas, APIs e serviços externos para realizar tarefas além da geração de texto puro.',
+    learnMore: '/aprender/conceitos/tool-use',
+    category: 'implementation',
+    difficulty: 'beginner',
+    relatedConcepts: ['mcp', 'function-calling']
+  },
+  {
+    id: 'human-in-loop',
+    title: 'Humano no Loop',
+    description: 'Padrões de design que mantêm humanos envolvidos em processos de tomada de decisão de IA, aproveitando a IA para eficiência e escala.',
+    learnMore: '/aprender/conceitos/human-in-loop',
+    category: 'patterns',
+    difficulty: 'intermediate',
+    relatedConcepts: ['agentic-ai', 'approval-workflows']
+  },
+  {
+    id: 'planning',
+    title: 'Sistemas de Planejamento de IA',
+    description: 'Sistemas que permitem que agentes de IA decomponham objetivos complexos em passos acionáveis e os executem sistematicamente.',
+    learnMore: '/aprender/conceitos/planning',
+    category: 'architecture',
+    difficulty: 'advanced',
+    relatedConcepts: ['agentic-ai', 'task-decomposition']
+  },
+  {
+    id: 'function-calling',
+    title: 'Chamada de Funções',
+    description: 'A capacidade de modelos de linguagem chamarem funções e APIs externas de forma estruturada e confiável.',
+    learnMore: '/aprender/conceitos/function-calling',
+    category: 'implementation',
+    difficulty: 'beginner',
+    relatedConcepts: ['tool-use', 'api-integration']
+  }
+];
+
+// Concepts by locale
+export const concepts: Record<Locale, Concept[]> = {
+  'en': conceptsEn,
+  'pt-BR': conceptsPtBR
+};
+
 // Utility functions
-export function getLearningPathById(id: string): LearningPath | undefined {
-  return learningPaths.find(path => path.id === id);
+export function getLearningPathById(id: string, locale: Locale = 'en'): LearningPath | undefined {
+  return learningPaths[locale].find(path => path.id === id);
 }
 
-export function getConceptById(id: string): Concept | undefined {
-  return concepts.find(concept => concept.id === id);
+export function getConceptById(id: string, locale: Locale = 'en'): Concept | undefined {
+  return concepts[locale].find(concept => concept.id === id);
 }
 
-export function getLearningPathsByLevel(level: LearningPath['level']): LearningPath[] {
-  return learningPaths.filter(path => path.level === level);
+export function getLearningPathsByLevel(level: LearningPath['level'], locale: Locale = 'en'): LearningPath[] {
+  return learningPaths[locale].filter(path => path.level === level);
 }
 
-export function getConceptsByCategory(category: Concept['category']): Concept[] {
-  return concepts.filter(concept => concept.category === category);
+export function getConceptsByCategory(category: Concept['category'], locale: Locale = 'en'): Concept[] {
+  return concepts[locale].filter(concept => concept.category === category);
 }
 
-export function getPrerequisitePaths(pathId: string): LearningPath[] {
-  const path = getLearningPathById(pathId);
+export function getPrerequisitePaths(pathId: string, locale: Locale = 'en'): LearningPath[] {
+  const path = getLearningPathById(pathId, locale);
   if (!path?.prerequisites) return [];
   
   return path.prerequisites
-    .map(prereqId => getLearningPathById(prereqId))
+    .map(prereqId => getLearningPathById(prereqId, locale))
     .filter((path): path is LearningPath => path !== undefined);
 }
 
-export function getRelatedConcepts(conceptId: string): Concept[] {
-  const concept = getConceptById(conceptId);
+export function getRelatedConcepts(conceptId: string, locale: Locale = 'en'): Concept[] {
+  const concept = getConceptById(conceptId, locale);
   if (!concept?.relatedConcepts) return [];
   
   return concept.relatedConcepts
-    .map(relatedId => getConceptById(relatedId))
+    .map(relatedId => getConceptById(relatedId, locale))
     .filter((concept): concept is Concept => concept !== undefined);
 }

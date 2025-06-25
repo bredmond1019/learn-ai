@@ -1,0 +1,81 @@
+{
+  "slug": "ai-chatbot-rag",
+  "title": "Chatbot de IA com RAG e Integração MCP",
+  "description": "Chatbot de IA pronto para produção com Geração Aumentada por Recuperação e integração de servidor MCP, alcançando 92% de taxa de resolução de consultas e permitindo interação perfeita com ferramentas para fluxos de trabalho complexos.",
+  "longDescription": "Arquitetei e implantei um sistema sofisticado de chatbot de IA que combina Modelos de Linguagem de Grande Escala com Geração Aumentada por Recuperação (RAG) e integração de ponta com o Model Context Protocol (MCP). Este sistema serve como um exemplo prático de como agentes de IA modernos podem interagir perfeitamente com ferramentas externas e bases de conhecimento.\n\nO chatbot demonstra capacidades agênticas avançadas ao selecionar e executar dinamicamente ferramentas apropriadas através de servidores MCP, acessando dados em tempo real e mantendo contexto de conversação em interações complexas de múltiplos turnos. Construído com a atenção de um professor para padrões de implementação claros e educacionais que outros desenvolvedores podem aprender.",
+  "tags": ["Python", "LangChain", "RAG", "MCP", "Vector DB", "FastAPI"],
+  "featured": false,
+  "icon": "MessageSquare",
+  "isPrivate": false,
+  "githubUrl": "https://github.com/bredmond1019/HelpDocApp",
+  "techStack": [
+    {
+      "category": "IA/ML",
+      "items": ["LangChain", "OpenAI GPT-4", "Anthropic Claude", "ChromaDB", "Sentence Transformers"]
+    },
+    {
+      "category": "Integração MCP",
+      "items": ["Protocolo MCP", "Descoberta de Ferramentas", "Execução Dinâmica", "JSON-RPC"]
+    },
+    {
+      "category": "Backend",
+      "items": ["Python", "FastAPI", "PostgreSQL", "Redis", "AsyncIO"]
+    },
+    {
+      "category": "Infraestrutura",
+      "items": ["Docker", "Railway", "GitHub Actions", "Monitoramento"]
+    }
+  ],
+  "features": [
+    "Integração de servidor MCP para descoberta e execução dinâmica de ferramentas",
+    "RAG avançado com busca semântica e re-classificação",
+    "Conversação de múltiplos turnos com contexto persistente",
+    "Estrutura de código educacional com documentação abrangente",
+    "Seleção de ferramentas em tempo real baseada na intenção da consulta",
+    "Tratamento de erros robusto e degradação graciosa",
+    "Respostas em streaming para melhor experiência do usuário",
+    "Arquitetura extensível para adicionar novas capacidades"
+  ],
+  "challenges": [
+    "Implementar comunicação confiável do protocolo MCP",
+    "Equilibrar qualidade de resposta com velocidade de execução",
+    "Gerenciar fluxos de trabalho complexos de interação com ferramentas",
+    "Criar exemplos educacionais intuitivos para outros desenvolvedores",
+    "Garantir tratamento robusto de erros em todas as integrações de ferramentas"
+  ],
+  "outcomes": [
+    { "metric": "Resolução de Consultas", "value": "92%" },
+    { "metric": "Tempo de Resposta", "value": "<1.5s" },
+    { "metric": "Integração de Ferramentas", "value": "15+ servidores MCP" },
+    { "metric": "Qualidade do Código", "value": "Docs abrangentes" }
+  ],
+  "globalImpact": {
+    "geographicReach": ["Estados Unidos", "Brasil", "Canadá", "Reino Unido", "Alemanha", "Japão"],
+    "usersWorldwide": 150,
+    "socialImpact": "Democratiza o acesso a atendimento ao cliente e recuperação de informações com IA, ajudando pequenas empresas a competir com empresas maiores através de automação inteligente",
+    "environmentalImpact": "Implementação eficiente de RAG reduz chamadas redundantes ao modelo e sobrecarga computacional comparada a abordagens tradicionais de fine-tuning",
+    "accessibilityFeatures": ["Compatibilidade com entrada/saída de voz", "Suporte à navegação por teclado", "Respostas estruturadas claras"],
+    "multilingualSupport": true,
+    "economicImpact": "Permite que empresas forneçam suporte ao cliente 24/7 sem escalar equipes humanas, reduzindo custos operacionais enquanto melhora os tempos de resposta",
+    "knowledgeSharing": "Implementação educacional abrangente com padrões detalhados de integração MCP para a comunidade global de desenvolvedores"
+  },
+  "localization": {
+    "supportedLanguages": ["Inglês", "Português", "Espanhol", "Francês"],
+    "culturalAdaptations": ["Padrões de resposta culturalmente apropriados", "Consciência do contexto empresarial regional"],
+    "timeZoneHandling": true,
+    "currencySupport": ["USD", "BRL", "EUR", "GBP"],
+    "regionalCompliance": ["GDPR", "LGPD", "Tratamento de dados CCPA"]
+  },
+  "codeSnippets": [
+    {
+      "title": "Agente Habilitado com MCP e RAG",
+      "language": "python",
+      "code": "from langchain.agents import AgentExecutor, create_openai_functions_agent\nfrom langchain.tools import BaseTool\nfrom langchain_core.prompts import ChatPromptTemplate\nimport asyncio\n\nclass McpTool(BaseTool):\n    \"\"\"Ferramenta dinâmica que executa via servidor MCP\"\"\"\n    \n    def __init__(self, name: str, description: str, mcp_client):\n        super().__init__(name=name, description=description)\n        self.mcp_client = mcp_client\n    \n    async def _arun(self, query: str) -> str:\n        \"\"\"Executar ferramenta via servidor MCP\"\"\"\n        try:\n            result = await self.mcp_client.call_tool(\n                tool_name=self.name,\n                arguments={\"query\": query}\n            )\n            return str(result)\n        except Exception as e:\n            return f\"Erro ao executar {self.name}: {str(e)}\"\n\nclass AgenticChatbot:\n    def __init__(self, mcp_client, vector_store):\n        self.mcp_client = mcp_client\n        self.vector_store = vector_store\n        self.tools = []\n        \n    async def initialize_tools(self):\n        \"\"\"Descobrir e registrar ferramentas MCP dinamicamente\"\"\"\n        available_tools = await self.mcp_client.list_tools()\n        \n        for tool_info in available_tools:\n            mcp_tool = McpTool(\n                name=tool_info['name'],\n                description=tool_info['description'],\n                mcp_client=self.mcp_client\n            )\n            self.tools.append(mcp_tool)\n    \n    async def process_query(self, query: str) -> str:\n        \"\"\"Processar consulta do usuário com RAG + seleção de ferramenta MCP\"\"\"\n        # Primeiro, verificar se temos contexto relevante do RAG\n        relevant_docs = await self.vector_store.similarity_search(\n            query, k=3\n        )\n        \n        # Criar agente com ferramentas dinâmicas\n        prompt = ChatPromptTemplate.from_messages([\n            (\"system\", \"Você é um assistente de IA útil com acesso a várias ferramentas. Use o contexto fornecido e as ferramentas para responder perguntas com precisão.\"),\n            (\"human\", \"{input}\"),\n            (\"assistant\", \"{agent_scratchpad}\")\n        ])\n        \n        agent = create_openai_functions_agent(\n            llm=ChatOpenAI(model=\"gpt-4\"),\n            tools=self.tools,\n            prompt=prompt\n        )\n        \n        agent_executor = AgentExecutor(\n            agent=agent,\n            tools=self.tools,\n            verbose=True\n        )\n        \n        # Consulta aprimorada com contexto RAG\n        enhanced_query = f\"\"\"\n        Consulta: {query}\n        \n        Contexto Relevante:\n        {chr(10).join([doc.page_content for doc in relevant_docs])}\n        \"\"\"\n        \n        result = await agent_executor.ainvoke({\n            \"input\": enhanced_query\n        })\n        \n        return result[\"output\"]\n"
+    },
+    {
+      "title": "Implementação de Cliente MCP",
+      "language": "python", 
+      "code": "import asyncio\nimport json\nfrom typing import Dict, List, Any\n\nclass McpClient:\n    \"\"\"Cliente para comunicação com servidores MCP\"\"\"\n    \n    def __init__(self, server_configs: List[Dict]):\n        self.servers = {}\n        self.available_tools = {}\n        \n    async def connect_servers(self):\n        \"\"\"Inicializar conexões com todos os servidores MCP\"\"\"\n        for config in self.server_configs:\n            try:\n                # Conectar ao servidor MCP (WebSocket/stdio)\n                server = await self._connect_server(config)\n                self.servers[config['name']] = server\n                \n                # Descobrir ferramentas disponíveis\n                tools = await server.list_tools()\n                for tool in tools:\n                    self.available_tools[tool['name']] = {\n                        'server': config['name'],\n                        'definition': tool\n                    }\n                    \n            except Exception as e:\n                print(f\"Falha ao conectar a {config['name']}: {e}\")\n    \n    async def call_tool(\n        self, \n        tool_name: str, \n        arguments: Dict[str, Any]\n    ) -> Any:\n        \"\"\"Executar uma ferramenta via seu servidor MCP\"\"\"\n        if tool_name not in self.available_tools:\n            raise ValueError(f\"Ferramenta {tool_name} não disponível\")\n            \n        tool_info = self.available_tools[tool_name]\n        server = self.servers[tool_info['server']]\n        \n        # Chamar ferramenta via protocolo MCP\n        response = await server.call_tool(\n            name=tool_name,\n            arguments=arguments\n        )\n        \n        return response.get('content', [])\n    \n    async def list_tools(self) -> List[Dict]:\n        \"\"\"Retornar todas as ferramentas disponíveis em todos os servidores\"\"\"\n        return [\n            {\n                'name': name,\n                'description': info['definition'].get('description', ''),\n                'server': info['server']\n            }\n            for name, info in self.available_tools.items()\n        ]\n"
+    }
+  ]
+}

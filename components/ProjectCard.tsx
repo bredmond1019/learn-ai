@@ -18,6 +18,7 @@ export interface ProjectCardProps {
   demoUrl?: string;
   githubUrl?: string;
   image?: string;
+  locale?: string;
 }
 
 export default function ProjectCard({
@@ -29,10 +30,11 @@ export default function ProjectCard({
   icon,
   isPrivate,
   image,
+  locale = 'en',
 }: ProjectCardProps) {
   const ProjectIcon = getProjectIcon(icon);
   return (
-    <Link href={`/projects/${slug}`}>
+    <Link href={`/${locale}/${locale === 'pt-BR' ? 'projetos' : 'projects'}/${slug}`}>
       <Card 
         variant="interactive" 
         className={cn(

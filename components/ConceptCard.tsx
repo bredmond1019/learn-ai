@@ -6,9 +6,10 @@ import { Concept } from '@/lib/learn';
 interface ConceptCardProps {
   concept: Concept;
   className?: string;
+  locale?: string;
 }
 
-export default function ConceptCard({ concept, className }: ConceptCardProps) {
+export default function ConceptCard({ concept, className, locale = 'en' }: ConceptCardProps) {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'fundamentals':
@@ -65,7 +66,7 @@ export default function ConceptCard({ concept, className }: ConceptCardProps) {
 
       {concept.relatedConcepts && concept.relatedConcepts.length > 0 && (
         <div className="mb-6">
-          <h4 className="text-sm font-medium text-foreground/70 mb-2">Related Concepts:</h4>
+          <h4 className="text-sm font-medium text-foreground/70 mb-2">{locale === 'pt-BR' ? 'Conceitos Relacionados:' : 'Related Concepts:'}</h4>
           <div className="flex flex-wrap gap-2">
             {concept.relatedConcepts.map((related) => (
               <span 
@@ -82,7 +83,7 @@ export default function ConceptCard({ concept, className }: ConceptCardProps) {
       <div className="mt-auto">
         <Link href={concept.learnMore}>
           <Button variant="secondary" size="sm" className="w-full">
-            Learn More →
+            {locale === 'pt-BR' ? 'Saiba Mais →' : 'Learn More →'}
           </Button>
         </Link>
       </div>

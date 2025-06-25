@@ -1,0 +1,74 @@
+{
+  "slug": "internal-tools-platform",
+  "title": "Plataforma de Ferramentas Internas - Do Zero a Líder de Equipe",
+  "description": "Construí e liderei o desenvolvimento de uma plataforma abrangente de automação interna que cresceu de um projeto solo para uma equipe de 5 pessoas, automatizando 80% dos processos manuais e economizando 1000+ horas mensais.",
+  "longDescription": "Liderei a criação de uma plataforma de ferramentas internas em toda a empresa que transformou fundamentalmente como a organização lida com fluxos de trabalho operacionais. O que começou como um projeto pessoal de automação rapidamente evoluiu para um sistema crítico de negócios que agora suporta centenas de funcionários em vários departamentos.\n\nEsta plataforma demonstra pensamento sistêmico de ponta a ponta, desde identificar pontos problemáticos até arquitetar soluções escaláveis e liderar uma equipe em crescimento. O sistema integra-se com mais de 20 serviços internos, automatiza fluxos de trabalho complexos de várias etapas e fornece dashboards em tempo real para insights operacionais.\n\nO sucesso deste projeto levou à formação de uma equipe dedicada de Ferramentas Internas, que agora lidero. A plataforma tornou-se a espinha dorsal da eficiência operacional, lidando com tudo, desde a integração de funcionários até pipelines complexos de processamento de dados.",
+  "tags": ["Python", "TypeScript", "React", "FastAPI", "PostgreSQL", "Liderança de Equipe"],
+  "featured": true,
+  "icon": "Wrench",
+  "isPrivate": true,
+  "githubUrl": "https://github.com/company/internal-tools-platform",
+  "techStack": [
+    {
+      "category": "Backend",
+      "items": ["Python", "FastAPI", "SQLAlchemy", "Celery", "Redis", "PostgreSQL"]
+    },
+    {
+      "category": "Frontend",
+      "items": ["TypeScript", "React", "Next.js", "Tailwind CSS", "Chart.js"]
+    },
+    {
+      "category": "Infraestrutura",
+      "items": ["Docker", "Kubernetes", "GitLab CI/CD", "Prometheus", "Grafana"]
+    },
+    {
+      "category": "Integrações",
+      "items": ["Slack API", "Google Workspace", "Salesforce", "Jira", "AWS Services"]
+    }
+  ],
+  "features": [
+    "Fluxos de trabalho automatizados de integração de funcionários reduzindo o tempo de configuração em 90%",
+    "Hub de integração multi-serviço conectando 20+ sistemas internos",
+    "Dashboards operacionais em tempo real com análises personalizadas",
+    "Ferramentas de autoatendimento capacitando equipes não técnicas",
+    "Sistemas automatizados de relatórios e notificações",
+    "Construtor de fluxo de trabalho com interface drag-and-drop",
+    "Controle de acesso baseado em funções e registro de auditoria",
+    "Arquitetura API-first permitindo extensões fáceis"
+  ],
+  "challenges": [
+    "Escalar de ferramenta de usuário único para plataforma empresarial",
+    "Gerenciar integrações com sistemas legados e APIs",
+    "Construir interfaces intuitivas para usuários não técnicos",
+    "Garantir alta disponibilidade para processos críticos de negócios",
+    "Crescer e liderar uma equipe mantendo a velocidade de desenvolvimento"
+  ],
+  "outcomes": [
+    { "metric": "Tempo Economizado", "value": "1000+ horas/mês" },
+    { "metric": "Automação de Processos", "value": "80%" },
+    { "metric": "Crescimento da Equipe", "value": "1 → 5 engenheiros" },
+    { "metric": "Integrações de Sistema", "value": "20+ serviços" },
+    { "metric": "Adoção de Usuários", "value": "300+ usuários ativos" },
+    { "metric": "Redução de Erros", "value": "95%" }
+  ],
+  "leadership": [
+    "Construí e liderei uma equipe de 5 engenheiros do zero",
+    "Estabeleci processos de desenvolvimento e padrões de codificação",
+    "Mentorei desenvolvedores juniores e conduzi revisões de código",
+    "Colaborei com stakeholders em 8 departamentos",
+    "Gerenciei o roadmap do projeto e priorização de recursos",
+    "Criei documentação abrangente e materiais de treinamento"
+  ],
+  "codeSnippets": [
+    {
+      "title": "Arquitetura do Motor de Fluxo de Trabalho",
+      "language": "python",
+      "code": "from typing import Dict, List, Any\nfrom enum import Enum\nfrom dataclasses import dataclass\nimport asyncio\n\nclass WorkflowStatus(Enum):\n    PENDING = \"pending\"\n    RUNNING = \"running\"\n    COMPLETED = \"completed\"\n    FAILED = \"failed\"\n\n@dataclass\nclass WorkflowStep:\n    id: str\n    name: str\n    service: str\n    action: str\n    params: Dict[str, Any]\n    depends_on: List[str] = None\n\nclass WorkflowEngine:\n    def __init__(self, service_registry: ServiceRegistry):\n        self.services = service_registry\n        self.active_workflows = {}\n    \n    async def execute_workflow(\n        self,\n        workflow_id: str,\n        steps: List[WorkflowStep]\n    ) -> Dict[str, Any]:\n        \"\"\"Execute workflow with dependency resolution\"\"\"\n        self.active_workflows[workflow_id] = WorkflowStatus.RUNNING\n        \n        # Build dependency graph\n        dependency_graph = self._build_dependency_graph(steps)\n        results = {}\n        \n        try:\n            # Execute steps in topological order\n            for step in dependency_graph:\n                service = self.services.get(step.service)\n                result = await service.execute(\n                    step.action,\n                    step.params,\n                    context=results\n                )\n                results[step.id] = result\n                \n            self.active_workflows[workflow_id] = WorkflowStatus.COMPLETED\n            return results\n            \n        except Exception as e:\n            self.active_workflows[workflow_id] = WorkflowStatus.FAILED\n            await self._handle_workflow_failure(workflow_id, e)\n            raise"
+    },
+    {
+      "title": "Framework de Integração de Serviços",
+      "language": "typescript",
+      "code": "interface ServiceConnector {\n  name: string;\n  authenticate(): Promise<boolean>;\n  execute(action: string, params: any): Promise<any>;\n  healthCheck(): Promise<boolean>;\n}\n\nclass SlackConnector implements ServiceConnector {\n  name = 'slack';\n  private client: WebClient;\n  \n  constructor(private token: string) {\n    this.client = new WebClient(token);\n  }\n  \n  async authenticate(): Promise<boolean> {\n    try {\n      await this.client.auth.test();\n      return true;\n    } catch {\n      return false;\n    }\n  }\n  \n  async execute(action: string, params: any): Promise<any> {\n    switch (action) {\n      case 'send_message':\n        return await this.client.chat.postMessage({\n          channel: params.channel,\n          text: params.message,\n          blocks: params.blocks\n        });\n      \n      case 'create_channel':\n        return await this.client.conversations.create({\n          name: params.name,\n          is_private: params.private || false\n        });\n        \n      default:\n        throw new Error(`Unknown action: ${action}`);\n    }\n  }\n  \n  async healthCheck(): Promise<boolean> {\n    return this.authenticate();\n  }\n}\n\n// Service registry for managing all integrations\nexport class ServiceRegistry {\n  private connectors = new Map<string, ServiceConnector>();\n  \n  register(connector: ServiceConnector): void {\n    this.connectors.set(connector.name, connector);\n  }\n  \n  get(serviceName: string): ServiceConnector {\n    const connector = this.connectors.get(serviceName);\n    if (!connector) {\n      throw new Error(`Service not found: ${serviceName}`);\n    }\n    return connector;\n  }\n}"
+    }
+  ]
+}

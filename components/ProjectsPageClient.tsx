@@ -8,9 +8,10 @@ import { Project } from '@/types/project';
 
 interface ProjectsPageProps {
   initialProjects: Project[];
+  locale: string;
 }
 
-export function ProjectsPageClient({ initialProjects }: ProjectsPageProps) {
+export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('All');
   
@@ -125,7 +126,7 @@ export function ProjectsPageClient({ initialProjects }: ProjectsPageProps) {
           {filteredProjects.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProjects.map((project) => (
-                <ProjectCard key={project.slug} {...project} />
+                <ProjectCard key={project.slug} {...project} locale={locale} />
               ))}
             </div>
           ) : (

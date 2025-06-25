@@ -7,35 +7,62 @@ import { projectsCache, cacheKeys } from './cache-manager';
 const CONTENT_BASE = path.join(process.cwd(), 'content');
 
 // Get projects directory
-function getProjectsDirectory(): string {
-  return path.join(CONTENT_BASE, 'projects', 'published');
+function getProjectsDirectory(locale?: string): string {
+  const basePath = path.join(CONTENT_BASE, 'projects', 'published');
+  if (locale && locale !== 'en') {
+    return path.join(basePath, locale);
+  }
+  return basePath;
 }
 
 // Ensure projects directory exists
-function ensureProjectsDirectory() {
-  const dir = getProjectsDirectory();
+function ensureProjectsDirectory(locale?: string) {
+  const dir = getProjectsDirectory(locale);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
 }
 
-export async function getAllProjects(): Promise<Project[]> {
-  const cacheKey = cacheKeys.projects.allProjects();
+export async function getAllProjects(locale?: string): Promise<Project[]> {
+  const cacheKey = locale ? `${cacheKeys.projects.allProjects()}-${locale}` : cacheKeys.projects.allProjects();
   const cached = projectsCache.get(cacheKey);
   
   if (cached !== null) {
     return cached;
   }
   
-  ensureProjectsDirectory();
-  const dir = getProjectsDirectory();
+  ensureProjectsDirectory(locale);
+  const dir = getProjectsDirectory(locale);
   
   try {
-    const fileNames = fs.readdirSync(dir);
+    let fileNames: string[] = [];
+    
+    // Try locale-specific directory first
+    if (fs.existsSync(dir)) {
+      fileNames = fs.readdirSync(dir);
+    }
+    
+    // If no files in locale directory or it's English, use base directory
+    if (fileNames.length === 0 && locale !== 'en') {
+      const fallbackDir = getProjectsDirectory();
+      if (fs.existsSync(fallbackDir)) {
+        fileNames = fs.readdirSync(fallbackDir);
+      }
+    }
+    
     const projects = fileNames
       .filter(fileName => fileName.endsWith('.json'))
       .map(fileName => {
-        const filePath = path.join(dir, fileName);
+        let filePath = path.join(dir, fileName);
+        
+        // If file doesn't exist in locale directory, try fallback
+        if (!fs.existsSync(filePath) && locale !== 'en') {
+          const fallbackPath = path.join(getProjectsDirectory(), fileName);
+          if (fs.existsSync(fallbackPath)) {
+            filePath = fallbackPath;
+          }
+        }
+        
         const fileContents = fs.readFileSync(filePath, 'utf8');
         const project = JSON.parse(fileContents) as Project;
         return project;
@@ -57,8 +84,8 @@ export async function getAllProjects(): Promise<Project[]> {
   }
 }
 
-export async function getProjectBySlug(slug: string): Promise<Project | null> {
-  const cacheKey = cacheKeys.projects.project(slug);
+export async function getProjectBySlug(slug: string, locale?: string): Promise<Project | null> {
+  const cacheKey = locale ? `${cacheKeys.projects.project(slug)}-${locale}` : cacheKeys.projects.project(slug);
   const cached = projectsCache.get(cacheKey);
   
   if (cached !== null) {
@@ -66,11 +93,19 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   }
   
   try {
-    const dir = getProjectsDirectory();
-    const filePath = path.join(dir, `${slug}.json`);
+    const dir = getProjectsDirectory(locale);
+    let filePath = path.join(dir, `${slug}.json`);
     
-    // Check if file exists
-    if (!fs.existsSync(filePath)) {
+    // Check locale-specific file first
+    if (!fs.existsSync(filePath) && locale && locale !== 'en') {
+      // Try fallback to English
+      const fallbackPath = path.join(getProjectsDirectory(), `${slug}.json`);
+      if (fs.existsSync(fallbackPath)) {
+        filePath = fallbackPath;
+      } else {
+        return null;
+      }
+    } else if (!fs.existsSync(filePath)) {
       return null;
     }
     
@@ -85,15 +120,15 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   }
 }
 
-export async function getFeaturedProjects(): Promise<Project[]> {
-  const cacheKey = cacheKeys.projects.featuredProjects();
+export async function getFeaturedProjects(locale?: string): Promise<Project[]> {
+  const cacheKey = locale ? `${cacheKeys.projects.featuredProjects()}-${locale}` : cacheKeys.projects.featuredProjects();
   const cached = projectsCache.get(cacheKey);
   
   if (cached !== null) {
     return cached;
   }
   
-  const allProjects = await getAllProjects();
+  const allProjects = await getAllProjects(locale);
   const featured = allProjects.filter(project => project.featured);
   
   projectsCache.set(cacheKey, featured);
@@ -101,12 +136,13 @@ export async function getFeaturedProjects(): Promise<Project[]> {
 }
 
 export async function getProjectNavigation(
-  currentSlug: string
+  currentSlug: string,
+  locale?: string
 ): Promise<{
   previous: Project | null;
   next: Project | null;
 }> {
-  const allProjects = await getAllProjects();
+  const allProjects = await getAllProjects(locale);
   const currentIndex = allProjects.findIndex(project => project.slug === currentSlug);
   
   if (currentIndex === -1) {
@@ -121,9 +157,10 @@ export async function getProjectNavigation(
 
 export async function getRelatedProjects(
   currentSlug: string,
-  limit: number = 3
+  limit: number = 3,
+  locale?: string
 ): Promise<Project[]> {
-  const allProjects = await getAllProjects();
+  const allProjects = await getAllProjects(locale);
   const currentProject = allProjects.find(project => project.slug === currentSlug);
   
   if (!currentProject) {
@@ -160,12 +197,34 @@ export async function getRelatedProjects(
 }
 
 // Get all project slugs
-export function getAllProjectSlugs(): string[] {
-  ensureProjectsDirectory();
-  const dir = getProjectsDirectory();
+export function getAllProjectSlugs(locale?: string): string[] {
+  ensureProjectsDirectory(locale);
+  const dir = getProjectsDirectory(locale);
   
   try {
-    const files = fs.readdirSync(dir);
+    let files: string[] = [];
+    
+    // Get files from locale directory
+    if (fs.existsSync(dir)) {
+      files = fs.readdirSync(dir);
+    }
+    
+    // If no files or it's not English, also get files from base directory
+    if ((files.length === 0 || locale !== 'en') && locale) {
+      const baseDir = getProjectsDirectory();
+      if (fs.existsSync(baseDir)) {
+        const baseFiles = fs.readdirSync(baseDir);
+        // Merge unique slugs
+        const baseSlugs = baseFiles
+          .filter(file => file.endsWith('.json'))
+          .map(file => file.replace(/\.json$/, ''));
+        const localeSlugs = files
+          .filter(file => file.endsWith('.json'))
+          .map(file => file.replace(/\.json$/, ''));
+        return [...new Set([...localeSlugs, ...baseSlugs])];
+      }
+    }
+    
     return files
       .filter(file => file.endsWith('.json'))
       .map(file => file.replace(/\.json$/, ''));

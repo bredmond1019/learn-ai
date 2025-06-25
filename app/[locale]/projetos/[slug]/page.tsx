@@ -67,20 +67,27 @@ function getCodeSnippetDescription(title: string, projectSlug: string): string {
 
 // Generate static params
 export async function generateStaticParams() {
-  const slugs = getAllProjectSlugs();
-  return slugs.map((slug) => ({
-    slug,
-  }));
+  const locales = ['en', 'pt-BR'];
+  const results = [];
+  
+  for (const locale of locales) {
+    const slugs = getAllProjectSlugs(locale);
+    for (const slug of slugs) {
+      results.push({ locale, slug });
+    }
+  }
+  
+  return results;
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ 
   params 
 }: { 
-  params: Promise<{ slug: string }> 
+  params: Promise<{ slug: string; locale: string }> 
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+  const { slug, locale } = await params;
+  const project = await getProjectBySlug(slug, locale);
   
   if (!project) {
     return {
@@ -103,10 +110,10 @@ export async function generateMetadata({
 export default async function ProjectDetailPage({ 
   params 
 }: { 
-  params: Promise<{ slug: string }> 
+  params: Promise<{ slug: string; locale: string }> 
 }) {
-  const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+  const { slug, locale } = await params;
+  const project = await getProjectBySlug(slug, locale);
   
   if (!project) {
     notFound();
@@ -119,7 +126,7 @@ export default async function ProjectDetailPage({
     <main className="min-h-screen pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link 
-          href="/projects"
+          href={`/${locale}/projetos`}
           className="inline-flex items-center gap-2 text-foreground/60 hover:text-primary transition-colors mb-6"
         >
           <svg
@@ -135,7 +142,7 @@ export default async function ProjectDetailPage({
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Back to Projects
+          Voltar para Projetos
         </Link>
         
         <div className="flex items-start gap-4 mb-6">

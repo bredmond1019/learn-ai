@@ -1,21 +1,27 @@
 import Link from 'next/link';
 import Card from './Card';
 import Button from './Button';
-import { LearningPath } from '@/lib/learn';
+import { LearningPath, type Locale } from '@/lib/learn';
+import { createTranslator } from '@/lib/translations';
 
 interface LearnCardServerProps {
   path: LearningPath;
   className?: string;
+  locale?: string;
 }
 
-export default function LearnCardServer({ path, className }: LearnCardServerProps) {
+export default function LearnCardServer({ path, className, locale = 'en' }: LearnCardServerProps) {
+  const t = createTranslator(locale as Locale);
   const getLevelColor = (level: string) => {
     switch (level) {
       case 'Beginner':
+      case 'Iniciante':
         return 'bg-green-500/20 text-green-400';
       case 'Intermediate':
+      case 'Intermediário':
         return 'bg-yellow-500/20 text-yellow-400';
       case 'Advanced':
+      case 'Avançado':
         return 'bg-red-500/20 text-red-400';
       default:
         return 'bg-accent/20 text-accent';
@@ -40,7 +46,7 @@ export default function LearnCardServer({ path, className }: LearnCardServerProp
       </p>
       
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-foreground/70 mb-2">You&apos;ll Learn:</h4>
+        <h4 className="text-sm font-medium text-foreground/70 mb-2">{locale === 'pt-BR' ? 'Você Aprenderá:' : 'You&apos;ll Learn:'}</h4>
         <div className="flex flex-wrap gap-2">
           {path.topics.map((topic) => (
             <span 
@@ -55,7 +61,7 @@ export default function LearnCardServer({ path, className }: LearnCardServerProp
 
       {path.prerequisites && path.prerequisites.length > 0 && (
         <div className="mb-6">
-          <h4 className="text-sm font-medium text-foreground/70 mb-2">Prerequisites:</h4>
+          <h4 className="text-sm font-medium text-foreground/70 mb-2">{t('learn.prerequisites')}:</h4>
           <div className="flex flex-wrap gap-2">
             {path.prerequisites.map((prereq) => (
               <span 
@@ -70,7 +76,7 @@ export default function LearnCardServer({ path, className }: LearnCardServerProp
       )}
 
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-foreground/70 mb-2">Learning Outcomes:</h4>
+        <h4 className="text-sm font-medium text-foreground/70 mb-2">{t('learn.outcomes')}:</h4>
         <ul className="space-y-1">
           {path.outcomes.slice(0, 3).map((outcome, index) => (
             <li key={index} className="text-sm text-foreground/70 flex items-start">
@@ -80,21 +86,21 @@ export default function LearnCardServer({ path, className }: LearnCardServerProp
           ))}
           {path.outcomes.length > 3 && (
             <li className="text-sm text-foreground/50">
-              +{path.outcomes.length - 3} more outcomes
+              +{path.outcomes.length - 3} {locale === 'pt-BR' ? 'mais resultados' : 'more outcomes'}
             </li>
           )}
         </ul>
       </div>
       
       <div className="mt-auto flex flex-col gap-2">
-        <Link href={`/learn/paths/${path.id}`}>
+        <Link href={`/${locale}/${locale === 'pt-BR' ? 'aprender' : 'learn'}/paths/${path.id}`}>
           <Button variant="primary" className="w-full">
-            Start Learning
+            {t('learn.startPath')}
           </Button>
         </Link>
-        <Link href={`/learn/paths/${path.id}/preview`}>
+        <Link href={`/${locale}/${locale === 'pt-BR' ? 'aprender' : 'learn'}/paths/${path.id}/preview`}>
           <Button variant="secondary" className="w-full">
-            Preview Content
+            {locale === 'pt-BR' ? 'Visualizar Conteúdo' : 'Preview Content'}
           </Button>
         </Link>
       </div>
