@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@layer base {
+  /* Define CSS variables for custom colors */
+  :root {
+    --color-background: #0A0A0A;
+    --color-background-secondary: #0D1B2A;
+    --color-foreground: #F8F9FA;
+    --color-primary: #64FFDA;
+    --color-primary-hover: #52E7C2;
+    --color-accent: #415A77;
+    --color-accent-dark: #0D1B2A;
+  }
+
+  /* Force dark mode as default */
+  html {
+    color-scheme: dark;
+    @apply bg-[#0A0A0A] text-[#F8F9FA];
+  }
+
+  body {
+    font-family: 'Source Sans Pro', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+  }
+
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  /* Custom utility classes using CSS variables */
+  .bg-background { background-color: var(--color-background); }
+  .bg-background-secondary { background-color: var(--color-background-secondary); }
+  .text-foreground { color: var(--color-foreground); }
+  .text-primary { color: var(--color-primary); }
+  .text-primary-hover { color: var(--color-primary-hover); }
+  .bg-primary { background-color: var(--color-primary); }
+  .bg-primary-hover { background-color: var(--color-primary-hover); }
+  .bg-accent { background-color: var(--color-accent); }
+  .text-accent { color: var(--color-accent); }
+  .border-accent { border-color: var(--color-accent); }
+  .border-primary { border-color: var(--color-primary); }
+  
+  /* Opacity variants */
+  .bg-primary\/10 { background-color: rgb(100 255 218 / 0.1); }
+  .bg-primary\/20 { background-color: rgb(100 255 218 / 0.2); }
+  .bg-primary\/50 { background-color: rgb(100 255 218 / 0.5); }
+  .bg-accent\/10 { background-color: rgb(65 90 119 / 0.1); }
+  .bg-accent\/20 { background-color: rgb(65 90 119 / 0.2); }
+  .bg-accent\/50 { background-color: rgb(65 90 119 / 0.5); }
+  .bg-accent\/80 { background-color: rgb(65 90 119 / 0.8); }
+  .text-foreground\/50 { color: rgb(248 249 250 / 0.5); }
+  .text-foreground\/60 { color: rgb(248 249 250 / 0.6); }
+  .text-foreground\/70 { color: rgb(248 249 250 / 0.7); }
+  .text-foreground\/80 { color: rgb(248 249 250 / 0.8); }
+  .border-accent\/20 { border-color: rgb(65 90 119 / 0.2); }
+  .border-accent\/40 { border-color: rgb(65 90 119 / 0.4); }
+  .border-primary\/20 { border-color: rgb(100 255 218 / 0.2); }
+  .ring-primary\/20 { --tw-ring-color: rgb(100 255 218 / 0.2); }
+  .shadow-primary\/10 { --tw-shadow-color: rgb(100 255 218 / 0.1); }
+  
+  /* Background opacity */
+  .bg-background\/80 { background-color: rgb(10 10 10 / 0.8); }
+  .bg-background-secondary\/50 { background-color: rgb(13 27 42 / 0.5); }
+  .bg-background-secondary\/30 { background-color: rgb(13 27 42 / 0.3); }
+  
+  /* Text background for dark theme */
+  .text-background { color: #0A0A0A; }
+  
+  /* Gradient utilities */
+  .from-primary\/10 { --tw-gradient-from: rgb(100 255 218 / 0.1) var(--tw-gradient-from-position); }
+  .from-primary\/20 { --tw-gradient-from: rgb(100 255 218 / 0.2) var(--tw-gradient-from-position); }
+  .to-accent\/10 { --tw-gradient-to: rgb(65 90 119 / 0.1) var(--tw-gradient-to-position); }
+  .to-accent\/20 { --tw-gradient-to: rgb(65 90 119 / 0.2) var(--tw-gradient-to-position); }
+  
+  /* Font families */
+  .font-heading { font-family: 'Inter', system-ui, sans-serif; }
+  .font-sans { font-family: 'Source Sans Pro', system-ui, sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  
+  /* Shiki code block styling */
+  .shiki-container pre {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    overflow-x: auto;
+  }
+
+  .shiki-container code {
+    font-family: 'JetBrains Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
+    background: transparent !important;
+  }
+
+  /* Ensure proper scrolling for long code lines */
+  .shiki-container {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+}

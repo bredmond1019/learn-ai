@@ -1,0 +1,200 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1f2937;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#374151;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="dashboard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4f46e5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <fegaussianblur stdDeviation="2" result="coloredBlur"/>
+      <femerge> 
+        <femergenode in="coloredBlur"/>
+        <femergenode in="SourceGraphic"/>
+      </femerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  
+  <!-- Title -->
+  <text x="60" y="80" fill="#f9fafb" font-family="Arial" font-size="32" font-weight="bold">Internal Tools Platform</text>
+  <text x="60" y="110" fill="#d1d5db" font-family="Arial" font-size="16">Productivity automation • Team workflows • Hours saved daily • Custom integrations</text>
+  
+  <!-- Main Dashboard Interface -->
+  <rect x="60" y="140" width="680" height="320" rx="12" fill="url(#dashboard)" />
+  <text x="370" y="170" fill="white" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Internal Tools Dashboard</text>
+  
+  <!-- Navigation Bar -->
+  <rect x="80" y="185" width="640" height="35" rx="6" fill="#4338ca" />
+  <text x="100" y="205" fill="#e0e7ff" font-family="Arial" font-size="11">🏠 Dashboard</text>
+  <text x="200" y="205" fill="#e0e7ff" font-family="Arial" font-size="11">🔧 Automation</text>
+  <text x="300" y="205" fill="#e0e7ff" font-family="Arial" font-size="11">📊 Analytics</text>
+  <text x="400" y="205" fill="#e0e7ff" font-family="Arial" font-size="11">👥 Team</text>
+  <text x="480" y="205" fill="#e0e7ff" font-family="Arial" font-size="11">⚙️ Settings</text>
+  <text x="570" y="205" fill="#e0e7ff" font-family="Arial" font-size="11">🔌 Integrations</text>
+  
+  <!-- Tool Cards Grid -->
+  <g id="toolCards">
+    <!-- Employee Onboarding -->
+    <rect x="100" y="240" width="180" height="80" rx="8" fill="#3730a3" />
+    <text x="170" y="260" fill="white" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Employee Onboarding</text>
+    <text x="110" y="275" fill="#c7d2fe" font-family="Arial" font-size="9">• Automated account creation</text>
+    <text x="110" y="288" fill="#c7d2fe" font-family="Arial" font-size="9">• Equipment provisioning</text>
+    <text x="110" y="301" fill="#c7d2fe" font-family="Arial" font-size="9">• Welcome email sequence</text>
+    <text x="110" y="314" fill="#10b981" font-family="Arial" font-size="9">✓ Active • 15 pending</text>
+    
+    <!-- Invoice Processing -->
+    <rect x="300" y="240" width="180" height="80" rx="8" fill="#059669" />
+    <text x="370" y="260" fill="white" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Invoice Processing</text>
+    <text x="310" y="275" fill="#d1fae5" font-family="Arial" font-size="9">• PDF data extraction</text>
+    <text x="310" y="288" fill="#d1fae5" font-family="Arial" font-size="9">• Approval workflows</text>
+    <text x="310" y="301" fill="#d1fae5" font-family="Arial" font-size="9">• ERP integration</text>
+    <text x="310" y="314" fill="#fbbf24" font-family="Arial" font-size="9">⏳ 23 processing</text>
+    
+    <!-- Report Generator -->
+    <rect x="500" y="240" width="180" height="80" rx="8" fill="#dc2626" />
+    <text x="570" y="260" fill="white" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Report Generator</text>
+    <text x="510" y="275" fill="#fecaca" font-family="Arial" font-size="9">• Multi-source data</text>
+    <text x="510" y="288" fill="#fecaca" font-family="Arial" font-size="9">• Custom templates</text>
+    <text x="510" y="301" fill="#fecaca" font-family="Arial" font-size="9">• Scheduled delivery</text>
+    <text x="510" y="314" fill="#10b981" font-family="Arial" font-size="9">✓ Daily reports sent</text>
+    
+    <!-- Asset Management -->
+    <rect x="100" y="340" width="180" height="80" rx="8" fill="#7c3aed" />
+    <text x="170" y="360" fill="white" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Asset Management</text>
+    <text x="110" y="375" fill="#ddd6fe" font-family="Arial" font-size="9">• Equipment tracking</text>
+    <text x="110" y="388" fill="#ddd6fe" font-family="Arial" font-size="9">• Maintenance alerts</text>
+    <text x="110" y="401" fill="#ddd6fe" font-family="Arial" font-size="9">• Lifecycle management</text>
+    <text x="110" y="414" fill="#10b981" font-family="Arial" font-size="9">✓ 247 assets tracked</text>
+    
+    <!-- Compliance Checker -->
+    <rect x="300" y="340" width="180" height="80" rx="8" fill="#ea580c" />
+    <text x="370" y="360" fill="white" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Compliance Checker</text>
+    <text x="310" y="375" fill="#fed7aa" font-family="Arial" font-size="9">• Policy validation</text>
+    <text x="310" y="388" fill="#fed7aa" font-family="Arial" font-size="9">• Audit preparation</text>
+    <text x="310" y="401" fill="#fed7aa" font-family="Arial" font-size="9">• Risk assessment</text>
+    <text x="310" y="414" fill="#10b981" font-family="Arial" font-size="9">✓ 100% compliant</text>
+    
+    <!-- Time Tracker -->
+    <rect x="500" y="340" width="180" height="80" rx="8" fill="#0891b2" />
+    <text x="570" y="360" fill="white" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">Smart Time Tracker</text>
+    <text x="510" y="375" fill="#a7f3d0" font-family="Arial" font-size="9">• Automatic logging</text>
+    <text x="510" y="388" fill="#a7f3d0" font-family="Arial" font-size="9">• Project allocation</text>
+    <text x="510" y="401" fill="#a7f3d0" font-family="Arial" font-size="9">• Productivity insights</text>
+    <text x="510" y="414" fill="#10b981" font-family="Arial" font-size="9">✓ 42 hours this week</text>
+  </g>
+  
+  <!-- Integration Panel -->
+  <rect x="780" y="140" width="360" height="320" rx="12" fill="#1f2937" stroke="#4b5563" stroke-width="1" />
+  <text x="930" y="170" fill="#f9fafb" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">System Integrations</text>
+  
+  <!-- Integration Icons/Cards -->
+  <g id="integrations">
+    <!-- Slack -->
+    <rect x="800" y="190" width="80" height="60" rx="8" fill="#4a154b" />
+    <text x="830" y="210" fill="white" font-family="Arial" font-size="10" font-weight="bold">Slack</text>
+    <text x="805" y="225" fill="#b794f6" font-family="Arial" font-size="8">Notifications</text>
+    <text x="805" y="237" fill="#b794f6" font-family="Arial" font-size="8">Bot commands</text>
+    <circle cx="870" cy="200" r="4" fill="#10b981" />
+    
+    <!-- Google Workspace -->
+    <rect x="900" y="190" width="80" height="60" rx="8" fill="#1a73e8" />
+    <text x="925" y="210" fill="white" font-family="Arial" font-size="10" font-weight="bold">G Suite</text>
+    <text x="905" y="225" fill="#93c5fd" font-family="Arial" font-size="8">Calendar sync</text>
+    <text x="905" y="237" fill="#93c5fd" font-family="Arial" font-size="8">Drive access</text>
+    <circle cx="970" cy="200" r="4" fill="#10b981" />
+    
+    <!-- Salesforce -->
+    <rect x="1000" y="190" width="80" height="60" rx="8" fill="#00a1e0" />
+    <text x="1020" y="210" fill="white" font-family="Arial" font-size="10" font-weight="bold">Salesforce</text>
+    <text x="1005" y="225" fill="#bfdbfe" font-family="Arial" font-size="8">CRM sync</text>
+    <text x="1005" y="237" fill="#bfdbfe" font-family="Arial" font-size="8">Lead import</text>
+    <circle cx="1070" cy="200" r="4" fill="#10b981" />
+    
+    <!-- JIRA -->
+    <rect x="800" y="270" width="80" height="60" rx="8" fill="#0052cc" />
+    <text x="830" y="290" fill="white" font-family="Arial" font-size="10" font-weight="bold">JIRA</text>
+    <text x="805" y="305" fill="#93c5fd" font-family="Arial" font-size="8">Ticket sync</text>
+    <text x="805" y="317" fill="#93c5fd" font-family="Arial" font-size="8">Sprint reports</text>
+    <circle cx="870" cy="280" r="4" fill="#10b981" />
+    
+    <!-- QuickBooks -->
+    <rect x="900" y="270" width="80" height="60" rx="8" fill="#0077c5" />
+    <text x="920" y="290" fill="white" font-family="Arial" font-size="10" font-weight="bold">QuickBooks</text>
+    <text x="905" y="305" fill="#93c5fd" font-family="Arial" font-size="8">Invoice data</text>
+    <text x="905" y="317" fill="#93c5fd" font-family="Arial" font-size="8">Expense sync</text>
+    <circle cx="970" cy="280" r="4" fill="#10b981" />
+    
+    <!-- GitHub -->
+    <rect x="1000" y="270" width="80" height="60" rx="8" fill="#24292e" />
+    <text x="1025" y="290" fill="white" font-family="Arial" font-size="10" font-weight="bold">GitHub</text>
+    <text x="1005" y="305" fill="#f6f8fa" font-family="Arial" font-size="8">Repo stats</text>
+    <text x="1005" y="317" fill="#f6f8fa" font-family="Arial" font-size="8">PR tracking</text>
+    <circle cx="1070" cy="280" r="4" fill="#10b981" />
+    
+    <!-- AWS -->
+    <rect x="800" y="350" width="80" height="60" rx="8" fill="#ff9900" />
+    <text x="830" y="370" fill="white" font-family="Arial" font-size="10" font-weight="bold">AWS</text>
+    <text x="805" y="385" fill="#fff3cd" font-family="Arial" font-size="8">Infrastructure</text>
+    <text x="805" y="397" fill="#fff3cd" font-family="Arial" font-size="8">Cost monitoring</text>
+    <circle cx="870" cy="360" r="4" fill="#10b981" />
+    
+    <!-- Mailchimp -->
+    <rect x="900" y="350" width="80" height="60" rx="8" fill="#ffe01b" />
+    <text x="920" y="370" fill="#000" font-family="Arial" font-size="10" font-weight="bold">Mailchimp</text>
+    <text x="905" y="385" fill="#333" font-family="Arial" font-size="8">Email campaigns</text>
+    <text x="905" y="397" fill="#333" font-family="Arial" font-size="8">List management</text>
+    <circle cx="970" cy="360" r="4" fill="#10b981" />
+    
+    <!-- Database -->
+    <rect x="1000" y="350" width="80" height="60" rx="8" fill="#336791" />
+    <text x="1020" y="370" fill="white" font-family="Arial" font-size="10" font-weight="bold">PostgreSQL</text>
+    <text x="1005" y="385" fill="#b3d9ff" font-family="Arial" font-size="8">Data warehouse</text>
+    <text x="1005" y="397" fill="#b3d9ff" font-family="Arial" font-size="8">Analytics</text>
+    <circle cx="1070" cy="360" r="4" fill="#10b981" />
+  </g>
+  
+  <!-- API Status -->
+  <text x="930" y="440" fill="#d1d5db" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle">API Health Status</text>
+  <text x="930" y="455" fill="#10b981" font-family="Arial" font-size="10" text-anchor="middle">All systems operational • 99.9% uptime</text>
+  
+  <!-- Impact Metrics -->
+  <rect x="60" y="480" width="1080" height="120" rx="8" fill="#1f2937" stroke="#374151" stroke-width="1" />
+  <text x="80" y="510" fill="#f9fafb" font-family="Arial" font-size="16" font-weight="bold">Platform Impact &amp; Key Features</text>
+  
+  <g font-family="Arial" font-size="12" fill="#d1d5db">
+    <text x="80" y="535">• Time Saved: 8+ hours per employee daily</text>
+    <text x="380" y="535">• Automation Coverage: 15+ business processes</text>
+    <text x="680" y="535">• Error Reduction: 95% decrease in manual errors</text>
+    <text x="980" y="535">• ROI: 300% in first year</text>
+    
+    <text x="80" y="555">• Custom workflows with visual builder</text>
+    <text x="380" y="555">• Real-time notifications and alerts</text>
+    <text x="680" y="555">• Role-based access control</text>
+    <text x="980" y="555">• API-first architecture</text>
+    
+    <text x="80" y="575">• Self-service employee portals</text>
+    <text x="380" y="575">• Comprehensive audit logging</text>
+    <text x="680" y="575">• Mobile-responsive design</text>
+    <text x="980" y="575">• SSO integration</text>
+  </g>
+  
+  <!-- Productivity Metrics Box -->
+  <g transform="translate(760, 185)">
+    <rect x="0" y="0" width="140" height="80" rx="8" fill="#065f46" stroke="#10b981" stroke-width="1" />
+    <text x="50" y="20" fill="#d1fae5" font-family="Arial" font-size="12" font-weight="bold">Daily Impact</text>
+    
+    <text x="10" y="35" fill="#a7f3d0" font-family="Arial" font-size="9">Hours saved:</text>
+    <text x="15" y="48" fill="#f0fdf4" font-family="Arial" font-size="14" font-weight="bold">120+</text>
+    
+    <text x="70" y="35" fill="#a7f3d0" font-family="Arial" font-size="9">Tasks automated:</text>
+    <text x="90" y="48" fill="#f0fdf4" font-family="Arial" font-size="14" font-weight="bold">350+</text>
+    
+    <text x="10" y="65" fill="#a7f3d0" font-family="Arial" font-size="9">Team productivity:</text>
+    <text x="50" y="78" fill="#f0fdf4" font-family="Arial" font-size="14" font-weight="bold">+40%</text>
+  </g>
+</svg>

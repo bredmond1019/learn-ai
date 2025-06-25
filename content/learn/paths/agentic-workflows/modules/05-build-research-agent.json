@@ -1,0 +1,179 @@
+{
+  "metadata": {
+    "id": "build-research-agent",
+    "pathId": "agentic-workflows",
+    "title": "Build a Research Agent",
+    "description": "Capstone project that integrates all agentic workflow concepts to build a comprehensive research agent capable of autonomous research, analysis, and reporting with human oversight.",
+    "duration": "180 minutes",
+    "difficulty": "advanced",
+    "order": 5,
+    "type": "project",
+    "objectives": [
+      "Integrate agent architecture patterns, planning, tool orchestration, and human-in-the-loop design",
+      "Build a complete research agent with autonomous research capabilities",
+      "Implement sophisticated planning and goal management for research tasks",
+      "Create robust tool orchestration for web scraping, data analysis, and report generation",
+      "Design effective human oversight and quality control mechanisms",
+      "Deploy a functional research assistant with explainable decision-making"
+    ],
+    "prerequisites": [
+      "Agent Architecture Patterns",
+      "Building Planning Systems",
+      "Tool Orchestration",
+      "Human-in-the-Loop Design",
+      "Experience with web APIs and data processing"
+    ],
+    "tags": [
+      "research-automation",
+      "information-gathering",
+      "agent-integration",
+      "quality-control",
+      "report-generation",
+      "capstone-project"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 345
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Research Agent Project Overview",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "45 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-build-research-agent.mdx",
+        "codeExamples": [
+          {
+            "id": "research-agent-core",
+            "title": "Research Agent Core System",
+            "description": "Main research agent class integrating all subsystems",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "research-planner",
+            "title": "Research Planning Engine",
+            "description": "Specialized planning system for research task decomposition and execution",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Research Agent Implementation",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "270 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Complete Research Agent Development",
+        "description": "Build a comprehensive research agent from the ground up",
+        "exerciseType": "project",
+        "difficulty": "hard",
+        "instructions": [
+          "Implement core research agent with basic planning and tool orchestration",
+          "Add quality control, human oversight, and adaptive strategies to research agent",
+          "Deploy full-featured research agent with all capabilities and user interface",
+          "Test and evaluate the complete system"
+        ],
+        "hints": [
+          "Start with a modular architecture for easy extension",
+          "Implement comprehensive logging and monitoring",
+          "Design for scalability and maintainability"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Research Agent Implementation Quiz",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Research Agent Implementation Quiz",
+        "description": "Test your understanding of integrated agentic systems and research automation",
+        "questions": [
+          {
+            "id": "research_agent_architecture",
+            "type": "multiple-choice",
+            "question": "What is the most critical component for ensuring research quality in an autonomous research agent?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Fast web scraping capabilities"
+              },
+              {
+                "id": "b",
+                "text": "Quality control mechanisms with source verification and fact-checking"
+              },
+              {
+                "id": "c",
+                "text": "Advanced natural language processing"
+              },
+              {
+                "id": "d",
+                "text": "Large knowledge databases"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "Quality control mechanisms including source verification, fact-checking, and human oversight are essential for ensuring the reliability and accuracy of autonomous research."
+          }
+        ],
+        "passingScore": 85,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "research-methodology",
+      "title": "Research Methodology Best Practices",
+      "type": "guide",
+      "url": "https://libguides.usc.edu/writingguide/researchprocess",
+      "description": "Comprehensive guide to research methodology and best practices",
+      "required": true
+    },
+    {
+      "id": "information-quality",
+      "title": "Information Quality Assessment",
+      "type": "documentation",
+      "url": "https://guides.library.harvard.edu/c.php?g=310264&p=2071003",
+      "description": "Harvard Library guide to assessing information quality and credibility",
+      "required": true
+    },
+    {
+      "id": "semantic-scholar",
+      "title": "Automated Research Tools",
+      "type": "reference",
+      "url": "https://www.semanticscholar.org/",
+      "description": "AI-powered research tool for academic literature search",
+      "required": false
+    },
+    {
+      "id": "ai-agent-patterns",
+      "title": "AI Agent Development Patterns",
+      "type": "reference",
+      "url": "https://www.oreilly.com/library/view/building-intelligent-agents/",
+      "description": "Comprehensive guide to building intelligent AI agents",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 85,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": true
+  }
+}

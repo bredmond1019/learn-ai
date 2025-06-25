@@ -1,0 +1,283 @@
+---
+title: "Deployment Strategies"
+description: "Learn enterprise-grade deployment patterns and strategies for reliable AI system deployment including containerization, orchestration, and CI/CD pipelines."
+duration: "90 minutes"
+difficulty: "advanced"
+order: 1
+pathId: "production-ai"
+moduleId: "deployment-strategies"
+objectives:
+  - "Design robust deployment architectures for AI applications"
+  - "Implement containerization strategies for AI systems"
+  - "Set up CI/CD pipelines for AI model and application deployment"
+  - "Understand blue-green, canary, and rolling deployment patterns"
+  - "Configure container orchestration for AI workloads"
+  - "Implement infrastructure as code for AI deployments"
+tags:
+  - "deployment"
+  - "containerization"
+  - "kubernetes"
+  - "ci-cd"
+  - "infrastructure-as-code"
+  - "production-deployment"
+version: "1.0.0"
+lastUpdated: "2025-06-20"
+author: "AI Engineering Team"
+---
+
+# Deployment Strategies for AI Systems
+
+Welcome to the comprehensive guide on deploying AI systems in production environments. This module covers enterprise-grade deployment patterns, containerization strategies, and CI/CD pipelines specifically designed for AI applications.
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+- **Design robust deployment architectures** for AI applications that can handle production workloads
+- **Implement containerization strategies** optimized for AI systems and their unique requirements
+- **Set up CI/CD pipelines** for automated AI model and application deployment
+- **Master deployment patterns** including blue-green, canary, and rolling deployments
+- **Configure container orchestration** for AI workloads using Kubernetes
+- **Implement infrastructure as code** for reproducible AI deployments
+
+## AI Deployment Patterns {#deployment-patterns}
+
+### Understanding AI Deployment Challenges
+
+AI systems present unique deployment challenges that differ from traditional web applications:
+
+- **Resource Intensive**: AI models often require significant CPU, GPU, and memory resources
+- **Model Versioning**: Managing different versions of trained models alongside application code
+- **Data Dependencies**: AI systems often depend on specific data preprocessing pipelines
+- **Performance Requirements**: Low latency requirements for real-time inference
+- **Scalability Needs**: Ability to scale inference capacity based on demand
+
+### Blue-Green Deployment Pattern
+
+Blue-green deployment is particularly valuable for AI systems because it provides:
+
+- **Zero-downtime deployments** with instant rollback capability
+- **Full environment isolation** for testing new model versions
+- **Traffic switching** capabilities for A/B testing different models
+- **Risk mitigation** through complete environment separation
+
+#### Implementation Strategy
+
+1. **Maintain two identical environments**: Blue (current) and Green (new)
+2. **Deploy to the inactive environment** (Green) while Blue serves traffic
+3. **Perform comprehensive testing** on Green environment
+4. **Switch traffic** from Blue to Green instantly
+5. **Keep Blue as rollback option** until Green is stable
+
+#### Best Practices for AI Systems
+
+- **Model warming**: Pre-load models in the new environment before switching traffic
+- **Performance validation**: Ensure inference latency meets requirements
+- **Data consistency**: Verify that both environments use consistent data sources
+- **Monitoring alignment**: Set up identical monitoring and alerting
+
+### Canary Deployment for AI Models
+
+Canary deployments allow you to test new AI models with a small subset of production traffic:
+
+#### Benefits for AI Systems
+
+- **Gradual rollout** of new model versions
+- **Real-world performance testing** with live data
+- **Risk reduction** through limited exposure
+- **Performance comparison** between model versions
+
+#### Implementation Steps
+
+1. **Deploy new model version** alongside existing version
+2. **Route small percentage** of traffic to new version (e.g., 5-10%)
+3. **Monitor key metrics**: accuracy, latency, error rates
+4. **Gradually increase traffic** to new version if metrics are favorable
+5. **Complete rollout** or rollback based on performance
+
+### Rolling Deployment
+
+Rolling deployments update instances gradually:
+
+- **Incremental updates** of application instances
+- **Maintained availability** throughout deployment
+- **Resource efficient** compared to blue-green
+- **Suitable for stateless AI services**
+
+## AI Containerization {#containerization}
+
+### Container Optimization for AI Workloads
+
+AI applications have specific containerization requirements:
+
+#### Base Image Selection
+
+- **Use optimized base images**: Start with Python slim images for faster builds
+- **Include AI-specific libraries**: Pre-install common ML libraries in base layers
+- **GPU support**: Use CUDA-enabled base images when needed
+- **Security hardening**: Remove unnecessary packages and tools
+
+#### Multi-Stage Build Strategy
+
+Multi-stage builds are essential for AI applications to:
+
+- **Separate build and runtime environments**
+- **Reduce final image size** by excluding build tools
+- **Include only necessary runtime dependencies**
+- **Improve security** by minimizing attack surface
+
+#### Resource Management
+
+- **Memory limits**: Set appropriate memory limits for model loading
+- **CPU allocation**: Configure CPU limits based on inference requirements
+- **GPU resources**: Request GPU resources when needed for acceleration
+- **Storage optimization**: Use efficient storage for model files
+
+### Security Best Practices
+
+#### Non-Root User Configuration
+
+Running containers as non-root users is critical for security:
+
+```dockerfile
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash app
+USER app
+WORKDIR /home/app
+```
+
+#### Minimal Attack Surface
+
+- **Remove unnecessary packages** from production images
+- **Use specific version tags** instead of latest
+- **Scan images for vulnerabilities** regularly
+- **Implement proper secrets management**
+
+### Health Checks and Monitoring
+
+Proper health checks enable container orchestration:
+
+#### Health Check Configuration
+
+```dockerfile
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
+```
+
+#### Monitoring Integration
+
+- **Expose metrics endpoints** for monitoring systems
+- **Log structured data** for centralized logging
+- **Implement readiness probes** for traffic routing decisions
+- **Configure liveness probes** for automatic restart capability
+
+## CI/CD for AI Systems {#cicd-pipelines}
+
+### AI-Specific CI/CD Considerations
+
+#### Testing Strategy
+
+AI applications require comprehensive testing approaches:
+
+- **Unit tests**: Test individual components and functions
+- **Integration tests**: Verify component interactions
+- **Model validation tests**: Check model performance metrics
+- **Data pipeline tests**: Validate data processing workflows
+- **Performance tests**: Ensure latency and throughput requirements
+
+#### Model Management Integration
+
+- **Model versioning**: Track model versions alongside code
+- **Model validation**: Automated testing of model performance
+- **Model registry integration**: Store and retrieve models from registry
+- **A/B testing setup**: Infrastructure for comparing model versions
+
+### Pipeline Stages
+
+#### 1. Code Quality and Security
+
+- **Static code analysis** for code quality
+- **Security scanning** for vulnerabilities
+- **Dependency checking** for known security issues
+- **License compliance** verification
+
+#### 2. Testing and Validation
+
+- **Automated testing** execution
+- **Code coverage** reporting
+- **Model performance** validation
+- **Integration testing** with dependencies
+
+#### 3. Build and Package
+
+- **Container image building** with optimizations
+- **Multi-architecture builds** for different deployment targets
+- **Image scanning** for security vulnerabilities
+- **Artifact storage** in container registry
+
+#### 4. Deployment Automation
+
+- **Environment-specific deployments** (staging, production)
+- **Configuration management** for different environments
+- **Database migrations** and data pipeline updates
+- **Monitoring and alerting** setup
+
+### Infrastructure as Code
+
+Managing AI infrastructure through code provides:
+
+#### Benefits
+
+- **Reproducible deployments** across environments
+- **Version control** for infrastructure changes
+- **Automated provisioning** of resources
+- **Consistent environments** for development and production
+
+#### Tools and Technologies
+
+- **Terraform**: Infrastructure provisioning and management
+- **Kubernetes manifests**: Container orchestration configuration
+- **Helm charts**: Package management for Kubernetes applications
+- **CI/CD integration**: Automated infrastructure updates
+
+## Hands-On Practice
+
+### Exercise: Containerizing an AI Application
+
+In this exercise, you'll containerize a Python-based AI application following production best practices.
+
+#### Requirements
+
+1. Create a multi-stage Dockerfile
+2. Implement security best practices
+3. Add health checks and monitoring
+4. Build and test the container locally
+5. Create a docker-compose file for development
+
+#### Key Learning Points
+
+- **Multi-stage builds** for optimization
+- **Security hardening** techniques  
+- **Health check** implementation
+- **Development workflow** with containers
+
+## Summary
+
+This module covered essential deployment strategies for AI systems:
+
+### Key Takeaways
+
+1. **Deployment Patterns**: Blue-green, canary, and rolling deployments each serve different needs
+2. **Containerization**: Proper containerization is crucial for consistent and secure AI deployments
+3. **CI/CD Integration**: Automated pipelines ensure reliable and repeatable deployments
+4. **Security**: Security must be built into every stage of the deployment process
+5. **Monitoring**: Comprehensive monitoring enables reliable production operations
+
+### Next Steps
+
+- **Practice** the containerization exercise
+- **Implement** a CI/CD pipeline for your AI project
+- **Explore** advanced orchestration patterns with Kubernetes
+- **Learn** about monitoring and observability in the next module
+
+Ready to deploy AI systems with confidence? Let's continue to the next module on monitoring and observability!

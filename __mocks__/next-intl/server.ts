@@ -1,0 +1,1 @@
+export const getRequestConfig = jest.fn((callback) => callback)

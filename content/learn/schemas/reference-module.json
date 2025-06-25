@@ -1,0 +1,295 @@
+{
+  "metadata": {
+    "id": "introduction-to-ai-agents",
+    "pathId": "agentic-workflows",
+    "title": "Introduction to AI Agents",
+    "description": "Learn the fundamental concepts of AI agents, their architectures, and how they differ from traditional AI applications. Explore reactive, deliberative, and hybrid agent systems with practical examples.",
+    "duration": "60 minutes",
+    "type": "concept",
+    "difficulty": "beginner",
+    "order": 1,
+    "prerequisites": [
+      "Basic understanding of AI/ML concepts",
+      "Familiarity with Python programming"
+    ],
+    "objectives": [
+      "Define what constitutes an AI agent and its key characteristics",
+      "Differentiate between reactive, deliberative, and hybrid agent architectures",
+      "Understand the agent-environment interaction model",
+      "Identify appropriate use cases for different agent types",
+      "Implement a simple reactive agent in Python"
+    ],
+    "tags": ["ai-agents", "introduction", "architecture", "reactive-systems", "deliberative-systems"],
+    "version": "1.2.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 60
+  },
+  "sections": [
+    {
+      "id": "what-are-agents",
+      "title": "What Are AI Agents?",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "introduction-to-ai-agents.mdx#what-are-agents",
+        "codeExamples": [
+          {
+            "id": "simple-agent-interface",
+            "title": "Simple Agent Interface",
+            "description": "Basic structure of an AI agent with perception and action capabilities",
+            "language": "python",
+            "code": "from abc import ABC, abstractmethod\nfrom typing import Any, Dict\n\nclass Agent(ABC):\n    \"\"\"Abstract base class for AI agents.\"\"\"\n    \n    def __init__(self, name: str):\n        self.name = name\n        self.memory = {}\n    \n    @abstractmethod\n    def perceive(self, environment: Dict[str, Any]) -> Dict[str, Any]:\n        \"\"\"Process environmental observations.\"\"\"\n        pass\n    \n    @abstractmethod\n    def decide(self, percept: Dict[str, Any]) -> str:\n        \"\"\"Choose an action based on perception.\"\"\"\n        pass\n    \n    @abstractmethod\n    def act(self, action: str) -> Dict[str, Any]:\n        \"\"\"Execute the chosen action.\"\"\"\n        pass",
+            "highlightLines": [8, 11, 15, 19],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "agent-architectures",
+      "title": "Agent Architecture Patterns",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "introduction-to-ai-agents.mdx#agent-architectures",
+        "codeExamples": [
+          {
+            "id": "reactive-agent",
+            "title": "Reactive Agent Example",
+            "description": "A simple reactive agent that responds directly to stimuli",
+            "language": "python",
+            "code": "class ReactiveAgent(Agent):\n    \"\"\"Reactive agent that responds directly to environmental stimuli.\"\"\"\n    \n    def __init__(self, name: str, rules: Dict[str, str]):\n        super().__init__(name)\n        self.rules = rules  # condition -> action mapping\n    \n    def perceive(self, environment: Dict[str, Any]) -> Dict[str, Any]:\n        return environment  # Direct perception\n    \n    def decide(self, percept: Dict[str, Any]) -> str:\n        # Apply rules based on current percept\n        for condition, action in self.rules.items():\n            if self._evaluate_condition(condition, percept):\n                return action\n        return \"no-action\"\n    \n    def act(self, action: str) -> Dict[str, Any]:\n        return {\"action\": action, \"agent\": self.name}\n    \n    def _evaluate_condition(self, condition: str, percept: Dict[str, Any]) -> bool:\n        # Simple condition evaluation logic\n        return condition in str(percept)",
+            "highlightLines": [4, 8, 11, 18],
+            "runnable": true
+          },
+          {
+            "id": "deliberative-agent",
+            "title": "Deliberative Agent Structure",
+            "description": "Agent architecture with planning and world model capabilities",
+            "language": "python",
+            "code": "class DeliberativeAgent(Agent):\n    \"\"\"Deliberative agent with planning capabilities.\"\"\"\n    \n    def __init__(self, name: str, goal: str):\n        super().__init__(name)\n        self.goal = goal\n        self.world_model = {}\n        self.plan = []\n    \n    def perceive(self, environment: Dict[str, Any]) -> Dict[str, Any]:\n        # Update world model with new observations\n        self.world_model.update(environment)\n        return self.world_model\n    \n    def decide(self, percept: Dict[str, Any]) -> str:\n        # Plan if no current plan or plan failed\n        if not self.plan or self._plan_failed(percept):\n            self.plan = self._generate_plan(percept, self.goal)\n        \n        # Execute next step in plan\n        return self.plan.pop(0) if self.plan else \"no-action\"\n    \n    def _generate_plan(self, state: Dict[str, Any], goal: str) -> list:\n        # Simplified planning logic\n        return [\"analyze\", \"plan\", \"execute\"]\n    \n    def _plan_failed(self, percept: Dict[str, Any]) -> bool:\n        # Check if current plan is still valid\n        return False",
+            "highlightLines": [6, 7, 11, 16, 23],
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "hands-on-exercise",
+      "title": "Build Your First Agent",
+      "type": "exercise",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Implement a Simple Reactive Agent",
+        "description": "Create a reactive agent that can navigate a simple grid world by responding to environmental stimuli.",
+        "exerciseType": "coding",
+        "difficulty": "medium",
+        "instructions": [
+          "Create a GridWorldAgent class that inherits from ReactiveAgent",
+          "Implement rules for moving in a 2D grid (up, down, left, right)",
+          "Add obstacle avoidance behavior",
+          "Test your agent in a simple environment"
+        ],
+        "startingCode": "# Starting code for Grid World Agent\nfrom typing import Dict, Any, Tuple\n\nclass GridWorldAgent(ReactiveAgent):\n    def __init__(self, name: str, position: Tuple[int, int]):\n        # Define basic movement rules\n        rules = {\n            \"obstacle_ahead\": \"turn_right\",\n            \"goal_visible\": \"move_toward_goal\",\n            \"clear_path\": \"move_forward\"\n        }\n        super().__init__(name, rules)\n        self.position = position\n    \n    # TODO: Implement your agent methods here\n    def move(self, direction: str) -> Tuple[int, int]:\n        \"\"\"Move the agent in the specified direction.\"\"\"\n        pass\n    \n    def detect_obstacles(self, environment: Dict[str, Any]) -> bool:\n        \"\"\"Check if there are obstacles in the current direction.\"\"\"\n        pass",
+        "solution": "# Complete solution for Grid World Agent\nfrom typing import Dict, Any, Tuple\n\nclass GridWorldAgent(ReactiveAgent):\n    def __init__(self, name: str, position: Tuple[int, int]):\n        rules = {\n            \"obstacle_ahead\": \"turn_right\",\n            \"goal_visible\": \"move_toward_goal\", \n            \"clear_path\": \"move_forward\"\n        }\n        super().__init__(name, rules)\n        self.position = position\n        self.direction = \"north\"  # north, south, east, west\n    \n    def move(self, direction: str) -> Tuple[int, int]:\n        \"\"\"Move the agent in the specified direction.\"\"\"\n        x, y = self.position\n        if direction == \"north\":\n            self.position = (x, y - 1)\n        elif direction == \"south\":\n            self.position = (x, y + 1)\n        elif direction == \"east\":\n            self.position = (x + 1, y)\n        elif direction == \"west\":\n            self.position = (x - 1, y)\n        return self.position\n    \n    def detect_obstacles(self, environment: Dict[str, Any]) -> bool:\n        \"\"\"Check if there are obstacles in the current direction.\"\"\"\n        obstacles = environment.get(\"obstacles\", [])\n        next_pos = self._get_next_position()\n        return next_pos in obstacles\n    \n    def _get_next_position(self) -> Tuple[int, int]:\n        x, y = self.position\n        if self.direction == \"north\":\n            return (x, y - 1)\n        elif self.direction == \"south\":\n            return (x, y + 1)\n        elif self.direction == \"east\":\n            return (x + 1, y)\n        elif self.direction == \"west\":\n            return (x - 1, y)\n        return self.position",
+        "hints": [
+          "Remember that the agent should respond to its immediate environment",
+          "Use the position tuple (x, y) to track the agent's location",
+          "Consider how to represent direction and movement in a 2D grid",
+          "Think about what environmental information the agent needs to perceive"
+        ],
+        "validation": [
+          {
+            "type": "contains",
+            "value": "class GridWorldAgent",
+            "message": "Make sure to define the GridWorldAgent class"
+          },
+          {
+            "type": "contains",
+            "value": "def move(",
+            "message": "Implement the move method"
+          },
+          {
+            "type": "contains",
+            "value": "def detect_obstacles(",
+            "message": "Implement the detect_obstacles method"
+          }
+        ]
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 4,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Test Your Understanding of AI Agents",
+        "description": "Verify your comprehension of AI agent concepts and architectures",
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "What are the key components of an AI agent?",
+            "points": 2,
+            "options": [
+              {
+                "id": "a",
+                "text": "Sensors (perception)",
+                "explanation": "Correct! Agents need sensors to perceive their environment."
+              },
+              {
+                "id": "b",
+                "text": "Decision-making mechanism",
+                "explanation": "Correct! Agents must be able to choose actions based on their perceptions."
+              },
+              {
+                "id": "c",
+                "text": "Actuators (actions)",
+                "explanation": "Correct! Agents need actuators to act in their environment."
+              },
+              {
+                "id": "d",
+                "text": "Database storage",
+                "explanation": "Incorrect. While agents may use memory, database storage is not a core component."
+              }
+            ],
+            "correctAnswers": ["a", "b", "c"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q2",
+            "type": "true-false",
+            "question": "Reactive agents maintain an internal model of the world state.",
+            "points": 1,
+            "correctAnswer": false,
+            "explanation": "False! Reactive agents respond directly to stimuli without maintaining an internal world model. Deliberative agents maintain world models."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "Which agent architecture is best suited for real-time applications requiring immediate responses?",
+            "points": 1,
+            "options": [
+              {
+                "id": "a",
+                "text": "Reactive architecture",
+                "explanation": "Correct! Reactive agents provide fast responses by reacting directly to stimuli."
+              },
+              {
+                "id": "b",
+                "text": "Deliberative architecture",
+                "explanation": "Incorrect. Deliberative agents take time to plan and may be too slow for real-time applications."
+              },
+              {
+                "id": "c",
+                "text": "Hybrid architecture",
+                "explanation": "Partially correct, but pure reactive is typically faster for immediate responses."
+              },
+              {
+                "id": "d",
+                "text": "None of the above",
+                "explanation": "Incorrect. Reactive architecture is well-suited for real-time applications."
+              }
+            ],
+            "correctAnswers": ["a"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q4",
+            "type": "fill-in-blank",
+            "question": "A _____ agent uses planning and maintains a world model to achieve its goals.",
+            "points": 1,
+            "correctAnswer": "deliberative",
+            "explanation": "Deliberative agents use planning and world models to make informed decisions about achieving their goals."
+          }
+        ],
+        "passingScore": 75,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "artificial-intelligence-modern-approach",
+      "title": "Artificial Intelligence: A Modern Approach (Chapter 2)",
+      "type": "reference",
+      "url": "https://aima.cs.berkeley.edu/",
+      "description": "Comprehensive introduction to intelligent agents from the classic AI textbook",
+      "required": false
+    },
+    {
+      "id": "agent-architectures-comparison",
+      "title": "Agent Architectures: A Comparative Analysis",
+      "type": "paper",
+      "url": "https://example.com/agent-architectures-paper",
+      "description": "Academic paper comparing different agent architecture approaches",
+      "required": false
+    },
+    {
+      "id": "python-agent-framework",
+      "title": "Python Agent Development Framework",
+      "type": "tool",
+      "url": "https://github.com/example/python-agents",
+      "description": "Open-source framework for building AI agents in Python",
+      "required": false
+    },
+    {
+      "id": "reactive-systems-guide",
+      "title": "Building Reactive Systems",
+      "type": "guide",
+      "url": "https://example.com/reactive-systems-guide",
+      "description": "Practical guide to designing and implementing reactive systems",
+      "required": true
+    }
+  ],
+  "exercises": [
+    {
+      "id": "compare-architectures",
+      "title": "Compare Agent Architectures",
+      "description": "Analyze the trade-offs between reactive, deliberative, and hybrid agent architectures for different scenarios",
+      "type": "conceptual",
+      "difficulty": "medium",
+      "timeEstimate": "30 minutes",
+      "instructions": [
+        "Read the provided scenarios (autonomous vehicle, chatbot, game AI)",
+        "For each scenario, evaluate which agent architecture would be most appropriate",
+        "Justify your choices with specific reasoning about performance, complexity, and requirements",
+        "Consider hybrid approaches where appropriate"
+      ],
+      "hints": [
+        "Think about the time constraints and complexity of each domain",
+        "Consider the importance of explanation vs. speed",
+        "Evaluate the predictability of each environment"
+      ],
+      "validation": [
+        {
+          "type": "contains",
+          "value": "reactive",
+          "message": "Make sure to discuss reactive architectures"
+        },
+        {
+          "type": "contains", 
+          "value": "deliberative",
+          "message": "Make sure to discuss deliberative architectures"
+        }
+      ]
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 75,
+    "requiredSections": ["what-are-agents", "agent-architectures", "hands-on-exercise"],
+    "timeTracking": true,
+    "completionCertificate": true
+  }
+}

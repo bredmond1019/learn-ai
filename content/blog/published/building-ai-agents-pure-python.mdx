@@ -1,0 +1,991 @@
+---
+title: "Building AI Agents in Pure Python: A Professional Developer's Guide"
+date: "2024-12-01"
+excerpt: "Master the fundamentals of building production-ready AI agents using pure Python and direct LLM API calls. Learn core patterns, workflow design, and best practices without complex frameworks."
+tags: ["AI Engineering", "Python", "Agent Development", "LLM Integration", "Production AI"]
+author: "Brandon"
+---
+
+import { Callout } from '@/components/ui/callout'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Badge } from '@/components/ui/badge'
+
+Building effective AI agents doesn't require complex frameworks or tools. In fact, understanding the fundamental building blocks through pure Python and direct LLM API calls often leads to more robust, maintainable systems. This guide teaches you the professional patterns that power production AI systems.
+
+<Callout type="tip" className="mt-6">
+  **Key Insight**: Working directly with LLM APIs helps you understand the underlying principles better than jumping straight into frameworks. Most real-world cases don't require additional tools - pure Python is often sufficient and superior for production systems.
+</Callout>
+
+## 🎯 Core Philosophy: Master the Fundamentals First
+
+The key insight is to work directly with LLM APIs to understand underlying principles before jumping to frameworks. Most real-world cases don't require additional tools - pure Python is often sufficient and superior for production systems.
+
+### 📋 Prerequisites
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>Before You Begin</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2">
+      <li className="flex items-center gap-2">
+        <Badge variant="outline" className="w-fit">Required</Badge>
+        Basic Python programming knowledge
+      </li>
+      <li className="flex items-center gap-2">
+        <Badge variant="outline" className="w-fit">Required</Badge>
+        OpenAI API key
+      </li>
+      <li className="flex items-center gap-2">
+        <Badge variant="outline" className="w-fit">Required</Badge>
+        Understanding of API calls and JSON handling
+      </li>
+    </ul>
+  </CardContent>
+</Card>
+
+## 🔧 Part 1: Essential Building Blocks
+
+### 1. Direct API Communication
+
+The foundation starts with clean, direct API communication:
+
+```python
+from openai import OpenAI
+
+# Initialize client
+client = OpenAI(api_key="your-api-key")
+
+# Basic API call
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Write a limerick about Python programming."}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>💡 Use Cases</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2">
+      <li>• Simple question-answering systems</li>
+      <li>• Text generation applications</li>
+      <li>• Basic chatbot functionality</li>
+    </ul>
+  </CardContent>
+</Card>
+
+### 2. Structured Output with Pydantic
+
+Transform unstructured responses into programmatically usable data:
+
+```python
+from pydantic import BaseModel
+from openai import OpenAI
+
+# Define data structure
+class CalendarEvent(BaseModel):
+    name: str
+    date: str
+    participants: list[str]
+
+client = OpenAI()
+
+# Use structured output
+response = client.beta.chat.completions.parse(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": "Extract event information from user input."},
+        {"role": "user", "content": "Alice and Bob are going to Science Fair on Friday"}
+    ],
+    response_format=CalendarEvent
+)
+
+event = response.choices[0].message.parsed
+print(f"Event: {event.name}")
+print(f"Date: {event.date}")
+print(f"Participants: {event.participants}")
+```
+
+<Callout type="success" className="mt-4">
+  **Benefits of Structured Output:**
+  - Programmatic control over AI responses
+  - Type safety and validation
+  - Easy integration with existing systems
+  - Consistent data format for downstream processing
+</Callout>
+
+### 3. Function Calling (Tool Use)
+
+Enable AI models to interact with external systems:
+
+<Tabs defaultValue="implementation" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="implementation">Implementation</TabsTrigger>
+    <TabsTrigger value="explanation">How It Works</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="implementation">
+```python
+import json
+import requests
+from openai import OpenAI
+
+# Define a tool function
+def get_weather(latitude: float, longitude: float) -> dict:
+    """Get weather data for given coordinates."""
+    url = f"https://api.open-meteo.com/v1/forecast"
+    params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "current_weather": True
+    }
+    response = requests.get(url, params=params)
+    return response.json()
+
+# Define tool schema for OpenAI
+weather_tool = {
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Get current weather for a location",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "latitude": {"type": "number", "description": "Latitude coordinate"},
+                "longitude": {"type": "number", "description": "Longitude coordinate"}
+            },
+            "required": ["latitude", "longitude"]
+        }
+    }
+}
+
+client = OpenAI()
+
+# Make API call with tools
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": "You are a helpful weather assistant."},
+        {"role": "user", "content": "What's the weather like in Paris today?"}
+    ],
+    tools=[weather_tool],
+    tool_choice="auto"
+)
+
+# Handle tool calls
+if response.choices[0].message.tool_calls:
+    for tool_call in response.choices[0].message.tool_calls:
+        if tool_call.function.name == "get_weather":
+            # Parse arguments
+            args = json.loads(tool_call.function.arguments)
+            
+            # Call the actual function
+            weather_data = get_weather(args["latitude"], args["longitude"])
+            
+            # Continue conversation with results
+            messages = [
+                {"role": "system", "content": "You are a helpful weather assistant."},
+                {"role": "user", "content": "What's the weather like in Paris today?"},
+                response.choices[0].message,
+                {
+                    "role": "tool",
+                    "content": json.dumps(weather_data),
+                    "tool_call_id": tool_call.id
+                }
+            ]
+            
+            # Get final response
+            final_response = client.chat.completions.create(
+                model="gpt-4",
+                messages=messages
+            )
+            
+            print(final_response.choices[0].message.content)
+```
+  </TabsContent>
+  
+  <TabsContent value="explanation">
+    <Card>
+      <CardHeader>
+        <CardTitle>Critical Understanding</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-4">The AI doesn't actually execute functions - it only provides parameters. Your application must:</p>
+        <ol className="list-decimal list-inside space-y-2">
+          <li>Receive the function call request from the AI</li>
+          <li>Parse the parameters</li>
+          <li>Execute the actual function</li>
+          <li>Return results back to the AI</li>
+          <li>Get the final response</li>
+        </ol>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 4. Memory Management
+
+Maintain conversation context through message history:
+
+```python
+class ConversationMemory:
+    def __init__(self):
+        self.messages = []
+
+    def add_message(self, role: str, content: str):
+        self.messages.append({"role": role, "content": content})
+
+    def get_messages(self):
+        return self.messages
+
+    def clear(self):
+        self.messages = []
+
+# Usage
+memory = ConversationMemory()
+memory.add_message("system", "You are a helpful assistant.")
+memory.add_message("user", "Hello!")
+memory.add_message("assistant", "Hi there! How can I help you?")
+```
+
+### 5. Knowledge Base Integration
+
+Dynamically access external knowledge through tool-based retrieval:
+
+```python
+def search_knowledge_base(query: str) -> str:
+    """Search internal documentation."""
+    # Simulate knowledge base search
+    knowledge = {
+        "pricing": "Standard plan: $29/mo, Premium: $99/mo",
+        "features": "AI chat, analytics, integrations",
+        "support": "24/7 email support, chat for premium"
+    }
+    
+    results = []
+    for key, value in knowledge.items():
+        if query.lower() in key.lower() or query.lower() in value.lower():
+            results.append(f"{key}: {value}")
+    
+    return "\n".join(results) if results else "No information found."
+
+# Tool definition
+knowledge_tool = {
+    "type": "function",
+    "function": {
+        "name": "search_knowledge_base",
+        "description": "Search company knowledge base",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Search query"}
+            },
+            "required": ["query"]
+        }
+    }
+}
+```
+
+## 🏗️ Part 2: Professional Agent Patterns
+
+### 1. Sequential Processing Pattern
+
+Break complex tasks into ordered steps:
+
+```python
+from typing import Dict, Any, List
+from openai import OpenAI
+
+class SequentialProcessor:
+    def __init__(self, api_key: str):
+        self.client = OpenAI(api_key=api_key)
+        self.results = {}
+    
+    def process_step(self, step_name: str, messages: List[Dict[str, str]]) -> str:
+        """Process a single step in the sequence."""
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=messages
+        )
+        result = response.choices[0].message.content
+        self.results[step_name] = result
+        return result
+    
+    def execute_pipeline(self, steps: List[Dict[str, Any]]) -> Dict[str, str]:
+        """Execute a sequence of processing steps."""
+        for step in steps:
+            # Build messages with context from previous steps
+            messages = step["messages"]
+            if step.get("include_previous"):
+                for prev_step in step["include_previous"]:
+                    if prev_step in self.results:
+                        messages.append({
+                            "role": "assistant",
+                            "content": f"Previous result ({prev_step}): {self.results[prev_step]}"
+                        })
+            
+            self.process_step(step["name"], messages)
+        
+        return self.results
+
+# Example usage
+processor = SequentialProcessor(api_key="your-key")
+
+pipeline = [
+    {
+        "name": "analyze",
+        "messages": [
+            {"role": "system", "content": "Analyze the following customer feedback."},
+            {"role": "user", "content": "The product is great but shipping took forever!"}
+        ]
+    },
+    {
+        "name": "categorize",
+        "messages": [
+            {"role": "system", "content": "Categorize this feedback: product, shipping, or service."}
+        ],
+        "include_previous": ["analyze"]
+    },
+    {
+        "name": "response",
+        "messages": [
+            {"role": "system", "content": "Draft a professional response to the customer."}
+        ],
+        "include_previous": ["analyze", "categorize"]
+    }
+]
+
+results = processor.execute_pipeline(pipeline)
+```
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>📊 Pattern Benefits</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2">
+      <li>✅ Clear step-by-step processing</li>
+      <li>✅ Easy to debug and modify</li>
+      <li>✅ Reusable components</li>
+      <li>✅ Predictable execution flow</li>
+    </ul>
+  </CardContent>
+</Card>
+
+### 2. Routing Pattern
+
+Direct requests to specialized processors:
+
+```python
+class AgentRouter:
+    def __init__(self, api_key: str):
+        self.client = OpenAI(api_key=api_key)
+        self.routes = {
+            "technical": self.handle_technical,
+            "billing": self.handle_billing,
+            "general": self.handle_general
+        }
+    
+    def classify_request(self, user_input: str) -> str:
+        """Classify the type of request."""
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "Classify as: technical, billing, or general"},
+                {"role": "user", "content": user_input}
+            ],
+            max_tokens=10
+        )
+        return response.choices[0].message.content.strip().lower()
+    
+    def route_request(self, user_input: str) -> str:
+        """Route request to appropriate handler."""
+        category = self.classify_request(user_input)
+        handler = self.routes.get(category, self.handle_general)
+        return handler(user_input)
+    
+    def handle_technical(self, user_input: str) -> str:
+        """Handle technical support requests."""
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a technical support expert. Provide detailed technical assistance."},
+                {"role": "user", "content": user_input}
+            ]
+        )
+        return response.choices[0].message.content
+    
+    def handle_billing(self, user_input: str) -> str:
+        """Handle billing inquiries."""
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a billing specialist. Help with payment and subscription issues."},
+                {"role": "user", "content": user_input}
+            ]
+        )
+        return response.choices[0].message.content
+    
+    def handle_general(self, user_input: str) -> str:
+        """Handle general inquiries."""
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a helpful customer service representative."},
+                {"role": "user", "content": user_input}
+            ]
+        )
+        return response.choices[0].message.content
+
+# Usage
+router = AgentRouter(api_key="your-key")
+response = router.route_request("I can't log into my account")
+print(response)
+```
+
+### 3. Parallelization Pattern
+
+Process multiple tasks concurrently for efficiency:
+
+```python
+import asyncio
+from typing import List, Dict, Any
+
+class ParallelProcessor:
+    def __init__(self, api_key: str):
+        self.client = OpenAI(api_key=api_key)
+    
+    async def process_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
+        """Process a single task asynchronously."""
+        response = await asyncio.to_thread(
+            self.client.chat.completions.create,
+            model="gpt-4",
+            messages=task["messages"]
+        )
+        return {
+            "task_id": task["id"],
+            "result": response.choices[0].message.content
+        }
+    
+    async def process_parallel(self, tasks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Process multiple tasks in parallel."""
+        results = await asyncio.gather(
+            *[self.process_task(task) for task in tasks]
+        )
+        return results
+
+# Example usage
+async def main():
+    processor = ParallelProcessor(api_key="your-key")
+    
+    tasks = [
+        {
+            "id": "sentiment",
+            "messages": [
+                {"role": "system", "content": "Analyze sentiment: positive, negative, or neutral"},
+                {"role": "user", "content": "This product exceeded my expectations!"}
+            ]
+        },
+        {
+            "id": "summary",
+            "messages": [
+                {"role": "system", "content": "Summarize in one sentence"},
+                {"role": "user", "content": "This product exceeded my expectations!"}
+            ]
+        },
+        {
+            "id": "keywords",
+            "messages": [
+                {"role": "system", "content": "Extract keywords (comma-separated)"},
+                {"role": "user", "content": "This product exceeded my expectations!"}
+            ]
+        }
+    ]
+    
+    results = await processor.process_parallel(tasks)
+    for result in results:
+        print(f"{result['task_id']}: {result['result']}")
+
+# Run the parallel processing
+asyncio.run(main())
+```
+
+<Callout type="info" className="mt-4">
+  **Performance Tip**: Parallel processing can significantly reduce latency when multiple independent AI calls are needed. Use this pattern when tasks don't depend on each other's results.
+</Callout>
+
+### 4. Human-in-the-Loop Pattern
+
+Incorporate human validation for critical decisions:
+
+```python
+class HumanInLoopAgent:
+    def __init__(self, api_key: str):
+        self.client = OpenAI(api_key=api_key)
+    
+    def generate_draft(self, request: str) -> str:
+        """Generate initial draft response."""
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "Draft a response that will be reviewed by a human."},
+                {"role": "user", "content": request}
+            ]
+        )
+        return response.choices[0].message.content
+    
+    def get_human_feedback(self, draft: str) -> Dict[str, Any]:
+        """Simulate human review (in production, this would be a UI)."""
+        print("\n--- DRAFT FOR REVIEW ---")
+        print(draft)
+        print("--- END DRAFT ---\n")
+        
+        approved = input("Approve? (y/n): ").lower() == 'y'
+        feedback = input("Feedback (or press enter to skip): ") if not approved else ""
+        
+        return {"approved": approved, "feedback": feedback}
+    
+    def revise_draft(self, draft: str, feedback: str) -> str:
+        """Revise draft based on human feedback."""
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "Revise the draft based on feedback."},
+                {"role": "user", "content": f"Original draft: {draft}\n\nFeedback: {feedback}"}
+            ]
+        )
+        return response.choices[0].message.content
+    
+    def process_with_review(self, request: str) -> str:
+        """Process request with human review loop."""
+        draft = self.generate_draft(request)
+        
+        while True:
+            review = self.get_human_feedback(draft)
+            
+            if review["approved"]:
+                return draft
+            
+            draft = self.revise_draft(draft, review["feedback"])
+
+# Usage
+agent = HumanInLoopAgent(api_key="your-key")
+final_response = agent.process_with_review("Write a legal disclaimer for our new product")
+```
+
+## 🚀 Part 3: Production Workflow Implementation
+
+### Complete Email Processing System
+
+Here's a production-ready email classification and response system:
+
+<Tabs defaultValue="system" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="system">System Overview</TabsTrigger>
+    <TabsTrigger value="code">Implementation</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="system">
+    <Card>
+      <CardHeader>
+        <CardTitle>Email Processing Workflow</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold mb-2">Workflow Steps:</h4>
+            <ol className="list-decimal list-inside space-y-2">
+              <li>Classify incoming emails</li>
+              <li>Extract key information</li>
+              <li>Generate appropriate responses</li>
+              <li>Route to correct department</li>
+              <li>Track metrics and performance</li>
+            </ol>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold mb-2">Key Features:</h4>
+            <ul className="space-y-2">
+              <li>• Structured data extraction</li>
+              <li>• Department-specific routing</li>
+              <li>• Performance metrics tracking</li>
+              <li>• Error handling and logging</li>
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </TabsContent>
+  
+  <TabsContent value="code">
+```python
+from typing import Dict, List, Optional
+from datetime import datetime
+from pydantic import BaseModel
+from openai import OpenAI
+import json
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Data models
+class EmailClassification(BaseModel):
+    category: str
+    urgency: str
+    department: str
+    confidence: float
+
+class EmailData(BaseModel):
+    subject: str
+    body: str
+    sender: str
+    timestamp: datetime
+
+class ProcessedEmail(BaseModel):
+    email_data: EmailData
+    classification: EmailClassification
+    suggested_response: str
+    processing_time: float
+
+class EmailProcessor:
+    def __init__(self, api_key: str):
+        self.client = OpenAI(api_key=api_key)
+        self.metrics = {
+            "total_processed": 0,
+            "by_category": {},
+            "by_department": {},
+            "average_processing_time": 0
+        }
+    
+    def classify_email(self, email: EmailData) -> EmailClassification:
+        """Classify email using structured output."""
+        start_time = datetime.now()
+        
+        try:
+            response = self.client.beta.chat.completions.parse(
+                model="gpt-4",
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": """Classify emails into:
+                        Categories: support, sales, billing, general
+                        Urgency: high, medium, low
+                        Department: technical, sales, finance, customer_service"""
+                    },
+                    {
+                        "role": "user", 
+                        "content": f"Subject: {email.subject}\n\nBody: {email.body}"
+                    }
+                ],
+                response_format=EmailClassification
+            )
+            
+            classification = response.choices[0].message.parsed
+            
+            # Update metrics
+            self._update_metrics(classification, start_time)
+            
+            return classification
+            
+        except Exception as e:
+            logger.error(f"Classification error: {e}")
+            # Return default classification on error
+            return EmailClassification(
+                category="general",
+                urgency="medium",
+                department="customer_service",
+                confidence=0.0
+            )
+    
+    def generate_response(self, email: EmailData, classification: EmailClassification) -> str:
+        """Generate appropriate response based on classification."""
+        
+        system_prompts = {
+            "technical": "You are a technical support specialist. Provide detailed technical assistance.",
+            "sales": "You are a sales representative. Be enthusiastic and helpful about our products.",
+            "finance": "You are a billing specialist. Be precise about financial matters.",
+            "customer_service": "You are a friendly customer service representative."
+        }
+        
+        urgency_instructions = {
+            "high": "This is urgent. Acknowledge the urgency and provide immediate assistance.",
+            "medium": "Provide a thorough and helpful response.",
+            "low": "Provide a friendly, informative response."
+        }
+        
+        system_prompt = system_prompts.get(
+            classification.department, 
+            system_prompts["customer_service"]
+        )
+        urgency_instruction = urgency_instructions.get(
+            classification.urgency,
+            urgency_instructions["medium"]
+        )
+        
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4",
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": f"{system_prompt} {urgency_instruction}"
+                    },
+                    {
+                        "role": "user", 
+                        "content": f"Reply to: Subject: {email.subject}\n\n{email.body}"
+                    }
+                ]
+            )
+            
+            return response.choices[0].message.content
+            
+        except Exception as e:
+            logger.error(f"Response generation error: {e}")
+            return "Thank you for your email. We're experiencing technical difficulties but will respond soon."
+    
+    def process_email(self, email_data: EmailData) -> ProcessedEmail:
+        """Complete email processing pipeline."""
+        start_time = datetime.now()
+        
+        # Step 1: Classify
+        classification = self.classify_email(email_data)
+        logger.info(f"Email classified as: {classification.category} - {classification.department}")
+        
+        # Step 2: Generate response
+        response = self.generate_response(email_data, classification)
+        
+        # Step 3: Calculate processing time
+        processing_time = (datetime.now() - start_time).total_seconds()
+        
+        return ProcessedEmail(
+            email_data=email_data,
+            classification=classification,
+            suggested_response=response,
+            processing_time=processing_time
+        )
+    
+    def _update_metrics(self, classification: EmailClassification, start_time: datetime):
+        """Update internal metrics."""
+        self.metrics["total_processed"] += 1
+        
+        # Update category counts
+        if classification.category not in self.metrics["by_category"]:
+            self.metrics["by_category"][classification.category] = 0
+        self.metrics["by_category"][classification.category] += 1
+        
+        # Update department counts
+        if classification.department not in self.metrics["by_department"]:
+            self.metrics["by_department"][classification.department] = 0
+        self.metrics["by_department"][classification.department] += 1
+        
+        # Update average processing time
+        processing_time = (datetime.now() - start_time).total_seconds()
+        current_avg = self.metrics["average_processing_time"]
+        total = self.metrics["total_processed"]
+        self.metrics["average_processing_time"] = (
+            (current_avg * (total - 1) + processing_time) / total
+        )
+    
+    def get_metrics(self) -> Dict:
+        """Return current metrics."""
+        return self.metrics
+
+# Usage example
+def main():
+    processor = EmailProcessor(api_key="your-key")
+    
+    # Sample emails
+    test_emails = [
+        EmailData(
+            subject="Server is down!!!",
+            body="Our production server is not responding. This is critical!",
+            sender="john@company.com",
+            timestamp=datetime.now()
+        ),
+        EmailData(
+            subject="Interested in your product",
+            body="Hi, I'd like to learn more about your enterprise plan pricing.",
+            sender="buyer@bigcorp.com",
+            timestamp=datetime.now()
+        ),
+        EmailData(
+            subject="Invoice question",
+            body="I was charged twice for my subscription last month. Please help.",
+            sender="customer@email.com",
+            timestamp=datetime.now()
+        )
+    ]
+    
+    # Process emails
+    for email in test_emails:
+        result = processor.process_email(email)
+        
+        print(f"\n{'='*50}")
+        print(f"Subject: {result.email_data.subject}")
+        print(f"Classification: {result.classification.category} - {result.classification.department}")
+        print(f"Urgency: {result.classification.urgency}")
+        print(f"Confidence: {result.classification.confidence:.2%}")
+        print(f"\nSuggested Response:")
+        print(result.suggested_response[:200] + "...")
+        print(f"\nProcessing time: {result.processing_time:.2f}s")
+    
+    # Display metrics
+    print(f"\n{'='*50}")
+    print("METRICS:")
+    print(json.dumps(processor.get_metrics(), indent=2))
+
+if __name__ == "__main__":
+    main()
+```
+  </TabsContent>
+</Tabs>
+
+## 📚 Best Practices & Guidelines
+
+<div className="grid gap-4 mt-6">
+  <Card>
+    <CardHeader>
+      <CardTitle>🛡️ Error Handling</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Always wrap API calls in try-except blocks</li>
+        <li>• Implement retry logic with exponential backoff</li>
+        <li>• Log errors for debugging and monitoring</li>
+        <li>• Provide fallback responses on failure</li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>💰 Token Management</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Monitor token usage per request</li>
+        <li>• Implement conversation pruning for long contexts</li>
+        <li>• Use appropriate models for different tasks</li>
+        <li>• Cache responses when possible</li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>🔒 Security Considerations</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Never expose API keys in code</li>
+        <li>• Validate and sanitize all inputs</li>
+        <li>• Implement rate limiting</li>
+        <li>• Use environment variables for configuration</li>
+      </ul>
+    </CardContent>
+  </Card>
+</div>
+
+## 🎯 When to Use Pure Python vs Frameworks
+
+<Tabs defaultValue="pure-python" className="mt-6">
+  <TabsList>
+    <TabsTrigger value="pure-python">Use Pure Python</TabsTrigger>
+    <TabsTrigger value="frameworks">Consider Frameworks</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="pure-python">
+    <Card>
+      <CardContent className="pt-6">
+        <ul className="space-y-3">
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Building production systems requiring reliability and control</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Need custom business logic that doesn't fit standard patterns</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Performance and security are critical requirements</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Team has strong Python skills and wants flexibility</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Need to understand exactly what your system is doing</span>
+          </li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+  
+  <TabsContent value="frameworks">
+    <Card>
+      <CardContent className="pt-6">
+        <ul className="space-y-3">
+          <li className="flex items-start gap-2">
+            <Badge variant="secondary" className="mt-0.5">?</Badge>
+            <span>Rapid prototyping with standard patterns</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="secondary" className="mt-0.5">?</Badge>
+            <span>Complex reasoning chains with many branches</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="secondary" className="mt-0.5">?</Badge>
+            <span>Need pre-built integrations with many services</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="secondary" className="mt-0.5">?</Badge>
+            <span>Team is new to AI development</span>
+          </li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+## 🚀 Next Steps
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>Ready to Build?</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ol className="list-decimal list-inside space-y-3">
+      <li>
+        <strong>Start Simple</strong>: Begin with direct API calls and basic patterns
+      </li>
+      <li>
+        <strong>Add Structure</strong>: Implement Pydantic models for data validation
+      </li>
+      <li>
+        <strong>Enable Tools</strong>: Add function calling for external integrations
+      </li>
+      <li>
+        <strong>Build Workflows</strong>: Combine patterns for complex agents
+      </li>
+      <li>
+        <strong>Monitor & Optimize</strong>: Track metrics and improve performance
+      </li>
+    </ol>
+  </CardContent>
+</Card>
+
+<Callout type="success" className="mt-6">
+  **Remember**: The goal is to build reliable, maintainable AI systems. Understanding these fundamentals will serve you well whether you stick with pure Python or eventually adopt frameworks. Start simple, iterate based on real needs, and always prioritize clarity over complexity.
+</Callout>

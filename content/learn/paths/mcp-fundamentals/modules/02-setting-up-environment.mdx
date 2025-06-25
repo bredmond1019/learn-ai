@@ -1,0 +1,391 @@
+---
+title: "Setting Up Your MCP Development Environment"
+description: "Configure your development environment for building MCP servers with TypeScript and the official SDK"
+duration: "45 minutes"
+difficulty: "beginner"
+objectives:
+  - "Set up a TypeScript development environment for MCP"
+  - "Install and configure the MCP SDK"
+  - "Create your first MCP server project"
+  - "Test your server with the MCP Inspector"
+  - "Understand project structure best practices"
+tags:
+  - "mcp"
+  - "setup"
+  - "typescript"
+  - "sdk"
+  - "development"
+lastUpdated: "2024-01-15"
+author: "Brandon Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+
+# Setting Up Your MCP Development Environment
+
+## Prerequisites and Requirements {#prerequisites}
+
+Before we start building MCP servers, let's ensure you have everything you need. Don't worry - the setup is straightforward!
+
+### System Requirements
+
+You'll need:
+- **Node.js 18.x or higher** (for modern JavaScript features)
+- **npm or yarn** (package manager)
+- **A code editor** (VS Code recommended)
+- **Terminal access** (for running commands)
+
+<Callout type="info">
+  **Why Node.js 18+?** MCP SDK uses modern JavaScript features and the native fetch API, which requires Node.js 18 or higher.
+</Callout>
+
+### Knowledge Prerequisites
+
+This module assumes you:
+- Have basic JavaScript/TypeScript knowledge
+- Are comfortable using the command line
+- Understand basic npm commands
+
+If you're new to TypeScript, don't worry! We'll explain TypeScript-specific concepts as we go.
+
+## Installing Development Tools {#installing-tools}
+
+Let's set up your development environment step by step.
+
+### Step 1: Verify Node.js Installation
+
+First, check if you have Node.js installed:
+
+<CodeExample
+  title="Checking Node.js Version"
+  language="bash"
+  code={`# Check Node.js version (should be 18.x or higher)
+node --version
+
+# Check npm version
+npm --version
+
+# If you need to install Node.js, visit:
+# https://nodejs.org/`}
+/>
+
+If you need to install or update Node.js:
+- **Windows/Mac**: Download from [nodejs.org](https://nodejs.org/)
+- **Linux**: Use your package manager or [NodeSource](https://github.com/nodesource/distributions)
+- **Alternative**: Use [nvm](https://github.com/nvm-sh/nvm) for version management
+
+### Step 2: Install Global Tools
+
+While not required, these tools will improve your development experience:
+
+<CodeExample
+  title="Optional Global Tools"
+  language="bash"
+  code={`# TypeScript compiler (optional - we'll use tsx for development)
+npm install -g typescript
+
+# MCP Inspector for testing
+npm install -g @modelcontextprotocol/inspector`}
+/>
+
+<Callout type="success">
+  **Pro Tip**: Using `tsx` instead of `tsc` during development allows you to run TypeScript files directly without compilation!
+</Callout>
+
+## Creating Your First MCP Project {#project-setup}
+
+Now let's create your first MCP server project from scratch.
+
+### Step 1: Initialize the Project
+
+<CodeExample
+  title="Initialize Project"
+  language="bash"
+  code={`# Create project directory
+mkdir my-first-mcp-server
+cd my-first-mcp-server
+
+# Initialize npm project
+npm init -y
+
+# Install TypeScript and MCP SDK
+npm install --save-dev typescript @types/node tsx
+npm install @modelcontextprotocol/sdk`}
+/>
+
+### Step 2: Configure TypeScript
+
+Create a `tsconfig.json` file to configure TypeScript for MCP development:
+
+<CodeExample
+  title="TypeScript Configuration"
+  language="json"
+  fileName="tsconfig.json"
+  code={`{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "lib": ["ES2022"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}`}
+  highlightLines={[3, 4, 5, 9]}
+/>
+
+<Callout type="warning">
+  **Important**: The `module` and `moduleResolution` settings must be "Node16" to work properly with the MCP SDK's ES modules.
+</Callout>
+
+### Step 3: Update package.json
+
+Add important configuration to your `package.json`:
+
+<CodeExample
+  title="Package Configuration"
+  language="json"
+  fileName="package.json"
+  code={`{
+  "name": "my-first-mcp-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  // ... dependencies
+}`}
+  highlightLines={[4, 6, 7, 8, 9]}
+/>
+
+<Callout type="info">
+  **Key Points**:
+  - `"type": "module"` enables ES modules
+  - `tsx watch` provides hot reloading during development
+  - `npm run dev` for development, `npm run build` for production
+</Callout>
+
+### Step 4: Create Project Structure
+
+Set up a clean project structure:
+
+```bash
+mkdir src
+touch src/index.ts
+```
+
+Your project should now look like this:
+```
+my-first-mcp-server/
+├── node_modules/
+├── src/
+│   └── index.ts
+├── package.json
+├── package-lock.json
+└── tsconfig.json
+```
+
+## Building Your First MCP Server {#first-server}
+
+Time to write some code! Let's create a basic MCP server.
+
+<Exercise
+  id="first-server"
+  title="Create a Basic MCP Server"
+/>
+
+## Testing Your MCP Server {#testing}
+
+Once you've built your server, let's test it!
+
+### Using npm Scripts
+
+Add these helpful scripts to your `package.json`:
+
+<CodeExample
+  title="Package.json Scripts"
+  language="json"
+  fileName="package.json"
+  code={`{
+  "name": "my-first-mcp-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "npx @modelcontextprotocol/inspector"
+  },
+  // ... other fields
+}`}
+  highlightLines={[5, 6, 7, 8, 9]}
+/>
+
+### Testing with MCP Inspector
+
+The MCP Inspector is a powerful tool for testing your server:
+
+1. **Start your server** in one terminal:
+   ```bash
+   npm run dev
+   ```
+
+2. **Run the inspector** in another terminal:
+   ```bash
+   npm run test
+   ```
+
+3. **Connect to your server** in the inspector:
+   - Select "stdio" transport
+   - Enter the command: `npm run dev`
+   - Click "Connect"
+
+<Callout type="success">
+  **Success!** If everything is set up correctly, you should see your server's resources in the inspector.
+</Callout>
+
+### Common Issues and Solutions
+
+**Issue**: "Cannot find module" errors
+**Solution**: Ensure all imports end with `.js` extension (even for TypeScript files)
+
+**Issue**: "Module not found" for MCP SDK
+**Solution**: Check that you're using Node.js 18+ and have `"type": "module"` in package.json
+
+**Issue**: Server doesn't respond in inspector
+**Solution**: Make sure you're using stdio transport and the server is running
+
+## Project Structure Best Practices {#project-structure}
+
+As your MCP server grows, a good structure becomes essential. Here's a recommended approach:
+
+<CodeExample
+  title="Recommended Project Structure"
+  language="text"
+  code={`my-mcp-server/
+├── src/
+│   ├── index.ts          # Main server entry point
+│   ├── handlers/         # Request handlers
+│   │   ├── resources.ts  # Resource handlers
+│   │   └── tools.ts      # Tool handlers
+│   ├── providers/        # Business logic
+│   │   ├── database.ts   # Database connections
+│   │   └── files.ts      # File system operations
+│   └── types/            # TypeScript type definitions
+├── dist/                 # Compiled output
+├── tests/                # Test files
+├── .gitignore
+├── package.json
+├── tsconfig.json
+└── README.md`}
+/>
+
+### Organization Tips
+
+1. **Separate Concerns**: Keep handlers, providers, and types in separate directories
+2. **Single Responsibility**: Each file should have one clear purpose
+3. **Consistent Naming**: Use descriptive names that indicate functionality
+4. **Type Safety**: Define interfaces for all data structures
+
+<CodeExample
+  title="Example Handler Organization"
+  language="typescript"
+  fileName="src/handlers/resources.ts"
+  code={`import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { fileProvider } from '../providers/files.js';
+import { databaseProvider } from '../providers/database.js';
+
+export function registerResourceHandlers(server: Server) {
+  // Register all resource-related handlers
+  server.setRequestHandler('resources/list', async () => {
+    return {
+      resources: [
+        ...await fileProvider.listResources(),
+        ...await databaseProvider.listResources()
+      ]
+    };
+  });
+
+  server.setRequestHandler('resources/read', async (request) => {
+    // Delegate to appropriate provider based on URI scheme
+    const uri = request.params.uri;
+    
+    if (uri.startsWith('file://')) {
+      return fileProvider.readResource(uri);
+    } else if (uri.startsWith('db://')) {
+      return databaseProvider.readResource(uri);
+    }
+    
+    throw new Error('Unknown resource type');
+  });
+}`}
+/>
+
+## Summary {#summary}
+
+Congratulations! You've successfully:
+
+✅ **Set up** a TypeScript development environment
+✅ **Configured** your project for MCP development  
+✅ **Created** your first MCP server
+✅ **Tested** it with the MCP Inspector
+✅ **Learned** project organization best practices
+
+## Next Steps {#next-steps}
+
+Your development environment is ready! In the next module, you'll learn how to:
+- Implement powerful resource providers
+- Handle different types of data
+- Create dynamic resource listings
+- Build real-world integrations
+
+<Callout type="info">
+  **Coming Up**: [Implementing Resources](/learn/paths/mcp-fundamentals/modules/03-implementing-resources) - Learn to expose data through MCP resources!
+</Callout>
+
+## Quick Reference {#quick-reference}
+
+### Essential Commands
+```bash
+# Development
+npm run dev          # Start with hot reload
+npm run build        # Build for production
+npm run test         # Open MCP Inspector
+
+# Project Setup
+npm init -y          # Initialize project
+npm install @modelcontextprotocol/sdk
+npm install -D typescript tsx @types/node
+```
+
+### Key Imports
+```typescript
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+```
+
+### Minimum Server
+```typescript
+const server = new Server({
+  name: 'my-server',
+  version: '1.0.0',
+});
+
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```

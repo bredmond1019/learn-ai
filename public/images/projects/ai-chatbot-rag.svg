@@ -1,0 +1,173 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c1821;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a202c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="chat" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#065f46;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#047857;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <fegaussianblur stdDeviation="2" result="coloredBlur"/>
+      <femerge> 
+        <femergenode in="coloredBlur"/>
+        <femergenode in="SourceGraphic"/>
+      </femerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  
+  <!-- Title -->
+  <text x="60" y="80" fill="#f7fafc" font-family="Arial" font-size="32" font-weight="bold">AI Chatbot with RAG Architecture</text>
+  <text x="60" y="110" fill="#a0aec0" font-family="Arial" font-size="16">Retrieval-augmented generation • Vector search • Real-time responses • Multi-format support</text>
+  
+  <!-- Chat Interface -->
+  <rect x="60" y="140" width="350" height="320" rx="12" fill="url(#chat)" />
+  <text x="200" y="170" fill="white" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Chat Interface</text>
+  
+  <!-- Chat messages -->
+  <g font-family="Arial" font-size="11">
+    <!-- User message -->
+    <rect x="240" y="190" width="150" height="35" rx="18" fill="#2d3748" />
+    <text x="250" y="205" fill="#f7fafc">What's our Q3 revenue</text>
+    <text x="250" y="218" fill="#f7fafc">breakdown by region?</text>
+    
+    <!-- Bot response -->
+    <rect x="80" y="240" width="300" height="80" rx="12" fill="#1a365d" />
+    <text x="90" y="255" fill="#bee3f8">Based on the latest financial reports, here's</text>
+    <text x="90" y="270" fill="#bee3f8">the Q3 revenue breakdown:</text>
+    <text x="90" y="290" fill="#90cdf4">• North America: $2.4M (48%)</text>
+    <text x="90" y="305" fill="#90cdf4">• Europe: $1.8M (36%)</text>
+    <text x="90" y="320" fill="#90cdf4">• Asia-Pacific: $800K (16%)</text>
+    
+    <!-- Sources -->
+    <rect x="80" y="330" width="300" height="35" rx="8" fill="#2a4365" />
+    <text x="90" y="345" fill="#63b3ed" font-size="9">Sources: Q3-financial-report.pdf (p.12),</text>
+    <text x="90" y="357" fill="#63b3ed" font-size="9">regional-sales-data.xlsx, board-presentation.pptx</text>
+    
+    <!-- User typing -->
+    <rect x="240" y="380" width="120" height="25" rx="12" fill="#2d3748" />
+    <text x="250" y="397" fill="#a0aec0">Show me the chart...</text>
+    
+    <!-- Typing indicator -->
+    <circle cx="90" cy="420" r="3" fill="#4fd1c7" opacity="0.8" />
+    <circle cx="105" cy="420" r="3" fill="#4fd1c7" opacity="0.6" />
+    <circle cx="120" cy="420" r="3" fill="#4fd1c7" opacity="0.4" />
+    <text x="135" y="425" fill="#4fd1c7" font-size="10">AI is thinking...</text>
+  </g>
+  
+  <!-- RAG Pipeline -->
+  <text x="460" y="170" fill="#10b981" font-family="Arial" font-size="18" font-weight="bold">RAG Pipeline Architecture</text>
+  
+  <!-- Query Processing -->
+  <rect x="460" y="190" width="140" height="60" rx="8" fill="#2d3748" stroke="#4a5568" stroke-width="1" />
+  <text x="510" y="210" fill="#f7fafc" font-family="Arial" font-size="12" font-weight="bold">Query Processing</text>
+  <text x="470" y="225" fill="#a0aec0" font-family="Arial" font-size="9">• Intent recognition</text>
+  <text x="470" y="238" fill="#a0aec0" font-family="Arial" font-size="9">• Entity extraction</text>
+  
+  <!-- Vector Search -->
+  <rect x="460" y="270" width="140" height="60" rx="8" fill="#553c9a" />
+  <text x="515" y="290" fill="white" font-family="Arial" font-size="12" font-weight="bold">Vector Search</text>
+  <text x="470" y="305" fill="#d6bcfa" font-family="Arial" font-size="9">• Embedding similarity</text>
+  <text x="470" y="318" fill="#d6bcfa" font-family="Arial" font-size="9">• Top-K retrieval</text>
+  
+  <!-- Context Assembly -->
+  <rect x="460" y="350" width="140" height="60" rx="8" fill="#c53030" />
+  <text x="505" y="370" fill="white" font-family="Arial" font-size="12" font-weight="bold">Context Assembly</text>
+  <text x="470" y="385" fill="#fed7d7" font-family="Arial" font-size="9">• Relevance ranking</text>
+  <text x="470" y="398" fill="#fed7d7" font-family="Arial" font-size="9">• Context optimization</text>
+  
+  <!-- Knowledge Base -->
+  <rect x="640" y="190" width="180" height="220" rx="12" fill="#1a365d" stroke="#2c5282" stroke-width="2" />
+  <text x="710" y="220" fill="#bee3f8" font-family="Arial" font-size="14" font-weight="bold">Knowledge Base</text>
+  
+  <!-- Document types -->
+  <g font-family="Arial" font-size="10">
+    <rect x="660" y="240" width="140" height="25" rx="4" fill="#2a4365" />
+    <text x="670" y="257" fill="#90cdf4">📄 PDFs (100+ documents)</text>
+    
+    <rect x="660" y="270" width="140" height="25" rx="4" fill="#2a4365" />
+    <text x="670" y="287" fill="#90cdf4">📊 Spreadsheets (50+ files)</text>
+    
+    <rect x="660" y="300" width="140" height="25" rx="4" fill="#2a4365" />
+    <text x="670" y="317" fill="#90cdf4">📋 Presentations (30+ decks)</text>
+    
+    <rect x="660" y="330" width="140" height="25" rx="4" fill="#2a4365" />
+    <text x="670" y="347" fill="#90cdf4">🌐 Web Pages (200+ articles)</text>
+    
+    <rect x="660" y="360" width="140" height="25" rx="4" fill="#2a4365" />
+    <text x="670" y="377" fill="#90cdf4">📧 Emails (1000+ messages)</text>
+  </g>
+  
+  <!-- Vector Database -->
+  <rect x="860" y="190" width="160" height="100" rx="8" fill="#4c1d95" stroke="#6d28d9" stroke-width="1" />
+  <text x="920" y="215" fill="#c4b5fd" font-family="Arial" font-size="14" font-weight="bold">Vector DB</text>
+  <text x="875" y="235" fill="#ddd6fe" font-family="Arial" font-size="10">Pinecone / Weaviate</text>
+  
+  <text x="875" y="255" fill="#c4b5fd" font-family="Arial" font-size="9">• 1M+ embeddings</text>
+  <text x="875" y="268" fill="#c4b5fd" font-family="Arial" font-size="9">• Sub-second search</text>
+  <text x="875" y="281" fill="#c4b5fd" font-family="Arial" font-size="9">• Semantic similarity</text>
+  
+  <!-- LLM Generation -->
+  <rect x="860" y="310" width="160" height="100" rx="8" fill="#7c2d12" stroke="#ea580c" stroke-width="1" />
+  <text x="915" y="335" fill="#fed7aa" font-family="Arial" font-size="14" font-weight="bold">LLM Engine</text>
+  <text x="875" y="355" fill="#fdba74" font-family="Arial" font-size="10">GPT-4 / Claude</text>
+  
+  <text x="875" y="375" fill="#fed7aa" font-family="Arial" font-size="9">• Context-aware responses</text>
+  <text x="875" y="388" fill="#fed7aa" font-family="Arial" font-size="9">• Source attribution</text>
+  <text x="875" y="401" fill="#fed7aa" font-family="Arial" font-size="9">• Real-time generation</text>
+  
+  <!-- Processing Flow Arrows -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" 
+            refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981" />
+    </marker>
+  </defs>
+  
+  <line x1="410" y1="220" x2="460" y2="220" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="530" y1="250" x2="530" y2="270" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="530" y1="330" x2="530" y2="350" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+  
+  <line x1="600" y1="300" x2="640" y2="300" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="820" y1="240" x2="860" y2="240" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="940" y1="290" x2="940" y2="310" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+  
+  <line x1="600" y1="380" x2="860" y2="380" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+  
+  <!-- Technical Stack -->
+  <rect x="60" y="480" width="1080" height="120" rx="8" fill="#0c1821" stroke="#1a202c" stroke-width="1" />
+  <text x="80" y="510" fill="#f7fafc" font-family="Arial" font-size="16" font-weight="bold">Technical Implementation &amp; Performance</text>
+  
+  <g font-family="Arial" font-size="12" fill="#a0aec0">
+    <text x="80" y="535">• Frontend: React + TypeScript with real-time streaming</text>
+    <text x="480" y="535">• Backend: FastAPI + Python with async processing</text>
+    <text x="880" y="535">• Vector DB: Pinecone with 1536-dim embeddings</text>
+    
+    <text x="80" y="555">• Embeddings: OpenAI text-embedding-ada-002</text>
+    <text x="480" y="555">• LLM: GPT-4 with 8K context window</text>
+    <text x="880" y="555">• Response time: &lt;2 seconds average</text>
+    
+    <text x="80" y="575">• Document processing: Unstructured.io pipeline</text>
+    <text x="480" y="575">• Chunking: Recursive text splitter (500 tokens)</text>
+    <text x="880" y="575">• Accuracy: 92% based on evaluation set</text>
+  </g>
+  
+  <!-- Performance Metrics -->
+  <g transform="translate(1060, 140)">
+    <rect x="0" y="0" width="120" height="120" rx="8" fill="#065f46" stroke="#10b981" stroke-width="1" />
+    <text x="35" y="25" fill="#d1fae5" font-family="Arial" font-size="12" font-weight="bold">Performance</text>
+    
+    <text x="10" y="45" fill="#a7f3d0" font-family="Arial" font-size="10">Response time:</text>
+    <text x="15" y="58" fill="#f0fdf4" font-family="Arial" font-size="11" font-weight="bold">&lt;2 seconds</text>
+    
+    <text x="10" y="78" fill="#a7f3d0" font-family="Arial" font-size="10">Accuracy:</text>
+    <text x="35" y="91" fill="#f0fdf4" font-family="Arial" font-size="11" font-weight="bold">92%</text>
+    
+    <text x="10" y="111" fill="#a7f3d0" font-family="Arial" font-size="10">Concurrent users:</text>
+    <text x="30" y="124" fill="#f0fdf4" font-family="Arial" font-size="11" font-weight="bold">100+</text>
+  </g>
+</svg>

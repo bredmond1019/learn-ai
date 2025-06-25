@@ -1,0 +1,164 @@
+{
+  "template": {
+    "type": "exercise",
+    "title": "Exercise Title",
+    "description": "Brief description of what this exercise teaches",
+    "instructions": [
+      "Step 1: Clear instruction for the first step",
+      "Step 2: Next instruction",
+      "Step 3: Final instruction"
+    ],
+    "starterCode": {
+      "language": "typescript",
+      "code": "// Starter code for the exercise\n// TODO: Implement the solution\n\nfunction yourFunction() {\n  // Your code here\n}",
+      "fileName": "exercise.ts",
+      "readOnlyRanges": [[1, 3]]
+    },
+    "solution": {
+      "language": "typescript",
+      "code": "// Complete solution\nfunction yourFunction() {\n  return 'Solution implementation';\n}",
+      "explanation": "## Solution Explanation\n\nThis solution works by:\n1. First, we do X\n2. Then, we do Y\n3. Finally, we return Z\n\n### Key Concepts\n- Concept 1 explanation\n- Concept 2 explanation",
+      "alternativeSolutions": [
+        {
+          "title": "Alternative Approach",
+          "code": "// Alternative solution\nconst yourFunction = () => {\n  return 'Alternative implementation';\n};",
+          "explanation": "This approach uses arrow functions instead",
+          "tradeoffs": "More concise but may be less readable for beginners"
+        }
+      ]
+    },
+    "hints": [
+      {
+        "id": "hint-1",
+        "level": 1,
+        "content": "Think about what the function should return",
+        "revealDelay": 60
+      },
+      {
+        "id": "hint-2",
+        "level": 2,
+        "content": "You need to return a string value",
+        "codeSnippet": "return '...'",
+        "revealDelay": 120
+      },
+      {
+        "id": "hint-3",
+        "level": 3,
+        "content": "The complete solution is:",
+        "codeSnippet": "return 'Solution implementation';",
+        "revealDelay": 180
+      }
+    ],
+    "validation": [
+      {
+        "id": "syntax-check",
+        "type": "syntax",
+        "description": "Code must be syntactically valid",
+        "validator": {
+          "type": "typescript-syntax",
+          "params": {}
+        },
+        "errorMessage": "Your code has syntax errors. Check for missing semicolons or brackets.",
+        "successMessage": "Syntax is correct!"
+      },
+      {
+        "id": "output-check",
+        "type": "output",
+        "description": "Function must return the correct value",
+        "validator": {
+          "type": "return-value",
+          "params": {
+            "expectedValue": "Solution implementation",
+            "functionName": "yourFunction"
+          }
+        },
+        "errorMessage": "The function doesn't return the expected value",
+        "successMessage": "Great! Your function returns the correct value."
+      }
+    ],
+    "testCases": [
+      {
+        "id": "test-1",
+        "description": "Function returns a string",
+        "expectedOutput": "string",
+        "hidden": false,
+        "weight": 1
+      },
+      {
+        "id": "test-2",
+        "description": "Function returns the correct string",
+        "expectedOutput": "Solution implementation",
+        "hidden": false,
+        "weight": 2
+      }
+    ],
+    "difficulty": "easy",
+    "concepts": ["functions", "return-values", "typescript-basics"]
+  },
+  "examples": {
+    "hello-world": {
+      "type": "exercise",
+      "title": "Hello World Exercise",
+      "description": "Create your first MCP server that responds with 'Hello, World!'",
+      "instructions": [
+        "Create a new MCP server instance",
+        "Add a resource handler that returns 'Hello, World!'",
+        "Connect the server to stdio transport"
+      ],
+      "difficulty": "easy",
+      "concepts": ["mcp-basics", "server-setup", "resources"]
+    },
+    "file-reader": {
+      "type": "exercise",
+      "title": "File Reader Tool",
+      "description": "Implement an MCP tool that can read files from the filesystem",
+      "instructions": [
+        "Create a tool handler for 'read-file'",
+        "Implement file reading with proper error handling",
+        "Return the file contents or an error message"
+      ],
+      "difficulty": "medium",
+      "concepts": ["tools", "file-system", "error-handling"]
+    },
+    "agent-planner": {
+      "type": "exercise",
+      "title": "Task Planning Agent",
+      "description": "Build an agent that can break down goals into executable tasks",
+      "instructions": [
+        "Implement a planning function that analyzes goals",
+        "Create a task decomposition algorithm",
+        "Add validation for task dependencies"
+      ],
+      "difficulty": "hard",
+      "concepts": ["agents", "planning", "task-decomposition"]
+    }
+  },
+  "validation_types": {
+    "syntax": {
+      "description": "Validates code syntax",
+      "params": {
+        "language": "Language to validate (typescript, javascript, python)"
+      }
+    },
+    "output": {
+      "description": "Validates function output",
+      "params": {
+        "expectedValue": "Expected return value",
+        "functionName": "Name of function to test"
+      }
+    },
+    "structure": {
+      "description": "Validates code structure",
+      "params": {
+        "requiredElements": "Array of required code elements",
+        "forbiddenElements": "Array of forbidden code elements"
+      }
+    },
+    "custom": {
+      "description": "Custom validation logic",
+      "params": {
+        "validatorFunction": "Custom validation function"
+      }
+    }
+  }
+}

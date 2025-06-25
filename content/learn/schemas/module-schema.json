@@ -1,0 +1,628 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-engineer.co/schemas/learning-module-v1.json",
+  "title": "Learning Module Schema",
+  "description": "Standardized schema for AI Engineering learning modules based on MCP format",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["metadata", "sections"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Core module metadata following MCP format structure",
+      "required": [
+        "id",
+        "pathId", 
+        "title",
+        "description",
+        "duration",
+        "difficulty",
+        "order",
+        "objectives",
+        "author",
+        "version",
+        "lastUpdated"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the module (kebab-case)",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "examples": ["introduction-to-mcp", "agent-architecture-patterns"]
+        },
+        "pathId": {
+          "type": "string", 
+          "description": "ID of the learning path this module belongs to",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "examples": ["mcp-fundamentals", "agentic-workflows", "production-ai"]
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable title of the module",
+          "minLength": 1,
+          "maxLength": 100,
+          "examples": ["What is MCP?", "Agent Architecture Patterns"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the module covers",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "duration": {
+          "type": "string",
+          "description": "Estimated completion time (human-readable format)",
+          "pattern": "^\\d+\\s+(minutes?|hours?)$",
+          "examples": ["30 minutes", "90 minutes", "2 hours"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Module content type",
+          "enum": ["theory", "concept", "practice", "project", "assessment"],
+          "default": "concept"
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "Difficulty level of the module",
+          "enum": ["beginner", "intermediate", "advanced"]
+        },
+        "order": {
+          "type": "integer",
+          "description": "Order within the learning path (1-based)",
+          "minimum": 1
+        },
+        "prerequisites": {
+          "type": "array",
+          "description": "List of prerequisite knowledge or modules",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "objectives": {
+          "type": "array",
+          "description": "Learning objectives for this module",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags for categorization and search",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "default": []
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of the module",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "examples": ["1.0.0", "2.1.0"]
+        },
+        "lastUpdated": {
+          "type": "string",
+          "description": "ISO 8601 date when module was last updated",
+          "format": "date",
+          "examples": ["2024-01-15", "2025-06-20"]
+        },
+        "author": {
+          "type": "string",
+          "description": "Author or creator of the module",
+          "minLength": 1
+        },
+        "estimatedCompletionTime": {
+          "type": "integer",
+          "description": "Estimated completion time in minutes",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "sections": {
+      "type": "array",
+      "description": "Ordered list of content sections within the module",
+      "items": {
+        "$ref": "#/definitions/Section"
+      },
+      "minItems": 1
+    },
+    "resources": {
+      "type": "array",
+      "description": "Additional learning resources and references",
+      "items": {
+        "$ref": "#/definitions/Resource"
+      },
+      "default": []
+    },
+    "exercises": {
+      "type": "array",
+      "description": "Practical exercises for the module",
+      "items": {
+        "$ref": "#/definitions/Exercise"
+      },
+      "default": []
+    },
+    "assessmentCriteria": {
+      "type": "object",
+      "description": "Assessment and completion criteria",
+      "properties": {
+        "minimumScore": {
+          "type": "integer",
+          "description": "Minimum score required to pass (percentage)",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 70
+        },
+        "requiredSections": {
+          "type": "array",
+          "description": "Section IDs that must be completed",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "timeTracking": {
+          "type": "boolean",
+          "description": "Whether to track time spent on module",
+          "default": true
+        },
+        "completionCertificate": {
+          "type": "boolean",
+          "description": "Whether completion grants a certificate",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Section": {
+      "type": "object",
+      "description": "A content section within a module",
+      "required": ["id", "title", "type", "order", "content"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the section",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Section title",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of section content",
+          "enum": ["content", "quiz", "exercise", "project", "assessment"]
+        },
+        "order": {
+          "type": "integer",
+          "description": "Order within the module (1-based)",
+          "minimum": 1
+        },
+        "estimatedDuration": {
+          "type": "string",
+          "description": "Estimated time to complete this section",
+          "pattern": "^\\d+\\s+(minutes?|hours?)$"
+        },
+        "content": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ContentSection"
+            },
+            {
+              "$ref": "#/definitions/QuizSection"
+            },
+            {
+              "$ref": "#/definitions/ExerciseSection"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "ContentSection": {
+      "type": "object",
+      "description": "Standard content section with MDX and code examples",
+      "required": ["type", "source"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["mdx"],
+          "description": "Content type (MDX format)"
+        },
+        "source": {
+          "type": "string",
+          "description": "MDX file reference with optional anchor",
+          "pattern": "^[a-zA-Z0-9._-]+\\.mdx(#[a-zA-Z0-9_-]+)?$"
+        },
+        "codeExamples": {
+          "type": "array",
+          "description": "Code examples for this section",
+          "items": {
+            "$ref": "#/definitions/CodeExample"
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": false
+    },
+    "QuizSection": {
+      "type": "object",
+      "description": "Quiz section content",
+      "required": ["type", "title", "questions"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["quiz"],
+          "description": "Section type for quizzes"
+        },
+        "title": {
+          "type": "string",
+          "description": "Quiz title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Quiz description or instructions"
+        },
+        "questions": {
+          "type": "array",
+          "description": "Quiz questions",
+          "items": {
+            "$ref": "#/definitions/QuizQuestion"
+          },
+          "minItems": 1
+        },
+        "passingScore": {
+          "type": "integer",
+          "description": "Minimum score to pass (percentage)",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 70
+        },
+        "allowRetries": {
+          "type": "boolean",
+          "description": "Whether retries are allowed",
+          "default": true
+        },
+        "showCorrectAnswers": {
+          "type": "boolean",
+          "description": "Show correct answers after completion",
+          "default": true
+        },
+        "randomizeQuestions": {
+          "type": "boolean",
+          "description": "Randomize question order",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExerciseSection": {
+      "type": "object",
+      "description": "Exercise section content",
+      "required": ["type", "title", "instructions"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["exercise"],
+          "description": "Section type for exercises"
+        },
+        "title": {
+          "type": "string",
+          "description": "Exercise title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Exercise description"
+        },
+        "exerciseType": {
+          "type": "string",
+          "description": "Type of exercise",
+          "enum": ["coding", "conceptual", "design", "project"]
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "Exercise difficulty",
+          "enum": ["easy", "medium", "hard"]
+        },
+        "instructions": {
+          "type": "array",
+          "description": "Step-by-step instructions",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "startingCode": {
+          "type": "string",
+          "description": "Initial code for coding exercises"
+        },
+        "solution": {
+          "type": "string",
+          "description": "Example solution (hidden from learner)"
+        },
+        "hints": {
+          "type": "array",
+          "description": "Hints to help with the exercise",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "validation": {
+          "type": "array",
+          "description": "Validation rules for automatic checking",
+          "items": {
+            "$ref": "#/definitions/ValidationRule"
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": false
+    },
+    "CodeExample": {
+      "type": "object",
+      "description": "Code example with syntax highlighting and explanations",
+      "required": ["id", "title", "language", "code"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the code example",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the code example"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of what the code does"
+        },
+        "language": {
+          "type": "string",
+          "description": "Programming language for syntax highlighting",
+          "examples": ["typescript", "javascript", "python", "json", "bash"]
+        },
+        "code": {
+          "type": "string",
+          "description": "The actual code content"
+        },
+        "highlightLines": {
+          "type": "array",
+          "description": "Line numbers to highlight (1-based)",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "default": []
+        },
+        "runnable": {
+          "type": "boolean",
+          "description": "Whether the code can be executed in a playground",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "QuizQuestion": {
+      "type": "object",
+      "description": "Individual quiz question",
+      "required": ["id", "type", "question", "points"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the question",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of question",
+          "enum": ["multiple-choice", "true-false", "code-output", "fill-in-blank"]
+        },
+        "question": {
+          "type": "string",
+          "description": "The question text"
+        },
+        "points": {
+          "type": "integer",
+          "description": "Points awarded for correct answer",
+          "minimum": 1
+        },
+        "options": {
+          "type": "array",
+          "description": "Answer options (for multiple choice)",
+          "items": {
+            "$ref": "#/definitions/QuizOption"
+          }
+        },
+        "correctAnswer": {
+          "description": "Correct answer(s) - format depends on question type",
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "correctAnswers": {
+          "type": "array",
+          "description": "Multiple correct answers (for multiple choice with multiple correct)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Explanation of the correct answer"
+        },
+        "randomizeOptions": {
+          "type": "boolean",
+          "description": "Whether to randomize option order",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "QuizOption": {
+      "type": "object",
+      "description": "Multiple choice answer option",
+      "required": ["id", "text"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Option identifier (usually a, b, c, etc.)",
+          "pattern": "^[a-z]$"
+        },
+        "text": {
+          "type": "string",
+          "description": "Option text"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Explanation shown after selection"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Resource": {
+      "type": "object",
+      "description": "External resource or reference",
+      "required": ["id", "title", "type"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the resource",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Resource title"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of resource",
+          "enum": ["reference", "documentation", "paper", "tool", "video", "guide", "tutorial"]
+        },
+        "url": {
+          "type": "string",
+          "description": "URL to the resource",
+          "format": "uri"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the resource"
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether this resource is required reading",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "Exercise": {
+      "type": "object",
+      "description": "Standalone exercise for the module",
+      "required": ["id", "title", "type", "difficulty", "instructions"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the exercise",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Exercise title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Exercise description"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of exercise",
+          "enum": ["coding", "conceptual", "design", "project"]
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "Exercise difficulty",
+          "enum": ["easy", "medium", "hard"]
+        },
+        "timeEstimate": {
+          "type": "string",
+          "description": "Estimated time to complete",
+          "pattern": "^\\d+\\s+(minutes?|hours?)$"
+        },
+        "instructions": {
+          "type": "array",
+          "description": "Step-by-step instructions",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "startingCode": {
+          "type": "string",
+          "description": "Initial code for coding exercises"
+        },
+        "solution": {
+          "type": "string",
+          "description": "Example solution (hidden from learner)"
+        },
+        "hints": {
+          "type": "array",
+          "description": "Hints to help with the exercise",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "validation": {
+          "type": "array",
+          "description": "Validation rules for automatic checking",
+          "items": {
+            "$ref": "#/definitions/ValidationRule"
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": false
+    },
+    "ValidationRule": {
+      "type": "object",
+      "description": "Rule for validating exercise solutions",
+      "required": ["type", "value", "message"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of validation",
+          "enum": ["exact", "contains", "regex", "function"]
+        },
+        "value": {
+          "type": "string",
+          "description": "Expected value or pattern"
+        },
+        "message": {
+          "type": "string",
+          "description": "Message to show when validation fails"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

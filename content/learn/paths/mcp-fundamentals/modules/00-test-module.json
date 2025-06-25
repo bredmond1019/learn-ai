@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "id": "test-module",
+    "pathId": "mcp-fundamentals",
+    "title": "Test Module for System Validation",
+    "description": "A simple test module to validate the learning system implementation",
+    "duration": "10 minutes",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 0,
+    "prerequisites": [],
+    "objectives": [
+      "Understand the module structure",
+      "Test the system implementation",
+      "Validate TypeScript interfaces"
+    ],
+    "tags": ["test", "validation", "system"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "System",
+    "estimatedCompletionTime": 10
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "3 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "00-test-module.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "example",
+      "title": "Example Section",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "00-test-module.mdx#example",
+        "codeExamples": [
+          {
+            "id": "hello-world",
+            "title": "Hello World Example",
+            "description": "A simple JavaScript example",
+            "language": "javascript",
+            "code": "console.log('Hello, World!');",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Test Quiz",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "2 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Test Quiz",
+        "description": "A simple quiz to test the system",
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "What is the purpose of this test module?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "To validate the system",
+                "explanation": "Correct! This module is designed to test and validate the learning system implementation."
+              },
+              {
+                "id": "b",
+                "text": "To learn JavaScript",
+                "explanation": "Incorrect. While there's a JavaScript example, the main purpose is system validation."
+              },
+              {
+                "id": "c",
+                "text": "To create content",
+                "explanation": "Incorrect. This is a test module, not a content creation tool."
+              },
+              {
+                "id": "d",
+                "text": "To test routing",
+                "explanation": "Incorrect. This tests the overall system, not just routing."
+              }
+            ],
+            "correctAnswers": ["a"],
+            "randomizeOptions": true
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "module-structure-guide",
+      "title": "Module Structure Guide",
+      "type": "reference",
+      "url": "https://example.com/module-structure",
+      "description": "Guide to understanding the learning module structure",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "example"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

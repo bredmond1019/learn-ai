@@ -1,0 +1,941 @@
+---
+title: "Creating Tool Providers"
+description: "Build powerful tool providers that enable AI to take actions, execute commands, and interact with your systems safely"
+duration: "75 minutes"
+difficulty: "intermediate"
+objectives:
+  - "Understand the difference between resources and tools"
+  - "Design and implement secure tool providers"
+  - "Handle tool parameters with proper validation"
+  - "Build tools for file operations, API calls, and system interactions"
+  - "Implement error handling and safety measures"
+tags:
+  - "mcp"
+  - "tools"
+  - "actions"
+  - "validation"
+  - "security"
+lastUpdated: "2024-01-15"
+author: "Brandon Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+
+# Creating Tool Providers
+
+## Understanding MCP Tools {#tool-fundamentals}
+
+While resources provide AI with data to read, tools give AI the power to take action. Tools are the bridge between AI intelligence and real-world systems, enabling everything from file manipulation to API calls and system administration.
+
+### The Power and Responsibility of Tools
+
+Tools represent a fundamental shift from passive data access to active system interaction. With great power comes great responsibility - tools must be designed with security, validation, and error handling as first-class concerns.
+
+<Callout type="warning">
+  **Security First**: Tools can modify your system, call external APIs, and perform irreversible actions. Always implement proper validation, access controls, and safety checks.
+</Callout>
+
+### Resources vs Tools: A Clear Distinction
+
+| Aspect | Resources | Tools |
+|--------|-----------|-------|
+| **Purpose** | Read data | Perform actions |
+| **Mutability** | Read-only | Can modify state |
+| **Parameters** | URI-based | Structured arguments |
+| **Security** | Lower risk | Higher risk |
+| **Examples** | Files, databases, APIs | Write files, send emails, execute commands |
+
+<CodeExample
+  title="Tool Structure"
+  language="typescript"
+  code={`interface Tool {
+  name: string;                    // Unique tool identifier
+  description: string;             // What the tool does
+  inputSchema: {
+    type: 'object';
+    properties: Record<string, any>; // Parameter definitions
+    required?: string[];            // Required parameters
+  };
+}
+
+interface ToolResult {
+  content: Array<{
+    type: 'text' | 'image' | 'resource';
+    text?: string;                 // Text output
+    data?: string;                 // Base64 encoded data
+    resource?: { uri: string };    // Resource reference
+  }>;
+  isError?: boolean;              // Indicates if tool failed
+}`}
+  highlightLines={[1, 2, 3, 11, 16, 17]}
+/>
+
+### Tool Lifecycle
+
+Understanding the tool execution lifecycle helps you build robust implementations:
+
+1. **Discovery**: Client requests `tools/list` to see available tools
+2. **Selection**: AI chooses appropriate tool based on task
+3. **Validation**: Parameters are validated against JSON Schema
+4. **Execution**: Tool logic runs with provided parameters
+5. **Response**: Results are returned to the AI application
+6. **Error Handling**: Failures are caught and reported safely
+
+## Building Your First Tools {#basic-tools}
+
+Let's start with simple tools to understand the basic patterns, then build toward more complex implementations.
+
+### The Echo Tool: Understanding the Basics
+
+<CodeExample
+  title="Simple Echo Tool"
+  language="typescript"
+  code={`// Register the echo tool
+server.setRequestHandler('tools/list', async () => {
+  return {
+    tools: [
+      {
+        name: 'echo',
+        description: 'Echo the provided text back to the user',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            text: {
+              type: 'string',
+              description: 'The text to echo back'
+            }
+          },
+          required: ['text']
+        }
+      }
+    ]
+  };
+});
+
+// Handle tool execution
+server.setRequestHandler('tools/call', async (request) => {
+  const { name, arguments: args } = request.params;
+  
+  if (name === 'echo') {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`Echo: \${args.text}\`
+        }
+      ]
+    };
+  }
+  
+  throw new Error(\`Unknown tool: \${name}\`);
+});`}
+  highlightLines={[6, 7, 27, 28, 29, 30, 31, 32, 33, 34]}
+/>
+
+This simple example demonstrates:
+- **Tool Definition**: Name, description, and input schema
+- **Parameter Validation**: JSON Schema defines required `text` parameter
+- **Execution Handler**: Processes the tool call and returns results
+- **Response Format**: Structured content array with type and text
+
+### A More Practical Example: Calculator Tool
+
+<CodeExample
+  title="Calculator Tool"
+  language="typescript"
+  code={`const calculatorTool = {
+  name: 'calculator',
+  description: 'Perform basic mathematical calculations',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      expression: {
+        type: 'string',
+        description: 'Mathematical expression to evaluate (e.g., "2 + 2", "10 * 5")'
+      }
+    },
+    required: ['expression']
+  }
+};
+
+// Safe expression evaluator
+function evaluateExpression(expr: string): number {
+  // Allow only numbers, basic operators, and parentheses
+  const safePattern = /^[0-9+\\-*/().\\s]+$/;
+  
+  if (!safePattern.test(expr)) {
+    throw new Error('Invalid expression: only numbers and basic operators allowed');
+  }
+  
+  try {
+    // Use Function constructor for safer evaluation
+    return Function('"use strict"; return (' + expr + ')')();
+  } catch (error) {
+    throw new Error('Invalid mathematical expression');
+  }
+}
+
+// Tool execution handler
+if (name === 'calculator') {
+  try {
+    const result = evaluateExpression(args.expression);
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`\${args.expression} = \${result}\`
+        }
+      ]
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`Error: \${error.message}\`
+        }
+      ],
+      isError: true
+    };
+  }
+}`}
+/>
+
+This example shows important patterns:
+- **Input Validation**: Regular expressions ensure safe input
+- **Error Handling**: Try-catch blocks with user-friendly error messages
+- **Security**: Restricted evaluation prevents code injection
+- **Error Responses**: `isError: true` indicates tool failure
+
+<Callout type="success">
+  **Best Practice**: Always validate input thoroughly. Never use `eval()` or similar dynamic code execution without strict input sanitization.
+</Callout>
+
+## File Operation Tools {#file-operations}
+
+File operations are among the most common and powerful tools you'll implement. They require careful security considerations and robust error handling.
+
+<Exercise
+  id="file-operations"
+  title="Build File Management Tools"
+/>
+
+### Understanding File Tool Security
+
+File operations present significant security risks. Here are essential safety measures:
+
+1. **Path Validation**: Prevent directory traversal attacks
+2. **Safe Directory**: Confine operations to designated areas
+3. **Permission Checks**: Validate file system permissions
+4. **Size Limits**: Prevent resource exhaustion
+5. **File Type Validation**: Restrict allowed file types
+
+<CodeExample
+  title="Secure Path Validation"
+  language="typescript"
+  code={`class SecureFileHandler {
+  constructor(private safeDirectory: string) {}
+  
+  private isPathSafe(requestedPath: string): boolean {
+    // Resolve the requested path relative to safe directory
+    const resolvedPath = path.resolve(this.safeDirectory, requestedPath);
+    const resolvedSafeDir = path.resolve(this.safeDirectory);
+    
+    // Ensure the resolved path is within the safe directory
+    return resolvedPath.startsWith(resolvedSafeDir + path.sep) || 
+           resolvedPath === resolvedSafeDir;
+  }
+  
+  private validateFileSize(filePath: string, maxSize: number = 10 * 1024 * 1024) {
+    const stats = fs.statSync(filePath);
+    if (stats.size > maxSize) {
+      throw new Error(\`File too large: \${stats.size} bytes (max: \${maxSize})\`);
+    }
+  }
+  
+  private getAllowedExtensions(): string[] {
+    return ['.txt', '.md', '.json', '.yaml', '.yml', '.csv'];
+  }
+  
+  private isFileTypeAllowed(filePath: string): boolean {
+    const ext = path.extname(filePath).toLowerCase();
+    return this.getAllowedExtensions().includes(ext);
+  }
+}`}
+/>
+
+### Common File Operations
+
+Here are patterns for the most common file operations:
+
+**Reading Files:**
+```typescript
+async readFile(filePath: string) {
+  // 1. Validate path safety
+  if (!this.isPathSafe(filePath)) {
+    throw new Error('Path outside safe directory');
+  }
+  
+  // 2. Check file type
+  if (!this.isFileTypeAllowed(filePath)) {
+    throw new Error('File type not allowed');
+  }
+  
+  // 3. Validate size before reading
+  this.validateFileSize(fullPath);
+  
+  // 4. Read with encoding detection
+  const content = await fs.readFile(fullPath, 'utf-8');
+  
+  return {
+    content: [{
+      type: 'text',
+      text: `File: ${filePath}\n\n${content}`
+    }]
+  };
+}
+```
+
+**Writing Files:**
+```typescript
+async writeFile(filePath: string, content: string, options: WriteOptions = {}) {
+  // 1. All the same security checks as reading
+  // 2. Additional checks for writing
+  
+  if (!options.overwrite && await this.fileExists(fullPath)) {
+    throw new Error('File exists. Use overwrite: true to replace.');
+  }
+  
+  // 3. Content validation
+  if (content.length > 1024 * 1024) { // 1MB limit
+    throw new Error('Content too large');
+  }
+  
+  // 4. Atomic write (write to temp file, then rename)
+  const tempPath = fullPath + '.tmp';
+  await fs.writeFile(tempPath, content, 'utf-8');
+  await fs.rename(tempPath, fullPath);
+}
+```
+
+## API Integration Tools {#api-tools}
+
+API tools enable your MCP server to interact with external services, making it a powerful integration hub.
+
+<CodeExample
+  title="HTTP Request Tool"
+  language="typescript"
+  code={`const httpRequestTool = {
+  name: 'http_request',
+  description: 'Make HTTP requests to external APIs',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      url: {
+        type: 'string',
+        description: 'The URL to request'
+      },
+      method: {
+        type: 'string',
+        enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+        default: 'GET',
+        description: 'HTTP method to use'
+      },
+      headers: {
+        type: 'object',
+        description: 'HTTP headers to include',
+        additionalProperties: { type: 'string' }
+      },
+      body: {
+        type: 'string',
+        description: 'Request body (for POST, PUT, PATCH)'
+      },
+      timeout: {
+        type: 'number',
+        default: 30000,
+        description: 'Request timeout in milliseconds'
+      }
+    },
+    required: ['url']
+  }
+};
+
+// HTTP request handler with safety checks
+async function executeHttpRequest(args: any) {
+  const { url, method = 'GET', headers = {}, body, timeout = 30000 } = args;
+  
+  // Security: Validate URL
+  try {
+    const urlObj = new URL(url);
+    
+    // Block localhost and private IPs for security
+    if (urlObj.hostname === 'localhost' || 
+        urlObj.hostname.startsWith('127.') ||
+        urlObj.hostname.startsWith('192.168.') ||
+        urlObj.hostname.startsWith('10.')) {
+      throw new Error('Requests to local/private networks are not allowed');
+    }
+  } catch (error) {
+    throw new Error(\`Invalid URL: \${error.message}\`);
+  }
+  
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'User-Agent': 'MCP-Server/1.0',
+        ...headers
+      },
+      body: method !== 'GET' && method !== 'HEAD' ? body : undefined,
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    
+    const responseText = await response.text();
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`HTTP \${method} \${url}\\n\` +
+                \`Status: \${response.status} \${response.statusText}\\n\` +
+                \`Headers: \${JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2)}\\n\\n\` +
+                \`Response:\\n\${responseText}\`
+        }
+      ]
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`HTTP request failed: \${error.message}\`
+        }
+      ],
+      isError: true
+    };
+  }
+}`}
+/>
+
+### API Tool Security Considerations
+
+<Callout type="warning">
+  **Critical Security Measures**:
+  - Block requests to localhost and private IP ranges
+  - Implement request timeouts to prevent hanging
+  - Validate and sanitize all inputs
+  - Use allowlists for allowed domains when possible
+  - Implement rate limiting to prevent abuse
+</Callout>
+
+### Specialized API Tools
+
+Consider building specialized tools for common APIs:
+
+**Slack Messaging Tool:**
+```typescript
+const slackTool = {
+  name: 'slack_message',
+  description: 'Send message to Slack channel',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      channel: { type: 'string', description: 'Channel name or ID' },
+      message: { type: 'string', description: 'Message text' },
+      urgent: { type: 'boolean', default: false }
+    },
+    required: ['channel', 'message']
+  }
+};
+```
+
+**Email Tool:**
+```typescript
+const emailTool = {
+  name: 'send_email',
+  description: 'Send email via SMTP',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      to: { type: 'string', description: 'Recipient email' },
+      subject: { type: 'string', description: 'Email subject' },
+      body: { type: 'string', description: 'Email body' },
+      priority: { type: 'string', enum: ['low', 'normal', 'high'], default: 'normal' }
+    },
+    required: ['to', 'subject', 'body']
+  }
+};
+```
+
+## Advanced Tool Patterns {#advanced-tool-patterns}
+
+As your tools become more sophisticated, you'll need advanced patterns for complex scenarios.
+
+### Long-Running Operations
+
+<CodeExample
+  title="Long-Running Tool with Progress"
+  language="typescript"
+  code={`class LongRunningTool {
+  async executeLongOperation(args: any, progressCallback?: (progress: number, message: string) => void) {
+    const totalSteps = 100;
+    
+    for (let step = 0; step < totalSteps; step++) {
+      // Simulate work
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Report progress
+      if (progressCallback) {
+        progressCallback((step + 1) / totalSteps * 100, \`Processing step \${step + 1}\`);
+      }
+      
+      // Check for cancellation
+      if (this.shouldCancel) {
+        throw new Error('Operation cancelled');
+      }
+    }
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: 'Long operation completed successfully!'
+        }
+      ]
+    };
+  }
+}`}
+/>
+
+### Conditional Tool Availability
+
+<CodeExample
+  title="Conditional Tool Availability"
+  language="typescript"
+  code={`class ConditionalToolProvider {
+  constructor(private config: { adminMode: boolean; apiKey?: string }) {}
+  
+  getAvailableTools() {
+    const tools = [
+      // Always available
+      {
+        name: 'status',
+        description: 'Get system status',
+        inputSchema: { type: 'object', properties: {} }
+      }
+    ];
+    
+    // Admin-only tools
+    if (this.config.adminMode) {
+      tools.push({
+        name: 'restart_service',
+        description: 'Restart a system service',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            service: { type: 'string', description: 'Service name' }
+          },
+          required: ['service']
+        }
+      });
+    }
+    
+    // API-dependent tools
+    if (this.config.apiKey) {
+      tools.push({
+        name: 'external_api_call',
+        description: 'Call external API',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            endpoint: { type: 'string', description: 'API endpoint' }
+          },
+          required: ['endpoint']
+        }
+      });
+    }
+    
+    return tools;
+  }
+}`}
+/>
+
+### Tool Composition and Chaining
+
+Advanced MCP servers can compose tools for complex workflows:
+
+```typescript
+class CompositeToolProvider {
+  async executeWorkflow(steps: WorkflowStep[]) {
+    const results = [];
+    
+    for (const step of steps) {
+      const result = await this.executeTool(step.tool, step.args);
+      
+      // Pass result to next step if needed
+      if (step.useOutputAsInput && results.length > 0) {
+        step.args = { ...step.args, input: results[results.length - 1] };
+      }
+      
+      results.push(result);
+      
+      // Stop on error if not configured to continue
+      if (result.isError && !step.continueOnError) {
+        break;
+      }
+    }
+    
+    return { results };
+  }
+}
+```
+
+## Error Handling and Logging {#error-handling}
+
+Robust error handling is crucial for production tools.
+
+### Error Categories and Handling
+
+<CodeExample
+  title="Comprehensive Error Handling"
+  language="typescript"
+  code={`class ToolExecutor {
+  async executeTool(name: string, args: any): Promise<ToolResult> {
+    try {
+      // Pre-execution validation
+      this.validateToolExists(name);
+      this.validateParameters(name, args);
+      this.checkPermissions(name);
+      
+      // Execute with timeout
+      const result = await Promise.race([
+        this.doExecuteTool(name, args),
+        this.createTimeoutPromise(30000)
+      ]);
+      
+      // Post-execution validation
+      this.validateResult(result);
+      
+      return result;
+      
+    } catch (error) {
+      return this.handleError(error, name, args);
+    }
+  }
+  
+  private handleError(error: any, toolName: string, args: any): ToolResult {
+    // Log error for debugging
+    console.error(\`Tool execution failed: \${toolName}\`, {
+      error: error.message,
+      args,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    });
+    
+    // Return user-friendly error
+    let message = 'An unexpected error occurred';
+    
+    if (error instanceof ValidationError) {
+      message = \`Invalid parameters: \${error.message}\`;
+    } else if (error instanceof PermissionError) {
+      message = \`Permission denied: \${error.message}\`;
+    } else if (error instanceof TimeoutError) {
+      message = 'Operation timed out';
+    } else if (error instanceof NetworkError) {
+      message = \`Network error: \${error.message}\`;
+    }
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: message
+        }
+      ],
+      isError: true
+    };
+  }
+}`}
+/>
+
+### Logging and Monitoring
+
+Implement comprehensive logging for tool usage:
+
+```typescript
+class ToolLogger {
+  logToolExecution(toolName: string, args: any, result: ToolResult, duration: number) {
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      tool: toolName,
+      success: !result.isError,
+      duration,
+      argsHash: this.hashArgs(args), // Don't log sensitive data
+      resultSize: JSON.stringify(result).length
+    };
+    
+    console.log('Tool executed:', logEntry);
+    
+    // Send to monitoring system
+    this.sendToMonitoring(logEntry);
+  }
+}
+```
+
+## Real-World Tool Examples {#real-world-examples}
+
+### Development Tools
+
+<CodeExample
+  title="Git Operations Tool"
+  language="typescript"
+  code={`const gitTool = {
+  name: 'git_status',
+  description: 'Get git repository status',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      repository: {
+        type: 'string',
+        description: 'Path to git repository',
+        default: '.'
+      }
+    }
+  }
+};
+
+async function executeGitStatus(args: any) {
+  const { repository = '.' } = args;
+  
+  try {
+    // Execute git command safely
+    const { stdout, stderr } = await execAsync('git status --porcelain', {
+      cwd: repository,
+      timeout: 10000
+    });
+    
+    const changes = stdout.split('\\n').filter(line => line.trim());
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: changes.length > 0 
+            ? \`Git status:\\n\${changes.join('\\n')}\`
+            : 'Working directory clean'
+        }
+      ]
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`Git command failed: \${error.message}\`
+        }
+      ],
+      isError: true
+    };
+  }
+}`}
+/>
+
+### Database Tools
+
+```typescript
+const databaseQueryTool = {
+  name: 'db_query',
+  description: 'Execute safe database queries',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'SQL query (SELECT only)' },
+      limit: { type: 'number', default: 100, maximum: 1000 }
+    },
+    required: ['query']
+  }
+};
+```
+
+### System Administration Tools
+
+```typescript
+const systemInfoTool = {
+  name: 'system_info',
+  description: 'Get system information',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      category: {
+        type: 'string',
+        enum: ['cpu', 'memory', 'disk', 'network'],
+        description: 'Information category'
+      }
+    }
+  }
+};
+```
+
+## Best Practices Summary {#best-practices}
+
+### Security Guidelines
+
+<Callout type="warning">
+  **Essential Security Practices**:
+  - Always validate inputs with JSON Schema
+  - Implement proper access controls
+  - Use allowlists instead of blocklists when possible
+  - Sanitize all user inputs
+  - Implement rate limiting
+  - Log all tool executions for auditing
+</Callout>
+
+### Performance Guidelines
+
+- Implement timeouts for all operations
+- Use async/await for non-blocking execution
+- Cache expensive operations when appropriate
+- Implement pagination for large result sets
+- Monitor resource usage and set limits
+
+### User Experience Guidelines
+
+- Provide clear, descriptive tool names and descriptions
+- Use JSON Schema to document parameters thoroughly
+- Return structured, consistent responses
+- Include helpful error messages
+- Consider progress indicators for long operations
+
+## Common Pitfalls {#pitfalls}
+
+### Avoid These Mistakes
+
+1. **Insufficient Validation**: Always validate inputs thoroughly
+2. **Missing Error Handling**: Every operation can fail
+3. **Security Oversights**: Never trust user input
+4. **Blocking Operations**: Use async patterns consistently
+5. **Poor Documentation**: Clear descriptions are essential
+6. **Inconsistent Responses**: Use consistent response formats
+7. **Resource Leaks**: Clean up after operations complete
+
+<CodeExample
+  title="Tool Implementation Checklist"
+  language="typescript"
+  code={`// ✅ Good tool implementation pattern
+async function implementTool(name: string, args: any): Promise<ToolResult> {
+  try {
+    // 1. Validate inputs
+    if (!this.validateArgs(name, args)) {
+      throw new ValidationError('Invalid parameters');
+    }
+    
+    // 2. Check permissions
+    if (!this.hasPermission(name)) {
+      throw new PermissionError('Access denied');
+    }
+    
+    // 3. Execute with timeout
+    const result = await Promise.race([
+      this.executeOperation(args),
+      this.timeoutPromise(30000)
+    ]);
+    
+    // 4. Validate result
+    if (!this.isValidResult(result)) {
+      throw new Error('Invalid result from operation');
+    }
+    
+    // 5. Log success
+    this.logExecution(name, args, result);
+    
+    return result;
+    
+  } catch (error) {
+    // 6. Handle errors gracefully
+    this.logError(name, args, error);
+    return this.createErrorResponse(error);
+  }
+}`}
+/>
+
+## Summary {#summary}
+
+You've learned to build powerful and secure tool providers:
+
+✅ **Tool Fundamentals**: Understanding the difference between resources and tools
+✅ **Basic Implementation**: Creating simple tools with proper schemas
+✅ **File Operations**: Building secure file management tools
+✅ **API Integration**: Making safe HTTP requests to external services
+✅ **Advanced Patterns**: Long-running operations and conditional availability  
+✅ **Security**: Input validation, access controls, and error handling
+✅ **Best Practices**: Performance, security, and user experience guidelines
+
+## Next Steps {#next-steps}
+
+You're now ready for the capstone project! In the final module, you'll combine everything you've learned to build a complete, production-ready MCP server.
+
+You'll create a comprehensive server that includes:
+- Multiple resource providers
+- Various tool implementations
+- Real-world integrations
+- Production-ready error handling
+- Security best practices
+
+<Callout type="info">
+  **Final Challenge**: [Build a Complete MCP Server](/learn/paths/mcp-fundamentals/modules/05-capstone-project) - Put it all together in a real-world project!
+</Callout>
+
+## Quick Reference {#quick-reference}
+
+### Essential Tool Methods
+```typescript
+// List available tools
+server.setRequestHandler('tools/list', async () => {
+  return { tools: [...] };
+});
+
+// Execute tool
+server.setRequestHandler('tools/call', async (request) => {
+  const { name, arguments: args } = request.params;
+  return { content: [...] };
+});
+```
+
+### JSON Schema Patterns
+```typescript
+// String parameter
+{ type: 'string', description: 'Parameter description' }
+
+// Enum parameter  
+{ type: 'string', enum: ['option1', 'option2'], default: 'option1' }
+
+// Object parameter
+{ 
+  type: 'object',
+  properties: { /* nested properties */ },
+  required: ['requiredField']
+}
+
+// Array parameter
+{ type: 'array', items: { type: 'string' } }
+```
+
+### Error Response Format
+```typescript
+{
+  content: [
+    {
+      type: 'text',
+      text: 'Error message'
+    }
+  ],
+  isError: true
+}
+```

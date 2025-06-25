@@ -1,0 +1,89 @@
+{
+  "slug": "claude-sdk-platform",
+  "title": "Claude SDK Learning Platform",
+  "description": "Interactive learning platform for the Claude SDK featuring tutorials, code playground, comprehensive documentation, and community features. Built with Next.js 15, WebAssembly execution, and real-time collaboration tools.",
+  "longDescription": "Developed a comprehensive learning platform for the Claude SDK that transforms how developers learn and build with AI. The platform addresses the steep learning curve of AI integration by providing interactive tutorials, a real-time code playground with WebAssembly execution, and comprehensive documentation with live examples.\n\nThe platform features a unique tutorial system with hands-on verification, progress tracking, and adaptive learning paths. The code playground allows developers to experiment with Claude SDK features in a browser environment using WebAssembly for secure code execution. The community features enable developers to share projects, get feedback, and collaborate on AI applications.\n\nBuilt with modern web technologies including Next.js 15, the platform provides a seamless developer experience with server-side rendering, real-time updates, and comprehensive SEO optimization. The platform has become a go-to resource for developers entering the AI space.",
+  "tags": ["Claude SDK", "Interactive Learning", "WebAssembly", "Next.js", "Developer Platform", "AI Education"],
+  "featured": true,
+  "githubUrl": "https://github.com/brandonjredmond/claude-sdk-platform",
+  "demoUrl": "https://claude-sdk-platform.dev",
+  "techStack": [
+    {
+      "category": "Frontend Framework",
+      "items": ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS 4.0"]
+    },
+    {
+      "category": "Backend & APIs",
+      "items": ["Next.js API Routes", "Claude SDK", "WebAssembly", "Server Components"]
+    },
+    {
+      "category": "Code Execution",
+      "items": ["WebAssembly", "Monaco Editor", "Rust WASM", "Sandboxed Execution"]
+    },
+    {
+      "category": "Development Tools",
+      "items": ["ESLint", "Prettier", "Jest", "React Testing Library", "Husky"]
+    }
+  ],
+  "features": [
+    "Interactive tutorials with hands-on verification and progress tracking",
+    "Real-time code playground with WebAssembly execution environment",
+    "Comprehensive API documentation with live examples",
+    "Community features for sharing projects and collaboration",
+    "Adaptive learning paths based on skill level and progress",
+    "Monaco editor integration with syntax highlighting and IntelliSense",
+    "Server-side rendering for optimal performance and SEO",
+    "Dark mode support with custom Tailwind CSS theme"
+  ],
+  "challenges": [
+    "Implementing secure WebAssembly code execution in the browser",
+    "Creating an engaging tutorial system with real-time verification",
+    "Optimizing performance for complex interactive components",
+    "Designing responsive layouts for code editing and documentation",
+    "Integrating real-time collaboration features"
+  ],
+  "outcomes": [
+    { "metric": "Monthly Active Users", "value": "3,200+" },
+    { "metric": "Tutorials Completed", "value": "8,500+" },
+    { "metric": "Code Playground Sessions", "value": "15,000+" },
+    { "metric": "Community Projects", "value": "450+" },
+    { "metric": "GitHub Stars", "value": "280+" }
+  ],
+  "educational": [
+    "Modern React patterns with Server Components and App Router",
+    "WebAssembly integration for secure browser-based code execution",
+    "Interactive learning system design and gamification",
+    "Real-time collaboration implementation with WebSockets",
+    "SEO optimization for developer-focused content platforms",
+    "Performance optimization for code editing interfaces"
+  ],
+  "globalImpact": {
+    "geographicReach": ["United States", "Europe", "India", "Brazil", "China", "Japan", "Australia"],
+    "usersWorldwide": 3200,
+    "socialImpact": "Democratizes AI development education by providing free, interactive learning resources for Claude SDK, making AI integration accessible to developers worldwide",
+    "environmentalImpact": "Reduces learning curve and development time, leading to more efficient AI integration practices and reduced computational waste",
+    "accessibilityFeatures": ["Keyboard navigation", "Screen reader support", "High contrast mode", "Adjustable font sizes"],
+    "multilingualSupport": true,
+    "economicImpact": "Reduces AI integration learning time by 70%, enabling faster adoption of AI technologies in global markets and accelerating innovation",
+    "knowledgeSharing": "Open-source platform with extensive documentation, tutorials, and community contributions that serve as educational resources globally"
+  },
+  "localization": {
+    "supportedLanguages": ["English", "Portuguese", "Spanish", "French", "German"],
+    "culturalAdaptations": ["Localized code examples", "Region-specific use cases", "Cultural context in tutorial scenarios"],
+    "timeZoneHandling": true,
+    "currencySupport": [],
+    "regionalCompliance": ["GDPR compliance", "CCPA compliance", "Data residency options"]
+  },
+  "codeSnippets": [
+    {
+      "title": "Interactive Tutorial System",
+      "language": "typescript",
+      "code": "import { useState, useEffect } from 'react';\nimport { Monaco } from '@monaco-editor/react';\nimport { verifyCode, trackProgress } from '@/lib/tutorial-engine';\n\ninterface TutorialStepProps {\n  step: TutorialStep;\n  onComplete: (stepId: string) => void;\n}\n\nexport function InteractiveTutorialStep({ step, onComplete }: TutorialStepProps) {\n  const [code, setCode] = useState(step.initialCode);\n  const [isVerifying, setIsVerifying] = useState(false);\n  const [verification, setVerification] = useState<VerificationResult | null>(null);\n\n  const handleCodeChange = (value: string | undefined) => {\n    setCode(value || '');\n    setVerification(null); // Clear previous verification\n  };\n\n  const handleVerify = async () => {\n    setIsVerifying(true);\n    \n    try {\n      const result = await verifyCode({\n        stepId: step.id,\n        userCode: code,\n        expectedOutput: step.expectedOutput,\n        testCases: step.testCases\n      });\n      \n      setVerification(result);\n      \n      if (result.success) {\n        await trackProgress({\n          stepId: step.id,\n          completedAt: new Date(),\n          attempts: result.attempts,\n          duration: result.duration\n        });\n        \n        onComplete(step.id);\n      }\n    } catch (error) {\n      setVerification({\n        success: false,\n        error: 'Verification failed. Please try again.',\n        details: error instanceof Error ? error.message : 'Unknown error'\n      });\n    } finally {\n      setIsVerifying(false);\n    }\n  };\n\n  return (\n    <div className=\"tutorial-step\">\n      <div className=\"step-header\">\n        <h3 className=\"text-xl font-semibold\">{step.title}</h3>\n        <div className=\"step-progress\">\n          Step {step.order} of {step.totalSteps}\n        </div>\n      </div>\n      \n      <div className=\"step-content\">\n        <div className=\"instruction-panel\">\n          <div className=\"prose prose-slate dark:prose-invert\">\n            <ReactMarkdown>{step.instructions}</ReactMarkdown>\n          </div>\n          \n          {step.hints && (\n            <div className=\"hints-section\">\n              <details>\n                <summary>Need a hint?</summary>\n                <ul>\n                  {step.hints.map((hint, index) => (\n                    <li key={index}>{hint}</li>\n                  ))}\n                </ul>\n              </details>\n            </div>\n          )}\n        </div>\n        \n        <div className=\"code-panel\">\n          <Monaco\n            language=\"typescript\"\n            value={code}\n            onChange={handleCodeChange}\n            options={{\n              minimap: { enabled: false },\n              lineNumbers: 'on',\n              roundedSelection: false,\n              scrollBeyondLastLine: false,\n              automaticLayout: true,\n              fontSize: 14,\n              fontFamily: 'JetBrains Mono, Consolas, monospace'\n            }}\n            className=\"h-64 border border-slate-300 dark:border-slate-600 rounded-lg\"\n          />\n          \n          <div className=\"code-actions\">\n            <button\n              onClick={handleVerify}\n              disabled={isVerifying || !code.trim()}\n              className=\"verify-button\"\n            >\n              {isVerifying ? 'Verifying...' : 'Verify Solution'}\n            </button>\n            \n            <button\n              onClick={() => setCode(step.initialCode)}\n              className=\"reset-button\"\n            >\n              Reset Code\n            </button>\n          </div>\n          \n          {verification && (\n            <div className={`verification-result ${\n              verification.success ? 'success' : 'error'\n            }`}>\n              {verification.success ? (\n                <div className=\"success-message\">\n                  <CheckCircle className=\"w-5 h-5\" />\n                  <span>Great job! Your solution is correct.</span>\n                  {verification.feedback && (\n                    <p className=\"feedback\">{verification.feedback}</p>\n                  )}\n                </div>\n              ) : (\n                <div className=\"error-message\">\n                  <XCircle className=\"w-5 h-5\" />\n                  <span>{verification.error}</span>\n                  {verification.details && (\n                    <pre className=\"error-details\">{verification.details}</pre>\n                  )}\n                </div>\n              )}\n            </div>\n          )}\n        </div>\n      </div>\n    </div>\n  );\n}"
+    },
+    {
+      "title": "WebAssembly Code Playground",
+      "language": "typescript",
+      "code": "import { useEffect, useRef, useState } from 'react';\nimport { Monaco } from '@monaco-editor/react';\nimport { WasmRunner } from '@/lib/wasm-runner';\n\ninterface CodePlaygroundProps {\n  initialCode?: string;\n  language: 'rust' | 'typescript' | 'python';\n  onCodeChange?: (code: string) => void;\n}\n\nexport function CodePlayground({ \n  initialCode = '', \n  language, \n  onCodeChange \n}: CodePlaygroundProps) {\n  const [code, setCode] = useState(initialCode);\n  const [output, setOutput] = useState<string[]>([]);\n  const [isRunning, setIsRunning] = useState(false);\n  const [error, setError] = useState<string | null>(null);\n  const wasmRunnerRef = useRef<WasmRunner | null>(null);\n\n  useEffect(() => {\n    const initializeWasm = async () => {\n      try {\n        wasmRunnerRef.current = new WasmRunner({\n          language,\n          onOutput: (line) => {\n            setOutput(prev => [...prev, line]);\n          },\n          onError: (error) => {\n            setError(error);\n          }\n        });\n        \n        await wasmRunnerRef.current.initialize();\n      } catch (error) {\n        setError(`Failed to initialize WASM runner: ${error}`);\n      }\n    };\n\n    initializeWasm();\n    \n    return () => {\n      wasmRunnerRef.current?.cleanup();\n    };\n  }, [language]);\n\n  const handleCodeChange = (value: string | undefined) => {\n    const newCode = value || '';\n    setCode(newCode);\n    onCodeChange?.(newCode);\n    setError(null); // Clear errors when code changes\n  };\n\n  const handleRunCode = async () => {\n    if (!wasmRunnerRef.current || !code.trim()) return;\n    \n    setIsRunning(true);\n    setOutput([]);\n    setError(null);\n    \n    try {\n      const result = await wasmRunnerRef.current.execute(code);\n      \n      if (result.success) {\n        setOutput(result.output);\n      } else {\n        setError(result.error || 'Execution failed');\n      }\n    } catch (error) {\n      setError(error instanceof Error ? error.message : 'Unknown execution error');\n    } finally {\n      setIsRunning(false);\n    }\n  };\n\n  const handleClearOutput = () => {\n    setOutput([]);\n    setError(null);\n  };\n\n  const getLanguageConfig = () => {\n    const configs = {\n      rust: {\n        language: 'rust',\n        defaultCode: 'fn main() {\\n    println!(\"Hello, Claude SDK!\");\\n}',\n        fileExtension: 'rs'\n      },\n      typescript: {\n        language: 'typescript',\n        defaultCode: 'import { ClaudeSDK } from \"@anthropic/claude-sdk\";\\n\\nconsole.log(\"Hello, Claude SDK!\");',\n        fileExtension: 'ts'\n      },\n      python: {\n        language: 'python',\n        defaultCode: 'import claude_sdk\\n\\nprint(\"Hello, Claude SDK!\")',\n        fileExtension: 'py'\n      }\n    };\n    \n    return configs[language];\n  };\n\n  const config = getLanguageConfig();\n\n  return (\n    <div className=\"code-playground h-full flex flex-col\">\n      <div className=\"playground-header flex items-center justify-between p-4 border-b\">\n        <div className=\"flex items-center space-x-4\">\n          <h3 className=\"text-lg font-semibold\">Code Playground</h3>\n          <div className=\"language-selector\">\n            <select \n              value={language} \n              onChange={(e) => window.location.reload()} // Simple language switch\n              className=\"px-3 py-1 border border-slate-300 rounded\"\n            >\n              <option value=\"rust\">Rust</option>\n              <option value=\"typescript\">TypeScript</option>\n              <option value=\"python\">Python</option>\n            </select>\n          </div>\n        </div>\n        \n        <div className=\"playground-actions space-x-2\">\n          <button\n            onClick={handleRunCode}\n            disabled={isRunning || !code.trim()}\n            className=\"run-button px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50\"\n          >\n            {isRunning ? 'Running...' : 'Run Code'}\n          </button>\n          \n          <button\n            onClick={handleClearOutput}\n            className=\"clear-button px-4 py-2 bg-slate-600 text-white rounded hover:bg-slate-700\"\n          >\n            Clear Output\n          </button>\n        </div>\n      </div>\n      \n      <div className=\"playground-content flex-1 flex\">\n        <div className=\"code-editor flex-1\">\n          <Monaco\n            language={config.language}\n            value={code}\n            onChange={handleCodeChange}\n            options={{\n              minimap: { enabled: true },\n              lineNumbers: 'on',\n              roundedSelection: false,\n              scrollBeyondLastLine: false,\n              automaticLayout: true,\n              fontSize: 14,\n              fontFamily: 'JetBrains Mono, Consolas, monospace',\n              tabSize: 2,\n              insertSpaces: true,\n              wordWrap: 'on'\n            }}\n            className=\"h-full\"\n          />\n        </div>\n        \n        <div className=\"output-panel w-1/3 border-l bg-slate-50 dark:bg-slate-900\">\n          <div className=\"output-header p-3 border-b bg-slate-100 dark:bg-slate-800\">\n            <h4 className=\"font-medium text-sm\">Output</h4>\n          </div>\n          \n          <div className=\"output-content p-3 h-full overflow-auto font-mono text-sm\">\n            {error ? (\n              <div className=\"error-output text-red-600 dark:text-red-400\">\n                <div className=\"error-header font-semibold mb-2\">Error:</div>\n                <pre className=\"whitespace-pre-wrap\">{error}</pre>\n              </div>\n            ) : output.length > 0 ? (\n              <div className=\"success-output\">\n                {output.map((line, index) => (\n                  <div key={index} className=\"output-line\">\n                    {line}\n                  </div>\n                ))}\n              </div>\n            ) : isRunning ? (\n              <div className=\"running-indicator text-slate-500\">\n                Executing code...\n              </div>\n            ) : (\n              <div className=\"empty-output text-slate-400\">\n                Run your code to see output here\n              </div>\n            )}\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}"
+    }
+  ]
+}

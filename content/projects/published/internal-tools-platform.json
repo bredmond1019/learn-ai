@@ -1,0 +1,74 @@
+{
+  "slug": "internal-tools-platform",
+  "title": "Internal Tools Platform - From Zero to Team Lead",
+  "description": "Built and led the development of a comprehensive internal automation platform that grew from a solo project to a 5-person team, automating 80% of manual processes and saving 1000+ hours monthly.",
+  "longDescription": "Spearheaded the creation of an enterprise-wide internal tools platform that fundamentally transformed how the organization handles operational workflows. What started as a personal automation project quickly evolved into a critical business system that now supports hundreds of employees across multiple departments.\n\nThis platform demonstrates end-to-end systems thinking, from identifying pain points to architecting scalable solutions and leading a growing team. The system integrates with over 20 internal services, automates complex multi-step workflows, and provides real-time dashboards for operational insights.\n\nThe success of this project led to the formation of a dedicated Internal Tools team, which I now lead. The platform has become the backbone of operational efficiency, handling everything from employee onboarding to complex data processing pipelines.",
+  "tags": ["Python", "TypeScript", "React", "FastAPI", "PostgreSQL", "Team Leadership"],
+  "featured": true,
+  "icon": "Wrench",
+  "isPrivate": true,
+  "githubUrl": "https://github.com/company/internal-tools-platform",
+  "techStack": [
+    {
+      "category": "Backend",
+      "items": ["Python", "FastAPI", "SQLAlchemy", "Celery", "Redis", "PostgreSQL"]
+    },
+    {
+      "category": "Frontend",
+      "items": ["TypeScript", "React", "Next.js", "Tailwind CSS", "Chart.js"]
+    },
+    {
+      "category": "Infrastructure",
+      "items": ["Docker", "Kubernetes", "GitLab CI/CD", "Prometheus", "Grafana"]
+    },
+    {
+      "category": "Integrations",
+      "items": ["Slack API", "Google Workspace", "Salesforce", "Jira", "AWS Services"]
+    }
+  ],
+  "features": [
+    "Automated employee onboarding workflows reducing setup time by 90%",
+    "Multi-service integration hub connecting 20+ internal systems",
+    "Real-time operational dashboards with custom analytics",
+    "Self-service tools empowering non-technical teams",
+    "Automated reporting and notification systems",
+    "Workflow builder with drag-and-drop interface",
+    "Role-based access control and audit logging",
+    "API-first architecture enabling easy extensions"
+  ],
+  "challenges": [
+    "Scaling from single-user tool to enterprise platform",
+    "Managing integrations with legacy systems and APIs",
+    "Building intuitive interfaces for non-technical users",
+    "Ensuring high availability for business-critical processes",
+    "Growing and leading a team while maintaining development velocity"
+  ],
+  "outcomes": [
+    { "metric": "Time Saved", "value": "1000+ hours/month" },
+    { "metric": "Process Automation", "value": "80%" },
+    { "metric": "Team Growth", "value": "1 → 5 engineers" },
+    { "metric": "System Integrations", "value": "20+ services" },
+    { "metric": "User Adoption", "value": "300+ active users" },
+    { "metric": "Error Reduction", "value": "95%" }
+  ],
+  "leadership": [
+    "Built and led a team of 5 engineers from ground up",
+    "Established development processes and coding standards",
+    "Mentored junior developers and conducted code reviews",
+    "Collaborated with stakeholders across 8 departments",
+    "Managed project roadmap and feature prioritization",
+    "Created comprehensive documentation and training materials"
+  ],
+  "codeSnippets": [
+    {
+      "title": "Workflow Engine Architecture",
+      "language": "python",
+      "code": "from typing import Dict, List, Any\nfrom enum import Enum\nfrom dataclasses import dataclass\nimport asyncio\n\nclass WorkflowStatus(Enum):\n    PENDING = \"pending\"\n    RUNNING = \"running\"\n    COMPLETED = \"completed\"\n    FAILED = \"failed\"\n\n@dataclass\nclass WorkflowStep:\n    id: str\n    name: str\n    service: str\n    action: str\n    params: Dict[str, Any]\n    depends_on: List[str] = None\n\nclass WorkflowEngine:\n    def __init__(self, service_registry: ServiceRegistry):\n        self.services = service_registry\n        self.active_workflows = {}\n    \n    async def execute_workflow(\n        self,\n        workflow_id: str,\n        steps: List[WorkflowStep]\n    ) -> Dict[str, Any]:\n        \"\"\"Execute workflow with dependency resolution\"\"\"\n        self.active_workflows[workflow_id] = WorkflowStatus.RUNNING\n        \n        # Build dependency graph\n        dependency_graph = self._build_dependency_graph(steps)\n        results = {}\n        \n        try:\n            # Execute steps in topological order\n            for step in dependency_graph:\n                service = self.services.get(step.service)\n                result = await service.execute(\n                    step.action,\n                    step.params,\n                    context=results\n                )\n                results[step.id] = result\n                \n            self.active_workflows[workflow_id] = WorkflowStatus.COMPLETED\n            return results\n            \n        except Exception as e:\n            self.active_workflows[workflow_id] = WorkflowStatus.FAILED\n            await self._handle_workflow_failure(workflow_id, e)\n            raise"
+    },
+    {
+      "title": "Service Integration Framework",
+      "language": "typescript",
+      "code": "interface ServiceConnector {\n  name: string;\n  authenticate(): Promise<boolean>;\n  execute(action: string, params: any): Promise<any>;\n  healthCheck(): Promise<boolean>;\n}\n\nclass SlackConnector implements ServiceConnector {\n  name = 'slack';\n  private client: WebClient;\n  \n  constructor(private token: string) {\n    this.client = new WebClient(token);\n  }\n  \n  async authenticate(): Promise<boolean> {\n    try {\n      await this.client.auth.test();\n      return true;\n    } catch {\n      return false;\n    }\n  }\n  \n  async execute(action: string, params: any): Promise<any> {\n    switch (action) {\n      case 'send_message':\n        return await this.client.chat.postMessage({\n          channel: params.channel,\n          text: params.message,\n          blocks: params.blocks\n        });\n      \n      case 'create_channel':\n        return await this.client.conversations.create({\n          name: params.name,\n          is_private: params.private || false\n        });\n        \n      default:\n        throw new Error(`Unknown action: ${action}`);\n    }\n  }\n  \n  async healthCheck(): Promise<boolean> {\n    return this.authenticate();\n  }\n}\n\n// Service registry for managing all integrations\nexport class ServiceRegistry {\n  private connectors = new Map<string, ServiceConnector>();\n  \n  register(connector: ServiceConnector): void {\n    this.connectors.set(connector.name, connector);\n  }\n  \n  get(serviceName: string): ServiceConnector {\n    const connector = this.connectors.get(serviceName);\n    if (!connector) {\n      throw new Error(`Service not found: ${serviceName}`);\n    }\n    return connector;\n  }\n}"
+    }
+  ]
+}

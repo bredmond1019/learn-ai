@@ -1,0 +1,11 @@
+import { ReactNode } from 'react';
+
+type Props = {
+  children: ReactNode;
+};
+
+// Since we're using next-intl, the root layout should be minimal
+// The actual layout is handled by [locale]/layout.tsx
+export default function RootLayout({ children }: Props) {
+  return children;
+}

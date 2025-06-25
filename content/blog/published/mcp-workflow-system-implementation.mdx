@@ -1,0 +1,1310 @@
+---
+title: "MCP Workflow System: From Monolithic Rust to Distributed AI Architecture"
+date: "2024-12-04"
+excerpt: "Transform your monolithic AI workflow into a distributed, protocol-based architecture using the Model Context Protocol. Learn how to build scalable, maintainable workflow systems with proper separation of concerns."
+tags: ["MCP", "Workflow Systems", "Distributed Architecture", "Rust", "AI Engineering", "System Design"]
+author: "Brandon"
+---
+
+import { Callout } from '@/components/ui/callout'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Badge } from '@/components/ui/badge'
+
+<Card className="mb-6">
+  <CardContent className="pt-6">
+    <p className="text-lg">
+      Monolithic AI workflows are difficult to maintain, test, and scale. This comprehensive guide shows how to transform a traditional Rust workflow system into a distributed, protocol-based architecture using the Model Context Protocol (MCP). You'll learn to build workflow systems that are more maintainable, testable, and scalable.
+    </p>
+  </CardContent>
+</Card>
+
+<Callout type="tip" className="mt-6">
+  **Key Insight**: MCP transforms monolithic workflows into distributed systems where each component can be developed, tested, and scaled independently while maintaining standardized communication.
+</Callout>
+
+<Card className="mt-6 mb-6">
+  <CardHeader>
+    <CardTitle>📖 What You'll Learn</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="grid md:grid-cols-2 gap-4">
+      <div>
+        <h4 className="font-semibold mb-2">🛠️ Technical Skills</h4>
+        <ul className="space-y-1 text-sm">
+          <li>• Transform monolithic workflows to MCP</li>
+          <li>• Build reusable workflow tools</li>
+          <li>• Implement workflow orchestration</li>
+          <li>• Handle distributed communication</li>
+        </ul>
+      </div>
+      <div>
+        <h4 className="font-semibold mb-2">🎯 Practical Outcomes</h4>
+        <ul className="space-y-1 text-sm">
+          <li>• Customer support ticket processing</li>
+          <li>• Multi-channel response delivery</li>
+          <li>• Spam detection and filtering</li>
+          <li>• Scalable workflow patterns</li>
+        </ul>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+## 🔄 Architecture Transformation Overview
+
+<div className="grid gap-4 mt-6">
+  <Card>
+    <CardHeader>
+      <CardTitle>📚 Original System</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p>Monolithic Rust workflow with embedded business logic nodes</p>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>🊕 New System</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="mb-3">Distributed MCP-based architecture with:</p>
+      <ul className="space-y-2">
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Server</Badge>
+          <span>Hosts individual workflow nodes as standardized tools</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Client</Badge>
+          <span>Orchestrates workflow execution through protocol calls</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Protocol</Badge>
+          <span>JSON-RPC communication bridge between client and server</span>
+        </li>
+      </ul>
+    </CardContent>
+  </Card>
+</div>
+
+<Callout type="info" className="mt-4">
+  This transformation provides better separation of concerns, independent scaling, and reusable components across multiple applications.
+</Callout>
+
+## 🔧 MCP Server Implementation
+
+<Callout type="info" className="mt-4 mb-6">
+  **Architecture Pattern**: The server exposes stateless tools that can be called independently. Each tool is self-contained with clear inputs/outputs, making them reusable across different workflows.
+</Callout>
+
+### 📦 Core Tool Registry
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>📦 Tool Transformation</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>The MCP Server exposes your original workflow nodes as standardized tools. Each node becomes an independent, reusable tool with well-defined inputs and outputs.</p>
+  </CardContent>
+</Card>
+
+### 1. Analyze Ticket Tool
+
+<Tabs defaultValue="code" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="code">Implementation</TabsTrigger>
+    <TabsTrigger value="explanation">How It Works</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="code">
+    ```python
+from mcp import FastMCP
+from pydantic import BaseModel
+from typing import List, Dict, Any
+import json
+
+# Create MCP server instance
+workflow_server = FastMCP(name="customer-support-workflow")
+
+class TicketData(BaseModel):
+    id: str
+    content: str
+    customer_id: str
+    priority: str = "medium"
+    category: str = "general"
+
+class AnalysisResult(BaseModel):
+    sentiment: str  # negative|neutral|positive
+    urgency: str    # low|medium|high
+    category: str
+    confidence: float
+
+@workflow_server.tool
+def analyze_ticket(ticket: TicketData) -> AnalysisResult:
+    """Analyzes customer support tickets for sentiment, urgency, and categorization."""
+    
+    # Your original AnalyzeTicketNode business logic
+    sentiment = "negative" if any(word in ticket.content.lower() 
+                                for word in ["frustrated", "angry", "terrible"]) else \
+                "positive" if any(word in ticket.content.lower() 
+                                for word in ["thank", "great", "excellent"]) else "neutral"
+    
+    urgency = "high" if any(word in ticket.content.lower() 
+                          for word in ["immediately", "urgent", "asap"]) else \
+              "low" if ticket.priority == "low" else "medium"
+    
+    # Category detection based on keywords
+    category_keywords = {
+        "billing": ["payment", "charge", "refund", "invoice"],
+        "technical": ["bug", "error", "crash", "not working"],
+        "account": ["login", "password", "access", "locked"],
+        "order": ["delivery", "shipping", "order", "product"]
+    }
+    
+    category = "general"
+    for cat, keywords in category_keywords.items():
+        if any(keyword in ticket.content.lower() for keyword in keywords):
+            category = cat
+            break
+    
+    confidence = 0.95 if sentiment != "neutral" and urgency != "medium" else 0.7
+    
+    return AnalysisResult(
+        sentiment=sentiment,
+        urgency=urgency,
+        category=category,
+        confidence=confidence
+    )
+    ```
+  </TabsContent>
+  
+  <TabsContent value="explanation">
+    <Card>
+      <CardHeader>
+        <CardTitle>Analysis Logic</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-3">This tool performs multi-dimensional analysis:</p>
+        <ul className="space-y-2">
+          <li>• <Badge variant="outline">Sentiment</Badge> Detects customer emotional state</li>
+          <li>• <Badge variant="outline">Urgency</Badge> Assesses priority based on keywords</li>
+          <li>• <Badge variant="outline">Category</Badge> Classifies ticket by content patterns</li>
+          <li>• <Badge variant="outline">Confidence</Badge> Provides reliability score for decisions</li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 2. Intent Determination Tool
+
+<Tabs defaultValue="code" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="code">Implementation</TabsTrigger>
+    <TabsTrigger value="explanation">Purpose & Design</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="code">
+    ```python
+class IntentResult(BaseModel):
+    intent: str  # refund_request|cancellation|support_request|general_inquiry
+    confidence: float
+    entities: List[str]
+
+@workflow_server.tool
+def determine_intent(content: str) -> IntentResult:
+    """Extracts customer intent from ticket content."""
+    
+    intent_patterns = {
+        "refund_request": ["refund", "money back", "return", "cancel order"],
+        "cancellation": ["cancel", "terminate", "end subscription", "stop service"],
+        "support_request": ["help", "how to", "tutorial", "guidance"],
+        "general_inquiry": ["question", "information", "when", "what"]
+    }
+    
+    detected_intent = "general_inquiry"
+    max_matches = 0
+    
+    content_lower = content.lower()
+    for intent, patterns in intent_patterns.items():
+        matches = sum(1 for pattern in patterns if pattern in content_lower)
+        if matches > max_matches:
+            max_matches = matches
+            detected_intent = intent
+    
+    # Simple entity extraction (in production, use spaCy or similar)
+    entities = []
+    if "order" in content_lower:
+        entities.append("order")
+    if "account" in content_lower:
+        entities.append("account")
+    if "product" in content_lower:
+        entities.append("product")
+    
+    confidence = min(0.95, 0.5 + (max_matches * 0.15))
+    
+    return IntentResult(
+        intent=detected_intent,
+        confidence=confidence,
+        entities=entities
+    )
+    ```
+  </TabsContent>
+  
+  <TabsContent value="explanation">
+    <Card>
+      <CardHeader>
+        <CardTitle>Intent Detection Strategy</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-3">This tool identifies customer intent through pattern matching:</p>
+        <ul className="space-y-2">
+          <li>• <Badge variant="outline">Pattern Analysis</Badge> Searches for intent-specific keywords</li>
+          <li>• <Badge variant="outline">Confidence Scoring</Badge> Based on number of pattern matches</li>
+          <li>• <Badge variant="outline">Entity Extraction</Badge> Identifies key business entities</li>
+          <li>• <Badge variant="outline">Extensible Design</Badge> Easy to add new intent types</li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 3. Spam Filter Tool
+
+<Callout type="warning" className="mt-4 mb-4">
+  **Security Note**: Spam detection is crucial for preventing abuse and maintaining system performance. This tool should be continuously updated with new spam patterns.
+</Callout>
+
+<Tabs defaultValue="code" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="code">Implementation</TabsTrigger>
+    <TabsTrigger value="features">Detection Features</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="code">
+    ```python
+class SpamResult(BaseModel):
+    is_spam: bool
+    confidence: float
+    reason: str = ""
+
+@workflow_server.tool
+def filter_spam(content: str, customer_id: str) -> SpamResult:
+    """Detects spam and fraudulent tickets."""
+    
+    spam_indicators = [
+        "win money", "click here", "limited time offer", 
+        "congratulations", "lottery", "inheritance"
+    ]
+    
+    content_lower = content.lower()
+    spam_score = sum(1 for indicator in spam_indicators if indicator in content_lower)
+    
+    # Additional checks
+    is_all_caps = content.isupper() and len(content) > 20
+    has_excessive_punctuation = content.count('!') > 5 or content.count('?') > 5
+    
+    if spam_score > 0:
+        return SpamResult(
+            is_spam=True,
+            confidence=min(0.95, 0.6 + spam_score * 0.1),
+            reason=f"Contains {spam_score} spam indicators"
+        )
+    elif is_all_caps:
+        return SpamResult(
+            is_spam=True,
+            confidence=0.7,
+            reason="Message is all caps"
+        )
+    elif has_excessive_punctuation:
+        return SpamResult(
+            is_spam=True,
+            confidence=0.6,
+            reason="Excessive punctuation"
+        )
+    else:
+        return SpamResult(
+            is_spam=False,
+            confidence=0.8,
+            reason="No spam indicators detected"
+        )
+    ```
+  </TabsContent>
+  
+  <TabsContent value="features">
+    <Card>
+      <CardHeader>
+        <CardTitle>Multi-Layer Spam Detection</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold mb-2">Detection Layers:</h4>
+            <ul className="space-y-2">
+              <li className="flex items-start gap-2">
+                <Badge variant="destructive" className="mt-0.5">Keywords</Badge>
+                <span>Common spam phrases and patterns</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Badge variant="destructive" className="mt-0.5">Format</Badge>
+                <span>ALL CAPS detection for aggressive messages</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Badge variant="destructive" className="mt-0.5">Punctuation</Badge>
+                <span>Excessive exclamation/question marks</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-2">Future Enhancements:</h4>
+            <ul className="space-y-1 text-sm">
+              <li>• Machine learning-based classification</li>
+              <li>• User history analysis</li>
+              <li>• Network-based spam detection</li>
+              <li>• Real-time pattern updates</li>
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 4. Validation Tool
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>✅ Data Integrity Shield</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Ensures ticket data meets quality standards before processing:</p>
+    <ul className="mt-3 space-y-1">
+      <li>• Required field verification</li>
+      <li>• Format validation</li>
+      <li>• Length constraints</li>
+      <li>• ID format checking</li>
+    </ul>
+  </CardContent>
+</Card>
+
+```python
+class ValidationResult(BaseModel):
+    is_valid: bool
+    issues: List[str]
+
+@workflow_server.tool
+def validate_ticket(id: str, content: str, customer_id: str) -> ValidationResult:
+    """Validates ticket data structure and completeness."""
+    
+    issues = []
+    
+    # Check required fields
+    if not id or len(id.strip()) == 0:
+        issues.append("Missing ticket ID")
+    
+    if not content or len(content.strip()) < 10:
+        issues.append("Content too short or missing")
+    
+    if not customer_id or len(customer_id.strip()) == 0:
+        issues.append("Missing customer ID")
+    
+    # Check content quality
+    if content and len(content) > 5000:
+        issues.append("Content exceeds maximum length")
+    
+    # Check for valid customer ID format
+    if customer_id and not customer_id.startswith(('CUST-', 'USER-')):
+        issues.append("Invalid customer ID format")
+    
+    return ValidationResult(
+        is_valid=len(issues) == 0,
+        issues=issues
+    )
+```
+
+### 5. Response Generation Tool
+
+<Tabs defaultValue="code" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="code">Implementation</TabsTrigger>
+    <TabsTrigger value="templates">Response Templates</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="code">
+    ```python
+class ResponseData(BaseModel):
+    content: str
+    tone: str
+    suggested_actions: List[str]
+
+@workflow_server.tool
+def generate_response(ticket: dict, analysis: dict, intent: dict = None) -> ResponseData:
+    """Creates appropriate customer responses based on analysis."""
+    
+    sentiment = analysis.get("sentiment", "neutral")
+    urgency = analysis.get("urgency", "medium")
+    category = analysis.get("category", "general")
+    
+    # Generate appropriate response based on analysis
+    if sentiment == "negative" and urgency == "high":
+        content = """I sincerely apologize for the issue you're experiencing, and I understand your frustration. 
+        This matter has been escalated to our priority team, and we will resolve this within 24 hours. 
+        You'll receive updates via email, and I'll personally follow up to ensure your satisfaction."""
+        tone = "empathetic_urgent"
+        suggested_actions = ["priority_escalation", "follow_up_24h", "manager_review"]
+    
+    elif sentiment == "negative":
+        content = """I'm sorry to hear about the difficulties you're experiencing. 
+        I want to make this right for you. Let me review your account and get back to you 
+        with a solution within the next business day."""
+        tone = "empathetic_professional"
+        suggested_actions = ["standard_escalation", "follow_up_48h"]
+    
+    elif category == "billing":
+        content = """Thank you for contacting us about your billing inquiry. 
+        I've reviewed your account and will provide you with a detailed explanation 
+        of the charges and any applicable next steps."""
+        tone = "professional_helpful"
+        suggested_actions = ["billing_review", "provide_invoice"]
+    
+    elif sentiment == "positive":
+        content = """Thank you for your positive feedback! I'm glad we could help. 
+        If you need any additional assistance, please don't hesitate to reach out."""
+        tone = "friendly_professional"
+        suggested_actions = ["close_ticket", "satisfaction_survey"]
+    
+    else:
+        content = """Thank you for contacting our support team. I've received your request 
+        and will review the details. You can expect a response within 24 hours."""
+        tone = "professional"
+        suggested_actions = ["standard_processing", "follow_up_24h"]
+    
+    return ResponseData(
+        content=content,
+        tone=tone,
+        suggested_actions=suggested_actions
+    )
+    ```
+  </TabsContent>
+  
+  <TabsContent value="templates">
+    <Card>
+      <CardHeader>
+        <CardTitle>Dynamic Response System</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div>
+            <Badge variant="destructive" className="mb-2">Negative + High Urgency</Badge>
+            <p className="text-sm">Immediate escalation with empathetic tone, 24-hour resolution promise</p>
+          </div>
+          <div>
+            <Badge variant="warning" className="mb-2">Negative + Normal</Badge>
+            <p className="text-sm">Professional apology, standard escalation, 48-hour follow-up</p>
+          </div>
+          <div>
+            <Badge className="mb-2">Billing Issues</Badge>
+            <p className="text-sm">Clear explanation focus, detailed review promise</p>
+          </div>
+          <div>
+            <Badge variant="success" className="mb-2">Positive Feedback</Badge>
+            <p className="text-sm">Gratitude expression, satisfaction survey offer</p>
+          </div>
+          <div>
+            <Badge variant="secondary" className="mb-2">General Inquiries</Badge>
+            <p className="text-sm">Standard professional response, 24-hour timeline</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 6. Send Reply Tool
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>📨 Multi-Channel Delivery</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Supports multiple communication channels:</p>
+    <ul className="mt-3 space-y-1">
+      <li>• <Badge variant="outline">Email</Badge> Full-length responses with formatting</li>
+      <li>• <Badge variant="outline">SMS</Badge> Condensed messages within character limits</li>
+      <li>• <Badge variant="outline">Chat</Badge> Real-time messaging platforms</li>
+    </ul>
+  </CardContent>
+</Card>
+
+<Tabs defaultValue="code" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="code">Implementation</TabsTrigger>
+    <TabsTrigger value="integration">Integration Points</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="code">
+    ```python
+class DeliveryResult(BaseModel):
+    sent: bool
+    timestamp: str
+    delivery_id: str
+
+@workflow_server.tool
+def send_reply(customer_id: str, response: dict, channel: str = "email") -> DeliveryResult:
+    """Delivers responses to customers through appropriate channels."""
+    
+    from datetime import datetime
+    import uuid
+    
+    # In production, integrate with actual email/SMS/chat services
+    # For now, simulate the delivery
+    
+    delivery_id = f"{channel.upper()}-{uuid.uuid4().hex[:8]}"
+    
+    # Simulate channel-specific delivery
+    if channel == "email":
+        # Integration with email service (SendGrid, AWS SES, etc.)
+        print(f"📧 Sending email to customer {customer_id}")
+        print(f"Subject: Re: Your Support Request")
+        print(f"Body: {response['content']}")
+        
+    elif channel == "sms":
+        # Integration with SMS service (Twilio, etc.)
+        print(f"📱 Sending SMS to customer {customer_id}")
+        print(f"Message: {response['content'][:160]}...")  # SMS length limit
+        
+    elif channel == "chat":
+        # Integration with chat service (Slack, Teams, etc.)
+        print(f"💬 Sending chat message to customer {customer_id}")
+        print(f"Message: {response['content']}")
+    
+    # Log delivery for audit trail
+    delivery_log = {
+        "customer_id": customer_id,
+        "channel": channel,
+        "delivery_id": delivery_id,
+        "timestamp": datetime.utcnow().isoformat(),
+        "response_content": response['content'][:100] + "..." if len(response['content']) > 100 else response['content']
+    }
+    
+    # In production, save to database
+    print(f"✅ Delivery logged: {delivery_log}")
+    
+    return DeliveryResult(
+        sent=True,
+        timestamp=datetime.utcnow().isoformat(),
+        delivery_id=delivery_id
+    )
+
+# Start the MCP server
+if __name__ == "__main__":
+    workflow_server.run(transport="stdio")
+    ```
+  </TabsContent>
+  
+  <TabsContent value="integration">
+    <Card>
+      <CardHeader>
+        <CardTitle>Service Integration Options</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold mb-2">📧 Email Services</h4>
+            <ul className="space-y-1 text-sm">
+              <li>• <Badge variant="outline">SendGrid</Badge> High-volume transactional email</li>
+              <li>• <Badge variant="outline">AWS SES</Badge> Cost-effective scaling</li>
+              <li>• <Badge variant="outline">Postmark</Badge> Developer-friendly APIs</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-2">📱 SMS Services</h4>
+            <ul className="space-y-1 text-sm">
+              <li>• <Badge variant="outline">Twilio</Badge> Global SMS delivery</li>
+              <li>• <Badge variant="outline">MessageBird</Badge> Omnichannel messaging</li>
+              <li>• <Badge variant="outline">Vonage</Badge> Enterprise communications</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-2">💬 Chat Platforms</h4>
+            <ul className="space-y-1 text-sm">
+              <li>• <Badge variant="outline">Slack</Badge> Business team messaging</li>
+              <li>• <Badge variant="outline">Teams</Badge> Microsoft ecosystem</li>
+              <li>• <Badge variant="outline">Discord</Badge> Community engagement</li>
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+## 🎭 MCP Client - Workflow Orchestrator
+
+### Core Components
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>🌐 Orchestration Layer</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>The client side manages:</p>
+    <ul className="mt-3 space-y-2">
+      <li>• Workflow definition and node connections</li>
+      <li>• Execution order and parallelization</li>
+      <li>• Context and data flow between tools</li>
+      <li>• Error handling and recovery strategies</li>
+    </ul>
+  </CardContent>
+</Card>
+
+<Tabs defaultValue="implementation" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="implementation">Client Implementation</TabsTrigger>
+    <TabsTrigger value="architecture">Architecture Design</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="implementation">
+
+```python
+import asyncio
+import json
+from mcp import stdio_client
+from typing import Dict, List, Any, Optional
+from dataclasses import dataclass
+
+@dataclass
+class NodeDefinition:
+    id: str
+    tool_name: str
+    description: str
+    connections: List[str]
+    parallel_nodes: List[str]
+    is_router: bool = False
+
+@dataclass
+class WorkflowConfig:
+    name: str
+    description: str
+    nodes: List[NodeDefinition]
+
+class WorkflowContext:
+    def __init__(self, ticket_id: str):
+        self.ticket_id = ticket_id
+        self.data: Dict[str, Any] = {}
+        self.completed_nodes: List[str] = []
+        self.current_node: Optional[str] = None
+
+class McpWorkflowClient:
+    def __init__(self, server_url: str):
+        self.server_url = server_url
+        self.session = None
+    
+    async def connect(self):
+        """Establish WebSocket connection to MCP server."""
+        server_params = {
+            "command": "python",
+            "args": ["workflow_server.py"]
+        }
+        self.session = stdio_client(server_params)
+        await self.session.__aenter__()
+    
+    async def list_available_tools(self) -> List[str]:
+        """Query server capabilities."""
+        tools = await self.session.list_tools()
+        return [tool.name for tool in tools]
+    
+    async def execute_workflow(self, config: WorkflowConfig, input_data: Dict) -> Dict:
+        """Execute complete workflow."""
+        context = WorkflowContext(input_data.get("id", "unknown"))
+        context.data["input"] = input_data
+        
+        # Start with first node
+        current_nodes = [config.nodes[0].id]
+        
+        while current_nodes:
+            # Execute current batch of nodes
+            next_nodes = await self._execute_node_batch(
+                config, context, current_nodes
+            )
+            current_nodes = next_nodes
+        
+        return {
+            "success": True,
+            "execution_path": context.completed_nodes,
+            "final_data": context.data,
+            "errors": []
+        }
+    
+    async def _execute_node_batch(
+        self, 
+        config: WorkflowConfig, 
+        context: WorkflowContext, 
+        node_ids: List[str]
+    ) -> List[str]:
+        """Execute a batch of nodes (potentially in parallel)."""
+        
+        nodes = [node for node in config.nodes if node.id in node_ids]
+        
+        # Check for parallel execution
+        parallel_groups = self._group_parallel_nodes(nodes)
+        
+        next_nodes = []
+        
+        for group in parallel_groups:
+            if len(group) == 1:
+                # Single node execution
+                result = await self._execute_single_node(group[0], context)
+                next_nodes.extend(self._get_next_nodes(group[0], result))
+            else:
+                # Parallel execution
+                tasks = [
+                    self._execute_single_node(node, context) 
+                    for node in group
+                ]
+                results = await asyncio.gather(*tasks)
+                
+                for node, result in zip(group, results):
+                    next_nodes.extend(self._get_next_nodes(node, result))
+        
+        return list(set(next_nodes))  # Remove duplicates
+    
+    async def _execute_single_node(self, node: NodeDefinition, context: WorkflowContext) -> Any:
+        """Execute a single workflow node."""
+        print(f"🔧 Executing node: {node.id}")
+        
+        # Prepare arguments based on node type
+        if node.tool_name == "analyze_ticket":
+            args = context.data["input"]
+        elif node.tool_name == "determine_intent":
+            args = {"content": context.data["input"]["content"]}
+        elif node.tool_name == "filter_spam":
+            args = {
+                "content": context.data["input"]["content"],
+                "customer_id": context.data["input"]["customer_id"]
+            }
+        elif node.tool_name == "validate_ticket":
+            input_data = context.data["input"]
+            args = {
+                "id": input_data["id"],
+                "content": input_data["content"],
+                "customer_id": input_data["customer_id"]
+            }
+        elif node.tool_name == "generate_response":
+            args = {
+                "ticket": context.data["input"],
+                "analysis": context.data.get("analyze_ticket_result", {}),
+                "intent": context.data.get("determine_intent_result", {})
+            }
+        elif node.tool_name == "send_reply":
+            args = {
+                "customer_id": context.data["input"]["customer_id"],
+                "response": context.data.get("generate_response_result", {}),
+                "channel": "email"
+            }
+        else:
+            args = {}
+        
+        # Execute tool via MCP
+        try:
+            result = await self.session.call_tool(node.tool_name, args)
+            
+            # Store result in context
+            context.data[f"{node.id}_result"] = result
+            context.completed_nodes.append(node.id)
+            
+            print(f"✅ Node {node.id} completed successfully")
+            return result
+            
+        except Exception as e:
+            print(f"❌ Node {node.id} failed: {e}")
+            context.data[f"{node.id}_error"] = str(e)
+            raise
+    
+    def _group_parallel_nodes(self, nodes: List[NodeDefinition]) -> List[List[NodeDefinition]]:
+        """Group nodes that can be executed in parallel."""
+        # For this example, we'll execute nodes with parallel_nodes in parallel
+        # In a more sophisticated implementation, you'd analyze dependencies
+        return [[node] for node in nodes]  # Sequential for simplicity
+    
+    def _get_next_nodes(self, node: NodeDefinition, result: Any) -> List[str]:
+        """Determine next nodes based on current node and result."""
+        if node.is_router:
+            # Router logic would go here
+            # For now, just return connections
+            return node.connections
+        else:
+            return node.connections
+```
+  </TabsContent>
+  
+  <TabsContent value="architecture">
+    <Card>
+      <CardHeader>
+        <CardTitle>Client Architecture</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold mb-2">Key Components:</h4>
+            <ul className="space-y-2 text-sm">
+              <li>• <strong>NodeDefinition</strong>: Describes individual workflow nodes</li>
+              <li>• <strong>WorkflowConfig</strong>: Complete workflow structure</li>
+              <li>• <strong>WorkflowContext</strong>: Runtime state and data</li>
+              <li>• <strong>McpWorkflowClient</strong>: Main orchestration engine</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-2">Execution Strategy:</h4>
+            <ul className="space-y-2 text-sm">
+              <li>• Sequential execution by default</li>
+              <li>• Parallel execution for independent nodes</li>
+              <li>• Router nodes for conditional branching</li>
+              <li>• Automatic context propagation</li>
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 📋 Predefined Workflow Configurations
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>🔧 Workflow Templates</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Pre-built workflow configurations for common use cases. These templates define the node structure, connections, and execution patterns for different business scenarios.</p>
+  </CardContent>
+</Card>
+
+```python
+def get_customer_care_workflow() -> WorkflowConfig:
+    """Complete customer support ticket processing workflow."""
+    return WorkflowConfig(
+        name="customer_care",
+        description="Complete customer support ticket processing",
+        nodes=[
+            NodeDefinition(
+                id="analyze_ticket",
+                tool_name="analyze_ticket",
+                description="Analyze ticket sentiment and urgency",
+                connections=["parallel_analysis"],
+                parallel_nodes=[]
+            ),
+            NodeDefinition(
+                id="parallel_analysis",
+                tool_name="parallel_group",
+                description="Run parallel analysis",
+                connections=["ticket_router"],
+                parallel_nodes=["determine_intent", "filter_spam", "validate_ticket"]
+            ),
+            NodeDefinition(
+                id="determine_intent",
+                tool_name="determine_intent",
+                description="Extract customer intent",
+                connections=["ticket_router"],
+                parallel_nodes=[]
+            ),
+            NodeDefinition(
+                id="filter_spam",
+                tool_name="filter_spam",
+                description="Check for spam",
+                connections=["ticket_router"],
+                parallel_nodes=[]
+            ),
+            NodeDefinition(
+                id="validate_ticket",
+                tool_name="validate_ticket",
+                description="Validate ticket data",
+                connections=["ticket_router"],
+                parallel_nodes=[]
+            ),
+            NodeDefinition(
+                id="ticket_router",
+                tool_name="ticket_router",
+                description="Route ticket based on analysis",
+                connections=["generate_response"],
+                parallel_nodes=[],
+                is_router=True
+            ),
+            NodeDefinition(
+                id="generate_response",
+                tool_name="generate_response",
+                description="Generate customer response",
+                connections=["send_reply"],
+                parallel_nodes=[]
+            ),
+            NodeDefinition(
+                id="send_reply",
+                tool_name="send_reply",
+                description="Send response to customer",
+                connections=[],
+                parallel_nodes=[]
+            )
+        ]
+    )
+
+def get_spam_filter_workflow() -> WorkflowConfig:
+    """Quick spam detection and handling workflow."""
+    return WorkflowConfig(
+        name="spam_filter",
+        description="Quick spam detection and handling",
+        nodes=[
+            NodeDefinition(
+                id="validate_input",
+                tool_name="validate_ticket",
+                description="Validate input data",
+                connections=["filter_spam"],
+                parallel_nodes=[]
+            ),
+            NodeDefinition(
+                id="filter_spam",
+                tool_name="filter_spam",
+                description="Check for spam indicators",
+                connections=["spam_router"],
+                parallel_nodes=[]
+            ),
+            NodeDefinition(
+                id="spam_router",
+                tool_name="spam_router",
+                description="Route based on spam detection",
+                connections=["generate_response"],
+                parallel_nodes=[],
+                is_router=True
+            ),
+            NodeDefinition(
+                id="generate_response",
+                tool_name="generate_response",
+                description="Generate appropriate response",
+                connections=[],
+                parallel_nodes=[]
+            )
+        ]
+    )
+```
+
+## 🚀 Complete Workflow Execution Example
+
+<Callout type="info" className="mt-4 mb-4">
+  **Demo Scenario**: Processing an urgent customer complaint about a damaged order, demonstrating sentiment analysis, intent detection, response generation, and multi-channel delivery.
+</Callout>
+
+<Card className="mt-4 mb-6">
+  <CardHeader>
+    <CardTitle>💻 End-to-End Implementation</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>This example demonstrates the complete workflow from ticket receipt to customer response delivery.</p>
+  </CardContent>
+</Card>
+
+Here's how to use the system end-to-end:
+
+```python
+async def main():
+    """Demonstrate complete workflow execution."""
+    
+    # Initialize client and connect to server
+    client = McpWorkflowClient("ws://127.0.0.1:8080")
+    await client.connect()
+    
+    # Check available tools
+    available_tools = await client.list_available_tools()
+    print(f"🔧 Available tools: {available_tools}")
+    
+    # Prepare test ticket
+    customer_ticket = {
+        "id": "TICKET-001",
+        "content": "I'm really frustrated! My order arrived damaged and I need this fixed immediately!",
+        "customer_id": "CUST-12345",
+        "priority": "high",
+        "category": "order"
+    }
+    
+    # Get workflow configuration
+    workflow_config = get_customer_care_workflow()
+    
+    # Execute workflow
+    print("🚀 Starting workflow execution...")
+    result = await client.execute_workflow(workflow_config, customer_ticket)
+    
+    # Display results
+    print("\n📊 WORKFLOW COMPLETED:")
+    print(f"Status: {'SUCCESS' if result['success'] else 'FAILED'}")
+    print(f"Execution Path: {' → '.join(result['execution_path'])}")
+    
+    if result['errors']:
+        print(f"Errors: {result['errors']}")
+    
+    # Display key results
+    analysis_result = result['final_data'].get('analyze_ticket_result')
+    if analysis_result:
+        print(f"\n🔍 Analysis Result:")
+        print(f"  Sentiment: {analysis_result['sentiment']}")
+        print(f"  Urgency: {analysis_result['urgency']}")
+        print(f"  Category: {analysis_result['category']}")
+        print(f"  Confidence: {analysis_result['confidence']:.1%}")
+    
+    response_result = result['final_data'].get('generate_response_result')
+    if response_result:
+        print(f"\n💬 Generated Response:")
+        print(f"  Tone: {response_result['tone']}")
+        print(f"  Actions: {', '.join(response_result['suggested_actions'])}")
+        print(f"  Content: {response_result['content'][:150]}...")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+<Callout type="success" className="mt-6">
+  **Output Example**: This workflow processes a high-priority complaint through sentiment analysis, intent detection, spam filtering, validation, response generation, and multi-channel delivery - all in a distributed, scalable architecture.
+</Callout>
+
+## 🎆 Key Benefits of MCP Architecture
+
+<div className="grid gap-4 mt-6">
+  <Card>
+    <CardHeader>
+      <CardTitle>👨‍💻 Development Benefits</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Flexibility</Badge>
+          <span>Tools can be implemented in optimal languages</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Independence</Badge>
+          <span>Different teams can own different tools</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Prototyping</Badge>
+          <span>Easy A/B testing of tool implementations</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Versioning</Badge>
+          <span>Independent tool versioning and deployment</span>
+        </li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>⚙️ Operational Benefits</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Scaling</Badge>
+          <span>Distribute tools across multiple servers</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Isolation</Badge>
+          <span>Tool failures don't crash entire workflow</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Optimization</Badge>
+          <span>Scale individual tools based on usage</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Monitoring</Badge>
+          <span>Per-tool metrics and observability</span>
+        </li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>💼 Business Benefits</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Reusability</Badge>
+          <span>Same tools across multiple workflows</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Standards</Badge>
+          <span>Easy integration with AI systems</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Vendor-Neutral</Badge>
+          <span>Mix and match tool providers</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">Future-Proof</Badge>
+          <span>Standard protocol for long-term compatibility</span>
+        </li>
+      </ul>
+    </CardContent>
+  </Card>
+</div>
+
+## 🏯 Responsibility Separation
+
+<Card className="mt-6 mb-6">
+  <CardContent className="pt-6">
+    <p>Clear separation of concerns is crucial for maintainable distributed systems. Here's how responsibilities are divided between client and server components:</p>
+  </CardContent>
+</Card>
+
+<Tabs defaultValue="client" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="client">Client Responsibilities</TabsTrigger>
+    <TabsTrigger value="server">Server Responsibilities</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="client">
+    <Card>
+      <CardHeader>
+        <CardTitle>🎭 CLIENT (Workflow Orchestrator)</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-3">
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Workflow Definition</strong>
+              <p className="text-sm text-muted-foreground">Node connections, parallel execution, routing logic</p>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Execution Orchestration</strong>
+              <p className="text-sm text-muted-foreground">Order management, dependency resolution</p>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Context Management</strong>
+              <p className="text-sm text-muted-foreground">Data flow between tools, result aggregation</p>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Error Handling</strong>
+              <p className="text-sm text-muted-foreground">Retry logic, fallback strategies, workflow recovery</p>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Monitoring</strong>
+              <p className="text-sm text-muted-foreground">Progress tracking, performance metrics, reporting</p>
+            </div>
+          </li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+  
+  <TabsContent value="server">
+    <Card>
+      <CardHeader>
+        <CardTitle>🔧 SERVER (Tool Provider)</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-3">
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Business Logic Execution</strong>
+              <p className="text-sm text-muted-foreground">Core algorithm implementation</p>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Data Processing</strong>
+              <p className="text-sm text-muted-foreground">Input validation, transformation, output formatting</p>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>External Integrations</strong>
+              <p className="text-sm text-muted-foreground">Database connections, API calls, service integrations</p>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Tool-Specific Errors</strong>
+              <p className="text-sm text-muted-foreground">Input validation, processing failures</p>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✅</Badge>
+            <div>
+              <strong>Resource Management</strong>
+              <p className="text-sm text-muted-foreground">Memory, computation, I/O operations</p>
+            </div>
+          </li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+## 🎯 Conclusion
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>🏆 Transformation Summary</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p className="mb-4">This MCP-based workflow architecture transforms monolithic systems into distributed, maintainable solutions by:</p>
+    <ul className="space-y-2">
+      <li>✅ Separating workflow orchestration from tool implementation</li>
+      <li>✅ Enabling flexibility, scalability, and reusability</li>
+      <li>✅ Maintaining power and control for enterprise applications</li>
+      <li>✅ Providing better testing and debugging capabilities</li>
+      <li>✅ Creating a foundation for future enhancements</li>
+    </ul>
+  </CardContent>
+</Card>
+
+<Callout type="success" className="mt-6">
+  <strong>🌟 Remember</strong>: The transformation from monolithic Rust to distributed MCP provides immediate benefits through better separation of concerns, easier testing, and independent scaling, while laying the foundation for future enhancements and integrations.
+</Callout>
+
+<Card className="mt-6 mb-6 border-2 border-primary">
+  <CardHeader>
+    <CardTitle>📚 Next Steps</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-3">
+      <p>Ready to implement MCP in your workflow system? Here's your action plan:</p>
+      <ul className="space-y-2">
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">1</Badge>
+          <span>Start by identifying your workflow nodes and their dependencies</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">2</Badge>
+          <span>Implement individual tools as MCP server endpoints</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">3</Badge>
+          <span>Build a simple client to test tool communication</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">4</Badge>
+          <span>Gradually migrate your workflow logic to the orchestrator</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <Badge variant="outline" className="mt-0.5">5</Badge>
+          <span>Add monitoring and error handling for production readiness</span>
+        </li>
+      </ul>
+    </div>
+  </CardContent>
+</Card>

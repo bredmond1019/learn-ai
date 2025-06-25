@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: portfolio-config
+  namespace: portfolio
+  labels:
+    app: portfolio
+    component: config
+data:
+  NODE_ENV: "production"
+  NEXT_PUBLIC_APP_NAME: "Brandon Redmond - AI Engineer"
+  RATE_LIMIT_WINDOW_MS: "900000"
+  RATE_LIMIT_MAX_REQUESTS: "5"
+  LOG_LEVEL: "info"
+  LOG_FORMAT: "json"
+  NEXT_PUBLIC_ENABLE_ANALYTICS: "false"
+  NEXT_PUBLIC_ENABLE_TRANSLATIONS: "true"
+  NEXT_PUBLIC_ENABLE_CONTACT_FORM: "true"
+  NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING: "true"
+  PERFORMANCE_SAMPLE_RATE: "0.1"
+  DEPLOYMENT_ENVIRONMENT: "production"

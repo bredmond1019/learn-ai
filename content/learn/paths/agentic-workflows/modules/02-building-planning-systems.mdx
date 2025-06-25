@@ -1,0 +1,1446 @@
+---
+title: "Building Planning Systems"
+description: "Learn to design and implement sophisticated planning algorithms that enable AI agents to reason about complex, multi-step tasks and adapt strategies based on changing conditions."
+duration: "120 minutes"
+difficulty: "intermediate"
+order: 2
+pathId: "agentic-workflows"
+moduleId: "building-planning-systems"
+type: "concept"
+objectives:
+  - "Understand different planning paradigms and algorithms"
+  - "Implement classical planning algorithms (A*, STRIPS, HTN)"
+  - "Design hierarchical task networks for complex problems"
+  - "Build adaptive replanning systems for dynamic environments"
+  - "Create goal-oriented agents with flexible planning capabilities"
+  - "Integrate planning with uncertainty and partial observability"
+prerequisites:
+  - "Agent Architecture Patterns"
+  - "Understanding of search algorithms"
+  - "Python programming proficiency"
+tags:
+  - "planning-algorithms"
+  - "strips"
+  - "hierarchical-planning"
+  - "adaptive-planning"
+  - "goal-reasoning"
+  - "search-algorithms"
+version: "1.0.0"
+lastUpdated: "2025-06-20"
+author: "AI Engineering Team"
+estimatedCompletionTime: 275
+---
+
+# Building Planning Systems
+
+Planning is the heart of intelligent behavior in AI agents. It's the process of determining a sequence of actions that will transform the current state of the world into a desired goal state. In this module, we'll explore how to build sophisticated planning systems that enable agents to reason about complex, multi-step tasks and adapt their strategies when conditions change.
+
+## Learning Objectives
+
+By the end of this module, you will:
+
+- Understand different planning paradigms and their appropriate applications
+- Implement classical planning algorithms including STRIPS and A* search
+- Design hierarchical task networks for breaking down complex problems  
+- Build adaptive replanning systems that handle dynamic environments
+- Create goal-oriented agents with flexible planning capabilities
+- Integrate planning with uncertainty and partial observability
+
+## Planning Fundamentals
+
+### What is Planning?
+
+Planning is the process of finding a sequence of actions that transforms an initial state into a goal state. It involves:
+
+1. **State Representation**: How we model the world
+2. **Action Model**: What actions are available and their effects
+3. **Goal Specification**: What we want to achieve
+4. **Search Strategy**: How we find a solution plan
+
+### Core Components
+
+#### State Space
+The state space represents all possible configurations of the world. States can be:
+- **Atomic**: Indivisible units (e.g., location names)
+- **Factored**: Sets of variables (e.g., robot_location=kitchen, battery_level=80%)
+- **Structured**: Complex objects with relationships
+
+#### Actions
+Actions are the building blocks of plans. Each action has:
+- **Preconditions**: What must be true to execute the action
+- **Effects**: How the action changes the world state
+- **Cost**: Resources required for execution
+
+#### Goals
+Goals specify the desired end state. They can be:
+- **Achievement goals**: Reach a specific state
+- **Maintenance goals**: Keep something true
+- **Temporal goals**: Accomplish within time constraints
+
+## Classical Planning Algorithms
+
+### STRIPS Planning
+
+STRIPS (Stanford Research Institute Problem Solver) is a foundational planning algorithm that represents states as sets of logical propositions.
+
+#### STRIPS Representation
+- **States**: Sets of ground propositions
+- **Actions**: Defined by preconditions and effects
+- **Goals**: Conjunction of propositions
+
+#### Code Example: STRIPS Planner Implementation
+
+```python
+from typing import Set, List, Dict, Optional, Tuple
+from dataclasses import dataclass
+from copy import deepcopy
+import heapq
+
+@dataclass(frozen=True)
+class Proposition:
+    """A logical proposition in the world state"""
+    predicate: str
+    args: Tuple[str, ...] = ()
+    
+    def __str__(self):
+        if self.args:
+            return f"{self.predicate}({', '.join(self.args)})"
+        return self.predicate
+
+@dataclass
+class Action:
+    """STRIPS action representation"""
+    name: str
+    parameters: List[str]
+    preconditions: Set[Proposition]
+    add_effects: Set[Proposition]
+    delete_effects: Set[Proposition]
+    cost: int = 1
+    
+    def is_applicable(self, state: Set[Proposition]) -> bool:
+        """Check if action can be executed in given state"""
+        return self.preconditions.issubset(state)
+    
+    def apply(self, state: Set[Proposition]) -> Set[Proposition]:
+        """Apply action to state, returning new state"""
+        if not self.is_applicable(state):
+            raise ValueError(f"Action {self.name} not applicable in current state")
+        
+        new_state = (state - self.delete_effects) | self.add_effects
+        return new_state
+    
+    def __str__(self):
+        params = f"({', '.join(self.parameters)})" if self.parameters else ""
+        return f"{self.name}{params}"
+
+class STRIPSPlanner:
+    """Forward-search STRIPS planner"""
+    
+    def __init__(self):
+        self.actions: List[Action] = []
+        
+    def add_action(self, action: Action):
+        """Add an action to the planner's action library"""
+        self.actions.append(action)
+        
+    def is_goal_satisfied(self, state: Set[Proposition], goal: Set[Proposition]) -> bool:
+        """Check if goal is satisfied in current state"""
+        return goal.issubset(state)
+    
+    def get_applicable_actions(self, state: Set[Proposition]) -> List[Action]:
+        """Get all actions applicable in current state"""
+        return [action for action in self.actions if action.is_applicable(state)]
+    
+    def plan(self, initial_state: Set[Proposition], goal: Set[Proposition], 
+             max_depth: int = 20) -> Optional[List[Action]]:
+        """Find a plan using breadth-first search"""
+        
+        if self.is_goal_satisfied(initial_state, goal):
+            return []
+        
+        # BFS queue: (current_state, plan_so_far, depth)
+        queue = [(initial_state, [], 0)]
+        visited = {frozenset(initial_state)}
+        
+        while queue:
+            current_state, current_plan, depth = queue.pop(0)
+            
+            if depth >= max_depth:
+                continue
+                
+            # Try all applicable actions
+            for action in self.get_applicable_actions(current_state):
+                new_state = action.apply(current_state)
+                state_key = frozenset(new_state)
+                
+                if state_key not in visited:
+                    visited.add(state_key)
+                    new_plan = current_plan + [action]
+                    
+                    # Check if goal is reached
+                    if self.is_goal_satisfied(new_state, goal):
+                        return new_plan
+                    
+                    queue.append((new_state, new_plan, depth + 1))
+        
+        return None  # No plan found
+    
+    def plan_with_heuristic(self, initial_state: Set[Proposition], 
+                           goal: Set[Proposition], max_depth: int = 20) -> Optional[List[Action]]:
+        """Find a plan using A* search with simple heuristic"""
+        
+        def heuristic(state: Set[Proposition]) -> int:
+            """Simple heuristic: count unsatisfied goal propositions"""
+            return len(goal - state)
+        
+        if self.is_goal_satisfied(initial_state, goal):
+            return []
+        
+        # Priority queue: (f_score, g_score, current_state, plan_so_far)
+        pq = [(heuristic(initial_state), 0, initial_state, [])]
+        visited = {frozenset(initial_state): 0}
+        
+        while pq:
+            f_score, g_score, current_state, current_plan = heapq.heappop(pq)
+            
+            if g_score >= max_depth:
+                continue
+            
+            # Try all applicable actions
+            for action in self.get_applicable_actions(current_state):
+                new_state = action.apply(current_state)
+                new_g_score = g_score + action.cost
+                new_plan = current_plan + [action]
+                
+                state_key = frozenset(new_state)
+                
+                # Skip if we've seen this state with better cost
+                if state_key in visited and visited[state_key] <= new_g_score:
+                    continue
+                
+                visited[state_key] = new_g_score
+                
+                # Check if goal is reached
+                if self.is_goal_satisfied(new_state, goal):
+                    return new_plan
+                
+                # Add to priority queue
+                h_score = heuristic(new_state)
+                f_score = new_g_score + h_score
+                heapq.heappush(pq, (f_score, new_g_score, new_state, new_plan))
+        
+        return None  # No plan found
+
+# Example usage: Robot navigation and object manipulation
+def create_robot_world():
+    """Create a simple robot world with navigation and manipulation"""
+    planner = STRIPSPlanner()
+    
+    # Define locations
+    locations = ["kitchen", "living_room", "bedroom", "garage"]
+    
+    # Navigation actions
+    for loc1 in locations:
+        for loc2 in locations:
+            if loc1 != loc2:
+                move_action = Action(
+                    name=f"move_{loc1}_to_{loc2}",
+                    parameters=[],
+                    preconditions={Proposition("robot_at", (loc1,))},
+                    add_effects={Proposition("robot_at", (loc2,))},
+                    delete_effects={Proposition("robot_at", (loc1,))},
+                    cost=1
+                )
+                planner.add_action(move_action)
+    
+    # Object manipulation actions
+    objects = ["book", "cup", "keys"]
+    
+    for obj in objects:
+        for loc in locations:
+            # Pick up object
+            pickup_action = Action(
+                name=f"pickup_{obj}",
+                parameters=[],
+                preconditions={
+                    Proposition("robot_at", (loc,)),
+                    Proposition("object_at", (obj, loc)),
+                    Proposition("robot_empty_handed")
+                },
+                add_effects={Proposition("robot_holding", (obj,))},
+                delete_effects={
+                    Proposition("object_at", (obj, loc)),
+                    Proposition("robot_empty_handed")
+                },
+                cost=2
+            )
+            planner.add_action(pickup_action)
+            
+            # Put down object
+            putdown_action = Action(
+                name=f"putdown_{obj}",
+                parameters=[],
+                preconditions={
+                    Proposition("robot_at", (loc,)),
+                    Proposition("robot_holding", (obj,))
+                },
+                add_effects={
+                    Proposition("object_at", (obj, loc)),
+                    Proposition("robot_empty_handed")
+                },
+                delete_effects={Proposition("robot_holding", (obj,))},
+                cost=2
+            )
+            planner.add_action(putdown_action)
+    
+    return planner
+
+# Test the planner
+planner = create_robot_world()
+
+# Initial state: robot in kitchen, book in living room, robot empty-handed
+initial_state = {
+    Proposition("robot_at", ("kitchen",)),
+    Proposition("object_at", ("book", "living_room")),
+    Proposition("robot_empty_handed")
+}
+
+# Goal: book in bedroom
+goal = {
+    Proposition("object_at", ("book", "bedroom"))
+}
+
+plan = planner.plan_with_heuristic(initial_state, goal)
+
+if plan:
+    print("Plan found:")
+    for i, action in enumerate(plan, 1):
+        print(f"{i}. {action}")
+else:
+    print("No plan found")
+```
+
+### A* Planning Algorithm
+
+A* search is optimal when using an admissible heuristic and can be very effective for planning problems with good heuristic functions.
+
+#### Code Example: A* Planning with Advanced Heuristics
+
+```python
+import heapq
+from typing import Set, List, Dict, Optional, Tuple, Callable
+from dataclasses import dataclass
+import math
+
+class AStarPlanner:
+    """A* planner with configurable heuristics"""
+    
+    def __init__(self, heuristic_func: Optional[Callable] = None):
+        self.actions: List[Action] = []
+        self.heuristic_func = heuristic_func or self._default_heuristic
+        
+    def add_action(self, action: Action):
+        self.actions.append(action)
+        
+    def _default_heuristic(self, state: Set[Proposition], goal: Set[Proposition]) -> float:
+        """Default heuristic: count unsatisfied goals"""
+        return len(goal - state)
+    
+    def _manhattan_heuristic(self, state: Set[Proposition], goal: Set[Proposition]) -> float:
+        """Manhattan distance heuristic for spatial planning"""
+        # Extract robot position from state
+        robot_pos = None
+        goal_pos = None
+        
+        for prop in state:
+            if prop.predicate == "robot_at":
+                robot_pos = prop.args[0]
+                break
+        
+        for prop in goal:
+            if prop.predicate == "robot_at":
+                goal_pos = prop.args[0]
+                break
+        
+        if robot_pos and goal_pos:
+            # Simple coordinate mapping (in practice, use actual coordinates)
+            pos_coords = {
+                "kitchen": (0, 0),
+                "living_room": (1, 0), 
+                "bedroom": (0, 1),
+                "garage": (1, 1)
+            }
+            
+            if robot_pos in pos_coords and goal_pos in pos_coords:
+                x1, y1 = pos_coords[robot_pos]
+                x2, y2 = pos_coords[goal_pos]
+                return abs(x1 - x2) + abs(y1 - y2)
+        
+        return self._default_heuristic(state, goal)
+    
+    def plan(self, initial_state: Set[Proposition], goal: Set[Proposition], 
+             max_depth: int = 50) -> Optional[Tuple[List[Action], Dict[str, float]]]:
+        """
+        Find optimal plan using A* search
+        Returns tuple of (plan, metrics) or None if no plan found
+        """
+        
+        if goal.issubset(initial_state):
+            return [], {"nodes_expanded": 0, "plan_cost": 0, "search_time": 0}
+        
+        # Priority queue: (f_score, g_score, state, plan, depth)
+        pq = [(self.heuristic_func(initial_state, goal), 0, initial_state, [], 0)]
+        
+        # Track best g_score for each state
+        g_scores = {frozenset(initial_state): 0}
+        nodes_expanded = 0
+        
+        while pq:
+            f_score, g_score, current_state, current_plan, depth = heapq.heappop(pq)
+            nodes_expanded += 1
+            
+            if depth >= max_depth:
+                continue
+            
+            # Skip if we've found a better path to this state
+            state_key = frozenset(current_state)
+            if state_key in g_scores and g_scores[state_key] < g_score:
+                continue
+            
+            # Try all applicable actions
+            for action in self.actions:
+                if action.is_applicable(current_state):
+                    new_state = action.apply(current_state)
+                    new_g_score = g_score + action.cost
+                    new_plan = current_plan + [action]
+                    new_state_key = frozenset(new_state)
+                    
+                    # Skip if we've seen this state with better cost
+                    if new_state_key in g_scores and g_scores[new_state_key] <= new_g_score:
+                        continue
+                    
+                    g_scores[new_state_key] = new_g_score
+                    
+                    # Check if goal is reached
+                    if goal.issubset(new_state):
+                        metrics = {
+                            "nodes_expanded": nodes_expanded,
+                            "plan_cost": new_g_score,
+                            "plan_length": len(new_plan)
+                        }
+                        return new_plan, metrics
+                    
+                    # Add to priority queue
+                    h_score = self.heuristic_func(new_state, goal)
+                    new_f_score = new_g_score + h_score
+                    heapq.heappush(pq, (new_f_score, new_g_score, new_state, 
+                                      new_plan, depth + 1))
+        
+        return None  # No plan found
+```
+
+## Hierarchical Task Networks (HTN)
+
+Hierarchical Task Networks break complex tasks into simpler subtasks, making planning more tractable and allowing domain knowledge to guide the search.
+
+### HTN Concepts
+
+- **Primitive Tasks**: Basic actions that can be executed directly
+- **Compound Tasks**: Complex tasks that must be decomposed
+- **Methods**: Ways to decompose compound tasks into subtasks
+- **Ordering Constraints**: Relationships between subtasks
+
+#### Code Example: HTN Planner Implementation
+
+```python
+from typing import List, Dict, Set, Optional, Union, Any
+from dataclasses import dataclass
+from enum import Enum
+from abc import ABC, abstractmethod
+
+class TaskType(Enum):
+    PRIMITIVE = "primitive"
+    COMPOUND = "compound"
+
+@dataclass
+class Task:
+    """Represents a task in HTN planning"""
+    name: str
+    parameters: List[str]
+    task_type: TaskType
+    
+    def __str__(self):
+        params = f"({', '.join(self.parameters)})" if self.parameters else ""
+        return f"{self.name}{params}"
+
+@dataclass
+class Method:
+    """Method for decomposing compound tasks"""
+    name: str
+    task: Task  # The compound task this method decomposes
+    preconditions: Set[Proposition]
+    subtasks: List[Task]
+    ordering_constraints: List[Tuple[int, int]]  # (before, after) indices
+    
+    def is_applicable(self, state: Set[Proposition]) -> bool:
+        return self.preconditions.issubset(state)
+
+@dataclass
+class HTNPlan:
+    """Complete HTN plan with execution order"""
+    tasks: List[Task]
+    total_cost: int
+    decomposition_tree: Dict[str, Any]
+
+class HTNPlanner:
+    """Hierarchical Task Network planner"""
+    
+    def __init__(self):
+        self.primitive_actions: Dict[str, Action] = {}
+        self.methods: Dict[str, List[Method]] = {}
+        
+    def add_primitive_action(self, action: Action):
+        """Add a primitive action"""
+        self.primitive_actions[action.name] = action
+        
+    def add_method(self, method: Method):
+        """Add a decomposition method"""
+        task_name = method.task.name
+        if task_name not in self.methods:
+            self.methods[task_name] = []
+        self.methods[task_name].append(method)
+    
+    def is_primitive(self, task: Task) -> bool:
+        """Check if task is primitive"""
+        return task.task_type == TaskType.PRIMITIVE or task.name in self.primitive_actions
+    
+    def get_applicable_methods(self, task: Task, state: Set[Proposition]) -> List[Method]:
+        """Get methods applicable to decompose the task in current state"""
+        if task.name in self.methods:
+            return [method for method in self.methods[task.name] 
+                   if method.is_applicable(state)]
+        return []
+    
+    def topological_sort(self, subtasks: List[Task], 
+                        constraints: List[Tuple[int, int]]) -> List[Task]:
+        """Sort subtasks according to ordering constraints"""
+        if not constraints:
+            return subtasks
+        
+        # Simple topological sort
+        in_degree = [0] * len(subtasks)
+        graph = [[] for _ in range(len(subtasks))]
+        
+        for before, after in constraints:
+            graph[before].append(after)
+            in_degree[after] += 1
+        
+        queue = [i for i in range(len(subtasks)) if in_degree[i] == 0]
+        result = []
+        
+        while queue:
+            current = queue.pop(0)
+            result.append(subtasks[current])
+            
+            for neighbor in graph[current]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
+                    queue.append(neighbor)
+        
+        return result if len(result) == len(subtasks) else subtasks
+    
+    def plan(self, tasks: List[Task], initial_state: Set[Proposition], 
+             goal: Set[Proposition], max_depth: int = 20) -> Optional[HTNPlan]:
+        """
+        Generate HTN plan using recursive task decomposition
+        """
+        return self._plan_recursive(tasks, initial_state, goal, 0, max_depth, {})
+    
+    def _plan_recursive(self, tasks: List[Task], state: Set[Proposition], 
+                       goal: Set[Proposition], depth: int, max_depth: int,
+                       decomposition_tree: Dict[str, Any]) -> Optional[HTNPlan]:
+        """Recursive HTN planning algorithm"""
+        
+        if depth > max_depth:
+            return None
+        
+        if not tasks:
+            # No more tasks, check if goal is satisfied
+            if goal.issubset(state):
+                return HTNPlan([], 0, decomposition_tree)
+            return None
+        
+        current_task = tasks[0]
+        remaining_tasks = tasks[1:]
+        
+        if self.is_primitive(current_task):
+            # Execute primitive action
+            if current_task.name in self.primitive_actions:
+                action = self.primitive_actions[current_task.name]
+                if action.is_applicable(state):
+                    new_state = action.apply(state)
+                    
+                    # Recursively plan for remaining tasks
+                    sub_plan = self._plan_recursive(remaining_tasks, new_state, goal, 
+                                                  depth + 1, max_depth, decomposition_tree)
+                    if sub_plan:
+                        return HTNPlan(
+                            [current_task] + sub_plan.tasks,
+                            action.cost + sub_plan.total_cost,
+                            decomposition_tree
+                        )
+            return None
+        else:
+            # Decompose compound task
+            applicable_methods = self.get_applicable_methods(current_task, state)
+            
+            for method in applicable_methods:
+                # Order subtasks according to constraints
+                ordered_subtasks = self.topological_sort(method.subtasks, 
+                                                       method.ordering_constraints)
+                
+                # Try decomposition
+                new_task_list = ordered_subtasks + remaining_tasks
+                
+                # Update decomposition tree
+                method_tree = {
+                    "task": str(current_task),
+                    "method": method.name,
+                    "subtasks": [str(task) for task in ordered_subtasks]
+                }
+                new_decomposition_tree = decomposition_tree.copy()
+                new_decomposition_tree[str(current_task)] = method_tree
+                
+                sub_plan = self._plan_recursive(new_task_list, state, goal, 
+                                              depth + 1, max_depth, new_decomposition_tree)
+                if sub_plan:
+                    return sub_plan
+            
+            return None  # No applicable methods
+
+# Example: Cooking domain with HTN planning
+def create_cooking_domain():
+    """Create HTN planner for cooking domain"""
+    planner = HTNPlanner()
+    
+    # Primitive actions
+    planner.add_primitive_action(Action(
+        name="get_ingredient",
+        parameters=["ingredient"],
+        preconditions={Proposition("ingredient_available", ("tomato",))},
+        add_effects={Proposition("have_ingredient", ("tomato",))},
+        delete_effects=set(),
+        cost=1
+    ))
+    
+    planner.add_primitive_action(Action(
+        name="chop_ingredient", 
+        parameters=["ingredient"],
+        preconditions={Proposition("have_ingredient", ("tomato",))},
+        add_effects={Proposition("ingredient_chopped", ("tomato",))},
+        delete_effects=set(),
+        cost=2
+    ))
+    
+    planner.add_primitive_action(Action(
+        name="cook_ingredient",
+        parameters=["ingredient"],
+        preconditions={Proposition("ingredient_chopped", ("tomato",))},
+        add_effects={Proposition("ingredient_cooked", ("tomato",))},
+        delete_effects=set(),
+        cost=3
+    ))
+    
+    planner.add_primitive_action(Action(
+        name="combine_ingredients",
+        parameters=["dish"],
+        preconditions={
+            Proposition("ingredient_cooked", ("tomato",)),
+            Proposition("ingredient_cooked", ("onion",))
+        },
+        add_effects={Proposition("dish_ready", ("pasta_sauce",))},
+        delete_effects=set(),
+        cost=2
+    ))
+    
+    # Methods for compound tasks
+    prepare_ingredient_method = Method(
+        name="prepare_ingredient_method",
+        task=Task("prepare_ingredient", ["tomato"], TaskType.COMPOUND),
+        preconditions=set(),
+        subtasks=[
+            Task("get_ingredient", ["tomato"], TaskType.PRIMITIVE),
+            Task("chop_ingredient", ["tomato"], TaskType.PRIMITIVE),
+            Task("cook_ingredient", ["tomato"], TaskType.PRIMITIVE)
+        ],
+        ordering_constraints=[(0, 1), (1, 2)]  # get -> chop -> cook
+    )
+    planner.add_method(prepare_ingredient_method)
+    
+    make_sauce_method = Method(
+        name="make_sauce_method",
+        task=Task("make_pasta_sauce", [], TaskType.COMPOUND),
+        preconditions=set(),
+        subtasks=[
+            Task("prepare_ingredient", ["tomato"], TaskType.COMPOUND),
+            Task("prepare_ingredient", ["onion"], TaskType.COMPOUND),
+            Task("combine_ingredients", ["pasta_sauce"], TaskType.PRIMITIVE)
+        ],
+        ordering_constraints=[(0, 2), (1, 2)]  # both ingredients before combine
+    )
+    planner.add_method(make_sauce_method)
+    
+    return planner
+
+# Test HTN planner
+htn_planner = create_cooking_domain()
+
+initial_cooking_state = {
+    Proposition("ingredient_available", ("tomato",)),
+    Proposition("ingredient_available", ("onion",))
+}
+
+cooking_goal = {
+    Proposition("dish_ready", ("pasta_sauce",))
+}
+
+cooking_tasks = [Task("make_pasta_sauce", [], TaskType.COMPOUND)]
+
+htn_plan = htn_planner.plan(cooking_tasks, initial_cooking_state, cooking_goal)
+
+if htn_plan:
+    print("HTN Plan found:")
+    for i, task in enumerate(htn_plan.tasks, 1):
+        print(f"{i}. {task}")
+    print(f"Total cost: {htn_plan.total_cost}")
+    print(f"Decomposition tree: {htn_plan.decomposition_tree}")
+else:
+    print("No HTN plan found")
+```
+
+## Adaptive Planning and Replanning
+
+Real-world environments are dynamic, and plans often need to be modified during execution. Adaptive planning systems monitor execution and replan when necessary.
+
+### Replanning Strategies
+
+1. **Complete Replanning**: Generate entirely new plan when failure occurs
+2. **Plan Repair**: Modify existing plan to handle failures
+3. **Contingency Planning**: Pre-compute plans for expected failures
+4. **Continuous Planning**: Interleave planning and execution
+
+#### Code Example: Adaptive Replanning System
+
+```python
+from typing import List, Dict, Set, Optional, Callable, Any
+from dataclasses import dataclass
+from enum import Enum
+import random
+import time
+
+class ExecutionStatus(Enum):
+    SUCCESS = "success"
+    FAILURE = "failure"
+    BLOCKED = "blocked"
+    INTERRUPTED = "interrupted"
+
+@dataclass
+class ExecutionResult:
+    status: ExecutionStatus
+    new_state: Set[Proposition]
+    message: str
+    execution_time: float
+
+@dataclass
+class PlanStep:
+    action: Action
+    expected_state: Set[Proposition]
+    actual_state: Optional[Set[Proposition]] = None
+    execution_result: Optional[ExecutionResult] = None
+
+class AdaptivePlanner:
+    """Adaptive planner with replanning capabilities"""
+    
+    def __init__(self, base_planner: STRIPSPlanner):
+        self.base_planner = base_planner
+        self.execution_monitor = ExecutionMonitor()
+        self.replan_strategies = {
+            "complete": self._complete_replan,
+            "repair": self._repair_plan,
+            "contingency": self._contingency_replan
+        }
+        
+    def execute_plan_with_monitoring(self, plan: List[Action], 
+                                   initial_state: Set[Proposition],
+                                   goal: Set[Proposition],
+                                   max_retries: int = 3) -> Dict[str, Any]:
+        """Execute plan with monitoring and adaptive replanning"""
+        
+        current_state = initial_state.copy()
+        executed_steps = []
+        total_replans = 0
+        start_time = time.time()
+        
+        remaining_plan = plan.copy()
+        
+        while remaining_plan and total_replans < max_retries:
+            current_action = remaining_plan[0]
+            
+            # Execute action
+            execution_result = self.execution_monitor.execute_action(
+                current_action, current_state
+            )
+            
+            step = PlanStep(
+                action=current_action,
+                expected_state=current_action.apply(current_state) if current_action.is_applicable(current_state) else current_state,
+                actual_state=execution_result.new_state,
+                execution_result=execution_result
+            )
+            executed_steps.append(step)
+            
+            if execution_result.status == ExecutionStatus.SUCCESS:
+                # Action succeeded, continue with next action
+                current_state = execution_result.new_state
+                remaining_plan.pop(0)
+                
+                # Check if goal is achieved early
+                if goal.issubset(current_state):
+                    break
+                    
+            else:
+                # Action failed, need to replan
+                print(f"Action {current_action.name} failed: {execution_result.message}")
+                
+                # Try to replan
+                new_plan = self._replan(current_state, goal, remaining_plan, 
+                                      execution_result.status)
+                
+                if new_plan is not None:
+                    remaining_plan = new_plan
+                    total_replans += 1
+                    print(f"Replanned (attempt {total_replans}). New plan length: {len(new_plan)}")
+                else:
+                    print("Replanning failed. Aborting execution.")
+                    break
+        
+        execution_time = time.time() - start_time
+        success = goal.issubset(current_state) if current_state else False
+        
+        return {
+            "success": success,
+            "executed_steps": executed_steps,
+            "final_state": current_state,
+            "total_replans": total_replans,
+            "execution_time": execution_time,
+            "goal_achieved": success
+        }
+    
+    def _replan(self, current_state: Set[Proposition], goal: Set[Proposition],
+               failed_plan: List[Action], failure_type: ExecutionStatus) -> Optional[List[Action]]:
+        """Choose and execute replanning strategy based on failure type"""
+        
+        if failure_type == ExecutionStatus.BLOCKED:
+            # Try plan repair first for blocked actions
+            repaired_plan = self.replan_strategies["repair"](current_state, goal, failed_plan)
+            if repaired_plan:
+                return repaired_plan
+        
+        # Fall back to complete replanning
+        return self.replan_strategies["complete"](current_state, goal, failed_plan)
+    
+    def _complete_replan(self, current_state: Set[Proposition], 
+                        goal: Set[Proposition], failed_plan: List[Action]) -> Optional[List[Action]]:
+        """Generate completely new plan from current state"""
+        return self.base_planner.plan_with_heuristic(current_state, goal)
+    
+    def _repair_plan(self, current_state: Set[Proposition],
+                    goal: Set[Proposition], failed_plan: List[Action]) -> Optional[List[Action]]:
+        """Attempt to repair the existing plan"""
+        # Simple repair: skip failed action and try to continue
+        if len(failed_plan) > 1:
+            remaining_actions = failed_plan[1:]
+            
+            # Check if remaining plan is still valid
+            test_state = current_state.copy()
+            for action in remaining_actions:
+                if not action.is_applicable(test_state):
+                    # Can't continue with remaining plan, need complete replan
+                    return self._complete_replan(current_state, goal, failed_plan)
+                test_state = action.apply(test_state)
+            
+            # If we can execute remaining actions and they lead to goal, use them
+            if goal.issubset(test_state):
+                return remaining_actions
+        
+        # Repair failed, fall back to complete replan
+        return self._complete_replan(current_state, goal, failed_plan)
+    
+    def _contingency_replan(self, current_state: Set[Proposition],
+                           goal: Set[Proposition], failed_plan: List[Action]) -> Optional[List[Action]]:
+        """Use pre-computed contingency plans"""
+        # Simplified contingency planning - in practice, you'd pre-compute these
+        contingency_actions = {
+            "move_kitchen_to_living_room": [
+                Action("move_kitchen_to_bedroom", [], 
+                      {Proposition("robot_at", ("kitchen",))},
+                      {Proposition("robot_at", ("bedroom",))},
+                      {Proposition("robot_at", ("kitchen",))}),
+                Action("move_bedroom_to_living_room", [],
+                      {Proposition("robot_at", ("bedroom",))},
+                      {Proposition("robot_at", ("living_room",))},
+                      {Proposition("robot_at", ("bedroom",))})
+            ]
+        }
+        
+        failed_action_name = failed_plan[0].name if failed_plan else ""
+        if failed_action_name in contingency_actions:
+            alternative_actions = contingency_actions[failed_action_name]
+            remaining_plan = failed_plan[1:] if len(failed_plan) > 1 else []
+            return alternative_actions + remaining_plan
+        
+        return None
+
+class ExecutionMonitor:
+    """Monitors plan execution and simulates real-world failures"""
+    
+    def __init__(self, failure_rate: float = 0.1):
+        self.failure_rate = failure_rate
+        
+    def execute_action(self, action: Action, 
+                      current_state: Set[Proposition]) -> ExecutionResult:
+        """Simulate action execution with possible failures"""
+        
+        start_time = time.time()
+        
+        # Check preconditions
+        if not action.is_applicable(current_state):
+            return ExecutionResult(
+                status=ExecutionStatus.FAILURE,
+                new_state=current_state,
+                message="Preconditions not met",
+                execution_time=time.time() - start_time
+            )
+        
+        # Simulate random failures
+        if random.random() < self.failure_rate:
+            failure_types = [ExecutionStatus.FAILURE, ExecutionStatus.BLOCKED]
+            failure_type = random.choice(failure_types)
+            
+            return ExecutionResult(
+                status=failure_type,
+                new_state=current_state,  # State unchanged on failure
+                message=f"Simulated {failure_type.value}",
+                execution_time=time.time() - start_time
+            )
+        
+        # Successful execution
+        new_state = action.apply(current_state)
+        
+        return ExecutionResult(
+            status=ExecutionStatus.SUCCESS,
+            new_state=new_state,
+            message="Action executed successfully",
+            execution_time=time.time() - start_time
+        )
+
+# Example usage
+def test_adaptive_planning():
+    """Test adaptive planning with simulated failures"""
+    
+    # Create robot world and planner
+    base_planner = create_robot_world()
+    adaptive_planner = AdaptivePlanner(base_planner)
+    
+    # Initial state and goal
+    initial_state = {
+        Proposition("robot_at", ("kitchen",)),
+        Proposition("object_at", ("book", "living_room")),
+        Proposition("robot_empty_handed")
+    }
+    
+    goal = {
+        Proposition("object_at", ("book", "bedroom"))
+    }
+    
+    # Generate initial plan
+    initial_plan = base_planner.plan_with_heuristic(initial_state, goal)
+    
+    if initial_plan:
+        print("Initial plan:")
+        for i, action in enumerate(initial_plan, 1):
+            print(f"{i}. {action}")
+        
+        # Execute with monitoring
+        result = adaptive_planner.execute_plan_with_monitoring(
+            initial_plan, initial_state, goal, max_retries=5
+        )
+        
+        print(f"\nExecution Results:")
+        print(f"Success: {result['success']}")
+        print(f"Total replans: {result['total_replans']}")
+        print(f"Execution time: {result['execution_time']:.2f}s")
+        print(f"Steps executed: {len(result['executed_steps'])}")
+        
+        if result['success']:
+            print("Goal achieved!")
+        else:
+            print("Goal not achieved.")
+    else:
+        print("No initial plan found")
+
+# Run the test
+# test_adaptive_planning()
+```
+
+## Goal Reasoning and Management
+
+Advanced agents often need to manage multiple goals simultaneously, resolve conflicts, and adapt their objectives based on changing circumstances.
+
+### Goal Management Concepts
+
+1. **Goal Types**:
+   - Achievement goals (reach a state)
+   - Maintenance goals (keep a condition true)
+   - Performance goals (optimize a metric)
+
+2. **Goal Relationships**:
+   - Independent goals
+   - Conflicting goals  
+   - Hierarchical goals
+   - Temporal dependencies
+
+3. **Goal Operations**:
+   - Goal adoption
+   - Goal abandonment
+   - Goal prioritization
+   - Goal decomposition
+
+#### Code Example: Goal Management System
+
+```python
+from typing import List, Dict, Set, Optional, Tuple
+from dataclasses import dataclass, field
+from enum import Enum
+import heapq
+from datetime import datetime, timedelta
+
+class GoalType(Enum):
+    ACHIEVEMENT = "achievement"
+    MAINTENANCE = "maintenance"
+    PERFORMANCE = "performance"
+
+class GoalStatus(Enum):
+    ACTIVE = "active"
+    SUSPENDED = "suspended"
+    ACHIEVED = "achieved"
+    ABANDONED = "abandoned"
+    FAILED = "failed"
+
+@dataclass
+class Goal:
+    """Represents a goal with metadata and constraints"""
+    goal_id: str
+    description: str
+    goal_type: GoalType
+    conditions: Set[Proposition]
+    priority: float = 1.0
+    deadline: Optional[datetime] = None
+    dependencies: List[str] = field(default_factory=list)
+    conflicts: List[str] = field(default_factory=list)
+    status: GoalStatus = GoalStatus.ACTIVE
+    created_at: datetime = field(default_factory=datetime.now)
+    utility: float = 1.0
+    
+    def is_satisfied(self, state: Set[Proposition]) -> bool:
+        """Check if goal is satisfied in current state"""
+        return self.conditions.issubset(state)
+    
+    def is_overdue(self) -> bool:
+        """Check if goal is past its deadline"""
+        return self.deadline and datetime.now() > self.deadline
+    
+    def get_urgency(self) -> float:
+        """Calculate urgency based on deadline and priority"""
+        if not self.deadline:
+            return self.priority
+        
+        time_remaining = (self.deadline - datetime.now()).total_seconds()
+        if time_remaining <= 0:
+            return float('inf')  # Overdue goals have infinite urgency
+        
+        # Urgency increases as deadline approaches
+        urgency = self.priority * (86400 / max(time_remaining, 1))  # 86400 seconds in a day
+        return urgency
+
+class ConflictResolver:
+    """Resolves conflicts between competing goals"""
+    
+    def detect_conflicts(self, goals: List[Goal]) -> List[Tuple[str, str, str]]:
+        """Detect conflicts between goals"""
+        conflicts = []
+        
+        for i, goal1 in enumerate(goals):
+            for j, goal2 in enumerate(goals[i+1:], i+1):
+                conflict_type = self._analyze_conflict(goal1, goal2)
+                if conflict_type:
+                    conflicts.append((goal1.goal_id, goal2.goal_id, conflict_type))
+        
+        return conflicts
+    
+    def _analyze_conflict(self, goal1: Goal, goal2: Goal) -> Optional[str]:
+        """Analyze if two goals conflict"""
+        
+        # Check explicit conflicts
+        if goal2.goal_id in goal1.conflicts or goal1.goal_id in goal2.conflicts:
+            return "explicit"
+        
+        # Check condition conflicts (simplified)
+        for prop1 in goal1.conditions:
+            for prop2 in goal2.conditions:
+                if self._propositions_conflict(prop1, prop2):
+                    return "condition"
+        
+        # Check resource conflicts (simplified)
+        if self._resource_conflict(goal1, goal2):
+            return "resource"
+        
+        return None
+    
+    def _propositions_conflict(self, prop1: Proposition, prop2: Proposition) -> bool:
+        """Check if two propositions conflict"""
+        # Simple conflict detection: same predicate with different args
+        if prop1.predicate == prop2.predicate and prop1.args != prop2.args:
+            # For location predicates, robot can only be in one place
+            if prop1.predicate == "robot_at":
+                return True
+        return False
+    
+    def _resource_conflict(self, goal1: Goal, goal2: Goal) -> bool:
+        """Check if goals compete for the same resources"""
+        # Simplified resource conflict detection
+        # In practice, this would be more sophisticated
+        return False
+    
+    def resolve_conflicts(self, goals: List[Goal], 
+                         conflicts: List[Tuple[str, str, str]]) -> List[Goal]:
+        """Resolve conflicts by prioritizing goals"""
+        
+        # Simple resolution: prioritize higher priority goals
+        goals_by_id = {goal.goal_id: goal for goal in goals}
+        resolved_goals = []
+        suspended_goals = set()
+        
+        for goal_id1, goal_id2, conflict_type in conflicts:
+            goal1 = goals_by_id[goal_id1]
+            goal2 = goals_by_id[goal_id2]
+            
+            # Suspend lower priority goal
+            if goal1.priority > goal2.priority:
+                suspended_goals.add(goal_id2)
+            elif goal2.priority > goal1.priority:
+                suspended_goals.add(goal_id1)
+            else:
+                # Equal priority, suspend goal with later deadline
+                if goal1.deadline and goal2.deadline:
+                    if goal1.deadline < goal2.deadline:
+                        suspended_goals.add(goal_id2)
+                    else:
+                        suspended_goals.add(goal_id1)
+        
+        # Update goal statuses
+        for goal in goals:
+            if goal.goal_id in suspended_goals:
+                goal.status = GoalStatus.SUSPENDED
+            else:
+                goal.status = GoalStatus.ACTIVE
+            resolved_goals.append(goal)
+        
+        return resolved_goals
+
+class GoalManager:
+    """Manages multiple goals with prioritization and conflict resolution"""
+    
+    def __init__(self, planner: STRIPSPlanner):
+        self.planner = planner
+        self.goals: Dict[str, Goal] = {}
+        self.conflict_resolver = ConflictResolver()
+        self.goal_history: List[Dict[str, Any]] = []
+        
+    def add_goal(self, goal: Goal):
+        """Add a new goal to the manager"""
+        self.goals[goal.goal_id] = goal
+        self._log_goal_event("added", goal)
+        
+    def remove_goal(self, goal_id: str):
+        """Remove a goal from the manager"""
+        if goal_id in self.goals:
+            goal = self.goals[goal_id]
+            goal.status = GoalStatus.ABANDONED
+            self._log_goal_event("removed", goal)
+            del self.goals[goal_id]
+    
+    def update_goal_status(self, current_state: Set[Proposition]):
+        """Update status of all goals based on current state"""
+        for goal in self.goals.values():
+            old_status = goal.status
+            
+            if goal.status == GoalStatus.ACTIVE:
+                if goal.is_satisfied(current_state):
+                    goal.status = GoalStatus.ACHIEVED
+                    self._log_goal_event("achieved", goal)
+                elif goal.is_overdue():
+                    goal.status = GoalStatus.FAILED
+                    self._log_goal_event("failed", goal)
+    
+    def get_active_goals(self) -> List[Goal]:
+        """Get all currently active goals"""
+        return [goal for goal in self.goals.values() 
+                if goal.status == GoalStatus.ACTIVE]
+    
+    def prioritize_goals(self) -> List[Goal]:
+        """Prioritize goals based on urgency and utility"""
+        active_goals = self.get_active_goals()
+        
+        # Sort by urgency (higher urgency first)
+        prioritized = sorted(active_goals, 
+                           key=lambda g: g.get_urgency() * g.utility, 
+                           reverse=True)
+        
+        return prioritized
+    
+    def plan_for_goals(self, current_state: Set[Proposition], 
+                      max_goals: int = 3) -> Optional[List[Action]]:
+        """Generate plan to achieve multiple goals"""
+        
+        # Update goal statuses
+        self.update_goal_status(current_state)
+        
+        # Resolve conflicts
+        active_goals = self.get_active_goals()
+        conflicts = self.conflict_resolver.detect_conflicts(active_goals)
+        resolved_goals = self.conflict_resolver.resolve_conflicts(active_goals, conflicts)
+        
+        # Prioritize remaining active goals
+        active_resolved = [g for g in resolved_goals if g.status == GoalStatus.ACTIVE]
+        prioritized_goals = sorted(active_resolved, 
+                                 key=lambda g: g.get_urgency() * g.utility,
+                                 reverse=True)
+        
+        # Select top goals to plan for
+        selected_goals = prioritized_goals[:max_goals]
+        
+        if not selected_goals:
+            return []
+        
+        # Combine goal conditions
+        combined_goal = set()
+        for goal in selected_goals:
+            combined_goal.update(goal.conditions)
+        
+        # Generate plan
+        plan = self.planner.plan_with_heuristic(current_state, combined_goal)
+        
+        if plan:
+            self._log_planning_event(selected_goals, len(plan))
+        
+        return plan
+    
+    def _log_goal_event(self, event_type: str, goal: Goal):
+        """Log goal-related events"""
+        self.goal_history.append({
+            "timestamp": datetime.now(),
+            "event_type": event_type,
+            "goal_id": goal.goal_id,
+            "goal_description": goal.description,
+            "goal_status": goal.status.value
+        })
+    
+    def _log_planning_event(self, goals: List[Goal], plan_length: int):
+        """Log planning events"""
+        self.goal_history.append({
+            "timestamp": datetime.now(),
+            "event_type": "planning",
+            "goals": [g.goal_id for g in goals],
+            "plan_length": plan_length
+        })
+    
+    def get_status_report(self) -> Dict[str, Any]:
+        """Get comprehensive status report"""
+        active_goals = self.get_active_goals()
+        
+        return {
+            "total_goals": len(self.goals),
+            "active_goals": len(active_goals),
+            "achieved_goals": len([g for g in self.goals.values() 
+                                 if g.status == GoalStatus.ACHIEVED]),
+            "failed_goals": len([g for g in self.goals.values() 
+                               if g.status == GoalStatus.FAILED]),
+            "overdue_goals": len([g for g in active_goals if g.is_overdue()]),
+            "goal_priorities": [(g.goal_id, g.get_urgency()) for g in active_goals],
+            "recent_events": self.goal_history[-10:]  # Last 10 events
+        }
+
+# Example usage
+def test_goal_management():
+    """Test goal management system"""
+    
+    # Create planner and goal manager
+    planner = create_robot_world()
+    goal_manager = GoalManager(planner)
+    
+    # Add multiple goals
+    goal1 = Goal(
+        goal_id="deliver_book",
+        description="Deliver book to bedroom",
+        goal_type=GoalType.ACHIEVEMENT,
+        conditions={Proposition("object_at", ("book", "bedroom"))},
+        priority=2.0,
+        deadline=datetime.now() + timedelta(hours=1),
+        utility=1.5
+    )
+    
+    goal2 = Goal(
+        goal_id="return_home",
+        description="Return robot to kitchen",
+        goal_type=GoalType.ACHIEVEMENT,
+        conditions={Proposition("robot_at", ("kitchen",))},
+        priority=1.0,
+        deadline=datetime.now() + timedelta(hours=2),
+        utility=1.0
+    )
+    
+    goal3 = Goal(
+        goal_id="organize_living_room",
+        description="Organize living room",
+        goal_type=GoalType.ACHIEVEMENT,
+        conditions={Proposition("room_organized", ("living_room",))},
+        priority=0.5,
+        deadline=datetime.now() + timedelta(hours=3),
+        utility=0.8
+    )
+    
+    goal_manager.add_goal(goal1)
+    goal_manager.add_goal(goal2)
+    goal_manager.add_goal(goal3)
+    
+    # Current state
+    current_state = {
+        Proposition("robot_at", ("garage",)),
+        Proposition("object_at", ("book", "living_room")),
+        Proposition("robot_empty_handed")
+    }
+    
+    # Plan for goals
+    plan = goal_manager.plan_for_goals(current_state)
+    
+    if plan:
+        print("Multi-goal plan:")
+        for i, action in enumerate(plan, 1):
+            print(f"{i}. {action}")
+    
+    # Status report
+    status = goal_manager.get_status_report()
+    print(f"\nGoal Manager Status:")
+    print(f"Total goals: {status['total_goals']}")
+    print(f"Active goals: {status['active_goals']}")
+    print(f"Goal priorities: {status['goal_priorities']}")
+
+# Run the test
+# test_goal_management()
+```
+
+## Interactive Quiz
+
+Test your understanding of planning systems:
+
+### Question 1
+What is the main difference between STRIPS and HTN planning?
+
+A) STRIPS uses heuristics, HTN doesn't
+B) STRIPS plans in state space, HTN plans in task space  
+C) STRIPS is optimal, HTN is not
+D) STRIPS handles uncertainty, HTN doesn't
+
+**Answer: B) STRIPS plans in state space, HTN plans in task space**
+
+STRIPS planning searches through possible world states to find a sequence of actions, while HTN planning decomposes high-level tasks into subtasks hierarchically.
+
+### Question 2
+Which replanning strategy is most efficient for minor plan failures?
+
+A) Complete replanning
+B) Plan repair
+C) Contingency planning  
+D) Continuous planning
+
+**Answer: B) Plan repair**
+
+Plan repair attempts to fix the existing plan rather than starting from scratch, making it more efficient for minor failures where most of the plan is still valid.
+
+### Question 3
+What makes A* planning optimal?
+
+A) It uses the best heuristic function
+B) It explores all possible states
+C) It uses an admissible heuristic
+D) It always finds the shortest plan
+
+**Answer: C) It uses an admissible heuristic**
+
+A* is optimal when using an admissible heuristic (one that never overestimates the actual cost to reach the goal).
+
+## Practical Exercises
+
+### Exercise 1: Robot Navigation Planner
+**Time: 45 minutes**
+
+Implement an A* planner for robot navigation in a grid world with:
+- Static obstacles
+- Different terrain costs
+- Multiple goal locations
+- Efficient heuristic function
+
+### Exercise 2: Task Decomposition with HTN  
+**Time: 60 minutes**
+
+Build an HTN planner for a complex multi-step cooking recipe that:
+- Decomposes "make_dinner" into subtasks
+- Handles ingredient preparation dependencies
+- Manages cooking equipment constraints
+- Provides multiple cooking methods
+
+### Exercise 3: Adaptive Mission Planner
+**Time: 90 minutes**
+
+Create an adaptive planner for a drone mission that:
+- Plans routes while avoiding no-fly zones
+- Replans when weather conditions change
+- Manages battery life and charging stations
+- Handles mission priority changes
+
+## Summary
+
+Planning systems are essential for creating intelligent agents that can reason about complex, multi-step tasks. Key takeaways:
+
+- **Classical planning** (STRIPS, A*) works well for deterministic environments
+- **Hierarchical planning** (HTN) scales to complex domains through task decomposition
+- **Adaptive planning** handles dynamic environments through monitoring and replanning
+- **Goal management** enables agents to balance multiple competing objectives
+- **Planning with uncertainty** requires probabilistic reasoning and robust strategies
+
+The choice of planning approach depends on your domain characteristics, computational constraints, and uncertainty levels.
+
+## Next Steps
+
+In the next module, we'll explore **Tool Orchestration**, where you'll learn how to build agents that can effectively coordinate and utilize multiple tools and services to accomplish complex tasks that require diverse capabilities.
+
+---
+
+## Additional Resources
+
+- [Artificial Intelligence: A Modern Approach - Planning Chapters](https://aima.cs.berkeley.edu/)
+- [STRIPS Planning Algorithm](https://ai.stanford.edu/~nilsson/OnlinePubs-Nils/PublishedPapers/strips.pdf)
+- [Hierarchical Task Network Planning](https://www.cs.umd.edu/~nau/papers/nau2003htn.pdf)
+- [Planning Under Uncertainty](https://planning.wiki/guide/whatis/uncertainty)
+- [LangChain Planning Documentation](https://docs.langchain.com/docs/use-cases/agents)

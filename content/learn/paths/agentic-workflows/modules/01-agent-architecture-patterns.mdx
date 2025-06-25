@@ -1,0 +1,1258 @@
+---
+title: "Agent Architecture Patterns"
+description: "Explore fundamental patterns for designing autonomous AI agents, from reactive systems to sophisticated reasoning architectures."
+duration: "90 minutes"
+difficulty: "intermediate"
+order: 1
+pathId: "agentic-workflows"
+moduleId: "agent-architecture-patterns"
+type: "concept"
+objectives:
+  - "Understand core agent architecture patterns and their use cases"
+  - "Compare reactive, deliberative, and hybrid agent designs"
+  - "Implement basic ReAct and Chain-of-Thought patterns"
+  - "Design agent architectures for specific problem domains"
+  - "Evaluate trade-offs between different architectural approaches"
+prerequisites:
+  - "Understanding of LLM basics"
+  - "Python programming experience"
+  - "Familiarity with API concepts"
+tags:
+  - "agent-architecture"
+  - "reactive-systems"
+  - "deliberative-systems"
+  - "react-pattern"
+  - "multi-agent"
+  - "planning"
+version: "1.0.0"
+lastUpdated: "2025-06-20"
+author: "AI Engineering Team"
+estimatedCompletionTime: 135
+---
+
+# Agent Architecture Patterns
+
+Welcome to the foundation of agentic AI systems! In this module, we'll explore the fundamental patterns and architectures that enable AI agents to operate autonomously, make decisions, and interact with their environment effectively.
+
+## Learning Objectives
+
+By the end of this module, you will:
+
+- Understand core agent architecture patterns and their appropriate use cases
+- Compare reactive, deliberative, and hybrid agent designs
+- Implement basic ReAct and Chain-of-Thought patterns
+- Design agent architectures for specific problem domains
+- Evaluate trade-offs between different architectural approaches
+
+## What Makes an AI Agent?
+
+An AI agent is a system that can perceive its environment, make decisions, and take actions to achieve specific goals. Unlike traditional software that follows predetermined paths, agents exhibit **autonomy**, **reactivity**, **proactivity**, and **adaptability**.
+
+### Core Agent Characteristics
+
+1. **Autonomy**: Operates without constant human intervention
+2. **Reactivity**: Responds to environmental changes
+3. **Proactivity**: Takes initiative to achieve goals
+4. **Social Ability**: Interacts with other agents or humans
+5. **Learning**: Improves performance over time
+
+### Building Agents in Pure Python: The Professional Approach
+
+Before diving into frameworks, it's crucial to understand the fundamental patterns through pure Python and direct LLM API calls. This approach offers several advantages:
+
+**Master the Fundamentals First**
+- Work directly with LLM APIs to understand underlying principles
+- Build production systems with full control over the process
+- Create more reliable, maintainable systems
+- Develop custom business logic without framework constraints
+
+**When to Use Pure Python**
+- Building production systems requiring reliability
+- Need full control over agent behavior and data flow
+- Custom business logic that doesn't fit standard patterns
+- Performance and security are critical requirements
+- Team has strong Python skills and wants maximum flexibility
+
+**Core Philosophy**: Most real-world cases don't require complex frameworks - pure Python is often sufficient and superior for production environments.
+
+## Agent Architecture Patterns
+
+### 0. Pure Python Agent Fundamentals
+
+Before exploring specific patterns, let's establish the core building blocks for professional Python agents using direct LLM API calls.
+
+#### Essential Building Blocks
+
+**1. Direct API Communication**
+```python
+from openai import OpenAI
+
+class AgentCore:
+    def __init__(self, api_key: str):
+        self.client = OpenAI(api_key=api_key)
+    
+    def generate_response(self, messages: list, model: str = "gpt-4") -> str:
+        """Core LLM communication method."""
+        response = self.client.chat.completions.create(
+            model=model,
+            messages=messages
+        )
+        return response.choices[0].message.content
+```
+
+**2. Structured Output with Pydantic**
+```python
+from pydantic import BaseModel
+from typing import List
+
+class AgentDecision(BaseModel):
+    action: str
+    reasoning: str
+    confidence: float
+    parameters: dict
+
+class StructuredAgent:
+    def make_decision(self, context: str) -> AgentDecision:
+        """Generate structured decisions using LLM."""
+        response = self.client.beta.chat.completions.parse(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a decision-making agent."},
+                {"role": "user", "content": context}
+            ],
+            response_format=AgentDecision
+        )
+        return response.choices[0].message.parsed
+```
+
+**3. Tool Use and Function Calling**
+```python
+def create_calendar_event(title: str, date: str, participants: List[str]) -> dict:
+    """Example tool function."""
+    return {
+        "event_id": f"evt_{hash(title + date)}",
+        "status": "created",
+        "participants": participants
+    }
+
+# Tool schema for OpenAI
+calendar_tool = {
+    "type": "function",
+    "function": {
+        "name": "create_calendar_event",
+        "description": "Create a calendar event",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {"type": "string"},
+                "date": {"type": "string"},
+                "participants": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["title", "date", "participants"]
+        }
+    }
+}
+
+class ToolAgent:
+    def process_with_tools(self, user_request: str):
+        """Process requests using available tools."""
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": user_request}],
+            tools=[calendar_tool],
+            tool_choice="auto"
+        )
+        
+        # Handle tool calls
+        if response.choices[0].message.tool_calls:
+            for tool_call in response.choices[0].message.tool_calls:
+                if tool_call.function.name == "create_calendar_event":
+                    args = json.loads(tool_call.function.arguments)
+                    result = create_calendar_event(**args)
+                    return result
+```
+
+**4. Memory and Context Management**
+```python
+class ConversationMemory:
+    def __init__(self, max_context: int = 4000):
+        self.messages = []
+        self.max_context = max_context
+    
+    def add_message(self, role: str, content: str):
+        self.messages.append({"role": role, "content": content})
+        self._manage_context()
+    
+    def _manage_context(self):
+        """Keep context within token limits."""
+        while self._estimate_tokens() > self.max_context and len(self.messages) > 2:
+            # Remove oldest non-system messages
+            for i, msg in enumerate(self.messages):
+                if msg["role"] != "system":
+                    self.messages.pop(i)
+                    break
+    
+    def _estimate_tokens(self) -> int:
+        """Rough token estimation."""
+        return sum(len(msg["content"]) // 4 for msg in self.messages)
+```
+
+#### Professional Workflow Patterns
+
+**1. Prompt Chaining Pattern**
+```python
+from datetime import datetime
+
+class PromptChainAgent:
+    def __init__(self, client):
+        self.client = client
+    
+    def process_ticket(self, ticket_data: dict) -> dict:
+        """Multi-step ticket processing with validation gates."""
+        
+        # Step 1: Initial Analysis
+        analysis = self._analyze_ticket(ticket_data)
+        
+        # Gate: Check if it's a valid ticket
+        if analysis.confidence < 0.7:
+            return {"status": "rejected", "reason": "Low confidence analysis"}
+        
+        # Step 2: Determine Intent
+        intent = self._determine_intent(ticket_data["content"])
+        
+        # Step 3: Generate Response
+        response = self._generate_response(ticket_data, analysis, intent)
+        
+        return {
+            "status": "processed",
+            "analysis": analysis,
+            "intent": intent,
+            "response": response
+        }
+    
+    def _analyze_ticket(self, ticket_data: dict) -> AgentDecision:
+        prompt = f"""
+        Analyze this support ticket:
+        Content: {ticket_data['content']}
+        Customer: {ticket_data['customer_id']}
+        
+        Determine sentiment, urgency, and category.
+        """
+        return self._make_structured_decision(prompt)
+```
+
+**2. Intelligent Routing Pattern**
+```python
+from enum import Enum
+
+class RequestType(str, Enum):
+    TECHNICAL_SUPPORT = "technical_support"
+    BILLING_INQUIRY = "billing_inquiry"
+    FEATURE_REQUEST = "feature_request"
+    GENERAL_INQUIRY = "general_inquiry"
+
+class RoutingAgent:
+    def __init__(self, client):
+        self.client = client
+        self.handlers = {
+            RequestType.TECHNICAL_SUPPORT: self._handle_technical,
+            RequestType.BILLING_INQUIRY: self._handle_billing,
+            RequestType.FEATURE_REQUEST: self._handle_feature,
+            RequestType.GENERAL_INQUIRY: self._handle_general
+        }
+    
+    def route_request(self, user_input: str) -> dict:
+        """Classify request and route to appropriate handler."""
+        
+        # Classification step
+        classification = self._classify_request(user_input)
+        
+        if classification.confidence < 0.8:
+            return {"error": "Unable to classify request with sufficient confidence"}
+        
+        # Route to handler
+        handler = self.handlers.get(classification.action)
+        if handler:
+            return handler(user_input, classification)
+        else:
+            return {"error": f"No handler for request type: {classification.action}"}
+```
+
+**3. Parallel Processing Pattern**
+```python
+import asyncio
+
+class ParallelAgent:
+    async def process_with_guardrails(self, user_input: str) -> dict:
+        """Process input with parallel validation checks."""
+        
+        # Execute multiple checks in parallel
+        safety_check, intent_check, priority_check = await asyncio.gather(
+            self._safety_check(user_input),
+            self._intent_analysis(user_input),
+            self._priority_assessment(user_input)
+        )
+        
+        # Evaluate results
+        if not safety_check.is_safe:
+            return {"status": "rejected", "reason": "Safety check failed"}
+        
+        # Proceed with processing
+        return {
+            "status": "approved",
+            "intent": intent_check,
+            "priority": priority_check,
+            "safety": safety_check
+        }
+```
+
+This foundation provides the essential patterns for building production-ready agents in pure Python, giving you full control over behavior, performance, and security.
+
+### 1. Reactive Agent Systems
+
+Reactive agents operate on simple stimulus-response patterns, making immediate decisions based on current perceptions without complex internal reasoning.
+
+#### Characteristics
+- **Fast response times**: Immediate reactions to stimuli
+- **Simple decision logic**: Rules-based or direct mappings
+- **No internal state**: Stateless or minimal state tracking
+- **Event-driven**: Triggered by environmental changes
+
+#### Use Cases
+- Real-time control systems
+- Chatbot responses to specific keywords
+- Automated trading alerts
+- IoT device responses
+
+#### Code Example: Simple Reactive Agent
+
+```python
+from typing import Dict, Any, Callable
+from dataclasses import dataclass
+from enum import Enum
+
+class AgentState(Enum):
+    IDLE = "idle"
+    PROCESSING = "processing"
+    RESPONDING = "responding"
+
+@dataclass
+class Stimulus:
+    type: str
+    data: Any
+    urgency: int = 1
+
+class ReactiveAgent:
+    def __init__(self):
+        self.state = AgentState.IDLE
+        self.response_rules: Dict[str, Callable] = {}
+        
+    def add_rule(self, stimulus_type: str, response_function: Callable):
+        """Add a stimulus-response rule"""
+        self.response_rules[stimulus_type] = response_function
+        
+    def perceive(self, stimulus: Stimulus) -> Any:
+        """Process incoming stimulus and generate response"""
+        self.state = AgentState.PROCESSING
+        
+        if stimulus.type in self.response_rules:
+            response = self.response_rules[stimulus.type](stimulus.data)
+            self.state = AgentState.RESPONDING
+            return response
+        else:
+            # Default response for unknown stimuli
+            self.state = AgentState.IDLE
+            return f"Unknown stimulus type: {stimulus.type}"
+
+# Example usage
+def handle_user_greeting(data):
+    return f"Hello! How can I help you today?"
+
+def handle_urgent_alert(data):
+    return f"URGENT: Processing alert - {data['message']}"
+
+agent = ReactiveAgent()
+agent.add_rule("greeting", handle_user_greeting)
+agent.add_rule("urgent_alert", handle_urgent_alert)
+
+# Test the agent
+greeting_stimulus = Stimulus("greeting", {"user": "Alice"})
+response = agent.perceive(greeting_stimulus)
+print(response)  # Output: Hello! How can I help you today?
+```
+
+### 2. Deliberative Agent Systems
+
+Deliberative agents maintain internal models of their environment and use planning algorithms to determine the best course of action to achieve their goals.
+
+#### Characteristics
+- **World modeling**: Maintains internal representation of environment
+- **Goal-oriented**: Works toward specific objectives
+- **Planning capabilities**: Reasons about sequences of actions
+- **State management**: Tracks progress and intermediate states
+
+#### Use Cases
+- Strategic game playing
+- Resource allocation optimization
+- Multi-step task automation
+- Long-term planning systems
+
+#### Code Example: Deliberative Planning Agent
+
+```python
+from typing import List, Dict, Optional, Tuple
+from dataclasses import dataclass
+from enum import Enum
+import copy
+
+@dataclass
+class WorldState:
+    """Represents the current state of the world"""
+    location: str
+    inventory: List[str]
+    goals: List[str]
+    obstacles: List[str]
+    
+    def copy(self):
+        return copy.deepcopy(self)
+
+@dataclass 
+class Action:
+    name: str
+    preconditions: List[str]
+    effects: List[str]
+    cost: int = 1
+
+class DeliberativeAgent:
+    def __init__(self, initial_state: WorldState):
+        self.world_state = initial_state
+        self.available_actions: List[Action] = []
+        self.plan: List[Action] = []
+        
+    def add_action(self, action: Action):
+        """Add an available action to the agent's repertoire"""
+        self.available_actions.append(action)
+        
+    def is_goal_achieved(self) -> bool:
+        """Check if all goals are achieved"""
+        return all(goal in self.world_state.inventory or 
+                  goal in [f"at_{self.world_state.location}"] 
+                  for goal in self.world_state.goals)
+    
+    def can_execute_action(self, action: Action, state: WorldState) -> bool:
+        """Check if action preconditions are met"""
+        for precondition in action.preconditions:
+            if precondition.startswith("at_"):
+                required_location = precondition[3:]
+                if state.location != required_location:
+                    return False
+            elif precondition.startswith("has_"):
+                required_item = precondition[4:]
+                if required_item not in state.inventory:
+                    return False
+        return True
+    
+    def apply_action(self, action: Action, state: WorldState) -> WorldState:
+        """Apply action effects to world state"""
+        new_state = state.copy()
+        
+        for effect in action.effects:
+            if effect.startswith("at_"):
+                new_state.location = effect[3:]
+            elif effect.startswith("has_"):
+                item = effect[4:]
+                if item not in new_state.inventory:
+                    new_state.inventory.append(item)
+            elif effect.startswith("remove_"):
+                item = effect[7:]
+                if item in new_state.inventory:
+                    new_state.inventory.remove(item)
+                    
+        return new_state
+    
+    def plan_actions(self, max_depth: int = 10) -> List[Action]:
+        """Simple breadth-first planning algorithm"""
+        queue = [(self.world_state, [])]
+        visited = set()
+        
+        while queue and len(queue[0][1]) < max_depth:
+            current_state, current_plan = queue.pop(0)
+            
+            # Create state signature for visited check
+            state_signature = (current_state.location, 
+                             tuple(sorted(current_state.inventory)))
+            
+            if state_signature in visited:
+                continue
+            visited.add(state_signature)
+            
+            # Check if goal is achieved
+            temp_agent = DeliberativeAgent(current_state)
+            temp_agent.world_state.goals = self.world_state.goals
+            if temp_agent.is_goal_achieved():
+                return current_plan
+            
+            # Try each available action
+            for action in self.available_actions:
+                if self.can_execute_action(action, current_state):
+                    new_state = self.apply_action(action, current_state)
+                    new_plan = current_plan + [action]
+                    queue.append((new_state, new_plan))
+        
+        return []  # No plan found
+    
+    def execute_plan(self):
+        """Execute the planned sequence of actions"""
+        self.plan = self.plan_actions()
+        
+        if not self.plan:
+            return "No plan found to achieve goals"
+            
+        results = []
+        for action in self.plan:
+            if self.can_execute_action(action, self.world_state):
+                self.world_state = self.apply_action(action, self.world_state)
+                results.append(f"Executed: {action.name}")
+            else:
+                results.append(f"Failed to execute: {action.name}")
+                break
+                
+        return results
+
+# Example usage
+initial_state = WorldState(
+    location="home",
+    inventory=[],
+    goals=["has_groceries", "at_home"],
+    obstacles=[]
+)
+
+agent = DeliberativeAgent(initial_state)
+
+# Define available actions
+agent.add_action(Action(
+    name="go_to_store",
+    preconditions=["at_home"],
+    effects=["at_store"]
+))
+
+agent.add_action(Action(
+    name="buy_groceries", 
+    preconditions=["at_store"],
+    effects=["has_groceries"]
+))
+
+agent.add_action(Action(
+    name="go_home",
+    preconditions=["at_store"],
+    effects=["at_home"]
+))
+
+# Execute planning and actions
+results = agent.execute_plan()
+for result in results:
+    print(result)
+```
+
+### 3. Hybrid Agent Architectures
+
+Hybrid agents combine reactive and deliberative approaches, using fast reactive responses for immediate concerns while maintaining planning capabilities for complex goals.
+
+#### Architecture Layers
+1. **Reactive Layer**: Immediate response to urgent stimuli
+2. **Deliberative Layer**: Planning and reasoning for complex goals
+3. **Coordination Layer**: Manages interaction between layers
+
+#### Benefits
+- **Responsiveness**: Quick reactions to urgent situations
+- **Intelligence**: Strategic planning for complex problems
+- **Robustness**: Graceful degradation under different conditions
+- **Efficiency**: Appropriate response complexity for each situation
+
+## The ReAct Pattern
+
+The ReAct (Reasoning and Acting) pattern is a powerful approach that synergizes reasoning and acting in language model agents. It interleaves reasoning traces and task-specific actions, allowing for dynamic reasoning and better interaction with external environments.
+
+### ReAct Cycle
+
+1. **Thought**: Reason about the current situation
+2. **Action**: Take a specific action based on reasoning
+3. **Observation**: Observe the results of the action
+4. **Repeat**: Continue until goal is achieved
+
+### Code Example: ReAct Agent Implementation
+
+```python
+from typing import List, Dict, Any, Optional
+from dataclasses import dataclass
+from abc import ABC, abstractmethod
+import re
+
+@dataclass
+class ReActStep:
+    step_type: str  # "Thought", "Action", "Observation"
+    content: str
+    step_number: int
+
+class Tool(ABC):
+    """Abstract base class for ReAct tools"""
+    
+    @abstractmethod
+    def name(self) -> str:
+        pass
+        
+    @abstractmethod
+    def description(self) -> str:
+        pass
+        
+    @abstractmethod
+    def execute(self, input_text: str) -> str:
+        pass
+
+class SearchTool(Tool):
+    def name(self) -> str:
+        return "search"
+        
+    def description(self) -> str:
+        return "Search for information on the internet. Input: search query"
+        
+    def execute(self, input_text: str) -> str:
+        # Simulated search results
+        search_results = {
+            "python": "Python is a high-level programming language known for its simplicity and readability.",
+            "ai": "Artificial Intelligence (AI) refers to the simulation of human intelligence in machines.",
+            "react": "ReAct is a framework that combines reasoning and acting in language model agents."
+        }
+        
+        query = input_text.lower()
+        for key, result in search_results.items():
+            if key in query:
+                return f"Search results for '{input_text}': {result}"
+        
+        return f"No relevant results found for '{input_text}'"
+
+class CalculatorTool(Tool):
+    def name(self) -> str:
+        return "calculate"
+        
+    def description(self) -> str:
+        return "Perform mathematical calculations. Input: mathematical expression"
+        
+    def execute(self, input_text: str) -> str:
+        try:
+            # Simple calculator (in production, use safer evaluation)
+            result = eval(input_text.replace("^", "**"))
+            return f"Calculation result: {result}"
+        except Exception as e:
+            return f"Calculation error: {str(e)}"
+
+class ReActAgent:
+    def __init__(self, model_name: str = "gpt-3.5-turbo"):
+        self.model_name = model_name
+        self.tools: Dict[str, Tool] = {}
+        self.history: List[ReActStep] = []
+        self.max_steps = 10
+        
+    def add_tool(self, tool: Tool):
+        """Add a tool to the agent's toolkit"""
+        self.tools[tool.name()] = tool
+        
+    def get_tool_descriptions(self) -> str:
+        """Get formatted descriptions of available tools"""
+        descriptions = []
+        for tool in self.tools.values():
+            descriptions.append(f"- {tool.name()}: {tool.description()}")
+        return "\n".join(descriptions)
+    
+    def parse_action(self, text: str) -> Optional[tuple]:
+        """Parse action from agent response"""
+        action_pattern = r"Action:\s*(\w+)\[(.*?)\]"
+        match = re.search(action_pattern, text)
+        
+        if match:
+            action_name = match.group(1)
+            action_input = match.group(2).strip('"\'')
+            return action_name, action_input
+        return None
+    
+    def execute_action(self, action_name: str, action_input: str) -> str:
+        """Execute a tool action"""
+        if action_name in self.tools:
+            return self.tools[action_name].execute(action_input)
+        else:
+            return f"Error: Unknown action '{action_name}'. Available actions: {list(self.tools.keys())}"
+    
+    def generate_response(self, prompt: str) -> str:
+        """Simulate LLM response (in production, use actual LLM API)"""
+        # This is a simplified simulation - in practice, use OpenAI API or similar
+        responses = {
+            "what is python": """Thought: The user is asking about Python. I should search for information about Python programming language.
+Action: search[python programming language]""",
+            
+            "calculate 15 * 23": """Thought: The user wants me to calculate 15 * 23. I should use the calculator tool for this.
+Action: calculate[15 * 23]""",
+            
+            "how does react work": """Thought: The user is asking about ReAct (Reasoning and Acting). I should search for information about the ReAct framework.
+Action: search[react reasoning acting framework]"""
+        }
+        
+        query = prompt.lower()
+        for key, response in responses.items():
+            if key in query:
+                return response
+                
+        return "Thought: I need more information to answer this question.\nAction: search[" + prompt + "]"
+    
+    def run(self, query: str) -> str:
+        """Execute ReAct reasoning loop"""
+        self.history = []
+        step_number = 1
+        
+        # Initial prompt
+        system_prompt = f"""You are a helpful assistant that can use tools to answer questions.
+
+Available tools:
+{self.get_tool_descriptions()}
+
+Use the following format:
+Thought: [your reasoning about what to do next]
+Action: tool_name[input_to_tool]
+Observation: [result from tool execution]
+
+Question: {query}
+
+Let me think about this step by step."""
+
+        current_prompt = system_prompt
+        
+        for step in range(self.max_steps):
+            # Generate reasoning/action
+            response = self.generate_response(current_prompt)
+            
+            # Add thought to history
+            if "Thought:" in response:
+                thought = response.split("Action:")[0].replace("Thought:", "").strip()
+                self.history.append(ReActStep("Thought", thought, step_number))
+            
+            # Parse and execute action
+            action_info = self.parse_action(response)
+            if action_info:
+                action_name, action_input = action_info
+                self.history.append(ReActStep("Action", f"{action_name}[{action_input}]", step_number))
+                
+                # Execute action and get observation
+                observation = self.execute_action(action_name, action_input)
+                self.history.append(ReActStep("Observation", observation, step_number))
+                
+                # Check if we have enough information to answer
+                if "result" in observation.lower() or "error" not in observation.lower():
+                    break
+                    
+                current_prompt += f"\n\nObservation: {observation}\n\nLet me continue thinking."
+            else:
+                # No action found, assume we're done
+                final_thought = response.replace("Thought:", "").strip()
+                self.history.append(ReActStep("Thought", final_thought, step_number))
+                break
+                
+            step_number += 1
+        
+        return self.format_response()
+    
+    def format_response(self) -> str:
+        """Format the complete ReAct trace"""
+        formatted_steps = []
+        for step in self.history:
+            formatted_steps.append(f"{step.step_type}: {step.content}")
+        
+        return "\n".join(formatted_steps)
+
+# Example usage
+agent = ReActAgent()
+agent.add_tool(SearchTool())
+agent.add_tool(CalculatorTool())
+
+# Test the agent
+result = agent.run("What is Python and calculate 15 * 23")
+print(result)
+```
+
+### 4. Chain-of-Thought Reasoning
+
+Chain-of-Thought (CoT) prompting enables language models to perform complex reasoning by explicitly showing intermediate reasoning steps.
+
+#### Types of CoT
+1. **Zero-shot CoT**: "Let's think step by step"
+2. **Few-shot CoT**: Provide examples with reasoning steps
+3. **Auto-CoT**: Automatically generate reasoning chains
+
+#### Code Example: Chain-of-Thought Implementation
+
+```python
+from typing import List, Dict
+from dataclasses import dataclass
+
+@dataclass
+class ReasoningStep:
+    step_number: int
+    description: str
+    calculation: str = ""
+    result: str = ""
+
+class ChainOfThoughtAgent:
+    def __init__(self):
+        self.reasoning_chain: List[ReasoningStep] = []
+        
+    def solve_math_problem(self, problem: str) -> str:
+        """Solve math word problems using chain-of-thought reasoning"""
+        self.reasoning_chain = []
+        
+        # Example: "Sarah has 15 apples. She gives 3 to John and 2 to Mary. How many apples does she have left?"
+        if "apples" in problem.lower():
+            return self._solve_apple_problem(problem)
+        elif "age" in problem.lower():
+            return self._solve_age_problem(problem)
+        else:
+            return self._solve_general_problem(problem)
+    
+    def _solve_apple_problem(self, problem: str) -> str:
+        # Step 1: Identify initial amount
+        self.reasoning_chain.append(ReasoningStep(
+            1, 
+            "First, I need to identify how many apples Sarah starts with",
+            "",
+            "Sarah starts with 15 apples"
+        ))
+        
+        # Step 2: Identify what she gives away
+        self.reasoning_chain.append(ReasoningStep(
+            2,
+            "Next, I need to find out how many apples she gives away",
+            "",
+            "She gives 3 to John and 2 to Mary, so 3 + 2 = 5 apples given away"
+        ))
+        
+        # Step 3: Calculate remaining
+        self.reasoning_chain.append(ReasoningStep(
+            3,
+            "Finally, I subtract the apples given away from the initial amount",
+            "15 - 5 = 10",
+            "Sarah has 10 apples left"
+        ))
+        
+        return self._format_solution()
+    
+    def _solve_age_problem(self, problem: str) -> str:
+        # Example chain for age problems
+        self.reasoning_chain.append(ReasoningStep(
+            1,
+            "Identify the current ages mentioned in the problem",
+            "",
+            "Current ages established"
+        ))
+        
+        self.reasoning_chain.append(ReasoningStep(
+            2,
+            "Determine the relationship or operation needed",
+            "",
+            "Relationship identified"
+        ))
+        
+        self.reasoning_chain.append(ReasoningStep(
+            3,
+            "Calculate the final answer",
+            "",
+            "Age calculation completed"
+        ))
+        
+        return self._format_solution()
+    
+    def _solve_general_problem(self, problem: str) -> str:
+        self.reasoning_chain.append(ReasoningStep(
+            1,
+            "Breaking down the problem into components",
+            "",
+            "Problem components identified"
+        ))
+        
+        return self._format_solution()
+    
+    def _format_solution(self) -> str:
+        """Format the complete reasoning chain"""
+        solution = "Let me think step by step:\n\n"
+        
+        for step in self.reasoning_chain:
+            solution += f"Step {step.step_number}: {step.description}\n"
+            if step.calculation:
+                solution += f"Calculation: {step.calculation}\n"
+            solution += f"Result: {step.result}\n\n"
+        
+        final_answer = self.reasoning_chain[-1].result if self.reasoning_chain else "No solution found"
+        solution += f"Final Answer: {final_answer}"
+        
+        return solution
+
+# Example usage
+cot_agent = ChainOfThoughtAgent()
+problem = "Sarah has 15 apples. She gives 3 to John and 2 to Mary. How many apples does she have left?"
+solution = cot_agent.solve_math_problem(problem)
+print(solution)
+```
+
+### 5. Multi-Agent Systems
+
+Multi-agent systems involve multiple autonomous agents working together to achieve individual or collective goals.
+
+#### Coordination Patterns
+1. **Hierarchical**: Master-slave relationships
+2. **Peer-to-peer**: Equal agents collaborating
+3. **Market-based**: Agents negotiate and trade
+4. **Blackboard**: Shared knowledge space
+
+#### Code Example: Multi-Agent Coordinator
+
+```python
+from typing import Dict, List, Any, Optional
+from dataclasses import dataclass
+from enum import Enum
+import asyncio
+from abc import ABC, abstractmethod
+
+class AgentRole(Enum):
+    RESEARCHER = "researcher"
+    ANALYST = "analyst"
+    WRITER = "writer"
+    COORDINATOR = "coordinator"
+
+@dataclass
+class Message:
+    sender_id: str
+    receiver_id: str
+    content: str
+    message_type: str
+    timestamp: float
+
+@dataclass
+class Task:
+    task_id: str
+    description: str
+    assigned_to: Optional[str] = None
+    status: str = "pending"
+    result: Optional[str] = None
+    dependencies: List[str] = None
+
+class Agent(ABC):
+    def __init__(self, agent_id: str, role: AgentRole):
+        self.agent_id = agent_id
+        self.role = role
+        self.inbox: List[Message] = []
+        self.knowledge_base: Dict[str, Any] = {}
+        
+    @abstractmethod
+    async def process_task(self, task: Task) -> str:
+        pass
+    
+    def receive_message(self, message: Message):
+        self.inbox.append(message)
+    
+    def send_message(self, receiver_id: str, content: str, message_type: str = "info"):
+        # In a real system, this would go through a message broker
+        return Message(self.agent_id, receiver_id, content, message_type, 0.0)
+
+class ResearchAgent(Agent):
+    def __init__(self, agent_id: str):
+        super().__init__(agent_id, AgentRole.RESEARCHER)
+        
+    async def process_task(self, task: Task) -> str:
+        # Simulate research work
+        await asyncio.sleep(1)  # Simulate processing time
+        
+        research_data = {
+            "topic": task.description,
+            "findings": f"Research findings for {task.description}",
+            "sources": ["source1.com", "source2.org"],
+            "confidence": 0.85
+        }
+        
+        self.knowledge_base[task.task_id] = research_data
+        return f"Research completed for: {task.description}"
+
+class AnalystAgent(Agent):
+    def __init__(self, agent_id: str):
+        super().__init__(agent_id, AgentRole.ANALYST)
+        
+    async def process_task(self, task: Task) -> str:
+        # Simulate analysis work
+        await asyncio.sleep(1.5)
+        
+        analysis = {
+            "topic": task.description,
+            "analysis": f"Analysis of {task.description}",
+            "recommendations": ["rec1", "rec2", "rec3"],
+            "risk_level": "medium"
+        }
+        
+        self.knowledge_base[task.task_id] = analysis
+        return f"Analysis completed for: {task.description}"
+
+class WriterAgent(Agent):
+    def __init__(self, agent_id: str):
+        super().__init__(agent_id, AgentRole.WRITER)
+        
+    async def process_task(self, task: Task) -> str:
+        # Simulate writing work
+        await asyncio.sleep(2)
+        
+        document = {
+            "title": f"Report on {task.description}",
+            "content": f"Detailed report about {task.description}",
+            "word_count": 1500,
+            "format": "markdown"
+        }
+        
+        self.knowledge_base[task.task_id] = document
+        return f"Document written for: {task.description}"
+
+class MultiAgentCoordinator:
+    def __init__(self):
+        self.agents: Dict[str, Agent] = {}
+        self.tasks: Dict[str, Task] = {}
+        self.message_queue: List[Message] = []
+        
+    def add_agent(self, agent: Agent):
+        self.agents[agent.agent_id] = agent
+        
+    def create_task(self, task_id: str, description: str, dependencies: List[str] = None):
+        task = Task(task_id, description, dependencies=dependencies or [])
+        self.tasks[task_id] = task
+        return task
+    
+    def assign_task(self, task_id: str, agent_id: str):
+        if task_id in self.tasks and agent_id in self.agents:
+            self.tasks[task_id].assigned_to = agent_id
+            self.tasks[task_id].status = "assigned"
+            
+    async def execute_workflow(self, workflow_tasks: List[str]) -> Dict[str, str]:
+        """Execute a workflow of tasks with dependency management"""
+        results = {}
+        completed_tasks = set()
+        
+        while len(completed_tasks) < len(workflow_tasks):
+            for task_id in workflow_tasks:
+                if task_id in completed_tasks:
+                    continue
+                    
+                task = self.tasks[task_id]
+                
+                # Check if dependencies are met
+                if task.dependencies:
+                    dependencies_met = all(dep in completed_tasks for dep in task.dependencies)
+                    if not dependencies_met:
+                        continue
+                
+                # Execute task if assigned
+                if task.assigned_to and task.status == "assigned":
+                    agent = self.agents[task.assigned_to]
+                    task.status = "in_progress"
+                    
+                    result = await agent.process_task(task)
+                    task.result = result
+                    task.status = "completed"
+                    
+                    results[task_id] = result
+                    completed_tasks.add(task_id)
+                    
+            # Small delay to prevent busy waiting
+            await asyncio.sleep(0.1)
+        
+        return results
+    
+    def get_workflow_status(self) -> Dict[str, str]:
+        """Get current status of all tasks"""
+        return {task_id: task.status for task_id, task in self.tasks.items()}
+
+# Example usage
+async def main():
+    # Create coordinator and agents
+    coordinator = MultiAgentCoordinator()
+    
+    researcher = ResearchAgent("researcher_1")
+    analyst = AnalystAgent("analyst_1") 
+    writer = WriterAgent("writer_1")
+    
+    coordinator.add_agent(researcher)
+    coordinator.add_agent(analyst)
+    coordinator.add_agent(writer)
+    
+    # Create workflow tasks
+    coordinator.create_task("research_ai", "AI trends in 2024")
+    coordinator.create_task("analyze_ai", "Analyze AI research findings", ["research_ai"])
+    coordinator.create_task("write_report", "Write AI trends report", ["research_ai", "analyze_ai"])
+    
+    # Assign tasks to agents
+    coordinator.assign_task("research_ai", "researcher_1")
+    coordinator.assign_task("analyze_ai", "analyst_1")
+    coordinator.assign_task("write_report", "writer_1")
+    
+    # Execute workflow
+    workflow_tasks = ["research_ai", "analyze_ai", "write_report"]
+    results = await coordinator.execute_workflow(workflow_tasks)
+    
+    print("Workflow Results:")
+    for task_id, result in results.items():
+        print(f"- {task_id}: {result}")
+
+# Run the example
+# asyncio.run(main())
+```
+
+## Choosing the Right Architecture
+
+### Decision Framework
+
+| Use Case | Recommended Pattern | Rationale |
+|----------|-------------------|-----------|
+| Real-time responses | Reactive | Fast, deterministic responses |
+| Complex planning | Deliberative | Requires reasoning about future states |
+| Mixed requirements | Hybrid | Best of both reactive and deliberative |
+| Reasoning tasks | ReAct/CoT | Explicit reasoning improves accuracy |
+| Collaborative work | Multi-agent | Specialized agents for different tasks |
+
+### Architecture Trade-offs
+
+#### Reactive Systems
+**Pros**: Fast, simple, predictable
+**Cons**: Limited reasoning, brittle to unexpected inputs
+
+#### Deliberative Systems  
+**Pros**: Intelligent planning, handles complexity
+**Cons**: Slower, computationally expensive
+
+#### Hybrid Systems
+**Pros**: Balanced performance, robust
+**Cons**: Complex to design and debug
+
+## Best Practices
+
+### 1. Start Simple
+Begin with reactive patterns and add complexity only when needed.
+
+### 2. Clear Separation of Concerns
+Keep perception, reasoning, and action modules separate.
+
+### 3. Robust Error Handling
+Plan for failure modes and graceful degradation.
+
+### 4. Observability
+Implement logging and monitoring for agent decisions.
+
+### 5. Human Oversight
+Design clear interfaces for human intervention when needed.
+
+## Common Pitfalls
+
+### 1. Over-Engineering
+Adding unnecessary complexity too early in development.
+
+### 2. Poor State Management
+Not properly maintaining world state in deliberative agents.
+
+### 3. Infinite Loops
+ReAct agents getting stuck in reasoning loops.
+
+### 4. Agent Conflicts
+Multi-agent systems with competing objectives.
+
+### 5. Lack of Fallbacks
+No graceful degradation when primary systems fail.
+
+## Interactive Quiz
+
+Test your understanding of agent architecture patterns:
+
+### Question 1
+Which agent pattern is best suited for immediate responses to environmental changes?
+
+A) Deliberative  
+B) Reactive  
+C) Hybrid  
+D) Multi-agent  
+
+**Answer: B) Reactive**
+
+Reactive agents are designed for immediate stimulus-response patterns, making them ideal for situations requiring fast responses to environmental changes.
+
+### Question 2
+What are the main components of the ReAct pattern?
+
+A) Perception, Planning, Execution  
+B) Thought, Action, Observation  
+C) Input, Processing, Output  
+D) Sense, Think, Act  
+
+**Answer: B) Thought, Action, Observation**
+
+The ReAct pattern specifically uses this three-step cycle: reasoning about the situation (Thought), taking an action (Action), and observing the results (Observation).
+
+### Question 3
+Which architecture pattern combines reactive and deliberative approaches?
+
+A) Multi-agent  
+B) Chain-of-Thought  
+C) Hybrid  
+D) ReAct  
+
+**Answer: C) Hybrid**
+
+Hybrid architectures specifically combine reactive systems for immediate responses with deliberative systems for complex planning and reasoning.
+
+## Practical Exercises
+
+### Exercise 1: Design Agent Architecture
+**Time: 30 minutes**
+
+Choose a real-world scenario (e.g., smart home automation, customer service bot, trading system) and design an appropriate agent architecture. Consider:
+
+1. Environmental factors and inputs
+2. Required response times
+3. Complexity of decision-making
+4. Need for planning vs. reactive responses
+5. Human interaction requirements
+
+Document your design decisions and trade-offs.
+
+### Exercise 2: Implement ReAct Agent
+**Time: 45 minutes**
+
+Build a ReAct agent that can:
+1. Answer questions using web search
+2. Perform calculations
+3. Access a simple database of facts
+4. Show its reasoning process
+
+Extend the provided ReAct code example to handle more complex multi-step problems.
+
+## Summary
+
+Agent architecture patterns provide the foundation for building effective autonomous AI systems. Key takeaways:
+
+- **Reactive agents** excel at immediate responses but lack reasoning capabilities
+- **Deliberative agents** can plan and reason but are slower to respond
+- **Hybrid architectures** balance reactive and deliberative approaches
+- **ReAct pattern** enables transparent reasoning in language model agents
+- **Multi-agent systems** coordinate specialized agents for complex workflows
+
+The choice of architecture depends on your specific requirements for response time, reasoning complexity, and environmental uncertainty.
+
+## Next Steps
+
+In the next module, we'll dive deeper into **Building Planning Systems**, where you'll learn how to implement sophisticated planning algorithms that enable agents to reason about complex, multi-step tasks and adapt their strategies based on changing conditions.
+
+---
+
+## Additional Resources
+
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
+- [Multi-Agent Systems: A Modern Approach](https://www.cs.cmu.edu/~softagents/multi.html)
+- [Agent Architecture Design Patterns](https://patterns.dataarchitecturepatterns.com/agent-patterns/)
+- [LangChain Agent Documentation](https://docs.langchain.com/docs/components/agents/)

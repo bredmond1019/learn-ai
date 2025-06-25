@@ -1,0 +1,54 @@
+{
+  "id": "mcp-fundamentals",
+  "title": "MCP Server Fundamentals",
+  "description": "Build your first Model Context Protocol server from scratch. Learn the core concepts, architecture patterns, and best practices.",
+  "icon": "🔌",
+  "color": "#3B82F6",
+  "difficulty": "beginner",
+  "level": "beginner",
+  "duration": "4-6 hours",
+  "totalDuration": "4-6 hours",
+  "version": "1.0.0",
+  "lastUpdated": "2024-01-15",
+  "author": "Brandon Redmond",
+  "topics": [
+    "MCP Architecture",
+    "Server Setup",
+    "Resource Management",
+    "Tool Integration"
+  ],
+  "prerequisites": [],
+  "outcomes": [
+    "Understand MCP protocol fundamentals",
+    "Build a basic MCP server from scratch",
+    "Implement resource and tool providers",
+    "Connect MCP server to AI applications"
+  ],
+  "modules": [
+    "01-introduction-to-mcp",
+    "02-setting-up-environment",
+    "03-implementing-resources",
+    "04-creating-tools",
+    "05-capstone-project"
+  ],
+  "resources": [
+    {
+      "title": "Official MCP Documentation",
+      "type": "reference",
+      "url": "https://modelcontextprotocol.io/docs",
+      "required": true
+    },
+    {
+      "title": "MCP TypeScript SDK",
+      "type": "tool",
+      "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+      "required": true
+    }
+  ],
+  "tags": [
+    "mcp",
+    "typescript",
+    "ai-integration",
+    "server-development"
+  ]
+}

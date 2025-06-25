@@ -1,0 +1,60 @@
+{
+  "id": "production-ai",
+  "title": "Production AI Systems",
+  "description": "Deploy, monitor, and scale AI systems in production. Learn enterprise patterns for reliable AI applications.",
+  "level": "Advanced",
+  "difficulty": "advanced",
+  "duration": "8-10 hours",
+  "totalDuration": "9 hours",
+  "version": "1.0.0",
+  "lastUpdated": "2024-01-15",
+  "author": "Brandon Redmond",
+  "topics": [
+    "Deployment Strategies",
+    "Monitoring",
+    "Scaling",
+    "Security"
+  ],
+  "prerequisites": ["mcp-fundamentals", "agentic-workflows"],
+  "outcomes": [
+    "Deploy AI systems to production environments",
+    "Implement comprehensive monitoring and observability",
+    "Design systems that scale with demand",
+    "Secure AI applications against common threats"
+  ],
+  "modules": [
+    "01-deployment-strategies",
+    "02-ai-system-monitoring",
+    "03-scaling-strategies",
+    "04-ai-security",
+    "05-production-platform-project"
+  ],
+  "resources": [
+    {
+      "title": "MLOps: Continuous Delivery for ML",
+      "type": "reference",
+      "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+      "required": false
+    },
+    {
+      "title": "Prometheus Documentation",
+      "type": "tool",
+      "url": "https://prometheus.io/docs/",
+      "required": false
+    },
+    {
+      "title": "OWASP Top 10 for LLM Applications",
+      "type": "reference",
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "required": true
+    }
+  ],
+  "tags": [
+    "production",
+    "deployment",
+    "monitoring",
+    "security",
+    "scaling",
+    "mlops"
+  ]
+}

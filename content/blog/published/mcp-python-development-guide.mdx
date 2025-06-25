@@ -1,0 +1,1030 @@
+---
+title: "MCP for Python Development: Building Production-Ready AI Systems"
+date: "2024-12-05"
+excerpt: "Master the Model Context Protocol (MCP) in Python for building enterprise-grade AI applications. Learn server setup, client integration, OpenAI connections, and production deployment patterns."
+tags: ["MCP", "Python", "AI Development", "Production AI", "Enterprise Systems", "OpenAI Integration"]
+author: "Brandon"
+---
+
+import { Callout } from '@/components/ui/callout'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Badge } from '@/components/ui/badge'
+
+The Model Context Protocol (MCP) is revolutionizing how we build AI applications by providing a standardized way to connect AI assistants to external systems. This comprehensive guide shows you how to master MCP in Python for building production-ready AI systems that go beyond simple desktop integrations.
+
+## 🎯 Understanding MCP in Context
+
+### What is MCP?
+
+**Model Context Protocol (MCP)** is a standardization framework developed by Anthropic (released November 25, 2024) that provides a unified way to connect AI assistants to external systems including content repositories, business tools, and development environments.
+
+### The Problem MCP Solves
+
+<div className="grid gap-4 mt-4">
+  <Card>
+    <CardHeader>
+      <CardTitle>❌ Before MCP</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Every developer created custom API layers for external integrations</li>
+        <li>• Each integration required custom function definitions and schemas</li>
+        <li>• No standardization across different tools and services</li>
+        <li>• Constant reinvention for common integrations</li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>✅ After MCP</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Unified protocol layer that standardizes tool and resource definitions</li>
+        <li>• Consistent API across all integrations</li>
+        <li>• Reusable servers that can be shared across projects</li>
+        <li>• Standardized schemas, functions, documentation, and arguments</li>
+      </ul>
+    </CardContent>
+  </Card>
+</div>
+
+### Key Insight
+
+<Callout type="info" className="mt-4">
+  **MCP doesn't introduce new LLM functionality** - it's a standardized way of making tools and resources available to LLMs. Everything possible with MCP was already achievable through custom implementations, but MCP provides standardization and reusability.
+</Callout>
+
+## 🏗️ Core Architecture Components
+
+### Transport Mechanisms
+
+<Tabs defaultValue="stdio" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="stdio">Standard I/O</TabsTrigger>
+    <TabsTrigger value="sse">Server-Sent Events (SSE)</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="stdio">
+    <Card>
+      <CardContent className="pt-6">
+        <ul className="space-y-2">
+          <li className="flex items-start gap-2">
+            <Badge variant="outline" className="mt-0.5">Local</Badge>
+            <span>Used for local development on same machine</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="outline" className="mt-0.5">Simple</Badge>
+            <span>Communication via pipes and standard input/output</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="outline" className="mt-0.5">Limited</Badge>
+            <span>Simpler setup but limited to local usage</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="outline" className="mt-0.5">Desktop</Badge>
+            <span>Good for desktop applications like Claude Desktop</span>
+          </li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+  
+  <TabsContent value="sse">
+    <Card>
+      <CardContent className="pt-6">
+        <ul className="space-y-2">
+          <li className="flex items-start gap-2">
+            <Badge variant="outline" className="mt-0.5">Distributed</Badge>
+            <span>Used for distributed systems and remote servers</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="outline" className="mt-0.5">HTTP</Badge>
+            <span>Communication via HTTP requests and JSON-RPC</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="outline" className="mt-0.5">Scalable</Badge>
+            <span>Enables true client-server architecture</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="outline" className="mt-0.5">Production</Badge>
+            <span>Required for production deployments and shared resources</span>
+          </li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+## 🚀 Quick Start: Simple Server Setup
+
+### Installation Requirements
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>📦 Prerequisites</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2">
+      <li className="flex items-center gap-2">
+        <Badge variant="outline" className="w-fit">Required</Badge>
+        Python 3.8 or higher
+      </li>
+      <li className="flex items-center gap-2">
+        <Badge variant="outline" className="w-fit">Required</Badge>
+        pip package manager
+      </li>
+    </ul>
+    <div className="mt-4">
+      <code className="block p-3 bg-muted rounded-md">pip install mcp</code>
+    </div>
+  </CardContent>
+</Card>
+
+### Minimal Server Implementation (31 lines)
+
+<Callout type="tip" className="mt-4">
+  **Quick Start**: This minimal example shows how easy it is to create an MCP server with just a few lines of code.
+</Callout>
+
+```python
+from mcp import FastMCP
+
+# Create MCP server instance
+mcp = FastMCP(
+    name="simple-calculator",
+    host="localhost",
+    port=8050
+)
+
+# Define tools using decorators
+@mcp.tool
+def add(a: int, b: int) -> int:
+    """Add two numbers together."""
+    return a + b
+
+@mcp.tool
+def multiply(a: int, b: int) -> int:
+    """Multiply two numbers together."""
+    return a * b
+
+@mcp.tool
+def divide(a: float, b: float) -> float:
+    """Divide two numbers."""
+    if b == 0:
+        raise ValueError("Cannot divide by zero")
+    return a / b
+
+# Run server with transport mechanism
+if __name__ == "__main__":
+    transport = "stdio"  # or "sse"
+    
+    if transport == "stdio":
+        mcp.run(transport="stdio")
+    else:
+        mcp.run_sse()
+```
+
+### Development and Testing with MCP Inspector
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>🔧 Essential Development Tool</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2">
+      <li>• Built-in tool for testing and debugging servers</li>
+      <li>• Command: <code className="bg-muted px-2 py-1 rounded">mcp dev server.py</code></li>
+      <li>• Provides web interface for testing tools, resources, and prompts</li>
+      <li>• Essential for development and debugging</li>
+    </ul>
+    
+    <div className="mt-4">
+      <h4 className="font-semibold mb-2">Server Capabilities:</h4>
+      <div className="grid gap-2">
+        <div className="flex items-center gap-2">
+          <Badge>Tools</Badge>
+          <span className="text-sm">Python functions exposed as callable tools</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge>Resources</Badge>
+          <span className="text-sm">Local files and data sources</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge>Prompts</Badge>
+          <span className="text-sm">Reusable prompt templates</span>
+        </div>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+## 💻 Client Implementation Patterns
+
+### Standard I/O Client
+
+<Callout type="info" className="mt-4">
+  **Note**: When using in Jupyter notebooks, you'll need `nest_asyncio` to handle the event loop properly.
+</Callout>
+
+```python
+import asyncio
+from mcp import stdio_client
+
+async def main():
+    # Define server parameters
+    server_params = {
+        "command": "python",
+        "args": ["server.py"]
+    }
+    
+    # Create session and connect
+    async with stdio_client(server_params) as session:
+        # List available tools
+        tools = await session.list_tools()
+        print("Available tools:", [tool.name for tool in tools])
+        
+        # Call a tool
+        result = await session.call_tool("add", {"a": 3, "b": 5})
+        print("Result:", result)
+        
+        # Call another tool
+        result = await session.call_tool("multiply", {"a": 4, "b": 6})
+        print("Multiply result:", result)
+
+# For interactive sessions (Jupyter notebooks)
+import nest_asyncio
+nest_asyncio.apply()
+asyncio.run(main())
+```
+
+### HTTP/SSE Client
+
+```python
+from mcp import sse_client
+
+async def main():
+    # Connect to remote server
+    async with sse_client("http://localhost:8050") as session:
+        # Same operations as stdio client
+        tools = await session.list_tools()
+        result = await session.call_tool("add", {"a": 10, "b": 15})
+        print("Remote calculation result:", result)
+
+# Note: Server must be running separately
+# python server.py (in another terminal)
+```
+
+## 🧠 Advanced Server with Knowledge Base
+
+### Enhanced Server Example
+
+<Callout type="success" className="mt-4">
+  This enhanced server demonstrates real-world patterns including file handling, search functionality, and ticket creation.
+</Callout>
+
+```python
+import json
+import os
+from pathlib import Path
+from mcp import FastMCP
+from typing import List, Dict, Any
+
+mcp = FastMCP(name="knowledge-server", host="localhost", port=8051)
+
+@mcp.tool
+def get_knowledge_base() -> str:
+    """Retrieve company knowledge base for RAG applications."""
+    knowledge_file = Path("data/knowledge.json")
+    
+    if not knowledge_file.exists():
+        return "Knowledge base not found. Please ensure data/knowledge.json exists."
+    
+    try:
+        with open(knowledge_file, "r") as f:
+            data = json.load(f)
+        
+        # Format for LLM consumption
+        formatted = ""
+        for item in data:
+            formatted += f"Q: {item['question']}\nA: {item['answer']}\n\n"
+        
+        return formatted
+    except Exception as e:
+        return f"Error reading knowledge base: {str(e)}"
+
+@mcp.tool
+def search_documents(query: str, category: str = "all") -> str:
+    """Search through document collection based on query and category."""
+    docs_dir = Path("data/documents")
+    
+    if not docs_dir.exists():
+        return "Documents directory not found."
+    
+    results = []
+    for file_path in docs_dir.glob("*.txt"):
+        if category != "all" and category not in file_path.name:
+            continue
+            
+        try:
+            with open(file_path, "r") as f:
+                content = f.read()
+                if query.lower() in content.lower():
+                    results.append({
+                        "file": file_path.name,
+                        "excerpt": content[:200] + "..." if len(content) > 200 else content
+                    })
+        except Exception:
+            continue
+    
+    if not results:
+        return f"No documents found matching query: {query}"
+    
+    formatted_results = f"Found {len(results)} documents:\n\n"
+    for result in results:
+        formatted_results += f"File: {result['file']}\nExcerpt: {result['excerpt']}\n\n"
+    
+    return formatted_results
+
+@mcp.tool
+def create_support_ticket(
+    title: str, 
+    description: str, 
+    priority: str = "medium",
+    category: str = "general"
+) -> Dict[str, Any]:
+    """Create a new support ticket in the system."""
+    import uuid
+    from datetime import datetime
+    
+    ticket_id = f"TICKET-{uuid.uuid4().hex[:8].upper()}"
+    
+    ticket = {
+        "id": ticket_id,
+        "title": title,
+        "description": description,
+        "priority": priority,
+        "category": category,
+        "status": "open",
+        "created_at": datetime.utcnow().isoformat(),
+        "assigned_to": None
+    }
+    
+    # In production, save to database
+    # For demo, save to file
+    tickets_file = Path("data/tickets.json")
+    tickets_file.parent.mkdir(exist_ok=True)
+    
+    try:
+        if tickets_file.exists():
+            with open(tickets_file, "r") as f:
+                tickets = json.load(f)
+        else:
+            tickets = []
+        
+        tickets.append(ticket)
+        
+        with open(tickets_file, "w") as f:
+            json.dump(tickets, f, indent=2)
+        
+        return {
+            "success": True,
+            "ticket_id": ticket_id,
+            "message": f"Ticket {ticket_id} created successfully"
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"Failed to create ticket: {str(e)}"
+        }
+
+if __name__ == "__main__":
+    # Ensure data directory exists
+    Path("data").mkdir(exist_ok=True)
+    
+    # Create sample knowledge base if it doesn't exist
+    kb_file = Path("data/knowledge.json")
+    if not kb_file.exists():
+        sample_kb = [
+            {
+                "question": "What is our return policy?",
+                "answer": "We offer a 30-day return policy for all unused items in original packaging."
+            },
+            {
+                "question": "How do I reset my password?",
+                "answer": "Click 'Forgot Password' on the login page and follow the email instructions."
+            },
+            {
+                "question": "What are your business hours?",
+                "answer": "We're open Monday-Friday 9AM-6PM EST, and Saturday 10AM-4PM EST."
+            }
+        ]
+        with open(kb_file, "w") as f:
+            json.dump(sample_kb, f, indent=2)
+    
+    mcp.run(transport="stdio")
+```
+
+## 🤖 OpenAI Integration for Complete AI Systems
+
+### Complete AI System Implementation
+
+<Callout type="tip" className="mt-4">
+  **Pro Tip**: This integration pattern allows you to combine MCP's standardized tool definitions with OpenAI's function calling capabilities, creating a powerful and flexible AI system.
+</Callout>
+
+```python
+import asyncio
+import json
+from openai import OpenAI
+from mcp import stdio_client
+from typing import Dict, List, Any
+
+class MCPOpenAIClient:
+    def __init__(self, model="gpt-4"):
+        self.openai_client = OpenAI()
+        self.model = model
+        self.session = None
+
+    async def connect_to_server(self, server_script: str = "server.py"):
+        """Establish connection to MCP server."""
+        server_params = {
+            "command": "python",
+            "args": [server_script]
+        }
+        self.session = stdio_client(server_params)
+        await self.session.__aenter__()
+
+    async def get_mcp_tools(self) -> List[Dict]:
+        """Convert MCP tools to OpenAI format."""
+        tools = await self.session.list_tools()
+        openai_tools = []
+
+        for tool in tools:
+            openai_tool = {
+                "type": "function",
+                "function": {
+                    "name": tool.name,
+                    "description": tool.description,
+                    "parameters": tool.inputSchema
+                }
+            }
+            openai_tools.append(openai_tool)
+
+        return openai_tools
+
+    async def process_query(self, query: str) -> str:
+        """Process user query with MCP tools integration."""
+        # Get available tools
+        tools = await self.get_mcp_tools()
+
+        # Initial API call
+        messages = [{"role": "user", "content": query}]
+        response = self.openai_client.chat.completions.create(
+            model=self.model,
+            messages=messages,
+            tools=tools,
+            tool_choice="auto"
+        )
+
+        # Handle tool calls
+        assistant_message = response.choices[0].message
+        if assistant_message.tool_calls:
+            messages.append(assistant_message)
+
+            # Execute tool calls via MCP
+            for tool_call in assistant_message.tool_calls:
+                try:
+                    # Parse arguments
+                    args = json.loads(tool_call.function.arguments)
+                    
+                    # Call MCP tool
+                    result = await self.session.call_tool(
+                        tool_call.function.name,
+                        args
+                    )
+
+                    # Add tool result to context
+                    messages.append({
+                        "role": "tool",
+                        "content": str(result),
+                        "tool_call_id": tool_call.id
+                    })
+                except Exception as e:
+                    # Handle tool execution errors
+                    messages.append({
+                        "role": "tool",
+                        "content": f"Error executing tool: {str(e)}",
+                        "tool_call_id": tool_call.id
+                    })
+
+            # Final API call with tool results
+            final_response = self.openai_client.chat.completions.create(
+                model=self.model,
+                messages=messages
+            )
+            return final_response.choices[0].message.content
+
+        return assistant_message.content
+
+    async def close(self):
+        """Clean up resources."""
+        if self.session:
+            await self.session.__aexit__(None, None, None)
+
+# Usage example with error handling
+async def demonstrate_ai_system():
+    """Demonstrate complete AI system with MCP integration."""
+    client = MCPOpenAIClient()
+    
+    try:
+        # Connect to MCP server
+        await client.connect_to_server("knowledge_server.py")
+        
+        # Test queries
+        queries = [
+            "What is our company's return policy?",
+            "Search for documents about password reset procedures",
+            "Create a support ticket for a login issue with high priority",
+            "Calculate 15 + 27 using the calculator tools"
+        ]
+        
+        for query in queries:
+            print(f"\n🔍 Query: {query}")
+            print("=" * 50)
+            
+            result = await client.process_query(query)
+            print(f"📝 Response: {result}")
+            
+    except Exception as e:
+        print(f"❌ Error: {e}")
+    finally:
+        await client.close()
+
+# Run the demonstration
+if __name__ == "__main__":
+    asyncio.run(demonstrate_ai_system())
+```
+
+### Tool Calling Flow Step-by-Step
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>🔄 Complete Process Flow</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ol className="list-decimal list-inside space-y-3">
+      <li>
+        <strong>Query Input</strong>: User asks question
+      </li>
+      <li>
+        <strong>Tool Discovery</strong>: System lists available MCP tools
+      </li>
+      <li>
+        <strong>Schema Conversion</strong>: Convert MCP tools to OpenAI format
+      </li>
+      <li>
+        <strong>Initial LLM Call</strong>: Send query + tool definitions to OpenAI
+      </li>
+      <li>
+        <strong>Tool Decision</strong>: LLM decides whether to use tools
+      </li>
+      <li>
+        <strong>Tool Execution</strong>: If tools needed, execute via MCP session
+      </li>
+      <li>
+        <strong>Context Building</strong>: Add tool results to message context
+      </li>
+      <li>
+        <strong>Final Response</strong>: LLM synthesizes final answer with all context
+      </li>
+    </ol>
+  </CardContent>
+</Card>
+
+## 🔄 MCP vs Traditional Function Calling
+
+### Direct Comparison
+
+<Tabs defaultValue="traditional" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="traditional">Traditional Function Calling</TabsTrigger>
+    <TabsTrigger value="mcp">MCP Approach</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="traditional">
+    ```python
+    # Tools defined directly in application
+    def get_knowledge_base():
+        """Direct function implementation."""
+        return load_knowledge_data()
+
+    # Direct integration with OpenAI
+    tools = [{
+        "type": "function",
+        "function": {
+            "name": "get_knowledge_base",
+            "description": "Get knowledge base data"
+        }
+    }]
+    ```
+  </TabsContent>
+  
+  <TabsContent value="mcp">
+    ```python
+    # Tools defined in separate MCP server
+    # Retrieved dynamically via MCP protocol
+    tools = await session.list_tools()  # From MCP server
+    openai_tools = convert_to_openai_format(tools)
+    ```
+  </TabsContent>
+</Tabs>
+
+### When to Use Each Approach
+
+<div className="grid gap-4 mt-4">
+  <Card>
+    <CardHeader>
+      <CardTitle>📌 Stick with Function Calling When:</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Simple applications with few tools</li>
+        <li>• Tools are specific to single application</li>
+        <li>• No need for tool sharing across projects</li>
+        <li>• Existing implementation works well</li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>🌐 Consider MCP When:</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Building multiple AI applications</li>
+        <li>• Need to share tools across projects</li>
+        <li>• Want to leverage existing MCP servers</li>
+        <li>• Planning distributed architecture</li>
+        <li>• Building enterprise-scale systems</li>
+      </ul>
+    </CardContent>
+  </Card>
+</div>
+
+### Migration Considerations
+
+<Callout type="warning" className="mt-4">
+  **Key Insight**: There's no immediate need to migrate existing function calling implementations to MCP. MCP adds standardization and reusability but doesn't provide new capabilities that weren't already possible.
+</Callout>
+
+## 🐳 Production Deployment with Docker
+
+### Containerizing MCP Servers
+
+<Callout type="tip" className="mt-4">
+  **Docker Tip**: Always use specific Python versions and minimize image size by using slim variants.
+</Callout>
+
+**Dockerfile Example:**
+
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copy server code and data
+COPY server.py .
+COPY data/ ./data/
+
+# Expose port for HTTP transport
+EXPOSE 8050
+
+# Run server
+CMD ["python", "server.py"]
+```
+
+**Build and Run Commands:**
+
+```bash
+# Build Docker image
+docker build -t mcp-server .
+
+# Run container with port mapping
+docker run -p 8050:8050 mcp-server
+
+# Run with volume for persistent data
+docker run -p 8050:8050 -v $(pwd)/data:/app/data mcp-server
+```
+
+### Production Deployment Benefits
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>🎉 Advantages</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="grid gap-3">
+      <div className="flex items-start gap-2">
+        <Badge variant="outline">🌍 Portability</Badge>
+        <span>Run on any cloud provider or server</span>
+      </div>
+      <div className="flex items-start gap-2">
+        <Badge variant="outline">📈 Scalability</Badge>
+        <span>Easy horizontal scaling</span>
+      </div>
+      <div className="flex items-start gap-2">
+        <Badge variant="outline">🔒 Isolation</Badge>
+        <span>Clean environment separation</span>
+      </div>
+      <div className="flex items-start gap-2">
+        <Badge variant="outline">✅ Consistency</Badge>
+        <span>Same environment across dev/staging/production</span>
+      </div>
+      <div className="flex items-start gap-2">
+        <Badge variant="outline">🤝 Resource Sharing</Badge>
+        <span>Multiple applications can connect to same server</span>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>☁️ Deployment Options</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2">
+      <li>• Virtual machines on AWS/Azure/GCP</li>
+      <li>• Managed container services (ECS, AKS, GKE)</li>
+      <li>• Kubernetes clusters for enterprise deployments</li>
+      <li>• Docker Compose for multi-server setups</li>
+    </ul>
+  </CardContent>
+</Card>
+
+## ⚙️ Lifecycle Management and Production Considerations
+
+### Connection Management
+
+**Basic Session Handling:**
+
+```python
+# Using context managers for proper cleanup
+async with stdio_client(server_params) as session:
+    # Session automatically managed
+    tools = await session.list_tools()
+    # Session closed automatically on exit
+```
+
+**Advanced Lifecycle Management:**
+
+<Callout type="info" className="mt-4">
+  **Best Practice**: Use lifecycle management to properly initialize and clean up resources like database connections and external services.
+</Callout>
+
+```python
+from mcp import FastMCP
+from contextlib import asynccontextmanager
+import asyncpg
+
+@asynccontextmanager
+async def lifespan(server):
+    """Manage server lifecycle events."""
+    # Startup
+    print("Server starting...")
+    
+    # Initialize database connection pool
+    database_pool = await asyncpg.create_pool(
+        "postgresql://user:password@localhost/dbname"
+    )
+    server.state.database = database_pool
+    
+    # Initialize external services
+    server.state.redis_client = await redis.create_connection()
+    
+    yield
+    
+    # Shutdown
+    print("Server shutting down...")
+    await database_pool.close()
+    await server.state.redis_client.close()
+
+# Create server with lifecycle management
+mcp = FastMCP(name="production-server", lifespan=lifespan)
+
+@mcp.tool
+def get_user_data(user_id: str) -> Dict:
+    """Get user data from database."""
+    # Access database through server state
+    async with mcp.state.database.acquire() as conn:
+        result = await conn.fetchrow(
+            "SELECT * FROM users WHERE id = $1", user_id
+        )
+        return dict(result) if result else {}
+```
+
+### Production Health Monitoring
+
+<Callout type="tip" className="mt-4">
+  **Production Tip**: Always implement comprehensive health checks for monitoring and alerting in production environments.
+</Callout>
+
+```python
+from mcp import FastMCP
+import psutil
+import time
+from datetime import datetime
+
+mcp = FastMCP(name="production-server")
+
+@mcp.tool
+def health_check() -> Dict[str, Any]:
+    """Comprehensive health check for monitoring systems."""
+    
+    # System metrics
+    cpu_percent = psutil.cpu_percent(interval=1)
+    memory = psutil.virtual_memory()
+    disk = psutil.disk_usage('/')
+    
+    # Application metrics
+    uptime = time.time() - getattr(health_check, 'start_time', time.time())
+    
+    return {
+        "status": "healthy",
+        "timestamp": datetime.utcnow().isoformat(),
+        "uptime_seconds": uptime,
+        "system": {
+            "cpu_percent": cpu_percent,
+            "memory_percent": memory.percent,
+            "disk_percent": disk.percent,
+            "available_memory_gb": memory.available / (1024**3)
+        },
+        "response_time_ms": 50  # Simulated response time
+    }
+
+# Initialize start time
+health_check.start_time = time.time()
+```
+
+## 🎆 Key Takeaways and Best Practices
+
+### Core Benefits of MCP
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>💫 Core Benefits</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ol className="list-decimal list-inside space-y-3">
+      <li>
+        <strong>Standardization</strong>: Unified protocol for tool and resource integration
+      </li>
+      <li>
+        <strong>Reusability</strong>: Share tools across multiple projects and applications
+      </li>
+      <li>
+        <strong>Discoverability</strong>: Dynamic discovery of available capabilities
+      </li>
+      <li>
+        <strong>Composability</strong>: Servers can be clients of other servers
+      </li>
+      <li>
+        <strong>Ecosystem Growth</strong>: Rapidly expanding collection of pre-built servers
+      </li>
+    </ol>
+  </CardContent>
+</Card>
+
+### Best Practices
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>🎯 Best Practices</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ol className="list-decimal list-inside space-y-3">
+      <li>
+        <strong>Start Simple</strong>: Begin with Standard I/O for local development
+      </li>
+      <li>
+        <strong>Plan for Scale</strong>: Consider HTTP transport for production systems
+      </li>
+      <li>
+        <strong>Leverage Existing Servers</strong>: Use community-built servers when possible
+      </li>
+      <li>
+        <strong>Focus on Tools</strong>: Tools provide the most immediate value over resources/prompts
+      </li>
+      <li>
+        <strong>Proper Lifecycle Management</strong>: Essential for production deployments
+      </li>
+    </ol>
+  </CardContent>
+</Card>
+
+### When MCP Makes Sense
+
+<Tabs defaultValue="ideal" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="ideal">Ideal Use Cases</TabsTrigger>
+    <TabsTrigger value="avoid">When to Avoid</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="ideal">
+    <Card>
+      <CardContent className="pt-6">
+        <ul className="space-y-3">
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Building multiple AI applications that need shared functionality</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Enterprise environments with distributed teams</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Applications requiring integration with many external services</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Systems that benefit from standardized tool definitions</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge className="mt-0.5">✓</Badge>
+            <span>Projects planning to leverage the growing MCP ecosystem</span>
+          </li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+  
+  <TabsContent value="avoid">
+    <Card>
+      <CardContent className="pt-6">
+        <ul className="space-y-3">
+          <li className="flex items-start gap-2">
+            <Badge variant="secondary" className="mt-0.5">?</Badge>
+            <span>Simple applications with few, specific tools</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="secondary" className="mt-0.5">?</Badge>
+            <span>Proof-of-concepts or prototypes</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="secondary" className="mt-0.5">?</Badge>
+            <span>Existing systems working well with function calling</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Badge variant="secondary" className="mt-0.5">?</Badge>
+            <span>Applications where added complexity isn't justified</span>
+          </li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+## 🔮 Future Outlook
+
+<Callout type="success" className="mt-4">
+  MCP represents a significant shift toward standardization in the AI tooling ecosystem. While it doesn't provide new capabilities, it offers substantial benefits for building scalable, maintainable AI systems. The rapid adoption rate and ecosystem growth suggest MCP will become a standard part of professional AI development workflows.
+</Callout>
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>🚀 Next Steps</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-3">
+      <li className="flex items-start gap-2">
+        <Badge>1</Badge>
+        <span>Experiment with the provided examples</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge>2</Badge>
+        <span>Build custom servers for your specific use cases</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge>3</Badge>
+        <span>Explore the growing ecosystem of community servers</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge>4</Badge>
+        <span>Consider MCP integration for new AI projects</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge>5</Badge>
+        <span>Stay updated with the evolving MCP specification and tooling</span>
+      </li>
+    </ul>
+  </CardContent>
+</Card>

@@ -1,0 +1,102 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <fegaussianblur stdDeviation="3" result="coloredBlur"/>
+      <femerge> 
+        <femergenode in="coloredBlur"/>
+        <femergenode in="SourceGraphic"/>
+      </femerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  
+  <!-- Background Pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1" opacity="0.05"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)" />
+  
+  <!-- Main Content -->
+  <g transform="translate(100, 150)">
+    <!-- Profile Image Placeholder -->
+    <circle cx="120" cy="165" r="80" fill="url(#accent)" />
+    <circle cx="120" cy="165" r="75" fill="none" stroke="white" stroke-width="3" />
+    <text x="120" y="185" fill="white" font-family="Arial" font-size="48" font-weight="bold" text-anchor="middle">BR</text>
+    
+    <!-- Main Text -->
+    <text x="250" y="120" fill="white" font-family="Arial" font-size="48" font-weight="bold">Brandon J. Redmond</text>
+    <text x="250" y="160" fill="#bfdbfe" font-family="Arial" font-size="24">AI Engineer & Technical Leader</text>
+    <text x="250" y="200" fill="#93c5fd" font-family="Arial" font-size="18">From Teaching Math to Building AI Minds</text>
+    
+    <!-- Key Skills -->
+    <g transform="translate(250, 230)">
+      <rect x="0" y="0" width="140" height="30" rx="15" fill="white" fill-opacity="0.1" />
+      <text x="70" y="20" fill="white" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">Agentic AI</text>
+      
+      <rect x="150" y="0" width="120" height="30" rx="15" fill="white" fill-opacity="0.1" />
+      <text x="210" y="20" fill="white" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">MCP Servers</text>
+      
+      <rect x="280" y="0" width="140" height="30" rx="15" fill="white" fill-opacity="0.1" />
+      <text x="350" y="20" fill="white" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">System Design</text>
+      
+      <rect x="430" y="0" width="120" height="30" rx="15" fill="white" fill-opacity="0.1" />
+      <text x="490" y="20" fill="white" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">TypeScript</text>
+    </g>
+  </g>
+  
+  <!-- Stats -->
+  <g transform="translate(700, 200)">
+    <rect x="0" y="0" width="400" height="200" rx="20" fill="white" fill-opacity="0.1" />
+    
+    <text x="200" y="40" fill="white" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle">Portfolio Highlights</text>
+    
+    <g font-family="Arial" fill="white">
+      <text x="50" y="80" font-size="28" font-weight="bold">9</text>
+      <text x="50" y="100" font-size="14">Projects</text>
+      
+      <text x="150" y="80" font-size="28" font-weight="bold">500+</text>
+      <text x="150" y="100" font-size="14">Developers</text>
+      
+      <text x="250" y="80" font-size="28" font-weight="bold">3+</text>
+      <text x="250" y="100" font-size="14">Years Engineering</text>
+      
+      <text x="350" y="80" font-size="28" font-weight="bold">100+</text>
+      <text x="350" y="100" font-size="14">Students Taught</text>
+    </g>
+    
+    <text x="200" y="140" fill="#bfdbfe" font-family="Arial" font-size="16" text-anchor="middle">Building intelligent systems that solve real problems</text>
+    <text x="200" y="170" fill="#93c5fd" font-family="Arial" font-size="14" text-anchor="middle">brandonredmond.dev</text>
+  </g>
+  
+  <!-- Decorative Elements -->
+  <circle cx="950" cy="100" r="50" fill="url(#accent)" opacity="0.3" />
+  <circle cx="1050" cy="500" r="80" fill="white" opacity="0.1" />
+  <circle cx="150" cy="500" r="60" fill="url(#accent)" opacity="0.2" />
+  
+  <!-- Tech Icons -->
+  <g transform="translate(100, 480)">
+    <rect x="0" y="0" width="40" height="40" rx="8" fill="#3178c6" />
+    <text x="20" y="28" fill="white" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">TS</text>
+    
+    <rect x="60" y="0" width="40" height="40" rx="8" fill="#306998" />
+    <text x="80" y="28" fill="white" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle">🐍</text>
+    
+    <rect x="120" y="0" width="40" height="40" rx="8" fill="#ce422b" />
+    <text x="140" y="28" fill="white" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle">🦀</text>
+    
+    <rect x="180" y="0" width="40" height="40" rx="8" fill="#61dafb" />
+    <text x="200" y="28" fill="#000" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">⚛</text>
+  </g>
+</svg>

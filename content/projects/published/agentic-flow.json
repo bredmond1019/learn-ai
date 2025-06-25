@@ -1,0 +1,91 @@
+{
+  "slug": "agentic-flow",
+  "title": "Agentic Flow",
+  "description": "Cross-platform AI agent management system with Flutter frontend achieving 90%+ test coverage, orchestrating workflows across Web, Windows, macOS, and Linux platforms.",
+  "longDescription": "Architected a comprehensive AI agent management and workflow orchestration platform that demonstrates the future of cross-platform development using Flutter. This project showcases Brandon's ability to design systems that prioritize user experience while maintaining technical excellence through a frontend-first approach.\n\nThe platform features a beautiful, responsive Flutter interface that provides consistent experiences across web and desktop platforms, complete with real-time updates, offline support, and progressive web app capabilities. The architecture supports complex AI agent workflows while maintaining an intuitive drag-and-drop interface that makes advanced automation accessible to non-technical users.\n\nBeyond its technical achievements, Agentic Flow serves as an educational example of modern application architecture, featuring comprehensive documentation, 90%+ test coverage, and a phased development approach that delivers immediate value while building toward a complete enterprise solution.",
+  "tags": ["Flutter", "Rust", "AI Agents", "Cross-Platform", "WebSocket", "Microservices"],
+  "featured": false,
+  "icon": "Workflow",
+  "isPrivate": false,
+  "githubUrl": "https://github.com/agentic-flow/agentic-flow",
+  "demoUrl": "https://agentic-flow.demo.com",
+  "techStack": [
+    {
+      "category": "Frontend",
+      "items": ["Flutter 3.19+", "Riverpod State Management", "Material Design 3", "Progressive Web App", "Multi-Platform Support"]
+    },
+    {
+      "category": "Backend Services",
+      "items": ["Rust/Actix-Web", "Rust/Axum", "PostgreSQL", "SQLite", "WebSocket"]
+    },
+    {
+      "category": "Infrastructure",
+      "items": ["Docker", "Kubernetes", "Prometheus", "Grafana", "Redis Cache"]
+    },
+    {
+      "category": "Development Tools",
+      "items": ["GitHub Actions", "CI/CD Pipeline", "Automated Testing", "Security Scanning"]
+    }
+  ],
+  "features": [
+    "Beautiful Flutter UI with responsive design for all screen sizes",
+    "Cross-platform support: Web, Windows, macOS, and Linux",
+    "Real-time updates with WebSocket communication",
+    "Visual workflow builder with drag-and-drop interface",
+    "Comprehensive test coverage exceeding 90%",
+    "Progressive Web App with offline capabilities",
+    "Dark/light theme with system preference detection",
+    "Multi-agent orchestration with parallel execution"
+  ],
+  "challenges": [
+    "Designing a unified experience across diverse platforms",
+    "Implementing real-time synchronization with offline support",
+    "Creating an intuitive interface for complex agent workflows",
+    "Achieving 90%+ test coverage across frontend and backend",
+    "Building a phased architecture that delivers immediate value"
+  ],
+  "outcomes": [
+    { "metric": "Test Coverage", "value": "90%+" },
+    { "metric": "Platform Support", "value": "4 platforms" },
+    { "metric": "Response Time", "value": "<100ms p95" },
+    { "metric": "Load Time", "value": "<2s initial" },
+    { "metric": "Code Quality", "value": "A+ rating" }
+  ],
+  "educational": [
+    "Frontend-first development approach for rapid value delivery",
+    "Cross-platform Flutter patterns for consistent user experience",
+    "Microservices architecture with Rust for performance",
+    "Real-time communication patterns with WebSocket",
+    "Comprehensive testing strategies for quality assurance",
+    "Progressive enhancement from local to distributed systems"
+  ],
+  "globalImpact": {
+    "geographicReach": ["United States", "Europe", "Asia", "Latin America", "Australia"],
+    "usersWorldwide": 300,
+    "socialImpact": "Democratizes AI workflow automation by providing an intuitive interface that enables non-technical users to create and manage complex AI agent workflows",
+    "environmentalImpact": "Efficient Rust backend reduces server resource consumption by 40% compared to traditional implementations, lowering carbon footprint",
+    "accessibilityFeatures": ["Full keyboard navigation", "Screen reader support", "WCAG 2.1 AA compliance", "Responsive design for all devices"],
+    "multilingualSupport": false,
+    "economicImpact": "Enables businesses to automate complex workflows without expensive consultants, reducing automation costs by up to 70%",
+    "knowledgeSharing": "Open-source project with extensive documentation, tutorials, and architectural guides for the developer community"
+  },
+  "localization": {
+    "supportedLanguages": ["English"],
+    "culturalAdaptations": ["Timezone-aware scheduling", "Flexible date/time formats"],
+    "timeZoneHandling": true,
+    "currencySupport": ["USD", "EUR", "GBP"],
+    "regionalCompliance": ["GDPR compliance", "Data residency options"]
+  },
+  "codeSnippets": [
+    {
+      "title": "Flutter Cross-Platform Agent Management",
+      "language": "dart",
+      "code": "import 'package:flutter_riverpod/flutter_riverpod.dart';\nimport 'package:agentic_flow/models/agent.dart';\nimport 'package:agentic_flow/services/agent_service.dart';\n\n// Agent state management with Riverpod\nclass AgentNotifier extends StateNotifier<AsyncValue<List<Agent>>> {\n  final AgentService _agentService;\n  final WebSocketService _wsService;\n  \n  AgentNotifier(this._agentService, this._wsService) \n      : super(const AsyncValue.loading()) {\n    _initialize();\n  }\n  \n  Future<void> _initialize() async {\n    // Load agents and setup real-time updates\n    await loadAgents();\n    _setupWebSocketListeners();\n  }\n  \n  Future<void> loadAgents() async {\n    state = const AsyncValue.loading();\n    try {\n      final agents = await _agentService.getAgents();\n      state = AsyncValue.data(agents);\n    } catch (error, stack) {\n      state = AsyncValue.error(error, stack);\n    }\n  }\n  \n  void _setupWebSocketListeners() {\n    _wsService.agentUpdates.listen((update) {\n      state.whenData((agents) {\n        final updatedAgents = agents.map((agent) {\n          if (agent.id == update.agentId) {\n            return agent.copyWith(\n              status: update.status,\n              lastExecutionTime: update.timestamp,\n              metrics: update.metrics,\n            );\n          }\n          return agent;\n        }).toList();\n        \n        state = AsyncValue.data(updatedAgents);\n      });\n    });\n  }\n  \n  Future<void> executeAgent(String agentId, Map<String, dynamic> params) async {\n    try {\n      // Update UI immediately for responsiveness\n      _updateAgentStatus(agentId, AgentStatus.executing);\n      \n      // Execute agent with real-time updates via WebSocket\n      final result = await _agentService.executeAgent(\n        agentId: agentId,\n        parameters: params,\n        onProgress: (progress) {\n          _wsService.broadcastProgress(agentId, progress);\n        },\n      );\n      \n      // Update with final result\n      _updateAgentStatus(agentId, AgentStatus.completed, result);\n      \n    } catch (error) {\n      _updateAgentStatus(agentId, AgentStatus.failed, error.toString());\n      rethrow;\n    }\n  }\n  \n  void _updateAgentStatus(String agentId, AgentStatus status, [dynamic result]) {\n    state.whenData((agents) {\n      final updatedAgents = agents.map((agent) {\n        if (agent.id == agentId) {\n          return agent.copyWith(\n            status: status,\n            lastResult: result,\n            lastExecutionTime: DateTime.now(),\n          );\n        }\n        return agent;\n      }).toList();\n      \n      state = AsyncValue.data(updatedAgents);\n    });\n  }\n}\n\n// Responsive Agent Dashboard Widget\nclass AgentDashboard extends ConsumerWidget {\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    final agentsAsync = ref.watch(agentProvider);\n    final theme = Theme.of(context);\n    \n    return Scaffold(\n      appBar: AppBar(\n        title: const Text('AI Agents'),\n        actions: [\n          IconButton(\n            icon: const Icon(Icons.add),\n            onPressed: () => _showCreateAgentDialog(context),\n          ),\n        ],\n      ),\n      body: agentsAsync.when(\n        loading: () => const Center(child: CircularProgressIndicator()),\n        error: (error, stack) => ErrorWidget(error),\n        data: (agents) => ResponsiveGridView(\n          itemCount: agents.length,\n          itemBuilder: (context, index) {\n            final agent = agents[index];\n            return AgentCard(\n              agent: agent,\n              onExecute: () => _executeAgent(context, ref, agent),\n              onEdit: () => _editAgent(context, agent),\n              onViewLogs: () => _viewAgentLogs(context, agent),\n            );\n          },\n        ),\n      ),\n    );\n  }\n  \n  Future<void> _executeAgent(\n    BuildContext context, \n    WidgetRef ref, \n    Agent agent\n  ) async {\n    final parameters = await showDialog<Map<String, dynamic>>(\n      context: context,\n      builder: (_) => AgentExecutionDialog(agent: agent),\n    );\n    \n    if (parameters != null) {\n      try {\n        await ref.read(agentProvider.notifier).executeAgent(\n          agent.id,\n          parameters,\n        );\n        \n        ScaffoldMessenger.of(context).showSnackBar(\n          SnackBar(\n            content: Text('Agent ${agent.name} executed successfully'),\n            backgroundColor: Colors.green,\n          ),\n        );\n      } catch (error) {\n        ScaffoldMessenger.of(context).showSnackBar(\n          SnackBar(\n            content: Text('Failed to execute agent: $error'),\n            backgroundColor: Colors.red,\n          ),\n        );\n      }\n    }\n  }\n}"
+    },
+    {
+      "title": "Rust Workflow Orchestration Service",
+      "language": "rust",
+      "code": "use axum::{extract::State, Json, response::IntoResponse};\nuse serde::{Deserialize, Serialize};\nuse sqlx::PgPool;\nuse tokio::sync::broadcast;\nuse uuid::Uuid;\n\n#[derive(Clone)]\npub struct WorkflowService {\n    db: PgPool,\n    event_tx: broadcast::Sender<WorkflowEvent>,\n    agent_client: AgentServiceClient,\n}\n\n#[derive(Debug, Serialize, Deserialize)]\npub struct Workflow {\n    pub id: Uuid,\n    pub name: String,\n    pub description: Option<String>,\n    pub steps: Vec<WorkflowStep>,\n    pub status: WorkflowStatus,\n    pub created_at: chrono::DateTime<chrono::Utc>,\n    pub updated_at: chrono::DateTime<chrono::Utc>,\n}\n\n#[derive(Debug, Serialize, Deserialize)]\npub struct WorkflowStep {\n    pub id: Uuid,\n    pub name: String,\n    pub agent_id: Uuid,\n    pub parameters: serde_json::Value,\n    pub dependencies: Vec<Uuid>,\n    pub condition: Option<StepCondition>,\n    pub retry_policy: RetryPolicy,\n}\n\n#[derive(Debug, Serialize, Deserialize)]\npub enum WorkflowStatus {\n    Draft,\n    Active,\n    Running,\n    Completed,\n    Failed,\n    Cancelled,\n}\n\nimpl WorkflowService {\n    pub async fn execute_workflow(\n        &self,\n        workflow_id: Uuid,\n        context: WorkflowContext,\n    ) -> Result<WorkflowExecution, WorkflowError> {\n        // Load workflow from database\n        let workflow = self.get_workflow(workflow_id).await?;\n        \n        // Create execution record\n        let execution = WorkflowExecution {\n            id: Uuid::new_v4(),\n            workflow_id,\n            status: ExecutionStatus::Running,\n            started_at: chrono::Utc::now(),\n            context: context.clone(),\n            step_results: HashMap::new(),\n        };\n        \n        // Broadcast execution start event\n        let _ = self.event_tx.send(WorkflowEvent::ExecutionStarted {\n            execution_id: execution.id,\n            workflow_id,\n        });\n        \n        // Execute workflow steps\n        let result = self.execute_steps(&workflow, &execution, context).await;\n        \n        // Update execution status\n        let final_status = match result {\n            Ok(_) => ExecutionStatus::Completed,\n            Err(_) => ExecutionStatus::Failed,\n        };\n        \n        // Broadcast completion event\n        let _ = self.event_tx.send(WorkflowEvent::ExecutionCompleted {\n            execution_id: execution.id,\n            workflow_id,\n            status: final_status,\n        });\n        \n        Ok(execution)\n    }\n    \n    async fn execute_steps(\n        &self,\n        workflow: &Workflow,\n        execution: &WorkflowExecution,\n        context: WorkflowContext,\n    ) -> Result<(), WorkflowError> {\n        // Build dependency graph\n        let graph = self.build_dependency_graph(&workflow.steps)?;\n        \n        // Execute steps in topological order\n        let mut completed_steps = HashSet::new();\n        let mut step_results = HashMap::new();\n        \n        while completed_steps.len() < workflow.steps.len() {\n            // Find steps ready to execute\n            let ready_steps: Vec<_> = workflow.steps.iter()\n                .filter(|step| {\n                    !completed_steps.contains(&step.id) &&\n                    step.dependencies.iter().all(|dep| completed_steps.contains(dep))\n                })\n                .collect();\n                \n            if ready_steps.is_empty() {\n                return Err(WorkflowError::CircularDependency);\n            }\n            \n            // Execute ready steps in parallel\n            let mut tasks = vec![];\n            \n            for step in ready_steps {\n                let step_context = self.build_step_context(\n                    &context,\n                    &step_results,\n                    step,\n                );\n                \n                // Check step condition\n                if let Some(condition) = &step.condition {\n                    if !self.evaluate_condition(condition, &step_context)? {\n                        completed_steps.insert(step.id);\n                        continue;\n                    }\n                }\n                \n                // Execute step with retry logic\n                let task = self.execute_step_with_retry(\n                    step.clone(),\n                    step_context,\n                    execution.id,\n                );\n                \n                tasks.push(task);\n            }\n            \n            // Wait for all parallel steps to complete\n            let results = futures::future::join_all(tasks).await;\n            \n            // Process results\n            for (step, result) in ready_steps.iter().zip(results) {\n                match result {\n                    Ok(step_result) => {\n                        step_results.insert(step.id, step_result);\n                        completed_steps.insert(step.id);\n                        \n                        // Broadcast step completion\n                        let _ = self.event_tx.send(WorkflowEvent::StepCompleted {\n                            execution_id: execution.id,\n                            step_id: step.id,\n                            success: true,\n                        });\n                    }\n                    Err(e) => {\n                        // Broadcast step failure\n                        let _ = self.event_tx.send(WorkflowEvent::StepFailed {\n                            execution_id: execution.id,\n                            step_id: step.id,\n                            error: e.to_string(),\n                        });\n                        \n                        return Err(e);\n                    }\n                }\n            }\n        }\n        \n        Ok(())\n    }\n    \n    async fn execute_step_with_retry(\n        &self,\n        step: WorkflowStep,\n        context: StepContext,\n        execution_id: Uuid,\n    ) -> Result<StepResult, WorkflowError> {\n        let mut attempts = 0;\n        let max_attempts = step.retry_policy.max_attempts;\n        \n        loop {\n            attempts += 1;\n            \n            // Broadcast step start\n            let _ = self.event_tx.send(WorkflowEvent::StepStarted {\n                execution_id,\n                step_id: step.id,\n                attempt: attempts,\n            });\n            \n            // Execute agent\n            match self.agent_client.execute_agent(\n                step.agent_id,\n                step.parameters.clone(),\n                context.clone(),\n            ).await {\n                Ok(result) => return Ok(StepResult {\n                    step_id: step.id,\n                    output: result,\n                    executed_at: chrono::Utc::now(),\n                }),\n                Err(e) if attempts < max_attempts => {\n                    // Wait before retry\n                    tokio::time::sleep(\n                        step.retry_policy.backoff_duration(attempts)\n                    ).await;\n                    continue;\n                }\n                Err(e) => return Err(WorkflowError::StepExecutionFailed {\n                    step_id: step.id,\n                    error: e.to_string(),\n                }),\n            }\n        }\n    }\n}"
+    }
+  ]
+}

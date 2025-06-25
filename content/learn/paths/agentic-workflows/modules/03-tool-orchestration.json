@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "id": "tool-orchestration",
+    "pathId": "agentic-workflows",
+    "title": "Tool Orchestration",
+    "description": "Master the art of coordinating multiple tools and services to enable AI agents to accomplish complex tasks that require diverse capabilities and external integrations.",
+    "duration": "135 minutes",
+    "difficulty": "intermediate",
+    "order": 3,
+    "type": "concept",
+    "objectives": [
+      "Design tool orchestration architectures for multi-capability agents",
+      "Implement dynamic tool selection and chaining strategies",
+      "Build robust error handling and fallback mechanisms for tool failures",
+      "Create tool composition patterns for complex workflows",
+      "Develop tool performance monitoring and optimization systems",
+      "Design secure tool access and authorization frameworks"
+    ],
+    "prerequisites": [
+      "Agent Architecture Patterns",
+      "Building Planning Systems",
+      "API integration experience",
+      "Understanding of async programming"
+    ],
+    "tags": [
+      "tool-orchestration",
+      "workflow-automation",
+      "api-integration",
+      "error-handling",
+      "performance-optimization",
+      "microservices"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 320
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction to Tool Orchestration",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "70 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-tool-orchestration.mdx",
+        "codeExamples": [
+          {
+            "id": "tool-registry",
+            "title": "Tool Registry and Manager",
+            "description": "Central registry for managing and discovering available tools",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "dynamic-tool-selector",
+            "title": "Dynamic Tool Selection Engine",
+            "description": "Intelligent tool selection based on task requirements and context",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Tool Orchestration Exercises",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "225 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Tool Orchestration Implementation",
+        "description": "Hands-on exercises for building tool orchestration systems",
+        "exerciseType": "coding",
+        "difficulty": "hard",
+        "instructions": [
+          "Build agent that orchestrates web scraping, data processing, and visualization tools",
+          "Create system that dynamically selects optimal tools based on context and performance",
+          "Build fault-tolerant orchestrator with comprehensive error handling and recovery",
+          "Test and optimize tool performance"
+        ],
+        "hints": [
+          "Design modular tool interfaces for easy integration",
+          "Implement proper error handling and fallback mechanisms",
+          "Consider performance monitoring and optimization strategies"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Tool Orchestration Quiz",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Tool Orchestration Quiz",
+        "description": "Test your understanding of tool orchestration patterns and best practices",
+        "questions": [
+          {
+            "id": "tool_selection_strategy",
+            "type": "multiple-choice",
+            "question": "What is the most important factor when selecting tools for a multi-step workflow?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Tool performance metrics only"
+              },
+              {
+                "id": "b",
+                "text": "Task requirements, tool capabilities, and performance characteristics"
+              },
+              {
+                "id": "c",
+                "text": "Tool popularity and community support"
+              },
+              {
+                "id": "d",
+                "text": "Cost of tool usage"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "Effective tool selection requires considering task requirements, tool capabilities, performance characteristics, and how tools work together in the workflow."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "langchain-tools",
+      "title": "LangChain Tools Documentation",
+      "type": "documentation",
+      "url": "https://docs.langchain.com/docs/components/agents/tools/",
+      "description": "Comprehensive documentation for LangChain tool integration",
+      "required": true
+    },
+    {
+      "id": "openai-functions",
+      "title": "OpenAI Function Calling Guide",
+      "type": "guide",
+      "url": "https://platform.openai.com/docs/guides/function-calling",
+      "description": "Guide to using OpenAI function calling for tool integration",
+      "required": true
+    },
+    {
+      "id": "microservices-patterns",
+      "title": "Microservices Patterns",
+      "type": "reference",
+      "url": "https://microservices.io/patterns/",
+      "description": "Design patterns for microservices architecture",
+      "required": false
+    },
+    {
+      "id": "api-gateway-pattern",
+      "title": "API Gateway Pattern",
+      "type": "guide",
+      "url": "https://microservices.io/patterns/apigateway.html",
+      "description": "API Gateway pattern for service orchestration",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

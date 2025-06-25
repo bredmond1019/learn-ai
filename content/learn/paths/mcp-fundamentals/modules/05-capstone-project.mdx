@@ -1,0 +1,1410 @@
+---
+title: "Build a Complete MCP Server"
+description: "Capstone project: Create a production-ready MCP server that integrates multiple providers, tools, and real-world systems"
+duration: "120 minutes"
+difficulty: "advanced"
+objectives:
+  - "Design and architect a complete MCP server solution"
+  - "Integrate multiple resource and tool providers"
+  - "Implement production-ready error handling and logging"
+  - "Add configuration management and environment support"
+  - "Build comprehensive testing and documentation"
+  - "Deploy and test with real AI applications"
+tags:
+  - "mcp"
+  - "capstone"
+  - "project"
+  - "production"
+  - "integration"
+lastUpdated: "2024-01-15"
+author: "Brandon Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+
+# Build a Complete MCP Server
+
+## Project Overview and Architecture {#project-overview}
+
+Congratulations on reaching the capstone project! You'll now apply everything you've learned to build a production-ready MCP server that demonstrates real-world integration patterns and best practices.
+
+### What You'll Build: Workspace Intelligence Server
+
+Your capstone project is a **Workspace Intelligence Server** - an MCP server that provides AI applications with comprehensive access to development environments. This server will integrate multiple data sources and provide powerful tools for project management, development workflows, and team collaboration.
+
+### Key Features
+
+🔧 **Multi-Provider Architecture**: File system, Git, database, API, and configuration providers
+🛠️ **Comprehensive Toolset**: File operations, project management, communication, and development tools
+⚡ **Production Ready**: Logging, monitoring, error handling, and graceful shutdown
+🔒 **Secure by Design**: Input validation, access controls, and audit logging
+📊 **Observable**: Health checks, metrics, and performance monitoring
+🧪 **Well Tested**: Unit tests, integration tests, and end-to-end testing
+
+<CodeExample
+  title="Complete Project Structure"
+  language="text"
+  code={`mcp-workspace-server/
+├── src/
+│   ├── index.ts                 # Main server entry
+│   ├── config/
+│   │   ├── index.ts            # Configuration management
+│   │   └── schema.ts           # Config validation
+│   ├── providers/
+│   │   ├── index.ts            # Provider registry
+│   │   ├── filesystem.ts       # File system provider
+│   │   ├── database.ts         # Database provider
+│   │   ├── api.ts              # External API provider
+│   │   └── git.ts              # Git repository provider
+│   ├── tools/
+│   │   ├── index.ts            # Tool registry
+│   │   ├── file-ops.ts         # File operations
+│   │   ├── project-mgmt.ts     # Project management
+│   │   ├── communication.ts    # Email/Slack tools
+│   │   └── development.ts      # Dev tools (git, npm, etc.)
+│   ├── middleware/
+│   │   ├── auth.ts             # Authentication
+│   │   ├── rate-limit.ts       # Rate limiting
+│   │   └── logging.ts          # Request logging
+│   ├── utils/
+│   │   ├── validation.ts       # Input validation
+│   │   ├── security.ts         # Security helpers
+│   │   └── errors.ts           # Error classes
+│   └── types/
+│       ├── config.ts           # Configuration types
+│       ├── providers.ts        # Provider interfaces
+│       └── tools.ts            # Tool interfaces
+├── tests/
+│   ├── unit/                   # Unit tests
+│   ├── integration/            # Integration tests
+│   └── fixtures/               # Test data
+├── docs/
+│   ├── README.md               # Main documentation
+│   ├── API.md                  # API reference
+│   └── DEPLOYMENT.md           # Deployment guide
+├── config/
+│   ├── development.json        # Dev configuration
+│   ├── production.json         # Prod configuration
+│   └── test.json               # Test configuration
+├── scripts/
+│   ├── build.sh               # Build script
+│   ├── test.sh                # Test script
+│   └── deploy.sh              # Deployment script
+├── .github/
+│   └── workflows/             # CI/CD workflows
+├── package.json
+├── tsconfig.json
+├── jest.config.js
+├── .eslintrc.js
+└── .gitignore`}
+/>
+
+### Architecture Principles
+
+Your server will follow these architectural principles:
+
+1. **Modularity**: Each provider and tool is self-contained and independently testable
+2. **Extensibility**: New providers and tools can be added without modifying core code
+3. **Resilience**: Failures in one component don't affect others
+4. **Observability**: Comprehensive logging and monitoring throughout
+5. **Security**: Defense in depth with multiple security layers
+
+<Callout type="info">
+  **Design Philosophy**: Build for production from day one. Every component should include error handling, logging, validation, and tests.
+</Callout>
+
+## Core Server Implementation {#core-implementation}
+
+Let's start by building the foundational server architecture that will support all your providers and tools.
+
+<Exercise
+  id="core-implementation"
+  title="Build the Core MCP Server Architecture"
+/>
+
+### Configuration Management System
+
+A production server needs robust configuration management:
+
+<CodeExample
+  title="Configuration System"
+  language="typescript"
+  code={`// src/config/index.ts
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import Ajv from 'ajv';
+import { configSchema } from './schema.js';
+
+export interface ServerConfig {
+  server: {
+    name: string;
+    version: string;
+    environment: string;
+  };
+  providers: {
+    filesystem: { enabled: boolean; basePath: string; watchFiles?: boolean };
+    git: { enabled: boolean; repositoryPath: string };
+    database: { enabled: boolean; connectionString: string };
+    api: { enabled: boolean; endpoints: string[]; timeout: number };
+    config: { enabled: boolean; configPath: string };
+  };
+  tools: {
+    fileOps: { enabled: boolean; maxFileSize: number };
+    projectMgmt: { enabled: boolean; projectsPath: string };
+    communication: { enabled: boolean; slackToken?: string; emailConfig?: any };
+    development: { enabled: boolean; allowedCommands: string[] };
+  };
+  security: {
+    rateLimiting: { enabled: boolean; maxRequests: number; window: number };
+    allowedOrigins: string[];
+    logLevel: 'debug' | 'info' | 'warn' | 'error';
+  };
+  monitoring: {
+    healthCheck: { enabled: boolean; interval: number };
+    metrics: { enabled: boolean; port?: number };
+  };
+}
+
+export function loadConfiguration(): ServerConfig {
+  const environment = process.env.NODE_ENV || 'development';
+  const configFile = join(process.cwd(), 'config', \`\${environment}.json\`);
+  
+  try {
+    const configData = JSON.parse(readFileSync(configFile, 'utf-8'));
+    
+    // Merge with environment variables
+    const config = mergeEnvironmentVariables(configData);
+    
+    // Validate configuration
+    const ajv = new Ajv();
+    const validate = ajv.compile(configSchema);
+    
+    if (!validate(config)) {
+      throw new Error(\`Invalid configuration: \${JSON.stringify(validate.errors)}\`);
+    }
+    
+    return config;
+  } catch (error) {
+    console.error(\`Failed to load configuration: \${error.message}\`);
+    process.exit(1);
+  }
+}
+
+function mergeEnvironmentVariables(config: any): ServerConfig {
+  // Override with environment variables
+  if (process.env.MCP_LOG_LEVEL) {
+    config.security.logLevel = process.env.MCP_LOG_LEVEL;
+  }
+  
+  if (process.env.MCP_DATABASE_URL) {
+    config.providers.database.connectionString = process.env.MCP_DATABASE_URL;
+  }
+  
+  if (process.env.MCP_SLACK_TOKEN) {
+    config.tools.communication.slackToken = process.env.MCP_SLACK_TOKEN;
+  }
+  
+  return config;
+}`}
+/>
+
+### Structured Logging System
+
+Implement comprehensive logging for debugging and monitoring:
+
+<CodeExample
+  title="Production Logging"
+  language="typescript"
+  code={`// src/utils/logging.ts
+import winston from 'winston';
+
+export class Logger {
+  private logger: winston.Logger;
+  
+  constructor(component: string, config: any) {
+    this.logger = winston.createLogger({
+      level: config.security?.logLevel || 'info',
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.errors({ stack: true }),
+        winston.format.json(),
+        winston.format.printf(({ timestamp, level, message, component: comp, ...meta }) => {
+          return JSON.stringify({
+            timestamp,
+            level,
+            component: comp || component,
+            message,
+            ...meta
+          });
+        })
+      ),
+      defaultMeta: { component },
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple()
+          )
+        }),
+        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'logs/combined.log' })
+      ]
+    });
+  }
+  
+  debug(message: string, meta?: any) {
+    this.logger.debug(message, meta);
+  }
+  
+  info(message: string, meta?: any) {
+    this.logger.info(message, meta);
+  }
+  
+  warn(message: string, meta?: any) {
+    this.logger.warn(message, meta);
+  }
+  
+  error(message: string, error?: Error | any) {
+    if (error instanceof Error) {
+      this.logger.error(message, { error: error.message, stack: error.stack });
+    } else {
+      this.logger.error(message, { error });
+    }
+  }
+  
+  // Structured logging for specific events
+  logResourceAccess(uri: string, success: boolean, duration: number) {
+    this.info('Resource accessed', {
+      event: 'resource_access',
+      uri,
+      success,
+      duration,
+      timestamp: new Date().toISOString()
+    });
+  }
+  
+  logToolExecution(tool: string, success: boolean, duration: number, args?: any) {
+    this.info('Tool executed', {
+      event: 'tool_execution',
+      tool,
+      success,
+      duration,
+      argsHash: args ? this.hashArgs(args) : undefined,
+      timestamp: new Date().toISOString()
+    });
+  }
+  
+  private hashArgs(args: any): string {
+    // Create a hash of arguments for logging (don't log sensitive data)
+    const crypto = require('crypto');
+    return crypto.createHash('sha256').update(JSON.stringify(args)).digest('hex').substring(0, 8);
+  }
+}`}
+/>
+
+## Integrating Multiple Providers {#provider-integration}
+
+Now let's build a comprehensive provider system that handles multiple data sources with resilience and performance in mind.
+
+<Exercise
+  id="provider-integration"
+  title="Build and Integrate Multiple Resource Providers"
+/>
+
+### Advanced Provider Patterns
+
+Here are some advanced patterns for production provider systems:
+
+<CodeExample
+  title="Git Provider with Advanced Features"
+  language="typescript"
+  code={`// src/providers/git.ts
+import { execAsync } from '../utils/exec.js';
+import { Provider, Resource, ResourceContent } from '../types/providers.js';
+
+export class GitProvider implements Provider {
+  name = 'git';
+  scheme = 'git';
+  
+  constructor(private config: any, private logger: any) {}
+  
+  async listResources(): Promise<Resource[]> {
+    const resources: Resource[] = [];
+    
+    try {
+      // Repository status
+      resources.push({
+        uri: 'git://status',
+        name: 'Repository Status',
+        description: 'Current git repository status and working tree changes',
+        mimeType: 'application/json'
+      });
+      
+      // Branch information
+      resources.push({
+        uri: 'git://branches',
+        name: 'Git Branches',
+        description: 'List of all local and remote branches',
+        mimeType: 'application/json'
+      });
+      
+      // Recent commits
+      resources.push({
+        uri: 'git://commits/recent',
+        name: 'Recent Commits',
+        description: 'Last 10 commits with details',
+        mimeType: 'application/json'
+      });
+      
+      // Repository info
+      resources.push({
+        uri: 'git://info',
+        name: 'Repository Information',
+        description: 'Repository configuration and remote information',
+        mimeType: 'application/json'
+      });
+      
+      // File history for tracked files
+      const trackedFiles = await this.getTrackedFiles();
+      for (const file of trackedFiles.slice(0, 20)) { // Limit to prevent overwhelm
+        resources.push({
+          uri: \`git://history/\${encodeURIComponent(file)}\`,
+          name: \`History: \${file}\`,
+          description: \`Git history for \${file}\`,
+          mimeType: 'application/json'
+        });
+      }
+      
+    } catch (error) {
+      this.logger.error('Failed to list git resources:', error);
+      // Return empty array rather than throwing - be resilient
+    }
+    
+    return resources;
+  }
+  
+  async readResource(uri: string): Promise<ResourceContent> {
+    const path = uri.replace('git://', '');
+    
+    switch (path) {
+      case 'status':
+        return this.getRepositoryStatus();
+      case 'branches':
+        return this.getBranches();
+      case 'commits/recent':
+        return this.getRecentCommits();
+      case 'info':
+        return this.getRepositoryInfo();
+      default:
+        if (path.startsWith('history/')) {
+          const filePath = decodeURIComponent(path.replace('history/', ''));
+          return this.getFileHistory(filePath);
+        }
+        throw new Error(\`Unknown git resource: \${path}\`);
+    }
+  }
+  
+  private async getRepositoryStatus(): Promise<ResourceContent> {
+    try {
+      const [status, branch] = await Promise.all([
+        execAsync('git status --porcelain', { cwd: this.config.repositoryPath }),
+        execAsync('git branch --show-current', { cwd: this.config.repositoryPath })
+      ]);
+      
+      const changes = status.stdout.split('\\n').filter(line => line.trim()).map(line => ({
+        status: line.substring(0, 2),
+        file: line.substring(3),
+        staged: line[0] !== ' ',
+        unstaged: line[1] !== ' '
+      }));
+      
+      const data = {
+        currentBranch: branch.stdout.trim(),
+        changes,
+        totalChanges: changes.length,
+        stagedChanges: changes.filter(c => c.staged).length,
+        unstagedChanges: changes.filter(c => c.unstaged).length,
+        timestamp: new Date().toISOString()
+      };
+      
+      return {
+        uri: 'git://status',
+        mimeType: 'application/json',
+        text: JSON.stringify(data, null, 2)
+      };
+    } catch (error) {
+      throw new Error(\`Failed to get git status: \${error.message}\`);
+    }
+  }
+  
+  private async getBranches(): Promise<ResourceContent> {
+    try {
+      const [local, remote] = await Promise.all([
+        execAsync('git branch --format="%(refname:short)|%(objectname:short)|%(committerdate:iso8601)"', { cwd: this.config.repositoryPath }),
+        execAsync('git branch -r --format="%(refname:short)|%(objectname:short)|%(committerdate:iso8601)"', { cwd: this.config.repositoryPath })
+      ]);
+      
+      const parseBranches = (output: string, type: string) => 
+        output.split('\\n').filter(line => line.trim()).map(line => {
+          const [name, commit, date] = line.split('|');
+          return { name: name.trim(), commit, date, type };
+        });
+      
+      const data = {
+        local: parseBranches(local.stdout, 'local'),
+        remote: parseBranches(remote.stdout, 'remote'),
+        timestamp: new Date().toISOString()
+      };
+      
+      return {
+        uri: 'git://branches',
+        mimeType: 'application/json',
+        text: JSON.stringify(data, null, 2)
+      };
+    } catch (error) {
+      throw new Error(\`Failed to get branches: \${error.message}\`);
+    }
+  }
+  
+  private async getTrackedFiles(): Promise<string[]> {
+    try {
+      const result = await execAsync('git ls-files', { cwd: this.config.repositoryPath });
+      return result.stdout.split('\\n').filter(line => line.trim());
+    } catch (error) {
+      this.logger.error('Failed to get tracked files:', error);
+      return [];
+    }
+  }
+  
+  async healthCheck(): Promise<{ healthy: boolean; message?: string }> {
+    try {
+      // Check if git is available
+      await execAsync('git --version');
+      
+      // Check if repository exists and is valid
+      await execAsync('git rev-parse --git-dir', { cwd: this.config.repositoryPath });
+      
+      return { healthy: true };
+    } catch (error) {
+      return { 
+        healthy: false, 
+        message: \`Git provider unhealthy: \${error.message}\`
+      };
+    }
+  }
+  
+  async cleanup(): Promise<void> {
+    // Git provider doesn't need cleanup, but could cancel any ongoing operations
+    this.logger.debug('Git provider cleanup completed');
+  }
+}`}
+/>
+
+### Database Provider with Connection Pooling
+
+<CodeExample
+  title="Production Database Provider"
+  language="typescript"
+  code={`// src/providers/database.ts
+import sqlite3 from 'sqlite3';
+import { Provider, Resource, ResourceContent } from '../types/providers.js';
+
+export class DatabaseProvider implements Provider {
+  name = 'database';
+  scheme = 'db';
+  private db: sqlite3.Database | null = null;
+  private connectionPool: ConnectionPool;
+  
+  constructor(private config: any, private logger: any) {
+    this.connectionPool = new ConnectionPool(config.connectionString, {
+      max: 10,
+      min: 2,
+      acquireTimeoutMillis: 30000,
+      createTimeoutMillis: 30000,
+      destroyTimeoutMillis: 5000,
+      idleTimeoutMillis: 30000
+    });
+  }
+  
+  async listResources(): Promise<Resource[]> {
+    const connection = await this.connectionPool.acquire();
+    
+    try {
+      // Get all tables
+      const tables = await this.query(connection, 
+        "SELECT name FROM sqlite_master WHERE type='table'"
+      );
+      
+      const resources: Resource[] = [];
+      
+      // Add each table as a resource
+      for (const table of tables) {
+        const count = await this.query(connection,
+          \`SELECT COUNT(*) as count FROM \${table.name}\`
+        );
+        
+        resources.push({
+          uri: \`db://tables/\${table.name}\`,
+          name: \`Table: \${table.name}\`,
+          description: \`Database table with \${count[0].count} records\`,
+          mimeType: 'application/json'
+        });
+        
+        // Add table schema as a resource
+        resources.push({
+          uri: \`db://schema/\${table.name}\`,
+          name: \`Schema: \${table.name}\`,
+          description: \`Table schema for \${table.name}\`,
+          mimeType: 'application/json'
+        });
+      }
+      
+      // Add database info
+      resources.push({
+        uri: 'db://info',
+        name: 'Database Information',
+        description: 'Database metadata and statistics',
+        mimeType: 'application/json'
+      });
+      
+      return resources;
+    } finally {
+      this.connectionPool.release(connection);
+    }
+  }
+  
+  async readResource(uri: string): Promise<ResourceContent> {
+    const path = uri.replace('db://', '');
+    const connection = await this.connectionPool.acquire();
+    
+    try {
+      if (path.startsWith('tables/')) {
+        const tableName = path.replace('tables/', '');
+        return this.getTableData(connection, tableName);
+      } else if (path.startsWith('schema/')) {
+        const tableName = path.replace('schema/', '');
+        return this.getTableSchema(connection, tableName);
+      } else if (path === 'info') {
+        return this.getDatabaseInfo(connection);
+      } else {
+        throw new Error(\`Unknown database resource: \${path}\`);
+      }
+    } finally {
+      this.connectionPool.release(connection);
+    }
+  }
+  
+  private async getTableData(connection: any, tableName: string): Promise<ResourceContent> {
+    // Validate table name to prevent SQL injection
+    if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(tableName)) {
+      throw new Error('Invalid table name');
+    }
+    
+    const data = await this.query(connection,
+      \`SELECT * FROM \${tableName} LIMIT 100\`
+    );
+    
+    return {
+      uri: \`db://tables/\${tableName}\`,
+      mimeType: 'application/json',
+      text: JSON.stringify({
+        table: tableName,
+        recordCount: data.length,
+        records: data,
+        timestamp: new Date().toISOString()
+      }, null, 2)
+    };
+  }
+  
+  private async query(connection: any, sql: string, params: any[] = []): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      connection.all(sql, params, (err: Error, rows: any[]) => {
+        if (err) reject(err);
+        else resolve(rows);
+      });
+    });
+  }
+  
+  async healthCheck(): Promise<{ healthy: boolean; message?: string }> {
+    try {
+      const connection = await this.connectionPool.acquire();
+      await this.query(connection, 'SELECT 1');
+      this.connectionPool.release(connection);
+      return { healthy: true };
+    } catch (error) {
+      return { 
+        healthy: false, 
+        message: \`Database unhealthy: \${error.message}\`
+      };
+    }
+  }
+  
+  async cleanup(): Promise<void> {
+    await this.connectionPool.drain();
+    await this.connectionPool.clear();
+    this.logger.debug('Database provider cleanup completed');
+  }
+}`}
+/>
+
+## Comprehensive Tool Integration {#tool-integration}
+
+Your server needs a robust set of tools that cover the full spectrum of development and project management tasks.
+
+<CodeExample
+  title="Tool Registry Implementation"
+  language="typescript"
+  code={`export class ToolRegistry {
+  private tools: Map<string, Tool> = new Map();
+  private toolProviders: Map<string, ToolProvider> = new Map();
+  private executionLog: ExecutionLog[] = [];
+  private rateLimiter: RateLimiter;
+  
+  constructor(private config: any, private logger: any) {
+    this.rateLimiter = new RateLimiter(config.rateLimiting);
+  }
+  
+  async registerAll() {
+    const providers = [
+      new FileOperationTools(this.config.filesystem),
+      new ProjectManagementTools(this.config.project),
+      new CommunicationTools(this.config.communication),
+      new DevelopmentTools(this.config.development)
+    ];
+    
+    for (const provider of providers) {
+      await this.registerToolProvider(provider);
+    }
+  }
+  
+  async executeTool(name: string, args: any): Promise<ToolResult> {
+    // Rate limiting
+    if (!this.rateLimiter.allow(name)) {
+      throw new Error(\`Rate limit exceeded for tool: \${name}\`);
+    }
+    
+    // Find tool
+    const tool = this.tools.get(name);
+    if (!tool) {
+      throw new Error(\`Tool not found: \${name}\`);
+    }
+    
+    // Validate arguments
+    const validation = this.validateArguments(tool, args);
+    if (!validation.valid) {
+      throw new Error(\`Invalid arguments: \${validation.errors.join(', ')}\`);
+    }
+    
+    // Execute with monitoring
+    const startTime = Date.now();
+    try {
+      const result = await tool.execute(args);
+      
+      // Log execution
+      this.logExecution({
+        tool: name,
+        success: !result.isError,
+        duration: Date.now() - startTime,
+        timestamp: new Date()
+      });
+      
+      return result;
+    } catch (error) {
+      this.logExecution({
+        tool: name,
+        success: false,
+        duration: Date.now() - startTime,
+        error: error.message,
+        timestamp: new Date()
+      });
+      throw error;
+    }
+  }
+  
+  getAllTools(): ToolDefinition[] {
+    return Array.from(this.tools.values()).map(tool => ({
+      name: tool.name,
+      description: tool.description,
+      inputSchema: tool.inputSchema
+    }));
+  }
+  
+  getExecutionStats(): ExecutionStats {
+    const recent = this.executionLog.filter(
+      log => Date.now() - log.timestamp.getTime() < 24 * 60 * 60 * 1000
+    );
+    
+    return {
+      totalExecutions: recent.length,
+      successRate: recent.filter(log => log.success).length / recent.length,
+      averageDuration: recent.reduce((sum, log) => sum + log.duration, 0) / recent.length,
+      topTools: this.getTopTools(recent)
+    };
+  }
+}`}
+/>
+
+### Advanced Development Tools
+
+<CodeExample
+  title="Development Tools Suite"
+  language="typescript"
+  code={`// src/tools/development.ts
+export class DevelopmentTools implements ToolProvider {
+  getName() { return 'development'; }
+  
+  getTools(): ToolDefinition[] {
+    return [
+      {
+        name: 'git_commit',
+        description: 'Create a git commit with staged changes',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            message: { type: 'string', description: 'Commit message' },
+            addAll: { type: 'boolean', default: false, description: 'Add all changes before committing' }
+          },
+          required: ['message']
+        }
+      },
+      {
+        name: 'npm_install',
+        description: 'Install npm packages',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            packages: { 
+              type: 'array', 
+              items: { type: 'string' },
+              description: 'Package names to install' 
+            },
+            dev: { type: 'boolean', default: false, description: 'Install as dev dependencies' },
+            global: { type: 'boolean', default: false, description: 'Install globally' }
+          },
+          required: ['packages']
+        }
+      },
+      {
+        name: 'run_tests',
+        description: 'Run project tests',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            pattern: { type: 'string', description: 'Test file pattern' },
+            watch: { type: 'boolean', default: false, description: 'Run in watch mode' },
+            coverage: { type: 'boolean', default: false, description: 'Generate coverage report' }
+          }
+        }
+      },
+      {
+        name: 'build_project',
+        description: 'Build the project',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            mode: { 
+              type: 'string', 
+              enum: ['development', 'production'], 
+              default: 'development',
+              description: 'Build mode'
+            },
+            clean: { type: 'boolean', default: false, description: 'Clean before build' }
+          }
+        }
+      }
+    ];
+  }
+  
+  async executeTool(name: string, args: any): Promise<ToolResult> {
+    switch (name) {
+      case 'git_commit':
+        return this.gitCommit(args);
+      case 'npm_install':
+        return this.npmInstall(args);
+      case 'run_tests':
+        return this.runTests(args);
+      case 'build_project':
+        return this.buildProject(args);
+      default:
+        throw new Error(\`Unknown development tool: \${name}\`);
+    }
+  }
+  
+  private async gitCommit(args: any): Promise<ToolResult> {
+    try {
+      const commands = [];
+      
+      if (args.addAll) {
+        commands.push('git add .');
+      }
+      
+      commands.push(\`git commit -m "\${args.message}"\`);
+      
+      const results = [];
+      for (const command of commands) {
+        const result = await execAsync(command, { cwd: this.config.repositoryPath });
+        results.push(result.stdout);
+      }
+      
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Git commit successful:\\n\${results.join('\\n')}\`
+          }
+        ]
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Git commit failed: \${error.message}\`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+  
+  private async npmInstall(args: any): Promise<ToolResult> {
+    try {
+      const flags = [];
+      if (args.dev) flags.push('--save-dev');
+      if (args.global) flags.push('--global');
+      
+      const command = \`npm install \${args.packages.join(' ')} \${flags.join(' ')}\`;
+      const result = await execAsync(command, { 
+        cwd: this.config.projectPath,
+        timeout: 300000 // 5 minutes
+      });
+      
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Packages installed successfully:\\n\${result.stdout}\`
+          }
+        ]
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`npm install failed: \${error.message}\`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+}`}
+/>
+
+### Communication Tools
+
+<CodeExample
+  title="Communication Tools"
+  language="typescript"
+  code={`// src/tools/communication.ts
+export class CommunicationTools implements ToolProvider {
+  getName() { return 'communication'; }
+  
+  getTools(): ToolDefinition[] {
+    const tools = [
+      {
+        name: 'send_email',
+        description: 'Send an email notification',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            to: { type: 'string', description: 'Recipient email address' },
+            subject: { type: 'string', description: 'Email subject' },
+            body: { type: 'string', description: 'Email body content' },
+            priority: { 
+              type: 'string', 
+              enum: ['low', 'normal', 'high'], 
+              default: 'normal',
+              description: 'Email priority'
+            }
+          },
+          required: ['to', 'subject', 'body']
+        }
+      }
+    ];
+    
+    // Add Slack tools if token is configured
+    if (this.config.slackToken) {
+      tools.push({
+        name: 'slack_message',
+        description: 'Send a message to Slack channel',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            channel: { type: 'string', description: 'Slack channel name or ID' },
+            message: { type: 'string', description: 'Message text' },
+            urgent: { type: 'boolean', default: false, description: 'Mark as urgent' },
+            threadId: { type: 'string', description: 'Reply to thread (optional)' }
+          },
+          required: ['channel', 'message']
+        }
+      });
+    }
+    
+    return tools;
+  }
+  
+  async executeTool(name: string, args: any): Promise<ToolResult> {
+    switch (name) {
+      case 'send_email':
+        return this.sendEmail(args);
+      case 'slack_message':
+        return this.sendSlackMessage(args);
+      default:
+        throw new Error(\`Unknown communication tool: \${name}\`);
+    }
+  }
+  
+  private async sendSlackMessage(args: any): Promise<ToolResult> {
+    try {
+      const response = await fetch('https://slack.com/api/chat.postMessage', {
+        method: 'POST',
+        headers: {
+          'Authorization': \`Bearer \${this.config.slackToken}\`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          channel: args.channel,
+          text: args.message,
+          thread_ts: args.threadId,
+          ...(args.urgent && {
+            attachments: [{
+              color: 'danger',
+              text: '🚨 URGENT MESSAGE 🚨'
+            }]
+          })
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (!result.ok) {
+        throw new Error(result.error || 'Slack API error');
+      }
+      
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Message sent to \${args.channel} successfully\`
+          }
+        ]
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Failed to send Slack message: \${error.message}\`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+}`}
+/>
+
+## Testing and Deployment {#testing-deployment}
+
+A production server requires comprehensive testing and proper deployment processes.
+
+<CodeExample
+  title="Comprehensive Test Suite"
+  language="typescript"
+  code={`// tests/integration/server.test.ts
+import { MCPWorkspaceServer } from '../../src/index.js';
+import { TestTransport } from '../utils/test-transport.js';
+
+describe('MCP Workspace Server Integration', () => {
+  let server: MCPWorkspaceServer;
+  let transport: TestTransport;
+  
+  beforeEach(async () => {
+    // Set up test environment
+    process.env.NODE_ENV = 'test';
+    
+    server = new MCPWorkspaceServer();
+    transport = new TestTransport();
+    
+    await server.start(transport);
+  });
+  
+  afterEach(async () => {
+    await server.shutdown();
+  });
+  
+  describe('Resources', () => {
+    test('should list all available resources', async () => {
+      const response = await transport.request('resources/list', {});
+      
+      expect(response.resources).toBeDefined();
+      expect(Array.isArray(response.resources)).toBe(true);
+      expect(response.resources.length).toBeGreaterThan(0);
+    });
+    
+    test('should read file system resources', async () => {
+      const response = await transport.request('resources/read', {
+        uri: 'file://test-file.txt'
+      });
+      
+      expect(response.contents).toBeDefined();
+      expect(response.contents[0].text).toContain('test content');
+    });
+    
+    test('should handle invalid resource URIs', async () => {
+      await expect(
+        transport.request('resources/read', { uri: 'invalid://uri' })
+      ).rejects.toThrow('No provider found');
+    });
+  });
+  
+  describe('Tools', () => {
+    test('should list all available tools', async () => {
+      const response = await transport.request('tools/list', {});
+      
+      expect(response.tools).toBeDefined();
+      expect(Array.isArray(response.tools)).toBe(true);
+      
+      // Check for expected tools
+      const toolNames = response.tools.map(t => t.name);
+      expect(toolNames).toContain('read_file');
+      expect(toolNames).toContain('write_file');
+    });
+    
+    test('should execute file operations', async () => {
+      const response = await transport.request('tools/call', {
+        name: 'write_file',
+        arguments: {
+          path: 'test-output.txt',
+          content: 'Hello, MCP!'
+        }
+      });
+      
+      expect(response.isError).toBeFalsy();
+      expect(response.content[0].text).toContain('Successfully wrote');
+    });
+    
+    test('should validate tool parameters', async () => {
+      await expect(
+        transport.request('tools/call', {
+          name: 'write_file',
+          arguments: {
+            // Missing required 'content' parameter
+            path: 'test.txt'
+          }
+        })
+      ).rejects.toThrow('Invalid arguments');
+    });
+  });
+  
+  describe('Health and Monitoring', () => {
+    test('should provide health status', async () => {
+      const response = await transport.request('health', {});
+      
+      expect(response.status).toBe('healthy');
+      expect(response.providers).toBeGreaterThan(0);
+      expect(response.tools).toBeGreaterThan(0);
+    });
+  });
+});`}
+/>
+
+### Docker Deployment
+
+<CodeExample
+  title="Production Deployment Configuration"
+  language="dockerfile"
+  code={`# Dockerfile
+FROM node:18-alpine
+
+# Install git and other dependencies
+RUN apk add --no-cache git
+
+# Create app directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY tsconfig.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy source code
+COPY src/ ./src/
+COPY config/ ./config/
+
+# Build the application
+RUN npm run build
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S mcp -u 1001
+
+# Create workspace directory
+RUN mkdir -p /workspace && chown mcp:nodejs /workspace
+
+# Switch to non-root user
+USER mcp
+
+# Expose health check port (if using HTTP transport)
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\
+  CMD node dist/health-check.js
+
+# Start the server
+CMD ["npm", "start"]`}
+/>
+
+### CI/CD Pipeline
+
+<CodeExample
+  title="GitHub Actions Workflow"
+  language="yaml"
+  code={`# .github/workflows/ci.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run linting
+      run: npm run lint
+    
+    - name: Run type checking
+      run: npm run type-check
+    
+    - name: Run tests
+      run: npm run test:coverage
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/lcov.info
+  
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build Docker image
+      run: docker build -t mcp-workspace-server .
+    
+    - name: Run security scan
+      run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image mcp-workspace-server
+  
+  deploy:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deploy to production
+      run: echo "Deploy to production environment"`}
+/>
+
+## Project Deliverables {#deliverables}
+
+### Required Submissions
+
+Your capstone project should include:
+
+1. **Complete MCP Server Implementation**
+   - All 5 modules integrated (configuration, providers, tools, logging, monitoring)
+   - Production-ready error handling and security measures
+   - Comprehensive documentation
+
+2. **Resource Providers (minimum 3)**
+   - File system provider with security controls
+   - Git provider with repository integration
+   - Database provider with connection pooling
+   - Optional: API provider, configuration provider
+
+3. **Tool Suite (minimum 5 tools)**
+   - File operations (read, write, list)
+   - Development tools (git, npm, testing)
+   - Communication tools (email, Slack)
+   - Project management tools
+
+4. **Testing and Quality**
+   - Unit tests for core components
+   - Integration tests for full workflows
+   - Performance tests for resource-intensive operations
+   - Security tests for input validation
+
+5. **Documentation**
+   - README with setup and usage instructions
+   - API documentation for all resources and tools
+   - Deployment guide with Docker configuration
+   - Architecture documentation
+
+6. **Deployment Configuration**
+   - Docker containerization
+   - Environment-specific configurations
+   - Health checks and monitoring setup
+   - CI/CD pipeline (GitHub Actions)
+
+<Callout type="success">
+  **Evaluation Criteria**:
+  - **Functionality**: All features work as specified
+  - **Code Quality**: Clean, well-organized, and documented code
+  - **Security**: Proper input validation and security measures
+  - **Testing**: Comprehensive test coverage
+  - **Documentation**: Clear and complete documentation
+  - **Production Readiness**: Proper error handling, logging, and monitoring
+</Callout>
+
+## Testing Your Implementation
+
+### Integration with AI Applications
+
+Test your server with real AI applications:
+
+1. **Claude Desktop**: Configure your server in Claude's settings
+2. **MCP Inspector**: Use the official testing tool
+3. **Custom Test Client**: Build a simple test client
+
+<CodeExample
+  title="Testing with Claude Desktop"
+  language="json"
+  code={`// Claude Desktop configuration
+{
+  "mcpServers": {
+    "workspace-server": {
+      "command": "node",
+      "args": ["path/to/your/dist/index.js"],
+      "env": {
+        "NODE_ENV": "production",
+        "MCP_LOG_LEVEL": "info"
+      }
+    }
+  }
+}`}
+/>
+
+### Performance Testing
+
+Test your server under load:
+
+<CodeExample
+  title="Load Testing Script"
+  language="javascript"
+  code={`// Load test script
+const { performance } = require('perf_hooks');
+
+async function loadTest() {
+  const requests = [];
+  const startTime = performance.now();
+  
+  // Simulate concurrent requests
+  for (let i = 0; i < 100; i++) {
+    requests.push(
+      testResourceRequest(),
+      testToolExecution()
+    );
+  }
+  
+  const results = await Promise.allSettled(requests);
+  const endTime = performance.now();
+  
+  const successful = results.filter(r => r.status === 'fulfilled').length;
+  const failed = results.filter(r => r.status === 'rejected').length;
+  
+  console.log(\`Load test completed in \${endTime - startTime}ms\`);
+  console.log(\`Successful: \${successful}, Failed: \${failed}\`);
+  console.log(\`Success rate: \${(successful / results.length * 100).toFixed(2)}%\`);
+}`}
+/>
+
+## Summary and Next Steps {#summary}
+
+Congratulations! You've built a complete, production-ready MCP server that demonstrates:
+
+✅ **Professional Architecture**: Modular, extensible, and maintainable design
+✅ **Multi-Provider Integration**: File system, Git, database, and API providers
+✅ **Comprehensive Toolset**: Development, communication, and project management tools
+✅ **Production Features**: Logging, monitoring, error handling, and security
+✅ **Quality Assurance**: Testing, documentation, and deployment automation
+✅ **Real-World Readiness**: Performance optimization and scalability considerations
+
+### What You've Accomplished
+
+You've successfully:
+- Built a complete MCP server from scratch
+- Integrated multiple data sources and external systems
+- Implemented a comprehensive set of tools for AI applications
+- Applied production-ready practices throughout
+- Created comprehensive documentation and testing
+
+### Future Enhancements
+
+Consider these advanced features for your server:
+- **Plugin System**: Allow third-party extensions
+- **GraphQL Integration**: Provide GraphQL query capabilities
+- **Webhook Support**: Real-time updates via webhooks
+- **Multi-tenant Support**: Support multiple workspaces
+- **Advanced Analytics**: Detailed usage analytics and insights
+
+### Career Applications
+
+This project demonstrates skills valuable for:
+- **AI Engineering**: Building AI-integrated systems
+- **Backend Development**: Production server architecture
+- **DevOps**: Deployment, monitoring, and automation
+- **API Design**: Creating developer-friendly APIs
+- **System Integration**: Connecting diverse systems
+
+<Callout type="success">
+  **Congratulations!** You've completed the MCP Server Fundamentals learning path. You now have the skills to build sophisticated AI integrations and contribute to the growing ecosystem of AI-enabled applications.
+</Callout>
+
+## Additional Resources {#resources}
+
+- [MCP Official Documentation](https://modelcontextprotocol.io/docs)
+- [TypeScript Best Practices](https://typescript-eslint.io/docs/linting/troubleshooting)
+- [Node.js Production Practices](https://nodejs.org/en/docs/guides/simple-profiling)
+- [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
+- [Testing Strategies](https://jestjs.io/docs/testing-strategies)
+
+Share your completed project and connect with other MCP developers in the community!

@@ -1,0 +1,89 @@
+{
+  "slug": "mcp-typescript-toolkit",
+  "title": "MCP TypeScript Toolkit",
+  "description": "Comprehensive TypeScript toolkit for building Model Context Protocol (MCP) servers and clients, featuring type-safe APIs, code generation, and developer experience optimizations used by 200+ developers.",
+  "longDescription": "Developed a comprehensive TypeScript toolkit that simplifies the creation of MCP (Model Context Protocol) servers and clients, addressing the complexity and verbosity of the original specification. This project emerged from Brandon's experience building multiple MCP integrations and recognizing the need for better developer ergonomics in the MCP ecosystem.\n\nThe toolkit provides strongly-typed APIs, automatic code generation from MCP schemas, and extensive developer experience improvements including hot-reload development servers, comprehensive testing utilities, and detailed debugging tools. It abstracts away the low-level protocol details while maintaining full compatibility with the MCP specification.\n\nThe project has become a go-to resource for TypeScript developers building MCP integrations, with active contributions from the community and adoption by several major AI tool providers.",
+  "tags": ["TypeScript", "MCP", "Developer Tools", "Code Generation", "Type Safety", "AI Integration"],
+  "featured": true,
+  "githubUrl": "https://github.com/brandonjredmond/mcp-typescript-toolkit",
+  "demoUrl": "https://mcp-typescript-toolkit.dev",
+  "techStack": [
+    {
+      "category": "Core Framework",
+      "items": ["TypeScript", "Node.js", "JSON Schema", "Protocol Buffers", "WebSocket"]
+    },
+    {
+      "category": "Development Tools",
+      "items": ["Rollup", "ESBuild", "TypeScript Compiler API", "JSON Schema to TypeScript"]
+    },
+    {
+      "category": "Testing & Quality",
+      "items": ["Jest", "Supertest", "ESLint", "Prettier", "Husky", "Conventional Commits"]
+    },
+    {
+      "category": "Documentation",
+      "items": ["TypeDoc", "Docusaurus", "Storybook", "API Extractor"]
+    }
+  ],
+  "features": [
+    "Type-safe MCP server and client implementations",
+    "Automatic TypeScript code generation from MCP schemas",
+    "Hot-reload development server with real-time protocol debugging",
+    "Comprehensive testing utilities and mock server framework",
+    "Built-in validation and error handling with detailed error messages",
+    "Plugin system for extending MCP server capabilities",
+    "CLI tools for scaffolding new MCP servers and clients",
+    "Integration templates for popular frameworks (Express, Fastify, Next.js)"
+  ],
+  "challenges": [
+    "Maintaining type safety while supporting dynamic MCP schema evolution",
+    "Balancing developer ergonomics with protocol compliance",
+    "Creating comprehensive testing utilities for async protocol interactions",
+    "Optimizing bundle size while providing rich development experience",
+    "Supporting both CommonJS and ESM module systems"
+  ],
+  "outcomes": [
+    { "metric": "Developer Adoption", "value": "200+ developers" },
+    { "metric": "NPM Downloads", "value": "5K+ monthly" },
+    { "metric": "GitHub Stars", "value": "120+" },
+    { "metric": "MCP Servers Created", "value": "80+" },
+    { "metric": "Framework Integrations", "value": "12+" }
+  ],
+  "educational": [
+    "Deep dive into Protocol Buffer schema design and evolution",
+    "TypeScript advanced type system usage for protocol modeling",
+    "Real-time communication patterns with WebSockets and JSON-RPC",
+    "Code generation techniques using TypeScript Compiler API",
+    "Testing strategies for distributed protocol implementations",
+    "Developer experience design principles for developer tools"
+  ],
+  "globalImpact": {
+    "geographicReach": ["United States", "Brazil", "Europe", "India", "China", "Australia", "Canada"],
+    "usersWorldwide": 200,
+    "socialImpact": "Democratizes AI integration development by making MCP protocol accessible to TypeScript developers worldwide, lowering barriers to AI tool creation",
+    "environmentalImpact": "Optimized code generation reduces development time and computational resources needed for MCP server deployment",
+    "accessibilityFeatures": ["Comprehensive IntelliSense support", "Rich error messages", "Auto-completion for all APIs"],
+    "multilingualSupport": false,
+    "economicImpact": "Reduces AI integration development time by 60%, enabling faster time-to-market for AI-powered products across global markets",
+    "knowledgeSharing": "Extensive documentation, tutorials, and real-world examples that serve as learning resources for the global TypeScript and AI communities"
+  },
+  "localization": {
+    "supportedLanguages": ["English"],
+    "culturalAdaptations": ["International coding standards and conventions", "Examples using global business scenarios"],
+    "timeZoneHandling": false,
+    "currencySupport": [],
+    "regionalCompliance": ["MIT license for worldwide usage", "No data collection or privacy concerns"]
+  },
+  "codeSnippets": [
+    {
+      "title": "Type-Safe MCP Server Definition",
+      "language": "typescript",
+      "code": "import { MCPServer, Tool, Resource } from '@mcp/typescript-toolkit';\nimport { z } from 'zod';\n\n// Define tool schemas with full type safety\nconst FileReadTool = Tool.define({\n  name: 'read_file',\n  description: 'Read contents of a file',\n  inputSchema: z.object({\n    path: z.string().describe('File path to read'),\n    encoding: z.enum(['utf8', 'base64']).default('utf8')\n  }),\n  outputSchema: z.object({\n    content: z.string(),\n    size: z.number(),\n    mimeType: z.string().optional()\n  })\n});\n\n// Define resources with automatic discovery\nconst FileSystemResource = Resource.define({\n  name: 'filesystem',\n  description: 'Access to local filesystem',\n  baseUri: 'file://',\n  methods: ['GET', 'POST', 'PUT', 'DELETE']\n});\n\n// Create server with full type inference\nconst server = new MCPServer({\n  name: 'filesystem-server',\n  version: '1.0.0',\n  tools: [FileReadTool],\n  resources: [FileSystemResource]\n});\n\n// Implement tool with full type safety\nserver.implementTool(FileReadTool, async (params) => {\n  // params is fully typed based on inputSchema\n  const { path, encoding } = params;\n  \n  try {\n    const stats = await fs.stat(path);\n    const content = await fs.readFile(path, encoding);\n    \n    return {\n      content,\n      size: stats.size,\n      mimeType: getMimeType(path)\n    }; // Return type is validated against outputSchema\n    \n  } catch (error) {\n    throw new MCPError('INTERNAL_ERROR', `Failed to read file: ${error.message}`);\n  }\n});\n\n// Implement resource handler\nserver.implementResource(FileSystemResource, async (request) => {\n  const { method, uri } = request;\n  const filePath = uri.replace('file://', '');\n  \n  switch (method) {\n    case 'GET':\n      return await readFileResource(filePath);\n    case 'POST':\n      return await createFileResource(filePath, request.body);\n    case 'PUT':\n      return await updateFileResource(filePath, request.body);\n    case 'DELETE':\n      return await deleteFileResource(filePath);\n    default:\n      throw new MCPError('METHOD_NOT_ALLOWED', `${method} not supported`);\n  }\n});\n\n// Start server with development features\nif (process.env.NODE_ENV === 'development') {\n  server.enableHotReload();\n  server.enableDebugLogging();\n}\n\nserver.start({ port: 3001 });"
+    },
+    {
+      "title": "MCP Client with Auto-Generated Types",
+      "language": "typescript",
+      "code": "import { MCPClient, createClientFromSchema } from '@mcp/typescript-toolkit';\nimport type { FileSystemServerAPI } from './generated/filesystem-server.types';\n\n// Client automatically typed based on server schema\nconst client = await createClientFromSchema<FileSystemServerAPI>({\n  serverUrl: 'ws://localhost:3001',\n  capabilities: {\n    tools: true,\n    resources: true,\n    prompts: false\n  }\n});\n\n// All methods are fully typed\nconst result = await client.tools.read_file({\n  path: '/path/to/file.txt',\n  encoding: 'utf8'\n});\n\n// result.content is typed as string\n// result.size is typed as number\n// result.mimeType is typed as string | undefined\nconsole.log(`File content (${result.size} bytes):`, result.content);\n\n// Resource access is also typed\nconst fileResource = await client.resources.get('file:///path/to/file.txt');\n\n// Batch operations with transaction support\nconst batchResults = await client.batch([\n  { type: 'tool', name: 'read_file', params: { path: 'file1.txt' } },\n  { type: 'tool', name: 'read_file', params: { path: 'file2.txt' } },\n  { type: 'resource', method: 'GET', uri: 'file:///config.json' }\n]);\n\n// Error handling with typed error responses\ntry {\n  await client.tools.read_file({ path: '/nonexistent.txt' });\n} catch (error) {\n  if (error instanceof MCPError) {\n    console.error(`MCP Error [${error.code}]: ${error.message}`);\n    if (error.data) {\n      console.error('Additional error data:', error.data);\n    }\n  }\n}\n\n// Real-time event handling\nclient.on('tool_progress', (event) => {\n  console.log(`Tool ${event.toolName} progress: ${event.progress}%`);\n});\n\nclient.on('server_notification', (notification) => {\n  console.log('Server notification:', notification);\n});\n\n// Graceful cleanup\nprocess.on('SIGINT', async () => {\n  await client.disconnect();\n  process.exit(0);\n});"
+    }
+  ]
+}

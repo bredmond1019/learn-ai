@@ -1,0 +1,89 @@
+{
+  "slug": "agentic-systems-architecture",
+  "title": "Agentic Systems Architecture Framework",
+  "description": "Comprehensive framework and educational resource for building scalable AI agent systems, complete with design patterns, implementation guides, and real-world examples used by 500+ developers.",
+  "longDescription": "Developed a comprehensive framework for designing and implementing robust agentic AI systems, drawing from both educational principles and real-world production experience. This project represents the intersection of Brandon's teaching background and systems engineering expertise, creating a resource that makes complex AI agent architectures accessible to developers of all levels.\n\nThe framework provides clear mental models, practical design patterns, and step-by-step implementation guides for building everything from simple task automation to complex multi-agent workflows. It emphasizes the 'why' behind architectural decisions, making it an invaluable learning resource for the AI engineering community.\n\nThe project includes comprehensive documentation, code examples, tutorial series, and a growing community of practitioners who contribute patterns and use cases from their own implementations.",
+  "tags": ["Architecture", "AI Agents", "Python", "TypeScript", "Documentation", "Education"],
+  "featured": false,
+  "githubUrl": "https://github.com/brandonjredmond/agentic-systems-framework",
+  "demoUrl": "https://agentic-systems.dev",
+  "techStack": [
+    {
+      "category": "Core Framework",
+      "items": ["Python", "TypeScript", "AsyncIO", "Protocol Buffers", "JSON Schema"]
+    },
+    {
+      "category": "Agent Technologies",
+      "items": ["LangChain", "MCP Protocol", "Tool Discovery", "State Management"]
+    },
+    {
+      "category": "Documentation",
+      "items": ["Docusaurus", "Mermaid Diagrams", "Interactive Examples", "API Docs"]
+    },
+    {
+      "category": "Examples & Templates",
+      "items": ["FastAPI", "React", "Docker", "GitHub Templates", "CI/CD"]
+    }
+  ],
+  "features": [
+    "Comprehensive design patterns for common agentic workflows",
+    "Step-by-step implementation guides with working code",
+    "Interactive architecture diagrams and decision trees",
+    "Template projects for rapid prototyping",
+    "Best practices from production implementations",
+    "Community-contributed patterns and use cases",
+    "Educational content optimized for self-learning",
+    "Tool integration patterns for popular AI services"
+  ],
+  "challenges": [
+    "Balancing technical depth with accessibility for beginners",
+    "Creating examples that scale from prototype to production",
+    "Maintaining framework relevance as AI technology evolves",
+    "Building a community around educational content",
+    "Documenting complex architectural decisions clearly"
+  ],
+  "outcomes": [
+    { "metric": "Community Adoption", "value": "500+ developers" },
+    { "metric": "GitHub Stars", "value": "150+" },
+    { "metric": "Documentation Pages", "value": "80+" },
+    { "metric": "Tutorial Completion", "value": "85%" },
+    { "metric": "Framework Usage", "value": "50+ projects" }
+  ],
+  "educational": [
+    "Mental models for understanding agent behavior and coordination",
+    "Decision frameworks for choosing appropriate architectures",
+    "Common pitfalls and how to avoid them in production",
+    "Performance optimization techniques for multi-agent systems",
+    "Testing strategies for non-deterministic AI systems",
+    "Monitoring and observability patterns for agent workflows"
+  ],
+  "globalImpact": {
+    "geographicReach": ["United States", "Brazil", "Europe", "India", "Southeast Asia"],
+    "usersWorldwide": 500,
+    "socialImpact": "Democratizes AI agent development by making complex architectures accessible to developers worldwide, enabling more businesses to leverage AI automation",
+    "environmentalImpact": "Promotes efficient AI system design that reduces computational waste and energy consumption through optimized agent coordination patterns",
+    "accessibilityFeatures": ["Comprehensive documentation in multiple formats", "Visual architecture diagrams", "Code examples with detailed comments"],
+    "multilingualSupport": false,
+    "economicImpact": "Enables startups and enterprises to build AI agents faster, reducing development costs and time-to-market for AI-powered products",
+    "knowledgeSharing": "Open-source educational framework with 80+ documentation pages, interactive examples, and community-contributed patterns"
+  },
+  "localization": {
+    "supportedLanguages": ["English"],
+    "culturalAdaptations": ["Examples relevant to both American and international business contexts"],
+    "timeZoneHandling": false,
+    "currencySupport": [],
+    "regionalCompliance": ["Open source licensing compatible with international use"]
+  },
+  "codeSnippets": [
+    {
+      "title": "Agent Architecture Base Classes",
+      "language": "python",
+      "code": "from abc import ABC, abstractmethod\nfrom typing import Dict, List, Any, Optional\nfrom dataclasses import dataclass\nfrom enum import Enum\n\nclass AgentState(Enum):\n    IDLE = \"idle\"\n    THINKING = \"thinking\"\n    ACTING = \"acting\"\n    WAITING = \"waiting\"\n    ERROR = \"error\"\n\n@dataclass\nclass AgentContext:\n    \"\"\"Shared context between agents\"\"\"\n    conversation_id: str\n    user_id: str\n    session_data: Dict[str, Any]\n    shared_memory: Dict[str, Any]\n    \nclass BaseAgent(ABC):\n    \"\"\"Foundation class for all agents in the framework\"\"\"\n    \n    def __init__(self, name: str, capabilities: List[str]):\n        self.name = name\n        self.capabilities = capabilities\n        self.state = AgentState.IDLE\n        self.context: Optional[AgentContext] = None\n        self.tools = {}\n        \n    @abstractmethod\n    async def process(self, message: str, context: AgentContext) -> str:\n        \"\"\"Main processing method - must be implemented by subclasses\"\"\"\n        pass\n    \n    async def think(self, message: str) -> Dict[str, Any]:\n        \"\"\"Reasoning phase - analyze the message and plan actions\"\"\"\n        self.state = AgentState.THINKING\n        \n        # This is where the agent decides what to do\n        plan = await self._create_plan(message)\n        return plan\n    \n    async def act(self, plan: Dict[str, Any]) -> Any:\n        \"\"\"Action phase - execute the planned actions\"\"\"\n        self.state = AgentState.ACTING\n        \n        results = []\n        for action in plan.get('actions', []):\n            if action['type'] == 'tool_use':\n                result = await self._use_tool(action)\n            elif action['type'] == 'communicate':\n                result = await self._communicate(action)\n            else:\n                result = await self._custom_action(action)\n            \n            results.append(result)\n        \n        return results\n    \n    @abstractmethod\n    async def _create_plan(self, message: str) -> Dict[str, Any]:\n        \"\"\"Create execution plan based on message\"\"\"\n        pass\n    \n    async def register_tool(self, name: str, tool_func, description: str):\n        \"\"\"Register a tool that this agent can use\"\"\"\n        self.tools[name] = {\n            'function': tool_func,\n            'description': description\n        }\n    \n    def can_handle(self, task_type: str) -> bool:\n        \"\"\"Check if agent can handle a specific task type\"\"\"\n        return task_type in self.capabilities\n"
+    },
+    {
+      "title": "Multi-Agent Coordinator",
+      "language": "python",
+      "code": "import asyncio\nfrom typing import List, Dict, Any\nfrom dataclasses import dataclass\n\n@dataclass\nclass Task:\n    id: str\n    type: str\n    description: str\n    priority: int = 1\n    dependencies: List[str] = None\n    assigned_agent: str = None\n    status: str = \"pending\"\n    result: Any = None\n\nclass AgentCoordinator:\n    \"\"\"Orchestrates multiple agents to handle complex workflows\"\"\"\n    \n    def __init__(self):\n        self.agents: Dict[str, BaseAgent] = {}\n        self.active_tasks: Dict[str, Task] = {}\n        self.completed_tasks: Dict[str, Task] = {}\n        \n    def register_agent(self, agent: BaseAgent):\n        \"\"\"Register an agent with the coordinator\"\"\"\n        self.agents[agent.name] = agent\n        \n    async def process_workflow(\n        self, \n        tasks: List[Task], \n        context: AgentContext\n    ) -> Dict[str, Any]:\n        \"\"\"Process a workflow of interconnected tasks\"\"\"\n        \n        # Build task dependency graph\n        task_graph = self._build_dependency_graph(tasks)\n        \n        # Execute tasks in dependency order\n        results = {}\n        while task_graph:\n            # Find tasks with no dependencies\n            ready_tasks = [\n                task for task in task_graph \n                if not task.dependencies or \n                all(dep in self.completed_tasks for dep in task.dependencies)\n            ]\n            \n            if not ready_tasks:\n                raise ValueError(\"Circular dependency detected\")\n            \n            # Execute ready tasks in parallel\n            task_futures = []\n            for task in ready_tasks:\n                agent = self._select_agent_for_task(task)\n                if agent:\n                    task.assigned_agent = agent.name\n                    future = asyncio.create_task(\n                        self._execute_task(task, agent, context)\n                    )\n                    task_futures.append((task, future))\n            \n            # Wait for all tasks to complete\n            for task, future in task_futures:\n                try:\n                    result = await future\n                    task.result = result\n                    task.status = \"completed\"\n                    self.completed_tasks[task.id] = task\n                    results[task.id] = result\n                    \n                except Exception as e:\n                    task.status = \"failed\"\n                    task.result = str(e)\n                    results[task.id] = f\"Error: {e}\"\n                \n                # Remove completed task from graph\n                task_graph.remove(task)\n        \n        return results\n    \n    def _select_agent_for_task(self, task: Task) -> Optional[BaseAgent]:\n        \"\"\"Select best agent for a given task\"\"\"\n        suitable_agents = [\n            agent for agent in self.agents.values() \n            if agent.can_handle(task.type)\n        ]\n        \n        if not suitable_agents:\n            return None\n            \n        # Simple selection - could be more sophisticated\n        return suitable_agents[0]\n    \n    async def _execute_task(\n        self, \n        task: Task, \n        agent: BaseAgent, \n        context: AgentContext\n    ) -> Any:\n        \"\"\"Execute a single task with the assigned agent\"\"\"\n        \n        # Add task dependencies to context\n        dependency_results = {\n            dep_id: self.completed_tasks[dep_id].result \n            for dep_id in (task.dependencies or [])\n            if dep_id in self.completed_tasks\n        }\n        \n        enhanced_context = AgentContext(\n            conversation_id=context.conversation_id,\n            user_id=context.user_id,\n            session_data=context.session_data,\n            shared_memory={\n                **context.shared_memory,\n                'dependencies': dependency_results,\n                'current_task': task.id\n            }\n        )\n        \n        return await agent.process(task.description, enhanced_context)\n"
+    }
+  ]
+}

@@ -1,0 +1,285 @@
+name: Claude SDK Deploy
+
+on:
+  push:
+    branches: [main, staging]
+    paths:
+      - 'app/claude-sdk/**'
+      - 'components/claude-sdk/**'
+      - 'lib/claude-sdk/**'
+      - 'public/claude-sdk/**'
+      - 'package*.json'
+      - '.github/workflows/claude-sdk-deploy.yml'
+  pull_request:
+    branches: [main, staging]
+    paths:
+      - 'app/claude-sdk/**'
+      - 'components/claude-sdk/**'
+      - 'lib/claude-sdk/**'
+      - 'public/claude-sdk/**'
+      - 'package*.json'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  NODE_VERSION: '18.x'
+  BUNDLE_SIZE_LIMIT: '2mb'
+
+jobs:
+  # Code Quality & Tests
+  quality-checks:
+    runs-on: ubuntu-latest
+    name: Code Quality & Tests
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run linting
+        run: npm run lint
+        
+      - name: Run TypeScript checks
+        run: npx tsc --noEmit
+        
+      - name: Run SDK tests
+        run: npm test -- --testPathPattern="claude-sdk" --coverage
+        
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./coverage
+          flags: claude-sdk
+          
+  # WASM Compatibility Tests
+  wasm-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        browser: [chromium, firefox, webkit]
+    name: WASM Tests (${{ matrix.os }} - ${{ matrix.browser }})
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install Playwright
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+        
+      - name: Run WASM compatibility tests
+        run: npx playwright test --project=${{ matrix.browser }} tests/wasm-compatibility.spec.ts
+        
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: wasm-test-results-${{ matrix.os }}-${{ matrix.browser }}
+          path: test-results/
+
+  # Performance Testing
+  performance-tests:
+    runs-on: ubuntu-latest
+    name: Performance Tests
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build production
+        run: npm run build:production
+        
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            http://localhost:3000/claude-sdk
+            http://localhost:3000/claude-sdk/playground
+            http://localhost:3000/claude-sdk/tutorials
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          
+      - name: Check bundle size
+        run: |
+          BUNDLE_SIZE=$(du -sh .next/static | cut -f1)
+          echo "Bundle size: $BUNDLE_SIZE"
+          # Fail if bundle exceeds limit
+          if [[ $(du -b .next/static | cut -f1) -gt 2097152 ]]; then
+            echo "Bundle size exceeds limit of $BUNDLE_SIZE_LIMIT"
+            exit 1
+          fi
+
+  # Build & Deploy
+  build-deploy:
+    needs: [quality-checks, wasm-tests, performance-tests]
+    runs-on: ubuntu-latest
+    name: Build & Deploy
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Set environment
+        id: set-env
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "environment=production" >> $GITHUB_OUTPUT
+          else
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Build for ${{ steps.set-env.outputs.environment }}
+        run: npm run build:production
+        env:
+          NEXT_PUBLIC_ENV: ${{ steps.set-env.outputs.environment }}
+          NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.ANALYTICS_ID }}
+          NEXT_PUBLIC_ERROR_TRACKING_DSN: ${{ secrets.ERROR_TRACKING_DSN }}
+          
+      - name: Generate build metadata
+        run: |
+          echo '{
+            "version": "${{ github.sha }}",
+            "environment": "${{ steps.set-env.outputs.environment }}",
+            "timestamp": "'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'",
+            "branch": "${{ github.ref_name }}",
+            "commit": "${{ github.sha }}"
+          }' > .next/build-metadata.json
+          
+      - name: Deploy to staging
+        if: steps.set-env.outputs.environment == 'staging'
+        run: |
+          echo "Deploying to staging environment..."
+          ./scripts/deploy-sdk.sh staging
+        env:
+          STAGING_DEPLOY_KEY: ${{ secrets.STAGING_DEPLOY_KEY }}
+          
+      - name: Deploy to production
+        if: steps.set-env.outputs.environment == 'production'
+        run: |
+          echo "Deploying to production environment..."
+          ./scripts/deploy-sdk.sh production
+        env:
+          PRODUCTION_DEPLOY_KEY: ${{ secrets.PRODUCTION_DEPLOY_KEY }}
+          
+      - name: Run post-deployment health checks
+        run: |
+          npm run health-check:${{ steps.set-env.outputs.environment }}
+          
+      - name: Notify deployment status
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: |
+            Claude SDK deployment to ${{ steps.set-env.outputs.environment }} ${{ job.status }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+  # Preview Deployment
+  preview-deploy:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    name: Preview Deployment
+    needs: [quality-checks]
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build preview
+        run: npm run build
+        env:
+          NEXT_PUBLIC_ENV: preview
+          
+      - name: Deploy preview
+        id: deploy-preview
+        uses: netlify/actions/deploy@v1
+        with:
+          publish-dir: '.next'
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "PR Preview - ${{ github.event.pull_request.title }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          
+      - name: Comment preview URL
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🚀 Preview deployed: ${{ steps.deploy-preview.outputs.deploy-url }}`
+            })
+
+  # Analytics & Monitoring Setup
+  monitoring-setup:
+    needs: [build-deploy]
+    runs-on: ubuntu-latest
+    name: Setup Monitoring
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Configure monitoring dashboard
+        run: |
+          echo "Setting up monitoring for Claude SDK..."
+          # This would typically configure your monitoring service
+          
+      - name: Setup error tracking
+        run: |
+          echo "Configuring error tracking..."
+          # Configure Sentry or similar service
+          
+      - name: Setup performance monitoring
+        run: |
+          echo "Configuring performance monitoring..."
+          # Configure performance monitoring service

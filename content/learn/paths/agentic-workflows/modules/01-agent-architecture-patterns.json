@@ -1,0 +1,168 @@
+{
+  "metadata": {
+    "id": "agent-architecture-patterns",
+    "pathId": "agentic-workflows",
+    "title": "Agent Architecture Patterns",
+    "description": "Explore fundamental patterns for designing autonomous AI agents, from reactive systems to sophisticated reasoning architectures.",
+    "duration": "90 minutes",
+    "difficulty": "intermediate",
+    "order": 1,
+    "type": "concept",
+    "objectives": [
+      "Understand core agent architecture patterns and their use cases",
+      "Compare reactive, deliberative, and hybrid agent designs",
+      "Implement basic ReAct and Chain-of-Thought patterns",
+      "Design agent architectures for specific problem domains",
+      "Evaluate trade-offs between different architectural approaches"
+    ],
+    "prerequisites": [
+      "Understanding of LLM basics",
+      "Python programming experience",
+      "Familiarity with API concepts"
+    ],
+    "tags": [
+      "agent-architecture",
+      "reactive-systems",
+      "deliberative-systems",
+      "react-pattern",
+      "multi-agent",
+      "planning"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 135
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction to Agent Architecture Patterns",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "45 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-agent-architecture-patterns.mdx",
+        "codeExamples": [
+          {
+            "id": "simple-reactive-agent",
+            "title": "Simple Reactive Agent",
+            "description": "Basic reactive agent that responds to environmental stimuli",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "react-agent-implementation",
+            "title": "ReAct Agent Implementation",
+            "description": "Implementation of the ReAct pattern for reasoning and acting",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Practical Exercises",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "75 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Agent Architecture Implementation",
+        "description": "Hands-on exercises for implementing agent architecture patterns",
+        "exerciseType": "coding",
+        "difficulty": "medium",
+        "instructions": [
+          "Design an agent architecture for a specific use case",
+          "Implement a ReAct agent for web search and question answering",
+          "Compare different architectural approaches",
+          "Test and evaluate your implementations"
+        ],
+        "hints": [
+          "Start with a simple reactive pattern before adding complexity",
+          "Consider the trade-offs between different architectural approaches",
+          "Test your agent with various scenarios to validate robustness"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Agent Architecture Patterns Quiz",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Agent Architecture Patterns Quiz",
+        "description": "Test your understanding of agent architecture patterns and their applications",
+        "questions": [
+          {
+            "id": "reactive_vs_deliberative",
+            "type": "multiple-choice",
+            "question": "What is the key difference between reactive and deliberative agent architectures?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Reactive agents plan ahead while deliberative agents respond immediately"
+              },
+              {
+                "id": "b",
+                "text": "Reactive agents respond immediately to stimuli while deliberative agents plan and reason"
+              },
+              {
+                "id": "c",
+                "text": "There is no difference between the two approaches"
+              },
+              {
+                "id": "d",
+                "text": "Reactive agents are always faster than deliberative agents"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "Reactive agents provide immediate responses to environmental stimuli, while deliberative agents engage in planning and reasoning before taking action."
+          }
+        ],
+        "passingScore": 75,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "react-paper",
+      "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "type": "paper",
+      "url": "https://arxiv.org/abs/2210.03629",
+      "description": "Foundational paper on the ReAct pattern for agent architectures",
+      "required": true
+    },
+    {
+      "id": "multi-agent-intro",
+      "title": "Multi-Agent Systems Introduction",
+      "type": "documentation",
+      "url": "https://www.cs.cmu.edu/~softagents/multi.html",
+      "description": "Comprehensive introduction to multi-agent systems",
+      "required": false
+    },
+    {
+      "id": "agent-patterns",
+      "title": "Agent Architecture Design Patterns",
+      "type": "guide",
+      "url": "https://patterns.dataarchitecturepatterns.com/agent-patterns/",
+      "description": "Design patterns for agent architectures",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 75,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

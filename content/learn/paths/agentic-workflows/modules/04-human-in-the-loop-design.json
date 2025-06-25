@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "id": "human-in-the-loop-design",
+    "pathId": "agentic-workflows",
+    "title": "Human-in-the-Loop Design",
+    "description": "Learn to design AI systems that effectively combine artificial intelligence with human expertise, judgment, and oversight for optimal decision-making and control.",
+    "duration": "110 minutes",
+    "difficulty": "intermediate",
+    "order": 4,
+    "type": "concept",
+    "objectives": [
+      "Design effective human-AI collaboration patterns and interfaces",
+      "Implement intelligent intervention points and escalation mechanisms",
+      "Build transparent AI systems with explainable decision-making",
+      "Create adaptive systems that learn from human feedback and corrections",
+      "Design approval workflows and human oversight mechanisms",
+      "Develop user-friendly interfaces for human-AI interaction"
+    ],
+    "prerequisites": [
+      "Agent Architecture Patterns",
+      "Tool Orchestration",
+      "Understanding of UX/UI principles",
+      "Knowledge of workflow design"
+    ],
+    "tags": [
+      "human-ai-collaboration",
+      "explainable-ai",
+      "human-computer-interaction",
+      "approval-workflows",
+      "feedback-loops",
+      "interface-design"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 275
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction to Human-in-the-Loop Design",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "55 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-in-the-loop-design.mdx",
+        "codeExamples": [
+          {
+            "id": "human-ai-coordinator",
+            "title": "Human-AI Coordination System",
+            "description": "Framework for coordinating human and AI decision-making",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "intervention-manager",
+            "title": "Intervention Point Manager",
+            "description": "System for managing when and how to request human intervention",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Human-in-the-Loop Exercises",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "200 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Human-AI Collaboration Implementation",
+        "description": "Hands-on exercises for building human-in-the-loop systems",
+        "exerciseType": "coding",
+        "difficulty": "hard",
+        "instructions": [
+          "Build system that combines AI recommendations with human judgment",
+          "Create recommendation system with clear explanations and human override capabilities",
+          "Design comprehensive HITL system with learning, escalation, and approval mechanisms",
+          "Test and evaluate human-AI collaboration effectiveness"
+        ],
+        "hints": [
+          "Design intuitive interfaces for human-AI interaction",
+          "Implement clear explanation mechanisms for AI decisions",
+          "Consider cognitive load and user experience in design"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Human-in-the-Loop Design Quiz",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Human-in-the-Loop Design Quiz",
+        "description": "Test your understanding of human-AI collaboration patterns and design principles",
+        "questions": [
+          {
+            "id": "hitl_intervention_points",
+            "type": "multiple-choice",
+            "question": "When should human intervention be triggered in an AI system?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Only when the AI system fails completely"
+              },
+              {
+                "id": "b",
+                "text": "When confidence scores are low, edge cases are detected, or critical decisions are required"
+              },
+              {
+                "id": "c",
+                "text": "At random intervals to keep humans engaged"
+              },
+              {
+                "id": "d",
+                "text": "Never, as it defeats the purpose of automation"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "Human intervention should be strategically triggered when the AI system has low confidence, encounters edge cases, or needs to make critical decisions that require human judgment."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "hai-guidelines",
+      "title": "Human-AI Interaction Guidelines",
+      "type": "guide",
+      "url": "https://hai.stanford.edu/sites/default/files/2019-12/HAI_Whitepaper_Human-Centered%20AI_12.pdf",
+      "description": "Comprehensive guidelines for designing human-centered AI systems",
+      "required": true
+    },
+    {
+      "id": "explainable-ai",
+      "title": "Explainable AI Principles",
+      "type": "documentation",
+      "url": "https://www.darpa.mil/program/explainable-artificial-intelligence",
+      "description": "DARPA's research program on explainable artificial intelligence",
+      "required": false
+    },
+    {
+      "id": "hci-principles",
+      "title": "Human-Computer Interaction Principles",
+      "type": "reference",
+      "url": "https://www.interaction-design.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed",
+      "description": "Comprehensive resource on HCI principles and best practices",
+      "required": false
+    },
+    {
+      "id": "approval-workflows",
+      "title": "Approval Workflow Patterns",
+      "type": "guide",
+      "url": "https://patterns.servicedesign.org/approval-workflow",
+      "description": "Design patterns for approval workflows in service systems",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

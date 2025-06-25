@@ -1,0 +1,33 @@
+'use client';
+
+import Link from 'next/link';
+import { useTranslations, useLocale } from 'next-intl';
+import { addLocaleToPathname, type Locale } from '@/lib/i18n';
+
+export default function NotFound() {
+  const t = useTranslations('notFound');
+  const locale = useLocale() as Locale;
+  
+  // Helper function to create localized links
+  const getLocalizedHref = (href: string) => {
+    return addLocaleToPathname(href, locale);
+  };
+  
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
+      <h1 className="text-6xl font-bold text-primary mb-4">404</h1>
+      <h2 className="text-2xl font-semibold text-foreground mb-4">
+        {t('title', 'Page Not Found')}
+      </h2>
+      <p className="text-foreground/70 text-center mb-8 max-w-md">
+        {t('description', "Sorry, the page you're looking for doesn't exist or has been moved.")}
+      </p>
+      <Link
+        href={getLocalizedHref('/')}
+        className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary-hover transition-colors"
+      >
+        {t('backHome', 'Go Back Home')}
+      </Link>
+    </div>
+  );
+}

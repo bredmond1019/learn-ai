@@ -1,0 +1,105 @@
+# Docker ignore file - exclude unnecessary files from Docker context
+
+# Dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js
+.next/
+out/
+
+# Production build
+dist
+
+# Environment variables
+.env*
+!.env.example
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Documentation and development files
+README.md
+CHANGELOG.md
+LICENSE
+*.md
+docs/
+tasks/
+
+# Test files
+**/*.test.*
+**/__tests__/
+coverage/
+.nyc_output
+
+# Development tools
+.eslintrc*
+.prettierrc*
+jest.config.*
+tsconfig.json
+.babelrc
+.editorconfig
+
+# Cache directories
+.cache
+.npm
+.yarn
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# Temporary folders
+tmp/
+temp/
+
+# Local development files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# TypeScript build info
+*.tsbuildinfo
+next-env.d.ts
+
+# Storybook build outputs
+.out
+.storybook-out
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

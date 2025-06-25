@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: portfolio-kustomization
+
+resources:
+- namespace.yaml
+- serviceaccount.yaml
+- configmap.yaml
+- secret.yaml
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- hpa.yaml
+- networkpolicy.yaml
+
+commonLabels:
+  app: portfolio
+  version: v1.0.0
+  managed-by: kustomize
+
+images:
+- name: ghcr.io/your-username/portfolio
+  newTag: latest
+
+patchesStrategicMerge:
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: portfolio
+    namespace: portfolio
+  spec:
+    template:
+      metadata:
+        annotations:
+          deployment.kubernetes.io/revision: "1"

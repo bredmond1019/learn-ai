@@ -1,0 +1,1185 @@
+---
+title: "MCP Architecture for Customer Support Ticket Triage: A Complete System Design"
+date: "2024-12-03"
+excerpt: "Design and implement an automated customer support ticket triage system using Model Context Protocol (MCP) architecture. Learn how to build enterprise-grade agentic AI systems with proper separation of concerns."
+tags: ["MCP", "Customer Support", "AI Architecture", "Enterprise AI", "Ticket Triage", "System Design"]
+author: "Brandon"
+---
+
+import { Callout } from '@/components/ui/callout'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Badge } from '@/components/ui/badge'
+
+Building automated customer support systems that can intelligently triage tickets, escalate urgent issues, and coordinate across multiple platforms requires careful architectural planning. This guide demonstrates how to use Model Context Protocol (MCP) to create a distributed, scalable system that handles enterprise-grade customer support workflows.
+
+<Callout type="tip" className="mt-6">
+  **Key Insight**: MCP enables building distributed AI systems where each component specializes in its domain, creating maintainable and scalable enterprise solutions.
+</Callout>
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>🎓 What You'll Learn</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2">
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🏗️</Badge>
+        <span>Design distributed AI systems using MCP architecture</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🔌</Badge>
+        <span>Build specialized MCP servers for different integrations</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🤖</Badge>
+        <span>Implement intelligent ticket triage with LLM analysis</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🚀</Badge>
+        <span>Deploy production-ready enterprise AI workflows</span>
+      </li>
+    </ul>
+  </CardContent>
+</Card>
+
+## 🎯 Problem Statement
+
+Modern customer support requires an agentic AI system that can:
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>Core Requirements</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2">
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">📂</Badge>
+        <span><strong>Triage</strong> customer support tickets to appropriate queues</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🚨</Badge>
+        <span><strong>Escalate</strong> urgent issues automatically</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🔔</Badge>
+        <span><strong>Trigger Slack communications</strong> to relevant teams</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🐞</Badge>
+        <span><strong>Create bug cards</strong> in project management tools</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">👥</Badge>
+        <span><strong>Assign tickets</strong> to appropriate squads</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">📢</Badge>
+        <span><strong>Send notifications</strong> to squad-specific channels</span>
+      </li>
+    </ul>
+  </CardContent>
+</Card>
+
+<Callout type="warning" className="mt-4">
+  Traditional monolithic approaches struggle with the complexity and integration requirements of enterprise environments. MCP provides the architectural framework needed for building distributed, maintainable systems.
+</Callout>
+
+## 🏗️ MCP Architecture Overview
+
+### 🤖 Host Application (MCP Client)
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>Support Triage Agent</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p className="mb-3">The main microservice that:</p>
+    <ul className="space-y-2">
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">📨</Badge>
+        <span>Receives incoming support tickets (via webhook, polling, or event stream)</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🔌</Badge>
+        <span>Uses the MCP client library to communicate with multiple specialized servers</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">🧠</Badge>
+        <span>Contains the core business logic for ticket processing</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">✅</Badge>
+        <span>Makes final decisions on actions to take</span>
+      </li>
+    </ul>
+  </CardContent>
+</Card>
+
+### 🔌 MCP Servers (Multiple Specialized Servers)
+
+<Callout type="info" className="mt-4 mb-4">
+  The power of MCP lies in its ability to connect multiple specialized servers, each handling specific concerns:
+</Callout>
+
+### 1️⃣ Support System MCP Server
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>🎫 Support System Server</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-3">
+      <div>
+        <Badge className="mb-2">🔧 Tools</Badge>
+        <p>Create tickets, update status, assign to queues, set priority</p>
+      </div>
+      <div>
+        <Badge className="mb-2">📊 Resources</Badge>
+        <p>Existing ticket data, queue information, historical patterns</p>
+      </div>
+      <div>
+        <Badge className="mb-2">⚡ Capabilities</Badge>
+        <p>Full CRUD operations on support tickets</p>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+<Tabs defaultValue="code" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="code">Tool Implementation</TabsTrigger>
+    <TabsTrigger value="explanation">How It Works</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="code">
+```python
+# Support System Server
+from mcp import FastMCP
+
+support_mcp = FastMCP(name="support-system-server")
+
+@support_mcp.tool
+def update_ticket_status(ticket_id: str, status: str, assignee: str = None) -> dict:
+    """Update ticket status and optionally assign to team member."""
+    # Integration with support system API (Zendesk, Freshdesk, etc.)
+    result = support_api.update_ticket(
+        ticket_id=ticket_id,
+        status=status,
+        assignee=assignee
+    )
+    return {
+        "ticket_id": ticket_id,
+        "new_status": status,
+        "assigned_to": assignee,
+        "updated_at": result.updated_at
+    }
+
+@support_mcp.resource
+def get_queue_metrics() -> str:
+    """Get current queue workloads and response times."""
+    queues = support_api.get_all_queues()
+    metrics = []
+    for queue in queues:
+        metrics.append({
+            "queue_name": queue.name,
+            "pending_tickets": queue.pending_count,
+            "avg_response_time": queue.avg_response_hours,
+            "capacity_utilization": queue.utilization_percent
+        })
+    return json.dumps(metrics)
+```
+  </TabsContent>
+  
+  <TabsContent value="explanation">
+    <Card>
+      <CardHeader>
+        <CardTitle>Server Functionality</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>This server provides:</p>
+        <ul className="mt-3 space-y-2">
+          <li>• Real-time ticket status updates</li>
+          <li>• Queue workload metrics for intelligent routing</li>
+          <li>• Historical data access for pattern recognition</li>
+          <li>• Integration with support platforms (Zendesk, Freshdesk, etc.)</li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 2️⃣ Slack MCP Server
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>💬 Slack Communication Server</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-3">
+      <div>
+        <Badge className="mb-2">🔧 Tools</Badge>
+        <p>Send messages, create channels, post to specific channels</p>
+      </div>
+      <div>
+        <Badge className="mb-2">📊 Resources</Badge>
+        <p>Channel lists, user directory, team mappings</p>
+      </div>
+      <div>
+        <Badge className="mb-2">⚡ Capabilities</Badge>
+        <p>All Slack API operations</p>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+<Tabs defaultValue="code" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="code">Implementation</TabsTrigger>
+    <TabsTrigger value="integration">Integration Details</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="code">
+
+```python
+slack_mcp = FastMCP(name="slack-server")
+
+@slack_mcp.tool
+def send_urgent_notification(channel: str, message: str, ticket_id: str) -> dict:
+    """Send urgent notification to specified Slack channel."""
+    slack_message = {
+        "channel": channel,
+        "blocks": [
+            {
+                "type": "section",
+                "text": {"type": "mrkdwn", "text": f"🚨 *Urgent Ticket*: {message}"}
+            },
+            {
+                "type": "actions",
+                "elements": [
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "View Ticket"},
+                        "url": f"https://support.company.com/tickets/{ticket_id}"
+                    }
+                ]
+            }
+        ]
+    }
+    
+    response = slack_client.chat_postMessage(**slack_message)
+    return {
+        "message_sent": True,
+        "channel": channel,
+        "timestamp": response["ts"]
+    }
+
+@slack_mcp.resource
+def get_team_channels() -> str:
+    """Get mapping of teams to their Slack channels."""
+    team_mappings = {
+        "frontend": "#frontend-team",
+        "backend": "#backend-team",
+        "infrastructure": "#infra-alerts",
+        "product": "#product-team",
+        "support": "#customer-support"
+    }
+    return json.dumps(team_mappings)
+```
+
+  </TabsContent>
+  
+  <TabsContent value="integration">
+    <Card>
+      <CardHeader>
+        <CardTitle>Slack Integration Benefits</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-2">
+          <li>• Real-time team notifications</li>
+          <li>• Interactive message blocks with action buttons</li>
+          <li>• Direct integration with team channels</li>
+          <li>• Audit trail of all communications</li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 3️⃣ Project Management MCP Server
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>📋 Project Management Server</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-3">
+      <div>
+        <Badge className="mb-2">🔧 Tools</Badge>
+        <p>Create stories/bugs, assign to teams, set priorities, add labels</p>
+      </div>
+      <div>
+        <Badge className="mb-2">📊 Resources</Badge>
+        <p>Project data, team assignments, current sprint information</p>
+      </div>
+      <div>
+        <Badge className="mb-2">⚡ Capabilities</Badge>
+        <p>Full project management operations (Shortcut, JIRA, Linear)</p>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+<Tabs defaultValue="code" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="code">Implementation</TabsTrigger>
+    <TabsTrigger value="workflow">Workflow Integration</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="code">
+
+```python
+project_mcp = FastMCP(name="project-management-server")
+
+@project_mcp.tool
+def create_bug_card(
+    title: str, 
+    description: str, 
+    team: str, 
+    priority: str,
+    customer_impact: str
+) -> dict:
+    """Create a bug card in the project management system."""
+    
+    bug_data = {
+        "name": title,
+        "description": f"{description}\n\nCustomer Impact: {customer_impact}",
+        "story_type": "bug",
+        "requested_by_id": get_support_user_id(),
+        "owner_ids": get_team_member_ids(team),
+        "labels": [
+            {"name": f"priority-{priority.lower()}"},
+            {"name": "customer-reported"},
+            {"name": f"team-{team.lower()}"}
+        ]
+    }
+    
+    story = shortcut_client.create_story(bug_data)
+    
+    return {
+        "story_id": story.id,
+        "story_url": story.app_url,
+        "assigned_team": team,
+        "priority": priority,
+        "created_at": story.created_at
+    }
+```
+
+  </TabsContent>
+  
+  <TabsContent value="workflow">
+    <Card>
+      <CardHeader>
+        <CardTitle>Project Management Integration</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-2">
+          <li>• Automatic bug card creation from tickets</li>
+          <li>• Team assignment based on technical area</li>
+          <li>• Priority mapping from urgency levels</li>
+          <li>• Bi-directional sync with support system</li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 4️⃣ Knowledge Base MCP Server
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>📚 Knowledge Base Server</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-3">
+      <div>
+        <Badge className="mb-2">🔧 Tools</Badge>
+        <p>Search documentation, create/update articles</p>
+      </div>
+      <div>
+        <Badge className="mb-2">📊 Resources</Badge>
+        <p>FAQ database, troubleshooting guides, escalation procedures</p>
+      </div>
+      <div>
+        <Badge className="mb-2">⚡ Capabilities</Badge>
+        <p>Content management and search</p>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+## 🔄 Detailed Workflow Implementation
+
+### 🔍 Phase 1: Initial Ticket Assessment
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>📄 Input Data</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>New support ticket containing:</p>
+    <ul className="mt-2 space-y-1">
+      <li>• Customer message and inquiry</li>
+      <li>• Contact information</li>
+      <li>• Product area or service</li>
+      <li>• Historical interaction data</li>
+    </ul>
+  </CardContent>
+</Card>
+
+<Tabs defaultValue="implementation" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="implementation">MCP Flow Implementation</TabsTrigger>
+    <TabsTrigger value="workflow">Workflow Steps</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="implementation">
+
+```python
+import asyncio
+from mcp import stdio_client
+from openai import OpenAI
+
+class SupportTriageAgent:
+    def __init__(self):
+        self.openai_client = OpenAI()
+        self.mcp_sessions = {}
+    
+    async def connect_to_servers(self):
+        """Establish connections to all MCP servers."""
+        server_configs = {
+            "support": {"command": "python", "args": ["support_server.py"]},
+            "slack": {"command": "python", "args": ["slack_server.py"]},
+            "project": {"command": "python", "args": ["project_server.py"]},
+            "knowledge": {"command": "python", "args": ["kb_server.py"]}
+        }
+        
+        for name, config in server_configs.items():
+            session = stdio_client(config)
+            await session.__aenter__()
+            self.mcp_sessions[name] = session
+    
+    async def assess_new_ticket(self, ticket_data: dict) -> dict:
+        """Phase 1: Initial ticket assessment with resource gathering."""
+        
+        # Step 1: Capability Discovery
+        print("Discovering available capabilities...")
+        capabilities = {}
+        for name, session in self.mcp_sessions.items():
+            tools = await session.list_tools()
+            resources = await session.list_resources()
+            capabilities[name] = {"tools": tools, "resources": resources}
+        
+        # Step 2: Resource Gathering
+        print("Gathering contextual resources...")
+        
+        # Get historical ticket data
+        historical_data = await self.mcp_sessions["support"].read_resource(
+            "similar_tickets", 
+            {"query": ticket_data["content"][:200]}
+        )
+        
+        # Get knowledge base information
+        kb_data = await self.mcp_sessions["knowledge"].read_resource(
+            "troubleshooting_guides",
+            {"category": ticket_data.get("category", "general")}
+        )
+        
+        # Get current team workloads
+        team_workloads = await self.mcp_sessions["project"].read_resource(
+            "team_capacity"
+        )
+        
+        # Step 3: LLM Analysis
+        assessment_prompt = f"""
+        Analyze this customer support ticket:
+        
+        Ticket Content: {ticket_data['content']}
+        Customer ID: {ticket_data['customer_id']}
+        Product Area: {ticket_data.get('product_area', 'unknown')}
+        
+        Historical Context: {historical_data}
+        Knowledge Base Info: {kb_data}
+        Team Workloads: {team_workloads}
+        
+        Provide assessment:
+        1. Issue Category (bug, feature_request, general_support, account_issue)
+        2. Urgency Level (critical, high, medium, low)
+        3. Technical Area (frontend, backend, api, database, infrastructure)
+        4. Recommended Squad Assignment
+        5. Confidence Score (0.0-1.0)
+        
+        Format as JSON.
+        """
+        
+        response = self.openai_client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": assessment_prompt}],
+            temperature=0.1
+        )
+        
+        assessment = json.loads(response.choices[0].message.content)
+        assessment["ticket_id"] = ticket_data["id"]
+        
+        return assessment
+```
+  </TabsContent>
+  
+  <TabsContent value="workflow">
+    <Card>
+      <CardHeader>
+        <CardTitle>Assessment Workflow</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ol className="list-decimal list-inside space-y-3">
+          <li>
+            <strong>Capability Discovery</strong>
+            <p className="ml-6 text-sm text-muted-foreground">Identify available tools and resources from connected servers</p>
+          </li>
+          <li>
+            <strong>Resource Gathering</strong>
+            <p className="ml-6 text-sm text-muted-foreground">Collect historical data, knowledge base info, and team workloads</p>
+          </li>
+          <li>
+            <strong>LLM Analysis</strong>
+            <p className="ml-6 text-sm text-muted-foreground">Analyze ticket content and provide categorization with confidence scores</p>
+          </li>
+          <li>
+            <strong>Assessment Generation</strong>
+            <p className="ml-6 text-sm text-muted-foreground">Create structured assessment with category, urgency, and routing recommendations</p>
+          </li>
+        </ol>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 📋 Phase 2: Classification and Routing
+
+<Callout type="info" className="mt-4 mb-4">
+  **Critical Design Decision**: Business rules evaluation happens outside of LLM control. The AI provides analysis and recommendations, but routing decisions follow predefined business logic.
+</Callout>
+
+#### 🦭 Resource Analysis and Decision Making
+
+```python
+async def classify_and_route(self, ticket_data: dict, assessment: dict) -> dict:
+    """Phase 2: Classification and routing decisions."""
+    
+    # Business rules evaluation (not LLM decisions)
+    routing_decision = {
+        "primary_action": None,
+        "secondary_actions": [],
+        "escalation_required": False,
+        "notifications": []
+    }
+    
+    # Critical business logic: Escalation thresholds
+    if assessment["urgency_level"] == "critical":
+        routing_decision["escalation_required"] = True
+        routing_decision["primary_action"] = "immediate_escalation"
+    
+    # Bug handling workflow
+    elif assessment["issue_category"] == "bug":
+        routing_decision["primary_action"] = "create_bug_card"
+        routing_decision["secondary_actions"].append("notify_dev_team")
+    
+    # Standard support routing
+    else:
+        routing_decision["primary_action"] = "route_to_queue"
+        if assessment["urgency_level"] == "high":
+            routing_decision["secondary_actions"].append("notify_team_lead")
+    
+    # Determine notification targets
+    team_channel_mapping = {
+        "frontend": "#frontend-team",
+        "backend": "#backend-team", 
+        "infrastructure": "#infra-alerts",
+        "api": "#backend-team"
+    }
+    
+    target_channel = team_channel_mapping.get(assessment["technical_area"])
+    if target_channel:
+        routing_decision["notifications"].append({
+            "type": "slack",
+            "channel": target_channel,
+            "urgency": assessment["urgency_level"]
+        })
+    
+    return routing_decision
+```
+
+### ⚡ Phase 3: Action Execution
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>⚡ Execution Strategy</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Actions are executed based on routing decisions:</p>
+    <ul className="mt-3 space-y-2">
+      <li>• <Badge variant="outline">Primary Actions</Badge> Execute main workflow (bug creation, escalation, routing)</li>
+      <li>• <Badge variant="outline">Secondary Actions</Badge> Run in parallel (notifications, updates)</li>
+      <li>• <Badge variant="outline">Notifications</Badge> Alert relevant teams via configured channels</li>
+    </ul>
+  </CardContent>
+</Card>
+
+#### 🔧 Tool Invocation Sequence
+
+```python
+async def execute_actions(self, ticket_data: dict, assessment: dict, routing: dict):
+    """Phase 3: Execute determined actions via MCP tools."""
+    
+    results = []
+    
+    # Execute primary action
+    if routing["primary_action"] == "create_bug_card":
+        result = await self.execute_bug_creation(ticket_data, assessment)
+        results.append(result)
+    
+    elif routing["primary_action"] == "immediate_escalation":
+        result = await self.execute_escalation(ticket_data, assessment)
+        results.append(result)
+    
+    elif routing["primary_action"] == "route_to_queue":
+        result = await self.execute_queue_routing(ticket_data, assessment)
+        results.append(result)
+    
+    # Execute secondary actions in parallel
+    secondary_tasks = []
+    for action in routing["secondary_actions"]:
+        if action == "notify_dev_team":
+            task = self.send_team_notification(ticket_data, assessment)
+            secondary_tasks.append(task)
+        elif action == "notify_team_lead":
+            task = self.send_lead_notification(ticket_data, assessment)
+            secondary_tasks.append(task)
+    
+    if secondary_tasks:
+        secondary_results = await asyncio.gather(*secondary_tasks)
+        results.extend(secondary_results)
+    
+    # Execute notifications
+    for notification in routing["notifications"]:
+        if notification["type"] == "slack":
+            result = await self.send_slack_notification(
+                ticket_data, assessment, notification
+            )
+            results.append(result)
+    
+    return results
+
+async def execute_bug_creation(self, ticket_data: dict, assessment: dict) -> dict:
+    """Create bug card via Project Management MCP server."""
+    
+    bug_title = f"Customer Issue: {ticket_data['subject']}"
+    bug_description = f"""
+    Customer Report: {ticket_data['content']}
+    
+    Customer ID: {ticket_data['customer_id']}
+    Technical Area: {assessment['technical_area']}
+    Urgency: {assessment['urgency_level']}
+    
+    Assessment Confidence: {assessment['confidence_score']}
+    """
+    
+    # Call MCP tool
+    result = await self.mcp_sessions["project"].call_tool(
+        "create_bug_card",
+        {
+            "title": bug_title,
+            "description": bug_description,
+            "team": assessment["recommended_squad"],
+            "priority": assessment["urgency_level"],
+            "customer_impact": self.assess_customer_impact(ticket_data)
+        }
+    )
+    
+    # Update original ticket with bug link
+    await self.mcp_sessions["support"].call_tool(
+        "update_ticket_status",
+        {
+            "ticket_id": ticket_data["id"],
+            "status": "in_development",
+            "external_link": result["story_url"]
+        }
+    )
+    
+    return {
+        "action": "bug_created",
+        "bug_id": result["story_id"],
+        "bug_url": result["story_url"],
+        "assigned_team": result["assigned_team"]
+    }
+
+async def send_slack_notification(self, ticket_data: dict, assessment: dict, notification: dict) -> dict:
+    """Send notification via Slack MCP server."""
+    
+    urgency_emoji = {
+        "critical": "🚨",
+        "high": "⚠️", 
+        "medium": "📋",
+        "low": "📝"
+    }
+    
+    message = f"""
+    {urgency_emoji.get(assessment['urgency_level'], '📋')} New {assessment['issue_category'].replace('_', ' ').title()}
+    
+    Customer: {ticket_data['customer_id']}
+    Area: {assessment['technical_area']}
+    Confidence: {assessment['confidence_score']:.1%}
+    
+    Preview: {ticket_data['content'][:150]}...
+    """
+    
+    result = await self.mcp_sessions["slack"].call_tool(
+        "send_urgent_notification" if assessment["urgency_level"] == "critical" else "send_team_notification",
+        {
+            "channel": notification["channel"],
+            "message": message,
+            "ticket_id": ticket_data["id"]
+        }
+    )
+    
+    return {
+        "action": "notification_sent",
+        "channel": notification["channel"],
+        "message_timestamp": result["timestamp"]
+    }
+```
+
+## 🏗️ Key Architectural Decisions
+
+### 1️⃣ Multiple Specialized Servers
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>Decision: Separate MCP Servers</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p className="mb-3"><strong>Use separate MCP servers for each external system</strong></p>
+    
+    <div className="space-y-3 mt-4">
+      <div className="flex items-start gap-2">
+        <Badge className="mt-0.5">Separation</Badge>
+        <span>Each server handles one integration domain</span>
+      </div>
+      <div className="flex items-start gap-2">
+        <Badge className="mt-0.5">Development</Badge>
+        <span>Teams can update integrations independently</span>
+      </div>
+      <div className="flex items-start gap-2">
+        <Badge className="mt-0.5">Reusability</Badge>
+        <span>Other applications can use the same servers</span>
+      </div>
+      <div className="flex items-start gap-2">
+        <Badge className="mt-0.5">Security</Badge>
+        <span>Different authentication/authorization per system</span>
+      </div>
+      <div className="flex items-start gap-2">
+        <Badge className="mt-0.5">Scalability</Badge>
+        <span>Deploy servers independently based on load</span>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+### 2️⃣ Synchronous vs. Asynchronous Processing
+
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>Decision: Hybrid Processing Model</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p><strong>Immediate classification with asynchronous action execution</strong></p>
+    
+    <div className="mt-4 space-y-2">
+      <div className="flex items-center gap-2">
+        <Badge variant="outline">🔴 Sync</Badge>
+        <span>Initial assessment and routing decisions</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Badge variant="outline">🔵 Async</Badge>
+        <span>Action execution and notifications</span>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+<Tabs defaultValue="implementation" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="implementation">Implementation</TabsTrigger>
+    <TabsTrigger value="benefits">Benefits</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="implementation">
+```python
+async def process_ticket_workflow(self, ticket_data: dict) -> dict:
+    """Main workflow with hybrid sync/async processing."""
+    
+    # Immediate (synchronous) processing
+    assessment = await self.assess_new_ticket(ticket_data)
+    routing_decision = await self.classify_and_route(ticket_data, assessment)
+    
+    # Asynchronous action execution
+    asyncio.create_task(
+        self.execute_actions(ticket_data, assessment, routing_decision)
+    )
+    
+    # Return immediate response
+    return {
+        "ticket_id": ticket_data["id"],
+        "status": "processing",
+        "assessment": assessment,
+        "routing": routing_decision["primary_action"]
+    }
+```
+  </TabsContent>
+  
+  <TabsContent value="benefits">
+    <Card>
+      <CardHeader>
+        <CardTitle>Hybrid Approach Benefits</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-2">
+          <li>✅ Immediate response to customer</li>
+          <li>✅ Non-blocking action execution</li>
+          <li>✅ Better resource utilization</li>
+          <li>✅ Graceful handling of downstream failures</li>
+          <li>✅ Ability to batch similar actions</li>
+        </ul>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+### 3️⃣ LLM Decision Boundaries
+
+<Callout type="warning" className="mt-4 mb-4">
+  **Critical Separation**: Clear boundaries between AI analysis and business logic ensure compliance, auditability, and predictable system behavior.
+</Callout>
+
+<div className="grid gap-4 mt-4">
+  <Card>
+    <CardHeader>
+      <CardTitle>🤖 LLM Responsibilities</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Content analysis and categorization</li>
+        <li>• Similarity matching with historical data</li>
+        <li>• Technical area identification</li>
+        <li>• Urgency assessment based on customer language</li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>💼 Business Logic Responsibilities</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Final routing decisions based on current queue loads</li>
+        <li>• Escalation thresholds and procedures</li>
+        <li>• Squad assignment algorithms</li>
+        <li>• Compliance and audit trail requirements</li>
+      </ul>
+    </CardContent>
+  </Card>
+</div>
+
+### 4️⃣ Error Handling and Fallbacks
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>🚫 Fallback Strategy</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Multi-level fallback system ensures reliability:</p>
+    <ol className="mt-3 list-decimal list-inside space-y-2">
+      <li><Badge variant="outline">Level 1</Badge> LLM assessment failures → Default categorization</li>
+      <li><Badge variant="outline">Level 2</Badge> Server failures → Queue for retry + ops alert</li>
+      <li><Badge variant="outline">Level 3</Badge> Critical failures → Human intervention required</li>
+    </ol>
+  </CardContent>
+</Card>
+```python
+class FallbackHandler:
+    def __init__(self, agent):
+        self.agent = agent
+    
+    async def handle_assessment_failure(self, ticket_data: dict) -> dict:
+        """Level 1: Fallback for LLM assessment failure."""
+        return {
+            "issue_category": "general_support",
+            "urgency_level": "medium",
+            "technical_area": "general",
+            "confidence_score": 0.1,
+            "fallback_reason": "llm_assessment_failed"
+        }
+    
+    async def handle_server_failure(self, server_name: str, action: str, params: dict):
+        """Level 2: Fallback for MCP server failures."""
+        # Queue action for retry
+        await self.queue_for_retry(server_name, action, params)
+        
+        # Alert operations team
+        await self.alert_ops_team(f"MCP server {server_name} unavailable")
+        
+        return {"status": "queued_for_retry", "server": server_name}
+    
+    async def handle_critical_failure(self, ticket_data: dict, error: Exception):
+        """Level 3: Critical system failure - human intervention."""
+        await self.alert_human_operators({
+            "ticket_id": ticket_data["id"],
+            "error": str(error),
+            "timestamp": datetime.utcnow().isoformat(),
+            "requires_manual_triage": True
+        })
+```
+
+## 📊 Monitoring and Observability
+
+<Tabs defaultValue="monitoring" className="mt-4">
+  <TabsList>
+    <TabsTrigger value="monitoring">Monitoring Implementation</TabsTrigger>
+    <TabsTrigger value="metrics">Key Metrics</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="monitoring">
+
+```python
+class SystemMonitor:
+    def __init__(self):
+        self.metrics = {}
+        self.health_checks = {}
+    
+    async def monitor_mcp_servers(self, sessions: dict):
+        """Monitor health of all MCP servers."""
+        for name, session in sessions.items():
+            try:
+                # Health check via tool call
+                health = await session.call_tool("health_check", {})
+                self.health_checks[name] = {
+                    "status": "healthy",
+                    "response_time": health.get("response_time_ms"),
+                    "last_check": datetime.utcnow().isoformat()
+                }
+            except Exception as e:
+                self.health_checks[name] = {
+                    "status": "unhealthy",
+                    "error": str(e),
+                    "last_check": datetime.utcnow().isoformat()
+                }
+    
+    def track_decision_accuracy(self, ticket_id: str, predicted: dict, actual: dict):
+        """Track LLM decision accuracy for continuous improvement."""
+        accuracy_metrics = {
+            "category_correct": predicted["issue_category"] == actual["issue_category"],
+            "urgency_correct": predicted["urgency_level"] == actual["urgency_level"],
+            "squad_correct": predicted["recommended_squad"] == actual["actual_squad"]
+        }
+        
+        self.metrics[ticket_id] = {
+            "predicted": predicted,
+            "actual": actual,
+            "accuracy": accuracy_metrics,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+```
+  </TabsContent>
+  
+  <TabsContent value="metrics">
+    <Card>
+      <CardHeader>
+        <CardTitle>Essential Metrics to Track</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-3">
+          <div>
+            <Badge className="mb-2">Server Health</Badge>
+            <ul className="text-sm space-y-1 ml-4">
+              <li>• Response times per server</li>
+              <li>• Availability and uptime</li>
+              <li>• Error rates by operation</li>
+            </ul>
+          </div>
+          <div>
+            <Badge className="mb-2">Decision Accuracy</Badge>
+            <ul className="text-sm space-y-1 ml-4">
+              <li>• Category prediction accuracy</li>
+              <li>• Urgency assessment precision</li>
+              <li>• Squad assignment correctness</li>
+            </ul>
+          </div>
+          <div>
+            <Badge className="mb-2">Business Metrics</Badge>
+            <ul className="text-sm space-y-1 ml-4">
+              <li>• Average resolution time</li>
+              <li>• Escalation rates</li>
+              <li>• Customer satisfaction scores</li>
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
+## 🔒 Security and Compliance
+
+<Card className="mt-4 mb-4">
+  <CardHeader>
+    <CardTitle>Security Implementation</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Enterprise-grade security considerations:</p>
+    <ul className="mt-3 space-y-2">
+      <li>• <Badge variant="outline">Audit Trail</Badge> Complete logging of all decisions and actions</li>
+      <li>• <Badge variant="outline">Data Sanitization</Badge> Remove sensitive info from logs and metrics</li>
+      <li>• <Badge variant="outline">Access Control</Badge> Per-server authentication and authorization</li>
+      <li>• <Badge variant="outline">Compliance</Badge> GDPR, CCPA, and industry-specific requirements</li>
+    </ul>
+  </CardContent>
+</Card>
+
+```python
+class SecurityManager:
+    def __init__(self):
+        self.audit_log = []
+    
+    def log_tool_invocation(self, user_id: str, tool: str, params: dict, justification: str):
+        """Log all tool invocations for audit trail."""
+        self.audit_log.append({
+            "timestamp": datetime.utcnow().isoformat(),
+            "user_id": user_id,
+            "tool": tool,
+            "parameters": self.sanitize_sensitive_data(params),
+            "justification": justification,
+            "session_id": self.get_session_id()
+        })
+    
+    def sanitize_sensitive_data(self, data: dict) -> dict:
+        """Remove sensitive information from logs."""
+        sensitive_fields = ["password", "token", "api_key", "customer_email"]
+        sanitized = data.copy()
+        for field in sensitive_fields:
+            if field in sanitized:
+                sanitized[field] = "[REDACTED]"
+        return sanitized
+```
+
+## 🎆 Benefits of This Architecture
+
+<div className="grid gap-4 mt-6">
+  <Card>
+    <CardHeader>
+      <CardTitle>🔌 Pluggability</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Easy to add new integrations (JIRA, Teams, etc.)</li>
+        <li>• Servers developed and deployed independently</li>
+        <li>• No need to modify core triage logic for new tools</li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>🔍 Discoverability</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Client automatically learns about available capabilities</li>
+        <li>• New servers can be registered without code changes</li>
+        <li>• Dynamic adaptation to available services</li>
+      </ul>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>🧩 Composability</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        <li>• Servers can chain together (Shortcut server using Slack server)</li>
+        <li>• Complex workflows emerge from simple server interactions</li>
+        <li>• Reusable components across different applications</li>
+      </ul>
+    </CardContent>
+  </Card>
+</div>
+
+## 🎯 Conclusion
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>Key Takeaways</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p className="mb-4">This MCP-based architecture provides a scalable, maintainable solution that:</p>
+    <ul className="space-y-2">
+      <li>✅ Leverages protocol pluggability for easy extension</li>
+      <li>✅ Maintains proper separation of concerns</li>
+      <li>✅ Ensures business control over critical decisions</li>
+      <li>✅ Creates clear boundaries between AI and business logic</li>
+      <li>✅ Enables enterprise-grade reliability and compliance</li>
+    </ul>
+  </CardContent>
+</Card>
+
+<Callout type="success" className="mt-6">
+  **Remember**: By distributing functionality across specialized servers and maintaining a clear orchestration layer, you can build systems that are robust, testable, and adaptable to changing business requirements while providing the automation benefits that modern customer support demands.
+</Callout>
+
+## 🚀 Next Steps
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>Ready to Build?</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p className="mb-4">Start implementing your own MCP-based customer support system:</p>
+    <ol className="list-decimal list-inside space-y-2">
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">1</Badge>
+        <span>Set up your development environment with MCP libraries</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">2</Badge>
+        <span>Create your first specialized MCP server for one integration</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">3</Badge>
+        <span>Build the main triage agent with basic routing logic</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">4</Badge>
+        <span>Add monitoring and observability from the start</span>
+      </li>
+      <li className="flex items-start gap-2">
+        <Badge variant="outline" className="mt-0.5">5</Badge>
+        <span>Iterate and expand with additional servers and capabilities</span>
+      </li>
+    </ol>
+  </CardContent>
+</Card>
+
+<Callout type="info" className="mt-6">
+  **Pro Tip**: Start small with one or two MCP servers and gradually expand. The beauty of this architecture is that you can add new capabilities without modifying existing components.
+</Callout>

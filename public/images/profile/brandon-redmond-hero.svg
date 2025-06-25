@@ -1,0 +1,83 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:0.1" />
+    </radialGradient>
+    <linearGradient id="portraitBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="skinTone" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fed7aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fdba74;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="clothing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1f2937;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#111827;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background with subtle glow -->
+  <circle cx="250" cy="250" r="250" fill="url(#portraitBg)" />
+  <circle cx="250" cy="250" r="200" fill="url(#bgGlow)" />
+  
+  <!-- Professional attire -->
+  <path d="M150 400 Q150 350 170 320 L210 340 Q230 330 250 330 Q270 330 290 340 L330 320 Q350 350 350 400 L350 500 L150 500 Z" fill="url(#clothing)" />
+  
+  <!-- Dress shirt -->
+  <path d="M200 340 Q225 330 250 330 Q275 330 300 340 L290 420 Q270 415 250 415 Q230 415 210 420 Z" fill="#f9fafb" />
+  
+  <!-- Tie -->
+  <rect x="245" y="350" width="10" height="80" fill="#dc2626" rx="2" />
+  <polygon points="245,350 255,350 260,340 240,340" fill="#dc2626" />
+  
+  <!-- Neck -->
+  <ellipse cx="250" cy="340" rx="25" ry="30" fill="url(#skinTone)" />
+  
+  <!-- Head -->
+  <ellipse cx="250" cy="260" rx="65" ry="70" fill="url(#skinTone)" />
+  
+  <!-- Hair -->
+  <path d="M185 230 Q185 180 250 180 Q315 180 315 230 Q310 200 290 190 Q270 185 250 185 Q230 185 210 190 Q190 200 185 230" fill="#374151" />
+  <path d="M185 230 Q200 220 220 225 Q235 220 250 225 Q265 220 280 225 Q300 220 315 230" fill="#4b5563" opacity="0.7" />
+  
+  <!-- Eyes -->
+  <ellipse cx="225" cy="250" rx="10" ry="8" fill="white" />
+  <ellipse cx="275" cy="250" rx="10" ry="8" fill="white" />
+  <circle cx="225" cy="250" r="5" fill="#1f2937" />
+  <circle cx="275" cy="250" r="5" fill="#1f2937" />
+  <circle cx="227" cy="248" r="1.5" fill="white" />
+  <circle cx="277" cy="248" r="1.5" fill="white" />
+  
+  <!-- Eyebrows -->
+  <path d="M215 235 Q225 228 235 235" stroke="#374151" stroke-width="4" fill="none" stroke-linecap="round" />
+  <path d="M265 235 Q275 228 285 235" stroke="#374151" stroke-width="4" fill="none" stroke-linecap="round" />
+  
+  <!-- Glasses (modern, professional) -->
+  <circle cx="225" cy="250" r="22" fill="none" stroke="#1f2937" stroke-width="2.5" opacity="0.8" />
+  <circle cx="275" cy="250" r="22" fill="none" stroke="#1f2937" stroke-width="2.5" opacity="0.8" />
+  <path d="M247 250 Q252 248 253 250" stroke="#1f2937" stroke-width="2.5" fill="none" />
+  <path d="M203 245 Q190 240 185 245" stroke="#1f2937" stroke-width="2" fill="none" />
+  <path d="M297 245 Q310 240 315 245" stroke="#1f2937" stroke-width="2" fill="none" />
+  
+  <!-- Nose -->
+  <path d="M250 260 Q245 275 250 285 Q255 275 250 260" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.6" />
+  <ellipse cx="248" cy="278" rx="1" ry="2" fill="#f59e0b" opacity="0.4" />
+  <ellipse cx="252" cy="278" rx="1" ry="2" fill="#f59e0b" opacity="0.4" />
+  
+  <!-- Mouth (confident, approachable) -->
+  <path d="M235 295 Q250 305 265 295" stroke="#d97706" stroke-width="3" fill="none" stroke-linecap="round" />
+  <path d="M240 299 Q250 306 260 299" stroke="#dc2626" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.6" />
+  
+  <!-- Subtle facial structure -->
+  <path d="M190 270 Q200 280 210 270" stroke="#f59e0b" stroke-width="1" fill="none" opacity="0.3" />
+  <path d="M290 270 Q300 280 310 270" stroke="#f59e0b" stroke-width="1" fill="none" opacity="0.3" />
+  
+  <!-- Professional lighting effect -->
+  <ellipse cx="230" cy="230" rx="40" ry="30" fill="white" opacity="0.1" />
+  
+  <!-- Slight shadow for depth -->
+  <ellipse cx="255" cy="270" rx="60" ry="65" fill="black" opacity="0.08" />
+</svg>

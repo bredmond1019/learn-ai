@@ -1,0 +1,271 @@
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+import { getModule, getLearningPath, getModuleNeighbors, validateModuleId } from '@/lib/modules.server';
+import { parseMDXContent } from '@/lib/mdx-parser.server';
+import Link from 'next/link';
+
+interface PageProps {
+  params: Promise<{
+    slug: string;
+    moduleId: string;
+  }>;
+}
+
+// Generate metadata for SEO
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug, moduleId } = await params;
+  
+  const [module, learningPath] = await Promise.all([
+    getModule(slug, moduleId),
+    getLearningPath(slug),
+  ]);
+
+  if (!module || !learningPath) {
+    return {
+      title: 'Module Not Found',
+      description: 'The requested module could not be found.',
+    };
+  }
+
+  return {
+    title: `${module.metadata.title} - ${learningPath.title}`,
+    description: module.metadata.description,
+    keywords: module.metadata.tags.join(', '),
+    authors: [{ name: module.metadata.author }],
+  };
+}
+
+export default async function ModulePage({ params }: PageProps) {
+  const { slug, moduleId } = await params;
+
+  // Validate module ID and handle 404
+  const isValid = await validateModuleId(slug, moduleId);
+  if (!isValid) {
+    notFound();
+  }
+
+  // Fetch module data
+  const [module, learningPath, neighbors] = await Promise.all([
+    getModule(slug, moduleId),
+    getLearningPath(slug),
+    getModuleNeighbors(slug, moduleId),
+  ]);
+
+  if (!module || !learningPath) {
+    notFound();
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
+      <header className="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <nav className="mb-4 flex items-center space-x-2 text-sm">
+            <Link
+              href="/learn"
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              Learn
+            </Link>
+            <span className="text-gray-400">/</span>
+            <Link
+              href={`/learn/paths/${slug}`}
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              {learningPath.title}
+            </Link>
+            <span className="text-gray-400">/</span>
+            <span className="text-gray-900 dark:text-gray-100">{module.metadata.title}</span>
+          </nav>
+          
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {module.metadata.title}
+          </h1>
+          <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+            {module.metadata.description}
+          </p>
+          
+          <div className="mt-4 flex flex-wrap gap-4 text-sm">
+            <span className="flex items-center text-gray-600 dark:text-gray-400">
+              <svg className="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {module.metadata.duration}
+            </span>
+            <span className="flex items-center text-gray-600 dark:text-gray-400">
+              <svg className="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+              {module.metadata.difficulty}
+            </span>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+          {/* Sidebar */}
+          <aside className="lg:col-span-1">
+            <div className="sticky top-8 space-y-6">
+              {/* Learning Objectives */}
+              <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
+                <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  Learning Objectives
+                </h2>
+                <ul className="space-y-2">
+                  {module.metadata.objectives?.map((objective, index) => (
+                    <li key={index} className="flex items-start">
+                      <svg
+                        className="mr-2 mt-0.5 h-5 w-5 flex-shrink-0 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span className="text-sm text-gray-700 dark:text-gray-300">
+                        {objective}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Prerequisites */}
+              {module.metadata.prerequisites && module.metadata.prerequisites.length > 0 && (
+                <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
+                  <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    Prerequisites
+                  </h2>
+                  <ul className="space-y-2">
+                    {module.metadata.prerequisites.map((prereq, index) => (
+                      <li key={index} className="text-sm text-gray-700 dark:text-gray-300">
+                        • {prereq}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </aside>
+
+          {/* Content Area */}
+          <div className="lg:col-span-3">
+            <div className="space-y-8">
+              {/* Render each section */}
+              {module.sections.map(async (section) => {
+                if (section.content.type !== 'mdx' || !section.content.source) {
+                  return null; // Skip non-MDX sections for now
+                }
+                
+                let content;
+                try {
+                  const parsed = await parseMDXContent(section.content.source);
+                  content = parsed.content;
+                } catch (error) {
+                  console.error('Failed to parse MDX for section:', section.id, error);
+                  // Fallback to simple rendering
+                  content = (
+                    <div className="whitespace-pre-wrap">
+                      {section.content.source}
+                    </div>
+                  );
+                }
+                
+                return (
+                  <section
+                    key={section.id}
+                    id={section.id}
+                    className="rounded-lg bg-white p-8 shadow-sm dark:bg-gray-800"
+                  >
+                    <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
+                      {section.title}
+                    </h2>
+                    <div className="prose prose-lg max-w-none dark:prose-invert">
+                      {content}
+                    </div>
+                  </section>
+                );
+              })}
+
+              {/* Navigation */}
+              <nav className="flex items-center justify-between border-t border-gray-200 pt-8 dark:border-gray-700">
+                {neighbors.previous ? (
+                  <Link
+                    href={`/learn/paths/${slug}/modules/${neighbors.previous.metadata.id}`}
+                    className="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                  >
+                    <svg
+                      className="mr-2 h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                    {neighbors.previous.metadata.title}
+                  </Link>
+                ) : (
+                  <div />
+                )}
+                
+                {neighbors.next ? (
+                  <Link
+                    href={`/learn/paths/${slug}/modules/${neighbors.next.metadata.id}`}
+                    className="flex items-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700"
+                  >
+                    {neighbors.next.metadata.title}
+                    <svg
+                      className="ml-2 h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/learn/paths/${slug}`}
+                    className="flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+                  >
+                    Complete Path
+                    <svg
+                      className="ml-2 h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </Link>
+                )}
+              </nav>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

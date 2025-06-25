@@ -1,0 +1,263 @@
+{
+  "metadata": {
+    "id": "setting-up-environment",
+    "pathId": "mcp-fundamentals",
+    "title": "Setting Up Your MCP Development Environment",
+    "description": "Configure your development environment for building MCP servers with TypeScript and the official SDK",
+    "duration": "45 minutes",
+    "type": "hands-on",
+    "difficulty": "beginner",
+    "order": 2,
+    "prerequisites": ["introduction-to-mcp"],
+    "objectives": [
+      "Set up a TypeScript development environment for MCP",
+      "Install and configure the MCP SDK",
+      "Create your first MCP server project",
+      "Test your server with the MCP Inspector",
+      "Understand project structure best practices"
+    ],
+    "tags": ["mcp", "setup", "typescript", "sdk", "development"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "prerequisites",
+      "title": "Prerequisites and Requirements",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#prerequisites",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "installing-tools",
+      "title": "Installing Development Tools",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#installing-tools",
+        "codeExamples": [
+          {
+            "id": "node-version-check",
+            "title": "Checking Node.js Version",
+            "description": "Verify your Node.js installation",
+            "language": "bash",
+            "code": "# Check Node.js version (should be 18.x or higher)\nnode --version\n\n# Check npm version\nnpm --version\n\n# If you need to install Node.js, visit:\n# https://nodejs.org/",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "project-setup",
+      "title": "Creating Your First MCP Project",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#project-setup",
+        "codeExamples": [
+          {
+            "id": "project-init",
+            "title": "Initialize Project",
+            "description": "Create and configure a new MCP server project",
+            "language": "bash",
+            "code": "# Create project directory\nmkdir my-first-mcp-server\ncd my-first-mcp-server\n\n# Initialize npm project\nnpm init -y\n\n# Install TypeScript and MCP SDK\nnpm install --save-dev typescript @types/node tsx\nnpm install @modelcontextprotocol/sdk",
+            "runnable": false
+          },
+          {
+            "id": "tsconfig",
+            "title": "TypeScript Configuration",
+            "description": "Configure TypeScript for MCP development",
+            "language": "json",
+            "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"module\": \"Node16\",\n    \"moduleResolution\": \"Node16\",\n    \"lib\": [\"ES2022\"],\n    \"outDir\": \"./dist\",\n    \"rootDir\": \"./src\",\n    \"strict\": true,\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true,\n    \"forceConsistentCasingInFileNames\": true,\n    \"resolveJsonModule\": true,\n    \"declaration\": true,\n    \"declarationMap\": true,\n    \"sourceMap\": true\n  },\n  \"include\": [\"src/**/*\"],\n  \"exclude\": [\"node_modules\", \"dist\"]\n}",
+            "fileName": "tsconfig.json",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "first-server",
+      "title": "Building Your First MCP Server",
+      "type": "exercise",
+      "order": 4,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Create a Basic MCP Server",
+        "description": "Build and run your first MCP server that responds to basic requests",
+        "instructions": [
+          "Create a new file `src/index.ts` in your project",
+          "Import the necessary MCP SDK modules",
+          "Create a server instance with your server name and version",
+          "Set up the stdio transport for local testing",
+          "Add a simple resource handler that returns server info",
+          "Connect the server to the transport",
+          "Test your server using the MCP Inspector"
+        ],
+        "starterCode": {
+          "language": "typescript",
+          "code": "// src/index.ts\nimport { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\n// TODO: Create the MCP server instance\n// Hint: Use new Server({ name: 'your-server-name', version: '1.0.0' })\n\n// TODO: Set up a simple resource handler\n// Hint: Use server.setRequestHandler('resources/list', ...)\n\n// TODO: Create and connect the transport\n// Hint: Create StdioServerTransport and use server.connect()",
+          "fileName": "src/index.ts"
+        },
+        "solution": {
+          "language": "typescript",
+          "code": "// src/index.ts\nimport { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\n// Create the MCP server instance\nconst server = new Server({\n  name: 'my-first-mcp-server',\n  version: '1.0.0',\n});\n\n// Set up a simple resource handler\nserver.setRequestHandler('resources/list', async () => {\n  return {\n    resources: [\n      {\n        uri: 'server://info',\n        name: 'Server Information',\n        description: 'Basic information about this MCP server',\n        mimeType: 'application/json'\n      }\n    ]\n  };\n});\n\n// Handle resource content requests\nserver.setRequestHandler('resources/read', async (request) => {\n  if (request.params.uri === 'server://info') {\n    return {\n      contents: [\n        {\n          uri: 'server://info',\n          mimeType: 'application/json',\n          text: JSON.stringify({\n            name: 'my-first-mcp-server',\n            version: '1.0.0',\n            status: 'running',\n            timestamp: new Date().toISOString()\n          }, null, 2)\n        }\n      ]\n    };\n  }\n  throw new Error('Resource not found');\n});\n\n// Create and connect the transport\nconst transport = new StdioServerTransport();\nawait server.connect(transport);\n\nconsole.error('MCP server running on stdio');\n",
+          "explanation": "## How It Works\n\nThis solution creates a minimal MCP server that:\n\n1. **Server Instance**: Creates a server with a name and version\n2. **Resource List Handler**: Responds to `resources/list` requests with available resources\n3. **Resource Read Handler**: Handles `resources/read` requests to return resource content\n4. **Transport**: Uses stdio transport for local testing\n\nThe server exposes a single resource that returns information about itself in JSON format."
+        },
+        "hints": [
+          {
+            "id": "hint-1",
+            "level": 1,
+            "content": "Start by creating a Server instance with a configuration object containing name and version properties.",
+            "revealDelay": 60
+          },
+          {
+            "id": "hint-2",
+            "level": 2,
+            "content": "Use `server.setRequestHandler('resources/list', async () => { ... })` to handle resource listing requests. Return an object with a `resources` array.",
+            "revealDelay": 120
+          },
+          {
+            "id": "hint-3",
+            "level": 3,
+            "content": "Don't forget to create the transport with `new StdioServerTransport()` and connect it using `await server.connect(transport)`.",
+            "codeSnippet": "const transport = new StdioServerTransport();\nawait server.connect(transport);",
+            "revealDelay": 180
+          }
+        ],
+        "validation": [
+          {
+            "id": "server-created",
+            "type": "structure",
+            "description": "Server instance is created correctly",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "new Server\\(",
+                "message": "Create a new Server instance"
+              }
+            },
+            "errorMessage": "You need to create a new Server instance",
+            "successMessage": "Great! Server instance created successfully"
+          },
+          {
+            "id": "resource-handler",
+            "type": "structure",
+            "description": "Resource list handler is implemented",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "setRequestHandler\\(['\"]resources/list",
+                "message": "Add a resources/list handler"
+              }
+            },
+            "errorMessage": "Add a handler for 'resources/list' requests",
+            "successMessage": "Perfect! Resource handler is set up"
+          },
+          {
+            "id": "transport-connected",
+            "type": "structure",
+            "description": "Transport is connected to server",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "server\\.connect\\(",
+                "message": "Connect the transport to the server"
+              }
+            },
+            "errorMessage": "Don't forget to connect the transport to your server",
+            "successMessage": "Excellent! Your server is ready to run"
+          }
+        ],
+        "difficulty": "easy",
+        "concepts": ["mcp-server", "transport", "resources"]
+      }
+    },
+    {
+      "id": "testing",
+      "title": "Testing Your MCP Server",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#testing",
+        "codeExamples": [
+          {
+            "id": "package-scripts",
+            "title": "Package.json Scripts",
+            "description": "Add convenient scripts for development",
+            "language": "json",
+            "code": "{\n  \"name\": \"my-first-mcp-server\",\n  \"version\": \"1.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"tsx watch src/index.ts\",\n    \"build\": \"tsc\",\n    \"start\": \"node dist/index.js\",\n    \"test\": \"npx @modelcontextprotocol/inspector\"\n  },\n  // ... other fields\n}",
+            "fileName": "package.json",
+            "highlightLines": [4, 5, 6, 7, 8],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "project-structure",
+      "title": "Project Structure Best Practices",
+      "type": "content", 
+      "order": 6,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#project-structure",
+        "codeExamples": [
+          {
+            "id": "folder-structure",
+            "title": "Recommended Project Structure",
+            "description": "Organize your MCP server for maintainability",
+            "language": "text",
+            "code": "my-mcp-server/\n├── src/\n│   ├── index.ts          # Main server entry point\n│   ├── handlers/         # Request handlers\n│   │   ├── resources.ts  # Resource handlers\n│   │   └── tools.ts      # Tool handlers\n│   ├── providers/        # Business logic\n│   │   ├── database.ts   # Database connections\n│   │   └── files.ts      # File system operations\n│   └── types/            # TypeScript type definitions\n├── dist/                 # Compiled output\n├── tests/                # Test files\n├── .gitignore\n├── package.json\n├── tsconfig.json\n└── README.md",
+            "runnable": false
+          }
+        ]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "mcp-sdk-docs",
+      "title": "MCP SDK Documentation",
+      "type": "reference",
+      "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+      "description": "Official TypeScript SDK documentation and examples",
+      "required": true
+    },
+    {
+      "id": "mcp-inspector",
+      "title": "MCP Inspector",
+      "type": "tool",
+      "url": "https://github.com/modelcontextprotocol/inspector",
+      "description": "Tool for testing and debugging MCP servers",
+      "required": true
+    },
+    {
+      "id": "typescript-docs",
+      "title": "TypeScript Documentation",
+      "type": "reference",
+      "url": "https://www.typescriptlang.org/docs/",
+      "description": "Official TypeScript language documentation",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["prerequisites", "installing-tools", "project-setup", "first-server"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "templates": {
+    "basic-example": {
+      "id": "example-id",
+      "title": "Example Title",
+      "description": "Brief description of what this example demonstrates",
+      "language": "typescript",
+      "code": "// Your code here\nconsole.log('Hello, World!');",
+      "highlightLines": [],
+      "runnable": false,
+      "expectedOutput": "",
+      "dependencies": [],
+      "setup": ""
+    },
+    "runnable-example": {
+      "id": "runnable-example",
+      "title": "Interactive Code Example",
+      "description": "This example can be executed in the playground",
+      "language": "typescript",
+      "code": "// This code can be run in the playground\nfunction greet(name: string): string {\n  return `Hello, ${name}!`;\n}\n\nconsole.log(greet('Learner'));",
+      "highlightLines": [2, 3],
+      "runnable": true,
+      "expectedOutput": "Hello, Learner!",
+      "dependencies": [],
+      "setup": "// Any setup code that runs before the example"
+    },
+    "mcp-server-example": {
+      "id": "mcp-server-basic",
+      "title": "Basic MCP Server",
+      "description": "A minimal MCP server implementation",
+      "language": "typescript",
+      "code": "import { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\nconst server = new Server({\n  name: 'example-server',\n  version: '1.0.0',\n});\n\n// Add a simple resource\nserver.setRequestHandler('resources/list', async () => {\n  return {\n    resources: [{\n      uri: 'example://resource',\n      name: 'Example Resource',\n      description: 'A simple example resource'\n    }]\n  };\n});\n\nconst transport = new StdioServerTransport();\nawait server.connect(transport);",
+      "highlightLines": [4, 5, 6, 10, 11, 12, 13, 14, 15, 16, 17],
+      "runnable": false,
+      "expectedOutput": "",
+      "dependencies": ["@modelcontextprotocol/sdk"],
+      "setup": ""
+    },
+    "agent-example": {
+      "id": "agent-basic",
+      "title": "Simple AI Agent",
+      "description": "A basic agent that can plan and execute tasks",
+      "language": "typescript",
+      "code": "interface AgentTask {\n  id: string;\n  description: string;\n  status: 'pending' | 'in-progress' | 'completed';\n}\n\nclass SimpleAgent {\n  private tasks: AgentTask[] = [];\n\n  async plan(goal: string): Promise<AgentTask[]> {\n    // Simplified planning logic\n    const tasks = [\n      { id: '1', description: 'Analyze the goal', status: 'pending' as const },\n      { id: '2', description: 'Break down into steps', status: 'pending' as const },\n      { id: '3', description: 'Execute each step', status: 'pending' as const }\n    ];\n    this.tasks = tasks;\n    return tasks;\n  }\n\n  async execute(): Promise<void> {\n    for (const task of this.tasks) {\n      task.status = 'in-progress';\n      console.log(`Executing: ${task.description}`);\n      // Simulate task execution\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      task.status = 'completed';\n      console.log(`Completed: ${task.description}`);\n    }\n  }\n}",
+      "highlightLines": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+      "runnable": true,
+      "expectedOutput": "Executing: Analyze the goal\nCompleted: Analyze the goal\nExecuting: Break down into steps\nCompleted: Break down into steps\nExecuting: Execute each step\nCompleted: Execute each step",
+      "dependencies": [],
+      "setup": ""
+    },
+    "validation-example": {
+      "id": "validation-example",
+      "title": "Input Validation",
+      "description": "Example of validating user input",
+      "language": "typescript",
+      "code": "interface ValidationResult {\n  valid: boolean;\n  errors: string[];\n}\n\nfunction validateEmail(email: string): ValidationResult {\n  const errors: string[] = [];\n  \n  if (!email) {\n    errors.push('Email is required');\n  } else if (!email.includes('@')) {\n    errors.push('Email must contain @');\n  } else if (!email.match(/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/)) {\n    errors.push('Invalid email format');\n  }\n  \n  return {\n    valid: errors.length === 0,\n    errors\n  };\n}\n\n// Test the validation\nconsole.log(validateEmail(''));           // { valid: false, errors: ['Email is required'] }\nconsole.log(validateEmail('invalid'));    // { valid: false, errors: ['Email must contain @'] }\nconsole.log(validateEmail('test@example.com')); // { valid: true, errors: [] }",
+      "highlightLines": [6, 13, 14, 17, 18, 19],
+      "runnable": true,
+      "expectedOutput": "{ valid: false, errors: ['Email is required'] }\n{ valid: false, errors: ['Email must contain @'] }\n{ valid: true, errors: [] }",
+      "dependencies": [],
+      "setup": ""
+    }
+  },
+  "categories": {
+    "basics": ["basic-example", "runnable-example"],
+    "mcp": ["mcp-server-example"],
+    "agents": ["agent-example"],
+    "validation": ["validation-example"]
+  },
+  "usage": {
+    "mdx": "Use <CodeExample {...example} /> component in MDX files",
+    "json": "Reference by ID in module JSON files",
+    "playground": "Set runnable: true for playground execution"
+  }
+}

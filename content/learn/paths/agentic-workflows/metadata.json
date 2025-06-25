@@ -1,0 +1,53 @@
+{
+  "id": "agentic-workflows",
+  "title": "Agentic AI Workflows",
+  "description": "Design intelligent systems that can reason, plan, and execute complex tasks autonomously with human oversight.",
+  "level": "Intermediate",
+  "difficulty": "intermediate",
+  "duration": "6-8 hours",
+  "totalDuration": "7 hours",
+  "version": "1.0.0",
+  "lastUpdated": "2024-01-15",
+  "author": "Brandon Redmond",
+  "topics": [
+    "Agent Architecture",
+    "Planning Systems",
+    "Tool Use",
+    "Human-in-Loop"
+  ],
+  "prerequisites": ["mcp-fundamentals"],
+  "outcomes": [
+    "Design agent architectures for complex tasks",
+    "Implement planning and reasoning systems",
+    "Build human-in-the-loop workflows",
+    "Create production-ready agentic systems"
+  ],
+  "modules": [
+    "01-agent-architecture-patterns",
+    "02-building-planning-systems",
+    "03-tool-orchestration",
+    "04-human-in-the-loop-design",
+    "05-build-research-agent"
+  ],
+  "resources": [
+    {
+      "title": "ReAct: Synergizing Reasoning and Acting",
+      "type": "reference",
+      "url": "https://arxiv.org/abs/2210.03629",
+      "required": false
+    },
+    {
+      "title": "LangChain Documentation",
+      "type": "reference",
+      "url": "https://docs.langchain.com/",
+      "required": false
+    }
+  ],
+  "tags": [
+    "agentic-ai",
+    "planning",
+    "tool-use",
+    "human-in-loop",
+    "autonomous-systems"
+  ]
+}

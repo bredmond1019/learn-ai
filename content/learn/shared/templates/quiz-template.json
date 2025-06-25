@@ -1,0 +1,221 @@
+{
+  "template": {
+    "type": "quiz",
+    "title": "Quiz Title",
+    "description": "Brief description of what this quiz covers",
+    "questions": [],
+    "passingScore": 70,
+    "allowRetries": true,
+    "showCorrectAnswers": true,
+    "randomizeQuestions": false,
+    "timeLimit": null
+  },
+  "question_templates": {
+    "multiple_choice": {
+      "id": "q1",
+      "type": "multiple-choice",
+      "question": "What is the correct answer?",
+      "points": 1,
+      "explanation": "This is shown after answering to explain the concept",
+      "category": "basics",
+      "difficulty": "easy",
+      "options": [
+        {
+          "id": "a",
+          "text": "Option A",
+          "explanation": "Why this is correct/incorrect"
+        },
+        {
+          "id": "b",
+          "text": "Option B",
+          "explanation": "Why this is correct/incorrect"
+        },
+        {
+          "id": "c",
+          "text": "Option C",
+          "explanation": "Why this is correct/incorrect"
+        },
+        {
+          "id": "d",
+          "text": "Option D",
+          "explanation": "Why this is correct/incorrect"
+        }
+      ],
+      "correctAnswers": ["a"],
+      "randomizeOptions": true
+    },
+    "true_false": {
+      "id": "q2",
+      "type": "true-false",
+      "question": "This statement is true.",
+      "points": 1,
+      "correctAnswer": true,
+      "explanation": "Explanation of why this is true/false",
+      "category": "concepts",
+      "difficulty": "easy"
+    },
+    "short_answer": {
+      "id": "q3",
+      "type": "short-answer",
+      "question": "What is the command to create a new MCP server?",
+      "points": 2,
+      "acceptableAnswers": [
+        "npm init mcp-server",
+        "npx create-mcp-server",
+        "create-mcp-server"
+      ],
+      "caseSensitive": false,
+      "partialCredit": true,
+      "explanation": "Any of these commands can be used to create a new MCP server",
+      "category": "commands",
+      "difficulty": "medium"
+    },
+    "code_question": {
+      "id": "q4",
+      "type": "code",
+      "question": "Write a function that returns the sum of two numbers",
+      "points": 3,
+      "language": "typescript",
+      "starterCode": "function sum(a: number, b: number): number {\n  // Your code here\n}",
+      "validation": [
+        {
+          "id": "syntax",
+          "type": "syntax",
+          "description": "Valid TypeScript syntax",
+          "validator": {
+            "type": "typescript-syntax",
+            "params": {}
+          },
+          "errorMessage": "Syntax error in your code",
+          "successMessage": "Syntax is correct"
+        }
+      ],
+      "testCases": [
+        {
+          "id": "test1",
+          "description": "sum(1, 2) returns 3",
+          "input": [1, 2],
+          "expectedOutput": 3,
+          "hidden": false,
+          "weight": 1
+        },
+        {
+          "id": "test2",
+          "description": "sum(-1, 1) returns 0",
+          "input": [-1, 1],
+          "expectedOutput": 0,
+          "hidden": false,
+          "weight": 1
+        }
+      ],
+      "explanation": "The sum function should add the two parameters and return the result",
+      "category": "implementation",
+      "difficulty": "easy"
+    },
+    "matching": {
+      "id": "q5",
+      "type": "matching",
+      "question": "Match the MCP concepts with their descriptions",
+      "points": 2,
+      "items": [
+        {
+          "id": "item1",
+          "content": "Resources",
+          "correctMatchId": "match1"
+        },
+        {
+          "id": "item2",
+          "content": "Tools",
+          "correctMatchId": "match2"
+        },
+        {
+          "id": "item3",
+          "content": "Prompts",
+          "correctMatchId": "match3"
+        }
+      ],
+      "matches": [
+        {
+          "id": "match1",
+          "content": "Expose data and content to AI"
+        },
+        {
+          "id": "match2",
+          "content": "Enable AI to perform actions"
+        },
+        {
+          "id": "match3",
+          "content": "Provide reusable prompt templates"
+        }
+      ],
+      "randomizeItems": true,
+      "explanation": "Understanding these core MCP concepts is essential",
+      "category": "concepts",
+      "difficulty": "medium"
+    },
+    "ordering": {
+      "id": "q6",
+      "type": "ordering",
+      "question": "Put these MCP server setup steps in the correct order",
+      "points": 2,
+      "items": [
+        {
+          "id": "step1",
+          "content": "Import MCP SDK"
+        },
+        {
+          "id": "step2",
+          "content": "Create server instance"
+        },
+        {
+          "id": "step3",
+          "content": "Add handlers"
+        },
+        {
+          "id": "step4",
+          "content": "Connect transport"
+        }
+      ],
+      "correctOrder": ["step1", "step2", "step3", "step4"],
+      "explanation": "The correct order ensures proper server initialization",
+      "category": "procedures",
+      "difficulty": "medium"
+    }
+  },
+  "example_quizzes": {
+    "mcp_basics": {
+      "title": "MCP Fundamentals Quiz",
+      "description": "Test your understanding of Model Context Protocol basics",
+      "passingScore": 70,
+      "categories": ["concepts", "architecture", "implementation"]
+    },
+    "agent_patterns": {
+      "title": "Agent Architecture Patterns",
+      "description": "Assess your knowledge of agentic AI design patterns",
+      "passingScore": 75,
+      "categories": ["patterns", "architecture", "best-practices"]
+    },
+    "production_readiness": {
+      "title": "Production AI Systems",
+      "description": "Evaluate your readiness to deploy AI systems to production",
+      "passingScore": 80,
+      "categories": ["deployment", "monitoring", "security"]
+    }
+  },
+  "scoring_guidelines": {
+    "points_distribution": {
+      "easy": 1,
+      "medium": 2,
+      "hard": 3
+    },
+    "partial_credit": {
+      "short_answer": "Award partial points for partially correct answers",
+      "code": "Based on passed test cases",
+      "matching": "Points per correct match"
+    },
+    "time_bonuses": {
+      "enabled": false,
+      "description": "Optional: Award bonus points for quick completion"
+    }
+  }
+}

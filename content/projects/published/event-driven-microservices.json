@@ -1,0 +1,74 @@
+{
+  "slug": "event-driven-microservices",
+  "title": "Event-Driven Microservices Platform",
+  "description": "Scalable event-driven microservices platform built with Node.js, Apache Kafka, and Docker, featuring automated deployment, monitoring, and fault tolerance patterns used in production by 3 enterprise clients.",
+  "longDescription": "Architected and implemented a comprehensive event-driven microservices platform that enables organizations to build scalable, resilient distributed systems. This project combines Brandon's systems architecture expertise with modern cloud-native technologies to create a platform that handles high-throughput event processing while maintaining data consistency and operational simplicity.\n\nThe platform provides a complete ecosystem for event-driven architecture including event sourcing, CQRS patterns, saga orchestration, and distributed tracing. It emphasizes developer productivity through comprehensive tooling, automated testing, and deployment pipelines, while maintaining production-grade reliability through built-in fault tolerance and monitoring.\n\nCurrently deployed in production environments processing millions of events daily, the platform has proven its scalability and reliability across diverse use cases from e-commerce to financial services.",
+  "tags": ["Node.js", "Microservices", "Apache Kafka", "Docker", "Kubernetes", "Event Sourcing", "CQRS"],
+  "featured": true,
+  "icon": "Network",
+  "isPrivate": false,
+  "githubUrl": "https://github.com/brandonjredmond/event-driven-microservices",
+  "demoUrl": "https://microservices-demo.brandonredmond.dev",
+  "techStack": [
+    {
+      "category": "Core Platform",
+      "items": ["Node.js", "TypeScript", "Apache Kafka", "Redis", "PostgreSQL", "MongoDB"]
+    },
+    {
+      "category": "Container Orchestration",
+      "items": ["Docker", "Kubernetes", "Helm", "Istio Service Mesh", "Ambassador Gateway"]
+    },
+    {
+      "category": "Monitoring & Observability",
+      "items": ["Prometheus", "Grafana", "Jaeger", "ELK Stack", "Sentry", "DataDog"]
+    },
+    {
+      "category": "Development & CI/CD",
+      "items": ["GitHub Actions", "Terraform", "Pulumi", "Jest", "Cucumber", "SonarQube"]
+    }
+  ],
+  "features": [
+    "Event sourcing with automatic snapshot management",
+    "CQRS implementation with optimized read/write models",
+    "Saga pattern orchestration for distributed transactions",
+    "Automatic service discovery and load balancing",
+    "Built-in circuit breakers and retry mechanisms",
+    "Comprehensive monitoring and alerting system",
+    "Blue-green deployment with canary release support",
+    "Multi-tenant architecture with resource isolation"
+  ],
+  "challenges": [
+    "Maintaining data consistency across distributed services",
+    "Implementing efficient event replay and reprocessing mechanisms",
+    "Designing fault-tolerant saga orchestration patterns",
+    "Optimizing Kafka partition strategies for high throughput",
+    "Creating comprehensive integration testing for distributed systems"
+  ],
+  "outcomes": [
+    { "metric": "Production Deployments", "value": "3 enterprises" },
+    { "metric": "Daily Event Volume", "value": "5M+ events" },
+    { "metric": "Service Uptime", "value": "99.9%" },
+    { "metric": "Deployment Frequency", "value": "15+ per day" },
+    { "metric": "Mean Recovery Time", "value": "< 2 minutes" }
+  ],
+  "educational": [
+    "Event sourcing principles and implementation patterns",
+    "CQRS design patterns and read model optimization",
+    "Distributed system consistency models and trade-offs",
+    "Saga pattern implementations for complex business workflows",
+    "Kafka optimization techniques for high-throughput scenarios",
+    "Microservices monitoring and observability best practices"
+  ],
+  "codeSnippets": [
+    {
+      "title": "Event Sourcing Base Implementation",
+      "language": "typescript",
+      "code": "import { EventStore, Event, AggregateRoot } from './event-store';\nimport { v4 as uuidv4 } from 'uuid';\n\n// Base aggregate root with event sourcing capabilities\nexport abstract class EventSourcedAggregate {\n  private _id: string;\n  private _version: number = 0;\n  private _uncommittedEvents: Event[] = [];\n  \n  constructor(id?: string) {\n    this._id = id || uuidv4();\n  }\n  \n  get id(): string { return this._id; }\n  get version(): number { return this._version; }\n  get uncommittedEvents(): Event[] { return [...this._uncommittedEvents]; }\n  \n  // Apply event and update state\n  protected applyEvent(event: Event): void {\n    this._uncommittedEvents.push(event);\n    this.mutate(event);\n    this._version++;\n  }\n  \n  // Replay events to rebuild state\n  public replayEvents(events: Event[]): void {\n    events.forEach(event => {\n      this.mutate(event);\n      this._version++;\n    });\n  }\n  \n  // Mark events as committed\n  public markEventsAsCommitted(): void {\n    this._uncommittedEvents = [];\n  }\n  \n  // Abstract method for state mutations\n  protected abstract mutate(event: Event): void;\n}\n\n// Example Order aggregate\nexport class Order extends EventSourcedAggregate {\n  private _customerId: string;\n  private _items: OrderItem[] = [];\n  private _status: OrderStatus = OrderStatus.Pending;\n  private _totalAmount: number = 0;\n  \n  constructor(id?: string) {\n    super(id);\n  }\n  \n  // Business logic methods\n  public static create(customerId: string, items: OrderItem[]): Order {\n    const order = new Order();\n    order.applyEvent(new OrderCreatedEvent({\n      orderId: order.id,\n      customerId,\n      items,\n      timestamp: new Date()\n    }));\n    return order;\n  }\n  \n  public addItem(item: OrderItem): void {\n    if (this._status !== OrderStatus.Pending) {\n      throw new Error('Cannot add items to confirmed order');\n    }\n    \n    this.applyEvent(new OrderItemAddedEvent({\n      orderId: this.id,\n      item,\n      timestamp: new Date()\n    }));\n  }\n  \n  public confirm(): void {\n    if (this._items.length === 0) {\n      throw new Error('Cannot confirm empty order');\n    }\n    \n    this.applyEvent(new OrderConfirmedEvent({\n      orderId: this.id,\n      totalAmount: this._totalAmount,\n      timestamp: new Date()\n    }));\n  }\n  \n  // State mutation based on events\n  protected mutate(event: Event): void {\n    switch (event.type) {\n      case 'OrderCreated':\n        const created = event as OrderCreatedEvent;\n        this._customerId = created.data.customerId;\n        this._items = created.data.items;\n        this._totalAmount = this.calculateTotal();\n        break;\n        \n      case 'OrderItemAdded':\n        const itemAdded = event as OrderItemAddedEvent;\n        this._items.push(itemAdded.data.item);\n        this._totalAmount = this.calculateTotal();\n        break;\n        \n      case 'OrderConfirmed':\n        this._status = OrderStatus.Confirmed;\n        break;\n        \n      default:\n        throw new Error(`Unknown event type: ${event.type}`);\n    }\n  }\n  \n  private calculateTotal(): number {\n    return this._items.reduce((sum, item) => sum + item.price * item.quantity, 0);\n  }\n}\n\n// Event definitions\nclass OrderCreatedEvent extends Event {\n  type = 'OrderCreated';\n  constructor(public data: {\n    orderId: string;\n    customerId: string;\n    items: OrderItem[];\n    timestamp: Date;\n  }) {\n    super();\n  }\n}\n\nclass OrderItemAddedEvent extends Event {\n  type = 'OrderItemAdded';\n  constructor(public data: {\n    orderId: string;\n    item: OrderItem;\n    timestamp: Date;\n  }) {\n    super();\n  }\n}\n\nclass OrderConfirmedEvent extends Event {\n  type = 'OrderConfirmed';\n  constructor(public data: {\n    orderId: string;\n    totalAmount: number;\n    timestamp: Date;\n  }) {\n    super();\n  }\n}"
+    },
+    {
+      "title": "Saga Orchestration Pattern",
+      "language": "typescript",
+      "code": "import { EventBus } from './event-bus';\nimport { Logger } from './logger';\n\n// Saga orchestrator for distributed transactions\nexport class OrderProcessingSaga {\n  private logger = new Logger('OrderProcessingSaga');\n  private eventBus: EventBus;\n  private state: SagaState = SagaState.NotStarted;\n  private compensationActions: CompensationAction[] = [];\n  \n  constructor(eventBus: EventBus) {\n    this.eventBus = eventBus;\n    this.setupEventHandlers();\n  }\n  \n  private setupEventHandlers(): void {\n    this.eventBus.subscribe('OrderConfirmed', this.handleOrderConfirmed.bind(this));\n    this.eventBus.subscribe('PaymentProcessed', this.handlePaymentProcessed.bind(this));\n    this.eventBus.subscribe('InventoryReserved', this.handleInventoryReserved.bind(this));\n    this.eventBus.subscribe('ShippingScheduled', this.handleShippingScheduled.bind(this));\n    \n    // Error handling\n    this.eventBus.subscribe('PaymentFailed', this.handlePaymentFailed.bind(this));\n    this.eventBus.subscribe('InventoryNotAvailable', this.handleInventoryNotAvailable.bind(this));\n  }\n  \n  private async handleOrderConfirmed(event: OrderConfirmedEvent): Promise<void> {\n    this.logger.info(`Starting order processing saga for order ${event.orderId}`);\n    this.state = SagaState.InProgress;\n    \n    try {\n      // Step 1: Process payment\n      await this.processPayment(event.orderId, event.totalAmount);\n      this.compensationActions.push({\n        action: 'RefundPayment',\n        orderId: event.orderId,\n        amount: event.totalAmount\n      });\n      \n    } catch (error) {\n      this.logger.error('Failed to process payment', error);\n      await this.executeSagaCompensation();\n    }\n  }\n  \n  private async handlePaymentProcessed(event: PaymentProcessedEvent): Promise<void> {\n    this.logger.info(`Payment processed for order ${event.orderId}`);\n    \n    try {\n      // Step 2: Reserve inventory\n      await this.reserveInventory(event.orderId);\n      this.compensationActions.push({\n        action: 'ReleaseInventory',\n        orderId: event.orderId\n      });\n      \n    } catch (error) {\n      this.logger.error('Failed to reserve inventory', error);\n      await this.executeSagaCompensation();\n    }\n  }\n  \n  private async handleInventoryReserved(event: InventoryReservedEvent): Promise<void> {\n    this.logger.info(`Inventory reserved for order ${event.orderId}`);\n    \n    try {\n      // Step 3: Schedule shipping\n      await this.scheduleShipping(event.orderId);\n      this.compensationActions.push({\n        action: 'CancelShipping',\n        orderId: event.orderId\n      });\n      \n    } catch (error) {\n      this.logger.error('Failed to schedule shipping', error);\n      await this.executeSagaCompensation();\n    }\n  }\n  \n  private async handleShippingScheduled(event: ShippingScheduledEvent): Promise<void> {\n    this.logger.info(`Shipping scheduled for order ${event.orderId}`);\n    \n    // Saga completed successfully\n    this.state = SagaState.Completed;\n    this.compensationActions = []; // Clear compensation actions\n    \n    // Publish order processing completed event\n    await this.eventBus.publish(new OrderProcessingCompletedEvent({\n      orderId: event.orderId,\n      timestamp: new Date()\n    }));\n  }\n  \n  // Compensation handlers\n  private async handlePaymentFailed(event: PaymentFailedEvent): Promise<void> {\n    this.logger.error(`Payment failed for order ${event.orderId}: ${event.reason}`);\n    await this.executeSagaCompensation();\n  }\n  \n  private async handleInventoryNotAvailable(event: InventoryNotAvailableEvent): Promise<void> {\n    this.logger.error(`Inventory not available for order ${event.orderId}`);\n    await this.executeSagaCompensation();\n  }\n  \n  // Execute compensation actions in reverse order\n  private async executeSagaCompensation(): Promise<void> {\n    this.logger.info('Executing saga compensation actions');\n    this.state = SagaState.Compensating;\n    \n    // Execute compensation actions in reverse order\n    for (let i = this.compensationActions.length - 1; i >= 0; i--) {\n      const action = this.compensationActions[i];\n      \n      try {\n        await this.executeCompensationAction(action);\n        this.logger.info(`Compensation action ${action.action} completed`);\n      } catch (error) {\n        this.logger.error(`Compensation action ${action.action} failed`, error);\n        // Continue with other compensation actions\n      }\n    }\n    \n    this.state = SagaState.Compensated;\n    this.compensationActions = [];\n  }\n  \n  private async executeCompensationAction(action: CompensationAction): Promise<void> {\n    switch (action.action) {\n      case 'RefundPayment':\n        await this.eventBus.publish(new RefundPaymentCommand({\n          orderId: action.orderId,\n          amount: action.amount\n        }));\n        break;\n        \n      case 'ReleaseInventory':\n        await this.eventBus.publish(new ReleaseInventoryCommand({\n          orderId: action.orderId\n        }));\n        break;\n        \n      case 'CancelShipping':\n        await this.eventBus.publish(new CancelShippingCommand({\n          orderId: action.orderId\n        }));\n        break;\n    }\n  }\n  \n  // Saga step implementations\n  private async processPayment(orderId: string, amount: number): Promise<void> {\n    await this.eventBus.publish(new ProcessPaymentCommand({\n      orderId,\n      amount,\n      timestamp: new Date()\n    }));\n  }\n  \n  private async reserveInventory(orderId: string): Promise<void> {\n    await this.eventBus.publish(new ReserveInventoryCommand({\n      orderId,\n      timestamp: new Date()\n    }));\n  }\n  \n  private async scheduleShipping(orderId: string): Promise<void> {\n    await this.eventBus.publish(new ScheduleShippingCommand({\n      orderId,\n      timestamp: new Date()\n    }));\n  }\n}"
+    }
+  ]
+}

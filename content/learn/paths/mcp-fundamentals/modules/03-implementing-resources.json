@@ -1,0 +1,355 @@
+{
+  "metadata": {
+    "id": "implementing-resources",
+    "pathId": "mcp-fundamentals",
+    "title": "Implementing Resource Providers",
+    "description": "Learn how to expose data through MCP resources, handle different data types, and build dynamic resource systems",
+    "duration": "60 minutes",
+    "type": "hands-on",
+    "difficulty": "intermediate",
+    "order": 3,
+    "prerequisites": ["introduction-to-mcp", "setting-up-environment"],
+    "objectives": [
+      "Understand MCP resource architecture and lifecycle",
+      "Implement static and dynamic resource providers",
+      "Handle different MIME types and data formats",
+      "Build paginated and filtered resource lists",
+      "Implement resource subscriptions for real-time updates"
+    ],
+    "tags": ["mcp", "resources", "data-access", "providers", "typescript"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "resource-fundamentals",
+      "title": "Understanding MCP Resources",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-implementing-resources.mdx#resource-fundamentals",
+        "codeExamples": [
+          {
+            "id": "resource-structure",
+            "title": "Resource Structure",
+            "description": "The anatomy of an MCP resource",
+            "language": "typescript",
+            "code": "interface Resource {\n  uri: string;          // Unique identifier\n  name: string;         // Human-readable name\n  description?: string; // Optional description\n  mimeType?: string;    // Content type (default: text/plain)\n}\n\ninterface ResourceContent {\n  uri: string;\n  mimeType: string;\n  text?: string;        // Text content\n  blob?: string;        // Base64-encoded binary\n}",
+            "highlightLines": [2, 9, 10, 11],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "static-resources",
+      "title": "Creating Static Resources",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-implementing-resources.mdx#static-resources",
+        "codeExamples": [
+          {
+            "id": "static-resource-example",
+            "title": "Static Resource Implementation",
+            "description": "Expose configuration and metadata as resources",
+            "language": "typescript",
+            "code": "// Define static resources\nconst staticResources = [\n  {\n    uri: 'config://app/settings',\n    name: 'Application Settings',\n    description: 'Current application configuration',\n    mimeType: 'application/json'\n  },\n  {\n    uri: 'config://app/version',\n    name: 'Version Information',\n    description: 'Application version and build info',\n    mimeType: 'application/json'\n  }\n];\n\n// Implement list handler\nserver.setRequestHandler('resources/list', async () => {\n  return { resources: staticResources };\n});\n\n// Implement read handler\nserver.setRequestHandler('resources/read', async (request) => {\n  const { uri } = request.params;\n  \n  switch (uri) {\n    case 'config://app/settings':\n      return {\n        contents: [{\n          uri,\n          mimeType: 'application/json',\n          text: JSON.stringify({\n            theme: 'dark',\n            language: 'en',\n            debugMode: false\n          }, null, 2)\n        }]\n      };\n      \n    case 'config://app/version':\n      return {\n        contents: [{\n          uri,\n          mimeType: 'application/json',\n          text: JSON.stringify({\n            version: '1.0.0',\n            buildDate: new Date().toISOString(),\n            nodeVersion: process.version\n          }, null, 2)\n        }]\n      };\n      \n    default:\n      throw new Error(`Resource not found: ${uri}`);\n  }\n});",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "dynamic-resources",
+      "title": "Building Dynamic Resource Providers",
+      "type": "exercise",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Create a File System Resource Provider",
+        "description": "Build a resource provider that dynamically exposes files from a directory",
+        "instructions": [
+          "Create a FileSystemProvider class that implements resource listing",
+          "Scan a directory and expose each file as a resource",
+          "Use appropriate MIME types based on file extensions",
+          "Implement the read handler to return file contents",
+          "Handle errors gracefully (file not found, permission denied)",
+          "Add support for nested directories using recursive scanning",
+          "Implement file watching for automatic updates"
+        ],
+        "starterCode": {
+          "language": "typescript",
+          "code": "import { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { promises as fs } from 'fs';\nimport path from 'path';\n\nclass FileSystemProvider {\n  constructor(private basePath: string) {}\n  \n  // TODO: Implement listResources method\n  // Should return an array of Resource objects\n  async listResources() {\n    // Hint: Use fs.readdir with { withFileTypes: true }\n    // Convert file paths to URIs like: file:///absolute/path\n  }\n  \n  // TODO: Implement readResource method\n  // Should return ResourceContent for a given URI\n  async readResource(uri: string) {\n    // Hint: Extract file path from URI\n    // Read file content and determine MIME type\n  }\n  \n  // TODO: Add getMimeType helper method\n  private getMimeType(filePath: string): string {\n    // Return appropriate MIME type based on extension\n  }\n}\n\n// TODO: Register the provider with your MCP server\nexport function registerFileSystemProvider(server: Server, basePath: string) {\n  const provider = new FileSystemProvider(basePath);\n  \n  // Register handlers using the provider methods\n}",
+          "fileName": "src/providers/filesystem.ts"
+        },
+        "solution": {
+          "language": "typescript",
+          "code": "import { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { promises as fs } from 'fs';\nimport path from 'path';\nimport { lookup } from 'mime-types';\n\nclass FileSystemProvider {\n  constructor(private basePath: string) {}\n  \n  async listResources() {\n    const resources = [];\n    \n    const scanDirectory = async (dirPath: string) => {\n      const entries = await fs.readdir(dirPath, { withFileTypes: true });\n      \n      for (const entry of entries) {\n        const fullPath = path.join(dirPath, entry.name);\n        const relativePath = path.relative(this.basePath, fullPath);\n        \n        if (entry.isFile()) {\n          const stats = await fs.stat(fullPath);\n          const uri = `file:///${fullPath.replace(/\\\\/g, '/')}`;\n          \n          resources.push({\n            uri,\n            name: relativePath,\n            description: `File: ${stats.size} bytes, modified ${stats.mtime.toISOString()}`,\n            mimeType: this.getMimeType(fullPath)\n          });\n        } else if (entry.isDirectory()) {\n          // Recursively scan subdirectories\n          await scanDirectory(fullPath);\n        }\n      }\n    };\n    \n    await scanDirectory(this.basePath);\n    return resources;\n  }\n  \n  async readResource(uri: string) {\n    // Extract file path from URI\n    const filePath = uri.replace('file:///', '').replace(/\\//g, path.sep);\n    \n    // Security check: ensure file is within basePath\n    const resolvedPath = path.resolve(filePath);\n    const resolvedBase = path.resolve(this.basePath);\n    \n    if (!resolvedPath.startsWith(resolvedBase)) {\n      throw new Error('Access denied: Path outside base directory');\n    }\n    \n    try {\n      const content = await fs.readFile(resolvedPath);\n      const mimeType = this.getMimeType(resolvedPath);\n      \n      // For text files, return as text\n      if (mimeType.startsWith('text/') || \n          mimeType === 'application/json' ||\n          mimeType === 'application/javascript') {\n        return {\n          contents: [{\n            uri,\n            mimeType,\n            text: content.toString('utf-8')\n          }]\n        };\n      }\n      \n      // For binary files, return as base64\n      return {\n        contents: [{\n          uri,\n          mimeType,\n          blob: content.toString('base64')\n        }]\n      };\n    } catch (error) {\n      if (error.code === 'ENOENT') {\n        throw new Error(`File not found: ${filePath}`);\n      }\n      throw error;\n    }\n  }\n  \n  private getMimeType(filePath: string): string {\n    // Use mime-types library or implement custom logic\n    const mimeType = lookup(filePath);\n    return mimeType || 'application/octet-stream';\n  }\n}\n\nexport function registerFileSystemProvider(server: Server, basePath: string) {\n  const provider = new FileSystemProvider(basePath);\n  \n  // Merge with existing resources\n  const existingListHandler = server.getRequestHandler?.('resources/list');\n  \n  server.setRequestHandler('resources/list', async () => {\n    const fileResources = await provider.listResources();\n    \n    if (existingListHandler) {\n      const existing = await existingListHandler();\n      return {\n        resources: [...existing.resources, ...fileResources]\n      };\n    }\n    \n    return { resources: fileResources };\n  });\n  \n  // Merge with existing read handler\n  const existingReadHandler = server.getRequestHandler?.('resources/read');\n  \n  server.setRequestHandler('resources/read', async (request) => {\n    const { uri } = request.params;\n    \n    if (uri.startsWith('file://')) {\n      return provider.readResource(uri);\n    }\n    \n    if (existingReadHandler) {\n      return existingReadHandler(request);\n    }\n    \n    throw new Error(`Unknown resource: ${uri}`);\n  });\n}",
+          "explanation": "## How It Works\n\nThis solution creates a complete file system resource provider:\n\n1. **Directory Scanning**: Recursively scans directories to find all files\n2. **Resource Metadata**: Provides file size and modification time in descriptions\n3. **MIME Type Detection**: Uses the mime-types library for accurate content types\n4. **Security**: Validates that requested files are within the allowed base path\n5. **Content Handling**: Returns text files as strings and binary files as base64\n6. **Error Handling**: Provides clear error messages for common issues\n7. **Integration**: Merges with existing resource handlers rather than replacing them\n\nThe provider can be extended with features like:\n- File watching for real-time updates\n- Filtering by file type or pattern\n- Caching for better performance\n- Compression for large files"
+        },
+        "hints": [
+          {
+            "id": "hint-1",
+            "level": 1,
+            "content": "Start by implementing listResources using fs.readdir. Remember to convert file paths to proper URIs using the file:// scheme.",
+            "revealDelay": 60
+          },
+          {
+            "id": "hint-2",
+            "level": 2,
+            "content": "For MIME type detection, you can use a simple switch statement based on file extensions, or install the 'mime-types' npm package for comprehensive support.",
+            "revealDelay": 120
+          },
+          {
+            "id": "hint-3",
+            "level": 3,
+            "content": "When reading files, check if the content is text or binary. Text files can use the 'text' field, while binary files should use the 'blob' field with base64 encoding.",
+            "codeSnippet": "const content = await fs.readFile(filePath);\nif (isTextFile(mimeType)) {\n  return { text: content.toString('utf-8') };\n} else {\n  return { blob: content.toString('base64') };\n}",
+            "revealDelay": 180
+          }
+        ],
+        "validation": [
+          {
+            "id": "class-structure",
+            "type": "structure",
+            "description": "FileSystemProvider class is properly defined",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "class FileSystemProvider",
+                "message": "Define the FileSystemProvider class"
+              }
+            }
+          },
+          {
+            "id": "list-method",
+            "type": "structure",
+            "description": "listResources method is implemented",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "async listResources\\(",
+                "message": "Implement the listResources method"
+              }
+            }
+          },
+          {
+            "id": "read-method",
+            "type": "structure",
+            "description": "readResource method is implemented",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "async readResource\\(",
+                "message": "Implement the readResource method"
+              }
+            }
+          }
+        ],
+        "difficulty": "intermediate",
+        "concepts": ["resources", "file-system", "mime-types", "async-programming"]
+      }
+    },
+    {
+      "id": "advanced-patterns",
+      "title": "Advanced Resource Patterns",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-implementing-resources.mdx#advanced-patterns",
+        "codeExamples": [
+          {
+            "id": "paginated-resources",
+            "title": "Paginated Resource Lists",
+            "description": "Handle large resource collections with pagination",
+            "language": "typescript",
+            "code": "interface PaginatedListRequest {\n  params: {\n    cursor?: string;\n    limit?: number;\n  };\n}\n\nserver.setRequestHandler('resources/list', async (request: PaginatedListRequest) => {\n  const { cursor, limit = 100 } = request.params;\n  \n  // Get all resources (in practice, from database with LIMIT/OFFSET)\n  const allResources = await getAllResources();\n  \n  // Find starting position\n  const startIndex = cursor \n    ? allResources.findIndex(r => r.uri === cursor) + 1 \n    : 0;\n  \n  // Get page of resources\n  const pageResources = allResources.slice(startIndex, startIndex + limit);\n  \n  // Prepare response with nextCursor\n  const response = {\n    resources: pageResources\n  };\n  \n  // Add next cursor if there are more resources\n  if (startIndex + limit < allResources.length) {\n    response.nextCursor = pageResources[pageResources.length - 1].uri;\n  }\n  \n  return response;\n});",
+            "highlightLines": [8, 9, 15, 16, 19, 26, 27, 28],
+            "runnable": false
+          },
+          {
+            "id": "filtered-resources",
+            "title": "Filtered Resource Lists",
+            "description": "Support filtering resources by type or attributes",
+            "language": "typescript",
+            "code": "interface FilteredListRequest {\n  params: {\n    filter?: {\n      mimeType?: string;\n      uriPattern?: string;\n      tags?: string[];\n    };\n  };\n}\n\nserver.setRequestHandler('resources/list', async (request: FilteredListRequest) => {\n  const { filter } = request.params;\n  let resources = await getAllResources();\n  \n  if (filter) {\n    // Filter by MIME type\n    if (filter.mimeType) {\n      resources = resources.filter(r => r.mimeType === filter.mimeType);\n    }\n    \n    // Filter by URI pattern\n    if (filter.uriPattern) {\n      const pattern = new RegExp(filter.uriPattern);\n      resources = resources.filter(r => pattern.test(r.uri));\n    }\n    \n    // Filter by tags (if your resources have tags)\n    if (filter.tags && filter.tags.length > 0) {\n      resources = resources.filter(r => \n        r.tags && filter.tags.some(tag => r.tags.includes(tag))\n      );\n    }\n  }\n  \n  return { resources };\n});",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "resource-subscriptions",
+      "title": "Implementing Resource Subscriptions",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-implementing-resources.mdx#resource-subscriptions",
+        "codeExamples": [
+          {
+            "id": "subscription-example",
+            "title": "Resource Update Notifications",
+            "description": "Notify clients when resources change",
+            "language": "typescript",
+            "code": "import { EventEmitter } from 'events';\n\nclass ResourceManager extends EventEmitter {\n  private resources = new Map<string, Resource>();\n  \n  updateResource(uri: string, updates: Partial<Resource>) {\n    const existing = this.resources.get(uri);\n    if (!existing) throw new Error('Resource not found');\n    \n    const updated = { ...existing, ...updates };\n    this.resources.set(uri, updated);\n    \n    // Emit update event\n    this.emit('resource:updated', {\n      uri,\n      resource: updated\n    });\n  }\n  \n  deleteResource(uri: string) {\n    if (!this.resources.delete(uri)) {\n      throw new Error('Resource not found');\n    }\n    \n    // Emit delete event\n    this.emit('resource:deleted', { uri });\n  }\n}\n\n// In your server setup\nconst resourceManager = new ResourceManager();\n\n// Subscribe to changes\nresourceManager.on('resource:updated', ({ uri, resource }) => {\n  // Send notification to connected clients\n  server.sendNotification('resources/updated', { uri, resource });\n});\n\nresourceManager.on('resource:deleted', ({ uri }) => {\n  server.sendNotification('resources/deleted', { uri });\n});",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Test Your Knowledge",
+      "type": "quiz",
+      "order": 6,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Resource Implementation Quiz",
+        "description": "Check your understanding of MCP resource providers",
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "What is the primary purpose of MCP resources?",
+            "points": 1,
+            "options": [
+              {
+                "id": "a",
+                "text": "To execute actions and modify data",
+                "explanation": "Incorrect. This describes tools, not resources."
+              },
+              {
+                "id": "b",
+                "text": "To provide read-only access to data",
+                "explanation": "Correct! Resources are for exposing data that AI can read."
+              },
+              {
+                "id": "c",
+                "text": "To manage server configuration",
+                "explanation": "Incorrect. While resources can expose config, that's not their primary purpose."
+              },
+              {
+                "id": "d",
+                "text": "To handle authentication",
+                "explanation": "Incorrect. Authentication is handled separately from resources."
+              }
+            ],
+            "correctAnswers": ["b"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "Which fields are required for a resource?",
+            "points": 2,
+            "options": [
+              {
+                "id": "a",
+                "text": "uri",
+                "explanation": "Correct! URI is required to uniquely identify the resource."
+              },
+              {
+                "id": "b",
+                "text": "name",
+                "explanation": "Correct! Name provides a human-readable identifier."
+              },
+              {
+                "id": "c",
+                "text": "description",
+                "explanation": "Incorrect. Description is optional."
+              },
+              {
+                "id": "d",
+                "text": "mimeType",
+                "explanation": "Incorrect. MIME type is optional (defaults to text/plain)."
+              }
+            ],
+            "correctAnswers": ["a", "b"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q3",
+            "type": "true-false",
+            "question": "Resources can only return text content, not binary data.",
+            "points": 1,
+            "correctAnswer": false,
+            "explanation": "False! Resources can return binary data using the 'blob' field with base64 encoding."
+          },
+          {
+            "id": "q4",
+            "type": "code",
+            "question": "Complete the resource read handler to return JSON content:",
+            "points": 3,
+            "starterCode": "server.setRequestHandler('resources/read', async (request) => {\n  const data = { status: 'active', count: 42 };\n  \n  // TODO: Return the data as a resource content\n  return {\n    contents: [{\n      // Complete this object\n    }]\n  };\n});",
+            "solution": "server.setRequestHandler('resources/read', async (request) => {\n  const data = { status: 'active', count: 42 };\n  \n  return {\n    contents: [{\n      uri: request.params.uri,\n      mimeType: 'application/json',\n      text: JSON.stringify(data, null, 2)\n    }]\n  };\n});",
+            "validationRules": [
+              {
+                "type": "contains",
+                "value": "uri:",
+                "message": "Include the URI from the request"
+              },
+              {
+                "type": "contains",
+                "value": "mimeType:",
+                "message": "Specify the MIME type"
+              },
+              {
+                "type": "contains",
+                "value": "text:",
+                "message": "Include the text content"
+              }
+            ]
+          }
+        ],
+        "passingScore": 70,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "mcp-resources-spec",
+      "title": "MCP Resources Specification",
+      "type": "reference",
+      "url": "https://spec.modelcontextprotocol.io/specification/server/resources/",
+      "description": "Official specification for MCP resources",
+      "required": true
+    },
+    {
+      "id": "mime-types-list",
+      "title": "Common MIME Types",
+      "type": "reference",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types",
+      "description": "Reference for common MIME types",
+      "required": false
+    },
+    {
+      "id": "nodejs-fs",
+      "title": "Node.js File System API",
+      "type": "reference",
+      "url": "https://nodejs.org/api/fs.html",
+      "description": "Node.js file system documentation",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["resource-fundamentals", "static-resources", "dynamic-resources"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

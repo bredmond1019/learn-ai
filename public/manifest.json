@@ -1,0 +1,34 @@
+{
+  "name": "Brandon J. Redmond - AI Engineer Portfolio",
+  "short_name": "Brandon Redmond",
+  "description": "AI Engineer and Technical Leader specializing in agentic systems, MCP servers, and intelligent automation solutions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e40af",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "education", "productivity"],
+  "screenshots": [
+    {
+      "src": "/images/og-image.svg",
+      "sizes": "1200x630",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "Brandon J. Redmond Portfolio Homepage"
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "id": "building-planning-systems",
+    "pathId": "agentic-workflows",
+    "title": "Building Planning Systems",
+    "description": "Learn to design and implement sophisticated planning algorithms that enable AI agents to reason about complex, multi-step tasks and adapt strategies based on changing conditions.",
+    "duration": "120 minutes",
+    "difficulty": "intermediate",
+    "order": 2,
+    "type": "concept",
+    "objectives": [
+      "Understand different planning paradigms and algorithms",
+      "Implement classical planning algorithms (A*, STRIPS, HTN)",
+      "Design hierarchical task networks for complex problems",
+      "Build adaptive replanning systems for dynamic environments",
+      "Create goal-oriented agents with flexible planning capabilities",
+      "Integrate planning with uncertainty and partial observability"
+    ],
+    "prerequisites": [
+      "Agent Architecture Patterns",
+      "Understanding of search algorithms",
+      "Python programming proficiency"
+    ],
+    "tags": [
+      "planning-algorithms",
+      "strips",
+      "hierarchical-planning",
+      "adaptive-planning",
+      "goal-reasoning",
+      "search-algorithms"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 275
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction to Planning Systems",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "60 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-building-planning-systems.mdx",
+        "codeExamples": [
+          {
+            "id": "strips-planner",
+            "title": "STRIPS Planner Implementation",
+            "description": "Classical STRIPS planning algorithm with state space search",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "astar-planner",
+            "title": "A* Planning Algorithm",
+            "description": "Optimal path planning using A* search with heuristics",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Planning System Exercises",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "195 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Planning Algorithm Implementation",
+        "description": "Hands-on exercises for implementing various planning algorithms",
+        "exerciseType": "coding",
+        "difficulty": "hard",
+        "instructions": [
+          "Implement A* planner for robot navigation in a grid world",
+          "Build HTN planner for complex multi-step cooking recipe execution",
+          "Create adaptive planner that handles dynamic obstacles and changing goals",
+          "Test and compare different planning approaches"
+        ],
+        "hints": [
+          "Start with simple grid-based problems before tackling complex domains",
+          "Use appropriate heuristics for efficient search",
+          "Implement robust error handling for planning failures"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Planning Systems Quiz",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Planning Systems Quiz",
+        "description": "Test your understanding of planning algorithms and their applications",
+        "questions": [
+          {
+            "id": "strips_definition",
+            "type": "multiple-choice",
+            "question": "What does STRIPS stand for in AI planning?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Stanford Research Institute Problem Solver"
+              },
+              {
+                "id": "b",
+                "text": "State Transition Rule-based Intelligent Planning System"
+              },
+              {
+                "id": "c",
+                "text": "Simple Task Reduction in Planning Systems"
+              },
+              {
+                "id": "d",
+                "text": "Strategic Task Resolution and Implementation Protocol"
+              }
+            ],
+            "correctAnswer": "a",
+            "explanation": "STRIPS stands for Stanford Research Institute Problem Solver, one of the earliest automated planning systems."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "aima-planning",
+      "title": "Artificial Intelligence: A Modern Approach - Planning Chapter",
+      "type": "reference",
+      "url": "https://aima.cs.berkeley.edu/",
+      "description": "Comprehensive coverage of planning algorithms and techniques",
+      "required": true
+    },
+    {
+      "id": "strips-paper",
+      "title": "STRIPS Planning Algorithm",
+      "type": "paper",
+      "url": "https://ai.stanford.edu/~nilsson/OnlinePubs-Nils/PublishedPapers/strips.pdf",
+      "description": "Original paper on the STRIPS planning algorithm",
+      "required": false
+    },
+    {
+      "id": "htn-planning",
+      "title": "Hierarchical Task Network Planning",
+      "type": "documentation",
+      "url": "https://www.cs.umd.edu/~nau/papers/nau2003htn.pdf",
+      "description": "Comprehensive guide to HTN planning techniques",
+      "required": false
+    },
+    {
+      "id": "uncertainty-planning",
+      "title": "Planning Under Uncertainty",
+      "type": "tutorial",
+      "url": "https://planning.wiki/guide/whatis/uncertainty",
+      "description": "Techniques for planning with uncertain information",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

@@ -1,0 +1,42 @@
+# robots.txt for Brandon J. Redmond's AI Engineer Portfolio
+
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Block API endpoints and private routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /_vercel/
+
+# Encourage crawling of important pages for all locales
+Allow: /en/
+Allow: /pt/
+Allow: /projects/
+Allow: /blog/
+Allow: /learn/
+Allow: /about
+Allow: /contact
+Allow: /co-founder
+
+# Sitemap location
+Sitemap: https://brandon-redmond.dev/sitemap.xml
+
+# Additional metadata for international SEO
+# Geographic targeting: Global with focus on Brazil and USA
+# Languages: English (primary), Portuguese (secondary)
+
+# Crawl delay (optional - remove if causing issues)
+Crawl-delay: 1

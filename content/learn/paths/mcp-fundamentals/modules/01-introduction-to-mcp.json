@@ -1,0 +1,181 @@
+{
+  "metadata": {
+    "id": "introduction-to-mcp",
+    "pathId": "mcp-fundamentals",
+    "title": "What is MCP?",
+    "description": "Understanding the Model Context Protocol and its role in modern AI systems",
+    "duration": "30 minutes",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 1,
+    "prerequisites": [],
+    "objectives": [
+      "Understand what MCP is and why it exists",
+      "Learn the core concepts and terminology",
+      "Explore MCP architecture and components",
+      "Understand use cases and benefits"
+    ],
+    "tags": ["mcp", "introduction", "concepts", "architecture"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction to MCP",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "core-concepts",
+      "title": "Core Concepts",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#core-concepts",
+        "codeExamples": [
+          {
+            "id": "mcp-server-structure",
+            "title": "Basic MCP Server Structure",
+            "description": "A minimal MCP server implementation",
+            "language": "typescript",
+            "code": "import { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\nconst server = new Server({\n  name: 'example-server',\n  version: '1.0.0',\n});\n\n// Add resources and tools here\n\nconst transport = new StdioServerTransport();\nawait server.connect(transport);",
+            "highlightLines": [1, 2, 4, 5, 6],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "architecture",
+      "title": "MCP Architecture",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#architecture",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 4,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Test Your Understanding",
+        "description": "Check your understanding of MCP fundamentals",
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "What does MCP stand for?",
+            "points": 1,
+            "options": [
+              {
+                "id": "a",
+                "text": "Model Context Protocol",
+                "explanation": "Correct! MCP stands for Model Context Protocol."
+              },
+              {
+                "id": "b",
+                "text": "Machine Communication Protocol",
+                "explanation": "Incorrect. MCP stands for Model Context Protocol."
+              },
+              {
+                "id": "c",
+                "text": "Model Configuration Platform",
+                "explanation": "Incorrect. MCP stands for Model Context Protocol."
+              },
+              {
+                "id": "d",
+                "text": "Multi-Channel Processing",
+                "explanation": "Incorrect. MCP stands for Model Context Protocol."
+              }
+            ],
+            "correctAnswers": ["a"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q2",
+            "type": "true-false",
+            "question": "MCP servers can only provide read-only resources to AI applications.",
+            "points": 1,
+            "correctAnswer": false,
+            "explanation": "False! MCP servers can provide both resources (for reading data) and tools (for performing actions)."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "Which of the following are core components of an MCP server?",
+            "points": 2,
+            "options": [
+              {
+                "id": "a",
+                "text": "Resources",
+                "explanation": "Correct! Resources are used to expose data."
+              },
+              {
+                "id": "b",
+                "text": "Tools",
+                "explanation": "Correct! Tools allow AI to perform actions."
+              },
+              {
+                "id": "c",
+                "text": "Prompts",
+                "explanation": "Correct! Prompts can be provided by MCP servers."
+              },
+              {
+                "id": "d",
+                "text": "Databases",
+                "explanation": "Incorrect. While MCP can connect to databases, they are not a core component."
+              }
+            ],
+            "correctAnswers": ["a", "b", "c"],
+            "randomizeOptions": true
+          }
+        ],
+        "passingScore": 70,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "mcp-spec",
+      "title": "MCP Specification",
+      "type": "reference",
+      "url": "https://spec.modelcontextprotocol.io",
+      "description": "The official MCP specification document",
+      "required": false
+    },
+    {
+      "id": "mcp-playground",
+      "title": "MCP Playground",
+      "type": "tool",
+      "url": "https://playground.modelcontextprotocol.io",
+      "description": "Interactive playground to experiment with MCP",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 70,
+    "requiredSections": ["introduction", "core-concepts", "architecture"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

@@ -1,0 +1,75 @@
+import "../globals.css";
+import { Metadata } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getTranslations } from 'next-intl/server';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://brandonjredmond.com'),
+  title: {
+    default: 'Brandon J. Redmond - AI Engineer',
+    template: '%s | Brandon J. Redmond'
+  },
+  description: 'Discover innovative AI engineering projects, insights, and solutions by Brandon J. Redmond.',
+  authors: [{ name: 'Brandon J. Redmond' }],
+  creator: 'Brandon J. Redmond',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://brandonjredmond.com',
+    siteName: 'Brandon J. Redmond Portfolio',
+    title: 'Brandon J. Redmond - AI Engineer',
+    description: 'Discover innovative AI engineering projects, insights, and solutions.',
+    images: [
+      {
+        url: '/images/profile.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Brandon J. Redmond'
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Brandon J. Redmond - AI Engineer',
+    description: 'Discover innovative AI engineering projects, insights, and solutions.',
+    creator: '@brandonjredmond'
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
+
+export default async function RootLayout({
+  children,
+  params
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  
+  // Get messages for the current locale
+  const messages = await getMessages();
+  
+  return (
+    <html lang={locale || 'en'} className="dark">
+      <body className="antialiased bg-background text-foreground min-h-screen flex flex-col">
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Navigation />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
+}
