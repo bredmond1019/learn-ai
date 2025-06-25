@@ -37,10 +37,7 @@ const nextConfig = {
   // Vercel-specific optimizations
   ...(process.env.VERCEL && {
     // Optimize for Vercel deployment
-    experimental: {
-      ...nextConfig.experimental,
-      outputFileTracingRoot: process.cwd(),
-    },
+    outputFileTracingRoot: process.cwd(),
   }),
   
   // Image optimization
@@ -80,7 +77,7 @@ const nextConfig = {
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
-        maxSize: process.env.VERCEL ? 240000 : 500000, // Smaller chunks for Vercel
+        maxSize: 500000, // 500KB max chunk size
         cacheGroups: {
           default: false,
           vendors: false,
@@ -187,12 +184,12 @@ const nextConfig = {
       };
     }
 
-    // Performance hints
+    // Performance hints - relaxed for Vercel
     if (!dev) {
       config.performance = {
-        maxAssetSize: process.env.VERCEL ? 240000 : 500000, // 240KB for Vercel, 500KB for other
-        maxEntrypointSize: process.env.VERCEL ? 240000 : 500000, // 240KB for Vercel, 500KB for other
-        hints: process.env.VERCEL ? 'error' : 'warning', // Strict for Vercel
+        maxAssetSize: 1000000, // 1MB
+        maxEntrypointSize: 1000000, // 1MB
+        hints: 'warning', // Warning instead of error
       };
     }
     

@@ -6,7 +6,7 @@
   "tags": ["Rust", "AI Platform", "Event Sourcing", "Microservices", "MCP", "WebAssembly"],
   "featured": false,
   "icon": "Zap",
-  "isPrivate": false,
+  "isPrivate": true,
   "githubUrl": "https://github.com/bredmond1019/workflow-engine-rs",
   "demoUrl": null,
   "techStack": [

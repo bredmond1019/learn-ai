@@ -6,7 +6,7 @@
   "tags": ["Node.js", "Microservices", "Apache Kafka", "Docker", "Kubernetes", "Event Sourcing", "CQRS"],
   "featured": true,
   "icon": "Network",
-  "isPrivate": false,
+  "isPrivate": true,
   "githubUrl": "https://github.com/brandonjredmond/event-driven-microservices",
   "demoUrl": "https://microservices-demo.brandonredmond.dev",
   "techStack": [

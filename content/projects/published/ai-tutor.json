@@ -6,7 +6,7 @@
   "tags": ["Python", "FastAPI", "MCP", "AI Agents", "Education", "Knowledge Graphs"],
   "featured": false,
   "icon": "GraduationCap",
-  "isPrivate": false,
+  "isPrivate": true,
   "githubUrl": "https://github.com/brandonjredmond/ai-tutor",
   "demoUrl": "http://localhost:8000",
   "techStack": [

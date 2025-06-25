@@ -6,7 +6,7 @@
   "tags": ["Rust", "Dioxus", "Desktop Application", "AI Integration", "Claude SDK", "Multi-Agent", "State Management", "Developer Tools"],
   "featured": false,
   "icon": "Users",
-  "isPrivate": false,
+  "isPrivate": true,
   "githubUrl": "https://github.com/brandonjredmond/claude-code-manager",
   "demoUrl": null,
   "techStack": [

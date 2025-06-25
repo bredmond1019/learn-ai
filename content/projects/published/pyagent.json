@@ -6,7 +6,7 @@
   "tags": ["Python", "AI Agents", "MCP Protocol", "Event Sourcing", "Workflow Engine", "Distributed Systems"],
   "featured": false,
   "icon": "Bot",
-  "isPrivate": false,
+  "isPrivate": true,
   "githubUrl": "https://github.com/pyagent/pyagent",
   "demoUrl": null,
   "techStack": [

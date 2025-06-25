@@ -6,7 +6,7 @@
   "tags": ["AI Partner Matching", "Social Network", "Django", "React", "GraphQL", "PostGIS", "Real-time Messaging", "Safety Systems"],
   "featured": false,
   "icon": "Mountain",
-  "isPrivate": false,
+  "isPrivate": true,
   "githubUrl": "https://github.com/brandonjredmond/climbr",
   "demoUrl": null,
   "techStack": [

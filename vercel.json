@@ -3,7 +3,6 @@
   "outputDirectory": ".next",
   "installCommand": "npm ci --prefer-offline --no-audit",
   "framework": "nextjs",
-  "nodeVersion": "18.x",
   "regions": ["iad1"],
   "functions": {
     "app/api/**/*.ts": {
@@ -120,8 +119,7 @@
     {
       "source": "/sitemap.xml",
       "destination": "/sitemap.xml",
-      "permanent": true,
-      "statusCode": 301
+      "permanent": true
     }
   ],
   "rewrites": [
