@@ -126,7 +126,7 @@ export default function AboutPage() {
               <div className="relative pl-8 border-l-2 border-accent/20">
                 <div className="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full" />
                 <div className="mb-1">
-                  <span className="text-sm text-primary font-medium">2023 - 2024</span>
+                  <span className="text-sm text-primary font-medium">2023 - Present</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Team Lead - Internal Tools</h3>
                 <p className="text-foreground/70">
@@ -178,7 +178,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Middle School Math Teacher</h3>
                 <p className="text-foreground/70">
-                  Masters in Mathematics education. Developed systematic approaches to 
+                  Masters in Mathematics. Developed systematic approaches to 
                   breaking down complex problems - skills that now drive my engineering process.
                 </p>
               </div>

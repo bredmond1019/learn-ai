@@ -8,28 +8,28 @@ const socialLinks = [
   {
     name: 'LinkedIn',
     icon: Linkedin,
-    href: '#linkedin',
+    href: 'https://www.linkedin.com/in/bredmond1019/',
     ariaLabel: 'Visit my LinkedIn profile',
     className: 'hover:text-blue-400'
   },
   {
     name: 'GitHub',
     icon: Github,
-    href: '#github',
+    href: 'https://github.com/bredmond1019',
     ariaLabel: 'Visit my GitHub profile',
     className: 'hover:text-gray-300'
   },
   {
     name: 'Instagram',
     icon: Instagram,
-    href: '#instagram',
+    href: 'https://www.instagram.com/urbanlumberjack19',
     ariaLabel: 'Visit my Instagram profile',
     className: 'hover:text-pink-400'
   },
   {
     name: 'Email',
     icon: Mail,
-    href: '#email',
+    href: 'mailto:bredmond1019@gmail.com',
     ariaLabel: 'Send me an email',
     className: 'hover:text-green-400'
   }
