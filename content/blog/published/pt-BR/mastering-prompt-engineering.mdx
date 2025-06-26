@@ -35,7 +35,7 @@ def create_cot_prompt(problem):
     return f"""
 Resolva o seguinte problema passo-a-passo:
 
-Problema: {problem}
+Problema: `{problem}`
 
 Pense através deste problema sistematicamente:
 
@@ -144,7 +144,7 @@ Síntese:
 market_analysis = HierarchicalPrompt("Análise abrangente de mercado para produto SaaS de IA")
 
 market_analysis.add_subtask("competitor_analysis", """
-Analise os seguintes competidores: {competitors}
+Analise os seguintes competidores: `{competitors}`
 
 Para cada competidor, identifique:
 1. Pontos fortes principais
@@ -157,7 +157,7 @@ Análise de Competidores:
 """)
 
 market_analysis.add_subtask("market_sizing", """
-Estime o tamanho do mercado para {product_category} considerando:
+Estime o tamanho do mercado para `{product_category}` considerando:
 
 1. Mercado Total Endereçável (TAM)
 2. Mercado Endereçável Servicível (SAM)  
@@ -220,7 +220,7 @@ Você é um engenheiro sênior revisando código. Analise o seguinte código:
 
 Forneça uma revisão abrangente incluindo:
 
-1. **Qualidade do Código (1-10)**: {quality_focus}
+1. **Qualidade do Código (1-10)**: `{quality_focus}`
 2. **Problemas Identificados**: 
    - Bugs potenciais
    - Problemas de performance
@@ -234,7 +234,7 @@ Forneça uma revisão abrangente incluindo:
 
 4. **Código Melhorado**: Forneça uma versão melhorada quando aplicável
 
-{additional_instructions}
+`{additional_instructions}`
 
 Revisão:
 """,
@@ -245,21 +245,21 @@ Revisão:
     "documentation_generator": PromptTemplate(
         name="documentation_generator", 
         template="""
-Gere documentação técnica para o seguinte {doc_type}:
+Gere documentação técnica para o seguinte `{doc_type}`:
 
-{content}
+`{content}`
 
 A documentação deve incluir:
 
 1. **Visão Geral**: Propósito e funcionalidade principal
-2. **Instalação/Setup**: {setup_requirements}
+2. **Instalação/Setup**: `{setup_requirements}`
 3. **Uso Básico**: Exemplos práticos
 4. **Parâmetros/Configuração**: Detalhes técnicos
 5. **Exemplos Avançados**: Casos de uso complexos
 6. **Troubleshooting**: Problemas comuns e soluções
-7. **Referência API**: {api_details}
+7. **Referência API**: `{api_details}`
 
-Formato: {output_format}
+Formato: `{output_format}`
 
 Documentação:
 """,
