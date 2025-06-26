@@ -381,7 +381,7 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
             );
           }
         } else if (nextPlaceholder.type === 'CODEEXAMPLE_PLACEHOLDER') {
-          const propsMatch = fullPlaceholder.match(/<!-- CODEEXAMPLE_PLACEHOLDER:(.*?) -->/s);
+          const propsMatch = fullPlaceholder.match(/<!-- CODEEXAMPLE_PLACEHOLDER:([\s\S]*?) -->/);
           if (propsMatch) {
             try {
               const props = JSON.parse(propsMatch[1]);
