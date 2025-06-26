@@ -1,0 +1,702 @@
+---
+title: "Implementando Provedores de Recursos"
+description: "Aprenda a expor dados através de recursos MCP, lidar com diferentes tipos de dados e construir sistemas de recursos dinâmicos"
+duration: "60 minutos"
+difficulty: "intermediário"
+objectives:
+  - "Entender a arquitetura e ciclo de vida de recursos MCP"
+  - "Implementar provedores de recursos estáticos e dinâmicos"
+  - "Lidar com diferentes tipos MIME e formatos de dados"
+  - "Construir listas de recursos paginadas e filtradas"
+  - "Implementar assinaturas de recursos para atualizações em tempo real"
+tags:
+  - "mcp"
+  - "recursos"
+  - "acesso-dados"
+  - "provedores"
+  - "typescript"
+lastUpdated: "2024-01-15"
+author: "Brandon Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+import { Diagram } from '@/components/claude-sdk/Diagram'
+
+# Implementando Provedores de Recursos
+
+## Entendendo Recursos MCP {#resource-fundamentals}
+
+Recursos são a base do acesso a dados no MCP. Eles representam qualquer dado que uma aplicação de IA possa precisar ler - desde arquivos de configuração simples até consultas complexas de banco de dados. Pense em recursos como uma API universal para expor informações.
+
+### O que Faz um Bom Recurso?
+
+Um recurso bem projetado deve ser:
+- **Descobrível**: Fácil de encontrar através de listagens de recursos
+- **Autodescritivo**: Nome e descrição claros
+- **Consistente**: Esquema URI e formato previsíveis
+- **Seguro**: Acesso controlado e validado
+
+<CodeExample
+  title="Estrutura de Recurso"
+  language="typescript"
+  code={`interface Resource {
+  uri: string;          // Identificador único (ex: "file:///caminho/para/arquivo")
+  name: string;         // Nome legível por humanos
+  description?: string; // Descrição opcional
+  mimeType?: string;    // Tipo de conteúdo (padrão: text/plain)
+}
+
+interface ResourceContent {
+  uri: string;
+  mimeType: string;
+  text?: string;        // Conteúdo de texto
+  blob?: string;        // Binário codificado em Base64
+}`}
+  highlightLines={[2, 9, 10, 11]}
+/>
+
+### Ciclo de Vida do Recurso
+
+Entender o ciclo de vida do recurso ajuda você a construir provedores robustos:
+
+1. **Descoberta**: Cliente solicita `resources/list`
+2. **Seleção**: IA escolhe recursos relevantes
+3. **Acesso**: Cliente solicita `resources/read` com URI específico
+4. **Processamento**: IA analisa o conteúdo
+5. **Atualizações**: Notificações opcionais quando recursos mudam
+
+<Callout type="info">
+  **Melhor Prática**: Projete seu esquema URI para ser hierárquico e significativo. Use prefixos como `config://`, `db://` ou `file://` para categorizar recursos.
+</Callout>
+
+## Criando Recursos Estáticos {#static-resources}
+
+Recursos estáticos são o tipo mais simples - eles retornam conteúdo fixo que não muda com frequência. São perfeitos para configuração, metadados e informações do sistema.
+
+### Construindo Seu Primeiro Provedor de Recursos
+
+<CodeExample
+  title="Implementação de Recurso Estático"
+  language="typescript"
+  code={`// Definir recursos estáticos
+const staticResources = [
+  {
+    uri: 'config://app/settings',
+    name: 'Configurações da Aplicação',
+    description: 'Configuração atual da aplicação',
+    mimeType: 'application/json'
+  },
+  {
+    uri: 'config://app/version',
+    name: 'Informações de Versão',
+    description: 'Versão da aplicação e informações de build',
+    mimeType: 'application/json'
+  }
+];
+
+// Implementar manipulador de listagem
+server.setRequestHandler('resources/list', async () => {
+  return { resources: staticResources };
+});
+
+// Implementar manipulador de leitura
+server.setRequestHandler('resources/read', async (request) => {
+  const { uri } = request.params;
+  
+  switch (uri) {
+    case 'config://app/settings':
+      return {
+        contents: [{
+          uri,
+          mimeType: 'application/json',
+          text: JSON.stringify({
+            theme: 'dark',
+            language: 'pt-BR',
+            debugMode: false
+          }, null, 2)
+        }]
+      };
+      
+    case 'config://app/version':
+      return {
+        contents: [{
+          uri,
+          mimeType: 'application/json',
+          text: JSON.stringify({
+            version: '1.0.0',
+            buildDate: new Date().toISOString(),
+            nodeVersion: process.version
+          }, null, 2)
+        }]
+      };
+      
+    default:
+      throw new Error(\`Recurso não encontrado: \${uri}\`);
+  }
+});`}
+/>
+
+### Organizando Recursos Estáticos
+
+Conforme sua aplicação cresce, organize recursos estáticos logicamente:
+
+```typescript
+// Agrupar recursos relacionados
+const configResources = [
+  { uri: 'config://app/settings', name: 'Configurações do App' },
+  { uri: 'config://app/features', name: 'Feature Flags' },
+  { uri: 'config://app/limits', name: 'Limites de Taxa' }
+];
+
+const systemResources = [
+  { uri: 'system://status', name: 'Status do Sistema' },
+  { uri: 'system://metrics', name: 'Métricas de Performance' },
+  { uri: 'system://logs/recent', name: 'Logs Recentes' }
+];
+
+// Combinar para listagem
+const allResources = [...configResources, ...systemResources];
+```
+
+<Callout type="success">
+  **Dica Profissional**: Use padrões de nomenclatura consistentes. Por exemplo, prefixe toda configuração com `config://` e toda informação do sistema com `system://`.
+</Callout>
+
+## Construindo Provedores de Recursos Dinâmicos {#dynamic-resources}
+
+Recursos dinâmicos são onde o MCP realmente brilha. Eles se adaptam aos dados atuais, escaneiam sistemas de arquivos, consultam bancos de dados e fornecem informações em tempo real.
+
+### Padrões Principais para Recursos Dinâmicos
+
+1. **Descoberta**: Encontrar dinamicamente quais recursos existem
+2. **Metadados**: Enriquecer recursos com informações atuais
+3. **Geração de Conteúdo**: Criar conteúdo sob demanda
+4. **Tratamento de Erros**: Lidar graciosamente com dados ausentes ou inacessíveis
+
+<Exercise
+  id="dynamic-resources"
+  title="Criar um Provedor de Recursos do Sistema de Arquivos"
+/>
+
+### Exemplo de Provedor de Recursos de Banco de Dados
+
+Veja como você pode expor registros de banco de dados como recursos:
+
+<CodeExample
+  title="Provedor de Recursos de Banco de Dados"
+  language="typescript"
+  code={`import { Database } from 'sqlite3';
+
+class DatabaseProvider {
+  constructor(private db: Database) {}
+  
+  async listResources() {
+    return new Promise((resolve, reject) => {
+      this.db.all(
+        "SELECT name FROM sqlite_master WHERE type='table'",
+        (err, tables) => {
+          if (err) reject(err);
+          
+          const resources = tables.map(table => ({
+            uri: \`db://tables/\${table.name}\`,
+            name: \`Tabela: \${table.name}\`,
+            description: \`Todos os registros da tabela \${table.name}\`,
+            mimeType: 'application/json'
+          }));
+          
+          resolve(resources);
+        }
+      );
+    });
+  }
+  
+  async readResource(uri: string) {
+    const tableName = uri.replace('db://tables/', '');
+    
+    return new Promise((resolve, reject) => {
+      this.db.all(
+        \`SELECT * FROM \${tableName} LIMIT 100\`,
+        (err, rows) => {
+          if (err) reject(err);
+          
+          resolve({
+            contents: [{
+              uri,
+              mimeType: 'application/json',
+              text: JSON.stringify(rows, null, 2)
+            }]
+          });
+        }
+      );
+    });
+  }
+}`}
+/>
+
+<Callout type="warning">
+  **Nota de Segurança**: Sempre valide e sanitize entradas ao construir provedores dinâmicos. Use consultas parametrizadas para bancos de dados e validação de caminho para sistemas de arquivos.
+</Callout>
+
+## Padrões Avançados de Recursos {#advanced-patterns}
+
+À medida que seus servidores MCP se tornam mais sofisticados, você precisará de padrões avançados para lidar com grandes conjuntos de dados e requisitos complexos.
+
+### Paginação para Grandes Listas de Recursos
+
+Quando você tem muitos recursos, a paginação evita sobrecarregar os clientes:
+
+<CodeExample
+  title="Listas de Recursos Paginadas"
+  language="typescript"
+  code={`interface PaginatedListRequest {
+  params: {
+    cursor?: string;
+    limit?: number;
+  };
+}
+
+server.setRequestHandler('resources/list', async (request: PaginatedListRequest) => {
+  const { cursor, limit = 100 } = request.params;
+  
+  // Obter todos os recursos (na prática, do banco de dados com LIMIT/OFFSET)
+  const allResources = await getAllResources();
+  
+  // Encontrar posição inicial
+  const startIndex = cursor 
+    ? allResources.findIndex(r => r.uri === cursor) + 1 
+    : 0;
+  
+  // Obter página de recursos
+  const pageResources = allResources.slice(startIndex, startIndex + limit);
+  
+  // Preparar resposta com nextCursor
+  const response = {
+    resources: pageResources
+  };
+  
+  // Adicionar próximo cursor se houver mais recursos
+  if (startIndex + limit < allResources.length) {
+    response.nextCursor = pageResources[pageResources.length - 1].uri;
+  }
+  
+  return response;
+});`}
+  highlightLines={[8, 9, 15, 16, 19, 26, 27, 28]}
+/>
+
+### Filtragem de Recursos
+
+Permita que clientes filtrem recursos por tipo, padrão ou atributos:
+
+<CodeExample
+  title="Listas de Recursos Filtradas"
+  language="typescript"
+  code={`interface FilteredListRequest {
+  params: {
+    filter?: {
+      mimeType?: string;
+      uriPattern?: string;
+      tags?: string[];
+    };
+  };
+}
+
+server.setRequestHandler('resources/list', async (request: FilteredListRequest) => {
+  const { filter } = request.params;
+  let resources = await getAllResources();
+  
+  if (filter) {
+    // Filtrar por tipo MIME
+    if (filter.mimeType) {
+      resources = resources.filter(r => r.mimeType === filter.mimeType);
+    }
+    
+    // Filtrar por padrão URI
+    if (filter.uriPattern) {
+      const pattern = new RegExp(filter.uriPattern);
+      resources = resources.filter(r => pattern.test(r.uri));
+    }
+    
+    // Filtrar por tags (se seus recursos tiverem tags)
+    if (filter.tags && filter.tags.length > 0) {
+      resources = resources.filter(r => 
+        r.tags && filter.tags.some(tag => r.tags.includes(tag))
+      );
+    }
+  }
+  
+  return { resources };
+});`}
+/>
+
+### Cache de Recursos
+
+Para operações caras, implemente cache inteligente:
+
+<CodeExample
+  title="Estratégia de Cache de Recursos"
+  language="typescript"
+  code={`class CachedResourceProvider {
+  private cache = new Map<string, { content: any; timestamp: number }>();
+  private cacheTimeout = 5 * 60 * 1000; // 5 minutos
+  
+  async readResource(uri: string) {
+    // Verificar cache primeiro
+    const cached = this.cache.get(uri);
+    if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
+      return cached.content;
+    }
+    
+    // Gerar conteúdo novo
+    const content = await this.generateContent(uri);
+    
+    // Armazenar em cache o resultado
+    this.cache.set(uri, {
+      content,
+      timestamp: Date.now()
+    });
+    
+    return content;
+  }
+  
+  // Invalidar cache quando recursos mudam
+  invalidateCache(uri?: string) {
+    if (uri) {
+      this.cache.delete(uri);
+    } else {
+      this.cache.clear();
+    }
+  }
+}`}
+/>
+
+## Implementando Assinaturas de Recursos {#resource-subscriptions}
+
+Para aplicações em tempo real, implemente assinaturas de recursos para notificar clientes quando dados mudam.
+
+<CodeExample
+  title="Notificações de Atualização de Recursos"
+  language="typescript"
+  code={`import { EventEmitter } from 'events';
+
+class ResourceManager extends EventEmitter {
+  private resources = new Map<string, Resource>();
+  
+  updateResource(uri: string, updates: Partial<Resource>) {
+    const existing = this.resources.get(uri);
+    if (!existing) throw new Error('Recurso não encontrado');
+    
+    const updated = { ...existing, ...updates };
+    this.resources.set(uri, updated);
+    
+    // Emitir evento de atualização
+    this.emit('resource:updated', {
+      uri,
+      resource: updated
+    });
+  }
+  
+  deleteResource(uri: string) {
+    if (!this.resources.delete(uri)) {
+      throw new Error('Recurso não encontrado');
+    }
+    
+    // Emitir evento de exclusão
+    this.emit('resource:deleted', { uri });
+  }
+}
+
+// Na configuração do seu servidor
+const resourceManager = new ResourceManager();
+
+// Assinar mudanças
+resourceManager.on('resource:updated', ({ uri, resource }) => {
+  // Enviar notificação para clientes conectados
+  server.sendNotification('resources/updated', { uri, resource });
+});
+
+resourceManager.on('resource:deleted', ({ uri }) => {
+  server.sendNotification('resources/deleted', { uri });
+});`}
+/>
+
+### Monitoramento do Sistema de Arquivos
+
+Monitore mudanças no sistema de arquivos para atualizações automáticas:
+
+<CodeExample
+  title="Monitoramento do Sistema de Arquivos"
+  language="typescript"
+  code={`import { watch } from 'fs';
+import path from 'path';
+
+class WatchedFileProvider {
+  private watchers = new Map<string, any>();
+  
+  constructor(private basePath: string, private server: Server) {
+    this.setupWatcher();
+  }
+  
+  private setupWatcher() {
+    const watcher = watch(this.basePath, { recursive: true }, (eventType, filename) => {
+      if (!filename) return;
+      
+      const fullPath = path.join(this.basePath, filename);
+      const uri = \`file://\${fullPath}\`;
+      
+      if (eventType === 'change') {
+        // Arquivo modificado
+        this.server.sendNotification('resources/updated', { uri });
+      } else if (eventType === 'rename') {
+        // Arquivo criado ou deletado
+        this.checkFileExists(fullPath).then(exists => {
+          if (exists) {
+            this.server.sendNotification('resources/created', { uri });
+          } else {
+            this.server.sendNotification('resources/deleted', { uri });
+          }
+        });
+      }
+    });
+    
+    this.watchers.set(this.basePath, watcher);
+  }
+  
+  private async checkFileExists(path: string): Promise<boolean> {
+    try {
+      await fs.access(path);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  
+  cleanup() {
+    this.watchers.forEach(watcher => watcher.close());
+    this.watchers.clear();
+  }
+}`}
+/>
+
+## Aplicações do Mundo Real {#applications}
+
+### Servidor de Documentação
+
+<CodeExample
+  title="Provedor de Recursos de Documentação"
+  language="typescript"
+  code={`class DocumentationProvider {
+  async listResources() {
+    const docFiles = await this.scanDocs('./docs');
+    
+    return docFiles.map(file => ({
+      uri: \`docs://\${file.path}\`,
+      name: file.title || path.basename(file.path, '.md'),
+      description: file.description || 'Arquivo de documentação',
+      mimeType: 'text/markdown'
+    }));
+  }
+  
+  async readResource(uri: string) {
+    const filePath = uri.replace('docs://', './docs/');
+    const content = await fs.readFile(filePath, 'utf-8');
+    
+    // Analisar frontmatter e conteúdo
+    const { data: frontmatter, content: markdown } = matter(content);
+    
+    return {
+      contents: [{
+        uri,
+        mimeType: 'text/markdown',
+        text: markdown,
+        metadata: frontmatter
+      }]
+    };
+  }
+}`}
+/>
+
+### Proxy de Recursos de API
+
+<CodeExample
+  title="Provedor de Recursos de API"
+  language="typescript"
+  code={`class APIResourceProvider {
+  constructor(private baseUrl: string, private apiKey: string) {}
+  
+  async listResources() {
+    const endpoints = await this.discoverEndpoints();
+    
+    return endpoints.map(endpoint => ({
+      uri: \`api://\${endpoint.path}\`,
+      name: endpoint.name,
+      description: endpoint.description,
+      mimeType: 'application/json'
+    }));
+  }
+  
+  async readResource(uri: string) {
+    const path = uri.replace('api://', '');
+    
+    const response = await fetch(\`\${this.baseUrl}/\${path}\`, {
+      headers: {
+        'Authorization': \`Bearer \${this.apiKey}\`,
+        'Accept': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(\`Requisição API falhou: \${response.statusText}\`);
+    }
+    
+    const data = await response.json();
+    
+    return {
+      contents: [{
+        uri,
+        mimeType: 'application/json',
+        text: JSON.stringify(data, null, 2)
+      }]
+    };
+  }
+}`}
+/>
+
+## Melhores Práticas {#best-practices}
+
+### Princípios de Design de Recursos
+
+1. **URIs Significativos**: Use esquemas URI descritivos e hierárquicos
+2. **Granularidade Apropriada**: Equilibre entre muitos recursos pequenos e poucos grandes
+3. **Metadados Consistentes**: Sempre forneça nomes e descrições claros
+4. **Tratamento de Erros**: Retorne mensagens de erro úteis para recursos ausentes ou inacessíveis
+
+### Otimização de Performance
+
+<Callout type="success">
+  **Dicas de Performance**:
+  - Faça cache de operações caras
+  - Use paginação para grandes conjuntos de dados
+  - Implemente carregamento sob demanda quando possível
+  - Monitore padrões de acesso a recursos
+</Callout>
+
+### Considerações de Segurança
+
+<Callout type="warning">
+  **Checklist de Segurança**:
+  - Valide todas as entradas de URI
+  - Implemente controles de acesso
+  - Sanitize caminhos de arquivo
+  - Use consultas de banco de dados parametrizadas
+  - Registre acesso a recursos para auditoria
+</Callout>
+
+## Armadilhas Comuns {#pitfalls}
+
+### Evite Estes Erros
+
+1. **Expor Dados Sensíveis**: Sempre revise quais dados você está disponibilizando
+2. **Listagens Ineficientes**: Não escaneie sistemas de arquivos ou bancos de dados inteiros sem limites
+3. **URIs Inconsistentes**: Mantenha um esquema URI consistente em todo o seu servidor
+4. **Falta de Tratamento de Erros**: Sempre lide com casos onde recursos não existem ou são inacessíveis
+5. **Operações Bloqueantes**: Use operações assíncronas para evitar bloqueio do servidor
+
+<CodeExample
+  title="Melhores Práticas de Tratamento de Erros"
+  language="typescript"
+  code={`server.setRequestHandler('resources/read', async (request) => {
+  try {
+    const { uri } = request.params;
+    
+    // Validar formato URI
+    if (!uri || !uri.includes('://')) {
+      throw new Error('Formato URI inválido');
+    }
+    
+    // Rotear para provedor apropriado
+    const provider = this.getProviderForUri(uri);
+    if (!provider) {
+      throw new Error(\`Nenhum provedor encontrado para URI: \${uri}\`);
+    }
+    
+    // Ler com timeout
+    const content = await Promise.race([
+      provider.readResource(uri),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout da requisição')), 30000)
+      )
+    ]);
+    
+    return content;
+    
+  } catch (error) {
+    // Registrar erro para depuração
+    console.error('Erro ao ler recurso:', error);
+    
+    // Retornar erro amigável ao usuário
+    throw new Error(\`Falha ao ler recurso: \${error.message}\`);
+  }
+});`}
+/>
+
+## Resumo {#summary}
+
+Você aprendeu como construir provedores de recursos poderosos que expõem dados para aplicações de IA:
+
+✅ **Recursos Estáticos**: Conteúdo simples e fixo como configuração e metadados
+✅ **Recursos Dinâmicos**: Sistemas de arquivos, bancos de dados e dados em tempo real
+✅ **Padrões Avançados**: Paginação, filtragem, cache e assinaturas
+✅ **Melhores Práticas**: Segurança, performance e tratamento de erros
+✅ **Exemplos do Mundo Real**: Documentação, APIs e sistemas de arquivos
+
+## Próximos Passos {#next-steps}
+
+Agora que você pode expor dados através de recursos, é hora de aprender sobre ferramentas - o mecanismo para a IA tomar ações e modificar seus sistemas.
+
+No próximo módulo, você descobrirá como:
+- Criar provedores de ferramentas que executam ações
+- Lidar com parâmetros e validação de ferramentas
+- Construir operações seguras e controladas
+- Integrar ferramentas com seus sistemas existentes
+
+<Callout type="info">
+  **A Seguir**: [Criando Provedores de Ferramentas](/learn/paths/mcp-fundamentals/modules/04-creating-tools) - Dê à IA o poder de tomar ações!
+</Callout>
+
+## Referência Rápida {#quick-reference}
+
+### Métodos Essenciais de Recursos
+```typescript
+// Listar todos os recursos disponíveis
+server.setRequestHandler('resources/list', async (request) => {
+  return { resources: [...] };
+});
+
+// Ler conteúdo de recurso específico
+server.setRequestHandler('resources/read', async (request) => {
+  const { uri } = request.params;
+  return { contents: [{ uri, mimeType, text }] };
+});
+```
+
+### Esquemas URI Comuns
+```
+file:///caminho/absoluto/para/arquivo
+db://tabela/registros
+api://endpoint/caminho
+config://secao/chave
+system://status/health
+```
+
+### Exemplos de Tipos MIME
+```typescript
+'text/plain'           // Texto simples
+'text/markdown'        // Arquivos Markdown
+'application/json'     // Dados JSON
+'text/csv'            // Arquivos CSV
+'application/xml'      // Documentos XML
+'image/png'           // Imagem binária (use campo blob)
+```

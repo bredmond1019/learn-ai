@@ -1,0 +1,1648 @@
+---
+title: "Orquestração de Ferramentas"
+description: "Domine a arte de coordenar múltiplas ferramentas e serviços para permitir que agentes de IA realizem tarefas complexas que requerem capacidades diversas e integrações externas."
+duration: "135 minutos"
+difficulty: "intermediário"
+order: 3
+pathId: "agentic-workflows"
+moduleId: "tool-orchestration"
+type: "concept"
+objectives:
+  - "Projetar arquiteturas de orquestração de ferramentas para agentes multi-capacidade"
+  - "Implementar estratégias dinâmicas de seleção e encadeamento de ferramentas"
+  - "Construir mecanismos robustos de tratamento de erros e fallback para falhas de ferramentas"
+  - "Criar padrões de composição de ferramentas para fluxos de trabalho complexos"
+  - "Desenvolver sistemas de monitoramento e otimização de desempenho de ferramentas"
+  - "Projetar frameworks seguros de acesso e autorização de ferramentas"
+prerequisites:
+  - "Padrões de Arquitetura de Agentes"
+  - "Construindo Sistemas de Planejamento"
+  - "Experiência em integração de API"
+  - "Compreensão de programação assíncrona"
+tags:
+  - "orquestração-ferramentas"
+  - "automação-fluxos"
+  - "integração-api"
+  - "tratamento-erros"
+  - "otimização-desempenho"
+  - "microsserviços"
+version: "1.0.0"
+lastUpdated: "2025-06-20"
+author: "Equipe de Engenharia de IA"
+estimatedCompletionTime: 200
+---
+
+# Orquestração de Ferramentas
+
+Agentes de IA modernos precisam coordenar múltiplas ferramentas e serviços para realizar tarefas complexas. A orquestração de ferramentas é a arte e ciência de gerenciar essas capacidades diversas, garantindo que trabalhem juntas perfeitamente para alcançar os objetivos do agente. Neste módulo, exploraremos padrões sofisticados para construir sistemas robustos e escaláveis de orquestração de ferramentas.
+
+## Objetivos de Aprendizagem
+
+Ao final deste módulo, você será capaz de:
+
+- Projetar arquiteturas de orquestração de ferramentas para agentes multi-capacidade
+- Implementar estratégias dinâmicas de seleção e encadeamento de ferramentas
+- Construir mecanismos robustos de tratamento de erros e fallback para falhas de ferramentas
+- Criar padrões de composição de ferramentas para fluxos de trabalho complexos
+- Desenvolver sistemas de monitoramento e otimização de desempenho de ferramentas
+- Projetar frameworks seguros de acesso e autorização de ferramentas
+
+## O que é Orquestração de Ferramentas?
+
+A orquestração de ferramentas refere-se à coordenação e gestão de múltiplas ferramentas, serviços e capacidades dentro de um sistema de agente de IA. Envolve:
+
+1. **Descoberta de Ferramentas**: Encontrar e registrar ferramentas disponíveis
+2. **Seleção de Ferramentas**: Escolher a ferramenta certa para cada tarefa
+3. **Execução de Ferramentas**: Gerenciar invocação de ferramentas e fluxo de dados
+4. **Tratamento de Erros**: Lidar com falhas de ferramentas graciosamente
+5. **Otimização de Desempenho**: Maximizar eficiência e uso de recursos
+6. **Gerenciamento de Segurança**: Garantir acesso seguro e autorizado às ferramentas
+
+## Padrões de Arquitetura de Ferramentas
+
+### 1. Padrão de Registro
+
+O padrão de registro fornece um local central para descobrir e gerenciar ferramentas.
+
+#### Exemplo de Código: Registro e Gerenciador de Ferramentas
+
+```python
+from typing import Dict, List, Optional, Any, Callable, Union
+from dataclasses import dataclass, field
+from abc import ABC, abstractmethod
+from enum import Enum
+import asyncio
+import time
+import logging
+from contextlib import asynccontextmanager
+
+class ToolCategory(Enum):
+    DATA_PROCESSING = "data_processing"
+    WEB_SCRAPING = "web_scraping"
+    COMMUNICATION = "communication"
+    FILE_MANAGEMENT = "file_management"
+    COMPUTATION = "computation"
+    VISUALIZATION = "visualization"
+    DATABASE = "database"
+    API_INTEGRATION = "api_integration"
+
+@dataclass
+class ToolCapability:
+    """Descreve o que uma ferramenta pode fazer"""
+    input_types: List[str]
+    output_types: List[str]
+    required_params: List[str]
+    optional_params: List[str] = field(default_factory=list)
+    max_concurrent_calls: int = 1
+    average_execution_time: float = 1.0
+    resource_requirements: Dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class ToolMetadata:
+    """Metadados sobre uma ferramenta"""
+    name: str
+    version: str
+    description: str
+    category: ToolCategory
+    capability: ToolCapability
+    author: str = ""
+    documentation_url: str = ""
+    health_check_url: str = ""
+    rate_limit: Optional[int] = None
+    cost_per_call: float = 0.0
+
+class Tool(ABC):
+    """Classe base abstrata para todas as ferramentas"""
+    
+    def __init__(self, metadata: ToolMetadata):
+        self.metadata = metadata
+        self.is_healthy = True
+        self.last_health_check = time.time()
+        self.call_count = 0
+        self.total_execution_time = 0.0
+        self.error_count = 0
+        
+    @abstractmethod
+    async def execute(self, **kwargs) -> Any:
+        """Executar a ferramenta com parâmetros dados"""
+        pass
+        
+    @abstractmethod
+    async def health_check(self) -> bool:
+        """Verificar se a ferramenta está saudável e disponível"""
+        pass
+        
+    def get_average_execution_time(self) -> float:
+        """Obter tempo médio de execução para esta ferramenta"""
+        if self.call_count == 0:
+            return self.metadata.capability.average_execution_time
+        return self.total_execution_time / self.call_count
+    
+    def get_success_rate(self) -> float:
+        """Obter taxa de sucesso para esta ferramenta"""
+        if self.call_count == 0:
+            return 1.0
+        return (self.call_count - self.error_count) / self.call_count
+
+class ToolRegistry:
+    """Registro central para gerenciar ferramentas"""
+    
+    def __init__(self):
+        self.tools: Dict[str, Tool] = {}
+        self.categories: Dict[ToolCategory, List[str]] = {}
+        self.capabilities: Dict[str, List[str]] = {}  # tipo_entrada -> [nomes_ferramentas]
+        self._lock = asyncio.Lock()
+        
+    async def register_tool(self, tool: Tool) -> bool:
+        """Registrar uma nova ferramenta"""
+        async with self._lock:
+            tool_name = tool.metadata.name
+            
+            if tool_name in self.tools:
+                logging.warning(f"Ferramenta {tool_name} já registrada, substituindo...")
+            
+            # Verificação de saúde antes do registro
+            if not await tool.health_check():
+                logging.error(f"Ferramenta {tool_name} falhou na verificação de saúde, não registrando")
+                return False
+            
+            self.tools[tool_name] = tool
+            
+            # Atualizar índice de categoria
+            category = tool.metadata.category
+            if category not in self.categories:
+                self.categories[category] = []
+            if tool_name not in self.categories[category]:
+                self.categories[category].append(tool_name)
+            
+            # Atualizar índice de capacidade
+            for input_type in tool.metadata.capability.input_types:
+                if input_type not in self.capabilities:
+                    self.capabilities[input_type] = []
+                if tool_name not in self.capabilities[input_type]:
+                    self.capabilities[input_type].append(tool_name)
+            
+            logging.info(f"Ferramenta {tool_name} registrada com sucesso")
+            return True
+    
+    async def unregister_tool(self, tool_name: str) -> bool:
+        """Desregistrar uma ferramenta"""
+        async with self._lock:
+            if tool_name not in self.tools:
+                return False
+            
+            tool = self.tools[tool_name]
+            
+            # Remover do índice de categoria
+            category = tool.metadata.category
+            if category in self.categories and tool_name in self.categories[category]:
+                self.categories[category].remove(tool_name)
+            
+            # Remover do índice de capacidade
+            for input_type in tool.metadata.capability.input_types:
+                if input_type in self.capabilities and tool_name in self.capabilities[input_type]:
+                    self.capabilities[input_type].remove(tool_name)
+            
+            del self.tools[tool_name]
+            logging.info(f"Ferramenta {tool_name} desregistrada")
+            return True
+    
+    def get_tool(self, tool_name: str) -> Optional[Tool]:
+        """Obter uma ferramenta por nome"""
+        return self.tools.get(tool_name)
+    
+    def get_tools_by_category(self, category: ToolCategory) -> List[Tool]:
+        """Obter todas as ferramentas em uma categoria"""
+        tool_names = self.categories.get(category, [])
+        return [self.tools[name] for name in tool_names if name in self.tools]
+    
+    def get_tools_by_capability(self, input_type: str) -> List[Tool]:
+        """Obter ferramentas que podem lidar com um tipo específico de entrada"""
+        tool_names = self.capabilities.get(input_type, [])
+        return [self.tools[name] for name in tool_names if name in self.tools]
+    
+    def list_all_tools(self) -> List[Tool]:
+        """Obter todas as ferramentas registradas"""
+        return list(self.tools.values())
+    
+    async def health_check_all(self) -> Dict[str, bool]:
+        """Realizar verificações de saúde em todas as ferramentas"""
+        results = {}
+        
+        async def check_tool(name: str, tool: Tool):
+            try:
+                is_healthy = await tool.health_check()
+                tool.is_healthy = is_healthy
+                tool.last_health_check = time.time()
+                results[name] = is_healthy
+            except Exception as e:
+                logging.error(f"Verificação de saúde falhou para {name}: {e}")
+                tool.is_healthy = False
+                results[name] = False
+        
+        # Executar verificações de saúde concorrentemente
+        tasks = [check_tool(name, tool) for name, tool in self.tools.items()]
+        await asyncio.gather(*tasks, return_exceptions=True)
+        
+        return results
+
+# Implementação de ferramentas exemplo
+class WebScrapingTool(Tool):
+    """Ferramenta de web scraping usando requests/beautifulsoup"""
+    
+    def __init__(self):
+        metadata = ToolMetadata(
+            name="web_scraper",
+            version="1.0.0",
+            description="Extrai conteúdo de páginas web",
+            category=ToolCategory.WEB_SCRAPING,
+            capability=ToolCapability(
+                input_types=["url", "html"],
+                output_types=["text", "structured_data"],
+                required_params=["url"],
+                optional_params=["selector", "timeout", "headers"],
+                max_concurrent_calls=5,
+                average_execution_time=2.0
+            )
+        )
+        super().__init__(metadata)
+        
+    async def execute(self, **kwargs) -> Any:
+        """Extrair conteúdo web"""
+        start_time = time.time()
+        self.call_count += 1
+        
+        try:
+            url = kwargs.get("url")
+            selector = kwargs.get("selector")
+            timeout = kwargs.get("timeout", 10)
+            
+            if not url:
+                raise ValueError("URL é obrigatória")
+            
+            # Simular web scraping (na prática, use aiohttp + beautifulsoup)
+            await asyncio.sleep(0.5)  # Simular atraso de rede
+            
+            # Resposta simulada
+            content = f"Conteúdo extraído de {url}"
+            if selector:
+                content += f" com seletor {selector}"
+            
+            execution_time = time.time() - start_time
+            self.total_execution_time += execution_time
+            
+            return {
+                "url": url,
+                "content": content,
+                "length": len(content),
+                "execution_time": execution_time
+            }
+            
+        except Exception as e:
+            self.error_count += 1
+            execution_time = time.time() - start_time
+            self.total_execution_time += execution_time
+            raise e
+    
+    async def health_check(self) -> bool:
+        """Verificar se web scraping está disponível"""
+        try:
+            # Na prática, tente acessar uma URL de teste
+            await asyncio.sleep(0.1)  # Simular verificação
+            return True
+        except:
+            return False
+
+class DataProcessingTool(Tool):
+    """Ferramenta de processamento de dados para operações comuns"""
+    
+    def __init__(self):
+        metadata = ToolMetadata(
+            name="data_processor",
+            version="1.0.0", 
+            description="Processa e transforma dados",
+            category=ToolCategory.DATA_PROCESSING,
+            capability=ToolCapability(
+                input_types=["json", "csv", "list", "dict"],
+                output_types=["json", "csv", "summary", "statistics"],
+                required_params=["data", "operation"],
+                optional_params=["format", "options"],
+                max_concurrent_calls=10,
+                average_execution_time=0.5
+            )
+        )
+        super().__init__(metadata)
+        
+    async def execute(self, **kwargs) -> Any:
+        """Processar dados"""
+        start_time = time.time()
+        self.call_count += 1
+        
+        try:
+            data = kwargs.get("data")
+            operation = kwargs.get("operation")
+            options = kwargs.get("options", {})
+            
+            if not data or not operation:
+                raise ValueError("Dados e operação são obrigatórios")
+            
+            # Simular processamento de dados
+            await asyncio.sleep(0.1)
+            
+            result = None
+            if operation == "summarize":
+                result = {"summary": f"Resumo de {len(str(data))} caracteres"}
+            elif operation == "count":
+                result = {"count": len(data) if hasattr(data, "__len__") else 1}
+            elif operation == "filter":
+                filter_key = options.get("key")
+                filter_value = options.get("value")
+                if isinstance(data, list) and filter_key:
+                    result = [item for item in data if item.get(filter_key) == filter_value]
+                else:
+                    result = data
+            else:
+                result = {"processed": True, "operation": operation}
+            
+            execution_time = time.time() - start_time
+            self.total_execution_time += execution_time
+            
+            return result
+            
+        except Exception as e:
+            self.error_count += 1
+            execution_time = time.time() - start_time
+            self.total_execution_time += execution_time
+            raise e
+    
+    async def health_check(self) -> bool:
+        """Verificar se o processamento de dados está disponível"""
+        try:
+            # Testar operação básica
+            test_data = [1, 2, 3]
+            result = await self.execute(data=test_data, operation="count")
+            return result.get("count") == 3
+        except:
+            return False
+
+class VisualizationTool(Tool):
+    """Ferramenta de visualização de dados"""
+    
+    def __init__(self):
+        metadata = ToolMetadata(
+            name="visualizer",
+            version="1.0.0",
+            description="Cria visualizações e gráficos de dados",
+            category=ToolCategory.VISUALIZATION,
+            capability=ToolCapability(
+                input_types=["json", "csv", "statistics"],
+                output_types=["chart", "graph", "image"],
+                required_params=["data", "chart_type"],
+                optional_params=["title", "labels", "style"],
+                max_concurrent_calls=3,
+                average_execution_time=1.5
+            )
+        )
+        super().__init__(metadata)
+        
+    async def execute(self, **kwargs) -> Any:
+        """Criar visualização"""
+        start_time = time.time()
+        self.call_count += 1
+        
+        try:
+            data = kwargs.get("data")
+            chart_type = kwargs.get("chart_type")
+            title = kwargs.get("title", "Gráfico")
+            
+            if not data or not chart_type:
+                raise ValueError("Dados e tipo_gráfico são obrigatórios")
+            
+            # Simular criação de visualização
+            await asyncio.sleep(0.8)  # Simular tempo de renderização
+            
+            chart = {
+                "type": chart_type,
+                "title": title,
+                "data_points": len(str(data)),
+                "image_path": f"/tmp/chart_{int(time.time())}.png",
+                "format": "PNG"
+            }
+            
+            execution_time = time.time() - start_time
+            self.total_execution_time += execution_time
+            
+            return chart
+            
+        except Exception as e:
+            self.error_count += 1
+            execution_time = time.time() - start_time
+            self.total_execution_time += execution_time
+            raise e
+    
+    async def health_check(self) -> bool:
+        """Verificar se a visualização está disponível"""
+        try:
+            # Testar criação básica de gráfico
+            test_result = await self.execute(
+                data=[1, 2, 3], 
+                chart_type="bar",
+                title="Gráfico de Teste"
+            )
+            return test_result.get("type") == "bar"
+        except:
+            return False
+
+# Exemplo de uso
+async def setup_tool_registry():
+    """Configurar registro de ferramentas com ferramentas exemplo"""
+    registry = ToolRegistry()
+    
+    # Registrar ferramentas
+    web_scraper = WebScrapingTool()
+    data_processor = DataProcessingTool()
+    visualizer = VisualizationTool()
+    
+    await registry.register_tool(web_scraper)
+    await registry.register_tool(data_processor)
+    await registry.register_tool(visualizer)
+    
+    return registry
+
+# Testar o registro
+# registry = await setup_tool_registry()
+# print(f"Registradas {len(registry.list_all_tools())} ferramentas")
+```
+
+### 2. Seleção Dinâmica de Ferramentas
+
+A seleção dinâmica de ferramentas escolhe a ferramenta ideal para cada tarefa com base no contexto, métricas de desempenho e requisitos.
+
+#### Exemplo de Código: Motor de Seleção Dinâmica de Ferramentas
+
+```python
+from typing import Dict, List, Optional, Tuple, Any
+from dataclasses import dataclass
+import math
+import logging
+
+@dataclass
+class TaskRequirements:
+    """Requisitos para uma tarefa específica"""
+    input_type: str
+    output_type: str
+    max_execution_time: Optional[float] = None
+    max_cost: Optional[float] = None
+    min_success_rate: float = 0.8
+    preferred_categories: List[ToolCategory] = None
+    required_capabilities: List[str] = None
+
+@dataclass
+class ToolScore:
+    """Informações de pontuação para seleção de ferramenta"""
+    tool_name: str
+    total_score: float
+    performance_score: float
+    cost_score: float
+    reliability_score: float
+    capability_score: float
+    availability_score: float
+
+class ToolSelector:
+    """Motor inteligente de seleção de ferramentas"""
+    
+    def __init__(self, registry: ToolRegistry):
+        self.registry = registry
+        self.selection_history = []
+        self.performance_weights = {
+            "performance": 0.25,
+            "cost": 0.20,
+            "reliability": 0.25,
+            "capability": 0.20,
+            "availability": 0.10
+        }
+        
+    def select_tool(self, requirements: TaskRequirements, 
+                   context: Dict[str, Any] = None) -> Optional[Tool]:
+        """Selecionar a melhor ferramenta para requisitos dados"""
+        
+        # Obter ferramentas candidatas
+        candidates = self._get_candidate_tools(requirements)
+        
+        if not candidates:
+            logging.warning(f"Nenhuma ferramenta candidata encontrada para tipo de entrada: {requirements.input_type}")
+            return None
+        
+        # Pontuar cada candidata
+        scores = []
+        for tool in candidates:
+            score = self._score_tool(tool, requirements, context or {})
+            scores.append(score)
+        
+        # Ordenar por pontuação total (decrescente)
+        scores.sort(key=lambda x: x.total_score, reverse=True)
+        
+        # Registrar decisão de seleção
+        best_score = scores[0]
+        self.selection_history.append({
+            "requirements": requirements,
+            "selected_tool": best_score.tool_name,
+            "score": best_score.total_score,
+            "alternatives": [s.tool_name for s in scores[1:3]]  # Top 3 alternativas
+        })
+        
+        logging.info(f"Ferramenta selecionada: {best_score.tool_name} (pontuação: {best_score.total_score:.2f})")
+        
+        return self.registry.get_tool(best_score.tool_name)
+    
+    def select_multiple_tools(self, requirements: TaskRequirements,
+                            num_tools: int = 2,
+                            diversity_bonus: float = 0.1) -> List[Tool]:
+        """Selecionar múltiplas ferramentas para redundância ou comparação"""
+        
+        candidates = self._get_candidate_tools(requirements)
+        if not candidates:
+            return []
+        
+        scores = [self._score_tool(tool, requirements, {}) for tool in candidates]
+        scores.sort(key=lambda x: x.total_score, reverse=True)
+        
+        selected_tools = []
+        selected_categories = set()
+        
+        for score in scores:
+            if len(selected_tools) >= num_tools:
+                break
+                
+            tool = self.registry.get_tool(score.tool_name)
+            if tool:
+                # Aplicar bônus de diversidade para categorias diferentes
+                if tool.metadata.category not in selected_categories:
+                    score.total_score += diversity_bonus
+                    selected_categories.add(tool.metadata.category)
+                
+                selected_tools.append(tool)
+        
+        return selected_tools[:num_tools]
+    
+    def _get_candidate_tools(self, requirements: TaskRequirements) -> List[Tool]:
+        """Obter ferramentas que podem lidar com o tipo de entrada"""
+        candidates = self.registry.get_tools_by_capability(requirements.input_type)
+        
+        # Filtrar por categorias preferidas se especificado
+        if requirements.preferred_categories:
+            candidates = [tool for tool in candidates 
+                         if tool.metadata.category in requirements.preferred_categories]
+        
+        # Filtrar por status de saúde
+        candidates = [tool for tool in candidates if tool.is_healthy]
+        
+        return candidates
+    
+    def _score_tool(self, tool: Tool, requirements: TaskRequirements, 
+                   context: Dict[str, Any]) -> ToolScore:
+        """Pontuar uma ferramenta com base em múltiplos critérios"""
+        
+        # Pontuação de desempenho (menor tempo de execução é melhor)
+        avg_time = tool.get_average_execution_time()
+        if requirements.max_execution_time:
+            performance_score = max(0, 1 - (avg_time / requirements.max_execution_time))
+        else:
+            performance_score = 1 / (1 + avg_time)  # Relação inversa
+        
+        # Pontuação de custo (menor custo é melhor)
+        cost = tool.metadata.cost_per_call
+        if requirements.max_cost and requirements.max_cost > 0:
+            cost_score = max(0, 1 - (cost / requirements.max_cost))
+        else:
+            cost_score = 1 / (1 + cost) if cost > 0 else 1.0
+        
+        # Pontuação de confiabilidade (maior taxa de sucesso é melhor)
+        success_rate = tool.get_success_rate()
+        reliability_score = success_rate
+        
+        # Pontuação de capacidade (quão bem corresponde aos requisitos)
+        capability_score = self._calculate_capability_score(tool, requirements)
+        
+        # Pontuação de disponibilidade (capacidade concorrente)
+        max_concurrent = tool.metadata.capability.max_concurrent_calls
+        availability_score = min(1.0, max_concurrent / 5.0)  # Normalizar para 1.0
+        
+        # Calcular pontuação total ponderada
+        total_score = (
+            performance_score * self.performance_weights["performance"] +
+            cost_score * self.performance_weights["cost"] +
+            reliability_score * self.performance_weights["reliability"] +
+            capability_score * self.performance_weights["capability"] +
+            availability_score * self.performance_weights["availability"]
+        )
+        
+        return ToolScore(
+            tool_name=tool.metadata.name,
+            total_score=total_score,
+            performance_score=performance_score,
+            cost_score=cost_score,
+            reliability_score=reliability_score,
+            capability_score=capability_score,
+            availability_score=availability_score
+        )
+    
+    def _calculate_capability_score(self, tool: Tool, 
+                                  requirements: TaskRequirements) -> float:
+        """Calcular quão bem as capacidades da ferramenta correspondem aos requisitos"""
+        capability = tool.metadata.capability
+        score = 0.0
+        
+        # Correspondência de tipo de entrada (obrigatório)
+        if requirements.input_type in capability.input_types:
+            score += 0.4
+        
+        # Correspondência de tipo de saída
+        if requirements.output_type in capability.output_types:
+            score += 0.4
+        
+        # Correspondência de capacidades requeridas
+        if requirements.required_capabilities:
+            matched_caps = len([cap for cap in requirements.required_capabilities 
+                               if cap in capability.optional_params + capability.required_params])
+            total_caps = len(requirements.required_capabilities)
+            score += 0.2 * (matched_caps / total_caps if total_caps > 0 else 1.0)
+        else:
+            score += 0.2  # Sem requisitos específicos
+        
+        return min(1.0, score)
+    
+    def update_performance_weights(self, new_weights: Dict[str, float]):
+        """Atualizar pesos de desempenho para seleção de ferramentas"""
+        # Normalizar pesos para somar 1.0
+        total_weight = sum(new_weights.values())
+        if total_weight > 0:
+            self.performance_weights = {k: v/total_weight for k, v in new_weights.items()}
+    
+    def get_selection_analytics(self) -> Dict[str, Any]:
+        """Obter análises sobre padrões de seleção de ferramentas"""
+        if not self.selection_history:
+            return {"message": "Nenhum histórico de seleção disponível"}
+        
+        tool_usage = {}
+        for selection in self.selection_history:
+            tool_name = selection["selected_tool"]
+            tool_usage[tool_name] = tool_usage.get(tool_name, 0) + 1
+        
+        most_used_tool = max(tool_usage.items(), key=lambda x: x[1])
+        
+        return {
+            "total_selections": len(self.selection_history),
+            "unique_tools_used": len(tool_usage),
+            "most_used_tool": most_used_tool,
+            "tool_usage_distribution": tool_usage,
+            "average_selection_score": sum(s["score"] for s in self.selection_history) / len(self.selection_history)
+        }
+
+# Exemplo de uso
+async def demonstrate_tool_selection():
+    """Demonstrar seleção dinâmica de ferramentas"""
+    registry = await setup_tool_registry()
+    selector = ToolSelector(registry)
+    
+    # Exemplo 1: Selecionar ferramenta para web scraping
+    web_requirements = TaskRequirements(
+        input_type="url",
+        output_type="text",
+        max_execution_time=5.0,
+        min_success_rate=0.9
+    )
+    
+    selected_tool = selector.select_tool(web_requirements)
+    if selected_tool:
+        print(f"Selecionado para web scraping: {selected_tool.metadata.name}")
+    
+    # Exemplo 2: Selecionar ferramenta para processamento de dados
+    data_requirements = TaskRequirements(
+        input_type="json",
+        output_type="summary",
+        max_cost=0.1,
+        preferred_categories=[ToolCategory.DATA_PROCESSING]
+    )
+    
+    selected_tool = selector.select_tool(data_requirements)
+    if selected_tool:
+        print(f"Selecionado para processamento de dados: {selected_tool.metadata.name}")
+    
+    # Exemplo 3: Selecionar múltiplas ferramentas para redundância
+    viz_requirements = TaskRequirements(
+        input_type="json",
+        output_type="chart"
+    )
+    
+    multiple_tools = selector.select_multiple_tools(viz_requirements, num_tools=2)
+    print(f"Múltiplas ferramentas selecionadas: {[t.metadata.name for t in multiple_tools]}")
+    
+    # Obter análises
+    analytics = selector.get_selection_analytics()
+    print(f"Análises de seleção: {analytics}")
+
+# Executar demonstração
+# await demonstrate_tool_selection()
+```
+
+### 3. Motor de Orquestração de Ferramentas
+
+O motor de orquestração coordena múltiplas ferramentas para executar fluxos de trabalho complexos.
+
+#### Exemplo de Código: Motor de Orquestração de Ferramentas
+
+```python
+from typing import Dict, List, Optional, Any, Union
+from dataclasses import dataclass, field
+from enum import Enum
+import asyncio
+import logging
+import json
+from datetime import datetime
+
+class WorkflowStatus(Enum):
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    CANCELLED = "cancelled"
+
+@dataclass
+class WorkflowStep:
+    """Etapa individual em um fluxo de trabalho"""
+    step_id: str
+    tool_name: str
+    inputs: Dict[str, Any]
+    outputs: Dict[str, Any] = field(default_factory=dict)
+    dependencies: List[str] = field(default_factory=list)
+    status: WorkflowStatus = WorkflowStatus.PENDING
+    error_message: Optional[str] = None
+    execution_time: Optional[float] = None
+    retry_count: int = 0
+    max_retries: int = 3
+
+@dataclass
+class Workflow:
+    """Definição completa do fluxo de trabalho"""
+    workflow_id: str
+    name: str
+    description: str
+    steps: List[WorkflowStep]
+    global_inputs: Dict[str, Any] = field(default_factory=dict)
+    global_outputs: Dict[str, Any] = field(default_factory=dict)
+    status: WorkflowStatus = WorkflowStatus.PENDING
+    created_at: datetime = field(default_factory=datetime.now)
+    started_at: Optional[datetime] = None
+    completed_at: Optional[datetime] = None
+    total_execution_time: Optional[float] = None
+
+class WorkflowOrchestrator:
+    """Orquestra execução de fluxos de trabalho complexos multi-ferramenta"""
+    
+    def __init__(self, registry: ToolRegistry, selector: ToolSelector):
+        self.registry = registry
+        self.selector = selector
+        self.running_workflows: Dict[str, Workflow] = {}
+        self.completed_workflows: Dict[str, Workflow] = {}
+        self.max_concurrent_workflows = 10
+        
+    async def execute_workflow(self, workflow: Workflow) -> Workflow:
+        """Executar um fluxo de trabalho completo"""
+        
+        if len(self.running_workflows) >= self.max_concurrent_workflows:
+            raise RuntimeError("Máximo de fluxos de trabalho concorrentes excedido")
+        
+        workflow.status = WorkflowStatus.RUNNING
+        workflow.started_at = datetime.now()
+        self.running_workflows[workflow.workflow_id] = workflow
+        
+        try:
+            start_time = asyncio.get_event_loop().time()
+            
+            # Construir plano de execução
+            execution_plan = self._build_execution_plan(workflow)
+            logging.info(f"Executando fluxo de trabalho {workflow.workflow_id} com {len(execution_plan)} estágios")
+            
+            # Executar estágios sequencialmente
+            step_outputs = {}
+            
+            for stage in execution_plan:
+                # Executar etapas neste estágio concorrentemente
+                stage_tasks = []
+                for step in stage:
+                    task = self._execute_step(step, step_outputs, workflow.global_inputs)
+                    stage_tasks.append(task)
+                
+                # Aguardar todas as etapas neste estágio completarem
+                stage_results = await asyncio.gather(*stage_tasks, return_exceptions=True)
+                
+                # Processar resultados
+                for step, result in zip(stage, stage_results):
+                    if isinstance(result, Exception):
+                        step.status = WorkflowStatus.FAILED
+                        step.error_message = str(result)
+                        logging.error(f"Etapa {step.step_id} falhou: {result}")
+                        
+                        # Verificar se é uma falha crítica
+                        if not self._can_continue_workflow(step, workflow):
+                            workflow.status = WorkflowStatus.FAILED
+                            return workflow
+                    else:
+                        step.status = WorkflowStatus.COMPLETED
+                        step.outputs = result
+                        step_outputs[step.step_id] = result
+                        logging.info(f"Etapa {step.step_id} completada com sucesso")
+            
+            # Fluxo de trabalho completado com sucesso
+            workflow.status = WorkflowStatus.COMPLETED
+            workflow.completed_at = datetime.now()
+            workflow.total_execution_time = asyncio.get_event_loop().time() - start_time
+            workflow.global_outputs = self._extract_global_outputs(workflow, step_outputs)
+            
+            logging.info(f"Fluxo de trabalho {workflow.workflow_id} completado em {workflow.total_execution_time:.2f}s")
+            
+        except Exception as e:
+            workflow.status = WorkflowStatus.FAILED
+            logging.error(f"Fluxo de trabalho {workflow.workflow_id} falhou: {e}")
+            
+        finally:
+            # Mover para fluxos de trabalho completos
+            if workflow.workflow_id in self.running_workflows:
+                del self.running_workflows[workflow.workflow_id]
+            self.completed_workflows[workflow.workflow_id] = workflow
+        
+        return workflow
+    
+    def _build_execution_plan(self, workflow: Workflow) -> List[List[WorkflowStep]]:
+        """Construir plano de execução com ordenação adequada de dependências"""
+        
+        # Criar grafo de dependências
+        steps_by_id = {step.step_id: step for step in workflow.steps}
+        remaining_steps = set(workflow.steps)
+        execution_plan = []
+        
+        while remaining_steps:
+            # Encontrar etapas sem dependências não resolvidas
+            ready_steps = []
+            for step in remaining_steps:
+                unresolved_deps = [dep for dep in step.dependencies 
+                                 if dep in steps_by_id and steps_by_id[dep] in remaining_steps]
+                if not unresolved_deps:
+                    ready_steps.append(step)
+            
+            if not ready_steps:
+                # Dependência circular ou dependência ausente
+                raise RuntimeError("Dependência circular detectada ou dependência de etapa ausente")
+            
+            execution_plan.append(ready_steps)
+            remaining_steps -= set(ready_steps)
+        
+        return execution_plan
+    
+    async def _execute_step(self, step: WorkflowStep, step_outputs: Dict[str, Any],
+                           global_inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Executar uma única etapa do fluxo de trabalho"""
+        
+        step_start_time = asyncio.get_event_loop().time()
+        
+        # Obter ferramenta
+        tool = self.registry.get_tool(step.tool_name)
+        if not tool:
+            raise RuntimeError(f"Ferramenta {step.tool_name} não encontrada")
+        
+        # Preparar entradas
+        resolved_inputs = self._resolve_step_inputs(step, step_outputs, global_inputs)
+        
+        # Executar com tentativas
+        last_exception = None
+        for attempt in range(step.max_retries + 1):
+            try:
+                step.retry_count = attempt
+                result = await tool.execute(**resolved_inputs)
+                step.execution_time = asyncio.get_event_loop().time() - step_start_time
+                return result
+                
+            except Exception as e:
+                last_exception = e
+                if attempt < step.max_retries:
+                    wait_time = 2 ** attempt  # Backoff exponencial
+                    logging.warning(f"Etapa {step.step_id} tentativa {attempt + 1} falhou, tentando novamente em {wait_time}s: {e}")
+                    await asyncio.sleep(wait_time)
+                else:
+                    logging.error(f"Etapa {step.step_id} falhou após {step.max_retries + 1} tentativas: {e}")
+        
+        step.execution_time = asyncio.get_event_loop().time() - step_start_time
+        raise last_exception
+    
+    def _resolve_step_inputs(self, step: WorkflowStep, step_outputs: Dict[str, Any],
+                           global_inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Resolver entradas de etapa de saídas de etapas anteriores e entradas globais"""
+        
+        resolved = {}
+        
+        for key, value in step.inputs.items():
+            if isinstance(value, str) and value.startswith("$"):
+                # Esta é uma referência à saída de outra etapa ou entrada global
+                reference = value[1:]  # Remover $
+                
+                if "." in reference:
+                    # Referência a campo específico: $step_id.field_name
+                    step_id, field_name = reference.split(".", 1)
+                    if step_id in step_outputs:
+                        resolved[key] = step_outputs[step_id].get(field_name)
+                    elif step_id == "global":
+                        resolved[key] = global_inputs.get(field_name)
+                    else:
+                        raise ValueError(f"Etapa referenciada {step_id} não encontrada ou ainda não executada")
+                else:
+                    # Referência à saída completa: $step_id
+                    if reference in step_outputs:
+                        resolved[key] = step_outputs[reference]
+                    elif reference in global_inputs:
+                        resolved[key] = global_inputs[reference]
+                    else:
+                        raise ValueError(f"Saída referenciada {reference} não encontrada")
+            else:
+                # Valor direto
+                resolved[key] = value
+        
+        return resolved
+    
+    def _can_continue_workflow(self, failed_step: WorkflowStep, workflow: Workflow) -> bool:
+        """Determinar se o fluxo de trabalho pode continuar após uma falha de etapa"""
+        
+        # Verificar se alguma etapa restante depende da etapa falhada
+        for step in workflow.steps:
+            if (step.status == WorkflowStatus.PENDING and 
+                failed_step.step_id in step.dependencies):
+                return False
+        
+        return True
+    
+    def _extract_global_outputs(self, workflow: Workflow, 
+                               step_outputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Extrair saídas globais da execução do fluxo de trabalho"""
+        
+        global_outputs = {}
+        
+        # Adicionar saídas das etapas finais
+        final_steps = [step for step in workflow.steps 
+                      if step.status == WorkflowStatus.COMPLETED]
+        
+        if final_steps:
+            # Usar as saídas da última etapa completada como saídas globais
+            last_step = max(final_steps, key=lambda s: s.execution_time or 0)
+            global_outputs.update(last_step.outputs)
+        
+        # Adicionar quaisquer saídas marcadas como globais
+        for step_id, outputs in step_outputs.items():
+            if isinstance(outputs, dict):
+                for key, value in outputs.items():
+                    if key.startswith("global_"):
+                        global_outputs[key[7:]] = value  # Remover prefixo "global_"
+        
+        return global_outputs
+    
+    async def cancel_workflow(self, workflow_id: str) -> bool:
+        """Cancelar um fluxo de trabalho em execução"""
+        if workflow_id in self.running_workflows:
+            workflow = self.running_workflows[workflow_id]
+            workflow.status = WorkflowStatus.CANCELLED
+            # Em uma implementação real, você cancelaria tarefas em execução
+            logging.info(f"Fluxo de trabalho {workflow_id} cancelado")
+            return True
+        return False
+    
+    def get_workflow_status(self, workflow_id: str) -> Optional[Dict[str, Any]]:
+        """Obter status de um fluxo de trabalho"""
+        workflow = (self.running_workflows.get(workflow_id) or 
+                   self.completed_workflows.get(workflow_id))
+        
+        if not workflow:
+            return None
+        
+        return {
+            "workflow_id": workflow.workflow_id,
+            "name": workflow.name,
+            "status": workflow.status.value,
+            "steps_completed": len([s for s in workflow.steps if s.status == WorkflowStatus.COMPLETED]),
+            "total_steps": len(workflow.steps),
+            "execution_time": workflow.total_execution_time,
+            "created_at": workflow.created_at.isoformat(),
+            "started_at": workflow.started_at.isoformat() if workflow.started_at else None,
+            "completed_at": workflow.completed_at.isoformat() if workflow.completed_at else None
+        }
+
+# Exemplo de criação e execução de fluxo de trabalho
+async def create_data_analysis_workflow() -> Workflow:
+    """Criar um fluxo de trabalho para análise de dados"""
+    
+    steps = [
+        # Etapa 1: Extrair dados de website
+        WorkflowStep(
+            step_id="scrape_data",
+            tool_name="web_scraper",
+            inputs={
+                "url": "$global.source_url",
+                "selector": "table.data"
+            }
+        ),
+        
+        # Etapa 2: Processar dados extraídos
+        WorkflowStep(
+            step_id="process_data",
+            tool_name="data_processor",
+            inputs={
+                "data": "$scrape_data.content",
+                "operation": "summarize"
+            },
+            dependencies=["scrape_data"]
+        ),
+        
+        # Etapa 3: Criar visualização
+        WorkflowStep(
+            step_id="create_chart",
+            tool_name="visualizer",
+            inputs={
+                "data": "$process_data",
+                "chart_type": "bar",
+                "title": "Resultados da Análise de Dados"
+            },
+            dependencies=["process_data"]
+        )
+    ]
+    
+    workflow = Workflow(
+        workflow_id="data_analysis_001",
+        name="Análise de Dados Web",
+        description="Extrair, processar e visualizar dados web",
+        steps=steps,
+        global_inputs={
+            "source_url": "https://example.com/data"
+        }
+    )
+    
+    return workflow
+
+# Exemplo de uso
+async def demonstrate_orchestration():
+    """Demonstrar orquestração de fluxo de trabalho"""
+    
+    # Configuração
+    registry = await setup_tool_registry()
+    selector = ToolSelector(registry)
+    orchestrator = WorkflowOrchestrator(registry, selector)
+    
+    # Criar e executar fluxo de trabalho
+    workflow = await create_data_analysis_workflow()
+    
+    print(f"Iniciando fluxo de trabalho: {workflow.name}")
+    result = await orchestrator.execute_workflow(workflow)
+    
+    print(f"Fluxo de trabalho completado com status: {result.status.value}")
+    if result.status == WorkflowStatus.COMPLETED:
+        print(f"Tempo de execução: {result.total_execution_time:.2f}s")
+        print(f"Saídas globais: {result.global_outputs}")
+    
+    # Obter status
+    status = orchestrator.get_workflow_status(workflow.workflow_id)
+    print(f"Status final: {status}")
+
+# Executar demonstração
+# await demonstrate_orchestration()
+```
+
+### 4. Execução de Ferramentas Resiliente a Erros
+
+O tratamento robusto de erros é crucial para sistemas de orquestração de ferramentas em produção.
+
+#### Exemplo de Código: Executor de Ferramentas Resiliente a Erros
+
+```python
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import dataclass
+from enum import Enum
+import asyncio
+import logging
+import time
+from contextlib import asynccontextmanager
+
+class ErrorType(Enum):
+    TIMEOUT = "timeout"
+    RATE_LIMIT = "rate_limit"
+    NETWORK_ERROR = "network_error"
+    AUTHENTICATION_ERROR = "authentication_error"
+    RESOURCE_EXHAUSTED = "resource_exhausted"
+    INVALID_INPUT = "invalid_input"
+    TOOL_UNAVAILABLE = "tool_unavailable"
+    UNKNOWN_ERROR = "unknown_error"
+
+@dataclass
+class ExecutionError:
+    """Representa um erro de execução com contexto"""
+    error_type: ErrorType
+    message: str
+    tool_name: str
+    attempt_number: int
+    timestamp: float
+    recoverable: bool = True
+    suggested_wait_time: float = 1.0
+
+class CircuitBreaker:
+    """Padrão circuit breaker para confiabilidade de ferramentas"""
+    
+    def __init__(self, failure_threshold: int = 5, recovery_timeout: float = 60.0):
+        self.failure_threshold = failure_threshold
+        self.recovery_timeout = recovery_timeout
+        self.failure_count = 0
+        self.last_failure_time = 0
+        self._state = "closed"  # fechado, aberto, meio-aberto
+        
+    @property
+    def state(self) -> str:
+        return self._state
+    
+    def can_execute(self) -> bool:
+        """Verificar se a execução é permitida"""
+        if self._state == "closed":
+            return True
+        elif self._state == "open":
+            if time.time() - self.last_failure_time > self.recovery_timeout:
+                self._state = "half-open"
+                return True
+            return False
+        else:  # meio-aberto
+            return True
+    
+    def record_success(self):
+        """Registrar execução bem-sucedida"""
+        self.failure_count = 0
+        self._state = "closed"
+    
+    def record_failure(self):
+        """Registrar execução falhada"""
+        self.failure_count += 1
+        self.last_failure_time = time.time()
+        
+        if self.failure_count >= self.failure_threshold:
+            self._state = "open"
+        elif self._state == "half-open":
+            self._state = "open"
+
+class ResilientToolExecutor:
+    """Executor de ferramentas resiliente a erros com tratamento abrangente de erros"""
+    
+    def __init__(self, registry: ToolRegistry):
+        self.registry = registry
+        self.circuit_breakers: Dict[str, CircuitBreaker] = {}
+        self.rate_limiters: Dict[str, 'RateLimiter'] = {}
+        self.fallback_tools: Dict[str, List[str]] = {}
+        self.error_handlers: Dict[ErrorType, Callable] = {}
+        self._setup_default_error_handlers()
+        
+    def _setup_default_error_handlers(self):
+        """Configurar estratégias padrão de tratamento de erros"""
+        self.error_handlers = {
+            ErrorType.TIMEOUT: self._handle_timeout,
+            ErrorType.RATE_LIMIT: self._handle_rate_limit,
+            ErrorType.NETWORK_ERROR: self._handle_network_error,
+            ErrorType.AUTHENTICATION_ERROR: self._handle_auth_error,
+            ErrorType.RESOURCE_EXHAUSTED: self._handle_resource_exhausted,
+            ErrorType.INVALID_INPUT: self._handle_invalid_input,
+            ErrorType.TOOL_UNAVAILABLE: self._handle_tool_unavailable
+        }
+    
+    def register_fallback_tool(self, primary_tool: str, fallback_tools: List[str]):
+        """Registrar ferramentas de fallback para uma ferramenta principal"""
+        self.fallback_tools[primary_tool] = fallback_tools
+    
+    async def execute_with_resilience(self, tool_name: str, 
+                                    max_retries: int = 3,
+                                    timeout: float = 30.0,
+                                    **kwargs) -> Any:
+        """Executar ferramenta com tratamento abrangente de erros e resiliência"""
+        
+        # Obter ou criar circuit breaker
+        if tool_name not in self.circuit_breakers:
+            self.circuit_breakers[tool_name] = CircuitBreaker()
+        
+        circuit_breaker = self.circuit_breakers[tool_name]
+        
+        # Verificar circuit breaker
+        if not circuit_breaker.can_execute():
+            raise ExecutionError(
+                error_type=ErrorType.TOOL_UNAVAILABLE,
+                message=f"Circuit breaker aberto para ferramenta {tool_name}",
+                tool_name=tool_name,
+                attempt_number=0,
+                timestamp=time.time(),
+                recoverable=False
+            )
+        
+        # Tentar ferramenta principal primeiro
+        tools_to_try = [tool_name]
+        if tool_name in self.fallback_tools:
+            tools_to_try.extend(self.fallback_tools[tool_name])
+        
+        last_error = None
+        
+        for current_tool_name in tools_to_try:
+            try:
+                result = await self._execute_tool_with_retries(
+                    current_tool_name, max_retries, timeout, **kwargs
+                )
+                
+                # Registrar sucesso para circuit breaker
+                if current_tool_name == tool_name:
+                    circuit_breaker.record_success()
+                
+                return result
+                
+            except ExecutionError as e:
+                last_error = e
+                logging.warning(f"Ferramenta {current_tool_name} falhou: {e.message}")
+                
+                # Registrar falha para circuit breaker
+                if current_tool_name == tool_name:
+                    circuit_breaker.record_failure()
+                
+                # Se este erro não é recuperável, não tentar fallbacks
+                if not e.recoverable:
+                    break
+                
+                continue
+        
+        # Todas as ferramentas falharam
+        if last_error:
+            raise last_error
+        else:
+            raise ExecutionError(
+                error_type=ErrorType.UNKNOWN_ERROR,
+                message="Todas as ferramentas falharam sem erro específico",
+                tool_name=tool_name,
+                attempt_number=max_retries,
+                timestamp=time.time(),
+                recoverable=False
+            )
+    
+    async def _execute_tool_with_retries(self, tool_name: str, 
+                                       max_retries: int, timeout: float,
+                                       **kwargs) -> Any:
+        """Executar ferramenta com lógica de tentativa"""
+        
+        tool = self.registry.get_tool(tool_name)
+        if not tool:
+            raise ExecutionError(
+                error_type=ErrorType.TOOL_UNAVAILABLE,
+                message=f"Ferramenta {tool_name} não encontrada no registro",
+                tool_name=tool_name,
+                attempt_number=0,
+                timestamp=time.time(),
+                recoverable=False
+            )
+        
+        last_error = None
+        
+        for attempt in range(max_retries + 1):
+            try:
+                # Aplicar limitação de taxa
+                await self._apply_rate_limiting(tool_name)
+                
+                # Executar com timeout
+                result = await asyncio.wait_for(
+                    tool.execute(**kwargs),
+                    timeout=timeout
+                )
+                
+                return result
+                
+            except asyncio.TimeoutError:
+                error = ExecutionError(
+                    error_type=ErrorType.TIMEOUT,
+                    message=f"Execução da ferramenta expirou após {timeout}s",
+                    tool_name=tool_name,
+                    attempt_number=attempt,
+                    timestamp=time.time(),
+                    suggested_wait_time=min(30.0, 2 ** attempt)
+                )
+                last_error = error
+                
+            except Exception as e:
+                # Classificar o erro
+                error_type = self._classify_error(e)
+                error = ExecutionError(
+                    error_type=error_type,
+                    message=str(e),
+                    tool_name=tool_name,
+                    attempt_number=attempt,
+                    timestamp=time.time(),
+                    recoverable=self._is_recoverable_error(error_type),
+                    suggested_wait_time=self._calculate_wait_time(error_type, attempt)
+                )
+                last_error = error
+            
+            # Tratar o erro e decidir se deve tentar novamente
+            if last_error and attempt < max_retries:
+                should_retry, wait_time = await self._handle_error(last_error)
+                if should_retry:
+                    if wait_time > 0:
+                        await asyncio.sleep(wait_time)
+                    continue
+                else:
+                    break
+        
+        # Todas as tentativas esgotadas
+        if last_error:
+            raise last_error
+        else:
+            raise ExecutionError(
+                error_type=ErrorType.UNKNOWN_ERROR,
+                message="Execução falhou sem erro específico",
+                tool_name=tool_name,
+                attempt_number=max_retries,
+                timestamp=time.time(),
+                recoverable=False
+            )
+    
+    def _classify_error(self, exception: Exception) -> ErrorType:
+        """Classificar exceção em tipo de erro"""
+        error_message = str(exception).lower()
+        
+        if "timeout" in error_message:
+            return ErrorType.TIMEOUT
+        elif "rate limit" in error_message or "too many requests" in error_message:
+            return ErrorType.RATE_LIMIT
+        elif ("network" in error_message or "connection" in error_message or 
+              "unreachable" in error_message):
+            return ErrorType.NETWORK_ERROR
+        elif ("auth" in error_message or "unauthorized" in error_message or
+              "forbidden" in error_message):
+            return ErrorType.AUTHENTICATION_ERROR
+        elif ("resource" in error_message and "exhausted" in error_message):
+            return ErrorType.RESOURCE_EXHAUSTED
+        elif ("invalid" in error_message or "bad request" in error_message):
+            return ErrorType.INVALID_INPUT
+        else:
+            return ErrorType.UNKNOWN_ERROR
+    
+    def _is_recoverable_error(self, error_type: ErrorType) -> bool:
+        """Determinar se o tipo de erro é recuperável"""
+        recoverable_errors = {
+            ErrorType.TIMEOUT,
+            ErrorType.RATE_LIMIT,
+            ErrorType.NETWORK_ERROR,
+            ErrorType.RESOURCE_EXHAUSTED
+        }
+        return error_type in recoverable_errors
+    
+    def _calculate_wait_time(self, error_type: ErrorType, attempt: int) -> float:
+        """Calcular tempo de espera baseado no tipo de erro e tentativa"""
+        base_wait_times = {
+            ErrorType.TIMEOUT: 2.0,
+            ErrorType.RATE_LIMIT: 5.0,
+            ErrorType.NETWORK_ERROR: 1.0,
+            ErrorType.RESOURCE_EXHAUSTED: 10.0,
+            ErrorType.UNKNOWN_ERROR: 1.0
+        }
+        
+        base_wait = base_wait_times.get(error_type, 1.0)
+        return min(60.0, base_wait * (2 ** attempt))  # Backoff exponencial, máximo 60s
+    
+    async def _handle_error(self, error: ExecutionError) -> tuple[bool, float]:
+        """Tratar erro e retornar (deve_tentar_novamente, tempo_espera)"""
+        
+        handler = self.error_handlers.get(error.error_type)
+        if handler:
+            return await handler(error)
+        else:
+            return error.recoverable, error.suggested_wait_time
+    
+    async def _handle_timeout(self, error: ExecutionError) -> tuple[bool, float]:
+        """Tratar erros de timeout"""
+        # Timeout geralmente é recuperável, mas com tempo de espera maior
+        return True, error.suggested_wait_time
+    
+    async def _handle_rate_limit(self, error: ExecutionError) -> tuple[bool, float]:
+        """Tratar erros de limite de taxa"""
+        # Limites de taxa são recuperáveis mas precisam de espera maior
+        wait_time = max(error.suggested_wait_time, 5.0)
+        return True, wait_time
+    
+    async def _handle_network_error(self, error: ExecutionError) -> tuple[bool, float]:
+        """Tratar erros de rede"""  
+        # Erros de rede geralmente são temporários
+        return True, error.suggested_wait_time
+    
+    async def _handle_auth_error(self, error: ExecutionError) -> tuple[bool, float]:
+        """Tratar erros de autenticação"""
+        # Erros de autenticação geralmente não são recuperáveis sem intervenção manual
+        return False, 0.0
+    
+    async def _handle_resource_exhausted(self, error: ExecutionError) -> tuple[bool, float]:
+        """Tratar esgotamento de recursos"""
+        # Esgotamento de recursos precisa de tempo de espera maior
+        wait_time = max(error.suggested_wait_time, 10.0)
+        return True, wait_time
+    
+    async def _handle_invalid_input(self, error: ExecutionError) -> tuple[bool, float]:
+        """Tratar erros de entrada inválida"""
+        # Entrada inválida não é recuperável sem corrigir a entrada
+        return False, 0.0
+    
+    async def _handle_tool_unavailable(self, error: ExecutionError) -> tuple[bool, float]:
+        """Tratar erros de ferramenta indisponível"""
+        # Ferramenta indisponível pode ser temporário
+        return True, error.suggested_wait_time
+    
+    async def _apply_rate_limiting(self, tool_name: str):
+        """Aplicar limitação de taxa para ferramenta"""
+        if tool_name not in self.rate_limiters:
+            # Obter limite de taxa dos metadados da ferramenta
+            tool = self.registry.get_tool(tool_name)
+            if tool and tool.metadata.rate_limit:
+                self.rate_limiters[tool_name] = RateLimiter(tool.metadata.rate_limit)
+        
+        if tool_name in self.rate_limiters:
+            await self.rate_limiters[tool_name].acquire()
+    
+    def get_tool_health_summary(self) -> Dict[str, Dict[str, Any]]:
+        """Obter resumo de saúde para todas as ferramentas"""
+        summary = {}
+        
+        for tool_name, circuit_breaker in self.circuit_breakers.items():
+            tool = self.registry.get_tool(tool_name)
+            summary[tool_name] = {
+                "circuit_breaker_state": circuit_breaker.state,
+                "failure_count": circuit_breaker.failure_count,
+                "is_healthy": tool.is_healthy if tool else False,
+                "success_rate": tool.get_success_rate() if tool else 0.0,
+                "average_execution_time": tool.get_average_execution_time() if tool else 0.0
+            }
+        
+        return summary
+
+class RateLimiter:
+    """Limitador de taxa token bucket"""
+    
+    def __init__(self, requests_per_second: float):
+        self.requests_per_second = requests_per_second
+        self.tokens = requests_per_second
+        self.last_update = time.time()
+        self._lock = asyncio.Lock()
+    
+    async def acquire(self):
+        """Adquirir um token, esperando se necessário"""
+        async with self._lock:
+            now = time.time()
+            elapsed = now - self.last_update
+            
+            # Adicionar tokens com base no tempo decorrido
+            self.tokens = min(
+                self.requests_per_second,
+                self.tokens + elapsed * self.requests_per_second
+            )
+            self.last_update = now
+            
+            if self.tokens >= 1:
+                self.tokens -= 1
+                return
+            
+            # Precisa esperar
+            wait_time = (1 - self.tokens) / self.requests_per_second
+            await asyncio.sleep(wait_time)
+            self.tokens = 0
+
+# Exemplo de uso
+async def demonstrate_resilient_execution():
+    """Demonstrar execução resiliente de ferramentas"""
+    
+    registry = await setup_tool_registry()
+    executor = ResilientToolExecutor(registry)
+    
+    # Registrar ferramentas de fallback
+    executor.register_fallback_tool("web_scraper", ["backup_scraper"])
+    
+    try:
+        # Executar com resiliência
+        result = await executor.execute_with_resilience(
+            tool_name="web_scraper",
+            max_retries=3,
+            timeout=10.0,
+            url="https://example.com",
+            selector="h1"
+        )
+        
+        print(f"Execução bem-sucedida: {result}")
+        
+    except ExecutionError as e:
+        print(f"Execução falhou: {e.message}")
+        print(f"Tipo de erro: {e.error_type.value}")
+        print(f"Recuperável: {e.recoverable}")
+    
+    # Obter resumo de saúde
+    health_summary = executor.get_tool_health_summary()
+    print(f"Resumo de saúde das ferramentas: {health_summary}")
+
+# Executar demonstração
+# await demonstrate_resilient_execution()
+```
+
+## Quiz Interativo
+
+Teste sua compreensão sobre orquestração de ferramentas:
+
+### Pergunta 1
+Qual é o principal benefício de usar um padrão de registro de ferramentas?
+
+A) Execução mais rápida de ferramentas
+B) Descoberta e gerenciamento centralizados de ferramentas
+C) Uso reduzido de memória
+D) Melhor tratamento de erros
+
+**Resposta: B) Descoberta e gerenciamento centralizados de ferramentas**
+
+O padrão de registro fornece um local central para descobrir, registrar e gerenciar ferramentas, facilitando a coordenação de múltiplas ferramentas em fluxos de trabalho complexos.
+
+### Pergunta 2
+Qual estratégia de tratamento de erros é mais apropriada para erros de limite de taxa?
+
+A) Tentativa imediata
+B) Backoff exponencial com tempos de espera maiores
+C) Mudar para ferramenta de fallback imediatamente
+D) Falhar rapidamente sem tentativas
+
+**Resposta: B) Backoff exponencial com tempos de espera maiores**
+
+Erros de limite de taxa requerem esperar que a janela de limite de taxa seja reiniciada, então o backoff exponencial com tempos de espera apropriados é a estratégia mais eficaz.
+
+### Pergunta 3
+Qual é o propósito de um circuit breaker na orquestração de ferramentas?
+
+A) Prevenir loops infinitos
+B) Balancear carga entre ferramentas
+C) Prevenir falhas em cascata desabilitando temporariamente ferramentas com falhas
+D) Otimizar seleção de ferramentas
+
+**Resposta: C) Prevenir falhas em cascata desabilitando temporariamente ferramentas com falhas**
+
+Circuit breakers monitoram falhas de ferramentas e desabilitam temporariamente ferramentas que estão falhando frequentemente, prevenindo falhas em cascata e dando tempo para os serviços com falha se recuperarem.
+
+## Exercícios Práticos
+
+### Exercício 1: Fluxo de Trabalho de Análise de Dados Multi-Ferramenta
+**Tempo: 60 minutos**
+
+Construa um agente que orquestra:
+1. Ferramenta de web scraping para coletar dados
+2. Ferramenta de processamento de dados para limpar e analisar
+3. Ferramenta de visualização para criar gráficos
+4. Ferramenta de comunicação para enviar resultados
+
+Inclua tratamento adequado de erros e mecanismos de fallback.
+
+### Exercício 2: Sistema de Seleção Adaptativa de Ferramentas
+**Tempo: 75 minutos**
+
+Crie um sistema que:
+1. Seleciona ferramentas dinamicamente com base em métricas de desempenho
+2. Aprende do histórico de execução para melhorar a seleção
+3. Lida graciosamente com falhas de ferramentas com fallbacks
+4. Monitora e relata sobre o desempenho das ferramentas
+
+### Exercício 3: Orquestrador de Ferramentas Resiliente
+**Tempo: 90 minutos**
+
+Construa um orquestrador pronto para produção com:
+1. Circuit breakers para todas as ferramentas
+2. Classificação e tratamento abrangente de erros
+3. Limitação de taxa e gerenciamento de recursos
+4. Monitoramento de saúde e recuperação automática
+5. Logging detalhado e coleta de métricas
+
+## Resumo
+
+A orquestração de ferramentas é essencial para construir agentes de IA sofisticados que podem aproveitar múltiplas capacidades. Principais lições:
+
+- **Padrões de registro** fornecem gerenciamento e descoberta centralizados de ferramentas
+- **Seleção dinâmica de ferramentas** otimiza desempenho e confiabilidade
+- **Orquestração de fluxo de trabalho** coordena processos complexos de múltiplas etapas
+- **Resiliência a erros** garante operação robusta em ambientes de produção
+- **Circuit breakers** previnem falhas em cascata
+- **Limitação de taxa** gerencia uso de recursos e restrições de API
+
+A orquestração bem-sucedida de ferramentas requer atenção cuidadosa ao tratamento de erros, otimização de desempenho e monitoramento.
+
+## Próximos Passos
+
+No próximo módulo, exploraremos **Design Human-in-the-Loop**, onde você aprenderá a construir sistemas que combinam efetivamente capacidades de IA com expertise e supervisão humana para tomada de decisão e controle ideais.
+
+---
+
+## Recursos Adicionais
+
+- [Documentação de Ferramentas LangChain](https://docs.langchain.com/docs/components/agents/tools/)
+- [Guia de Chamada de Funções OpenAI](https://platform.openai.com/docs/guides/function-calling)
+- [Padrões de Microsserviços](https://microservices.io/patterns/)
+- [Padrão Circuit Breaker](https://martinfowler.com/bliki/CircuitBreaker.html)
+- [Padrão API Gateway](https://microservices.io/patterns/apigateway.html)

@@ -1,0 +1,1410 @@
+---
+title: "Construir um Servidor MCP Completo"
+description: "Projeto final: Crie um servidor MCP pronto para produção que integre múltiplos provedores, ferramentas e sistemas do mundo real"
+duration: "120 minutos"
+difficulty: "avançado"
+objectives:
+  - "Projetar e arquitetar uma solução completa de servidor MCP"
+  - "Integrar múltiplos provedores de recursos e ferramentas"
+  - "Implementar tratamento de erros e logging prontos para produção"
+  - "Adicionar gerenciamento de configuração e suporte a ambientes"
+  - "Construir testes e documentação abrangentes"
+  - "Implantar e testar com aplicações de IA reais"
+tags:
+  - "mcp"
+  - "projeto-final"
+  - "projeto"
+  - "produção"
+  - "integração"
+lastUpdated: "2024-01-15"
+author: "Brandon Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+
+# Construir um Servidor MCP Completo
+
+## Visão Geral e Arquitetura do Projeto {#project-overview}
+
+Parabéns por chegar ao projeto final! Agora você aplicará tudo o que aprendeu para construir um servidor MCP pronto para produção que demonstra padrões de integração do mundo real e melhores práticas.
+
+### O que Você Construirá: Servidor de Inteligência de Workspace
+
+Seu projeto final é um **Servidor de Inteligência de Workspace** - um servidor MCP que fornece às aplicações de IA acesso abrangente a ambientes de desenvolvimento. Este servidor integrará múltiplas fontes de dados e fornecerá ferramentas poderosas para gerenciamento de projetos, fluxos de trabalho de desenvolvimento e colaboração em equipe.
+
+### Recursos Principais
+
+🔧 **Arquitetura Multi-Provedor**: Sistema de arquivos, Git, banco de dados, API e provedores de configuração
+🛠️ **Conjunto Abrangente de Ferramentas**: Operações de arquivo, gerenciamento de projetos, comunicação e ferramentas de desenvolvimento
+⚡ **Pronto para Produção**: Logging, monitoramento, tratamento de erros e desligamento gracioso
+🔒 **Seguro por Design**: Validação de entrada, controles de acesso e logging de auditoria
+📊 **Observável**: Verificações de saúde, métricas e monitoramento de performance
+🧪 **Bem Testado**: Testes unitários, testes de integração e testes end-to-end
+
+<CodeExample
+  title="Estrutura Completa do Projeto"
+  language="text"
+  code={`mcp-workspace-server/
+├── src/
+│   ├── index.ts                 # Entrada principal do servidor
+│   ├── config/
+│   │   ├── index.ts            # Gerenciamento de configuração
+│   │   └── schema.ts           # Validação de config
+│   ├── providers/
+│   │   ├── index.ts            # Registro de provedores
+│   │   ├── filesystem.ts       # Provedor de sistema de arquivos
+│   │   ├── database.ts         # Provedor de banco de dados
+│   │   ├── api.ts              # Provedor de API externa
+│   │   └── git.ts              # Provedor de repositório Git
+│   ├── tools/
+│   │   ├── index.ts            # Registro de ferramentas
+│   │   ├── file-ops.ts         # Operações de arquivo
+│   │   ├── project-mgmt.ts     # Gerenciamento de projeto
+│   │   ├── communication.ts    # Ferramentas Email/Slack
+│   │   └── development.ts      # Ferramentas dev (git, npm, etc.)
+│   ├── middleware/
+│   │   ├── auth.ts             # Autenticação
+│   │   ├── rate-limit.ts       # Limitação de taxa
+│   │   └── logging.ts          # Logging de requisições
+│   ├── utils/
+│   │   ├── validation.ts       # Validação de entrada
+│   │   ├── security.ts         # Helpers de segurança
+│   │   └── errors.ts           # Classes de erro
+│   └── types/
+│       ├── config.ts           # Tipos de configuração
+│       ├── providers.ts        # Interfaces de provedor
+│       └── tools.ts            # Interfaces de ferramenta
+├── tests/
+│   ├── unit/                   # Testes unitários
+│   ├── integration/            # Testes de integração
+│   └── fixtures/               # Dados de teste
+├── docs/
+│   ├── README.md               # Documentação principal
+│   ├── API.md                  # Referência da API
+│   └── DEPLOYMENT.md           # Guia de implantação
+├── config/
+│   ├── development.json        # Config de desenvolvimento
+│   ├── production.json         # Config de produção
+│   └── test.json               # Config de teste
+├── scripts/
+│   ├── build.sh               # Script de build
+│   ├── test.sh                # Script de teste
+│   └── deploy.sh              # Script de implantação
+├── .github/
+│   └── workflows/             # Workflows CI/CD
+├── package.json
+├── tsconfig.json
+├── jest.config.js
+├── .eslintrc.js
+└── .gitignore`}
+/>
+
+### Princípios de Arquitetura
+
+Seu servidor seguirá estes princípios arquiteturais:
+
+1. **Modularidade**: Cada provedor e ferramenta é autocontido e testável independentemente
+2. **Extensibilidade**: Novos provedores e ferramentas podem ser adicionados sem modificar código principal
+3. **Resiliência**: Falhas em um componente não afetam outros
+4. **Observabilidade**: Logging e monitoramento abrangentes em todo o sistema
+5. **Segurança**: Defesa em profundidade com múltiplas camadas de segurança
+
+<Callout type="info">
+  **Filosofia de Design**: Construa para produção desde o primeiro dia. Cada componente deve incluir tratamento de erros, logging, validação e testes.
+</Callout>
+
+## Implementação do Servidor Principal {#core-implementation}
+
+Vamos começar construindo a arquitetura fundamental do servidor que suportará todos os seus provedores e ferramentas.
+
+<Exercise
+  id="core-implementation"
+  title="Construir a Arquitetura Principal do Servidor MCP"
+/>
+
+### Sistema de Gerenciamento de Configuração
+
+Um servidor de produção precisa de gerenciamento robusto de configuração:
+
+<CodeExample
+  title="Sistema de Configuração"
+  language="typescript"
+  code={`// src/config/index.ts
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import Ajv from 'ajv';
+import { configSchema } from './schema.js';
+
+export interface ServerConfig {
+  server: {
+    name: string;
+    version: string;
+    environment: string;
+  };
+  providers: {
+    filesystem: { enabled: boolean; basePath: string; watchFiles?: boolean };
+    git: { enabled: boolean; repositoryPath: string };
+    database: { enabled: boolean; connectionString: string };
+    api: { enabled: boolean; endpoints: string[]; timeout: number };
+    config: { enabled: boolean; configPath: string };
+  };
+  tools: {
+    fileOps: { enabled: boolean; maxFileSize: number };
+    projectMgmt: { enabled: boolean; projectsPath: string };
+    communication: { enabled: boolean; slackToken?: string; emailConfig?: any };
+    development: { enabled: boolean; allowedCommands: string[] };
+  };
+  security: {
+    rateLimiting: { enabled: boolean; maxRequests: number; window: number };
+    allowedOrigins: string[];
+    logLevel: 'debug' | 'info' | 'warn' | 'error';
+  };
+  monitoring: {
+    healthCheck: { enabled: boolean; interval: number };
+    metrics: { enabled: boolean; port?: number };
+  };
+}
+
+export function loadConfiguration(): ServerConfig {
+  const environment = process.env.NODE_ENV || 'development';
+  const configFile = join(process.cwd(), 'config', \`\${environment}.json\`);
+  
+  try {
+    const configData = JSON.parse(readFileSync(configFile, 'utf-8'));
+    
+    // Mesclar com variáveis de ambiente
+    const config = mergeEnvironmentVariables(configData);
+    
+    // Validar configuração
+    const ajv = new Ajv();
+    const validate = ajv.compile(configSchema);
+    
+    if (!validate(config)) {
+      throw new Error(\`Configuração inválida: \${JSON.stringify(validate.errors)}\`);
+    }
+    
+    return config;
+  } catch (error) {
+    console.error(\`Falha ao carregar configuração: \${error.message}\`);
+    process.exit(1);
+  }
+}
+
+function mergeEnvironmentVariables(config: any): ServerConfig {
+  // Sobrescrever com variáveis de ambiente
+  if (process.env.MCP_LOG_LEVEL) {
+    config.security.logLevel = process.env.MCP_LOG_LEVEL;
+  }
+  
+  if (process.env.MCP_DATABASE_URL) {
+    config.providers.database.connectionString = process.env.MCP_DATABASE_URL;
+  }
+  
+  if (process.env.MCP_SLACK_TOKEN) {
+    config.tools.communication.slackToken = process.env.MCP_SLACK_TOKEN;
+  }
+  
+  return config;
+}`}
+/>
+
+### Sistema de Logging Estruturado
+
+Implemente logging abrangente para depuração e monitoramento:
+
+<CodeExample
+  title="Logging de Produção"
+  language="typescript"
+  code={`// src/utils/logging.ts
+import winston from 'winston';
+
+export class Logger {
+  private logger: winston.Logger;
+  
+  constructor(component: string, config: any) {
+    this.logger = winston.createLogger({
+      level: config.security?.logLevel || 'info',
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.errors({ stack: true }),
+        winston.format.json(),
+        winston.format.printf(({ timestamp, level, message, component: comp, ...meta }) => {
+          return JSON.stringify({
+            timestamp,
+            level,
+            component: comp || component,
+            message,
+            ...meta
+          });
+        })
+      ),
+      defaultMeta: { component },
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple()
+          )
+        }),
+        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'logs/combined.log' })
+      ]
+    });
+  }
+  
+  debug(message: string, meta?: any) {
+    this.logger.debug(message, meta);
+  }
+  
+  info(message: string, meta?: any) {
+    this.logger.info(message, meta);
+  }
+  
+  warn(message: string, meta?: any) {
+    this.logger.warn(message, meta);
+  }
+  
+  error(message: string, error?: Error | any) {
+    if (error instanceof Error) {
+      this.logger.error(message, { error: error.message, stack: error.stack });
+    } else {
+      this.logger.error(message, { error });
+    }
+  }
+  
+  // Logging estruturado para eventos específicos
+  logResourceAccess(uri: string, success: boolean, duration: number) {
+    this.info('Recurso acessado', {
+      event: 'resource_access',
+      uri,
+      success,
+      duration,
+      timestamp: new Date().toISOString()
+    });
+  }
+  
+  logToolExecution(tool: string, success: boolean, duration: number, args?: any) {
+    this.info('Ferramenta executada', {
+      event: 'tool_execution',
+      tool,
+      success,
+      duration,
+      argsHash: args ? this.hashArgs(args) : undefined,
+      timestamp: new Date().toISOString()
+    });
+  }
+  
+  private hashArgs(args: any): string {
+    // Criar um hash de argumentos para logging (não registrar dados sensíveis)
+    const crypto = require('crypto');
+    return crypto.createHash('sha256').update(JSON.stringify(args)).digest('hex').substring(0, 8);
+  }
+}`}
+/>
+
+## Integrando Múltiplos Provedores {#provider-integration}
+
+Agora vamos construir um sistema abrangente de provedores que lida com múltiplas fontes de dados com resiliência e performance em mente.
+
+<Exercise
+  id="provider-integration"
+  title="Construir e Integrar Múltiplos Provedores de Recursos"
+/>
+
+### Padrões Avançados de Provedores
+
+Aqui estão alguns padrões avançados para sistemas de provedores de produção:
+
+<CodeExample
+  title="Provedor Git com Recursos Avançados"
+  language="typescript"
+  code={`// src/providers/git.ts
+import { execAsync } from '../utils/exec.js';
+import { Provider, Resource, ResourceContent } from '../types/providers.js';
+
+export class GitProvider implements Provider {
+  name = 'git';
+  scheme = 'git';
+  
+  constructor(private config: any, private logger: any) {}
+  
+  async listResources(): Promise<Resource[]> {
+    const resources: Resource[] = [];
+    
+    try {
+      // Status do repositório
+      resources.push({
+        uri: 'git://status',
+        name: 'Status do Repositório',
+        description: 'Status atual do repositório git e mudanças na árvore de trabalho',
+        mimeType: 'application/json'
+      });
+      
+      // Informações de branch
+      resources.push({
+        uri: 'git://branches',
+        name: 'Branches Git',
+        description: 'Lista de todas as branches locais e remotas',
+        mimeType: 'application/json'
+      });
+      
+      // Commits recentes
+      resources.push({
+        uri: 'git://commits/recent',
+        name: 'Commits Recentes',
+        description: 'Últimos 10 commits com detalhes',
+        mimeType: 'application/json'
+      });
+      
+      // Informações do repositório
+      resources.push({
+        uri: 'git://info',
+        name: 'Informações do Repositório',
+        description: 'Configuração do repositório e informações remotas',
+        mimeType: 'application/json'
+      });
+      
+      // Histórico de arquivo para arquivos rastreados
+      const trackedFiles = await this.getTrackedFiles();
+      for (const file of trackedFiles.slice(0, 20)) { // Limitar para evitar sobrecarga
+        resources.push({
+          uri: \`git://history/\${encodeURIComponent(file)}\`,
+          name: \`Histórico: \${file}\`,
+          description: \`Histórico git para \${file}\`,
+          mimeType: 'application/json'
+        });
+      }
+      
+    } catch (error) {
+      this.logger.error('Falha ao listar recursos git:', error);
+      // Retornar array vazio em vez de lançar erro - seja resiliente
+    }
+    
+    return resources;
+  }
+  
+  async readResource(uri: string): Promise<ResourceContent> {
+    const path = uri.replace('git://', '');
+    
+    switch (path) {
+      case 'status':
+        return this.getRepositoryStatus();
+      case 'branches':
+        return this.getBranches();
+      case 'commits/recent':
+        return this.getRecentCommits();
+      case 'info':
+        return this.getRepositoryInfo();
+      default:
+        if (path.startsWith('history/')) {
+          const filePath = decodeURIComponent(path.replace('history/', ''));
+          return this.getFileHistory(filePath);
+        }
+        throw new Error(\`Recurso git desconhecido: \${path}\`);
+    }
+  }
+  
+  private async getRepositoryStatus(): Promise<ResourceContent> {
+    try {
+      const [status, branch] = await Promise.all([
+        execAsync('git status --porcelain', { cwd: this.config.repositoryPath }),
+        execAsync('git branch --show-current', { cwd: this.config.repositoryPath })
+      ]);
+      
+      const changes = status.stdout.split('\\n').filter(line => line.trim()).map(line => ({
+        status: line.substring(0, 2),
+        file: line.substring(3),
+        staged: line[0] !== ' ',
+        unstaged: line[1] !== ' '
+      }));
+      
+      const data = {
+        currentBranch: branch.stdout.trim(),
+        changes,
+        totalChanges: changes.length,
+        stagedChanges: changes.filter(c => c.staged).length,
+        unstagedChanges: changes.filter(c => c.unstaged).length,
+        timestamp: new Date().toISOString()
+      };
+      
+      return {
+        uri: 'git://status',
+        mimeType: 'application/json',
+        text: JSON.stringify(data, null, 2)
+      };
+    } catch (error) {
+      throw new Error(\`Falha ao obter status git: \${error.message}\`);
+    }
+  }
+  
+  private async getBranches(): Promise<ResourceContent> {
+    try {
+      const [local, remote] = await Promise.all([
+        execAsync('git branch --format="%(refname:short)|%(objectname:short)|%(committerdate:iso8601)"', { cwd: this.config.repositoryPath }),
+        execAsync('git branch -r --format="%(refname:short)|%(objectname:short)|%(committerdate:iso8601)"', { cwd: this.config.repositoryPath })
+      ]);
+      
+      const parseBranches = (output: string, type: string) => 
+        output.split('\\n').filter(line => line.trim()).map(line => {
+          const [name, commit, date] = line.split('|');
+          return { name: name.trim(), commit, date, type };
+        });
+      
+      const data = {
+        local: parseBranches(local.stdout, 'local'),
+        remote: parseBranches(remote.stdout, 'remote'),
+        timestamp: new Date().toISOString()
+      };
+      
+      return {
+        uri: 'git://branches',
+        mimeType: 'application/json',
+        text: JSON.stringify(data, null, 2)
+      };
+    } catch (error) {
+      throw new Error(\`Falha ao obter branches: \${error.message}\`);
+    }
+  }
+  
+  private async getTrackedFiles(): Promise<string[]> {
+    try {
+      const result = await execAsync('git ls-files', { cwd: this.config.repositoryPath });
+      return result.stdout.split('\\n').filter(line => line.trim());
+    } catch (error) {
+      this.logger.error('Falha ao obter arquivos rastreados:', error);
+      return [];
+    }
+  }
+  
+  async healthCheck(): Promise<{ healthy: boolean; message?: string }> {
+    try {
+      // Verificar se git está disponível
+      await execAsync('git --version');
+      
+      // Verificar se o repositório existe e é válido
+      await execAsync('git rev-parse --git-dir', { cwd: this.config.repositoryPath });
+      
+      return { healthy: true };
+    } catch (error) {
+      return { 
+        healthy: false, 
+        message: \`Provedor Git não saudável: \${error.message}\`
+      };
+    }
+  }
+  
+  async cleanup(): Promise<void> {
+    // Provedor Git não precisa de limpeza, mas poderia cancelar operações em andamento
+    this.logger.debug('Limpeza do provedor Git concluída');
+  }
+}`}
+/>
+
+### Provedor de Banco de Dados com Pool de Conexão
+
+<CodeExample
+  title="Provedor de Banco de Dados de Produção"
+  language="typescript"
+  code={`// src/providers/database.ts
+import sqlite3 from 'sqlite3';
+import { Provider, Resource, ResourceContent } from '../types/providers.js';
+
+export class DatabaseProvider implements Provider {
+  name = 'database';
+  scheme = 'db';
+  private db: sqlite3.Database | null = null;
+  private connectionPool: ConnectionPool;
+  
+  constructor(private config: any, private logger: any) {
+    this.connectionPool = new ConnectionPool(config.connectionString, {
+      max: 10,
+      min: 2,
+      acquireTimeoutMillis: 30000,
+      createTimeoutMillis: 30000,
+      destroyTimeoutMillis: 5000,
+      idleTimeoutMillis: 30000
+    });
+  }
+  
+  async listResources(): Promise<Resource[]> {
+    const connection = await this.connectionPool.acquire();
+    
+    try {
+      // Obter todas as tabelas
+      const tables = await this.query(connection, 
+        "SELECT name FROM sqlite_master WHERE type='table'"
+      );
+      
+      const resources: Resource[] = [];
+      
+      // Adicionar cada tabela como recurso
+      for (const table of tables) {
+        const count = await this.query(connection,
+          \`SELECT COUNT(*) as count FROM \${table.name}\`
+        );
+        
+        resources.push({
+          uri: \`db://tables/\${table.name}\`,
+          name: \`Tabela: \${table.name}\`,
+          description: \`Tabela de banco de dados com \${count[0].count} registros\`,
+          mimeType: 'application/json'
+        });
+        
+        // Adicionar esquema da tabela como recurso
+        resources.push({
+          uri: \`db://schema/\${table.name}\`,
+          name: \`Esquema: \${table.name}\`,
+          description: \`Esquema da tabela para \${table.name}\`,
+          mimeType: 'application/json'
+        });
+      }
+      
+      // Adicionar informações do banco de dados
+      resources.push({
+        uri: 'db://info',
+        name: 'Informações do Banco de Dados',
+        description: 'Metadados e estatísticas do banco de dados',
+        mimeType: 'application/json'
+      });
+      
+      return resources;
+    } finally {
+      this.connectionPool.release(connection);
+    }
+  }
+  
+  async readResource(uri: string): Promise<ResourceContent> {
+    const path = uri.replace('db://', '');
+    const connection = await this.connectionPool.acquire();
+    
+    try {
+      if (path.startsWith('tables/')) {
+        const tableName = path.replace('tables/', '');
+        return this.getTableData(connection, tableName);
+      } else if (path.startsWith('schema/')) {
+        const tableName = path.replace('schema/', '');
+        return this.getTableSchema(connection, tableName);
+      } else if (path === 'info') {
+        return this.getDatabaseInfo(connection);
+      } else {
+        throw new Error(\`Recurso de banco de dados desconhecido: \${path}\`);
+      }
+    } finally {
+      this.connectionPool.release(connection);
+    }
+  }
+  
+  private async getTableData(connection: any, tableName: string): Promise<ResourceContent> {
+    // Validar nome da tabela para prevenir injeção SQL
+    if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(tableName)) {
+      throw new Error('Nome de tabela inválido');
+    }
+    
+    const data = await this.query(connection,
+      \`SELECT * FROM \${tableName} LIMIT 100\`
+    );
+    
+    return {
+      uri: \`db://tables/\${tableName}\`,
+      mimeType: 'application/json',
+      text: JSON.stringify({
+        table: tableName,
+        recordCount: data.length,
+        records: data,
+        timestamp: new Date().toISOString()
+      }, null, 2)
+    };
+  }
+  
+  private async query(connection: any, sql: string, params: any[] = []): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      connection.all(sql, params, (err: Error, rows: any[]) => {
+        if (err) reject(err);
+        else resolve(rows);
+      });
+    });
+  }
+  
+  async healthCheck(): Promise<{ healthy: boolean; message?: string }> {
+    try {
+      const connection = await this.connectionPool.acquire();
+      await this.query(connection, 'SELECT 1');
+      this.connectionPool.release(connection);
+      return { healthy: true };
+    } catch (error) {
+      return { 
+        healthy: false, 
+        message: \`Banco de dados não saudável: \${error.message}\`
+      };
+    }
+  }
+  
+  async cleanup(): Promise<void> {
+    await this.connectionPool.drain();
+    await this.connectionPool.clear();
+    this.logger.debug('Limpeza do provedor de banco de dados concluída');
+  }
+}`}
+/>
+
+## Integração Abrangente de Ferramentas {#tool-integration}
+
+Seu servidor precisa de um conjunto robusto de ferramentas que cubra todo o espectro de tarefas de desenvolvimento e gerenciamento de projetos.
+
+<CodeExample
+  title="Implementação do Registro de Ferramentas"
+  language="typescript"
+  code={`export class ToolRegistry {
+  private tools: Map<string, Tool> = new Map();
+  private toolProviders: Map<string, ToolProvider> = new Map();
+  private executionLog: ExecutionLog[] = [];
+  private rateLimiter: RateLimiter;
+  
+  constructor(private config: any, private logger: any) {
+    this.rateLimiter = new RateLimiter(config.rateLimiting);
+  }
+  
+  async registerAll() {
+    const providers = [
+      new FileOperationTools(this.config.filesystem),
+      new ProjectManagementTools(this.config.project),
+      new CommunicationTools(this.config.communication),
+      new DevelopmentTools(this.config.development)
+    ];
+    
+    for (const provider of providers) {
+      await this.registerToolProvider(provider);
+    }
+  }
+  
+  async executeTool(name: string, args: any): Promise<ToolResult> {
+    // Limitação de taxa
+    if (!this.rateLimiter.allow(name)) {
+      throw new Error(\`Limite de taxa excedido para ferramenta: \${name}\`);
+    }
+    
+    // Encontrar ferramenta
+    const tool = this.tools.get(name);
+    if (!tool) {
+      throw new Error(\`Ferramenta não encontrada: \${name}\`);
+    }
+    
+    // Validar argumentos
+    const validation = this.validateArguments(tool, args);
+    if (!validation.valid) {
+      throw new Error(\`Argumentos inválidos: \${validation.errors.join(', ')}\`);
+    }
+    
+    // Executar com monitoramento
+    const startTime = Date.now();
+    try {
+      const result = await tool.execute(args);
+      
+      // Registrar execução
+      this.logExecution({
+        tool: name,
+        success: !result.isError,
+        duration: Date.now() - startTime,
+        timestamp: new Date()
+      });
+      
+      return result;
+    } catch (error) {
+      this.logExecution({
+        tool: name,
+        success: false,
+        duration: Date.now() - startTime,
+        error: error.message,
+        timestamp: new Date()
+      });
+      throw error;
+    }
+  }
+  
+  getAllTools(): ToolDefinition[] {
+    return Array.from(this.tools.values()).map(tool => ({
+      name: tool.name,
+      description: tool.description,
+      inputSchema: tool.inputSchema
+    }));
+  }
+  
+  getExecutionStats(): ExecutionStats {
+    const recent = this.executionLog.filter(
+      log => Date.now() - log.timestamp.getTime() < 24 * 60 * 60 * 1000
+    );
+    
+    return {
+      totalExecutions: recent.length,
+      successRate: recent.filter(log => log.success).length / recent.length,
+      averageDuration: recent.reduce((sum, log) => sum + log.duration, 0) / recent.length,
+      topTools: this.getTopTools(recent)
+    };
+  }
+}`}
+/>
+
+### Ferramentas Avançadas de Desenvolvimento
+
+<CodeExample
+  title="Conjunto de Ferramentas de Desenvolvimento"
+  language="typescript"
+  code={`// src/tools/development.ts
+export class DevelopmentTools implements ToolProvider {
+  getName() { return 'development'; }
+  
+  getTools(): ToolDefinition[] {
+    return [
+      {
+        name: 'git_commit',
+        description: 'Criar um commit git com mudanças preparadas',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            message: { type: 'string', description: 'Mensagem de commit' },
+            addAll: { type: 'boolean', default: false, description: 'Adicionar todas as mudanças antes de commitar' }
+          },
+          required: ['message']
+        }
+      },
+      {
+        name: 'npm_install',
+        description: 'Instalar pacotes npm',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            packages: { 
+              type: 'array', 
+              items: { type: 'string' },
+              description: 'Nomes dos pacotes para instalar' 
+            },
+            dev: { type: 'boolean', default: false, description: 'Instalar como dependências de desenvolvimento' },
+            global: { type: 'boolean', default: false, description: 'Instalar globalmente' }
+          },
+          required: ['packages']
+        }
+      },
+      {
+        name: 'run_tests',
+        description: 'Executar testes do projeto',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            pattern: { type: 'string', description: 'Padrão de arquivo de teste' },
+            watch: { type: 'boolean', default: false, description: 'Executar em modo watch' },
+            coverage: { type: 'boolean', default: false, description: 'Gerar relatório de cobertura' }
+          }
+        }
+      },
+      {
+        name: 'build_project',
+        description: 'Construir o projeto',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            mode: { 
+              type: 'string', 
+              enum: ['development', 'production'], 
+              default: 'development',
+              description: 'Modo de build'
+            },
+            clean: { type: 'boolean', default: false, description: 'Limpar antes do build' }
+          }
+        }
+      }
+    ];
+  }
+  
+  async executeTool(name: string, args: any): Promise<ToolResult> {
+    switch (name) {
+      case 'git_commit':
+        return this.gitCommit(args);
+      case 'npm_install':
+        return this.npmInstall(args);
+      case 'run_tests':
+        return this.runTests(args);
+      case 'build_project':
+        return this.buildProject(args);
+      default:
+        throw new Error(\`Ferramenta de desenvolvimento desconhecida: \${name}\`);
+    }
+  }
+  
+  private async gitCommit(args: any): Promise<ToolResult> {
+    try {
+      const commands = [];
+      
+      if (args.addAll) {
+        commands.push('git add .');
+      }
+      
+      commands.push(\`git commit -m "\${args.message}"\`);
+      
+      const results = [];
+      for (const command of commands) {
+        const result = await execAsync(command, { cwd: this.config.repositoryPath });
+        results.push(result.stdout);
+      }
+      
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Commit git bem-sucedido:\\n\${results.join('\\n')}\`
+          }
+        ]
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Commit git falhou: \${error.message}\`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+  
+  private async npmInstall(args: any): Promise<ToolResult> {
+    try {
+      const flags = [];
+      if (args.dev) flags.push('--save-dev');
+      if (args.global) flags.push('--global');
+      
+      const command = \`npm install \${args.packages.join(' ')} \${flags.join(' ')}\`;
+      const result = await execAsync(command, { 
+        cwd: this.config.projectPath,
+        timeout: 300000 // 5 minutos
+      });
+      
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Pacotes instalados com sucesso:\\n\${result.stdout}\`
+          }
+        ]
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`npm install falhou: \${error.message}\`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+}`}
+/>
+
+### Ferramentas de Comunicação
+
+<CodeExample
+  title="Ferramentas de Comunicação"
+  language="typescript"
+  code={`// src/tools/communication.ts
+export class CommunicationTools implements ToolProvider {
+  getName() { return 'communication'; }
+  
+  getTools(): ToolDefinition[] {
+    const tools = [
+      {
+        name: 'send_email',
+        description: 'Enviar uma notificação por e-mail',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            to: { type: 'string', description: 'Endereço de e-mail do destinatário' },
+            subject: { type: 'string', description: 'Assunto do e-mail' },
+            body: { type: 'string', description: 'Conteúdo do corpo do e-mail' },
+            priority: { 
+              type: 'string', 
+              enum: ['low', 'normal', 'high'], 
+              default: 'normal',
+              description: 'Prioridade do e-mail'
+            }
+          },
+          required: ['to', 'subject', 'body']
+        }
+      }
+    ];
+    
+    // Adicionar ferramentas Slack se token estiver configurado
+    if (this.config.slackToken) {
+      tools.push({
+        name: 'slack_message',
+        description: 'Enviar mensagem para canal Slack',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            channel: { type: 'string', description: 'Nome ou ID do canal Slack' },
+            message: { type: 'string', description: 'Texto da mensagem' },
+            urgent: { type: 'boolean', default: false, description: 'Marcar como urgente' },
+            threadId: { type: 'string', description: 'Responder a thread (opcional)' }
+          },
+          required: ['channel', 'message']
+        }
+      });
+    }
+    
+    return tools;
+  }
+  
+  async executeTool(name: string, args: any): Promise<ToolResult> {
+    switch (name) {
+      case 'send_email':
+        return this.sendEmail(args);
+      case 'slack_message':
+        return this.sendSlackMessage(args);
+      default:
+        throw new Error(\`Ferramenta de comunicação desconhecida: \${name}\`);
+    }
+  }
+  
+  private async sendSlackMessage(args: any): Promise<ToolResult> {
+    try {
+      const response = await fetch('https://slack.com/api/chat.postMessage', {
+        method: 'POST',
+        headers: {
+          'Authorization': \`Bearer \${this.config.slackToken}\`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          channel: args.channel,
+          text: args.message,
+          thread_ts: args.threadId,
+          ...(args.urgent && {
+            attachments: [{
+              color: 'danger',
+              text: '🚨 MENSAGEM URGENTE 🚨'
+            }]
+          })
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (!result.ok) {
+        throw new Error(result.error || 'Erro da API Slack');
+      }
+      
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Mensagem enviada para \${args.channel} com sucesso\`
+          }
+        ]
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: \`Falha ao enviar mensagem Slack: \${error.message}\`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+}`}
+/>
+
+## Testes e Implantação {#testing-deployment}
+
+Um servidor de produção requer testes abrangentes e processos adequados de implantação.
+
+<CodeExample
+  title="Conjunto Abrangente de Testes"
+  language="typescript"
+  code={`// tests/integration/server.test.ts
+import { MCPWorkspaceServer } from '../../src/index.js';
+import { TestTransport } from '../utils/test-transport.js';
+
+describe('Integração do Servidor MCP Workspace', () => {
+  let server: MCPWorkspaceServer;
+  let transport: TestTransport;
+  
+  beforeEach(async () => {
+    // Configurar ambiente de teste
+    process.env.NODE_ENV = 'test';
+    
+    server = new MCPWorkspaceServer();
+    transport = new TestTransport();
+    
+    await server.start(transport);
+  });
+  
+  afterEach(async () => {
+    await server.shutdown();
+  });
+  
+  describe('Recursos', () => {
+    test('deve listar todos os recursos disponíveis', async () => {
+      const response = await transport.request('resources/list', {});
+      
+      expect(response.resources).toBeDefined();
+      expect(Array.isArray(response.resources)).toBe(true);
+      expect(response.resources.length).toBeGreaterThan(0);
+    });
+    
+    test('deve ler recursos do sistema de arquivos', async () => {
+      const response = await transport.request('resources/read', {
+        uri: 'file://test-file.txt'
+      });
+      
+      expect(response.contents).toBeDefined();
+      expect(response.contents[0].text).toContain('conteúdo de teste');
+    });
+    
+    test('deve lidar com URIs de recurso inválidos', async () => {
+      await expect(
+        transport.request('resources/read', { uri: 'invalid://uri' })
+      ).rejects.toThrow('Nenhum provedor encontrado');
+    });
+  });
+  
+  describe('Ferramentas', () => {
+    test('deve listar todas as ferramentas disponíveis', async () => {
+      const response = await transport.request('tools/list', {});
+      
+      expect(response.tools).toBeDefined();
+      expect(Array.isArray(response.tools)).toBe(true);
+      
+      // Verificar ferramentas esperadas
+      const toolNames = response.tools.map(t => t.name);
+      expect(toolNames).toContain('read_file');
+      expect(toolNames).toContain('write_file');
+    });
+    
+    test('deve executar operações de arquivo', async () => {
+      const response = await transport.request('tools/call', {
+        name: 'write_file',
+        arguments: {
+          path: 'test-output.txt',
+          content: 'Olá, MCP!'
+        }
+      });
+      
+      expect(response.isError).toBeFalsy();
+      expect(response.content[0].text).toContain('Escrito com sucesso');
+    });
+    
+    test('deve validar parâmetros de ferramentas', async () => {
+      await expect(
+        transport.request('tools/call', {
+          name: 'write_file',
+          arguments: {
+            // Faltando parâmetro obrigatório 'content'
+            path: 'test.txt'
+          }
+        })
+      ).rejects.toThrow('Argumentos inválidos');
+    });
+  });
+  
+  describe('Saúde e Monitoramento', () => {
+    test('deve fornecer status de saúde', async () => {
+      const response = await transport.request('health', {});
+      
+      expect(response.status).toBe('healthy');
+      expect(response.providers).toBeGreaterThan(0);
+      expect(response.tools).toBeGreaterThan(0);
+    });
+  });
+});`}
+/>
+
+### Implantação Docker
+
+<CodeExample
+  title="Configuração de Implantação de Produção"
+  language="dockerfile"
+  code={`# Dockerfile
+FROM node:18-alpine
+
+# Instalar git e outras dependências
+RUN apk add --no-cache git
+
+# Criar diretório da aplicação
+WORKDIR /app
+
+# Copiar arquivos de pacote
+COPY package*.json ./
+COPY tsconfig.json ./
+
+# Instalar dependências
+RUN npm ci --only=production
+
+# Copiar código fonte
+COPY src/ ./src/
+COPY config/ ./config/
+
+# Construir a aplicação
+RUN npm run build
+
+# Criar usuário não-root
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S mcp -u 1001
+
+# Criar diretório workspace
+RUN mkdir -p /workspace && chown mcp:nodejs /workspace
+
+# Mudar para usuário não-root
+USER mcp
+
+# Expor porta de health check (se usando transporte HTTP)
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\
+  CMD node dist/health-check.js
+
+# Iniciar o servidor
+CMD ["npm", "start"]`}
+/>
+
+### Pipeline CI/CD
+
+<CodeExample
+  title="Workflow GitHub Actions"
+  language="yaml"
+  code={`# .github/workflows/ci.yml
+name: Pipeline CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Usar Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Instalar dependências
+      run: npm ci
+    
+    - name: Executar linting
+      run: npm run lint
+    
+    - name: Executar verificação de tipos
+      run: npm run type-check
+    
+    - name: Executar testes
+      run: npm run test:coverage
+    
+    - name: Upload relatórios de cobertura
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/lcov.info
+  
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Construir imagem Docker
+      run: docker build -t mcp-workspace-server .
+    
+    - name: Executar scan de segurança
+      run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image mcp-workspace-server
+  
+  deploy:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Implantar em produção
+      run: echo "Implantar no ambiente de produção"`}
+/>
+
+## Entregáveis do Projeto {#deliverables}
+
+### Submissões Obrigatórias
+
+Seu projeto final deve incluir:
+
+1. **Implementação Completa do Servidor MCP**
+   - Todos os 5 módulos integrados (configuração, provedores, ferramentas, logging, monitoramento)
+   - Tratamento de erros e medidas de segurança prontas para produção
+   - Documentação abrangente
+
+2. **Provedores de Recursos (mínimo 3)**
+   - Provedor de sistema de arquivos com controles de segurança
+   - Provedor Git com integração de repositório
+   - Provedor de banco de dados com pool de conexões
+   - Opcional: Provedor de API, provedor de configuração
+
+3. **Conjunto de Ferramentas (mínimo 5 ferramentas)**
+   - Operações de arquivo (ler, escrever, listar)
+   - Ferramentas de desenvolvimento (git, npm, testes)
+   - Ferramentas de comunicação (e-mail, Slack)
+   - Ferramentas de gerenciamento de projeto
+
+4. **Testes e Qualidade**
+   - Testes unitários para componentes principais
+   - Testes de integração para fluxos completos
+   - Testes de performance para operações intensivas
+   - Testes de segurança para validação de entrada
+
+5. **Documentação**
+   - README com instruções de configuração e uso
+   - Documentação da API para todos os recursos e ferramentas
+   - Guia de implantação com configuração Docker
+   - Documentação de arquitetura
+
+6. **Configuração de Implantação**
+   - Containerização Docker
+   - Configurações específicas de ambiente
+   - Configuração de health checks e monitoramento
+   - Pipeline CI/CD (GitHub Actions)
+
+<Callout type="success">
+  **Critérios de Avaliação**:
+  - **Funcionalidade**: Todos os recursos funcionam conforme especificado
+  - **Qualidade de Código**: Código limpo, bem organizado e documentado
+  - **Segurança**: Validação adequada de entrada e medidas de segurança
+  - **Testes**: Cobertura abrangente de testes
+  - **Documentação**: Documentação clara e completa
+  - **Prontidão para Produção**: Tratamento adequado de erros, logging e monitoramento
+</Callout>
+
+## Testando Sua Implementação
+
+### Integração com Aplicações de IA
+
+Teste seu servidor com aplicações de IA reais:
+
+1. **Claude Desktop**: Configure seu servidor nas configurações do Claude
+2. **MCP Inspector**: Use a ferramenta oficial de testes
+3. **Cliente de Teste Personalizado**: Construa um cliente de teste simples
+
+<CodeExample
+  title="Testando com Claude Desktop"
+  language="json"
+  code={`// Configuração do Claude Desktop
+{
+  "mcpServers": {
+    "workspace-server": {
+      "command": "node",
+      "args": ["caminho/para/seu/dist/index.js"],
+      "env": {
+        "NODE_ENV": "production",
+        "MCP_LOG_LEVEL": "info"
+      }
+    }
+  }
+}`}
+/>
+
+### Teste de Performance
+
+Teste seu servidor sob carga:
+
+<CodeExample
+  title="Script de Teste de Carga"
+  language="javascript"
+  code={`// Script de teste de carga
+const { performance } = require('perf_hooks');
+
+async function loadTest() {
+  const requests = [];
+  const startTime = performance.now();
+  
+  // Simular requisições concorrentes
+  for (let i = 0; i < 100; i++) {
+    requests.push(
+      testResourceRequest(),
+      testToolExecution()
+    );
+  }
+  
+  const results = await Promise.allSettled(requests);
+  const endTime = performance.now();
+  
+  const successful = results.filter(r => r.status === 'fulfilled').length;
+  const failed = results.filter(r => r.status === 'rejected').length;
+  
+  console.log(\`Teste de carga concluído em \${endTime - startTime}ms\`);
+  console.log(\`Bem-sucedidas: \${successful}, Falhadas: \${failed}\`);
+  console.log(\`Taxa de sucesso: \${(successful / results.length * 100).toFixed(2)}%\`);
+}`}
+/>
+
+## Resumo e Próximos Passos {#summary}
+
+Parabéns! Você construiu um servidor MCP completo e pronto para produção que demonstra:
+
+✅ **Arquitetura Profissional**: Design modular, extensível e manutenível
+✅ **Integração Multi-Provedor**: Provedores de sistema de arquivos, Git, banco de dados e API
+✅ **Conjunto Abrangente de Ferramentas**: Ferramentas de desenvolvimento, comunicação e gerenciamento de projetos
+✅ **Recursos de Produção**: Logging, monitoramento, tratamento de erros e segurança
+✅ **Garantia de Qualidade**: Testes, documentação e automação de implantação
+✅ **Prontidão para o Mundo Real**: Otimização de performance e considerações de escalabilidade
+
+### O que Você Conquistou
+
+Você conseguiu:
+- Construir um servidor MCP completo do zero
+- Integrar múltiplas fontes de dados e sistemas externos
+- Implementar um conjunto abrangente de ferramentas para aplicações de IA
+- Aplicar práticas prontas para produção em todo o projeto
+- Criar documentação e testes abrangentes
+
+### Melhorias Futuras
+
+Considere estes recursos avançados para seu servidor:
+- **Sistema de Plugins**: Permitir extensões de terceiros
+- **Integração GraphQL**: Fornecer capacidades de consulta GraphQL
+- **Suporte a Webhooks**: Atualizações em tempo real via webhooks
+- **Suporte Multi-tenant**: Suportar múltiplos workspaces
+- **Analytics Avançado**: Análises detalhadas de uso e insights
+
+### Aplicações de Carreira
+
+Este projeto demonstra habilidades valiosas para:
+- **Engenharia de IA**: Construir sistemas integrados com IA
+- **Desenvolvimento Backend**: Arquitetura de servidor de produção
+- **DevOps**: Implantação, monitoramento e automação
+- **Design de API**: Criar APIs amigáveis para desenvolvedores
+- **Integração de Sistemas**: Conectar sistemas diversos
+
+<Callout type="success">
+  **Parabéns!** Você completou o caminho de aprendizado de Fundamentos do Servidor MCP. Agora você tem as habilidades para construir integrações sofisticadas de IA e contribuir para o crescente ecossistema de aplicações habilitadas por IA.
+</Callout>
+
+## Recursos Adicionais {#resources}
+
+- [Documentação Oficial do MCP](https://modelcontextprotocol.io/docs)
+- [Melhores Práticas TypeScript](https://typescript-eslint.io/docs/linting/troubleshooting)
+- [Práticas de Produção Node.js](https://nodejs.org/en/docs/guides/simple-profiling)
+- [Melhores Práticas Docker](https://docs.docker.com/develop/dev-best-practices/)
+- [Estratégias de Teste](https://jestjs.io/docs/testing-strategies)
+
+Compartilhe seu projeto concluído e conecte-se com outros desenvolvedores MCP na comunidade!

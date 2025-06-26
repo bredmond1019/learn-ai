@@ -1,0 +1,1446 @@
+---
+title: "Construindo Sistemas de Planejamento"
+description: "Aprenda a projetar e implementar algoritmos sofisticados de planejamento que permitem aos agentes de IA raciocinar sobre tarefas complexas de múltiplas etapas e adaptar estratégias com base em condições mutáveis."
+duration: "120 minutos"
+difficulty: "intermediário"
+order: 2
+pathId: "agentic-workflows"
+moduleId: "building-planning-systems"
+type: "concept"
+objectives:
+  - "Entender diferentes paradigmas e algoritmos de planejamento"
+  - "Implementar algoritmos de planejamento clássico (A*, STRIPS, HTN)"
+  - "Projetar redes hierárquicas de tarefas para problemas complexos"
+  - "Construir sistemas de replanejamento adaptativo para ambientes dinâmicos"
+  - "Criar agentes orientados a objetivos com capacidades flexíveis de planejamento"
+  - "Integrar planejamento com incerteza e observabilidade parcial"
+prerequisites:
+  - "Padrões de Arquitetura de Agentes"
+  - "Compreensão de algoritmos de busca"
+  - "Proficiência em programação Python"
+tags:
+  - "algoritmos-planejamento"
+  - "strips"
+  - "planejamento-hierárquico"
+  - "planejamento-adaptativo"
+  - "raciocínio-objetivos"
+  - "algoritmos-busca"
+version: "1.0.0"
+lastUpdated: "2025-06-20"
+author: "Equipe de Engenharia de IA"
+estimatedCompletionTime: 275
+---
+
+# Construindo Sistemas de Planejamento
+
+O planejamento é o coração do comportamento inteligente em agentes de IA. É o processo de determinar uma sequência de ações que transformará o estado atual do mundo em um estado objetivo desejado. Neste módulo, exploraremos como construir sistemas sofisticados de planejamento que permitem aos agentes raciocinar sobre tarefas complexas de múltiplas etapas e adaptar suas estratégias quando as condições mudam.
+
+## Objetivos de Aprendizagem
+
+Ao final deste módulo, você será capaz de:
+
+- Entender diferentes paradigmas de planejamento e suas aplicações apropriadas
+- Implementar algoritmos de planejamento clássico incluindo STRIPS e busca A*
+- Projetar redes hierárquicas de tarefas para decompor problemas complexos
+- Construir sistemas de replanejamento adaptativo que lidam com ambientes dinâmicos
+- Criar agentes orientados a objetivos com capacidades flexíveis de planejamento
+- Integrar planejamento com incerteza e observabilidade parcial
+
+## Fundamentos do Planejamento
+
+### O que é Planejamento?
+
+Planejamento é o processo de encontrar uma sequência de ações que transforma um estado inicial em um estado objetivo. Envolve:
+
+1. **Representação de Estado**: Como modelamos o mundo
+2. **Modelo de Ação**: Quais ações estão disponíveis e seus efeitos
+3. **Especificação de Objetivo**: O que queremos alcançar
+4. **Estratégia de Busca**: Como encontramos um plano de solução
+
+### Componentes Principais
+
+#### Espaço de Estados
+O espaço de estados representa todas as configurações possíveis do mundo. Estados podem ser:
+- **Atômicos**: Unidades indivisíveis (ex: nomes de locais)
+- **Fatorados**: Conjuntos de variáveis (ex: localizacao_robo=cozinha, nivel_bateria=80%)
+- **Estruturados**: Objetos complexos com relacionamentos
+
+#### Ações
+Ações são os blocos de construção dos planos. Cada ação tem:
+- **Precondições**: O que deve ser verdadeiro para executar a ação
+- **Efeitos**: Como a ação muda o estado do mundo
+- **Custo**: Recursos necessários para execução
+
+#### Objetivos
+Objetivos especificam o estado final desejado. Podem ser:
+- **Objetivos de conquista**: Alcançar um estado específico
+- **Objetivos de manutenção**: Manter algo verdadeiro
+- **Objetivos temporais**: Cumprir dentro de restrições de tempo
+
+## Algoritmos de Planejamento Clássico
+
+### Planejamento STRIPS
+
+STRIPS (Stanford Research Institute Problem Solver) é um algoritmo fundamental de planejamento que representa estados como conjuntos de proposições lógicas.
+
+#### Representação STRIPS
+- **Estados**: Conjuntos de proposições fundamentadas
+- **Ações**: Definidas por precondições e efeitos
+- **Objetivos**: Conjunção de proposições
+
+#### Exemplo de Código: Implementação do Planejador STRIPS
+
+```python
+from typing import Set, List, Dict, Optional, Tuple
+from dataclasses import dataclass
+from copy import deepcopy
+import heapq
+
+@dataclass(frozen=True)
+class Proposition:
+    """Uma proposição lógica no estado do mundo"""
+    predicate: str
+    args: Tuple[str, ...] = ()
+    
+    def __str__(self):
+        if self.args:
+            return f"{self.predicate}({', '.join(self.args)})"
+        return self.predicate
+
+@dataclass
+class Action:
+    """Representação de ação STRIPS"""
+    name: str
+    parameters: List[str]
+    preconditions: Set[Proposition]
+    add_effects: Set[Proposition]
+    delete_effects: Set[Proposition]
+    cost: int = 1
+    
+    def is_applicable(self, state: Set[Proposition]) -> bool:
+        """Verificar se a ação pode ser executada no estado dado"""
+        return self.preconditions.issubset(state)
+    
+    def apply(self, state: Set[Proposition]) -> Set[Proposition]:
+        """Aplicar ação ao estado, retornando novo estado"""
+        if not self.is_applicable(state):
+            raise ValueError(f"Ação {self.name} não aplicável no estado atual")
+        
+        new_state = (state - self.delete_effects) | self.add_effects
+        return new_state
+    
+    def __str__(self):
+        params = f"({', '.join(self.parameters)})" if self.parameters else ""
+        return f"{self.name}{params}"
+
+class STRIPSPlanner:
+    """Planejador STRIPS com busca para frente"""
+    
+    def __init__(self):
+        self.actions: List[Action] = []
+        
+    def add_action(self, action: Action):
+        """Adicionar uma ação à biblioteca de ações do planejador"""
+        self.actions.append(action)
+        
+    def is_goal_satisfied(self, state: Set[Proposition], goal: Set[Proposition]) -> bool:
+        """Verificar se o objetivo é satisfeito no estado atual"""
+        return goal.issubset(state)
+    
+    def get_applicable_actions(self, state: Set[Proposition]) -> List[Action]:
+        """Obter todas as ações aplicáveis no estado atual"""
+        return [action for action in self.actions if action.is_applicable(state)]
+    
+    def plan(self, initial_state: Set[Proposition], goal: Set[Proposition], 
+             max_depth: int = 20) -> Optional[List[Action]]:
+        """Encontrar um plano usando busca em largura"""
+        
+        if self.is_goal_satisfied(initial_state, goal):
+            return []
+        
+        # Fila BFS: (estado_atual, plano_ate_agora, profundidade)
+        queue = [(initial_state, [], 0)]
+        visited = {frozenset(initial_state)}
+        
+        while queue:
+            current_state, current_plan, depth = queue.pop(0)
+            
+            if depth >= max_depth:
+                continue
+                
+            # Tentar todas as ações aplicáveis
+            for action in self.get_applicable_actions(current_state):
+                new_state = action.apply(current_state)
+                state_key = frozenset(new_state)
+                
+                if state_key not in visited:
+                    visited.add(state_key)
+                    new_plan = current_plan + [action]
+                    
+                    # Verificar se o objetivo foi alcançado
+                    if self.is_goal_satisfied(new_state, goal):
+                        return new_plan
+                    
+                    queue.append((new_state, new_plan, depth + 1))
+        
+        return None  # Nenhum plano encontrado
+    
+    def plan_with_heuristic(self, initial_state: Set[Proposition], 
+                           goal: Set[Proposition], max_depth: int = 20) -> Optional[List[Action]]:
+        """Encontrar um plano usando busca A* com heurística simples"""
+        
+        def heuristic(state: Set[Proposition]) -> int:
+            """Heurística simples: contar proposições de objetivo não satisfeitas"""
+            return len(goal - state)
+        
+        if self.is_goal_satisfied(initial_state, goal):
+            return []
+        
+        # Fila de prioridade: (f_score, g_score, estado_atual, plano_ate_agora)
+        pq = [(heuristic(initial_state), 0, initial_state, [])]
+        visited = {frozenset(initial_state): 0}
+        
+        while pq:
+            f_score, g_score, current_state, current_plan = heapq.heappop(pq)
+            
+            if g_score >= max_depth:
+                continue
+            
+            # Tentar todas as ações aplicáveis
+            for action in self.get_applicable_actions(current_state):
+                new_state = action.apply(current_state)
+                new_g_score = g_score + action.cost
+                new_plan = current_plan + [action]
+                
+                state_key = frozenset(new_state)
+                
+                # Pular se já vimos este estado com custo melhor
+                if state_key in visited and visited[state_key] <= new_g_score:
+                    continue
+                
+                visited[state_key] = new_g_score
+                
+                # Verificar se o objetivo foi alcançado
+                if self.is_goal_satisfied(new_state, goal):
+                    return new_plan
+                
+                # Adicionar à fila de prioridade
+                h_score = heuristic(new_state)
+                f_score = new_g_score + h_score
+                heapq.heappush(pq, (f_score, new_g_score, new_state, new_plan))
+        
+        return None  # Nenhum plano encontrado
+
+# Exemplo de uso: Navegação e manipulação de objetos por robô
+def create_robot_world():
+    """Criar um mundo simples de robô com navegação e manipulação"""
+    planner = STRIPSPlanner()
+    
+    # Definir locais
+    locations = ["cozinha", "sala", "quarto", "garagem"]
+    
+    # Ações de navegação
+    for loc1 in locations:
+        for loc2 in locations:
+            if loc1 != loc2:
+                move_action = Action(
+                    name=f"mover_{loc1}_para_{loc2}",
+                    parameters=[],
+                    preconditions={Proposition("robo_em", (loc1,))},
+                    add_effects={Proposition("robo_em", (loc2,))},
+                    delete_effects={Proposition("robo_em", (loc1,))},
+                    cost=1
+                )
+                planner.add_action(move_action)
+    
+    # Ações de manipulação de objetos
+    objects = ["livro", "xicara", "chaves"]
+    
+    for obj in objects:
+        for loc in locations:
+            # Pegar objeto
+            pickup_action = Action(
+                name=f"pegar_{obj}",
+                parameters=[],
+                preconditions={
+                    Proposition("robo_em", (loc,)),
+                    Proposition("objeto_em", (obj, loc)),
+                    Proposition("robo_maos_vazias")
+                },
+                add_effects={Proposition("robo_segurando", (obj,))},
+                delete_effects={
+                    Proposition("objeto_em", (obj, loc)),
+                    Proposition("robo_maos_vazias")
+                },
+                cost=2
+            )
+            planner.add_action(pickup_action)
+            
+            # Colocar objeto
+            putdown_action = Action(
+                name=f"colocar_{obj}",
+                parameters=[],
+                preconditions={
+                    Proposition("robo_em", (loc,)),
+                    Proposition("robo_segurando", (obj,))
+                },
+                add_effects={
+                    Proposition("objeto_em", (obj, loc)),
+                    Proposition("robo_maos_vazias")
+                },
+                delete_effects={Proposition("robo_segurando", (obj,))},
+                cost=2
+            )
+            planner.add_action(putdown_action)
+    
+    return planner
+
+# Testar o planejador
+planner = create_robot_world()
+
+# Estado inicial: robô na cozinha, livro na sala, robô com mãos vazias
+initial_state = {
+    Proposition("robo_em", ("cozinha",)),
+    Proposition("objeto_em", ("livro", "sala")),
+    Proposition("robo_maos_vazias")
+}
+
+# Objetivo: livro no quarto
+goal = {
+    Proposition("objeto_em", ("livro", "quarto"))
+}
+
+plan = planner.plan_with_heuristic(initial_state, goal)
+
+if plan:
+    print("Plano encontrado:")
+    for i, action in enumerate(plan, 1):
+        print(f"{i}. {action}")
+else:
+    print("Nenhum plano encontrado")
+```
+
+### Algoritmo de Planejamento A*
+
+A busca A* é ótima quando usa uma heurística admissível e pode ser muito eficaz para problemas de planejamento com boas funções heurísticas.
+
+#### Exemplo de Código: Planejamento A* com Heurísticas Avançadas
+
+```python
+import heapq
+from typing import Set, List, Dict, Optional, Tuple, Callable
+from dataclasses import dataclass
+import math
+
+class AStarPlanner:
+    """Planejador A* com heurísticas configuráveis"""
+    
+    def __init__(self, heuristic_func: Optional[Callable] = None):
+        self.actions: List[Action] = []
+        self.heuristic_func = heuristic_func or self._default_heuristic
+        
+    def add_action(self, action: Action):
+        self.actions.append(action)
+        
+    def _default_heuristic(self, state: Set[Proposition], goal: Set[Proposition]) -> float:
+        """Heurística padrão: contar objetivos não satisfeitos"""
+        return len(goal - state)
+    
+    def _manhattan_heuristic(self, state: Set[Proposition], goal: Set[Proposition]) -> float:
+        """Heurística de distância Manhattan para planejamento espacial"""
+        # Extrair posição do robô do estado
+        robot_pos = None
+        goal_pos = None
+        
+        for prop in state:
+            if prop.predicate == "robo_em":
+                robot_pos = prop.args[0]
+                break
+        
+        for prop in goal:
+            if prop.predicate == "robo_em":
+                goal_pos = prop.args[0]
+                break
+        
+        if robot_pos and goal_pos:
+            # Mapeamento simples de coordenadas (na prática, use coordenadas reais)
+            pos_coords = {
+                "cozinha": (0, 0),
+                "sala": (1, 0), 
+                "quarto": (0, 1),
+                "garagem": (1, 1)
+            }
+            
+            if robot_pos in pos_coords and goal_pos in pos_coords:
+                x1, y1 = pos_coords[robot_pos]
+                x2, y2 = pos_coords[goal_pos]
+                return abs(x1 - x2) + abs(y1 - y2)
+        
+        return self._default_heuristic(state, goal)
+    
+    def plan(self, initial_state: Set[Proposition], goal: Set[Proposition], 
+             max_depth: int = 50) -> Optional[Tuple[List[Action], Dict[str, float]]]:
+        """
+        Encontrar plano ótimo usando busca A*
+        Retorna tupla de (plano, métricas) ou None se nenhum plano encontrado
+        """
+        
+        if goal.issubset(initial_state):
+            return [], {"nodes_expanded": 0, "plan_cost": 0, "search_time": 0}
+        
+        # Fila de prioridade: (f_score, g_score, estado, plano, profundidade)
+        pq = [(self.heuristic_func(initial_state, goal), 0, initial_state, [], 0)]
+        
+        # Rastrear melhor g_score para cada estado
+        g_scores = {frozenset(initial_state): 0}
+        nodes_expanded = 0
+        
+        while pq:
+            f_score, g_score, current_state, current_plan, depth = heapq.heappop(pq)
+            nodes_expanded += 1
+            
+            if depth >= max_depth:
+                continue
+            
+            # Pular se encontramos um caminho melhor para este estado
+            state_key = frozenset(current_state)
+            if state_key in g_scores and g_scores[state_key] < g_score:
+                continue
+            
+            # Tentar todas as ações aplicáveis
+            for action in self.actions:
+                if action.is_applicable(current_state):
+                    new_state = action.apply(current_state)
+                    new_g_score = g_score + action.cost
+                    new_plan = current_plan + [action]
+                    new_state_key = frozenset(new_state)
+                    
+                    # Pular se já vimos este estado com custo melhor
+                    if new_state_key in g_scores and g_scores[new_state_key] <= new_g_score:
+                        continue
+                    
+                    g_scores[new_state_key] = new_g_score
+                    
+                    # Verificar se o objetivo foi alcançado
+                    if goal.issubset(new_state):
+                        metrics = {
+                            "nodes_expanded": nodes_expanded,
+                            "plan_cost": new_g_score,
+                            "plan_length": len(new_plan)
+                        }
+                        return new_plan, metrics
+                    
+                    # Adicionar à fila de prioridade
+                    h_score = self.heuristic_func(new_state, goal)
+                    new_f_score = new_g_score + h_score
+                    heapq.heappush(pq, (new_f_score, new_g_score, new_state, 
+                                      new_plan, depth + 1))
+        
+        return None  # Nenhum plano encontrado
+```
+
+## Redes Hierárquicas de Tarefas (HTN)
+
+Redes Hierárquicas de Tarefas decompõem tarefas complexas em subtarefas mais simples, tornando o planejamento mais tratável e permitindo que o conhecimento do domínio guie a busca.
+
+### Conceitos HTN
+
+- **Tarefas Primitivas**: Ações básicas que podem ser executadas diretamente
+- **Tarefas Compostas**: Tarefas complexas que devem ser decompostas
+- **Métodos**: Formas de decompor tarefas compostas em subtarefas
+- **Restrições de Ordenação**: Relacionamentos entre subtarefas
+
+#### Exemplo de Código: Implementação do Planejador HTN
+
+```python
+from typing import List, Dict, Set, Optional, Union, Any
+from dataclasses import dataclass
+from enum import Enum
+from abc import ABC, abstractmethod
+
+class TaskType(Enum):
+    PRIMITIVE = "primitiva"
+    COMPOUND = "composta"
+
+@dataclass
+class Task:
+    """Representa uma tarefa no planejamento HTN"""
+    name: str
+    parameters: List[str]
+    task_type: TaskType
+    
+    def __str__(self):
+        params = f"({', '.join(self.parameters)})" if self.parameters else ""
+        return f"{self.name}{params}"
+
+@dataclass
+class Method:
+    """Método para decompor tarefas compostas"""
+    name: str
+    task: Task  # A tarefa composta que este método decompõe
+    preconditions: Set[Proposition]
+    subtasks: List[Task]
+    ordering_constraints: List[Tuple[int, int]]  # índices (antes, depois)
+    
+    def is_applicable(self, state: Set[Proposition]) -> bool:
+        return self.preconditions.issubset(state)
+
+@dataclass
+class HTNPlan:
+    """Plano HTN completo com ordem de execução"""
+    tasks: List[Task]
+    total_cost: int
+    decomposition_tree: Dict[str, Any]
+
+class HTNPlanner:
+    """Planejador de Rede Hierárquica de Tarefas"""
+    
+    def __init__(self):
+        self.primitive_actions: Dict[str, Action] = {}
+        self.methods: Dict[str, List[Method]] = {}
+        
+    def add_primitive_action(self, action: Action):
+        """Adicionar uma ação primitiva"""
+        self.primitive_actions[action.name] = action
+        
+    def add_method(self, method: Method):
+        """Adicionar um método de decomposição"""
+        task_name = method.task.name
+        if task_name not in self.methods:
+            self.methods[task_name] = []
+        self.methods[task_name].append(method)
+    
+    def is_primitive(self, task: Task) -> bool:
+        """Verificar se a tarefa é primitiva"""
+        return task.task_type == TaskType.PRIMITIVE or task.name in self.primitive_actions
+    
+    def get_applicable_methods(self, task: Task, state: Set[Proposition]) -> List[Method]:
+        """Obter métodos aplicáveis para decompor a tarefa no estado atual"""
+        if task.name in self.methods:
+            return [method for method in self.methods[task.name] 
+                   if method.is_applicable(state)]
+        return []
+    
+    def topological_sort(self, subtasks: List[Task], 
+                        constraints: List[Tuple[int, int]]) -> List[Task]:
+        """Ordenar subtarefas de acordo com restrições de ordenação"""
+        if not constraints:
+            return subtasks
+        
+        # Ordenação topológica simples
+        in_degree = [0] * len(subtasks)
+        graph = [[] for _ in range(len(subtasks))]
+        
+        for before, after in constraints:
+            graph[before].append(after)
+            in_degree[after] += 1
+        
+        queue = [i for i in range(len(subtasks)) if in_degree[i] == 0]
+        result = []
+        
+        while queue:
+            current = queue.pop(0)
+            result.append(subtasks[current])
+            
+            for neighbor in graph[current]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
+                    queue.append(neighbor)
+        
+        return result if len(result) == len(subtasks) else subtasks
+    
+    def plan(self, tasks: List[Task], initial_state: Set[Proposition], 
+             goal: Set[Proposition], max_depth: int = 20) -> Optional[HTNPlan]:
+        """
+        Gerar plano HTN usando decomposição recursiva de tarefas
+        """
+        return self._plan_recursive(tasks, initial_state, goal, 0, max_depth, {})
+    
+    def _plan_recursive(self, tasks: List[Task], state: Set[Proposition], 
+                       goal: Set[Proposition], depth: int, max_depth: int,
+                       decomposition_tree: Dict[str, Any]) -> Optional[HTNPlan]:
+        """Algoritmo recursivo de planejamento HTN"""
+        
+        if depth > max_depth:
+            return None
+        
+        if not tasks:
+            # Sem mais tarefas, verificar se o objetivo foi satisfeito
+            if goal.issubset(state):
+                return HTNPlan([], 0, decomposition_tree)
+            return None
+        
+        current_task = tasks[0]
+        remaining_tasks = tasks[1:]
+        
+        if self.is_primitive(current_task):
+            # Executar ação primitiva
+            if current_task.name in self.primitive_actions:
+                action = self.primitive_actions[current_task.name]
+                if action.is_applicable(state):
+                    new_state = action.apply(state)
+                    
+                    # Recursivamente planejar para tarefas restantes
+                    sub_plan = self._plan_recursive(remaining_tasks, new_state, goal, 
+                                                  depth + 1, max_depth, decomposition_tree)
+                    if sub_plan:
+                        return HTNPlan(
+                            [current_task] + sub_plan.tasks,
+                            action.cost + sub_plan.total_cost,
+                            decomposition_tree
+                        )
+            return None
+        else:
+            # Decompor tarefa composta
+            applicable_methods = self.get_applicable_methods(current_task, state)
+            
+            for method in applicable_methods:
+                # Ordenar subtarefas de acordo com restrições
+                ordered_subtasks = self.topological_sort(method.subtasks, 
+                                                       method.ordering_constraints)
+                
+                # Tentar decomposição
+                new_task_list = ordered_subtasks + remaining_tasks
+                
+                # Atualizar árvore de decomposição
+                method_tree = {
+                    "task": str(current_task),
+                    "method": method.name,
+                    "subtasks": [str(task) for task in ordered_subtasks]
+                }
+                new_decomposition_tree = decomposition_tree.copy()
+                new_decomposition_tree[str(current_task)] = method_tree
+                
+                sub_plan = self._plan_recursive(new_task_list, state, goal, 
+                                              depth + 1, max_depth, new_decomposition_tree)
+                if sub_plan:
+                    return sub_plan
+            
+            return None  # Nenhum método aplicável
+
+# Exemplo: Domínio de culinária com planejamento HTN
+def create_cooking_domain():
+    """Criar planejador HTN para domínio de culinária"""
+    planner = HTNPlanner()
+    
+    # Ações primitivas
+    planner.add_primitive_action(Action(
+        name="pegar_ingrediente",
+        parameters=["ingrediente"],
+        preconditions={Proposition("ingrediente_disponivel", ("tomate",))},
+        add_effects={Proposition("tem_ingrediente", ("tomate",))},
+        delete_effects=set(),
+        cost=1
+    ))
+    
+    planner.add_primitive_action(Action(
+        name="cortar_ingrediente", 
+        parameters=["ingrediente"],
+        preconditions={Proposition("tem_ingrediente", ("tomate",))},
+        add_effects={Proposition("ingrediente_cortado", ("tomate",))},
+        delete_effects=set(),
+        cost=2
+    ))
+    
+    planner.add_primitive_action(Action(
+        name="cozinhar_ingrediente",
+        parameters=["ingrediente"],
+        preconditions={Proposition("ingrediente_cortado", ("tomate",))},
+        add_effects={Proposition("ingrediente_cozido", ("tomate",))},
+        delete_effects=set(),
+        cost=3
+    ))
+    
+    planner.add_primitive_action(Action(
+        name="combinar_ingredientes",
+        parameters=["prato"],
+        preconditions={
+            Proposition("ingrediente_cozido", ("tomate",)),
+            Proposition("ingrediente_cozido", ("cebola",))
+        },
+        add_effects={Proposition("prato_pronto", ("molho_macarrao",))},
+        delete_effects=set(),
+        cost=2
+    ))
+    
+    # Métodos para tarefas compostas
+    prepare_ingredient_method = Method(
+        name="metodo_preparar_ingrediente",
+        task=Task("preparar_ingrediente", ["tomate"], TaskType.COMPOUND),
+        preconditions=set(),
+        subtasks=[
+            Task("pegar_ingrediente", ["tomate"], TaskType.PRIMITIVE),
+            Task("cortar_ingrediente", ["tomate"], TaskType.PRIMITIVE),
+            Task("cozinhar_ingrediente", ["tomate"], TaskType.PRIMITIVE)
+        ],
+        ordering_constraints=[(0, 1), (1, 2)]  # pegar -> cortar -> cozinhar
+    )
+    planner.add_method(prepare_ingredient_method)
+    
+    make_sauce_method = Method(
+        name="metodo_fazer_molho",
+        task=Task("fazer_molho_macarrao", [], TaskType.COMPOUND),
+        preconditions=set(),
+        subtasks=[
+            Task("preparar_ingrediente", ["tomate"], TaskType.COMPOUND),
+            Task("preparar_ingrediente", ["cebola"], TaskType.COMPOUND),
+            Task("combinar_ingredientes", ["molho_macarrao"], TaskType.PRIMITIVE)
+        ],
+        ordering_constraints=[(0, 2), (1, 2)]  # ambos ingredientes antes de combinar
+    )
+    planner.add_method(make_sauce_method)
+    
+    return planner
+
+# Testar planejador HTN
+htn_planner = create_cooking_domain()
+
+initial_cooking_state = {
+    Proposition("ingrediente_disponivel", ("tomate",)),
+    Proposition("ingrediente_disponivel", ("cebola",))
+}
+
+cooking_goal = {
+    Proposition("prato_pronto", ("molho_macarrao",))
+}
+
+cooking_tasks = [Task("fazer_molho_macarrao", [], TaskType.COMPOUND)]
+
+htn_plan = htn_planner.plan(cooking_tasks, initial_cooking_state, cooking_goal)
+
+if htn_plan:
+    print("Plano HTN encontrado:")
+    for i, task in enumerate(htn_plan.tasks, 1):
+        print(f"{i}. {task}")
+    print(f"Custo total: {htn_plan.total_cost}")
+    print(f"Árvore de decomposição: {htn_plan.decomposition_tree}")
+else:
+    print("Nenhum plano HTN encontrado")
+```
+
+## Planejamento Adaptativo e Replanejamento
+
+Ambientes do mundo real são dinâmicos, e planos frequentemente precisam ser modificados durante a execução. Sistemas de planejamento adaptativo monitoram a execução e replanejam quando necessário.
+
+### Estratégias de Replanejamento
+
+1. **Replanejamento Completo**: Gerar plano inteiramente novo quando ocorre falha
+2. **Reparo de Plano**: Modificar plano existente para lidar com falhas
+3. **Planejamento de Contingência**: Pré-computar planos para falhas esperadas
+4. **Planejamento Contínuo**: Intercalar planejamento e execução
+
+#### Exemplo de Código: Sistema de Replanejamento Adaptativo
+
+```python
+from typing import List, Dict, Set, Optional, Callable, Any
+from dataclasses import dataclass
+from enum import Enum
+import random
+import time
+
+class ExecutionStatus(Enum):
+    SUCCESS = "sucesso"
+    FAILURE = "falha"
+    BLOCKED = "bloqueado"
+    INTERRUPTED = "interrompido"
+
+@dataclass
+class ExecutionResult:
+    status: ExecutionStatus
+    new_state: Set[Proposition]
+    message: str
+    execution_time: float
+
+@dataclass
+class PlanStep:
+    action: Action
+    expected_state: Set[Proposition]
+    actual_state: Optional[Set[Proposition]] = None
+    execution_result: Optional[ExecutionResult] = None
+
+class AdaptivePlanner:
+    """Planejador adaptativo com capacidades de replanejamento"""
+    
+    def __init__(self, base_planner: STRIPSPlanner):
+        self.base_planner = base_planner
+        self.execution_monitor = ExecutionMonitor()
+        self.replan_strategies = {
+            "complete": self._complete_replan,
+            "repair": self._repair_plan,
+            "contingency": self._contingency_replan
+        }
+        
+    def execute_plan_with_monitoring(self, plan: List[Action], 
+                                   initial_state: Set[Proposition],
+                                   goal: Set[Proposition],
+                                   max_retries: int = 3) -> Dict[str, Any]:
+        """Executar plano com monitoramento e replanejamento adaptativo"""
+        
+        current_state = initial_state.copy()
+        executed_steps = []
+        total_replans = 0
+        start_time = time.time()
+        
+        remaining_plan = plan.copy()
+        
+        while remaining_plan and total_replans < max_retries:
+            current_action = remaining_plan[0]
+            
+            # Executar ação
+            execution_result = self.execution_monitor.execute_action(
+                current_action, current_state
+            )
+            
+            step = PlanStep(
+                action=current_action,
+                expected_state=current_action.apply(current_state) if current_action.is_applicable(current_state) else current_state,
+                actual_state=execution_result.new_state,
+                execution_result=execution_result
+            )
+            executed_steps.append(step)
+            
+            if execution_result.status == ExecutionStatus.SUCCESS:
+                # Ação bem-sucedida, continuar com próxima ação
+                current_state = execution_result.new_state
+                remaining_plan.pop(0)
+                
+                # Verificar se objetivo foi alcançado antecipadamente
+                if goal.issubset(current_state):
+                    break
+                    
+            else:
+                # Ação falhou, precisa replanejar
+                print(f"Ação {current_action.name} falhou: {execution_result.message}")
+                
+                # Tentar replanejar
+                new_plan = self._replan(current_state, goal, remaining_plan, 
+                                      execution_result.status)
+                
+                if new_plan is not None:
+                    remaining_plan = new_plan
+                    total_replans += 1
+                    print(f"Replanejado (tentativa {total_replans}). Novo tamanho do plano: {len(new_plan)}")
+                else:
+                    print("Replanejamento falhou. Abortando execução.")
+                    break
+        
+        execution_time = time.time() - start_time
+        success = goal.issubset(current_state) if current_state else False
+        
+        return {
+            "success": success,
+            "executed_steps": executed_steps,
+            "final_state": current_state,
+            "total_replans": total_replans,
+            "execution_time": execution_time,
+            "goal_achieved": success
+        }
+    
+    def _replan(self, current_state: Set[Proposition], goal: Set[Proposition],
+               failed_plan: List[Action], failure_type: ExecutionStatus) -> Optional[List[Action]]:
+        """Escolher e executar estratégia de replanejamento baseada no tipo de falha"""
+        
+        if failure_type == ExecutionStatus.BLOCKED:
+            # Tentar reparo de plano primeiro para ações bloqueadas
+            repaired_plan = self.replan_strategies["repair"](current_state, goal, failed_plan)
+            if repaired_plan:
+                return repaired_plan
+        
+        # Voltar ao replanejamento completo
+        return self.replan_strategies["complete"](current_state, goal, failed_plan)
+    
+    def _complete_replan(self, current_state: Set[Proposition], 
+                        goal: Set[Proposition], failed_plan: List[Action]) -> Optional[List[Action]]:
+        """Gerar plano completamente novo do estado atual"""
+        return self.base_planner.plan_with_heuristic(current_state, goal)
+    
+    def _repair_plan(self, current_state: Set[Proposition],
+                    goal: Set[Proposition], failed_plan: List[Action]) -> Optional[List[Action]]:
+        """Tentar reparar o plano existente"""
+        # Reparo simples: pular ação falha e tentar continuar
+        if len(failed_plan) > 1:
+            remaining_actions = failed_plan[1:]
+            
+            # Verificar se o plano restante ainda é válido
+            test_state = current_state.copy()
+            for action in remaining_actions:
+                if not action.is_applicable(test_state):
+                    # Não pode continuar com plano restante, precisa replanejamento completo
+                    return self._complete_replan(current_state, goal, failed_plan)
+                test_state = action.apply(test_state)
+            
+            # Se podemos executar ações restantes e elas levam ao objetivo, usá-las
+            if goal.issubset(test_state):
+                return remaining_actions
+        
+        # Reparo falhou, voltar ao replanejamento completo
+        return self._complete_replan(current_state, goal, failed_plan)
+    
+    def _contingency_replan(self, current_state: Set[Proposition],
+                           goal: Set[Proposition], failed_plan: List[Action]) -> Optional[List[Action]]:
+        """Usar planos de contingência pré-computados"""
+        # Planejamento de contingência simplificado - na prática, você pré-computaria estes
+        contingency_actions = {
+            "mover_cozinha_para_sala": [
+                Action("mover_cozinha_para_quarto", [], 
+                      {Proposition("robo_em", ("cozinha",))},
+                      {Proposition("robo_em", ("quarto",))},
+                      {Proposition("robo_em", ("cozinha",))}),
+                Action("mover_quarto_para_sala", [],
+                      {Proposition("robo_em", ("quarto",))},
+                      {Proposition("robo_em", ("sala",))},
+                      {Proposition("robo_em", ("quarto",))})
+            ]
+        }
+        
+        failed_action_name = failed_plan[0].name if failed_plan else ""
+        if failed_action_name in contingency_actions:
+            alternative_actions = contingency_actions[failed_action_name]
+            remaining_plan = failed_plan[1:] if len(failed_plan) > 1 else []
+            return alternative_actions + remaining_plan
+        
+        return None
+
+class ExecutionMonitor:
+    """Monitora execução do plano e simula falhas do mundo real"""
+    
+    def __init__(self, failure_rate: float = 0.1):
+        self.failure_rate = failure_rate
+        
+    def execute_action(self, action: Action, 
+                      current_state: Set[Proposition]) -> ExecutionResult:
+        """Simular execução de ação com possíveis falhas"""
+        
+        start_time = time.time()
+        
+        # Verificar precondições
+        if not action.is_applicable(current_state):
+            return ExecutionResult(
+                status=ExecutionStatus.FAILURE,
+                new_state=current_state,
+                message="Precondições não atendidas",
+                execution_time=time.time() - start_time
+            )
+        
+        # Simular falhas aleatórias
+        if random.random() < self.failure_rate:
+            failure_types = [ExecutionStatus.FAILURE, ExecutionStatus.BLOCKED]
+            failure_type = random.choice(failure_types)
+            
+            return ExecutionResult(
+                status=failure_type,
+                new_state=current_state,  # Estado inalterado na falha
+                message=f"{failure_type.value} simulado",
+                execution_time=time.time() - start_time
+            )
+        
+        # Execução bem-sucedida
+        new_state = action.apply(current_state)
+        
+        return ExecutionResult(
+            status=ExecutionStatus.SUCCESS,
+            new_state=new_state,
+            message="Ação executada com sucesso",
+            execution_time=time.time() - start_time
+        )
+
+# Exemplo de uso
+def test_adaptive_planning():
+    """Testar planejamento adaptativo com falhas simuladas"""
+    
+    # Criar mundo do robô e planejador
+    base_planner = create_robot_world()
+    adaptive_planner = AdaptivePlanner(base_planner)
+    
+    # Estado inicial e objetivo
+    initial_state = {
+        Proposition("robo_em", ("cozinha",)),
+        Proposition("objeto_em", ("livro", "sala")),
+        Proposition("robo_maos_vazias")
+    }
+    
+    goal = {
+        Proposition("objeto_em", ("livro", "quarto"))
+    }
+    
+    # Gerar plano inicial
+    initial_plan = base_planner.plan_with_heuristic(initial_state, goal)
+    
+    if initial_plan:
+        print("Plano inicial:")
+        for i, action in enumerate(initial_plan, 1):
+            print(f"{i}. {action}")
+        
+        # Executar com monitoramento
+        result = adaptive_planner.execute_plan_with_monitoring(
+            initial_plan, initial_state, goal, max_retries=5
+        )
+        
+        print(f"\nResultados da Execução:")
+        print(f"Sucesso: {result['success']}")
+        print(f"Total de replanejamentos: {result['total_replans']}")
+        print(f"Tempo de execução: {result['execution_time']:.2f}s")
+        print(f"Passos executados: {len(result['executed_steps'])}")
+        
+        if result['success']:
+            print("Objetivo alcançado!")
+        else:
+            print("Objetivo não alcançado.")
+    else:
+        print("Nenhum plano inicial encontrado")
+
+# Executar o teste
+# test_adaptive_planning()
+```
+
+## Raciocínio e Gestão de Objetivos
+
+Agentes avançados frequentemente precisam gerenciar múltiplos objetivos simultaneamente, resolver conflitos e adaptar seus objetivos com base em circunstâncias mutáveis.
+
+### Conceitos de Gestão de Objetivos
+
+1. **Tipos de Objetivos**:
+   - Objetivos de conquista (alcançar um estado)
+   - Objetivos de manutenção (manter uma condição verdadeira)
+   - Objetivos de desempenho (otimizar uma métrica)
+
+2. **Relacionamentos entre Objetivos**:
+   - Objetivos independentes
+   - Objetivos conflitantes
+   - Objetivos hierárquicos
+   - Dependências temporais
+
+3. **Operações com Objetivos**:
+   - Adoção de objetivos
+   - Abandono de objetivos
+   - Priorização de objetivos
+   - Decomposição de objetivos
+
+#### Exemplo de Código: Sistema de Gestão de Objetivos
+
+```python
+from typing import List, Dict, Set, Optional, Tuple
+from dataclasses import dataclass, field
+from enum import Enum
+import heapq
+from datetime import datetime, timedelta
+
+class GoalType(Enum):
+    ACHIEVEMENT = "conquista"
+    MAINTENANCE = "manutenção"
+    PERFORMANCE = "desempenho"
+
+class GoalStatus(Enum):
+    ACTIVE = "ativo"
+    SUSPENDED = "suspenso"
+    ACHIEVED = "alcançado"
+    ABANDONED = "abandonado"
+    FAILED = "falhou"
+
+@dataclass
+class Goal:
+    """Representa um objetivo com metadados e restrições"""
+    goal_id: str
+    description: str
+    goal_type: GoalType
+    conditions: Set[Proposition]
+    priority: float = 1.0
+    deadline: Optional[datetime] = None
+    dependencies: List[str] = field(default_factory=list)
+    conflicts: List[str] = field(default_factory=list)
+    status: GoalStatus = GoalStatus.ACTIVE
+    created_at: datetime = field(default_factory=datetime.now)
+    utility: float = 1.0
+    
+    def is_satisfied(self, state: Set[Proposition]) -> bool:
+        """Verificar se o objetivo é satisfeito no estado atual"""
+        return self.conditions.issubset(state)
+    
+    def is_overdue(self) -> bool:
+        """Verificar se o objetivo passou do prazo"""
+        return self.deadline and datetime.now() > self.deadline
+    
+    def get_urgency(self) -> float:
+        """Calcular urgência baseada no prazo e prioridade"""
+        if not self.deadline:
+            return self.priority
+        
+        time_remaining = (self.deadline - datetime.now()).total_seconds()
+        if time_remaining <= 0:
+            return float('inf')  # Objetivos atrasados têm urgência infinita
+        
+        # Urgência aumenta conforme prazo se aproxima
+        urgency = self.priority * (86400 / max(time_remaining, 1))  # 86400 segundos em um dia
+        return urgency
+
+class ConflictResolver:
+    """Resolve conflitos entre objetivos concorrentes"""
+    
+    def detect_conflicts(self, goals: List[Goal]) -> List[Tuple[str, str, str]]:
+        """Detectar conflitos entre objetivos"""
+        conflicts = []
+        
+        for i, goal1 in enumerate(goals):
+            for j, goal2 in enumerate(goals[i+1:], i+1):
+                conflict_type = self._analyze_conflict(goal1, goal2)
+                if conflict_type:
+                    conflicts.append((goal1.goal_id, goal2.goal_id, conflict_type))
+        
+        return conflicts
+    
+    def _analyze_conflict(self, goal1: Goal, goal2: Goal) -> Optional[str]:
+        """Analisar se dois objetivos conflitam"""
+        
+        # Verificar conflitos explícitos
+        if goal2.goal_id in goal1.conflicts or goal1.goal_id in goal2.conflicts:
+            return "explícito"
+        
+        # Verificar conflitos de condições (simplificado)
+        for prop1 in goal1.conditions:
+            for prop2 in goal2.conditions:
+                if self._propositions_conflict(prop1, prop2):
+                    return "condição"
+        
+        # Verificar conflitos de recursos (simplificado)
+        if self._resource_conflict(goal1, goal2):
+            return "recurso"
+        
+        return None
+    
+    def _propositions_conflict(self, prop1: Proposition, prop2: Proposition) -> bool:
+        """Verificar se duas proposições conflitam"""
+        # Detecção simples de conflito: mesmo predicado com argumentos diferentes
+        if prop1.predicate == prop2.predicate and prop1.args != prop2.args:
+            # Para predicados de localização, robô só pode estar em um lugar
+            if prop1.predicate == "robo_em":
+                return True
+        return False
+    
+    def _resource_conflict(self, goal1: Goal, goal2: Goal) -> bool:
+        """Verificar se objetivos competem pelos mesmos recursos"""
+        # Detecção simplificada de conflito de recursos
+        # Na prática, isso seria mais sofisticado
+        return False
+    
+    def resolve_conflicts(self, goals: List[Goal], 
+                         conflicts: List[Tuple[str, str, str]]) -> List[Goal]:
+        """Resolver conflitos priorizando objetivos"""
+        
+        # Resolução simples: priorizar objetivos de maior prioridade
+        goals_by_id = {goal.goal_id: goal for goal in goals}
+        resolved_goals = []
+        suspended_goals = set()
+        
+        for goal_id1, goal_id2, conflict_type in conflicts:
+            goal1 = goals_by_id[goal_id1]
+            goal2 = goals_by_id[goal_id2]
+            
+            # Suspender objetivo de menor prioridade
+            if goal1.priority > goal2.priority:
+                suspended_goals.add(goal_id2)
+            elif goal2.priority > goal1.priority:
+                suspended_goals.add(goal_id1)
+            else:
+                # Prioridade igual, suspender objetivo com prazo posterior
+                if goal1.deadline and goal2.deadline:
+                    if goal1.deadline < goal2.deadline:
+                        suspended_goals.add(goal_id2)
+                    else:
+                        suspended_goals.add(goal_id1)
+        
+        # Atualizar status dos objetivos
+        for goal in goals:
+            if goal.goal_id in suspended_goals:
+                goal.status = GoalStatus.SUSPENDED
+            else:
+                goal.status = GoalStatus.ACTIVE
+            resolved_goals.append(goal)
+        
+        return resolved_goals
+
+class GoalManager:
+    """Gerencia múltiplos objetivos com priorização e resolução de conflitos"""
+    
+    def __init__(self, planner: STRIPSPlanner):
+        self.planner = planner
+        self.goals: Dict[str, Goal] = {}
+        self.conflict_resolver = ConflictResolver()
+        self.goal_history: List[Dict[str, Any]] = []
+        
+    def add_goal(self, goal: Goal):
+        """Adicionar um novo objetivo ao gerenciador"""
+        self.goals[goal.goal_id] = goal
+        self._log_goal_event("adicionado", goal)
+        
+    def remove_goal(self, goal_id: str):
+        """Remover um objetivo do gerenciador"""
+        if goal_id in self.goals:
+            goal = self.goals[goal_id]
+            goal.status = GoalStatus.ABANDONED
+            self._log_goal_event("removido", goal)
+            del self.goals[goal_id]
+    
+    def update_goal_status(self, current_state: Set[Proposition]):
+        """Atualizar status de todos os objetivos baseado no estado atual"""
+        for goal in self.goals.values():
+            old_status = goal.status
+            
+            if goal.status == GoalStatus.ACTIVE:
+                if goal.is_satisfied(current_state):
+                    goal.status = GoalStatus.ACHIEVED
+                    self._log_goal_event("alcançado", goal)
+                elif goal.is_overdue():
+                    goal.status = GoalStatus.FAILED
+                    self._log_goal_event("falhou", goal)
+    
+    def get_active_goals(self) -> List[Goal]:
+        """Obter todos os objetivos atualmente ativos"""
+        return [goal for goal in self.goals.values() 
+                if goal.status == GoalStatus.ACTIVE]
+    
+    def prioritize_goals(self) -> List[Goal]:
+        """Priorizar objetivos baseado em urgência e utilidade"""
+        active_goals = self.get_active_goals()
+        
+        # Ordenar por urgência (maior urgência primeiro)
+        prioritized = sorted(active_goals, 
+                           key=lambda g: g.get_urgency() * g.utility, 
+                           reverse=True)
+        
+        return prioritized
+    
+    def plan_for_goals(self, current_state: Set[Proposition], 
+                      max_goals: int = 3) -> Optional[List[Action]]:
+        """Gerar plano para alcançar múltiplos objetivos"""
+        
+        # Atualizar status dos objetivos
+        self.update_goal_status(current_state)
+        
+        # Resolver conflitos
+        active_goals = self.get_active_goals()
+        conflicts = self.conflict_resolver.detect_conflicts(active_goals)
+        resolved_goals = self.conflict_resolver.resolve_conflicts(active_goals, conflicts)
+        
+        # Priorizar objetivos ativos restantes
+        active_resolved = [g for g in resolved_goals if g.status == GoalStatus.ACTIVE]
+        prioritized_goals = sorted(active_resolved, 
+                                 key=lambda g: g.get_urgency() * g.utility,
+                                 reverse=True)
+        
+        # Selecionar principais objetivos para planejar
+        selected_goals = prioritized_goals[:max_goals]
+        
+        if not selected_goals:
+            return []
+        
+        # Combinar condições dos objetivos
+        combined_goal = set()
+        for goal in selected_goals:
+            combined_goal.update(goal.conditions)
+        
+        # Gerar plano
+        plan = self.planner.plan_with_heuristic(current_state, combined_goal)
+        
+        if plan:
+            self._log_planning_event(selected_goals, len(plan))
+        
+        return plan
+    
+    def _log_goal_event(self, event_type: str, goal: Goal):
+        """Registrar eventos relacionados a objetivos"""
+        self.goal_history.append({
+            "timestamp": datetime.now(),
+            "event_type": event_type,
+            "goal_id": goal.goal_id,
+            "goal_description": goal.description,
+            "goal_status": goal.status.value
+        })
+    
+    def _log_planning_event(self, goals: List[Goal], plan_length: int):
+        """Registrar eventos de planejamento"""
+        self.goal_history.append({
+            "timestamp": datetime.now(),
+            "event_type": "planejamento",
+            "goals": [g.goal_id for g in goals],
+            "plan_length": plan_length
+        })
+    
+    def get_status_report(self) -> Dict[str, Any]:
+        """Obter relatório abrangente de status"""
+        active_goals = self.get_active_goals()
+        
+        return {
+            "total_goals": len(self.goals),
+            "active_goals": len(active_goals),
+            "achieved_goals": len([g for g in self.goals.values() 
+                                 if g.status == GoalStatus.ACHIEVED]),
+            "failed_goals": len([g for g in self.goals.values() 
+                               if g.status == GoalStatus.FAILED]),
+            "overdue_goals": len([g for g in active_goals if g.is_overdue()]),
+            "goal_priorities": [(g.goal_id, g.get_urgency()) for g in active_goals],
+            "recent_events": self.goal_history[-10:]  # Últimos 10 eventos
+        }
+
+# Exemplo de uso
+def test_goal_management():
+    """Testar sistema de gestão de objetivos"""
+    
+    # Criar planejador e gerenciador de objetivos
+    planner = create_robot_world()
+    goal_manager = GoalManager(planner)
+    
+    # Adicionar múltiplos objetivos
+    goal1 = Goal(
+        goal_id="entregar_livro",
+        description="Entregar livro no quarto",
+        goal_type=GoalType.ACHIEVEMENT,
+        conditions={Proposition("objeto_em", ("livro", "quarto"))},
+        priority=2.0,
+        deadline=datetime.now() + timedelta(hours=1),
+        utility=1.5
+    )
+    
+    goal2 = Goal(
+        goal_id="retornar_casa",
+        description="Retornar robô à cozinha",
+        goal_type=GoalType.ACHIEVEMENT,
+        conditions={Proposition("robo_em", ("cozinha",))},
+        priority=1.0,
+        deadline=datetime.now() + timedelta(hours=2),
+        utility=1.0
+    )
+    
+    goal3 = Goal(
+        goal_id="organizar_sala",
+        description="Organizar sala de estar",
+        goal_type=GoalType.ACHIEVEMENT,
+        conditions={Proposition("sala_organizada", ("sala",))},
+        priority=0.5,
+        deadline=datetime.now() + timedelta(hours=3),
+        utility=0.8
+    )
+    
+    goal_manager.add_goal(goal1)
+    goal_manager.add_goal(goal2)
+    goal_manager.add_goal(goal3)
+    
+    # Estado atual
+    current_state = {
+        Proposition("robo_em", ("garagem",)),
+        Proposition("objeto_em", ("livro", "sala")),
+        Proposition("robo_maos_vazias")
+    }
+    
+    # Planejar para objetivos
+    plan = goal_manager.plan_for_goals(current_state)
+    
+    if plan:
+        print("Plano multi-objetivo:")
+        for i, action in enumerate(plan, 1):
+            print(f"{i}. {action}")
+    
+    # Relatório de status
+    status = goal_manager.get_status_report()
+    print(f"\nStatus do Gerenciador de Objetivos:")
+    print(f"Total de objetivos: {status['total_goals']}")
+    print(f"Objetivos ativos: {status['active_goals']}")
+    print(f"Prioridades dos objetivos: {status['goal_priorities']}")
+
+# Executar o teste
+# test_goal_management()
+```
+
+## Quiz Interativo
+
+Teste sua compreensão dos sistemas de planejamento:
+
+### Pergunta 1
+Qual é a principal diferença entre planejamento STRIPS e HTN?
+
+A) STRIPS usa heurísticas, HTN não
+B) STRIPS planeja no espaço de estados, HTN planeja no espaço de tarefas
+C) STRIPS é ótimo, HTN não é
+D) STRIPS lida com incerteza, HTN não
+
+**Resposta: B) STRIPS planeja no espaço de estados, HTN planeja no espaço de tarefas**
+
+O planejamento STRIPS busca através de possíveis estados do mundo para encontrar uma sequência de ações, enquanto o planejamento HTN decompõe tarefas de alto nível em subtarefas hierarquicamente.
+
+### Pergunta 2
+Qual estratégia de replanejamento é mais eficiente para falhas menores no plano?
+
+A) Replanejamento completo
+B) Reparo de plano
+C) Planejamento de contingência
+D) Planejamento contínuo
+
+**Resposta: B) Reparo de plano**
+
+O reparo de plano tenta consertar o plano existente em vez de começar do zero, tornando-o mais eficiente para falhas menores onde a maior parte do plano ainda é válida.
+
+### Pergunta 3
+O que torna o planejamento A* ótimo?
+
+A) Ele usa a melhor função heurística
+B) Ele explora todos os estados possíveis
+C) Ele usa uma heurística admissível
+D) Ele sempre encontra o plano mais curto
+
+**Resposta: C) Ele usa uma heurística admissível**
+
+A* é ótimo quando usa uma heurística admissível (uma que nunca superestima o custo real para alcançar o objetivo).
+
+## Exercícios Práticos
+
+### Exercício 1: Planejador de Navegação de Robô
+**Tempo: 45 minutos**
+
+Implemente um planejador A* para navegação de robô em um mundo de grade com:
+- Obstáculos estáticos
+- Diferentes custos de terreno
+- Múltiplos locais de objetivo
+- Função heurística eficiente
+
+### Exercício 2: Decomposição de Tarefas com HTN
+**Tempo: 60 minutos**
+
+Construa um planejador HTN para uma receita de culinária complexa de múltiplas etapas que:
+- Decompõe "fazer_jantar" em subtarefas
+- Lida com dependências de preparação de ingredientes
+- Gerencia restrições de equipamentos de cozinha
+- Fornece múltiplos métodos de cozimento
+
+### Exercício 3: Planejador de Missão Adaptativo
+**Tempo: 90 minutos**
+
+Crie um planejador adaptativo para uma missão de drone que:
+- Planeja rotas evitando zonas de exclusão aérea
+- Replaneja quando condições climáticas mudam
+- Gerencia vida útil da bateria e estações de recarga
+- Lida com mudanças de prioridade da missão
+
+## Resumo
+
+Sistemas de planejamento são essenciais para criar agentes inteligentes que podem raciocinar sobre tarefas complexas de múltiplas etapas. Principais conclusões:
+
+- **Planejamento clássico** (STRIPS, A*) funciona bem para ambientes determinísticos
+- **Planejamento hierárquico** (HTN) escala para domínios complexos através da decomposição de tarefas
+- **Planejamento adaptativo** lida com ambientes dinâmicos através de monitoramento e replanejamento
+- **Gestão de objetivos** permite que agentes equilibrem múltiplos objetivos concorrentes
+- **Planejamento com incerteza** requer raciocínio probabilístico e estratégias robustas
+
+A escolha da abordagem de planejamento depende das características do seu domínio, restrições computacionais e níveis de incerteza.
+
+## Próximos Passos
+
+No próximo módulo, exploraremos **Orquestração de Ferramentas**, onde você aprenderá a construir agentes que podem coordenar e utilizar efetivamente múltiplas ferramentas e serviços para realizar tarefas complexas que requerem capacidades diversas.
+
+---
+
+## Recursos Adicionais
+
+- [Artificial Intelligence: A Modern Approach - Capítulos de Planejamento](https://aima.cs.berkeley.edu/)
+- [Algoritmo de Planejamento STRIPS](https://ai.stanford.edu/~nilsson/OnlinePubs-Nils/PublishedPapers/strips.pdf)
+- [Planejamento de Rede Hierárquica de Tarefas](https://www.cs.umd.edu/~nau/papers/nau2003htn.pdf)
+- [Planejamento sob Incerteza](https://planning.wiki/guide/whatis/uncertainty)
+- [Documentação de Planejamento LangChain](https://docs.langchain.com/docs/use-cases/agents)

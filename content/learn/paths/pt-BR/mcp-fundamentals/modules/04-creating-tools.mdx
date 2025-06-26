@@ -1,0 +1,941 @@
+---
+title: "Criando Provedores de Ferramentas"
+description: "Construa provedores de ferramentas poderosos que permitem à IA tomar ações, executar comandos e interagir com seus sistemas de forma segura"
+duration: "75 minutos"
+difficulty: "intermediário"
+objectives:
+  - "Entender a diferença entre recursos e ferramentas"
+  - "Projetar e implementar provedores de ferramentas seguros"
+  - "Lidar com parâmetros de ferramentas com validação adequada"
+  - "Construir ferramentas para operações de arquivo, chamadas de API e interações de sistema"
+  - "Implementar tratamento de erros e medidas de segurança"
+tags:
+  - "mcp"
+  - "ferramentas"
+  - "ações"
+  - "validação"
+  - "segurança"
+lastUpdated: "2024-01-15"
+author: "Brandon Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+
+# Criando Provedores de Ferramentas
+
+## Entendendo Ferramentas MCP {#tool-fundamentals}
+
+Enquanto recursos fornecem dados para a IA ler, ferramentas dão à IA o poder de tomar ações. Ferramentas são a ponte entre a inteligência da IA e sistemas do mundo real, permitindo tudo desde manipulação de arquivos até chamadas de API e administração de sistemas.
+
+### O Poder e a Responsabilidade das Ferramentas
+
+Ferramentas representam uma mudança fundamental do acesso passivo a dados para interação ativa com sistemas. Com grande poder vem grande responsabilidade - ferramentas devem ser projetadas com segurança, validação e tratamento de erros como preocupações primárias.
+
+<Callout type="warning">
+  **Segurança em Primeiro Lugar**: Ferramentas podem modificar seu sistema, chamar APIs externas e realizar ações irreversíveis. Sempre implemente validação adequada, controles de acesso e verificações de segurança.
+</Callout>
+
+### Recursos vs Ferramentas: Uma Distinção Clara
+
+| Aspecto | Recursos | Ferramentas |
+|---------|-----------|-------------|
+| **Propósito** | Ler dados | Executar ações |
+| **Mutabilidade** | Somente leitura | Pode modificar estado |
+| **Parâmetros** | Baseado em URI | Argumentos estruturados |
+| **Segurança** | Menor risco | Maior risco |
+| **Exemplos** | Arquivos, bancos de dados, APIs | Escrever arquivos, enviar e-mails, executar comandos |
+
+<CodeExample
+  title="Estrutura de Ferramenta"
+  language="typescript"
+  code={`interface Tool {
+  name: string;                    // Identificador único da ferramenta
+  description: string;             // O que a ferramenta faz
+  inputSchema: {
+    type: 'object';
+    properties: Record<string, any>; // Definições de parâmetros
+    required?: string[];            // Parâmetros obrigatórios
+  };
+}
+
+interface ToolResult {
+  content: Array<{
+    type: 'text' | 'image' | 'resource';
+    text?: string;                 // Saída de texto
+    data?: string;                 // Dados codificados em Base64
+    resource?: { uri: string };    // Referência de recurso
+  }>;
+  isError?: boolean;              // Indica se a ferramenta falhou
+}`}
+  highlightLines={[1, 2, 3, 11, 16, 17]}
+/>
+
+### Ciclo de Vida da Ferramenta
+
+Entender o ciclo de vida de execução da ferramenta ajuda você a construir implementações robustas:
+
+1. **Descoberta**: Cliente solicita `tools/list` para ver ferramentas disponíveis
+2. **Seleção**: IA escolhe ferramenta apropriada baseada na tarefa
+3. **Validação**: Parâmetros são validados contra JSON Schema
+4. **Execução**: Lógica da ferramenta executa com parâmetros fornecidos
+5. **Resposta**: Resultados são retornados para aplicação IA
+6. **Tratamento de Erros**: Falhas são capturadas e reportadas com segurança
+
+## Construindo Suas Primeiras Ferramentas {#basic-tools}
+
+Vamos começar com ferramentas simples para entender os padrões básicos, depois construir implementações mais complexas.
+
+### A Ferramenta Echo: Entendendo o Básico
+
+<CodeExample
+  title="Ferramenta Echo Simples"
+  language="typescript"
+  code={`// Registrar a ferramenta echo
+server.setRequestHandler('tools/list', async () => {
+  return {
+    tools: [
+      {
+        name: 'echo',
+        description: 'Repetir o texto fornecido de volta ao usuário',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            text: {
+              type: 'string',
+              description: 'O texto para repetir de volta'
+            }
+          },
+          required: ['text']
+        }
+      }
+    ]
+  };
+});
+
+// Lidar com execução da ferramenta
+server.setRequestHandler('tools/call', async (request) => {
+  const { name, arguments: args } = request.params;
+  
+  if (name === 'echo') {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`Echo: \${args.text}\`
+        }
+      ]
+    };
+  }
+  
+  throw new Error(\`Ferramenta desconhecida: \${name}\`);
+});`}
+  highlightLines={[6, 7, 27, 28, 29, 30, 31, 32, 33, 34]}
+/>
+
+Este exemplo simples demonstra:
+- **Definição de Ferramenta**: Nome, descrição e esquema de entrada
+- **Validação de Parâmetros**: JSON Schema define parâmetro `text` obrigatório
+- **Manipulador de Execução**: Processa a chamada da ferramenta e retorna resultados
+- **Formato de Resposta**: Array de conteúdo estruturado com tipo e texto
+
+### Um Exemplo Mais Prático: Ferramenta Calculadora
+
+<CodeExample
+  title="Ferramenta Calculadora"
+  language="typescript"
+  code={`const calculatorTool = {
+  name: 'calculator',
+  description: 'Realizar cálculos matemáticos básicos',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      expression: {
+        type: 'string',
+        description: 'Expressão matemática para avaliar (ex: "2 + 2", "10 * 5")'
+      }
+    },
+    required: ['expression']
+  }
+};
+
+// Avaliador seguro de expressões
+function evaluateExpression(expr: string): number {
+  // Permitir apenas números, operadores básicos e parênteses
+  const safePattern = /^[0-9+\\-*/().\\s]+$/;
+  
+  if (!safePattern.test(expr)) {
+    throw new Error('Expressão inválida: apenas números e operadores básicos permitidos');
+  }
+  
+  try {
+    // Usar construtor Function para avaliação mais segura
+    return Function('"use strict"; return (' + expr + ')')();
+  } catch (error) {
+    throw new Error('Expressão matemática inválida');
+  }
+}
+
+// Manipulador de execução da ferramenta
+if (name === 'calculator') {
+  try {
+    const result = evaluateExpression(args.expression);
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`\${args.expression} = \${result}\`
+        }
+      ]
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`Erro: \${error.message}\`
+        }
+      ],
+      isError: true
+    };
+  }
+}`}
+/>
+
+Este exemplo mostra padrões importantes:
+- **Validação de Entrada**: Expressões regulares garantem entrada segura
+- **Tratamento de Erros**: Blocos try-catch com mensagens de erro amigáveis
+- **Segurança**: Avaliação restrita previne injeção de código
+- **Respostas de Erro**: `isError: true` indica falha da ferramenta
+
+<Callout type="success">
+  **Melhor Prática**: Sempre valide entrada completamente. Nunca use `eval()` ou execução de código dinâmica similar sem sanitização estrita de entrada.
+</Callout>
+
+## Ferramentas de Operação de Arquivo {#file-operations}
+
+Operações de arquivo estão entre as ferramentas mais comuns e poderosas que você implementará. Elas requerem considerações de segurança cuidadosas e tratamento robusto de erros.
+
+<Exercise
+  id="file-operations"
+  title="Construir Ferramentas de Gerenciamento de Arquivos"
+/>
+
+### Entendendo a Segurança de Ferramentas de Arquivo
+
+Operações de arquivo apresentam riscos significativos de segurança. Aqui estão medidas de segurança essenciais:
+
+1. **Validação de Caminho**: Prevenir ataques de travessia de diretório
+2. **Diretório Seguro**: Confinar operações a áreas designadas
+3. **Verificações de Permissão**: Validar permissões do sistema de arquivos
+4. **Limites de Tamanho**: Prevenir exaustão de recursos
+5. **Validação de Tipo de Arquivo**: Restringir tipos de arquivo permitidos
+
+<CodeExample
+  title="Validação de Caminho Seguro"
+  language="typescript"
+  code={`class SecureFileHandler {
+  constructor(private safeDirectory: string) {}
+  
+  private isPathSafe(requestedPath: string): boolean {
+    // Resolver o caminho solicitado relativo ao diretório seguro
+    const resolvedPath = path.resolve(this.safeDirectory, requestedPath);
+    const resolvedSafeDir = path.resolve(this.safeDirectory);
+    
+    // Garantir que o caminho resolvido está dentro do diretório seguro
+    return resolvedPath.startsWith(resolvedSafeDir + path.sep) || 
+           resolvedPath === resolvedSafeDir;
+  }
+  
+  private validateFileSize(filePath: string, maxSize: number = 10 * 1024 * 1024) {
+    const stats = fs.statSync(filePath);
+    if (stats.size > maxSize) {
+      throw new Error(\`Arquivo muito grande: \${stats.size} bytes (máx: \${maxSize})\`);
+    }
+  }
+  
+  private getAllowedExtensions(): string[] {
+    return ['.txt', '.md', '.json', '.yaml', '.yml', '.csv'];
+  }
+  
+  private isFileTypeAllowed(filePath: string): boolean {
+    const ext = path.extname(filePath).toLowerCase();
+    return this.getAllowedExtensions().includes(ext);
+  }
+}`}
+/>
+
+### Operações de Arquivo Comuns
+
+Aqui estão padrões para as operações de arquivo mais comuns:
+
+**Lendo Arquivos:**
+```typescript
+async readFile(filePath: string) {
+  // 1. Validar segurança do caminho
+  if (!this.isPathSafe(filePath)) {
+    throw new Error('Caminho fora do diretório seguro');
+  }
+  
+  // 2. Verificar tipo de arquivo
+  if (!this.isFileTypeAllowed(filePath)) {
+    throw new Error('Tipo de arquivo não permitido');
+  }
+  
+  // 3. Validar tamanho antes de ler
+  this.validateFileSize(fullPath);
+  
+  // 4. Ler com detecção de codificação
+  const content = await fs.readFile(fullPath, 'utf-8');
+  
+  return {
+    content: [{
+      type: 'text',
+      text: `Arquivo: ${filePath}\n\n${content}`
+    }]
+  };
+}
+```
+
+**Escrevendo Arquivos:**
+```typescript
+async writeFile(filePath: string, content: string, options: WriteOptions = {}) {
+  // 1. Todas as mesmas verificações de segurança da leitura
+  // 2. Verificações adicionais para escrita
+  
+  if (!options.overwrite && await this.fileExists(fullPath)) {
+    throw new Error('Arquivo existe. Use overwrite: true para substituir.');
+  }
+  
+  // 3. Validação de conteúdo
+  if (content.length > 1024 * 1024) { // limite de 1MB
+    throw new Error('Conteúdo muito grande');
+  }
+  
+  // 4. Escrita atômica (escrever em arquivo temporário, depois renomear)
+  const tempPath = fullPath + '.tmp';
+  await fs.writeFile(tempPath, content, 'utf-8');
+  await fs.rename(tempPath, fullPath);
+}
+```
+
+## Ferramentas de Integração de API {#api-tools}
+
+Ferramentas de API permitem que seu servidor MCP interaja com serviços externos, tornando-o um poderoso hub de integração.
+
+<CodeExample
+  title="Ferramenta de Requisição HTTP"
+  language="typescript"
+  code={`const httpRequestTool = {
+  name: 'http_request',
+  description: 'Fazer requisições HTTP para APIs externas',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      url: {
+        type: 'string',
+        description: 'A URL para requisitar'
+      },
+      method: {
+        type: 'string',
+        enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+        default: 'GET',
+        description: 'Método HTTP a usar'
+      },
+      headers: {
+        type: 'object',
+        description: 'Cabeçalhos HTTP a incluir',
+        additionalProperties: { type: 'string' }
+      },
+      body: {
+        type: 'string',
+        description: 'Corpo da requisição (para POST, PUT, PATCH)'
+      },
+      timeout: {
+        type: 'number',
+        default: 30000,
+        description: 'Timeout da requisição em milissegundos'
+      }
+    },
+    required: ['url']
+  }
+};
+
+// Manipulador de requisição HTTP com verificações de segurança
+async function executeHttpRequest(args: any) {
+  const { url, method = 'GET', headers = {}, body, timeout = 30000 } = args;
+  
+  // Segurança: Validar URL
+  try {
+    const urlObj = new URL(url);
+    
+    // Bloquear localhost e IPs privados por segurança
+    if (urlObj.hostname === 'localhost' || 
+        urlObj.hostname.startsWith('127.') ||
+        urlObj.hostname.startsWith('192.168.') ||
+        urlObj.hostname.startsWith('10.')) {
+      throw new Error('Requisições para redes locais/privadas não são permitidas');
+    }
+  } catch (error) {
+    throw new Error(\`URL inválida: \${error.message}\`);
+  }
+  
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'User-Agent': 'MCP-Server/1.0',
+        ...headers
+      },
+      body: method !== 'GET' && method !== 'HEAD' ? body : undefined,
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    
+    const responseText = await response.text();
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`HTTP \${method} \${url}\\n\` +
+                \`Status: \${response.status} \${response.statusText}\\n\` +
+                \`Headers: \${JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2)}\\n\\n\` +
+                \`Resposta:\\n\${responseText}\`
+        }
+      ]
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`Requisição HTTP falhou: \${error.message}\`
+        }
+      ],
+      isError: true
+    };
+  }
+}`}
+/>
+
+### Considerações de Segurança para Ferramentas de API
+
+<Callout type="warning">
+  **Medidas de Segurança Críticas**:
+  - Bloquear requisições para localhost e intervalos de IP privados
+  - Implementar timeouts de requisição para prevenir travamento
+  - Validar e sanitizar todas as entradas
+  - Usar listas de permissão para domínios permitidos quando possível
+  - Implementar limitação de taxa para prevenir abuso
+</Callout>
+
+### Ferramentas de API Especializadas
+
+Considere construir ferramentas especializadas para APIs comuns:
+
+**Ferramenta de Mensagem Slack:**
+```typescript
+const slackTool = {
+  name: 'slack_message',
+  description: 'Enviar mensagem para canal Slack',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      channel: { type: 'string', description: 'Nome ou ID do canal' },
+      message: { type: 'string', description: 'Texto da mensagem' },
+      urgent: { type: 'boolean', default: false }
+    },
+    required: ['channel', 'message']
+  }
+};
+```
+
+**Ferramenta de E-mail:**
+```typescript
+const emailTool = {
+  name: 'send_email',
+  description: 'Enviar e-mail via SMTP',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      to: { type: 'string', description: 'E-mail do destinatário' },
+      subject: { type: 'string', description: 'Assunto do e-mail' },
+      body: { type: 'string', description: 'Corpo do e-mail' },
+      priority: { type: 'string', enum: ['low', 'normal', 'high'], default: 'normal' }
+    },
+    required: ['to', 'subject', 'body']
+  }
+};
+```
+
+## Padrões Avançados de Ferramentas {#advanced-tool-patterns}
+
+À medida que suas ferramentas se tornam mais sofisticadas, você precisará de padrões avançados para cenários complexos.
+
+### Operações de Longa Duração
+
+<CodeExample
+  title="Ferramenta de Longa Duração com Progresso"
+  language="typescript"
+  code={`class LongRunningTool {
+  async executeLongOperation(args: any, progressCallback?: (progress: number, message: string) => void) {
+    const totalSteps = 100;
+    
+    for (let step = 0; step < totalSteps; step++) {
+      // Simular trabalho
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Reportar progresso
+      if (progressCallback) {
+        progressCallback((step + 1) / totalSteps * 100, \`Processando passo \${step + 1}\`);
+      }
+      
+      // Verificar cancelamento
+      if (this.shouldCancel) {
+        throw new Error('Operação cancelada');
+      }
+    }
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: 'Operação longa concluída com sucesso!'
+        }
+      ]
+    };
+  }
+}`}
+/>
+
+### Disponibilidade Condicional de Ferramentas
+
+<CodeExample
+  title="Disponibilidade Condicional de Ferramentas"
+  language="typescript"
+  code={`class ConditionalToolProvider {
+  constructor(private config: { adminMode: boolean; apiKey?: string }) {}
+  
+  getAvailableTools() {
+    const tools = [
+      // Sempre disponível
+      {
+        name: 'status',
+        description: 'Obter status do sistema',
+        inputSchema: { type: 'object', properties: {} }
+      }
+    ];
+    
+    // Ferramentas apenas para admin
+    if (this.config.adminMode) {
+      tools.push({
+        name: 'restart_service',
+        description: 'Reiniciar um serviço do sistema',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            service: { type: 'string', description: 'Nome do serviço' }
+          },
+          required: ['service']
+        }
+      });
+    }
+    
+    // Ferramentas dependentes de API
+    if (this.config.apiKey) {
+      tools.push({
+        name: 'external_api_call',
+        description: 'Chamar API externa',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            endpoint: { type: 'string', description: 'Endpoint da API' }
+          },
+          required: ['endpoint']
+        }
+      });
+    }
+    
+    return tools;
+  }
+}`}
+/>
+
+### Composição e Encadeamento de Ferramentas
+
+Servidores MCP avançados podem compor ferramentas para fluxos de trabalho complexos:
+
+```typescript
+class CompositeToolProvider {
+  async executeWorkflow(steps: WorkflowStep[]) {
+    const results = [];
+    
+    for (const step of steps) {
+      const result = await this.executeTool(step.tool, step.args);
+      
+      // Passar resultado para próximo passo se necessário
+      if (step.useOutputAsInput && results.length > 0) {
+        step.args = { ...step.args, input: results[results.length - 1] };
+      }
+      
+      results.push(result);
+      
+      // Parar em erro se não configurado para continuar
+      if (result.isError && !step.continueOnError) {
+        break;
+      }
+    }
+    
+    return { results };
+  }
+}
+```
+
+## Tratamento de Erros e Logging {#error-handling}
+
+Tratamento robusto de erros é crucial para ferramentas de produção.
+
+### Categorias de Erro e Tratamento
+
+<CodeExample
+  title="Tratamento Abrangente de Erros"
+  language="typescript"
+  code={`class ToolExecutor {
+  async executeTool(name: string, args: any): Promise<ToolResult> {
+    try {
+      // Validação pré-execução
+      this.validateToolExists(name);
+      this.validateParameters(name, args);
+      this.checkPermissions(name);
+      
+      // Executar com timeout
+      const result = await Promise.race([
+        this.doExecuteTool(name, args),
+        this.createTimeoutPromise(30000)
+      ]);
+      
+      // Validação pós-execução
+      this.validateResult(result);
+      
+      return result;
+      
+    } catch (error) {
+      return this.handleError(error, name, args);
+    }
+  }
+  
+  private handleError(error: any, toolName: string, args: any): ToolResult {
+    // Registrar erro para depuração
+    console.error(\`Execução da ferramenta falhou: \${toolName}\`, {
+      error: error.message,
+      args,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    });
+    
+    // Retornar erro amigável ao usuário
+    let message = 'Ocorreu um erro inesperado';
+    
+    if (error instanceof ValidationError) {
+      message = \`Parâmetros inválidos: \${error.message}\`;
+    } else if (error instanceof PermissionError) {
+      message = \`Permissão negada: \${error.message}\`;
+    } else if (error instanceof TimeoutError) {
+      message = 'Operação expirou';
+    } else if (error instanceof NetworkError) {
+      message = \`Erro de rede: \${error.message}\`;
+    }
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: message
+        }
+      ],
+      isError: true
+    };
+  }
+}`}
+/>
+
+### Logging e Monitoramento
+
+Implemente logging abrangente para uso de ferramentas:
+
+```typescript
+class ToolLogger {
+  logToolExecution(toolName: string, args: any, result: ToolResult, duration: number) {
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      tool: toolName,
+      success: !result.isError,
+      duration,
+      argsHash: this.hashArgs(args), // Não registrar dados sensíveis
+      resultSize: JSON.stringify(result).length
+    };
+    
+    console.log('Ferramenta executada:', logEntry);
+    
+    // Enviar para sistema de monitoramento
+    this.sendToMonitoring(logEntry);
+  }
+}
+```
+
+## Exemplos de Ferramentas do Mundo Real {#real-world-examples}
+
+### Ferramentas de Desenvolvimento
+
+<CodeExample
+  title="Ferramenta de Operações Git"
+  language="typescript"
+  code={`const gitTool = {
+  name: 'git_status',
+  description: 'Obter status do repositório git',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      repository: {
+        type: 'string',
+        description: 'Caminho para repositório git',
+        default: '.'
+      }
+    }
+  }
+};
+
+async function executeGitStatus(args: any) {
+  const { repository = '.' } = args;
+  
+  try {
+    // Executar comando git com segurança
+    const { stdout, stderr } = await execAsync('git status --porcelain', {
+      cwd: repository,
+      timeout: 10000
+    });
+    
+    const changes = stdout.split('\\n').filter(line => line.trim());
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: changes.length > 0 
+            ? \`Status git:\\n\${changes.join('\\n')}\`
+            : 'Diretório de trabalho limpo'
+        }
+      ]
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: \`Comando git falhou: \${error.message}\`
+        }
+      ],
+      isError: true
+    };
+  }
+}`}
+/>
+
+### Ferramentas de Banco de Dados
+
+```typescript
+const databaseQueryTool = {
+  name: 'db_query',
+  description: 'Executar consultas seguras de banco de dados',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Consulta SQL (apenas SELECT)' },
+      limit: { type: 'number', default: 100, maximum: 1000 }
+    },
+    required: ['query']
+  }
+};
+```
+
+### Ferramentas de Administração de Sistema
+
+```typescript
+const systemInfoTool = {
+  name: 'system_info',
+  description: 'Obter informações do sistema',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      category: {
+        type: 'string',
+        enum: ['cpu', 'memory', 'disk', 'network'],
+        description: 'Categoria de informação'
+      }
+    }
+  }
+};
+```
+
+## Resumo de Melhores Práticas {#best-practices}
+
+### Diretrizes de Segurança
+
+<Callout type="warning">
+  **Práticas de Segurança Essenciais**:
+  - Sempre valide entradas com JSON Schema
+  - Implemente controles de acesso adequados
+  - Use listas de permissão em vez de listas de bloqueio quando possível
+  - Sanitize todas as entradas do usuário
+  - Implemente limitação de taxa
+  - Registre todas as execuções de ferramentas para auditoria
+</Callout>
+
+### Diretrizes de Performance
+
+- Implemente timeouts para todas as operações
+- Use async/await para execução não bloqueante
+- Faça cache de operações caras quando apropriado
+- Implemente paginação para grandes conjuntos de resultados
+- Monitore uso de recursos e defina limites
+
+### Diretrizes de Experiência do Usuário
+
+- Forneça nomes e descrições de ferramentas claros e descritivos
+- Use JSON Schema para documentar parâmetros completamente
+- Retorne respostas estruturadas e consistentes
+- Inclua mensagens de erro úteis
+- Considere indicadores de progresso para operações longas
+
+## Armadilhas Comuns {#pitfalls}
+
+### Evite Estes Erros
+
+1. **Validação Insuficiente**: Sempre valide entradas completamente
+2. **Tratamento de Erros Ausente**: Toda operação pode falhar
+3. **Descuidos de Segurança**: Nunca confie na entrada do usuário
+4. **Operações Bloqueantes**: Use padrões assíncronos consistentemente
+5. **Documentação Pobre**: Descrições claras são essenciais
+6. **Respostas Inconsistentes**: Use formatos de resposta consistentes
+7. **Vazamentos de Recursos**: Limpe após as operações serem concluídas
+
+<CodeExample
+  title="Checklist de Implementação de Ferramenta"
+  language="typescript"
+  code={`// ✅ Bom padrão de implementação de ferramenta
+async function implementTool(name: string, args: any): Promise<ToolResult> {
+  try {
+    // 1. Validar entradas
+    if (!this.validateArgs(name, args)) {
+      throw new ValidationError('Parâmetros inválidos');
+    }
+    
+    // 2. Verificar permissões
+    if (!this.hasPermission(name)) {
+      throw new PermissionError('Acesso negado');
+    }
+    
+    // 3. Executar com timeout
+    const result = await Promise.race([
+      this.executeOperation(args),
+      this.timeoutPromise(30000)
+    ]);
+    
+    // 4. Validar resultado
+    if (!this.isValidResult(result)) {
+      throw new Error('Resultado inválido da operação');
+    }
+    
+    // 5. Registrar sucesso
+    this.logExecution(name, args, result);
+    
+    return result;
+    
+  } catch (error) {
+    // 6. Lidar com erros graciosamente
+    this.logError(name, args, error);
+    return this.createErrorResponse(error);
+  }
+}`}
+/>
+
+## Resumo {#summary}
+
+Você aprendeu a construir provedores de ferramentas poderosos e seguros:
+
+✅ **Fundamentos de Ferramentas**: Entendendo a diferença entre recursos e ferramentas
+✅ **Implementação Básica**: Criando ferramentas simples com esquemas adequados
+✅ **Operações de Arquivo**: Construindo ferramentas seguras de gerenciamento de arquivos
+✅ **Integração de API**: Fazendo requisições HTTP seguras para serviços externos
+✅ **Padrões Avançados**: Operações de longa duração e disponibilidade condicional
+✅ **Segurança**: Validação de entrada, controles de acesso e tratamento de erros
+✅ **Melhores Práticas**: Diretrizes de performance, segurança e experiência do usuário
+
+## Próximos Passos {#next-steps}
+
+Você está agora pronto para o projeto final! No módulo final, você combinará tudo o que aprendeu para construir um servidor MCP completo e pronto para produção.
+
+Você criará um servidor abrangente que inclui:
+- Múltiplos provedores de recursos
+- Várias implementações de ferramentas
+- Integrações do mundo real
+- Tratamento de erros pronto para produção
+- Melhores práticas de segurança
+
+<Callout type="info">
+  **Desafio Final**: [Construir um Servidor MCP Completo](/learn/paths/mcp-fundamentals/modules/05-capstone-project) - Junte tudo em um projeto do mundo real!
+</Callout>
+
+## Referência Rápida {#quick-reference}
+
+### Métodos Essenciais de Ferramentas
+```typescript
+// Listar ferramentas disponíveis
+server.setRequestHandler('tools/list', async () => {
+  return { tools: [...] };
+});
+
+// Executar ferramenta
+server.setRequestHandler('tools/call', async (request) => {
+  const { name, arguments: args } = request.params;
+  return { content: [...] };
+});
+```
+
+### Padrões de JSON Schema
+```typescript
+// Parâmetro string
+{ type: 'string', description: 'Descrição do parâmetro' }
+
+// Parâmetro enum
+{ type: 'string', enum: ['option1', 'option2'], default: 'option1' }
+
+// Parâmetro objeto
+{ 
+  type: 'object',
+  properties: { /* propriedades aninhadas */ },
+  required: ['campoObrigatorio']
+}
+
+// Parâmetro array
+{ type: 'array', items: { type: 'string' } }
+```
+
+### Formato de Resposta de Erro
+```typescript
+{
+  content: [
+    {
+      type: 'text',
+      text: 'Mensagem de erro'
+    }
+  ],
+  isError: true
+}
+```

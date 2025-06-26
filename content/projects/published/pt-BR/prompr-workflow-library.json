@@ -1,0 +1,89 @@
+{
+  "slug": "prompr-workflow-library",
+  "title": "Prompr: Biblioteca de Automação de Fluxo de Trabalho com Agentes IA",
+  "description": "Biblioteca abrangente de automação de fluxo de trabalho permitindo execução paralela de tarefas multi-agente com Claude AI, apresentando distribuição inteligente de tarefas, rastreamento automático de progresso e integração perfeita com Git para fluxos de trabalho de desenvolvimento simplificados.",
+  "longDescription": "Prompr é uma biblioteca sofisticada de automação de fluxo de trabalho projetada para transformar o desenvolvimento de software através da orquestração inteligente de agentes IA. A biblioteca permite que desenvolvedores aproveitem o poder de múltiplos agentes Claude AI trabalhando em paralelo, distribuindo automaticamente tarefas, rastreando progresso e gerenciando fluxos de trabalho complexos de desenvolvimento.\n\nConstruída com foco nas necessidades práticas de desenvolvimento de software, Prompr preenche a lacuna entre as capacidades de IA e os requisitos de projetos do mundo real. A biblioteca fornece comandos estruturados para tudo, desde geração de Documento de Requisitos de Produto até execução de tarefas multi-agente, tornando-se uma ferramenta essencial para equipes que buscam integrar automação alimentada por IA em seu pipeline de desenvolvimento.\n\nO sistema demonstra capacidades agênticas avançadas através de sua habilidade de coordenar múltiplos agentes IA, lidar com dependências de tarefas e manter contexto de projeto através de fluxos de trabalho complexos. Com integração Git integrada e rastreamento automático de progresso, Prompr transforma como equipes de desenvolvimento abordam planejamento e execução de projetos.",
+  "tags": ["Python", "Claude AI", "Automação de Fluxo de Trabalho", "Multi-Agente", "CLI", "Integração Git"],
+  "featured": true,
+  "icon": "Workflow",
+  "isPrivate": false,
+  "githubUrl": "https://github.com/bredmond1019/claude-commands",
+  "techStack": [
+    {
+      "category": "IA/ML",
+      "items": ["Anthropic Claude", "Sistemas Multi-Agente", "Distribuição Inteligente de Tarefas", "Gerenciamento de Contexto"]
+    },
+    {
+      "category": "Biblioteca Principal",
+      "items": ["Python", "Click CLI", "Asyncio", "Validação JSON Schema"]
+    },
+    {
+      "category": "Gerenciamento de Fluxo de Trabalho",
+      "items": ["Orquestração de Tarefas", "Rastreamento de Progresso", "Resolução de Dependências", "Capacidades de Retomada"]
+    },
+    {
+      "category": "Integração",
+      "items": ["Automação Git", "Gerenciamento de Sistema de Arquivos", "Command Pattern", "Gerenciamento de Configuração"]
+    }
+  ],
+  "features": [
+    "Execução paralela de tarefas multi-agente com 3-5 agentes concorrentes",
+    "Distribuição inteligente de tarefas e tratamento de dependências",
+    "Integração automática com Git com geração de commits",
+    "Padrão de comando estruturado seguindo formato /user:<categoria>:<comando>",
+    "Geração de PRD a partir de documentos de design",
+    "Criação dinâmica de lista de tarefas a partir de requisitos",
+    "Retomada de fluxo de trabalho para processos interrompidos",
+    "Rastreamento e monitoramento de progresso através de todos os agentes",
+    "Gerenciamento de contexto para fluxos de trabalho complexos de projeto",
+    "Arquitetura de comando extensível para fluxos de trabalho personalizados"
+  ],
+  "challenges": [
+    "Coordenar múltiplos agentes IA mantendo coerência de tarefas",
+    "Implementar resolução robusta de dependências de tarefas",
+    "Gerenciar contexto e estado através de fluxos de trabalho de agentes distribuídos",
+    "Criar padrões de comando intuitivos para operações complexas",
+    "Garantir integração confiável com Git com commits automáticos",
+    "Lidar com interrupções de fluxo de trabalho e capacidades de retomada"
+  ],
+  "outcomes": [
+    { "metric": "Coordenação de Agentes", "value": "3-5 agentes paralelos" },
+    { "metric": "Eficiência do Fluxo de Trabalho", "value": "70% mais rápido no desenvolvimento" },
+    { "metric": "Distribuição de Tarefas", "value": "Automática e inteligente" },
+    { "metric": "Integração Git", "value": "Automação perfeita" }
+  ],
+  "globalImpact": {
+    "geographicReach": ["Estados Unidos", "Canadá", "Reino Unido", "Alemanha", "Austrália", "Japão", "Brasil"],
+    "usersWorldwide": 75,
+    "socialImpact": "Democratiza o acesso a fluxos de trabalho de desenvolvimento avançados com IA, permitindo que desenvolvedores individuais e pequenas equipes aproveitem capacidades de automação de nível empresarial",
+    "environmentalImpact": "Otimiza o uso de recursos de desenvolvimento através de distribuição inteligente de tarefas, reduzindo desperdício computacional e tempo de desenvolvimento",
+    "accessibilityFeatures": ["Estrutura clara de comandos", "Sistema de ajuda abrangente", "Visualização de progresso"],
+    "multilingualSupport": false,
+    "economicImpact": "Reduz custos de desenvolvimento automatizando tarefas complexas de gerenciamento de projetos e permitindo ciclos de iteração mais rápidos",
+    "knowledgeSharing": "Biblioteca open-source com documentação detalhada e exemplos para a comunidade global de desenvolvedores"
+  },
+  "localization": {
+    "supportedLanguages": ["Inglês"],
+    "culturalAdaptations": ["Padrões universais de fluxo de trabalho de desenvolvimento"],
+    "timeZoneHandling": false,
+    "currencySupport": [],
+    "regionalCompliance": ["Licença MIT open source"]
+  },
+  "codeSnippets": [
+    {
+      "title": "Geração de Tarefas Multi-Agente",
+      "language": "bash",
+      "code": "# Generate PRD from design document\n/user:prd:generate design.md\n\n# Create comprehensive task list from PRD\n/user:tasks:generate\n\n# Distribute tasks across multiple agents\n/user:tasks:generate-multi-agent tasks/tasks-list.md --agents 4\n\n# Execute tasks with parallel processing\n/user:tasks:execute --parallel --max-agents 5\n\n# Resume interrupted workflow\n/user:tasks:continue workflow-state.json"
+    },
+    {
+      "title": "Motor de Distribuição de Tarefas",
+      "language": "python",
+      "code": "class MultiAgentTaskDistributor:\n    \"\"\"Intelligently distributes tasks across multiple Claude agents\"\"\"\n    \n    def __init__(self, max_agents: int = 5):\n        self.max_agents = max_agents\n        self.active_agents = []\n        self.task_queue = []\n        self.completed_tasks = []\n        \n    async def distribute_tasks(self, tasks: List[Task]) -> None:\n        \"\"\"Distribute tasks across available agents with dependency handling\"\"\"\n        # Analyze task dependencies\n        dependency_graph = self._build_dependency_graph(tasks)\n        \n        # Sort tasks by priority and dependencies\n        sorted_tasks = self._topological_sort(dependency_graph)\n        \n        # Create agent pool\n        agents = await self._initialize_agents(self.max_agents)\n        \n        # Distribute tasks with load balancing\n        for task in sorted_tasks:\n            if self._dependencies_satisfied(task):\n                agent = self._get_least_busy_agent(agents)\n                await self._assign_task(agent, task)\n            else:\n                self.task_queue.append(task)\n    \n    async def _assign_task(self, agent: ClaudeAgent, task: Task) -> None:\n        \"\"\"Assign task to specific agent with progress tracking\"\"\"\n        try:\n            # Create task context with all necessary information\n            context = TaskContext(\n                task=task,\n                project_state=self.project_state,\n                previous_outputs=self._get_related_outputs(task)\n            )\n            \n            # Execute task with the agent\n            result = await agent.execute_task(context)\n            \n            # Process result and update project state\n            await self._process_task_result(task, result)\n            \n            # Check if new tasks can be started\n            await self._check_queue_for_ready_tasks()\n            \n        except Exception as e:\n            await self._handle_task_failure(task, e)\n    \n    def _build_dependency_graph(self, tasks: List[Task]) -> Dict:\n        \"\"\"Build task dependency graph for intelligent scheduling\"\"\"\n        graph = {}\n        \n        for task in tasks:\n            graph[task.id] = {\n                'task': task,\n                'dependencies': task.dependencies,\n                'dependents': [],\n                'status': 'pending'\n            }\n        \n        # Build dependent relationships\n        for task_id, task_info in graph.items():\n            for dep_id in task_info['dependencies']:\n                if dep_id in graph:\n                    graph[dep_id]['dependents'].append(task_id)\n        \n        return graph\n    \n    async def _monitor_progress(self) -> None:\n        \"\"\"Monitor and report progress across all agents\"\"\"\n        while self._has_active_tasks():\n            progress = self._calculate_progress()\n            \n            print(f\"Progress: {progress['completed']}/{progress['total']} tasks\")\n            print(f\"Active agents: {len(self.active_agents)}\")\n            print(f\"Queue length: {len(self.task_queue)}\")\n            \n            await asyncio.sleep(5)  # Update every 5 seconds"
+    },
+    {
+      "title": "Integração Git com Auto-Commit",
+      "language": "python", 
+      "code": "class GitWorkflowManager:\n    \"\"\"Manages Git operations for automated workflow commits\"\"\"\n    \n    def __init__(self, repo_path: str):\n        self.repo_path = repo_path\n        self.git = GitPython.Repo(repo_path)\n        \n    async def auto_commit_task_completion(self, task: Task, changes: List[str]) -> None:\n        \"\"\"Automatically commit changes when task completes\"\"\"\n        try:\n            # Stage all changes\n            for file_path in changes:\n                self.git.index.add([file_path])\n            \n            # Generate intelligent commit message\n            commit_message = await self._generate_commit_message(task, changes)\n            \n            # Create commit with detailed information\n            commit = self.git.index.commit(\n                message=commit_message,\n                author=Actor(\"Prompr AI\", \"prompr@ai-workflow.dev\")\n            )\n            \n            print(f\"✅ Auto-committed changes: {commit.hexsha[:8]}\")\n            print(f\"📝 Message: {commit_message}\")\n            \n        except Exception as e:\n            print(f\"❌ Git operation failed: {e}\")\n            # Continue workflow without failing\n    \n    async def _generate_commit_message(self, task: Task, changes: List[str]) -> str:\n        \"\"\"Generate contextual commit message using Claude\"\"\"\n        change_summary = self._analyze_changes(changes)\n        \n        prompt = f\"\"\"\n        Generate a concise, professional Git commit message for the following task completion:\n        \n        Task: {task.title}\n        Description: {task.description}\n        Files modified: {', '.join(changes)}\n        Change summary: {change_summary}\n        \n        Follow conventional commit format: type(scope): description\n        Keep it under 72 characters for the first line.\n        \"\"\"\n        \n        # Use Claude to generate commit message\n        response = await self.claude_client.complete(prompt)\n        return response.strip()\n    \n    def create_workflow_branch(self, workflow_name: str) -> str:\n        \"\"\"Create dedicated branch for workflow execution\"\"\"\n        branch_name = f\"prompr-workflow-{workflow_name}-{int(time.time())}\"\n        \n        # Create and checkout new branch\n        new_branch = self.git.create_head(branch_name)\n        new_branch.checkout()\n        \n        print(f\"🌿 Created workflow branch: {branch_name}\")\n        return branch_name\n    \n    def finalize_workflow(self, branch_name: str) -> None:\n        \"\"\"Finalize workflow and prepare for merge\"\"\"\n        # Switch back to main branch\n        self.git.heads.main.checkout()\n        \n        print(f\"🎯 Workflow completed on branch: {branch_name}\")\n        print(f\"💡 To merge: git merge {branch_name}\")"
+    }
+  ]
+}

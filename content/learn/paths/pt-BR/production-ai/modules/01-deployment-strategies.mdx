@@ -1,0 +1,283 @@
+---
+title: "Estratégias de Implantação"
+description: "Aprenda padrões e estratégias de implantação de nível empresarial para implantação confiável de sistemas de IA, incluindo containerização, orquestração e pipelines de CI/CD."
+duration: "90 minutos"
+difficulty: "avançado"
+order: 1
+pathId: "production-ai"
+moduleId: "deployment-strategies"
+objectives:
+  - "Projetar arquiteturas robustas de implantação para aplicações de IA"
+  - "Implementar estratégias de containerização para sistemas de IA"
+  - "Configurar pipelines de CI/CD para implantação de modelos e aplicações de IA"
+  - "Compreender padrões de implantação blue-green, canary e rolling"
+  - "Configurar orquestração de contêineres para cargas de trabalho de IA"
+  - "Implementar infraestrutura como código para implantações de IA"
+tags:
+  - "implantação"
+  - "containerização"
+  - "kubernetes"
+  - "ci-cd"
+  - "infraestrutura-como-código"
+  - "implantação-produção"
+version: "1.0.0"
+lastUpdated: "2025-06-20"
+author: "Equipe de Engenharia de IA"
+---
+
+# Estratégias de Implantação para Sistemas de IA
+
+Bem-vindo ao guia abrangente sobre implantação de sistemas de IA em ambientes de produção. Este módulo cobre padrões de implantação de nível empresarial, estratégias de containerização e pipelines de CI/CD especificamente projetados para aplicações de IA.
+
+## Objetivos de Aprendizagem
+
+Ao final deste módulo, você será capaz de:
+
+- **Projetar arquiteturas robustas de implantação** para aplicações de IA que podem lidar com cargas de trabalho de produção
+- **Implementar estratégias de containerização** otimizadas para sistemas de IA e seus requisitos únicos
+- **Configurar pipelines de CI/CD** para implantação automatizada de modelos e aplicações de IA
+- **Dominar padrões de implantação** incluindo implantações blue-green, canary e rolling
+- **Configurar orquestração de contêineres** para cargas de trabalho de IA usando Kubernetes
+- **Implementar infraestrutura como código** para implantações reproduzíveis de IA
+
+## Padrões de Implantação de IA {#deployment-patterns}
+
+### Compreendendo os Desafios de Implantação de IA
+
+Sistemas de IA apresentam desafios únicos de implantação que diferem de aplicações web tradicionais:
+
+- **Uso Intensivo de Recursos**: Modelos de IA frequentemente requerem recursos significativos de CPU, GPU e memória
+- **Versionamento de Modelos**: Gerenciar diferentes versões de modelos treinados junto com código de aplicação
+- **Dependências de Dados**: Sistemas de IA frequentemente dependem de pipelines específicos de pré-processamento de dados
+- **Requisitos de Desempenho**: Requisitos de baixa latência para inferência em tempo real
+- **Necessidades de Escalabilidade**: Capacidade de escalar capacidade de inferência baseada na demanda
+
+### Padrão de Implantação Blue-Green
+
+A implantação blue-green é particularmente valiosa para sistemas de IA porque fornece:
+
+- **Implantações sem tempo de inatividade** com capacidade instantânea de rollback
+- **Isolamento completo de ambiente** para testar novas versões de modelo
+- **Capacidades de switching de tráfego** para testes A/B de diferentes modelos
+- **Mitigação de riscos** através de separação completa de ambiente
+
+#### Estratégia de Implementação
+
+1. **Manter dois ambientes idênticos**: Blue (atual) e Green (novo)
+2. **Implantar no ambiente inativo** (Green) enquanto Blue serve tráfego
+3. **Realizar testes abrangentes** no ambiente Green
+4. **Alternar tráfego** de Blue para Green instantaneamente
+5. **Manter Blue como opção de rollback** até Green estar estável
+
+#### Melhores Práticas para Sistemas de IA
+
+- **Aquecimento de modelo**: Pré-carregar modelos no novo ambiente antes de alternar tráfego
+- **Validação de desempenho**: Garantir que a latência de inferência atenda aos requisitos
+- **Consistência de dados**: Verificar que ambos os ambientes usam fontes de dados consistentes
+- **Alinhamento de monitoramento**: Configurar monitoramento e alertas idênticos
+
+### Implantação Canary para Modelos de IA
+
+Implantações canary permitem testar novos modelos de IA com um pequeno subconjunto de tráfego de produção:
+
+#### Benefícios para Sistemas de IA
+
+- **Rollout gradual** de novas versões de modelo
+- **Testes de desempenho no mundo real** com dados ao vivo
+- **Redução de riscos** através de exposição limitada
+- **Comparação de desempenho** entre versões de modelo
+
+#### Etapas de Implementação
+
+1. **Implantar nova versão do modelo** junto com versão existente
+2. **Rotear pequena porcentagem** de tráfego para nova versão (ex: 5-10%)
+3. **Monitorar métricas-chave**: precisão, latência, taxas de erro
+4. **Aumentar gradualmente tráfego** para nova versão se métricas forem favoráveis
+5. **Completar rollout** ou rollback baseado no desempenho
+
+### Implantação Rolling
+
+Implantações rolling atualizam instâncias gradualmente:
+
+- **Atualizações incrementais** de instâncias de aplicação
+- **Disponibilidade mantida** durante a implantação
+- **Eficiente em recursos** comparado ao blue-green
+- **Adequado para serviços de IA stateless**
+
+## Containerização de IA {#containerization}
+
+### Otimização de Contêineres para Cargas de Trabalho de IA
+
+Aplicações de IA têm requisitos específicos de containerização:
+
+#### Seleção de Imagem Base
+
+- **Usar imagens base otimizadas**: Começar com imagens Python slim para builds mais rápidos
+- **Incluir bibliotecas específicas de IA**: Pré-instalar bibliotecas comuns de ML em camadas base
+- **Suporte a GPU**: Usar imagens base habilitadas para CUDA quando necessário
+- **Endurecimento de segurança**: Remover pacotes e ferramentas desnecessários
+
+#### Estratégia de Build Multi-Stage
+
+Builds multi-stage são essenciais para aplicações de IA para:
+
+- **Separar ambientes de build e runtime**
+- **Reduzir tamanho da imagem final** excluindo ferramentas de build
+- **Incluir apenas dependências de runtime necessárias**
+- **Melhorar segurança** minimizando superfície de ataque
+
+#### Gerenciamento de Recursos
+
+- **Limites de memória**: Configurar limites apropriados de memória para carregamento de modelo
+- **Alocação de CPU**: Configurar limites de CPU baseados em requisitos de inferência
+- **Recursos de GPU**: Solicitar recursos de GPU quando necessário para aceleração
+- **Otimização de armazenamento**: Usar armazenamento eficiente para arquivos de modelo
+
+### Melhores Práticas de Segurança
+
+#### Configuração de Usuário Não-Root
+
+Executar contêineres como usuários não-root é crítico para segurança:
+
+```dockerfile
+# Criar usuário não-root
+RUN useradd --create-home --shell /bin/bash app
+USER app
+WORKDIR /home/app
+```
+
+#### Superfície de Ataque Mínima
+
+- **Remover pacotes desnecessários** de imagens de produção
+- **Usar tags de versão específicas** em vez de latest
+- **Escanear imagens por vulnerabilidades** regularmente
+- **Implementar gerenciamento adequado de segredos**
+
+### Health Checks e Monitoramento
+
+Health checks adequados habilitam orquestração de contêineres:
+
+#### Configuração de Health Check
+
+```dockerfile
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
+```
+
+#### Integração de Monitoramento
+
+- **Expor endpoints de métricas** para sistemas de monitoramento
+- **Registrar dados estruturados** para logging centralizado
+- **Implementar readiness probes** para decisões de roteamento de tráfego
+- **Configurar liveness probes** para capacidade automática de restart
+
+## CI/CD para Sistemas de IA {#cicd-pipelines}
+
+### Considerações Específicas de CI/CD para IA
+
+#### Estratégia de Testes
+
+Aplicações de IA requerem abordagens abrangentes de testes:
+
+- **Testes unitários**: Testar componentes e funções individuais
+- **Testes de integração**: Verificar interações de componentes
+- **Testes de validação de modelo**: Verificar métricas de desempenho do modelo
+- **Testes de pipeline de dados**: Validar fluxos de trabalho de processamento de dados
+- **Testes de desempenho**: Garantir requisitos de latência e throughput
+
+#### Integração de Gerenciamento de Modelos
+
+- **Versionamento de modelo**: Rastrear versões de modelo junto com código
+- **Validação de modelo**: Testes automatizados de desempenho do modelo
+- **Integração de registro de modelo**: Armazenar e recuperar modelos do registro
+- **Configuração de testes A/B**: Infraestrutura para comparar versões de modelo
+
+### Estágios do Pipeline
+
+#### 1. Qualidade e Segurança do Código
+
+- **Análise estática de código** para qualidade do código
+- **Escaneamento de segurança** por vulnerabilidades
+- **Verificação de dependências** por problemas de segurança conhecidos
+- **Verificação de conformidade** de licença
+
+#### 2. Testes e Validação
+
+- **Execução de testes automatizados**
+- **Relatório de cobertura** de código
+- **Validação de desempenho** do modelo
+- **Testes de integração** com dependências
+
+#### 3. Build e Empacotamento
+
+- **Build de imagem de contêiner** com otimizações
+- **Builds multi-arquitetura** para diferentes alvos de implantação
+- **Escaneamento de imagem** por vulnerabilidades de segurança
+- **Armazenamento de artefatos** em registro de contêiner
+
+#### 4. Automação de Implantação
+
+- **Implantações específicas de ambiente** (staging, produção)
+- **Gerenciamento de configuração** para diferentes ambientes
+- **Migrações de banco de dados** e atualizações de pipeline de dados
+- **Configuração de monitoramento e alertas**
+
+### Infraestrutura como Código
+
+Gerenciar infraestrutura de IA através de código fornece:
+
+#### Benefícios
+
+- **Implantações reproduzíveis** entre ambientes
+- **Controle de versão** para mudanças de infraestrutura
+- **Provisionamento automatizado** de recursos
+- **Ambientes consistentes** para desenvolvimento e produção
+
+#### Ferramentas e Tecnologias
+
+- **Terraform**: Provisionamento e gerenciamento de infraestrutura
+- **Manifestos Kubernetes**: Configuração de orquestração de contêiner
+- **Helm charts**: Gerenciamento de pacotes para aplicações Kubernetes
+- **Integração CI/CD**: Atualizações automatizadas de infraestrutura
+
+## Prática Hands-On
+
+### Exercício: Containerizando uma Aplicação de IA
+
+Neste exercício, você containerizará uma aplicação de IA baseada em Python seguindo melhores práticas de produção.
+
+#### Requisitos
+
+1. Criar um Dockerfile multi-stage
+2. Implementar melhores práticas de segurança
+3. Adicionar health checks e monitoramento
+4. Fazer build e testar o contêiner localmente
+5. Criar um arquivo docker-compose para desenvolvimento
+
+#### Pontos-Chave de Aprendizagem
+
+- **Builds multi-stage** para otimização
+- **Técnicas de endurecimento** de segurança
+- **Implementação de health check**
+- **Fluxo de trabalho de desenvolvimento** com contêineres
+
+## Resumo
+
+Este módulo cobriu estratégias essenciais de implantação para sistemas de IA:
+
+### Principais Lições
+
+1. **Padrões de Implantação**: Implantações blue-green, canary e rolling cada uma serve diferentes necessidades
+2. **Containerização**: Containerização adequada é crucial para implantações consistentes e seguras de IA
+3. **Integração CI/CD**: Pipelines automatizados garantem implantações confiáveis e repetíveis
+4. **Segurança**: Segurança deve ser incorporada em cada estágio do processo de implantação
+5. **Monitoramento**: Monitoramento abrangente habilita operações confiáveis de produção
+
+### Próximos Passos
+
+- **Pratique** o exercício de containerização
+- **Implemente** um pipeline de CI/CD para seu projeto de IA
+- **Explore** padrões avançados de orquestração com Kubernetes
+- **Aprenda** sobre monitoramento e observabilidade no próximo módulo
+
+Pronto para implantar sistemas de IA com confiança? Vamos continuar para o próximo módulo sobre monitoramento e observabilidade!

@@ -1,0 +1,391 @@
+---
+title: "Configurando Seu Ambiente de Desenvolvimento MCP"
+description: "Configure seu ambiente de desenvolvimento para construir servidores MCP com TypeScript e o SDK oficial"
+duration: "45 minutos"
+difficulty: "iniciante"
+objectives:
+  - "Configurar um ambiente de desenvolvimento TypeScript para MCP"
+  - "Instalar e configurar o SDK MCP"
+  - "Criar seu primeiro projeto de servidor MCP"
+  - "Testar seu servidor com o MCP Inspector"
+  - "Entender as melhores práticas de estrutura de projeto"
+tags:
+  - "mcp"
+  - "configuração"
+  - "typescript"
+  - "sdk"
+  - "desenvolvimento"
+lastUpdated: "2024-01-15"
+author: "Brandon Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+
+# Configurando Seu Ambiente de Desenvolvimento MCP
+
+## Pré-requisitos e Requisitos {#prerequisites}
+
+Antes de começarmos a construir servidores MCP, vamos garantir que você tenha tudo o que precisa. Não se preocupe - a configuração é simples!
+
+### Requisitos do Sistema
+
+Você precisará de:
+- **Node.js 18.x ou superior** (para recursos modernos de JavaScript)
+- **npm ou yarn** (gerenciador de pacotes)
+- **Um editor de código** (VS Code recomendado)
+- **Acesso ao terminal** (para executar comandos)
+
+<Callout type="info">
+  **Por que Node.js 18+?** O SDK MCP usa recursos modernos de JavaScript e a API fetch nativa, que requer Node.js 18 ou superior.
+</Callout>
+
+### Pré-requisitos de Conhecimento
+
+Este módulo assume que você:
+- Tem conhecimento básico de JavaScript/TypeScript
+- Está confortável usando a linha de comando
+- Entende comandos básicos do npm
+
+Se você é novo no TypeScript, não se preocupe! Explicaremos os conceitos específicos do TypeScript conforme avançamos.
+
+## Instalando Ferramentas de Desenvolvimento {#installing-tools}
+
+Vamos configurar seu ambiente de desenvolvimento passo a passo.
+
+### Passo 1: Verificar Instalação do Node.js
+
+Primeiro, verifique se você tem o Node.js instalado:
+
+<CodeExample
+  title="Verificando a Versão do Node.js"
+  language="bash"
+  code={`# Verificar versão do Node.js (deve ser 18.x ou superior)
+node --version
+
+# Verificar versão do npm
+npm --version
+
+# Se você precisar instalar o Node.js, visite:
+# https://nodejs.org/`}
+/>
+
+Se você precisar instalar ou atualizar o Node.js:
+- **Windows/Mac**: Baixe de [nodejs.org](https://nodejs.org/)
+- **Linux**: Use seu gerenciador de pacotes ou [NodeSource](https://github.com/nodesource/distributions)
+- **Alternativa**: Use [nvm](https://github.com/nvm-sh/nvm) para gerenciamento de versões
+
+### Passo 2: Instalar Ferramentas Globais
+
+Embora não sejam obrigatórias, essas ferramentas melhorarão sua experiência de desenvolvimento:
+
+<CodeExample
+  title="Ferramentas Globais Opcionais"
+  language="bash"
+  code={`# Compilador TypeScript (opcional - usaremos tsx para desenvolvimento)
+npm install -g typescript
+
+# MCP Inspector para testes
+npm install -g @modelcontextprotocol/inspector`}
+/>
+
+<Callout type="success">
+  **Dica Profissional**: Usar `tsx` ao invés de `tsc` durante o desenvolvimento permite executar arquivos TypeScript diretamente sem compilação!
+</Callout>
+
+## Criando Seu Primeiro Projeto MCP {#project-setup}
+
+Agora vamos criar seu primeiro projeto de servidor MCP do zero.
+
+### Passo 1: Inicializar o Projeto
+
+<CodeExample
+  title="Inicializar Projeto"
+  language="bash"
+  code={`# Criar diretório do projeto
+mkdir meu-primeiro-servidor-mcp
+cd meu-primeiro-servidor-mcp
+
+# Inicializar projeto npm
+npm init -y
+
+# Instalar TypeScript e SDK MCP
+npm install --save-dev typescript @types/node tsx
+npm install @modelcontextprotocol/sdk`}
+/>
+
+### Passo 2: Configurar TypeScript
+
+Crie um arquivo `tsconfig.json` para configurar o TypeScript para desenvolvimento MCP:
+
+<CodeExample
+  title="Configuração do TypeScript"
+  language="json"
+  fileName="tsconfig.json"
+  code={`{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "lib": ["ES2022"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}`}
+  highlightLines={[3, 4, 5, 9]}
+/>
+
+<Callout type="warning">
+  **Importante**: As configurações `module` e `moduleResolution` devem ser "Node16" para funcionar corretamente com os módulos ES do SDK MCP.
+</Callout>
+
+### Passo 3: Atualizar package.json
+
+Adicione configurações importantes ao seu `package.json`:
+
+<CodeExample
+  title="Configuração do Package"
+  language="json"
+  fileName="package.json"
+  code={`{
+  "name": "meu-primeiro-servidor-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  // ... dependências
+}`}
+  highlightLines={[4, 6, 7, 8, 9]}
+/>
+
+<Callout type="info">
+  **Pontos Principais**:
+  - `"type": "module"` habilita módulos ES
+  - `tsx watch` fornece recarga automática durante o desenvolvimento
+  - `npm run dev` para desenvolvimento, `npm run build` para produção
+</Callout>
+
+### Passo 4: Criar Estrutura do Projeto
+
+Configure uma estrutura de projeto limpa:
+
+```bash
+mkdir src
+touch src/index.ts
+```
+
+Seu projeto agora deve parecer com isto:
+```
+meu-primeiro-servidor-mcp/
+├── node_modules/
+├── src/
+│   └── index.ts
+├── package.json
+├── package-lock.json
+└── tsconfig.json
+```
+
+## Construindo Seu Primeiro Servidor MCP {#first-server}
+
+Hora de escrever código! Vamos criar um servidor MCP básico.
+
+<Exercise
+  id="first-server"
+  title="Criar um Servidor MCP Básico"
+/>
+
+## Testando Seu Servidor MCP {#testing}
+
+Depois de construir seu servidor, vamos testá-lo!
+
+### Usando Scripts npm
+
+Adicione estes scripts úteis ao seu `package.json`:
+
+<CodeExample
+  title="Scripts do Package.json"
+  language="json"
+  fileName="package.json"
+  code={`{
+  "name": "meu-primeiro-servidor-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "npx @modelcontextprotocol/inspector"
+  },
+  // ... outros campos
+}`}
+  highlightLines={[5, 6, 7, 8, 9]}
+/>
+
+### Testando com MCP Inspector
+
+O MCP Inspector é uma ferramenta poderosa para testar seu servidor:
+
+1. **Inicie seu servidor** em um terminal:
+   ```bash
+   npm run dev
+   ```
+
+2. **Execute o inspector** em outro terminal:
+   ```bash
+   npm run test
+   ```
+
+3. **Conecte-se ao seu servidor** no inspector:
+   - Selecione transporte "stdio"
+   - Digite o comando: `npm run dev`
+   - Clique em "Connect"
+
+<Callout type="success">
+  **Sucesso!** Se tudo estiver configurado corretamente, você deve ver os recursos do seu servidor no inspector.
+</Callout>
+
+### Problemas Comuns e Soluções
+
+**Problema**: Erros "Cannot find module"
+**Solução**: Certifique-se de que todas as importações terminam com extensão `.js` (mesmo para arquivos TypeScript)
+
+**Problema**: "Module not found" para SDK MCP
+**Solução**: Verifique se você está usando Node.js 18+ e tem `"type": "module"` no package.json
+
+**Problema**: Servidor não responde no inspector
+**Solução**: Certifique-se de estar usando transporte stdio e que o servidor está rodando
+
+## Melhores Práticas de Estrutura de Projeto {#project-structure}
+
+Conforme seu servidor MCP cresce, uma boa estrutura se torna essencial. Aqui está uma abordagem recomendada:
+
+<CodeExample
+  title="Estrutura de Projeto Recomendada"
+  language="text"
+  code={`meu-servidor-mcp/
+├── src/
+│   ├── index.ts          # Ponto de entrada principal do servidor
+│   ├── handlers/         # Manipuladores de requisição
+│   │   ├── resources.ts  # Manipuladores de recursos
+│   │   └── tools.ts      # Manipuladores de ferramentas
+│   ├── providers/        # Lógica de negócios
+│   │   ├── database.ts   # Conexões de banco de dados
+│   │   └── files.ts      # Operações do sistema de arquivos
+│   └── types/            # Definições de tipos TypeScript
+├── dist/                 # Saída compilada
+├── tests/                # Arquivos de teste
+├── .gitignore
+├── package.json
+├── tsconfig.json
+└── README.md`}
+/>
+
+### Dicas de Organização
+
+1. **Separar Responsabilidades**: Mantenha manipuladores, provedores e tipos em diretórios separados
+2. **Responsabilidade Única**: Cada arquivo deve ter um propósito claro
+3. **Nomenclatura Consistente**: Use nomes descritivos que indiquem funcionalidade
+4. **Segurança de Tipos**: Defina interfaces para todas as estruturas de dados
+
+<CodeExample
+  title="Exemplo de Organização de Manipulador"
+  language="typescript"
+  fileName="src/handlers/resources.ts"
+  code={`import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { fileProvider } from '../providers/files.js';
+import { databaseProvider } from '../providers/database.js';
+
+export function registerResourceHandlers(server: Server) {
+  // Registrar todos os manipuladores relacionados a recursos
+  server.setRequestHandler('resources/list', async () => {
+    return {
+      resources: [
+        ...await fileProvider.listResources(),
+        ...await databaseProvider.listResources()
+      ]
+    };
+  });
+
+  server.setRequestHandler('resources/read', async (request) => {
+    // Delegar ao provedor apropriado baseado no esquema URI
+    const uri = request.params.uri;
+    
+    if (uri.startsWith('file://')) {
+      return fileProvider.readResource(uri);
+    } else if (uri.startsWith('db://')) {
+      return databaseProvider.readResource(uri);
+    }
+    
+    throw new Error('Tipo de recurso desconhecido');
+  });
+}`}
+/>
+
+## Resumo {#summary}
+
+Parabéns! Você conseguiu:
+
+✅ **Configurar** um ambiente de desenvolvimento TypeScript
+✅ **Configurar** seu projeto para desenvolvimento MCP
+✅ **Criar** seu primeiro servidor MCP
+✅ **Testá-lo** com o MCP Inspector
+✅ **Aprender** melhores práticas de organização de projeto
+
+## Próximos Passos {#next-steps}
+
+Seu ambiente de desenvolvimento está pronto! No próximo módulo, você aprenderá a:
+- Implementar provedores de recursos poderosos
+- Lidar com diferentes tipos de dados
+- Criar listagens dinâmicas de recursos
+- Construir integrações do mundo real
+
+<Callout type="info">
+  **A Seguir**: [Implementando Recursos](/learn/paths/mcp-fundamentals/modules/03-implementing-resources) - Aprenda a expor dados através de recursos MCP!
+</Callout>
+
+## Referência Rápida {#quick-reference}
+
+### Comandos Essenciais
+```bash
+# Desenvolvimento
+npm run dev          # Iniciar com recarga automática
+npm run build        # Construir para produção
+npm run test         # Abrir MCP Inspector
+
+# Configuração do Projeto
+npm init -y          # Inicializar projeto
+npm install @modelcontextprotocol/sdk
+npm install -D typescript tsx @types/node
+```
+
+### Importações Principais
+```typescript
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+```
+
+### Servidor Mínimo
+```typescript
+const server = new Server({
+  name: 'meu-servidor',
+  version: '1.0.0',
+});
+
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
