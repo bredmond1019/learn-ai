@@ -531,7 +531,7 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
         <div key={section.id || index} className="rounded-lg bg-white p-8 shadow-sm dark:bg-gray-800">
           {section.type === 'quiz' && section.content?.type === 'quiz' ? (
             renderQuizSection(section)
-          ) : section.type === 'quiz' && section.content?.type === 'mdx' ? (
+          ) : section.type === 'quiz' && section.content?.type === 'mdx' && section.content.source ? (
             <>
               <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {section.title}
