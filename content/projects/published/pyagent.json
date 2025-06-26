@@ -4,10 +4,10 @@
   "description": "Comprehensive Python library for building production-ready AI agent systems with standardized patterns, MCP protocol support, and extensive integration ecosystem for enterprise deployments.",
   "longDescription": "PyAgent represents a foundational shift in how intelligent agent systems are built and deployed at scale. This comprehensive library provides enterprise-grade components for creating AI-powered agents with standardized lifecycle management, workflow orchestration, and extensive integration capabilities across major platforms and services.\n\nThe library demonstrates mastery of distributed systems architecture through its event-driven design, featuring a complete DAG-based workflow engine with state persistence, debugging capabilities, and cross-service event routing. The implementation of the Model Context Protocol (MCP) enables standardized agent communication, while the modular architecture supports everything from simple automation tasks to complex multi-agent systems coordinating across different domains.\n\nBeyond its technical sophistication, PyAgent serves as both a production tool and an educational resource, with comprehensive documentation, examples, and a growing ecosystem of pre-built agents. The library's impact extends across industries, enabling developers to rapidly prototype and deploy intelligent automation solutions while maintaining enterprise-grade reliability and observability.",
   "tags": ["Python", "AI Agents", "MCP Protocol", "Event Sourcing", "Workflow Engine", "Distributed Systems"],
-  "featured": false,
+  "featured": true,
   "icon": "Bot",
-  "isPrivate": true,
-  "githubUrl": "https://github.com/pyagent/pyagent",
+  "isPrivate": false,
+  "githubUrl": "https://github.com/bredmond1019/PyAgent",
   "demoUrl": null,
   "techStack": [
     {

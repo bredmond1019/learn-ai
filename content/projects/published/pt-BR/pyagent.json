@@ -4,10 +4,10 @@
   "description": "Biblioteca Python abrangente para construir sistemas de agentes IA prontos para produção com padrões padronizados, suporte ao protocolo MCP e ecossistema extenso de integração para implantações empresariais.",
   "longDescription": "PyAgent representa uma mudança fundamental em como sistemas de agentes inteligentes são construídos e implantados em escala. Esta biblioteca abrangente fornece componentes de nível empresarial para criar agentes alimentados por IA com gerenciamento padronizado de ciclo de vida, orquestração de fluxo de trabalho e extensas capacidades de integração em principais plataformas e serviços.\n\nA biblioteca demonstra domínio de arquitetura de sistemas distribuídos através de seu design orientado a eventos, apresentando um motor completo de fluxo de trabalho baseado em DAG com persistência de estado, capacidades de depuração e roteamento de eventos entre serviços. A implementação do Model Context Protocol (MCP) permite comunicação padronizada entre agentes, enquanto a arquitetura modular suporta tudo, desde tarefas simples de automação até sistemas multi-agente complexos coordenando entre diferentes domínios.\n\nAlém de sua sofisticação técnica, PyAgent serve tanto como ferramenta de produção quanto como recurso educacional, com documentação abrangente, exemplos e um ecossistema crescente de agentes pré-construídos. O impacto da biblioteca se estende por indústrias, permitindo que desenvolvedores prototipem e implantem rapidamente soluções de automação inteligente mantendo confiabilidade e observabilidade de nível empresarial.",
   "tags": ["Python", "Agentes IA", "Protocolo MCP", "Event Sourcing", "Motor de Fluxo de Trabalho", "Sistemas Distribuídos"],
-  "featured": false,
+  "featured": true,
   "icon": "Bot",
-  "isPrivate": true,
-  "githubUrl": "https://github.com/pyagent/pyagent",
+  "isPrivate": false,
+  "githubUrl": "https://github.com/bredmond1019/PyAgent",
   "demoUrl": null,
   "techStack": [
     {

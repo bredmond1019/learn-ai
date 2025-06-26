@@ -6,7 +6,7 @@
   "tags": ["Flutter", "Rust", "AI Agents", "Cross-Platform", "WebSocket", "Microservices"],
   "featured": false,
   "icon": "Workflow",
-  "isPrivate": false,
+  "isPrivate": true,
   "githubUrl": "https://github.com/agentic-flow/agentic-flow",
   "demoUrl": "https://agentic-flow.demo.com",
   "techStack": [

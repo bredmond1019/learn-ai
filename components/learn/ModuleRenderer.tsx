@@ -392,7 +392,6 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                     language={props.language || 'text'}
                     showLineNumbers={true}
                     title={props.title}
-                    fileName={props.fileName}
                   />
                 </div>
               );
