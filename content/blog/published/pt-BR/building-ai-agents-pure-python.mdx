@@ -243,20 +243,18 @@ class CodeAnalysisAgent(BaseAgent):
         """
         Analisa um arquivo de código específico e retorna análise estruturada.
         """
-        analysis_prompt = f"""
-        Analise o seguinte código do arquivo '{file_path}':
-
-        ```
-        {{code_content}}
-        ```
-
-        Forneça uma análise estruturada incluindo:
-        1. Qualidade do código (1-10)
-        2. Problemas encontrados
-        3. Sugestões de melhoria
-        4. Considerações de performance
-        5. Considerações de segurança
-        """
+        analysis_prompt = (
+            f"Analise o seguinte código do arquivo '{file_path}':\n\n"
+            "```\n"
+            + code_content + 
+            "\n```\n\n"
+            "Forneça uma análise estruturada incluindo:\n"
+            "1. Qualidade do código (1-10)\n"
+            "2. Problemas encontrados\n"
+            "3. Sugestões de melhoria\n"
+            "4. Considerações de performance\n"
+            "5. Considerações de segurança"
+        )
         
         response = self.process_input(analysis_prompt)
         
