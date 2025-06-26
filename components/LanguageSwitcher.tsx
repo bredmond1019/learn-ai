@@ -72,7 +72,7 @@ export default function LanguageSwitcher({ currentLocale }: LanguageSwitcherProp
       <select
         value={currentLocale}
         onChange={(e) => switchLanguage(e.target.value)}
-        className="appearance-none bg-transparent border border-accent/20 rounded px-3 py-1 text-sm font-medium text-foreground hover:border-accent/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+        className="appearance-none bg-transparent border border-accent/20 rounded pl-3 pr-8 py-1 text-sm font-medium text-foreground hover:border-accent/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
         aria-label="Select language"
       >
         {locales.map((locale) => (
