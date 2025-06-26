@@ -4,7 +4,7 @@
   "description": "Production-ready AI workflow orchestration platform built in Rust, featuring event sourcing, microservices architecture, MCP integration, and enterprise-grade scalability for AI-powered automation.",
   "longDescription": "The AI Workflow Engine represents a cutting-edge approach to building scalable, AI-powered automation systems using Rust's performance and safety guarantees. This comprehensive platform combines modern distributed systems patterns with AI-first design principles, delivering a production-ready solution for orchestrating complex workflows across multiple services and AI providers.\n\nThe architecture showcases mastery of advanced software engineering concepts, from event sourcing with PostgreSQL-backed persistence to microservices communication via the Model Context Protocol. The platform includes three specialized services for content processing, knowledge graph management, and real-time communication, all coordinated through a sophisticated service bootstrap system with dependency injection and service discovery.\n\nBeyond its technical excellence, the platform serves as a blueprint for building enterprise AI systems, with comprehensive monitoring through Prometheus and Grafana, multi-tenant support, and production-tested performance handling 15,000+ requests per second. The inclusion of WebAssembly plugins, comprehensive testing infrastructure, and detailed documentation makes it both a powerful tool and an educational resource for the Rust and AI communities.",
   "tags": ["Rust", "AI Platform", "Event Sourcing", "Microservices", "MCP", "WebAssembly"],
-  "featured": false,
+  "featured": true,
   "icon": "Zap",
   "isPrivate": true,
   "githubUrl": "https://github.com/bredmond1019/workflow-engine-rs",

@@ -11,7 +11,11 @@ import {
 } from '@/lib/modules.server';
 
 // Mock fs/promises
-jest.mock('fs/promises');
+jest.mock('fs/promises', () => ({
+  readFile: jest.fn(),
+  readdir: jest.fn(),
+  access: jest.fn(),
+}));
 const mockFs = fs as jest.Mocked<typeof fs>;
 
 // Mock process.cwd

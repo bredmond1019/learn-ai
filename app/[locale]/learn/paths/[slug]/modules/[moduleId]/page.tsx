@@ -20,21 +20,21 @@ export default async function ModulePage({ params }: PageProps) {
   const t = getTranslations(locale as Locale);
   
   // Try to load module from JSON/MDX system
-  let module = null;
+  let moduleData = null;
   try {
     console.log('Loading module:', { slug, moduleId, locale });
-    module = await getModule(slug, moduleId, locale as Locale);
-    console.log('Module loaded successfully:', module ? 'yes' : 'no');
+    moduleData = await getModule(slug, moduleId, locale as Locale);
+    console.log('Module loaded successfully:', moduleData ? 'yes' : 'no');
   } catch (error) {
     console.log('Failed to load module from JSON/MDX:', moduleId, error);
   }
   
   // Fallback to static content if module not found
-  let content = !module ? moduleContent[moduleId as keyof typeof moduleContent] : null;
+  const content = !moduleData ? moduleContent[moduleId as keyof typeof moduleContent] : null;
   
   const learningPath = getLearningPathById(slug, locale as Locale);
   
-  if (!module && !content) {
+  if (!moduleData && !content) {
     notFound();
   }
   
@@ -81,8 +81,8 @@ export default async function ModulePage({ params }: PageProps) {
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {module ? (
-          <ModuleRenderer module={module} locale={locale} />
+        {moduleData ? (
+          <ModuleRenderer module={moduleData} locale={locale} />
         ) : (
           <div className="space-y-8">
             {content?.sections?.map((section, index) => (

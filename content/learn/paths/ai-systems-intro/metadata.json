@@ -1,0 +1,91 @@
+{
+  "id": "ai-systems-intro",
+  "title": "AI Systems: An Introduction",
+  "description": "A beginner-friendly introduction to AI Systems, covering workflow engines, AI agents, LLMs, and MCP servers. Learn how these technologies work together to solve real-world problems for everyday people and small businesses.",
+  "difficulty": "beginner",
+  "estimatedHours": 12,
+  "prerequisites": [],
+  "modules": [
+    {
+      "id": "01-what-are-ai-systems",
+      "title": "What Are AI Systems?",
+      "description": "Discover what AI Systems are and why they're transforming how we work and live",
+      "estimatedMinutes": 45
+    },
+    {
+      "id": "02-the-building-blocks",
+      "title": "The Building Blocks",
+      "description": "Explore the key components: workflow engines, AI agents, LLMs, and MCP servers through visual diagrams",
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "03-real-world-applications",
+      "title": "Real-World Applications",
+      "description": "See practical examples of AI Systems solving problems for small businesses and everyday tasks",
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "04-how-ai-systems-think",
+      "title": "How AI Systems Think",
+      "description": "Understand how components work together using simple analogies and visual representations",
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "05-benefits-of-ai-systems",
+      "title": "The Benefits of AI Systems",
+      "description": "Learn why AI Systems matter for your business or personal productivity",
+      "estimatedMinutes": 45
+    },
+    {
+      "id": "06-setting-up-your-first-ai-system",
+      "title": "Setting Up Your First AI System",
+      "description": "Get your development environment ready for building with Python and the MCP SDK",
+      "estimatedMinutes": 90
+    },
+    {
+      "id": "07-building-your-first-mcp-server",
+      "title": "Building Your First MCP Server",
+      "description": "Create a simple MCP server using Python that can interact with AI agents",
+      "estimatedMinutes": 90
+    },
+    {
+      "id": "08-creating-an-ai-agent",
+      "title": "Creating an AI Agent",
+      "description": "Build an AI agent that connects to your MCP server and uses an LLM",
+      "estimatedMinutes": 90
+    },
+    {
+      "id": "09-putting-it-all-together",
+      "title": "Putting It All Together",
+      "description": "Combine everything to create a complete AI System solving a real business problem",
+      "estimatedMinutes": 120
+    },
+    {
+      "id": "10-next-steps-and-resources",
+      "title": "Next Steps and Resources",
+      "description": "Continue your AI Systems journey with advanced topics and community resources",
+      "estimatedMinutes": 30
+    }
+  ],
+  "objectives": [
+    "Understand what AI Systems are and their core components",
+    "Visualize how workflow engines, agents, LLMs, and MCP servers work together",
+    "Identify real-world applications for small businesses and personal use",
+    "Build a simple but functional AI System using Python and the MCP SDK",
+    "Create practical solutions that demonstrate the power of AI Systems"
+  ],
+  "tags": ["ai-systems", "mcp", "workflow-engines", "agents", "beginner-friendly", "python"],
+  "author": "Brandon Scheid",
+  "resources": [
+    {
+      "title": "Python MCP SDK",
+      "url": "https://github.com/modelcontextprotocol/python-sdk",
+      "type": "github"
+    },
+    {
+      "title": "MCP Documentation",
+      "url": "https://modelcontextprotocol.io/docs",
+      "type": "documentation"
+    }
+  ]
+}

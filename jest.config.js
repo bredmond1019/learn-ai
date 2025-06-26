@@ -36,7 +36,7 @@ const customJestConfig = {
   
   // Transform ignore patterns - don't transform these modules
   transformIgnorePatterns: [
-    '/node_modules/(?!(next-intl)/)',
+    '/node_modules/(?!(next-intl|next-mdx-remote)/)',
   ],
   
   // Use TypeScript config for tests

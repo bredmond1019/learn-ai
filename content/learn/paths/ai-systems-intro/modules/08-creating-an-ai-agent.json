@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "id": "creating-an-ai-agent",
+    "pathId": "ai-systems-intro",
+    "title": "Creating an AI Agent",
+    "description": "Build an AI agent that connects to your MCP server and uses an LLM",
+    "duration": "90 minutes",
+    "type": "hands-on",
+    "difficulty": "intermediate",
+    "order": 8,
+    "prerequisites": [
+      "module-7"
+    ],
+    "objectives": [
+      "Understand how AI agents work",
+      "Build a conversational agent",
+      "Connect to MCP servers",
+      "Add intelligence with LLM integration"
+    ],
+    "tags": [
+      "ai-systems",
+      "hands-on",
+      "intermediate"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Building Your AI Agent",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "08-creating-an-ai-agent.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "understanding-agents",
+      "title": "How AI Agents Work",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "08-creating-an-ai-agent.mdx#understanding-agents",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "agent-design",
+      "title": "Designing the Café Assistant",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "08-creating-an-ai-agent.mdx#agent-design",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "basic-agent",
+      "title": "Creating the Agent Structure",
+      "type": "exercise",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "08-creating-an-ai-agent.mdx#basic-agent",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "connecting-mcp",
+      "title": "Connecting to MCP Servers",
+      "type": "exercise",
+      "order": 5,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "08-creating-an-ai-agent.mdx#connecting-mcp",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "adding-intelligence",
+      "title": "Adding LLM Intelligence",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "08-creating-an-ai-agent.mdx#adding-intelligence",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "agent-conversation",
+      "title": "Making It Conversational",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "08-creating-an-ai-agent.mdx#agent-conversation",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 8,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "08-creating-an-ai-agent.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

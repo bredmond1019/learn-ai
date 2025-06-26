@@ -46,7 +46,7 @@ export default function LearnCardServer({ path, className, locale = 'en' }: Lear
       </p>
       
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-foreground/70 mb-2">{locale === 'pt-BR' ? 'Você Aprenderá:' : 'You&apos;ll Learn:'}</h4>
+        <h4 className="text-sm font-medium text-foreground/70 mb-2">{locale === 'pt-BR' ? 'Você Aprenderá:' : "You'll Learn:"}</h4>
         <div className="flex flex-wrap gap-2">
           {path.topics.map((topic) => (
             <span 

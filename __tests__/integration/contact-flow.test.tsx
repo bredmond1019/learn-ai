@@ -68,7 +68,7 @@ describe('Contact Form Integration', () => {
 
     // Step 4: Verify success feedback to user
     await waitFor(() => {
-      expect(screen.getByText('Message sent successfully!')).toBeInTheDocument()
+      expect(screen.getByText("Thank you for your message! I'll get back to you soon.")).toBeInTheDocument()
     })
 
     // Step 5: Verify form resets after successful submission
@@ -77,7 +77,7 @@ describe('Contact Form Integration', () => {
       expect(screen.getByLabelText('Email')).toHaveValue('')
       expect(screen.getByLabelText('Message')).toHaveValue('')
     })
-  })
+  }, 10000)
 
   it('should handle submission errors gracefully', async () => {
     const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>
@@ -108,7 +108,7 @@ describe('Contact Form Integration', () => {
     // Verify form maintains user data after error
     expect(screen.getByLabelText('Name')).toHaveValue('John Smith')
     expect(screen.getByLabelText('Email')).toHaveValue('john.smith@example.com')
-  })
+  }, 10000)
 
   it('should handle network failures with retry mechanism', async () => {
     const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>

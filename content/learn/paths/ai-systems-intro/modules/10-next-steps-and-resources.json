@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "id": "next-steps-and-resources",
+    "pathId": "ai-systems-intro",
+    "title": "Next Steps and Resources",
+    "description": "Continue your AI Systems journey with advanced topics and community resources",
+    "duration": "30 minutes",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 10,
+    "prerequisites": [
+      "module-9"
+    ],
+    "objectives": [
+      "Review what you've learned",
+      "Explore advanced topics",
+      "Find community resources",
+      "Plan your next project"
+    ],
+    "tags": [
+      "ai-systems",
+      "theory",
+      "beginner"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Your AI Systems Journey",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "2 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "10-next-steps-and-resources.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "what-you-learned",
+      "title": "What You've Accomplished",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "10-next-steps-and-resources.mdx#what-you-learned",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "advanced-topics",
+      "title": "Advanced Topics to Explore",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "10-next-steps-and-resources.mdx#advanced-topics",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "real-world-projects",
+      "title": "Project Ideas for Practice",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "10-next-steps-and-resources.mdx#real-world-projects",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "resources",
+      "title": "Essential Resources",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "10-next-steps-and-resources.mdx#resources",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "community",
+      "title": "Join the Community",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "3 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "10-next-steps-and-resources.mdx#community",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "final-project",
+      "title": "Your Final Challenge",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "10-next-steps-and-resources.mdx#final-project",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Final Knowledge Check",
+      "type": "quiz",
+      "order": 8,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "10-next-steps-and-resources.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

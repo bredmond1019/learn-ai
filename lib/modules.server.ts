@@ -82,17 +82,33 @@ export const getModule = cache(async (pathSlug: string, moduleId: string, locale
               const anchor = section.content.source.split('#')[1];
               if (anchor) {
                 // Extract the specific section based on anchor
-                const sectionRegex = new RegExp(`## .* \\{#${anchor}\\}([\\s\\S]*?)(?=## |$)`, 'i');
+                // This regex captures the section header and all content until the next ## header or end of file
+                const sectionRegex = new RegExp(`(## .*\\{#${anchor}\\}[\\s\\S]*?)(?=\\n## |$)`, 'i');
                 const match = mdxContent.match(sectionRegex);
                 if (match) {
-                  sectionContent = match[0];
+                  sectionContent = match[1];
+                } else {
+                  // If no match found, don't fall back to full content, instead provide empty content
+                  sectionContent = `## ${section.title}\n\nContent for section ${anchor} not found.`;
                 }
               }
               
-              // Update the source with the actual content
+              // Clean up the content for consistent rendering
+              let cleanedContent = sectionContent;
+              
+              // Remove frontmatter if present
+              cleanedContent = cleanedContent.replace(/^---\n([\s\S]*?)\n---\n/, '');
+              
+              // Remove import statements (but preserve component usage)
+              cleanedContent = cleanedContent.replace(/^import\s+.*$/gm, '');
+              
+              // Remove anchor tags from headers
+              cleanedContent = cleanedContent.replace(/\s*\{#[^}]+\}/g, '');
+              
+              // Update the source with the cleaned content
               section.content = {
                 ...section.content,
-                source: sectionContent
+                source: cleanedContent
               };
             } catch (error) {
               console.error(`Failed to load MDX content for section ${section.id}:`, error);

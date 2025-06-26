@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "id": "putting-it-all-together",
+    "pathId": "ai-systems-intro",
+    "title": "Putting It All Together",
+    "description": "Combine everything to create a complete AI System solving a real business problem",
+    "duration": "120 minutes",
+    "type": "project",
+    "difficulty": "advanced",
+    "order": 9,
+    "prerequisites": [
+      "module-8"
+    ],
+    "objectives": [
+      "Build a complete AI System",
+      "Implement a workflow engine",
+      "Connect multiple MCP servers",
+      "Deploy a production-ready solution"
+    ],
+    "tags": [
+      "ai-systems",
+      "project",
+      "advanced"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Building the Complete System",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "09-putting-it-all-together.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "system-architecture",
+      "title": "Complete System Architecture",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "09-putting-it-all-together.mdx#system-architecture",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "workflow-engine",
+      "title": "Adding a Workflow Engine",
+      "type": "exercise",
+      "order": 3,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "09-putting-it-all-together.mdx#workflow-engine",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "multiple-servers",
+      "title": "Connecting Multiple MCP Servers",
+      "type": "exercise",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "09-putting-it-all-together.mdx#multiple-servers",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "business-logic",
+      "title": "Implementing Business Logic",
+      "type": "exercise",
+      "order": 5,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "09-putting-it-all-together.mdx#business-logic",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "deployment",
+      "title": "Making It Production Ready",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "09-putting-it-all-together.mdx#deployment",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "real-world-demo",
+      "title": "Real-World Demo",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "09-putting-it-all-together.mdx#real-world-demo",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 8,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "09-putting-it-all-together.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

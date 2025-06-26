@@ -90,15 +90,12 @@ export default async function PathPage({ params }: PathPageProps) {
                 {path.description}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <div className="mb-8">
                 <Link href={`/learn/paths/${slug}/modules/${path.modules[0]?.id}`}>
                   <Button size="lg" variant="primary">
                     Start Learning Path
                   </Button>
                 </Link>
-                <Button size="lg" variant="secondary">
-                  Download Syllabus
-                </Button>
               </div>
             </div>
 

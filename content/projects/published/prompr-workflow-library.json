@@ -4,7 +4,7 @@
   "description": "Comprehensive workflow automation library enabling parallel multi-agent task execution with Claude AI, featuring intelligent task distribution, automatic progress tracking, and seamless Git integration for streamlined development workflows.",
   "longDescription": "Prompr is a sophisticated workflow automation library designed to transform software development through intelligent AI agent orchestration. The library enables developers to harness the power of multiple Claude AI agents working in parallel, automatically distributing tasks, tracking progress, and managing complex development workflows.\n\nBuilt with a focus on practical software development needs, Prompr bridges the gap between AI capabilities and real-world project requirements. The library provides structured commands for everything from Product Requirements Document generation to multi-agent task execution, making it an essential tool for teams looking to integrate AI-powered automation into their development pipeline.\n\nThe system demonstrates advanced agentic capabilities through its ability to coordinate multiple AI agents, handle task dependencies, and maintain project context across complex workflows. With built-in Git integration and automatic progress tracking, Prompr transforms how development teams approach project planning and execution.",
   "tags": ["Python", "Claude AI", "Workflow Automation", "Multi-Agent", "CLI", "Git Integration"],
-  "featured": true,
+  "featured": false,
   "icon": "Workflow",
   "isPrivate": false,
   "githubUrl": "https://github.com/bredmond1019/claude-commands",

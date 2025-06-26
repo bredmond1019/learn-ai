@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "id": "benefits-of-ai-systems",
+    "pathId": "ai-systems-intro",
+    "title": "The Benefits of AI Systems",
+    "description": "Learn why AI Systems matter for your business or personal productivity",
+    "duration": "45 minutes",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 5,
+    "prerequisites": [
+      "module-4"
+    ],
+    "objectives": [
+      "Understand the time-saving benefits",
+      "Learn about cost reduction opportunities",
+      "See how AI Systems enable growth",
+      "Calculate ROI for AI Systems"
+    ],
+    "tags": [
+      "ai-systems",
+      "theory",
+      "beginner"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Why AI Systems Matter",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-benefits-of-ai-systems.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "time-savings",
+      "title": "Reclaim Your Time",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-benefits-of-ai-systems.mdx#time-savings",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "cost-reduction",
+      "title": "Reduce Operating Costs",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-benefits-of-ai-systems.mdx#cost-reduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "growth-enablement",
+      "title": "Enable Business Growth",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-benefits-of-ai-systems.mdx#growth-enablement",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "customer-satisfaction",
+      "title": "Delight Your Customers",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-benefits-of-ai-systems.mdx#customer-satisfaction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "competitive-advantage",
+      "title": "Stay Ahead of Competition",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-benefits-of-ai-systems.mdx#competitive-advantage",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "roi-calculator",
+      "title": "Calculate Your ROI",
+      "type": "content",
+      "order": 7,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-benefits-of-ai-systems.mdx#roi-calculator",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 8,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-benefits-of-ai-systems.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

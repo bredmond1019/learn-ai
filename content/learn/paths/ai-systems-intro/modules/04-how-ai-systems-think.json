@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "id": "how-ai-systems-think",
+    "pathId": "ai-systems-intro",
+    "title": "How AI Systems Think",
+    "description": "Understand how components work together using simple analogies and visual representations",
+    "duration": "60 minutes",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 4,
+    "prerequisites": [
+      "module-3"
+    ],
+    "objectives": [
+      "Understand the five steps of AI thinking",
+      "Learn how AI Systems perceive and understand",
+      "See how AI Systems reason and plan",
+      "Discover how AI Systems learn and improve"
+    ],
+    "tags": [
+      "ai-systems",
+      "theory",
+      "beginner"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Understanding AI Decision Making",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-how-ai-systems-think.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "perception",
+      "title": "Step 1: Perception - Understanding Input",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-how-ai-systems-think.mdx#perception",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "reasoning",
+      "title": "Step 2: Reasoning - Making Connections",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-how-ai-systems-think.mdx#reasoning",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "planning",
+      "title": "Step 3: Planning - Choosing Actions",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-how-ai-systems-think.mdx#planning",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "execution",
+      "title": "Step 4: Execution - Taking Action",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-how-ai-systems-think.mdx#execution",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "learning",
+      "title": "Step 5: Learning - Getting Better",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-how-ai-systems-think.mdx#learning",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 7,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-how-ai-systems-think.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

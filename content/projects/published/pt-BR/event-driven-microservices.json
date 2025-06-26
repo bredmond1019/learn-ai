@@ -4,7 +4,7 @@
   "description": "Plataforma escalável de microserviços orientada a eventos construída com Node.js, Apache Kafka e Docker, apresentando implantação automatizada, monitoramento e padrões de tolerância a falhas usados em produção por 3 clientes empresariais.",
   "longDescription": "Arquitetei e implementei uma plataforma abrangente de microserviços orientada a eventos que permite às organizações construir sistemas distribuídos escaláveis e resilientes. Este projeto combina a expertise de Brandon em arquitetura de sistemas com tecnologias modernas cloud-native para criar uma plataforma que lida com processamento de eventos de alta vazão mantendo consistência de dados e simplicidade operacional.\n\nA plataforma fornece um ecossistema completo para arquitetura orientada a eventos incluindo event sourcing, padrões CQRS, orquestração de sagas e rastreamento distribuído. Ela enfatiza a produtividade do desenvolvedor através de ferramentas abrangentes, testes automatizados e pipelines de implantação, mantendo confiabilidade de nível de produção através de tolerância a falhas embutida e monitoramento.\n\nAtualmente implantada em ambientes de produção processando milhões de eventos diariamente, a plataforma provou sua escalabilidade e confiabilidade em diversos casos de uso, desde e-commerce até serviços financeiros.",
   "tags": ["Node.js", "Microserviços", "Apache Kafka", "Docker", "Kubernetes", "Event Sourcing", "CQRS"],
-  "featured": true,
+  "featured": false,
   "icon": "Network",
   "isPrivate": true,
   "githubUrl": "https://github.com/brandonjredmond/event-driven-microservices",

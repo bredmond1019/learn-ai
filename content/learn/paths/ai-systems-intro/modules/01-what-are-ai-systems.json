@@ -1,0 +1,85 @@
+{
+  "metadata": {
+    "id": "what-are-ai-systems",
+    "pathId": "ai-systems-intro",
+    "title": "What Are AI Systems?",
+    "description": "Discover what AI Systems are and why they're transforming how we work and live",
+    "duration": "45 minutes",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 1,
+    "prerequisites": [],
+    "objectives": [
+      "Understand what AI Systems are and how they work",
+      "Learn about the building blocks of AI Systems",
+      "See real-world examples of AI Systems in action",
+      "Understand why AI Systems matter for businesses and individuals"
+    ],
+    "tags": ["ai-systems", "introduction", "concepts", "beginner-friendly"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Welcome to the World of AI Systems",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-what-are-ai-systems.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "understanding-ai-systems",
+      "title": "Understanding AI Systems",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-what-are-ai-systems.mdx#understanding-ai-systems",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "everyday-examples",
+      "title": "AI Systems in Everyday Life",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-what-are-ai-systems.mdx#everyday-examples",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 4,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-what-are-ai-systems.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "key-takeaways",
+      "title": "Key Takeaways",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-what-are-ai-systems.mdx#key-takeaways",
+        "codeExamples": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "id": "building-your-first-mcp-server",
+    "pathId": "ai-systems-intro",
+    "title": "Building Your First MCP Server",
+    "description": "Create a simple MCP server using Python that can interact with AI agents",
+    "duration": "90 minutes",
+    "type": "hands-on",
+    "difficulty": "intermediate",
+    "order": 7,
+    "prerequisites": [
+      "module-6"
+    ],
+    "objectives": [
+      "Understand MCP server structure",
+      "Build a feedback collection server",
+      "Implement tools and resources",
+      "Test your MCP server"
+    ],
+    "tags": [
+      "ai-systems",
+      "hands-on",
+      "intermediate"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Your First MCP Server",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-your-first-mcp-server.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "understanding-mcp",
+      "title": "Understanding MCP Servers",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-your-first-mcp-server.mdx#understanding-mcp",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "feedback-server-plan",
+      "title": "Planning Our Feedback Server",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-your-first-mcp-server.mdx#feedback-server-plan",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "basic-server",
+      "title": "Creating the Basic Server",
+      "type": "exercise",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-your-first-mcp-server.mdx#basic-server",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "adding-tools",
+      "title": "Adding Tools to Your Server",
+      "type": "exercise",
+      "order": 5,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-your-first-mcp-server.mdx#adding-tools",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "testing-server",
+      "title": "Testing Your MCP Server",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-your-first-mcp-server.mdx#testing-server",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "enhancing-server",
+      "title": "Making It Production Ready",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-your-first-mcp-server.mdx#enhancing-server",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 8,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-your-first-mcp-server.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

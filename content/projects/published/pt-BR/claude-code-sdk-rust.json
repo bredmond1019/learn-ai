@@ -4,7 +4,7 @@
   "description": "SDK type-safe e async-first para Rust que encapsula o Claude Code CLI com recursos avançados de segurança, alcançando 100% de abstrações seguras enquanto permite integrações poderosas com IA.",
   "longDescription": "Desenvolvi um SDK abrangente para Rust que democratiza o acesso ao Claude AI fornecendo um wrapper type-safe e performático ao redor do Claude Code CLI. Este projeto representa o compromisso de Brandon com excelência técnica e educação de desenvolvedores, criando um SDK que serve tanto como ferramenta poderosa quanto como recurso de aprendizado para a comunidade Rust.\n\nO SDK apresenta controles de segurança avançados com quatro níveis de validação configuráveis, permissões granulares de ferramentas e filtragem sensível ao contexto que distingue consultas legítimas de potenciais ataques. Construído com o modelo de ownership do Rust e padrões async/await, fornece abstrações de custo zero mantendo segurança de memória e prevenindo vulnerabilidades comuns.\n\nAlém de seus méritos técnicos, o SDK inclui documentação abrangente, exemplos funcionais para cada recurso e padrões educacionais que ajudam desenvolvedores a entender tanto as melhores práticas do Rust quanto padrões de integração com IA. O projeto ganhou tração na comunidade Rust como modelo para construir ferramentas de IA seguras e eficientes.",
   "tags": ["Rust", "SDK", "Claude AI", "Segurança", "Async", "Type Safety"],
-  "featured": false,
+  "featured": true,
   "icon": "Code2",
   "isPrivate": false,
   "githubUrl": "https://github.com/bredmond1019/claude-sdk-rust",

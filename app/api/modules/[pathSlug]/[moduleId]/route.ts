@@ -28,8 +28,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     // Get module data
-    const module = await getModule(pathSlug, moduleId);
-    if (!module) {
+    const moduleData = await getModule(pathSlug, moduleId);
+    if (!moduleData) {
       return NextResponse.json(
         {
           success: false,
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     // Include validation status for each section's MDX content
     const sectionsWithValidation = await Promise.all(
-      module.sections.map(async (section) => {
+      moduleData.sections.map(async (section) => {
         const validation = section.content.type === 'mdx' && section.content.source 
           ? await validateMDXContent(section.content.source)
           : { valid: true };
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({
       success: true,
       data: {
-        ...module,
+        ...moduleData,
         sections: sectionsWithValidation,
       },
     });

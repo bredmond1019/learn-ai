@@ -37,6 +37,104 @@ export interface Concept {
 // English learning paths
 const learningPathsEn: LearningPath[] = [
   {
+    id: 'ai-systems-intro',
+    title: 'AI Systems: An Introduction',
+    description: 'A beginner-friendly introduction to AI Systems, covering workflow engines, AI agents, LLMs, and MCP servers. Learn how these technologies work together to solve real-world problems.',
+    level: 'Beginner',
+    duration: '12 hours',
+    topics: ['AI Systems', 'Workflow Engines', 'AI Agents', 'MCP Servers'],
+    color: 'accent',
+    outcomes: [
+      'Understand what AI Systems are and their core components',
+      'Visualize how workflow engines, agents, LLMs, and MCP servers work together',
+      'Identify real-world applications for small businesses and personal use',
+      'Build a simple but functional AI System using Python and the MCP SDK',
+      'Create practical solutions that demonstrate the power of AI Systems'
+    ],
+    modules: [
+      {
+        id: 'what-are-ai-systems',
+        title: 'What Are AI Systems?',
+        description: 'Discover what AI Systems are and why they\'re transforming how we work and live',
+        duration: '45 minutes',
+        type: 'theory',
+        content: 'Introduction to AI Systems concepts and real-world impact'
+      },
+      {
+        id: 'the-building-blocks',
+        title: 'The Building Blocks',
+        description: 'Explore the key components: workflow engines, AI agents, LLMs, and MCP servers through visual diagrams',
+        duration: '60 minutes',
+        type: 'theory',
+        content: 'Deep dive into each component with visual representations'
+      },
+      {
+        id: 'real-world-applications',
+        title: 'Real-World Applications',
+        description: 'See practical examples of AI Systems solving problems for small businesses and everyday tasks',
+        duration: '60 minutes',
+        type: 'theory',
+        content: 'Case studies and practical applications'
+      },
+      {
+        id: 'how-ai-systems-think',
+        title: 'How AI Systems Think',
+        description: 'Understand how components work together using simple analogies and visual representations',
+        duration: '60 minutes',
+        type: 'theory',
+        content: 'AI decision-making explained simply'
+      },
+      {
+        id: 'benefits-of-ai-systems',
+        title: 'The Benefits of AI Systems',
+        description: 'Learn why AI Systems matter for your business or personal productivity',
+        duration: '45 minutes',
+        type: 'theory',
+        content: 'ROI and value proposition of AI Systems'
+      },
+      {
+        id: 'setting-up-your-first-ai-system',
+        title: 'Setting Up Your First AI System',
+        description: 'Get your development environment ready for building with Python and the MCP SDK',
+        duration: '90 minutes',
+        type: 'hands-on',
+        content: 'Environment setup and project structure'
+      },
+      {
+        id: 'building-your-first-mcp-server',
+        title: 'Building Your First MCP Server',
+        description: 'Create a simple MCP server using Python that can interact with AI agents',
+        duration: '90 minutes',
+        type: 'hands-on',
+        content: 'Hands-on MCP server development'
+      },
+      {
+        id: 'creating-an-ai-agent',
+        title: 'Creating an AI Agent',
+        description: 'Build an AI agent that connects to your MCP server and uses an LLM',
+        duration: '90 minutes',
+        type: 'hands-on',
+        content: 'AI agent implementation'
+      },
+      {
+        id: 'putting-it-all-together',
+        title: 'Putting It All Together',
+        description: 'Combine everything to create a complete AI System solving a real business problem',
+        duration: '120 minutes',
+        type: 'project',
+        content: 'Complete system integration'
+      },
+      {
+        id: 'next-steps-and-resources',
+        title: 'Next Steps and Resources',
+        description: 'Continue your AI Systems journey with advanced topics and community resources',
+        duration: '30 minutes',
+        type: 'theory',
+        content: 'Resources and community connections'
+      }
+    ]
+  },
+  {
     id: 'mcp-fundamentals',
     title: 'MCP Server Fundamentals',
     description: 'Build your first Model Context Protocol server from scratch. Learn the core concepts, architecture patterns, and best practices.',
@@ -383,6 +481,104 @@ const learningPathsPtBR: LearningPath[] = [
         duration: '4 horas',
         type: 'project',
         content: 'Deploy de produção de ponta a ponta'
+      }
+    ]
+  },
+  {
+    id: 'ai-systems-intro',
+    title: 'Sistemas de IA: Uma Introdução',
+    description: 'Uma introdução amigável aos Sistemas de IA, cobrindo motores de fluxo de trabalho, agentes de IA, LLMs e servidores MCP. Aprenda como essas tecnologias funcionam juntas para resolver problemas do mundo real.',
+    level: 'Beginner',
+    duration: '12 horas',
+    topics: ['Sistemas de IA', 'Motores de Fluxo', 'Agentes de IA', 'Servidores MCP'],
+    color: 'accent',
+    outcomes: [
+      'Entender o que são Sistemas de IA e seus componentes principais',
+      'Visualizar como motores de fluxo, agentes, LLMs e servidores MCP trabalham juntos',
+      'Identificar aplicações do mundo real para pequenas empresas e uso pessoal',
+      'Construir um Sistema de IA simples mas funcional usando Python e o SDK MCP',
+      'Criar soluções práticas que demonstram o poder dos Sistemas de IA'
+    ],
+    modules: [
+      {
+        id: 'what-are-ai-systems',
+        title: 'O Que São Sistemas de IA?',
+        description: 'Descubra o que são Sistemas de IA e por que estão transformando como trabalhamos e vivemos',
+        duration: '45 minutos',
+        type: 'theory',
+        content: 'Introdução aos conceitos de Sistemas de IA e impacto no mundo real'
+      },
+      {
+        id: 'the-building-blocks',
+        title: 'Os Blocos de Construção',
+        description: 'Explore os componentes-chave: motores de fluxo, agentes de IA, LLMs e servidores MCP através de diagramas visuais',
+        duration: '60 minutos',
+        type: 'theory',
+        content: 'Mergulho profundo em cada componente com representações visuais'
+      },
+      {
+        id: 'real-world-applications',
+        title: 'Aplicações do Mundo Real',
+        description: 'Veja exemplos práticos de Sistemas de IA resolvendo problemas para pequenas empresas e tarefas cotidianas',
+        duration: '60 minutos',
+        type: 'theory',
+        content: 'Estudos de caso e aplicações práticas'
+      },
+      {
+        id: 'how-ai-systems-think',
+        title: 'Como os Sistemas de IA Pensam',
+        description: 'Entenda como os componentes trabalham juntos usando analogias simples e representações visuais',
+        duration: '60 minutos',
+        type: 'theory',
+        content: 'Tomada de decisão de IA explicada de forma simples'
+      },
+      {
+        id: 'benefits-of-ai-systems',
+        title: 'Os Benefícios dos Sistemas de IA',
+        description: 'Aprenda por que os Sistemas de IA importam para seu negócio ou produtividade pessoal',
+        duration: '45 minutos',
+        type: 'theory',
+        content: 'ROI e proposta de valor dos Sistemas de IA'
+      },
+      {
+        id: 'setting-up-your-first-ai-system',
+        title: 'Configurando Seu Primeiro Sistema de IA',
+        description: 'Prepare seu ambiente de desenvolvimento para construir com Python e o SDK MCP',
+        duration: '90 minutos',
+        type: 'hands-on',
+        content: 'Configuração do ambiente e estrutura do projeto'
+      },
+      {
+        id: 'building-your-first-mcp-server',
+        title: 'Construindo Seu Primeiro Servidor MCP',
+        description: 'Crie um servidor MCP simples usando Python que pode interagir com agentes de IA',
+        duration: '90 minutos',
+        type: 'hands-on',
+        content: 'Desenvolvimento prático de servidor MCP'
+      },
+      {
+        id: 'creating-an-ai-agent',
+        title: 'Criando um Agente de IA',
+        description: 'Construa um agente de IA que se conecta ao seu servidor MCP e usa um LLM',
+        duration: '90 minutos',
+        type: 'hands-on',
+        content: 'Implementação de agente de IA'
+      },
+      {
+        id: 'putting-it-all-together',
+        title: 'Juntando Tudo',
+        description: 'Combine tudo para criar um Sistema de IA completo resolvendo um problema real de negócios',
+        duration: '120 minutos',
+        type: 'project',
+        content: 'Integração completa do sistema'
+      },
+      {
+        id: 'next-steps-and-resources',
+        title: 'Próximos Passos e Recursos',
+        description: 'Continue sua jornada em Sistemas de IA com tópicos avançados e recursos da comunidade',
+        duration: '30 minutos',
+        type: 'theory',
+        content: 'Recursos e conexões com a comunidade'
       }
     ]
   }
