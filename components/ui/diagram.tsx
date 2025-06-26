@@ -131,7 +131,10 @@ export function Diagram({ title, description, nodes, edges, id }: DiagramProps) 
       `;
       
       // Re-render the diagram
-      mermaid.init(undefined, elementRef.current.querySelector('.mermaid'));
+      const mermaidElement = elementRef.current.querySelector('.mermaid') as HTMLElement;
+      if (mermaidElement) {
+        mermaid.init(undefined, mermaidElement);
+      }
     }
   }, [nodes, edges, graphId]);
 
