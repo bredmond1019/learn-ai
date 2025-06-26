@@ -6,26 +6,51 @@ import { modulesCache, cacheKeys } from './cache-manager';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'learn', 'paths');
 
+// Get content directory based on locale
+function getContentDir(locale?: string): string {
+  if (locale && locale !== 'en') {
+    return path.join(CONTENT_DIR, locale);
+  }
+  return CONTENT_DIR;
+}
+
 // Cache module loading for performance
-export const getModule = cache(async (pathSlug: string, moduleId: string): Promise<Module | null> => {
-  const cacheKey = cacheKeys.modules.module(pathSlug, moduleId);
+export const getModule = cache(async (pathSlug: string, moduleId: string, locale?: string): Promise<Module | null> => {
+  const cacheKey = locale ? `${cacheKeys.modules.module(pathSlug, moduleId)}-${locale}` : cacheKeys.modules.module(pathSlug, moduleId);
   
   return await modulesCache.getOrSet(cacheKey, async () => {
     try {
-      // Try to find the module file with number prefix
-      const modulesDir = path.join(CONTENT_DIR, pathSlug, 'modules');
-      const files = await fs.readdir(modulesDir);
+      // Check for locale-specific JSON first, fallback to English
+      let jsonModulesDir = locale && locale !== 'en' 
+        ? path.join(getContentDir(locale), pathSlug, 'modules')
+        : path.join(CONTENT_DIR, pathSlug, 'modules');
       
-      // Look for a file that ends with the moduleId
-      const moduleFile = files.find(file => 
-        file.endsWith(`${moduleId}.json`) && file.includes('-')
-      );
+      // Check if locale directory exists
+      const localeDirExists = locale && locale !== 'en' && await fs.access(jsonModulesDir).then(() => true).catch(() => false);
+      
+      // If locale directory doesn't exist, use English
+      if (!localeDirExists && locale && locale !== 'en') {
+        jsonModulesDir = path.join(CONTENT_DIR, pathSlug, 'modules');
+      }
+      
+      const mdxModulesDir = locale && locale !== 'en' 
+        ? path.join(getContentDir(locale), pathSlug, 'modules')
+        : jsonModulesDir;
+      
+      const files = await fs.readdir(jsonModulesDir);
+      
+      // Look for a file that contains the moduleId (handles numeric prefixes)
+      const moduleFile = files.find(file => {
+        // Match files like "01-introduction-to-mcp.json"
+        const filePattern = new RegExp(`\\d+-${moduleId}\\.json$`);
+        return filePattern.test(file);
+      });
       
       if (!moduleFile) {
         throw new Error(`Module file not found for ${moduleId}`);
       }
       
-      const modulePath = path.join(modulesDir, moduleFile);
+      const modulePath = path.join(jsonModulesDir, moduleFile);
       const moduleContent = await fs.readFile(modulePath, 'utf-8');
       const module = JSON.parse(moduleContent) as Module;
       
@@ -37,13 +62,37 @@ export const getModule = cache(async (pathSlug: string, moduleId: string): Promi
             try {
               // Extract just the filename without anchors
               const mdxFile = section.content.source.split('#')[0];
-              const mdxPath = path.join(modulesDir, mdxFile);
+              
+              // For locales, look for MDX in locale-specific directory
+              let mdxPath = path.join(mdxModulesDir, mdxFile);
+              
+              // Check if the MDX modules directory exists and has the file
+              const mdxDirExists = await fs.access(mdxModulesDir).then(() => true).catch(() => false);
+              const mdxFileExists = mdxDirExists && await fs.access(mdxPath).then(() => true).catch(() => false);
+              
+              // Fallback to English if locale file doesn't exist
+              if (!mdxFileExists) {
+                mdxPath = path.join(jsonModulesDir, mdxFile);
+              }
+              
               const mdxContent = await fs.readFile(mdxPath, 'utf-8');
+              
+              // Extract section content if anchor is specified
+              let sectionContent = mdxContent;
+              const anchor = section.content.source.split('#')[1];
+              if (anchor) {
+                // Extract the specific section based on anchor
+                const sectionRegex = new RegExp(`## .* \\{#${anchor}\\}([\\s\\S]*?)(?=## |$)`, 'i');
+                const match = mdxContent.match(sectionRegex);
+                if (match) {
+                  sectionContent = match[0];
+                }
+              }
               
               // Update the source with the actual content
               section.content = {
                 ...section.content,
-                source: mdxContent
+                source: sectionContent
               };
             } catch (error) {
               console.error(`Failed to load MDX content for section ${section.id}:`, error);
@@ -63,11 +112,12 @@ export const getModule = cache(async (pathSlug: string, moduleId: string): Promi
 });
 
 // Get all modules for a learning path
-export const getModulesForPath = cache(async (pathSlug: string): Promise<Module[]> => {
-  const cacheKey = cacheKeys.modules.pathModules(pathSlug);
+export const getModulesForPath = cache(async (pathSlug: string, locale?: string): Promise<Module[]> => {
+  const cacheKey = locale ? `${cacheKeys.modules.pathModules(pathSlug)}-${locale}` : cacheKeys.modules.pathModules(pathSlug);
   
   return await modulesCache.getOrSet(cacheKey, async () => {
     try {
+      // Always read module JSON files from English directory
       const pathDir = path.join(CONTENT_DIR, pathSlug, 'modules');
       const files = await fs.readdir(pathDir);
       
@@ -77,7 +127,7 @@ export const getModulesForPath = cache(async (pathSlug: string): Promise<Module[
           // Extract moduleId from filename like "01-introduction-to-mcp.json"
           const parts = file.replace('.json', '').split('-');
           const moduleId = parts.slice(1).join('-'); // Remove number prefix
-          return getModule(pathSlug, moduleId);
+          return getModule(pathSlug, moduleId, locale);
         })
       );
       
@@ -92,12 +142,18 @@ export const getModulesForPath = cache(async (pathSlug: string): Promise<Module[
 });
 
 // Get learning path metadata
-export const getLearningPath = cache(async (pathSlug: string): Promise<LearningPath | null> => {
-  const cacheKey = cacheKeys.modules.learningPath(pathSlug);
+export const getLearningPath = cache(async (pathSlug: string, locale?: string): Promise<LearningPath | null> => {
+  const cacheKey = locale ? `${cacheKeys.modules.learningPath(pathSlug)}-${locale}` : cacheKeys.modules.learningPath(pathSlug);
   
   return await modulesCache.getOrSet(cacheKey, async () => {
     try {
-      const metadataPath = path.join(CONTENT_DIR, pathSlug, 'metadata.json');
+      const contentDir = getContentDir(locale);
+      let metadataPath = path.join(contentDir, pathSlug, 'metadata.json');
+      
+      // Fallback to English if locale metadata doesn't exist
+      if (locale && locale !== 'en' && !await fs.access(metadataPath).then(() => true).catch(() => false)) {
+        metadataPath = path.join(CONTENT_DIR, pathSlug, 'metadata.json');
+      }
       const content = await fs.readFile(metadataPath, 'utf-8');
       return JSON.parse(content) as LearningPath;
     } catch (error) {
@@ -108,17 +164,29 @@ export const getLearningPath = cache(async (pathSlug: string): Promise<LearningP
 });
 
 // Get all available learning paths
-export const getAllLearningPaths = cache(async (): Promise<LearningPath[]> => {
-  const cacheKey = cacheKeys.modules.allPaths();
+export const getAllLearningPaths = cache(async (locale?: string): Promise<LearningPath[]> => {
+  const cacheKey = locale ? `${cacheKeys.modules.allPaths()}-${locale}` : cacheKeys.modules.allPaths();
   
   return await modulesCache.getOrSet(cacheKey, async () => {
     try {
-      const dirs = await fs.readdir(CONTENT_DIR);
+      const contentDir = getContentDir(locale);
+      let dirs: string[] = [];
+      
+      // Try locale directory first
+      if (await fs.access(contentDir).then(() => true).catch(() => false)) {
+        dirs = await fs.readdir(contentDir);
+      }
+      
+      // If no locale directory or empty, fallback to English
+      if (dirs.length === 0 && locale !== 'en') {
+        dirs = await fs.readdir(CONTENT_DIR);
+      }
       const paths = await Promise.all(
         dirs.map(async (dir) => {
-          const stats = await fs.stat(path.join(CONTENT_DIR, dir));
+          const dirPath = locale && dirs.length > 0 ? path.join(getContentDir(locale), dir) : path.join(CONTENT_DIR, dir);
+          const stats = await fs.stat(dirPath);
           if (stats.isDirectory()) {
-            return getLearningPath(dir);
+            return getLearningPath(dir, locale);
           }
           return null;
         })
@@ -133,9 +201,9 @@ export const getAllLearningPaths = cache(async (): Promise<LearningPath[]> => {
 });
 
 // Validate module ID exists for a given path
-export const validateModuleId = async (pathSlug: string, moduleId: string): Promise<boolean> => {
+export const validateModuleId = async (pathSlug: string, moduleId: string, locale?: string): Promise<boolean> => {
   try {
-    const module = await getModule(pathSlug, moduleId);
+    const module = await getModule(pathSlug, moduleId, locale);
     return module !== null;
   } catch {
     return false;
@@ -143,11 +211,11 @@ export const validateModuleId = async (pathSlug: string, moduleId: string): Prom
 };
 
 // Get module neighbors (previous and next)
-export const getModuleNeighbors = cache(async (pathSlug: string, moduleId: string): Promise<{ previous: Module | null; next: Module | null }> => {
-  const cacheKey = cacheKeys.modules.neighbors(pathSlug, moduleId);
+export const getModuleNeighbors = cache(async (pathSlug: string, moduleId: string, locale?: string): Promise<{ previous: Module | null; next: Module | null }> => {
+  const cacheKey = locale ? `${cacheKeys.modules.neighbors(pathSlug, moduleId)}-${locale}` : cacheKeys.modules.neighbors(pathSlug, moduleId);
   
   return await modulesCache.getOrSet(cacheKey, async () => {
-    const modules = await getModulesForPath(pathSlug);
+    const modules = await getModulesForPath(pathSlug, locale);
     const currentIndex = modules.findIndex(m => m.metadata.id === moduleId);
     
     if (currentIndex === -1) {

@@ -5,5 +5,5 @@ import { ProjectsPageClient } from '@/components/ProjectsPageClient';
 export default async function ProjectsPage() {
   const projects = await getAllProjects();
   
-  return <ProjectsPageClient initialProjects={projects} />;
+  return <ProjectsPageClient initialProjects={projects} locale="en" />;
 }

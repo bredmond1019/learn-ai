@@ -1,0 +1,252 @@
+{
+  "metadata": {
+    "id": "creating-tools",
+    "pathId": "mcp-fundamentals",
+    "title": "Criando Provedores de Ferramentas",
+    "description": "Construa provedores de ferramentas poderosos que permitem à IA executar ações, executar comandos e interagir com seus sistemas com segurança",
+    "duration": "75 minutes",
+    "type": "hands-on",
+    "difficulty": "intermediate",
+    "order": 4,
+    "prerequisites": ["introduction-to-mcp", "setting-up-environment", "implementing-resources"],
+    "objectives": [
+      "Compreender a diferença entre recursos e ferramentas",
+      "Projetar e implementar provedores de ferramentas seguros",
+      "Manipular parâmetros de ferramentas com validação adequada",
+      "Construir ferramentas para operações de arquivo, chamadas de API e interações do sistema",
+      "Implementar tratamento de erros e medidas de segurança"
+    ],
+    "tags": ["mcp", "tools", "actions", "validation", "security"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "tool-fundamentals",
+      "title": "Compreendendo Ferramentas MCP",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-creating-tools.mdx#tool-fundamentals",
+        "codeExamples": [
+          {
+            "id": "tool-structure",
+            "title": "Estrutura de Ferramenta",
+            "description": "A anatomia de uma definição de ferramenta MCP",
+            "language": "typescript",
+            "code": "interface Tool {\n  name: string;                    // Unique tool identifier\n  description: string;             // What the tool does\n  inputSchema: {\n    type: 'object';\n    properties: Record<string, any>; // Parameter definitions\n    required?: string[];            // Required parameters\n  };\n}\n\ninterface ToolResult {\n  content: Array<{\n    type: 'text' | 'image' | 'resource';\n    text?: string;                 // Text output\n    data?: string;                 // Base64 encoded data\n    resource?: { uri: string };    // Resource reference\n  }>;\n  isError?: boolean;              // Indicates if tool failed\n}",
+            "highlightLines": [1, 2, 3, 11, 16, 17],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "basic-tools",
+      "title": "Construindo Suas Primeiras Ferramentas",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-creating-tools.mdx#basic-tools",
+        "codeExamples": [
+          {
+            "id": "echo-tool",
+            "title": "Ferramenta Echo Simples",
+            "description": "Uma ferramenta básica que ecoa o texto de entrada",
+            "language": "typescript",
+            "code": "// Register the echo tool\nserver.setRequestHandler('tools/list', async () => {\n  return {\n    tools: [\n      {\n        name: 'echo',\n        description: 'Echo the provided text back to the user',\n        inputSchema: {\n          type: 'object',\n          properties: {\n            text: {\n              type: 'string',\n              description: 'The text to echo back'\n            }\n          },\n          required: ['text']\n        }\n      }\n    ]\n  };\n});\n\n// Handle tool execution\nserver.setRequestHandler('tools/call', async (request) => {\n  const { name, arguments: args } = request.params;\n  \n  if (name === 'echo') {\n    return {\n      content: [\n        {\n          type: 'text',\n          text: `Echo: ${args.text}`\n        }\n      ]\n    };\n  }\n  \n  throw new Error(`Unknown tool: ${name}`);\n});",
+            "highlightLines": [6, 7, 27, 28, 29, 30, 31, 32, 33, 34],
+            "runnable": false
+          },
+          {
+            "id": "calculator-tool",
+            "title": "Ferramenta Calculadora",
+            "description": "Uma ferramenta que realiza cálculos matemáticos",
+            "language": "typescript",
+            "code": "const calculatorTool = {\n  name: 'calculator',\n  description: 'Perform basic mathematical calculations',\n  inputSchema: {\n    type: 'object',\n    properties: {\n      expression: {\n        type: 'string',\n        description: 'Mathematical expression to evaluate (e.g., \"2 + 2\", \"10 * 5\")'\n      }\n    },\n    required: ['expression']\n  }\n};\n\n// Safe expression evaluator\nfunction evaluateExpression(expr: string): number {\n  // Allow only numbers, basic operators, and parentheses\n  const safePattern = /^[0-9+\\-*/().\\s]+$/;\n  \n  if (!safePattern.test(expr)) {\n    throw new Error('Invalid expression: only numbers and basic operators allowed');\n  }\n  \n  try {\n    // Use Function constructor for safer evaluation\n    return Function('\"use strict\"; return (' + expr + ')')();\n  } catch (error) {\n    throw new Error('Invalid mathematical expression');\n  }\n}\n\n// Tool execution handler\nif (name === 'calculator') {\n  try {\n    const result = evaluateExpression(args.expression);\n    return {\n      content: [\n        {\n          type: 'text',\n          text: `${args.expression} = ${result}`\n        }\n      ]\n    };\n  } catch (error) {\n    return {\n      content: [\n        {\n          type: 'text',\n          text: `Error: ${error.message}`\n        }\n      ],\n      isError: true\n    };\n  }\n}",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "file-operations",
+      "title": "Ferramentas de Operação de Arquivo",
+      "type": "exercise",
+      "order": 3,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Construir Ferramentas de Gerenciamento de Arquivos",
+        "description": "Crie um conjunto de ferramentas para operações seguras de arquivo incluindo leitura, escrita e listagem de arquivos",
+        "instructions": [
+          "Crie uma ferramenta 'read_file' que leia arquivos de texto dentro de um diretório seguro",
+          "Implemente uma ferramenta 'write_file' que crie ou atualize arquivos com segurança",
+          "Construa uma ferramenta 'list_files' que mostre o conteúdo do diretório",
+          "Adicione validação adequada de parâmetros usando JSON Schema",
+          "Implemente verificações de segurança para prevenir travessia de diretório",
+          "Adicione tratamento de erros para arquivo não encontrado, permissão negada, etc.",
+          "Retorne mensagens apropriadas de sucesso/erro"
+        ],
+        "starterCode": {
+          "language": "typescript",
+          "code": "import { promises as fs } from 'fs';\nimport path from 'path';\n\nclass FileOperationTools {\n  constructor(private safeDirectory: string) {\n    // Ensure safe directory exists\n    this.ensureDirectoryExists();\n  }\n  \n  private async ensureDirectoryExists() {\n    // TODO: Create the safe directory if it doesn't exist\n  }\n  \n  // TODO: Implement security check for file paths\n  private isPathSafe(filePath: string): boolean {\n    // Hint: Use path.resolve and check if result starts with safeDirectory\n    // This prevents directory traversal attacks\n  }\n  \n  // TODO: Define tool schemas\n  getTools() {\n    return [\n      {\n        name: 'read_file',\n        description: 'Read the contents of a text file',\n        inputSchema: {\n          // TODO: Define schema for file path parameter\n        }\n      },\n      {\n        name: 'write_file',\n        description: 'Write content to a file',\n        inputSchema: {\n          // TODO: Define schema for path and content parameters\n        }\n      },\n      {\n        name: 'list_files',\n        description: 'List files in a directory',\n        inputSchema: {\n          // TODO: Define schema for optional directory parameter\n        }\n      }\n    ];\n  }\n  \n  // TODO: Implement tool execution handler\n  async executeTool(name: string, args: any) {\n    switch (name) {\n      case 'read_file':\n        // TODO: Implement file reading with safety checks\n        break;\n        \n      case 'write_file':\n        // TODO: Implement file writing with safety checks\n        break;\n        \n      case 'list_files':\n        // TODO: Implement directory listing\n        break;\n        \n      default:\n        throw new Error(`Unknown file operation: ${name}`);\n    }\n  }\n}",
+          "fileName": "src/tools/file-operations.ts"
+        },
+        "solution": {
+          "language": "typescript",
+          "code": "import { promises as fs } from 'fs';\nimport path from 'path';\n\nclass FileOperationTools {\n  constructor(private safeDirectory: string) {\n    this.ensureDirectoryExists();\n  }\n  \n  private async ensureDirectoryExists() {\n    try {\n      await fs.access(this.safeDirectory);\n    } catch {\n      await fs.mkdir(this.safeDirectory, { recursive: true });\n    }\n  }\n  \n  private isPathSafe(filePath: string): boolean {\n    const resolvedPath = path.resolve(this.safeDirectory, filePath);\n    const resolvedSafeDir = path.resolve(this.safeDirectory);\n    return resolvedPath.startsWith(resolvedSafeDir + path.sep) || resolvedPath === resolvedSafeDir;\n  }\n  \n  getTools() {\n    return [\n      {\n        name: 'read_file',\n        description: 'Read the contents of a text file',\n        inputSchema: {\n          type: 'object',\n          properties: {\n            path: {\n              type: 'string',\n              description: 'Path to the file to read (relative to safe directory)'\n            }\n          },\n          required: ['path']\n        }\n      },\n      {\n        name: 'write_file',\n        description: 'Write content to a file',\n        inputSchema: {\n          type: 'object',\n          properties: {\n            path: {\n              type: 'string',\n              description: 'Path to the file to write (relative to safe directory)'\n            },\n            content: {\n              type: 'string',\n              description: 'Content to write to the file'\n            },\n            overwrite: {\n              type: 'boolean',\n              description: 'Whether to overwrite existing file',\n              default: false\n            }\n          },\n          required: ['path', 'content']\n        }\n      },\n      {\n        name: 'list_files',\n        description: 'List files in a directory',\n        inputSchema: {\n          type: 'object',\n          properties: {\n            directory: {\n              type: 'string',\n              description: 'Directory to list (relative to safe directory)',\n              default: '.'\n            },\n            showHidden: {\n              type: 'boolean',\n              description: 'Whether to show hidden files',\n              default: false\n            }\n          }\n        }\n      }\n    ];\n  }\n  \n  async executeTool(name: string, args: any) {\n    try {\n      switch (name) {\n        case 'read_file':\n          return await this.readFile(args.path);\n          \n        case 'write_file':\n          return await this.writeFile(args.path, args.content, args.overwrite);\n          \n        case 'list_files':\n          return await this.listFiles(args.directory || '.', args.showHidden);\n          \n        default:\n          throw new Error(`Unknown file operation: ${name}`);\n      }\n    } catch (error) {\n      return {\n        content: [\n          {\n            type: 'text',\n            text: `Error: ${error.message}`\n          }\n        ],\n        isError: true\n      };\n    }\n  }\n  \n  private async readFile(filePath: string) {\n    if (!this.isPathSafe(filePath)) {\n      throw new Error('Path is outside safe directory');\n    }\n    \n    const fullPath = path.join(this.safeDirectory, filePath);\n    \n    try {\n      const content = await fs.readFile(fullPath, 'utf-8');\n      const stats = await fs.stat(fullPath);\n      \n      return {\n        content: [\n          {\n            type: 'text',\n            text: `File: ${filePath}\\n` +\n                  `Size: ${stats.size} bytes\\n` +\n                  `Modified: ${stats.mtime.toISOString()}\\n\\n` +\n                  `Content:\\n${content}`\n          }\n        ]\n      };\n    } catch (error) {\n      if (error.code === 'ENOENT') {\n        throw new Error(`File not found: ${filePath}`);\n      }\n      throw error;\n    }\n  }\n  \n  private async writeFile(filePath: string, content: string, overwrite: boolean = false) {\n    if (!this.isPathSafe(filePath)) {\n      throw new Error('Path is outside safe directory');\n    }\n    \n    const fullPath = path.join(this.safeDirectory, filePath);\n    \n    // Check if file exists and overwrite is false\n    if (!overwrite) {\n      try {\n        await fs.access(fullPath);\n        throw new Error(`File already exists: ${filePath}. Use overwrite: true to replace it.`);\n      } catch (error) {\n        if (error.code !== 'ENOENT') {\n          throw error;\n        }\n        // File doesn't exist, which is what we want\n      }\n    }\n    \n    // Ensure directory exists\n    const directory = path.dirname(fullPath);\n    await fs.mkdir(directory, { recursive: true });\n    \n    await fs.writeFile(fullPath, content, 'utf-8');\n    \n    return {\n      content: [\n        {\n          type: 'text',\n          text: `Successfully wrote ${content.length} characters to ${filePath}`\n        }\n      ]\n    };\n  }\n  \n  private async listFiles(directory: string, showHidden: boolean = false) {\n    if (!this.isPathSafe(directory)) {\n      throw new Error('Directory is outside safe directory');\n    }\n    \n    const fullPath = path.join(this.safeDirectory, directory);\n    \n    try {\n      const entries = await fs.readdir(fullPath, { withFileTypes: true });\n      const files = [];\n      \n      for (const entry of entries) {\n        if (!showHidden && entry.name.startsWith('.')) {\n          continue;\n        }\n        \n        const entryPath = path.join(fullPath, entry.name);\n        const stats = await fs.stat(entryPath);\n        \n        files.push({\n          name: entry.name,\n          type: entry.isDirectory() ? 'directory' : 'file',\n          size: entry.isFile() ? stats.size : undefined,\n          modified: stats.mtime.toISOString()\n        });\n      }\n      \n      return {\n        content: [\n          {\n            type: 'text',\n            text: `Files in ${directory}:\\n\\n` +\n                  files.map(f => \n                    `${f.type === 'directory' ? '📁' : '📄'} ${f.name}` +\n                    (f.size !== undefined ? ` (${f.size} bytes)` : '') +\n                    ` - ${f.modified}`\n                  ).join('\\n')\n          }\n        ]\n      };\n    } catch (error) {\n      if (error.code === 'ENOENT') {\n        throw new Error(`Directory not found: ${directory}`);\n      }\n      throw error;\n    }\n  }\n}\n\n// Export for use in MCP server\nexport function registerFileTools(server: Server, safeDirectory: string = './workspace') {\n  const fileTools = new FileOperationTools(safeDirectory);\n  const tools = fileTools.getTools();\n  \n  // Add to existing tools list\n  const existingListHandler = server.getRequestHandler?.('tools/list');\n  \n  server.setRequestHandler('tools/list', async () => {\n    if (existingListHandler) {\n      const existing = await existingListHandler();\n      return {\n        tools: [...existing.tools, ...tools]\n      };\n    }\n    \n    return { tools };\n  });\n  \n  // Add to existing tool execution handler\n  const existingCallHandler = server.getRequestHandler?.('tools/call');\n  \n  server.setRequestHandler('tools/call', async (request) => {\n    const { name, arguments: args } = request.params;\n    \n    const fileToolNames = tools.map(t => t.name);\n    if (fileToolNames.includes(name)) {\n      return fileTools.executeTool(name, args);\n    }\n    \n    if (existingCallHandler) {\n      return existingCallHandler(request);\n    }\n    \n    throw new Error(`Unknown tool: ${name}`);\n  });\n}",
+          "explanation": "## Como Funciona\n\nEsta solução implementa um kit completo de ferramentas de operação de arquivo:\n\n1. **Segurança em Primeiro Lugar**: Todos os caminhos são validados para prevenir ataques de travessia de diretório\n2. **Diretório Seguro**: Operações são confinadas a um diretório seguro designado\n3. **Ferramentas Abrangentes**: Operações de leitura, escrita e listagem com parâmetros adequados\n4. **Tratamento de Erros**: Mensagens de erro claras para problemas comuns (arquivo não encontrado, permissão negada)\n5. **Metadados**: Operações de arquivo incluem tamanho, tempo de modificação e outras informações úteis\n6. **Integração**: Mescla com manipuladores de ferramentas existentes em vez de substituí-los\n\nRecursos principais de segurança:\n- Validação de caminho previne acesso fora do diretório seguro\n- Proteção contra sobrescrita requer confirmação explícita\n- Opção de filtragem de arquivos ocultos\n- Tratamento abrangente de erros com mensagens amigáveis ao usuário"
+        },
+        "hints": [
+          {
+            "id": "hint-1",
+            "level": 1,
+            "content": "Comece com a verificação de segurança do caminho. Use path.resolve() para obter caminhos absolutos e garanta que o caminho resolvido comece com seu diretório seguro.",
+            "revealDelay": 60
+          },
+          {
+            "id": "hint-2",
+            "level": 2,
+            "content": "Para JSON Schema, lembre-se que 'type: object' com 'properties' define a estrutura de parâmetros. Use o array 'required' para parâmetros obrigatórios.",
+            "revealDelay": 120
+          },
+          {
+            "id": "hint-3",
+            "level": 3,
+            "content": "Trate diferentes tipos de erro: ENOENT (arquivo não encontrado), EACCES (permissão negada), etc. Retorne respostas de erro estruturadas com isError: true.",
+            "codeSnippet": "try {\n  // file operation\n} catch (error) {\n  return {\n    content: [{ type: 'text', text: `Error: ${error.message}` }],\n    isError: true\n  };\n}",
+            "revealDelay": 180
+          }
+        ],
+        "validation": [
+          {
+            "id": "security-check",
+            "type": "structure",
+            "description": "Validação de segurança de caminho está implementada",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "isPathSafe",
+                "message": "Implemente validação de segurança de caminho"
+              }
+            }
+          },
+          {
+            "id": "tool-schemas",
+            "type": "structure",
+            "description": "Esquemas de ferramentas estão definidos adequadamente",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "inputSchema",
+                "message": "Defina esquemas de entrada para todas as ferramentas"
+              }
+            }
+          },
+          {
+            "id": "error-handling",
+            "type": "structure",
+            "description": "Tratamento de erros está implementado",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "catch.*error",
+                "message": "Adicione tratamento adequado de erros"
+              }
+            }
+          }
+        ],
+        "difficulty": "intermediate",
+        "concepts": ["file-operations", "security", "validation", "error-handling"]
+      }
+    },
+    {
+      "id": "api-tools",
+      "title": "Ferramentas de Integração API",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-creating-tools.mdx#api-tools",
+        "codeExamples": [
+          {
+            "id": "http-request-tool",
+            "title": "Ferramenta de Requisição HTTP",
+            "description": "Uma ferramenta para fazer requisições HTTP para APIs externas",
+            "language": "typescript",
+            "code": "const httpRequestTool = {\n  name: 'http_request',\n  description: 'Make HTTP requests to external APIs',\n  inputSchema: {\n    type: 'object',\n    properties: {\n      url: {\n        type: 'string',\n        description: 'The URL to request'\n      },\n      method: {\n        type: 'string',\n        enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],\n        default: 'GET',\n        description: 'HTTP method to use'\n      },\n      headers: {\n        type: 'object',\n        description: 'HTTP headers to include',\n        additionalProperties: { type: 'string' }\n      },\n      body: {\n        type: 'string',\n        description: 'Request body (for POST, PUT, PATCH)'\n      },\n      timeout: {\n        type: 'number',\n        default: 30000,\n        description: 'Request timeout in milliseconds'\n      }\n    },\n    required: ['url']\n  }\n};\n\n// HTTP request handler with safety checks\nasync function executeHttpRequest(args: any) {\n  const { url, method = 'GET', headers = {}, body, timeout = 30000 } = args;\n  \n  // Security: Validate URL\n  try {\n    const urlObj = new URL(url);\n    \n    // Block localhost and private IPs for security\n    if (urlObj.hostname === 'localhost' || \n        urlObj.hostname.startsWith('127.') ||\n        urlObj.hostname.startsWith('192.168.') ||\n        urlObj.hostname.startsWith('10.')) {\n      throw new Error('Requests to local/private networks are not allowed');\n    }\n  } catch (error) {\n    throw new Error(`Invalid URL: ${error.message}`);\n  }\n  \n  try {\n    const controller = new AbortController();\n    const timeoutId = setTimeout(() => controller.abort(), timeout);\n    \n    const response = await fetch(url, {\n      method,\n      headers: {\n        'User-Agent': 'MCP-Server/1.0',\n        ...headers\n      },\n      body: method !== 'GET' && method !== 'HEAD' ? body : undefined,\n      signal: controller.signal\n    });\n    \n    clearTimeout(timeoutId);\n    \n    const responseText = await response.text();\n    \n    return {\n      content: [\n        {\n          type: 'text',\n          text: `HTTP ${method} ${url}\\n` +\n                `Status: ${response.status} ${response.statusText}\\n` +\n                `Headers: ${JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2)}\\n\\n` +\n                `Response:\\n${responseText}`\n        }\n      ]\n    };\n  } catch (error) {\n    return {\n      content: [\n        {\n          type: 'text',\n          text: `HTTP request failed: ${error.message}`\n        }\n      ],\n      isError: true\n    };\n  }\n}",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "advanced-tool-patterns",
+      "title": "Padrões Avançados de Ferramentas",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-creating-tools.mdx#advanced-tool-patterns",
+        "codeExamples": [
+          {
+            "id": "streaming-tool",
+            "title": "Ferramenta de Longa Execução com Progresso",
+            "description": "Lidar com operações longas com atualizações de progresso",
+            "language": "typescript",
+            "code": "class LongRunningTool {\n  async executeLongOperation(args: any, progressCallback?: (progress: number, message: string) => void) {\n    const totalSteps = 100;\n    \n    for (let step = 0; step < totalSteps; step++) {\n      // Simulate work\n      await new Promise(resolve => setTimeout(resolve, 100));\n      \n      // Report progress\n      if (progressCallback) {\n        progressCallback((step + 1) / totalSteps * 100, `Processing step ${step + 1}`);\n      }\n      \n      // Check for cancellation\n      if (this.shouldCancel) {\n        throw new Error('Operation cancelled');\n      }\n    }\n    \n    return {\n      content: [\n        {\n          type: 'text',\n          text: 'Long operation completed successfully!'\n        }\n      ]\n    };\n  }\n}",
+            "runnable": false
+          },
+          {
+            "id": "conditional-tool",
+            "title": "Disponibilidade Condicional de Ferramentas",
+            "description": "Mostrar ferramentas apenas quando certas condições são atendidas",
+            "language": "typescript",
+            "code": "class ConditionalToolProvider {\n  constructor(private config: { adminMode: boolean; apiKey?: string }) {}\n  \n  getAvailableTools() {\n    const tools = [\n      // Always available\n      {\n        name: 'status',\n        description: 'Get system status',\n        inputSchema: { type: 'object', properties: {} }\n      }\n    ];\n    \n    // Admin-only tools\n    if (this.config.adminMode) {\n      tools.push({\n        name: 'restart_service',\n        description: 'Restart a system service',\n        inputSchema: {\n          type: 'object',\n          properties: {\n            service: { type: 'string', description: 'Service name' }\n          },\n          required: ['service']\n        }\n      });\n    }\n    \n    // API-dependent tools\n    if (this.config.apiKey) {\n      tools.push({\n        name: 'external_api_call',\n        description: 'Call external API',\n        inputSchema: {\n          type: 'object',\n          properties: {\n            endpoint: { type: 'string', description: 'API endpoint' }\n          },\n          required: ['endpoint']\n        }\n      });\n    }\n    \n    return tools;\n  }\n}",
+            "runnable": false
+          }
+        ]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "mcp-tools-spec",
+      "title": "Especificação de Ferramentas MCP",
+      "type": "reference",
+      "url": "https://spec.modelcontextprotocol.io/specification/server/tools/",
+      "description": "Especificação oficial para ferramentas MCP",
+      "required": true
+    },
+    {
+      "id": "json-schema-guide",
+      "title": "Guia JSON Schema",
+      "type": "reference",
+      "url": "https://json-schema.org/learn/getting-started-step-by-step",
+      "description": "Aprenda JSON Schema para validação de parâmetros de ferramentas",
+      "required": false
+    },
+    {
+      "id": "nodejs-security",
+      "title": "Melhores Práticas de Segurança Node.js",
+      "type": "reference",
+      "url": "https://nodejs.org/en/docs/guides/security/",
+      "description": "Diretrizes de segurança para aplicações Node.js",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 85,
+    "requiredSections": ["tool-fundamentals", "basic-tools", "file-operations"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

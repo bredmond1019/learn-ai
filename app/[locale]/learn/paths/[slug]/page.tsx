@@ -4,15 +4,16 @@ import Container from '@/components/Container';
 import Card from '@/components/Card';
 import Link from 'next/link';
 import Button from '@/components/Button';
-import { getLearningPathById, getPrerequisitePaths } from '@/lib/learn';
+import { getLearningPathById, getPrerequisitePaths, type Locale } from '@/lib/learn';
+import { getTranslations } from '@/lib/translations';
 
 interface PathPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateMetadata({ params }: PathPageProps) {
-  const { slug } = await params;
-  const path = getLearningPathById(slug);
+  const { slug, locale } = await params;
+  const path = getLearningPathById(slug, locale as Locale);
   
   if (!path) {
     return {
@@ -27,14 +28,15 @@ export async function generateMetadata({ params }: PathPageProps) {
 }
 
 export default async function PathPage({ params }: PathPageProps) {
-  const { slug } = await params;
-  const path = getLearningPathById(slug);
+  const { slug, locale } = await params;
+  const path = getLearningPathById(slug, locale as Locale);
+  const t = getTranslations(locale as Locale);
 
   if (!path) {
     notFound();
   }
 
-  const prerequisites = getPrerequisitePaths(path.id);
+  const prerequisites = getPrerequisitePaths(path.id, locale as Locale);
 
   const getLevelColor = (level: string) => {
     switch (level) {
@@ -68,8 +70,8 @@ export default async function PathPage({ params }: PathPageProps) {
       <Section spacing="lg">
         <Container size="lg">
           <div className="mb-6">
-            <Link href="/learn" className="text-primary hover:text-primary-hover transition-colors">
-              ← Back to Learn
+            <Link href={`/${locale}/${t.routes.learn}`} className="text-primary hover:text-primary-hover transition-colors">
+              ← {t.navigation.backToLearn}
             </Link>
           </div>
           
@@ -91,13 +93,13 @@ export default async function PathPage({ params }: PathPageProps) {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link href={`/learn/paths/${slug}/modules/${path.modules[0]?.id}`}>
+                <Link href={`/${locale}/${t.routes.learn}/paths/${slug}/modules/${path.modules[0]?.id}`}>
                   <Button size="lg" variant="primary">
-                    Start Learning Path
+                    {t.learn.startLearningPath}
                   </Button>
                 </Link>
                 <Button size="lg" variant="secondary">
-                  Download Syllabus
+                  {t.learn.downloadSyllabus}
                 </Button>
               </div>
             </div>
@@ -107,7 +109,7 @@ export default async function PathPage({ params }: PathPageProps) {
               {/* What You&apos;ll Learn */}
               <Card>
                 <h3 className="text-lg font-semibold mb-3 text-primary">
-                  What You&apos;ll Learn
+                  {t.learn.whatYouWillLearn}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {path.topics.map((topic) => (
@@ -125,13 +127,13 @@ export default async function PathPage({ params }: PathPageProps) {
               {prerequisites.length > 0 && (
                 <Card>
                   <h3 className="text-lg font-semibold mb-3 text-primary">
-                    Prerequisites
+                    {t.learn.prerequisites}
                   </h3>
                   <div className="space-y-2">
                     {prerequisites.map((prereq) => (
                       <Link 
                         key={prereq.id}
-                        href={`/learn/paths/${prereq.id}`}
+                        href={`/${locale}/${t.routes.learn}/paths/${prereq.id}`}
                         className="block text-sm text-foreground/80 hover:text-primary transition-colors"
                       >
                         • {prereq.title}
@@ -144,7 +146,7 @@ export default async function PathPage({ params }: PathPageProps) {
               {/* Learning Outcomes */}
               <Card>
                 <h3 className="text-lg font-semibold mb-3 text-primary">
-                  Learning Outcomes
+                  {t.learn.learningOutcomes}
                 </h3>
                 <ul className="space-y-2">
                   {path.outcomes.map((outcome, index) => (
@@ -164,7 +166,7 @@ export default async function PathPage({ params }: PathPageProps) {
       <Section spacing="xl" className="bg-background-secondary/30">
         <Container size="lg">
           <h2 className="text-3xl font-semibold mb-8 text-center">
-            Course Modules
+            {t.learn.courseModules}
           </h2>
           
           <div className="space-y-6">
@@ -190,9 +192,9 @@ export default async function PathPage({ params }: PathPageProps) {
                     </p>
                   </div>
                   
-                  <Link href={`/learn/paths/${slug}/modules/${module.id}`}>
+                  <Link href={`/${locale}/${t.routes.learn}/paths/${slug}/modules/${module.id}`}>
                     <Button variant="secondary" size="sm" className="ml-4">
-                      Start Module
+                      {t.learn.startModule}
                     </Button>
                   </Link>
                 </div>
@@ -207,20 +209,20 @@ export default async function PathPage({ params }: PathPageProps) {
         <Container size="md">
           <div className="text-center">
             <h2 className="text-3xl font-semibold mb-4">
-              Ready to Start Learning?
+              {t.learn.readyToStart}
             </h2>
             <p className="text-lg text-foreground/80 mb-8">
-              Join the growing community of engineers mastering agentic AI and MCP servers.
+              {t.learn.joinCommunity}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href={`/learn/paths/${slug}/modules/${path.modules[0]?.id}`}>
+              <Link href={`/${locale}/learn/paths/${slug}/modules/${path.modules[0]?.id}`}>
                 <Button size="lg" variant="primary">
-                  Start {path.title}
+                  {t.learn.startPath} {path.title}
                 </Button>
               </Link>
-              <Link href="/contact">
+              <Link href={`/${locale}/contact`}>
                 <Button size="lg" variant="secondary">
-                  Get Personal Guidance
+                  {t.learn.getGuidance}
                 </Button>
               </Link>
             </div>

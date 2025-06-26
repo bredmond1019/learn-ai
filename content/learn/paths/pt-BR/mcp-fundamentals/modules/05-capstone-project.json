@@ -1,0 +1,327 @@
+{
+  "metadata": {
+    "id": "capstone-project",
+    "pathId": "mcp-fundamentals",
+    "title": "Construir um Servidor MCP Completo",
+    "description": "Projeto final: Crie um servidor MCP pronto para produção que integre múltiplos provedores, ferramentas e sistemas do mundo real",
+    "duration": "120 minutes",
+    "type": "project",
+    "difficulty": "advanced",
+    "order": 5,
+    "prerequisites": ["introduction-to-mcp", "setting-up-environment", "implementing-resources", "creating-tools"],
+    "objectives": [
+      "Projetar e arquitetar uma solução completa de servidor MCP",
+      "Integrar múltiplos provedores de recursos e ferramentas",
+      "Implementar tratamento de erros e logging prontos para produção",
+      "Adicionar gerenciamento de configuração e suporte a ambientes",
+      "Construir testes abrangentes e documentação",
+      "Implantar e testar com aplicações de IA reais"
+    ],
+    "tags": ["mcp", "capstone", "project", "production", "integration"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "project-overview",
+      "title": "Visão Geral do Projeto e Arquitetura",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-capstone-project.mdx#project-overview",
+        "codeExamples": [
+          {
+            "id": "project-structure",
+            "title": "Estrutura Completa do Projeto",
+            "description": "Organização de servidor MCP pronto para produção",
+            "language": "text",
+            "code": "mcp-workspace-server/\n├── src/\n│   ├── index.ts                 # Main server entry\n│   ├── config/\n│   │   ├── index.ts            # Configuration management\n│   │   └── schema.ts           # Config validation\n│   ├── providers/\n│   │   ├── index.ts            # Provider registry\n│   │   ├── filesystem.ts       # File system provider\n│   │   ├── database.ts         # Database provider\n│   │   ├── api.ts              # External API provider\n│   │   └── git.ts              # Git repository provider\n│   ├── tools/\n│   │   ├── index.ts            # Tool registry\n│   │   ├── file-ops.ts         # File operations\n│   │   ├── project-mgmt.ts     # Project management\n│   │   ├── communication.ts    # Email/Slack tools\n│   │   └── development.ts      # Dev tools (git, npm, etc.)\n│   ├── middleware/\n│   │   ├── auth.ts             # Authentication\n│   │   ├── rate-limit.ts       # Rate limiting\n│   │   └── logging.ts          # Request logging\n│   ├── utils/\n│   │   ├── validation.ts       # Input validation\n│   │   ├── security.ts         # Security helpers\n│   │   └── errors.ts           # Error classes\n│   └── types/\n│       ├── config.ts           # Configuration types\n│       ├── providers.ts        # Provider interfaces\n│       └── tools.ts            # Tool interfaces\n├── tests/\n│   ├── unit/                   # Unit tests\n│   ├── integration/            # Integration tests\n│   └── fixtures/               # Test data\n├── docs/\n│   ├── README.md               # Main documentation\n│   ├── API.md                  # API reference\n│   └── DEPLOYMENT.md           # Deployment guide\n├── config/\n│   ├── development.json        # Dev configuration\n│   ├── production.json         # Prod configuration\n│   └── test.json               # Test configuration\n├── scripts/\n│   ├── build.sh               # Build script\n│   ├── test.sh                # Test script\n│   └── deploy.sh              # Deployment script\n├── .github/\n│   └── workflows/             # CI/CD workflows\n├── package.json\n├── tsconfig.json\n├── jest.config.js\n├── .eslintrc.js\n└── .gitignore",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "core-implementation",
+      "title": "Implementação do Servidor Principal",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "40 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Construir a Arquitetura Central do Servidor MCP",
+        "description": "Crie a estrutura fundamental do servidor com configuração, logging e registro de provedores",
+        "instructions": [
+          "Configure o ponto de entrada principal do servidor com carregamento adequado de configuração",
+          "Implemente um sistema de gerenciamento de configuração com suporte a ambientes",
+          "Crie um sistema de registro de provedores para carregamento dinâmico de provedores",
+          "Adicione middleware abrangente de logging e tratamento de erros",
+          "Implemente tratamento de desligamento gracioso",
+          "Adicione endpoints de verificação de saúde para monitoramento",
+          "Crie um sistema de plugins para extensibilidade"
+        ],
+        "starterCode": {
+          "language": "typescript",
+          "code": "// src/index.ts - Main server entry point\nimport { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\n// TODO: Import configuration, providers, and tools\n\nclass MCPWorkspaceServer {\n  private server: Server;\n  private providers: Map<string, any> = new Map();\n  private tools: Map<string, any> = new Map();\n  \n  constructor() {\n    // TODO: Initialize server with configuration\n    this.server = new Server({\n      name: 'workspace-server',\n      version: '1.0.0'\n    });\n  }\n  \n  // TODO: Implement configuration loading\n  private loadConfiguration() {\n    // Load from environment-specific config files\n    // Validate configuration against schema\n    // Set up defaults\n  }\n  \n  // TODO: Implement provider registration\n  private registerProviders() {\n    // Register filesystem provider\n    // Register database provider\n    // Register API provider\n    // Register git provider\n  }\n  \n  // TODO: Implement tool registration\n  private registerTools() {\n    // Register file operation tools\n    // Register project management tools\n    // Register communication tools\n    // Register development tools\n  }\n  \n  // TODO: Set up request handlers\n  private setupHandlers() {\n    // Resources list handler\n    // Resources read handler\n    // Tools list handler\n    // Tools call handler\n    // Health check handler\n  }\n  \n  // TODO: Implement graceful shutdown\n  private setupShutdownHandlers() {\n    // Handle SIGINT and SIGTERM\n    // Clean up resources\n    // Close database connections\n    // Log shutdown\n  }\n  \n  // TODO: Start the server\n  async start() {\n    // Load configuration\n    // Register providers and tools\n    // Set up handlers\n    // Connect transport\n    // Log startup\n  }\n}\n\n// Start the server\nif (require.main === module) {\n  const server = new MCPWorkspaceServer();\n  server.start().catch(console.error);\n}",
+          "fileName": "src/index.ts"
+        },
+        "solution": {
+          "language": "typescript",
+          "code": "// src/index.ts - Complete server implementation\nimport { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\nimport { loadConfiguration } from './config/index.js';\nimport { ProviderRegistry } from './providers/index.js';\nimport { ToolRegistry } from './tools/index.js';\nimport { Logger } from './utils/logging.js';\nimport { validateEnvironment } from './utils/validation.js';\nimport { setupHealthCheck } from './middleware/health.js';\n\nclass MCPWorkspaceServer {\n  private server: Server;\n  private config: any;\n  private logger: Logger;\n  private providerRegistry: ProviderRegistry;\n  private toolRegistry: ToolRegistry;\n  private isShuttingDown = false;\n  \n  constructor() {\n    this.logger = new Logger('MCPWorkspaceServer');\n    this.config = loadConfiguration();\n    \n    this.server = new Server({\n      name: this.config.server.name || 'workspace-server',\n      version: this.config.server.version || '1.0.0'\n    });\n    \n    this.providerRegistry = new ProviderRegistry(this.config, this.logger);\n    this.toolRegistry = new ToolRegistry(this.config, this.logger);\n  }\n  \n  private validateEnvironment() {\n    this.logger.info('Validating environment...');\n    \n    const validation = validateEnvironment(this.config);\n    if (!validation.isValid) {\n      throw new Error(`Environment validation failed: ${validation.errors.join(', ')}`);\n    }\n    \n    this.logger.info('Environment validation passed');\n  }\n  \n  private async registerProviders() {\n    this.logger.info('Registering providers...');\n    \n    // Register all configured providers\n    await this.providerRegistry.registerAll();\n    \n    // Get all resources from providers\n    const allResources = await this.providerRegistry.getAllResources();\n    \n    this.logger.info(`Registered ${this.providerRegistry.getProviderCount()} providers with ${allResources.length} resources`);\n  }\n  \n  private async registerTools() {\n    this.logger.info('Registering tools...');\n    \n    // Register all configured tools\n    await this.toolRegistry.registerAll();\n    \n    const allTools = this.toolRegistry.getAllTools();\n    \n    this.logger.info(`Registered ${allTools.length} tools`);\n  }\n  \n  private setupRequestHandlers() {\n    this.logger.info('Setting up request handlers...');\n    \n    // Resources handlers\n    this.server.setRequestHandler('resources/list', async (request) => {\n      try {\n        this.logger.debug('Resources list requested');\n        const resources = await this.providerRegistry.getAllResources();\n        return { resources };\n      } catch (error) {\n        this.logger.error('Failed to list resources:', error);\n        throw error;\n      }\n    });\n    \n    this.server.setRequestHandler('resources/read', async (request) => {\n      try {\n        const { uri } = request.params;\n        this.logger.debug(`Resource read requested: ${uri}`);\n        \n        const content = await this.providerRegistry.readResource(uri);\n        return content;\n      } catch (error) {\n        this.logger.error(`Failed to read resource ${request.params.uri}:`, error);\n        throw error;\n      }\n    });\n    \n    // Tools handlers\n    this.server.setRequestHandler('tools/list', async () => {\n      try {\n        this.logger.debug('Tools list requested');\n        const tools = this.toolRegistry.getAllTools();\n        return { tools };\n      } catch (error) {\n        this.logger.error('Failed to list tools:', error);\n        throw error;\n      }\n    });\n    \n    this.server.setRequestHandler('tools/call', async (request) => {\n      try {\n        const { name, arguments: args } = request.params;\n        this.logger.debug(`Tool execution requested: ${name}`);\n        \n        const startTime = Date.now();\n        const result = await this.toolRegistry.executeTool(name, args);\n        const duration = Date.now() - startTime;\n        \n        this.logger.info(`Tool ${name} executed in ${duration}ms`);\n        return result;\n      } catch (error) {\n        this.logger.error(`Tool execution failed ${request.params.name}:`, error);\n        throw error;\n      }\n    });\n    \n    // Health check\n    this.server.setRequestHandler('health', async () => {\n      return {\n        status: 'healthy',\n        timestamp: new Date().toISOString(),\n        uptime: process.uptime(),\n        providers: this.providerRegistry.getProviderCount(),\n        tools: this.toolRegistry.getAllTools().length\n      };\n    });\n  }\n  \n  private setupShutdownHandlers() {\n    const shutdown = async (signal: string) => {\n      if (this.isShuttingDown) return;\n      this.isShuttingDown = true;\n      \n      this.logger.info(`Received ${signal}, shutting down gracefully...`);\n      \n      try {\n        // Clean up providers\n        await this.providerRegistry.cleanup();\n        \n        // Clean up tools\n        await this.toolRegistry.cleanup();\n        \n        this.logger.info('Graceful shutdown completed');\n        process.exit(0);\n      } catch (error) {\n        this.logger.error('Error during shutdown:', error);\n        process.exit(1);\n      }\n    };\n    \n    process.on('SIGINT', () => shutdown('SIGINT'));\n    process.on('SIGTERM', () => shutdown('SIGTERM'));\n    \n    // Handle uncaught exceptions\n    process.on('uncaughtException', (error) => {\n      this.logger.error('Uncaught exception:', error);\n      shutdown('uncaughtException');\n    });\n    \n    process.on('unhandledRejection', (reason) => {\n      this.logger.error('Unhandled rejection:', reason);\n      shutdown('unhandledRejection');\n    });\n  }\n  \n  async start() {\n    try {\n      this.logger.info('Starting MCP Workspace Server...');\n      \n      // Validate environment\n      this.validateEnvironment();\n      \n      // Set up shutdown handlers\n      this.setupShutdownHandlers();\n      \n      // Register providers and tools\n      await this.registerProviders();\n      await this.registerTools();\n      \n      // Set up request handlers\n      this.setupRequestHandlers();\n      \n      // Connect transport\n      const transport = new StdioServerTransport();\n      await this.server.connect(transport);\n      \n      this.logger.info('MCP Workspace Server started successfully');\n      this.logger.info(`Configuration: ${this.config.environment}`);\n      this.logger.info(`Providers: ${this.providerRegistry.getProviderCount()}`);\n      this.logger.info(`Tools: ${this.toolRegistry.getAllTools().length}`);\n      \n    } catch (error) {\n      this.logger.error('Failed to start server:', error);\n      process.exit(1);\n    }\n  }\n}\n\n// Start the server\nif (require.main === module) {\n  const server = new MCPWorkspaceServer();\n  server.start();\n}",
+          "explanation": "## Visão Geral da Arquitetura\n\nEsta implementação cria um servidor MCP pronto para produção com:\n\n1. **Gerenciamento de Configuração**: Carregamento e validação de configuração específica do ambiente\n2. **Registro de Provedores**: Registro e gerenciamento dinâmico de provedores de recursos\n3. **Registro de Ferramentas**: Gerenciamento e execução centralizados de ferramentas\n4. **Logging Abrangente**: Logging estruturado em toda a aplicação\n5. **Tratamento de Erros**: Tratamento adequado de erros e degradação graciosa\n6. **Monitoramento de Saúde**: Endpoints integrados de verificação de saúde\n7. **Desligamento Gracioso**: Limpeza adequada em sinais de terminação\n\nRecursos principais:\n- Arquitetura modular para fácil extensão\n- Validação de ambiente na inicialização\n- Tratamento centralizado de erros e logging\n- Monitoramento de desempenho (tempo de execução)\n- Tratamento de sinais de processo para desligamento limpo"
+        },
+        "hints": [
+          {
+            "id": "hint-1",
+            "level": 1,
+            "content": "Comece com a estrutura básica do servidor e carregamento de configuração. Use variáveis de ambiente ou arquivos de configuração para tornar o servidor configurável.",
+            "revealDelay": 60
+          },
+          {
+            "id": "hint-2",
+            "level": 2,
+            "content": "Crie classes de registro para gerenciar provedores e ferramentas. Isso permite registro dinâmico e testes mais fáceis.",
+            "revealDelay": 120
+          },
+          {
+            "id": "hint-3",
+            "level": 3,
+            "content": "Não esqueça do tratamento de desligamento gracioso. Limpe recursos, feche conexões e registre eventos de desligamento adequadamente.",
+            "codeSnippet": "process.on('SIGTERM', async () => {\n  console.log('Shutting down gracefully...');\n  await cleanup();\n  process.exit(0);\n});",
+            "revealDelay": 180
+          }
+        ],
+        "validation": [
+          {
+            "id": "server-class",
+            "type": "structure",
+            "description": "Classe principal do servidor está implementada adequadamente",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "class.*Server",
+                "message": "Crie a classe principal do servidor"
+              }
+            }
+          },
+          {
+            "id": "configuration",
+            "type": "structure",
+            "description": "Gerenciamento de configuração está implementado",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "loadConfiguration",
+                "message": "Implemente carregamento de configuração"
+              }
+            }
+          },
+          {
+            "id": "shutdown-handling",
+            "type": "structure",
+            "description": "Desligamento gracioso está implementado",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "SIGTERM|SIGINT",
+                "message": "Adicione tratamento de desligamento gracioso"
+              }
+            }
+          }
+        ],
+        "difficulty": "advanced",
+        "concepts": ["architecture", "configuration", "registries", "error-handling"]
+      }
+    },
+    {
+      "id": "provider-integration",
+      "title": "Integrando Múltiplos Provedores",
+      "type": "exercise",
+      "order": 3,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Construir e Integrar Múltiplos Provedores de Recursos",
+        "description": "Crie um conjunto abrangente de provedores de recursos para diferentes fontes de dados e integre-os ao servidor",
+        "instructions": [
+          "Crie um provedor de sistema de arquivos que exponha arquivos e diretórios do projeto",
+          "Construa um provedor Git que mostre status do repositório, branches e histórico de commits",
+          "Implemente um provedor de configuração para configurações da aplicação",
+          "Adicione um provedor de banco de dados para metadados do projeto (SQLite)",
+          "Crie um provedor de API que busque dados externos",
+          "Construa um registro de provedores que gerencie todos os provedores",
+          "Adicione verificações de saúde e monitoramento de status dos provedores",
+          "Implemente cache de recursos para desempenho"
+        ],
+        "starterCode": {
+          "language": "typescript",
+          "code": "// src/providers/index.ts - Provider Registry\nexport class ProviderRegistry {\n  private providers: Map<string, Provider> = new Map();\n  private config: any;\n  private logger: any;\n  \n  constructor(config: any, logger: any) {\n    this.config = config;\n    this.logger = logger;\n  }\n  \n  // TODO: Register all configured providers\n  async registerAll() {\n    // Register filesystem provider\n    // Register git provider\n    // Register config provider\n    // Register database provider\n    // Register API provider\n  }\n  \n  // TODO: Get all resources from all providers\n  async getAllResources() {\n    // Combine resources from all providers\n    // Handle provider failures gracefully\n    // Apply filtering if configured\n  }\n  \n  // TODO: Read resource from appropriate provider\n  async readResource(uri: string) {\n    // Route to correct provider based on URI scheme\n    // Handle errors and fallbacks\n  }\n  \n  // TODO: Health check for all providers\n  async getHealth() {\n    // Check each provider's health status\n  }\n  \n  // TODO: Cleanup all providers\n  async cleanup() {\n    // Clean up all registered providers\n  }\n}\n\n// Base provider interface\nexport interface Provider {\n  name: string;\n  listResources(): Promise<Resource[]>;\n  readResource(uri: string): Promise<ResourceContent>;\n  healthCheck(): Promise<{ healthy: boolean; message?: string }>;\n  cleanup(): Promise<void>;\n}",
+          "fileName": "src/providers/index.ts"
+        },
+        "solution": {
+          "language": "typescript",
+          "code": "// src/providers/index.ts - Complete Provider Registry\nimport { FilesystemProvider } from './filesystem.js';\nimport { GitProvider } from './git.js';\nimport { ConfigProvider } from './config.js';\nimport { DatabaseProvider } from './database.js';\nimport { APIProvider } from './api.js';\n\nexport interface Provider {\n  name: string;\n  scheme: string; // URI scheme this provider handles\n  listResources(): Promise<Resource[]>;\n  readResource(uri: string): Promise<ResourceContent>;\n  healthCheck(): Promise<{ healthy: boolean; message?: string }>;\n  cleanup(): Promise<void>;\n}\n\nexport class ProviderRegistry {\n  private providers: Map<string, Provider> = new Map();\n  private schemeMap: Map<string, Provider> = new Map();\n  private config: any;\n  private logger: any;\n  private cache: Map<string, { data: any; timestamp: number }> = new Map();\n  private cacheTimeout = 5 * 60 * 1000; // 5 minutes\n  \n  constructor(config: any, logger: any) {\n    this.config = config;\n    this.logger = logger;\n  }\n  \n  async registerAll() {\n    const providers = [\n      new FilesystemProvider(this.config.filesystem, this.logger),\n      new GitProvider(this.config.git, this.logger),\n      new ConfigProvider(this.config.config, this.logger),\n      new DatabaseProvider(this.config.database, this.logger),\n      new APIProvider(this.config.api, this.logger)\n    ];\n    \n    for (const provider of providers) {\n      if (await this.isProviderEnabled(provider)) {\n        await this.registerProvider(provider);\n      }\n    }\n  }\n  \n  private async isProviderEnabled(provider: Provider): Promise<boolean> {\n    const config = this.config[provider.name.toLowerCase()];\n    if (!config || config.enabled === false) {\n      this.logger.debug(`Provider ${provider.name} is disabled`);\n      return false;\n    }\n    \n    try {\n      const health = await provider.healthCheck();\n      if (!health.healthy) {\n        this.logger.warn(`Provider ${provider.name} failed health check: ${health.message}`);\n        return false;\n      }\n      return true;\n    } catch (error) {\n      this.logger.error(`Provider ${provider.name} health check failed:`, error);\n      return false;\n    }\n  }\n  \n  private async registerProvider(provider: Provider) {\n    this.providers.set(provider.name, provider);\n    this.schemeMap.set(provider.scheme, provider);\n    this.logger.info(`Registered provider: ${provider.name} (${provider.scheme}://)`);\n  }\n  \n  async getAllResources(): Promise<Resource[]> {\n    const cacheKey = 'all-resources';\n    const cached = this.getFromCache(cacheKey);\n    if (cached) {\n      return cached;\n    }\n    \n    const allResources: Resource[] = [];\n    \n    for (const [name, provider] of this.providers) {\n      try {\n        this.logger.debug(`Listing resources from ${name}`);\n        const resources = await provider.listResources();\n        allResources.push(...resources);\n        this.logger.debug(`Got ${resources.length} resources from ${name}`);\n      } catch (error) {\n        this.logger.error(`Failed to list resources from ${name}:`, error);\n        // Continue with other providers\n      }\n    }\n    \n    // Apply global filters if configured\n    const filteredResources = this.applyFilters(allResources);\n    \n    // Cache the results\n    this.setCache(cacheKey, filteredResources);\n    \n    return filteredResources;\n  }\n  \n  async readResource(uri: string): Promise<ResourceContent> {\n    // Check cache first\n    const cached = this.getFromCache(uri);\n    if (cached) {\n      return cached;\n    }\n    \n    // Find provider by URI scheme\n    const scheme = this.extractScheme(uri);\n    const provider = this.schemeMap.get(scheme);\n    \n    if (!provider) {\n      throw new Error(`No provider found for scheme: ${scheme}`);\n    }\n    \n    try {\n      const content = await provider.readResource(uri);\n      \n      // Cache the content\n      this.setCache(uri, content);\n      \n      return content;\n    } catch (error) {\n      this.logger.error(`Failed to read resource ${uri}:`, error);\n      throw error;\n    }\n  }\n  \n  async getHealth(): Promise<Record<string, any>> {\n    const health: Record<string, any> = {};\n    \n    for (const [name, provider] of this.providers) {\n      try {\n        health[name] = await provider.healthCheck();\n      } catch (error) {\n        health[name] = {\n          healthy: false,\n          message: error.message\n        };\n      }\n    }\n    \n    return health;\n  }\n  \n  getProviderCount(): number {\n    return this.providers.size;\n  }\n  \n  async cleanup() {\n    this.logger.info('Cleaning up providers...');\n    \n    for (const [name, provider] of this.providers) {\n      try {\n        await provider.cleanup();\n        this.logger.debug(`Cleaned up provider: ${name}`);\n      } catch (error) {\n        this.logger.error(`Failed to cleanup provider ${name}:`, error);\n      }\n    }\n    \n    this.providers.clear();\n    this.schemeMap.clear();\n    this.cache.clear();\n  }\n  \n  private extractScheme(uri: string): string {\n    const match = uri.match(/^([a-z][a-z0-9+.-]*?):\\/\\//i);\n    return match ? match[1] : 'unknown';\n  }\n  \n  private applyFilters(resources: Resource[]): Resource[] {\n    let filtered = resources;\n    \n    // Apply MIME type filter if configured\n    if (this.config.filters?.mimeTypes?.length > 0) {\n      filtered = filtered.filter(r => \n        this.config.filters.mimeTypes.includes(r.mimeType)\n      );\n    }\n    \n    // Apply URI pattern filter if configured\n    if (this.config.filters?.uriPattern) {\n      const pattern = new RegExp(this.config.filters.uriPattern);\n      filtered = filtered.filter(r => pattern.test(r.uri));\n    }\n    \n    // Apply size limit if configured\n    if (this.config.filters?.maxSize && filtered.length > this.config.filters.maxSize) {\n      filtered = filtered.slice(0, this.config.filters.maxSize);\n    }\n    \n    return filtered;\n  }\n  \n  private getFromCache(key: string): any {\n    const cached = this.cache.get(key);\n    if (!cached) return null;\n    \n    if (Date.now() - cached.timestamp > this.cacheTimeout) {\n      this.cache.delete(key);\n      return null;\n    }\n    \n    return cached.data;\n  }\n  \n  private setCache(key: string, data: any) {\n    this.cache.set(key, {\n      data,\n      timestamp: Date.now()\n    });\n  }\n  \n  // Invalidate cache for specific URI or all\n  invalidateCache(uri?: string) {\n    if (uri) {\n      this.cache.delete(uri);\n    } else {\n      this.cache.clear();\n    }\n  }\n}\n\n// Example provider implementations\nexport class FilesystemProvider implements Provider {\n  name = 'filesystem';\n  scheme = 'file';\n  \n  constructor(private config: any, private logger: any) {}\n  \n  async listResources(): Promise<Resource[]> {\n    // Implementation from previous modules\n    return [];\n  }\n  \n  async readResource(uri: string): Promise<ResourceContent> {\n    // Implementation from previous modules\n    return { uri, mimeType: 'text/plain', text: '' };\n  }\n  \n  async healthCheck() {\n    return { healthy: true };\n  }\n  \n  async cleanup() {\n    // Cleanup file watchers, etc.\n  }\n}\n\nexport class GitProvider implements Provider {\n  name = 'git';\n  scheme = 'git';\n  \n  constructor(private config: any, private logger: any) {}\n  \n  async listResources(): Promise<Resource[]> {\n    return [\n      {\n        uri: 'git://status',\n        name: 'Git Status',\n        description: 'Current repository status',\n        mimeType: 'application/json'\n      },\n      {\n        uri: 'git://branches',\n        name: 'Git Branches',\n        description: 'All git branches',\n        mimeType: 'application/json'\n      }\n    ];\n  }\n  \n  async readResource(uri: string): Promise<ResourceContent> {\n    // Git operations implementation\n    return { uri, mimeType: 'application/json', text: '{}' };\n  }\n  \n  async healthCheck() {\n    // Check if git is available and repo exists\n    return { healthy: true };\n  }\n  \n  async cleanup() {\n    // Cleanup git operations\n  }\n}",
+          "explanation": "## Arquitetura do Registro de Provedores\n\nEsta implementação cria um sistema abrangente de provedores:\n\n1. **Interface de Provedor**: Interface padronizada para todos os provedores\n2. **Registro Dinâmico**: Descoberta e registro automático de provedores\n3. **Monitoramento de Saúde**: Verificações de saúde integradas para todos os provedores\n4. **Sistema de Cache**: Otimização de desempenho com cache inteligente\n5. **Resiliência a Erros**: Tratamento gracioso de falhas de provedores\n6. **Filtragem**: Capacidades de filtragem global de recursos\n7. **Roteamento por Esquema**: Roteamento automático baseado em esquemas URI\n\nRecursos principais:\n- Provedores podem ser habilitados/desabilitados via configuração\n- Provedores com falha não impedem a inicialização do servidor\n- Recursos são armazenados em cache para desempenho\n- Tratamento abrangente de erros e logging\n- Separação limpa de responsabilidades"
+        },
+        "hints": [
+          {
+            "id": "hint-1",
+            "level": 1,
+            "content": "Projete uma interface Provider comum que todos os provedores devem implementar. Isso garante consistência e facilita o gerenciamento do registro.",
+            "revealDelay": 60
+          },
+          {
+            "id": "hint-2",
+            "level": 2,
+            "content": "Use esquemas URI para rotear requisições ao provedor correto. Por exemplo, 'file://' vai para o provedor de sistema de arquivos, 'git://' vai para o provedor git.",
+            "revealDelay": 120
+          },
+          {
+            "id": "hint-3",
+            "level": 3,
+            "content": "Implemente cache no nível do registro para melhorar o desempenho. Armazene em cache tanto listas de recursos quanto conteúdo de recursos individuais.",
+            "codeSnippet": "private cache = new Map<string, { data: any; timestamp: number }>();\n\ngetFromCache(key: string) {\n  const cached = this.cache.get(key);\n  if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {\n    return cached.data;\n  }\n  return null;\n}",
+            "revealDelay": 180
+          }
+        ],
+        "validation": [
+          {
+            "id": "provider-interface",
+            "type": "structure",
+            "description": "Interface Provider está definida adequadamente",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "interface Provider",
+                "message": "Defina a interface Provider"
+              }
+            }
+          },
+          {
+            "id": "registry-class",
+            "type": "structure",
+            "description": "Classe ProviderRegistry está implementada",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "class ProviderRegistry",
+                "message": "Implemente a classe ProviderRegistry"
+              }
+            }
+          },
+          {
+            "id": "health-checks",
+            "type": "structure",
+            "description": "Verificações de saúde estão implementadas",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "healthCheck",
+                "message": "Adicione métodos de verificação de saúde"
+              }
+            }
+          }
+        ],
+        "difficulty": "advanced",
+        "concepts": ["provider-architecture", "registry-pattern", "caching", "health-monitoring"]
+      }
+    },
+    {
+      "id": "tool-integration",
+      "title": "Integração Abrangente de Ferramentas",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-capstone-project.mdx#tool-integration",
+        "codeExamples": [
+          {
+            "id": "tool-registry",
+            "title": "Implementação do Registro de Ferramentas",
+            "description": "Gerenciamento e execução centralizados de ferramentas",
+            "language": "typescript",
+            "code": "export class ToolRegistry {\n  private tools: Map<string, Tool> = new Map();\n  private toolProviders: Map<string, ToolProvider> = new Map();\n  private executionLog: ExecutionLog[] = [];\n  private rateLimiter: RateLimiter;\n  \n  constructor(private config: any, private logger: any) {\n    this.rateLimiter = new RateLimiter(config.rateLimiting);\n  }\n  \n  async registerAll() {\n    const providers = [\n      new FileOperationTools(this.config.filesystem),\n      new ProjectManagementTools(this.config.project),\n      new CommunicationTools(this.config.communication),\n      new DevelopmentTools(this.config.development)\n    ];\n    \n    for (const provider of providers) {\n      await this.registerToolProvider(provider);\n    }\n  }\n  \n  async executeTool(name: string, args: any): Promise<ToolResult> {\n    // Rate limiting\n    if (!this.rateLimiter.allow(name)) {\n      throw new Error(`Rate limit exceeded for tool: ${name}`);\n    }\n    \n    // Find tool\n    const tool = this.tools.get(name);\n    if (!tool) {\n      throw new Error(`Tool not found: ${name}`);\n    }\n    \n    // Validate arguments\n    const validation = this.validateArguments(tool, args);\n    if (!validation.valid) {\n      throw new Error(`Invalid arguments: ${validation.errors.join(', ')}`);\n    }\n    \n    // Execute with monitoring\n    const startTime = Date.now();\n    try {\n      const result = await tool.execute(args);\n      \n      // Log execution\n      this.logExecution({\n        tool: name,\n        success: !result.isError,\n        duration: Date.now() - startTime,\n        timestamp: new Date()\n      });\n      \n      return result;\n    } catch (error) {\n      this.logExecution({\n        tool: name,\n        success: false,\n        duration: Date.now() - startTime,\n        error: error.message,\n        timestamp: new Date()\n      });\n      throw error;\n    }\n  }\n  \n  getAllTools(): ToolDefinition[] {\n    return Array.from(this.tools.values()).map(tool => ({\n      name: tool.name,\n      description: tool.description,\n      inputSchema: tool.inputSchema\n    }));\n  }\n  \n  getExecutionStats(): ExecutionStats {\n    const recent = this.executionLog.filter(\n      log => Date.now() - log.timestamp.getTime() < 24 * 60 * 60 * 1000\n    );\n    \n    return {\n      totalExecutions: recent.length,\n      successRate: recent.filter(log => log.success).length / recent.length,\n      averageDuration: recent.reduce((sum, log) => sum + log.duration, 0) / recent.length,\n      topTools: this.getTopTools(recent)\n    };\n  }\n}",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "testing-deployment",
+      "title": "Testes e Implantação",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-capstone-project.mdx#testing-deployment",
+        "codeExamples": [
+          {
+            "id": "test-setup",
+            "title": "Suíte de Testes Abrangente",
+            "description": "Testes unitários e de integração para servidor MCP",
+            "language": "typescript",
+            "code": "// tests/integration/server.test.ts\nimport { MCPWorkspaceServer } from '../../src/index.js';\nimport { TestTransport } from '../utils/test-transport.js';\n\ndescribe('MCP Workspace Server Integration', () => {\n  let server: MCPWorkspaceServer;\n  let transport: TestTransport;\n  \n  beforeEach(async () => {\n    // Set up test environment\n    process.env.NODE_ENV = 'test';\n    \n    server = new MCPWorkspaceServer();\n    transport = new TestTransport();\n    \n    await server.start(transport);\n  });\n  \n  afterEach(async () => {\n    await server.shutdown();\n  });\n  \n  describe('Resources', () => {\n    test('should list all available resources', async () => {\n      const response = await transport.request('resources/list', {});\n      \n      expect(response.resources).toBeDefined();\n      expect(Array.isArray(response.resources)).toBe(true);\n      expect(response.resources.length).toBeGreaterThan(0);\n    });\n    \n    test('should read file system resources', async () => {\n      const response = await transport.request('resources/read', {\n        uri: 'file://test-file.txt'\n      });\n      \n      expect(response.contents).toBeDefined();\n      expect(response.contents[0].text).toContain('test content');\n    });\n    \n    test('should handle invalid resource URIs', async () => {\n      await expect(\n        transport.request('resources/read', { uri: 'invalid://uri' })\n      ).rejects.toThrow('No provider found');\n    });\n  });\n  \n  describe('Tools', () => {\n    test('should list all available tools', async () => {\n      const response = await transport.request('tools/list', {});\n      \n      expect(response.tools).toBeDefined();\n      expect(Array.isArray(response.tools)).toBe(true);\n      \n      // Check for expected tools\n      const toolNames = response.tools.map(t => t.name);\n      expect(toolNames).toContain('read_file');\n      expect(toolNames).toContain('write_file');\n    });\n    \n    test('should execute file operations', async () => {\n      const response = await transport.request('tools/call', {\n        name: 'write_file',\n        arguments: {\n          path: 'test-output.txt',\n          content: 'Hello, MCP!'\n        }\n      });\n      \n      expect(response.isError).toBeFalsy();\n      expect(response.content[0].text).toContain('Successfully wrote');\n    });\n    \n    test('should validate tool parameters', async () => {\n      await expect(\n        transport.request('tools/call', {\n          name: 'write_file',\n          arguments: {\n            // Missing required 'content' parameter\n            path: 'test.txt'\n          }\n        })\n      ).rejects.toThrow('Invalid arguments');\n    });\n  });\n  \n  describe('Health and Monitoring', () => {\n    test('should provide health status', async () => {\n      const response = await transport.request('health', {});\n      \n      expect(response.status).toBe('healthy');\n      expect(response.providers).toBeGreaterThan(0);\n      expect(response.tools).toBeGreaterThan(0);\n    });\n  });\n});",
+            "runnable": false
+          },
+          {
+            "id": "deployment-config",
+            "title": "Configuração de Implantação em Produção",
+            "description": "Docker e configuração de implantação",
+            "language": "dockerfile",
+            "code": "# Dockerfile\nFROM node:18-alpine\n\n# Install git and other dependencies\nRUN apk add --no-cache git\n\n# Create app directory\nWORKDIR /app\n\n# Copy package files\nCOPY package*.json ./\nCOPY tsconfig.json ./\n\n# Install dependencies\nRUN npm ci --only=production\n\n# Copy source code\nCOPY src/ ./src/\nCOPY config/ ./config/\n\n# Build the application\nRUN npm run build\n\n# Create non-root user\nRUN addgroup -g 1001 -S nodejs\nRUN adduser -S mcp -u 1001\n\n# Create workspace directory\nRUN mkdir -p /workspace && chown mcp:nodejs /workspace\n\n# Switch to non-root user\nUSER mcp\n\n# Expose health check port (if using HTTP transport)\nEXPOSE 3000\n\n# Health check\nHEALTHCHEK --interval=30s --timeout=3s --start-period=5s --retries=3 \\\n  CMD node dist/health-check.js\n\n# Start the server\nCMD [\"npm\", \"start\"]",
+            "runnable": false
+          }
+        ]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "mcp-production-guide",
+      "title": "Guia de Implantação MCP em Produção",
+      "type": "reference",
+      "url": "https://modelcontextprotocol.io/docs/guides/production",
+      "description": "Melhores práticas para implantar servidores MCP em produção",
+      "required": true
+    },
+    {
+      "id": "typescript-project-setup",
+      "title": "Guia de Configuração de Projeto TypeScript",
+      "type": "reference",
+      "url": "https://www.typescriptlang.org/docs/handbook/project-setup.html",
+      "description": "Configurando projetos TypeScript com ferramentas adequadas",
+      "required": false
+    },
+    {
+      "id": "jest-testing-guide",
+      "title": "Framework de Testes Jest",
+      "type": "reference",
+      "url": "https://jestjs.io/docs/getting-started",
+      "description": "Testando aplicações JavaScript e TypeScript",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 90,
+    "requiredSections": ["project-overview", "core-implementation", "provider-integration"],
+    "timeTracking": true,
+    "completionCertificate": true,
+    "projectSubmission": {
+      "required": true,
+      "format": "github-repository",
+      "requirements": [
+        "Implementação completa do servidor MCP",
+        "Pelo menos 3 provedores de recursos",
+        "Pelo menos 5 ferramentas diferentes",
+        "Suíte de testes abrangente",
+        "Documentação (README, documentação da API)",
+        "Configuração de implantação Docker"
+      ]
+    }
+  }
+}

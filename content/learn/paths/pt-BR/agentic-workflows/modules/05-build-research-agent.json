@@ -1,0 +1,179 @@
+{
+  "metadata": {
+    "id": "build-research-agent",
+    "pathId": "agentic-workflows",
+    "title": "Construir um Agente de Pesquisa",
+    "description": "Projeto final que integra todos os conceitos de fluxo de trabalho agêntico para construir um agente de pesquisa abrangente capaz de pesquisa autônoma, análise e relatórios com supervisão humana.",
+    "duration": "180 minutes",
+    "difficulty": "advanced",
+    "order": 5,
+    "type": "project",
+    "objectives": [
+      "Integrar padrões de arquitetura de agentes, planejamento, orquestração de ferramentas e design humano-no-loop",
+      "Construir um agente de pesquisa completo com capacidades de pesquisa autônomas",
+      "Implementar planejamento sofisticado e gerenciamento de objetivos para tarefas de pesquisa",
+      "Criar orquestração robusta de ferramentas para web scraping, análise de dados e geração de relatórios",
+      "Projetar mecanismos eficazes de supervisão humana e controle de qualidade",
+      "Implantar um assistente de pesquisa funcional com tomada de decisão explicável"
+    ],
+    "prerequisites": [
+      "Agent Architecture Patterns",
+      "Building Planning Systems",
+      "Tool Orchestration",
+      "Human-in-the-Loop Design",
+      "Experience with web APIs and data processing"
+    ],
+    "tags": [
+      "research-automation",
+      "information-gathering",
+      "agent-integration",
+      "quality-control",
+      "report-generation",
+      "capstone-project"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 345
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Visão Geral do Projeto de Agente de Pesquisa",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "45 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-build-research-agent.mdx",
+        "codeExamples": [
+          {
+            "id": "research-agent-core",
+            "title": "Sistema Central do Agente de Pesquisa",
+            "description": "Classe principal do agente de pesquisa integrando todos os subsistemas",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "research-planner",
+            "title": "Motor de Planejamento de Pesquisa",
+            "description": "Sistema de planejamento especializado para decomposição e execução de tarefas de pesquisa",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Implementação do Agente de Pesquisa",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "270 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Desenvolvimento Completo do Agente de Pesquisa",
+        "description": "Construa um agente de pesquisa abrangente do zero",
+        "exerciseType": "project",
+        "difficulty": "hard",
+        "instructions": [
+          "Implemente o agente de pesquisa central com planejamento básico e orquestração de ferramentas",
+          "Adicione controle de qualidade, supervisão humana e estratégias adaptativas ao agente de pesquisa",
+          "Implante o agente de pesquisa completo com todas as capacidades e interface de usuário",
+          "Teste e avalie o sistema completo"
+        ],
+        "hints": [
+          "Comece com uma arquitetura modular para fácil extensão",
+          "Implemente logging e monitoramento abrangentes",
+          "Projete para escalabilidade e manutenibilidade"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Quiz de Implementação do Agente de Pesquisa",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Quiz de Implementação do Agente de Pesquisa",
+        "description": "Teste sua compreensão de sistemas agênticos integrados e automação de pesquisa",
+        "questions": [
+          {
+            "id": "research_agent_architecture",
+            "type": "multiple-choice",
+            "question": "Qual é o componente mais crítico para garantir a qualidade da pesquisa em um agente de pesquisa autônomo?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Capacidades rápidas de web scraping"
+              },
+              {
+                "id": "b",
+                "text": "Mecanismos de controle de qualidade com verificação de fontes e checagem de fatos"
+              },
+              {
+                "id": "c",
+                "text": "Processamento avançado de linguagem natural"
+              },
+              {
+                "id": "d",
+                "text": "Grandes bases de dados de conhecimento"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "Mecanismos de controle de qualidade, incluindo verificação de fontes, checagem de fatos e supervisão humana, são essenciais para garantir a confiabilidade e precisão da pesquisa autônoma."
+          }
+        ],
+        "passingScore": 85,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "research-methodology",
+      "title": "Melhores Práticas de Metodologia de Pesquisa",
+      "type": "guide",
+      "url": "https://libguides.usc.edu/writingguide/researchprocess",
+      "description": "Guia abrangente para metodologia de pesquisa e melhores práticas",
+      "required": true
+    },
+    {
+      "id": "information-quality",
+      "title": "Avaliação da Qualidade da Informação",
+      "type": "documentation",
+      "url": "https://guides.library.harvard.edu/c.php?g=310264&p=2071003",
+      "description": "Guia da Biblioteca de Harvard para avaliar a qualidade e credibilidade da informação",
+      "required": true
+    },
+    {
+      "id": "semantic-scholar",
+      "title": "Ferramentas de Pesquisa Automatizada",
+      "type": "reference",
+      "url": "https://www.semanticscholar.org/",
+      "description": "Ferramenta de pesquisa alimentada por IA para busca de literatura acadêmica",
+      "required": false
+    },
+    {
+      "id": "ai-agent-patterns",
+      "title": "Padrões de Desenvolvimento de Agentes de IA",
+      "type": "reference",
+      "url": "https://www.oreilly.com/library/view/building-intelligent-agents/",
+      "description": "Guia abrangente para construir agentes inteligentes de IA",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 85,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": true
+  }
+}

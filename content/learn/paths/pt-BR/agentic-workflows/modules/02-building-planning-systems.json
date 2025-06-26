@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "id": "building-planning-systems",
+    "pathId": "agentic-workflows",
+    "title": "Construindo Sistemas de Planejamento",
+    "description": "Aprenda a projetar e implementar algoritmos sofisticados de planejamento que permitem que agentes de IA raciocinem sobre tarefas complexas de múltiplas etapas e adaptem estratégias com base em condições variáveis.",
+    "duration": "120 minutes",
+    "difficulty": "intermediate",
+    "order": 2,
+    "type": "concept",
+    "objectives": [
+      "Compreender diferentes paradigmas e algoritmos de planejamento",
+      "Implementar algoritmos de planejamento clássicos (A*, STRIPS, HTN)",
+      "Projetar redes hierárquicas de tarefas para problemas complexos",
+      "Construir sistemas de replanejamento adaptativo para ambientes dinâmicos",
+      "Criar agentes orientados a objetivos com capacidades flexíveis de planejamento",
+      "Integrar planejamento com incerteza e observabilidade parcial"
+    ],
+    "prerequisites": [
+      "Agent Architecture Patterns",
+      "Understanding of search algorithms",
+      "Python programming proficiency"
+    ],
+    "tags": [
+      "planning-algorithms",
+      "strips",
+      "hierarchical-planning",
+      "adaptive-planning",
+      "goal-reasoning",
+      "search-algorithms"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 275
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução aos Sistemas de Planejamento",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "60 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-building-planning-systems.mdx",
+        "codeExamples": [
+          {
+            "id": "strips-planner",
+            "title": "Implementação do Planejador STRIPS",
+            "description": "Algoritmo de planejamento STRIPS clássico com busca no espaço de estados",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "astar-planner",
+            "title": "Algoritmo de Planejamento A*",
+            "description": "Planejamento de caminho ótimo usando busca A* com heurísticas",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Exercícios de Sistema de Planejamento",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "195 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Implementação de Algoritmo de Planejamento",
+        "description": "Exercícios práticos para implementar vários algoritmos de planejamento",
+        "exerciseType": "coding",
+        "difficulty": "hard",
+        "instructions": [
+          "Implemente o planejador A* para navegação de robô em um mundo de grade",
+          "Construa o planejador HTN para execução de receita de culinária complexa em múltiplas etapas",
+          "Crie um planejador adaptativo que lida com obstáculos dinâmicos e objetivos em mudança",
+          "Teste e compare diferentes abordagens de planejamento"
+        ],
+        "hints": [
+          "Comece com problemas simples baseados em grade antes de abordar domínios complexos",
+          "Use heurísticas apropriadas para busca eficiente",
+          "Implemente tratamento robusto de erros para falhas de planejamento"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Quiz de Sistemas de Planejamento",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Quiz de Sistemas de Planejamento",
+        "description": "Teste sua compreensão dos algoritmos de planejamento e suas aplicações",
+        "questions": [
+          {
+            "id": "strips_definition",
+            "type": "multiple-choice",
+            "question": "O que significa STRIPS no planejamento de IA?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Stanford Research Institute Problem Solver"
+              },
+              {
+                "id": "b",
+                "text": "State Transition Rule-based Intelligent Planning System"
+              },
+              {
+                "id": "c",
+                "text": "Simple Task Reduction in Planning Systems"
+              },
+              {
+                "id": "d",
+                "text": "Strategic Task Resolution and Implementation Protocol"
+              }
+            ],
+            "correctAnswer": "a",
+            "explanation": "STRIPS significa Stanford Research Institute Problem Solver, um dos primeiros sistemas de planejamento automatizado."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "aima-planning",
+      "title": "Inteligência Artificial: Uma Abordagem Moderna - Capítulo de Planejamento",
+      "type": "reference",
+      "url": "https://aima.cs.berkeley.edu/",
+      "description": "Cobertura abrangente de algoritmos e técnicas de planejamento",
+      "required": true
+    },
+    {
+      "id": "strips-paper",
+      "title": "Algoritmo de Planejamento STRIPS",
+      "type": "paper",
+      "url": "https://ai.stanford.edu/~nilsson/OnlinePubs-Nils/PublishedPapers/strips.pdf",
+      "description": "Artigo original sobre o algoritmo de planejamento STRIPS",
+      "required": false
+    },
+    {
+      "id": "htn-planning",
+      "title": "Planejamento de Rede Hierárquica de Tarefas",
+      "type": "documentation",
+      "url": "https://www.cs.umd.edu/~nau/papers/nau2003htn.pdf",
+      "description": "Guia abrangente para técnicas de planejamento HTN",
+      "required": false
+    },
+    {
+      "id": "uncertainty-planning",
+      "title": "Planejamento sob Incerteza",
+      "type": "tutorial",
+      "url": "https://planning.wiki/guide/whatis/uncertainty",
+      "description": "Técnicas para planejamento com informações incertas",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

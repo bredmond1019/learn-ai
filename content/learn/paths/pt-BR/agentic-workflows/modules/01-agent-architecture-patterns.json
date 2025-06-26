@@ -1,0 +1,168 @@
+{
+  "metadata": {
+    "id": "agent-architecture-patterns",
+    "pathId": "agentic-workflows",
+    "title": "Padrões de Arquitetura de Agentes",
+    "description": "Explore padrões fundamentais para projetar agentes de IA autônomos, desde sistemas reativos até arquiteturas de raciocínio sofisticadas.",
+    "duration": "90 minutes",
+    "difficulty": "intermediate",
+    "order": 1,
+    "type": "concept",
+    "objectives": [
+      "Compreender os padrões principais de arquitetura de agentes e seus casos de uso",
+      "Comparar designs de agentes reativos, deliberativos e híbridos",
+      "Implementar padrões básicos de ReAct e Chain-of-Thought",
+      "Projetar arquiteturas de agentes para domínios de problemas específicos",
+      "Avaliar trade-offs entre diferentes abordagens arquitetônicas"
+    ],
+    "prerequisites": [
+      "Understanding of LLM basics",
+      "Python programming experience",
+      "Familiarity with API concepts"
+    ],
+    "tags": [
+      "agent-architecture",
+      "reactive-systems",
+      "deliberative-systems",
+      "react-pattern",
+      "multi-agent",
+      "planning"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 135
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução aos Padrões de Arquitetura de Agentes",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "45 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-agent-architecture-patterns.mdx",
+        "codeExamples": [
+          {
+            "id": "simple-reactive-agent",
+            "title": "Agente Reativo Simples",
+            "description": "Agente reativo básico que responde a estímulos do ambiente",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "react-agent-implementation",
+            "title": "Implementação de Agente ReAct",
+            "description": "Implementação do padrão ReAct para raciocínio e ação",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Exercícios Práticos",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "75 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Implementação de Arquitetura de Agente",
+        "description": "Exercícios práticos para implementar padrões de arquitetura de agentes",
+        "exerciseType": "coding",
+        "difficulty": "medium",
+        "instructions": [
+          "Projete uma arquitetura de agente para um caso de uso específico",
+          "Implemente um agente ReAct para busca na web e resposta a perguntas",
+          "Compare diferentes abordagens arquitetônicas",
+          "Teste e avalie suas implementações"
+        ],
+        "hints": [
+          "Comece com um padrão reativo simples antes de adicionar complexidade",
+          "Considere os trade-offs entre diferentes abordagens arquitetônicas",
+          "Teste seu agente com vários cenários para validar a robustez"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Quiz de Padrões de Arquitetura de Agentes",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Quiz de Padrões de Arquitetura de Agentes",
+        "description": "Teste sua compreensão dos padrões de arquitetura de agentes e suas aplicações",
+        "questions": [
+          {
+            "id": "reactive_vs_deliberative",
+            "type": "multiple-choice",
+            "question": "Qual é a principal diferença entre arquiteturas de agentes reativos e deliberativos?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Agentes reativos planejam antecipadamente enquanto agentes deliberativos respondem imediatamente"
+              },
+              {
+                "id": "b",
+                "text": "Agentes reativos respondem imediatamente a estímulos enquanto agentes deliberativos planejam e raciocinam"
+              },
+              {
+                "id": "c",
+                "text": "Não há diferença entre as duas abordagens"
+              },
+              {
+                "id": "d",
+                "text": "Agentes reativos são sempre mais rápidos que agentes deliberativos"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "Agentes reativos fornecem respostas imediatas a estímulos ambientais, enquanto agentes deliberativos se envolvem em planejamento e raciocínio antes de tomar ação."
+          }
+        ],
+        "passingScore": 75,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "react-paper",
+      "title": "ReAct: Sinergizando Raciocínio e Ação em Modelos de Linguagem",
+      "type": "paper",
+      "url": "https://arxiv.org/abs/2210.03629",
+      "description": "Artigo fundamental sobre o padrão ReAct para arquiteturas de agentes",
+      "required": true
+    },
+    {
+      "id": "multi-agent-intro",
+      "title": "Introdução a Sistemas Multi-Agentes",
+      "type": "documentation",
+      "url": "https://www.cs.cmu.edu/~softagents/multi.html",
+      "description": "Introdução abrangente a sistemas multi-agentes",
+      "required": false
+    },
+    {
+      "id": "agent-patterns",
+      "title": "Padrões de Design de Arquitetura de Agentes",
+      "type": "guide",
+      "url": "https://patterns.dataarchitecturepatterns.com/agent-patterns/",
+      "description": "Padrões de design para arquiteturas de agentes",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 75,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

@@ -1,0 +1,249 @@
+{
+  "metadata": {
+    "id": "introduction-to-mcp",
+    "pathId": "mcp-fundamentals",
+    "title": "O que é MCP?",
+    "description": "Compreendendo o Model Context Protocol e seu papel nos sistemas de IA modernos",
+    "duration": "30 minutos",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 1,
+    "prerequisites": [],
+    "objectives": [
+      "Entender o que é MCP e por que existe",
+      "Aprender os conceitos e terminologia principais",
+      "Explorar a arquitetura e componentes do MCP",
+      "Compreender casos de uso e benefícios"
+    ],
+    "tags": ["mcp", "introdução", "conceitos", "arquitetura"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução ao MCP",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "core-concepts",
+      "title": "Conceitos Principais",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#core-concepts",
+        "codeExamples": [
+          {
+            "id": "mcp-server-structure",
+            "title": "Estrutura Básica do Servidor MCP",
+            "description": "Uma implementação mínima de servidor MCP",
+            "language": "typescript",
+            "code": "import { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\nconst server = new Server({\n  name: 'example-server',\n  version: '1.0.0',\n});\n\n// Add resources and tools here\n\nconst transport = new StdioServerTransport();\nawait server.connect(transport);",
+            "highlightLines": [1, 2, 4, 5, 6],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "architecture",
+      "title": "Arquitetura MCP",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#architecture",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "use-cases",
+      "title": "Casos de Uso",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#use-cases",
+        "codeExamples": [
+          {
+            "id": "enterprise-knowledge-base",
+            "title": "Exemplo: Base de Conhecimento Empresarial",
+            "language": "python",
+            "code": "@mcp.tool\ndef search_knowledge_base(query: str, category: str = \"all\") -> str:\n    \"\"\"Search company knowledge base for customer support.\"\"\"\n    # Connect to enterprise knowledge system\n    results = kb_search_api.search(query, category)\n    \n    formatted_results = \"\"\n    for result in results:\n        formatted_results += f\"Q: {result['question']}\\n\"\n        formatted_results += f\"A: {result['answer']}\\n\\n\"\n    \n    return formatted_results\n\n@mcp.tool  \ndef create_escalation_ticket(customer_id: str, issue: str, priority: str) -> dict:\n    \"\"\"Create high-priority escalation ticket.\"\"\"\n    ticket = jira_api.create_issue({\n        \"summary\": f\"Escalation for customer {customer_id}\",\n        \"description\": issue,\n        \"priority\": priority,\n        \"labels\": [\"customer-escalation\", \"high-priority\"]\n    })\n    return {\"ticket_id\": ticket.key, \"status\": \"created\"}",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "benefits",
+      "title": "Benefícios",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#benefits",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "misconceptions",
+      "title": "Equívocos Comuns",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#misconceptions",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "summary",
+      "title": "Resumo",
+      "type": "content",
+      "order": 7,
+      "estimatedDuration": "2 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#summary",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "next-steps",
+      "title": "Próximos Passos",
+      "type": "content",
+      "order": 8,
+      "estimatedDuration": "2 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-introduction-to-mcp.mdx#next-steps",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Verificação de Conhecimento",
+      "type": "quiz",
+      "order": 9,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "quiz",
+        "title": "Teste Seu Entendimento",
+        "description": "Verifique seu entendimento dos fundamentos do MCP",
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "O que significa MCP?",
+            "points": 1,
+            "options": [
+              {
+                "id": "a",
+                "text": "Model Context Protocol",
+                "explanation": "Correto! MCP significa Model Context Protocol."
+              },
+              {
+                "id": "b",
+                "text": "Machine Communication Protocol",
+                "explanation": "Incorreto. MCP significa Model Context Protocol."
+              },
+              {
+                "id": "c",
+                "text": "Model Configuration Platform",
+                "explanation": "Incorreto. MCP significa Model Context Protocol."
+              },
+              {
+                "id": "d",
+                "text": "Multi-Channel Processing",
+                "explanation": "Incorreto. MCP significa Model Context Protocol."
+              }
+            ],
+            "correctAnswers": ["a"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q2",
+            "type": "true-false",
+            "question": "Servidores MCP só podem fornecer recursos somente leitura para aplicações de IA.",
+            "points": 1,
+            "correctAnswer": false,
+            "explanation": "Falso! Servidores MCP podem fornecer tanto recursos (para leitura de dados) quanto ferramentas (para executar ações)."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "Quais dos seguintes são componentes principais de um servidor MCP?",
+            "points": 2,
+            "options": [
+              {
+                "id": "a",
+                "text": "Recursos",
+                "explanation": "Correto! Recursos são usados para expor dados."
+              },
+              {
+                "id": "b",
+                "text": "Ferramentas",
+                "explanation": "Correto! Ferramentas permitem que a IA execute ações."
+              },
+              {
+                "id": "c",
+                "text": "Prompts",
+                "explanation": "Correto! Prompts podem ser fornecidos por servidores MCP."
+              },
+              {
+                "id": "d",
+                "text": "Bancos de Dados",
+                "explanation": "Incorreto. Embora o MCP possa se conectar a bancos de dados, eles não são um componente principal."
+              }
+            ],
+            "correctAnswers": ["a", "b", "c"],
+            "randomizeOptions": true
+          }
+        ],
+        "passingScore": 70,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "mcp-spec",
+      "title": "Especificação MCP",
+      "type": "reference",
+      "url": "https://spec.modelcontextprotocol.io",
+      "description": "O documento oficial de especificação do MCP",
+      "required": false
+    },
+    {
+      "id": "mcp-playground",
+      "title": "MCP Playground",
+      "type": "tool",
+      "url": "https://playground.modelcontextprotocol.io",
+      "description": "Playground interativo para experimentar com MCP",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 70,
+    "requiredSections": ["introduction", "core-concepts", "architecture"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

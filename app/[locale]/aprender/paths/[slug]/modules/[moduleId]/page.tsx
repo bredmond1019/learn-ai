@@ -1,21 +1,37 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { allModuleContent as moduleContent } from '@/components/learn/ModuleContent';
-import { getLearningPathById } from '@/lib/learn';
+import { getLearningPathById, type Locale } from '@/lib/learn';
+import { getTranslations } from '@/lib/translations';
 import { CodeBlock } from '@/components/ui/code-block';
+import { getModule } from '@/lib/modules.server';
+import { ModuleRenderer } from '@/components/learn/ModuleRenderer';
 
 interface PageProps {
   params: Promise<{
     slug: string;
     moduleId: string;
+    locale: string;
   }>;
 }
 
 export default async function ModulePage({ params }: PageProps) {
-  const { slug, moduleId } = await params;
+  const { slug, moduleId, locale } = await params;
+  const t = getTranslations(locale as Locale);
   
-  const content = moduleContent[moduleId as keyof typeof moduleContent];
-  const learningPath = getLearningPathById(slug);
+  // For Portuguese, try to load MDX content, fallback to static for English
+  let content = moduleContent[moduleId as keyof typeof moduleContent];
+  let mdxModule = null;
+  
+  if (locale === 'pt-BR') {
+    try {
+      mdxModule = await getModule(slug, moduleId, locale as Locale);
+    } catch (error) {
+      console.log('Falling back to static content for:', moduleId);
+    }
+  }
+  
+  const learningPath = getLearningPathById(slug, locale as Locale);
   
   if (!content || !learningPath) {
     notFound();
@@ -33,35 +49,38 @@ export default async function ModulePage({ params }: PageProps) {
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <nav className="mb-4 flex items-center space-x-2 text-sm">
             <Link
-              href="/learn"
+              href={`/${locale}/${t.routes.learn}`}
               className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             >
-              Learn
+              {t.nav.learn}
             </Link>
             <span className="text-gray-400">/</span>
             <Link
-              href={`/learn/paths/${slug}`}
+              href={`/${locale}/${t.routes.learn}/paths/${slug}`}
               className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             >
-              Learning Path
+              {learningPath.title}
             </Link>
             <span className="text-gray-400">/</span>
-            <span className="text-gray-900 dark:text-gray-100">{content.title}</span>
+            <span className="text-gray-900 dark:text-gray-100">{mdxModule ? mdxModule.metadata.title : content.title}</span>
           </nav>
           
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-            {content.title}
+            {mdxModule ? mdxModule.metadata.title : content.title}
           </h1>
           <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-            {content.description}
+            {mdxModule ? mdxModule.metadata.description : content.description}
           </p>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="space-y-8">
-          {content.sections.map((section, index) => (
+        {mdxModule ? (
+          <ModuleRenderer module={mdxModule} locale={locale} />
+        ) : (
+          <div className="space-y-8">
+            {content.sections.map((section, index) => (
             <div key={index} className="rounded-lg bg-white p-8 shadow-sm dark:bg-gray-800">
               <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {section.title}
@@ -128,30 +147,31 @@ export default async function ModulePage({ params }: PageProps) {
                 </div>
               )}
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
         
         {/* Navigation */}
         <nav className="mt-8 border-t border-gray-200 pt-8 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <Link
-              href={`/learn/paths/${slug}`}
+              href={`/${locale}/${t.routes.learn}/paths/${slug}`}
               className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             >
-              ← Back to {learningPath.title}
+              ← {t.navigation.backToPath}
             </Link>
           </div>
           
           <div className="flex items-center justify-between">
             {previousModule ? (
               <Link
-                href={`/learn/paths/${slug}/modules/${previousModule.id}`}
+                href={`/${locale}/${t.routes.learn}/paths/${slug}/modules/${previousModule.id}`}
                 className="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
               >
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                Previous Module
+                {t.navigation.previousModule}
               </Link>
             ) : (
               <div></div>
@@ -159,23 +179,23 @@ export default async function ModulePage({ params }: PageProps) {
             
             {nextModule ? (
               <Link
-                href={`/learn/paths/${slug}/modules/${nextModule.id}`}
+                href={`/${locale}/${t.routes.learn}/paths/${slug}/modules/${nextModule.id}`}
                 className="flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-gray-900 transition-colors hover:bg-primary-hover"
               >
-                Next Module
+                {t.navigation.nextModule}
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             ) : (
               <Link
-                href={`/learn/paths/${slug}`}
+                href={`/${locale}/${t.routes.learn}/paths/${slug}`}
                 className="flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
               >
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Complete Path
+                {t.navigation.completePath}
               </Link>
             )}
           </div>

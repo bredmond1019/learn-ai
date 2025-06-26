@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "id": "tool-orchestration",
+    "pathId": "agentic-workflows",
+    "title": "Orquestração de Ferramentas",
+    "description": "Domine a arte de coordenar múltiplas ferramentas e serviços para permitir que agentes de IA realizem tarefas complexas que exigem capacidades diversas e integrações externas.",
+    "duration": "135 minutes",
+    "difficulty": "intermediate",
+    "order": 3,
+    "type": "concept",
+    "objectives": [
+      "Projetar arquiteturas de orquestração de ferramentas para agentes multi-capacidade",
+      "Implementar estratégias dinâmicas de seleção e encadeamento de ferramentas",
+      "Construir mecanismos robustos de tratamento de erros e fallback para falhas de ferramentas",
+      "Criar padrões de composição de ferramentas para fluxos de trabalho complexos",
+      "Desenvolver sistemas de monitoramento e otimização de desempenho de ferramentas",
+      "Projetar frameworks seguros de acesso e autorização de ferramentas"
+    ],
+    "prerequisites": [
+      "Agent Architecture Patterns",
+      "Building Planning Systems",
+      "API integration experience",
+      "Understanding of async programming"
+    ],
+    "tags": [
+      "tool-orchestration",
+      "workflow-automation",
+      "api-integration",
+      "error-handling",
+      "performance-optimization",
+      "microservices"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 320
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução à Orquestração de Ferramentas",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "70 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-tool-orchestration.mdx",
+        "codeExamples": [
+          {
+            "id": "tool-registry",
+            "title": "Registro e Gerenciador de Ferramentas",
+            "description": "Registro central para gerenciar e descobrir ferramentas disponíveis",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "dynamic-tool-selector",
+            "title": "Motor de Seleção Dinâmica de Ferramentas",
+            "description": "Seleção inteligente de ferramentas baseada em requisitos de tarefa e contexto",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Exercícios de Orquestração de Ferramentas",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "225 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Implementação de Orquestração de Ferramentas",
+        "description": "Exercícios práticos para construir sistemas de orquestração de ferramentas",
+        "exerciseType": "coding",
+        "difficulty": "hard",
+        "instructions": [
+          "Construa um agente que orquestre ferramentas de web scraping, processamento de dados e visualização",
+          "Crie um sistema que selecione dinamicamente ferramentas ótimas com base no contexto e desempenho",
+          "Construa um orquestrador tolerante a falhas com tratamento abrangente de erros e recuperação",
+          "Teste e otimize o desempenho das ferramentas"
+        ],
+        "hints": [
+          "Projete interfaces modulares de ferramentas para fácil integração",
+          "Implemente tratamento adequado de erros e mecanismos de fallback",
+          "Considere estratégias de monitoramento e otimização de desempenho"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Quiz de Orquestração de Ferramentas",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Quiz de Orquestração de Ferramentas",
+        "description": "Teste sua compreensão dos padrões de orquestração de ferramentas e melhores práticas",
+        "questions": [
+          {
+            "id": "tool_selection_strategy",
+            "type": "multiple-choice",
+            "question": "Qual é o fator mais importante ao selecionar ferramentas para um fluxo de trabalho de múltiplas etapas?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Apenas métricas de desempenho das ferramentas"
+              },
+              {
+                "id": "b",
+                "text": "Requisitos da tarefa, capacidades das ferramentas e características de desempenho"
+              },
+              {
+                "id": "c",
+                "text": "Popularidade das ferramentas e suporte da comunidade"
+              },
+              {
+                "id": "d",
+                "text": "Custo de uso das ferramentas"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "A seleção eficaz de ferramentas requer considerar os requisitos da tarefa, as capacidades das ferramentas, as características de desempenho e como as ferramentas trabalham juntas no fluxo de trabalho."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "langchain-tools",
+      "title": "Documentação de Ferramentas LangChain",
+      "type": "documentation",
+      "url": "https://docs.langchain.com/docs/components/agents/tools/",
+      "description": "Documentação abrangente para integração de ferramentas LangChain",
+      "required": true
+    },
+    {
+      "id": "openai-functions",
+      "title": "Guia de Chamada de Funções OpenAI",
+      "type": "guide",
+      "url": "https://platform.openai.com/docs/guides/function-calling",
+      "description": "Guia para usar chamada de funções OpenAI para integração de ferramentas",
+      "required": true
+    },
+    {
+      "id": "microservices-patterns",
+      "title": "Padrões de Microsserviços",
+      "type": "reference",
+      "url": "https://microservices.io/patterns/",
+      "description": "Padrões de design para arquitetura de microsserviços",
+      "required": false
+    },
+    {
+      "id": "api-gateway-pattern",
+      "title": "Padrão API Gateway",
+      "type": "guide",
+      "url": "https://microservices.io/patterns/apigateway.html",
+      "description": "Padrão API Gateway para orquestração de serviços",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

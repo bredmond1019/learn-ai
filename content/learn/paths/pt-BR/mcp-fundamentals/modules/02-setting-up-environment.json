@@ -1,0 +1,374 @@
+{
+  "metadata": {
+    "id": "setting-up-environment",
+    "pathId": "mcp-fundamentals",
+    "title": "Configurando Seu Ambiente de Desenvolvimento MCP",
+    "description": "Configure seu ambiente de desenvolvimento para construir servidores MCP com TypeScript e o SDK oficial",
+    "duration": "45 minutos",
+    "type": "hands-on",
+    "difficulty": "beginner",
+    "order": 2,
+    "prerequisites": ["introduction-to-mcp"],
+    "objectives": [
+      "Configurar um ambiente de desenvolvimento TypeScript para MCP",
+      "Instalar e configurar o SDK MCP",
+      "Criar seu primeiro projeto de servidor MCP",
+      "Testar seu servidor com o MCP Inspector",
+      "Entender as melhores práticas de estrutura de projeto"
+    ],
+    "tags": ["mcp", "configuração", "typescript", "sdk", "desenvolvimento"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "prerequisites",
+      "title": "Pré-requisitos e Requisitos",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#prerequisites",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "installing-tools",
+      "title": "Instalando Ferramentas de Desenvolvimento",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#installing-tools",
+        "codeExamples": [
+          {
+            "id": "node-version-check",
+            "title": "Verificando a Versão do Node.js",
+            "description": "Verifique sua instalação do Node.js",
+            "language": "bash",
+            "code": "# Verificar versão do Node.js (deve ser 18.x ou superior)\nnode --version\n\n# Verificar versão do npm\nnpm --version\n\n# Se você precisar instalar o Node.js, visite:\n# https://nodejs.org/",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "project-setup",
+      "title": "Criando Seu Primeiro Projeto MCP",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "15 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#project-setup",
+        "codeExamples": [
+          {
+            "id": "project-init",
+            "title": "Inicializar Projeto",
+            "description": "Criar e configurar um novo projeto de servidor MCP",
+            "language": "bash",
+            "code": "# Create project directory\nmkdir my-first-mcp-server\ncd my-first-mcp-server\n\n# Initialize npm project\nnpm init -y\n\n# Install TypeScript and MCP SDK\nnpm install --save-dev typescript @types/node tsx\nnpm install @modelcontextprotocol/sdk",
+            "runnable": false
+          },
+          {
+            "id": "tsconfig",
+            "title": "Configuração TypeScript",
+            "description": "Configurar TypeScript para desenvolvimento MCP",
+            "language": "json",
+            "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"module\": \"Node16\",\n    \"moduleResolution\": \"Node16\",\n    \"lib\": [\"ES2022\"],\n    \"outDir\": \"./dist\",\n    \"rootDir\": \"./src\",\n    \"strict\": true,\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true,\n    \"forceConsistentCasingInFileNames\": true,\n    \"resolveJsonModule\": true,\n    \"declaration\": true,\n    \"declarationMap\": true,\n    \"sourceMap\": true\n  },\n  \"include\": [\"src/**/*\"],\n  \"exclude\": [\"node_modules\", \"dist\"]\n}",
+            "fileName": "tsconfig.json",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "first-server",
+      "title": "Construindo Seu Primeiro Servidor MCP",
+      "type": "exercise",
+      "order": 4,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "exercise",
+        "title": "Criar um Servidor MCP Básico",
+        "description": "Construa e execute seu primeiro servidor MCP que responde a requisições básicas",
+        "instructions": [
+          "Crie um novo arquivo `src/index.ts` em seu projeto",
+          "Importe os módulos necessários do SDK MCP",
+          "Crie uma instância do servidor com o nome e versão do seu servidor",
+          "Configure o transporte stdio para testes locais",
+          "Adicione um handler de recurso simples que retorna informações do servidor",
+          "Conecte o servidor ao transporte",
+          "Teste seu servidor usando o MCP Inspector"
+        ],
+        "starterCode": {
+          "language": "typescript",
+          "code": "// src/index.ts\nimport { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\n// TODO: Create the MCP server instance\n// Hint: Use new Server({ name: 'your-server-name', version: '1.0.0' })\n\n// TODO: Set up a simple resource handler\n// Hint: Use server.setRequestHandler('resources/list', ...)\n\n// TODO: Create and connect the transport\n// Hint: Create StdioServerTransport and use server.connect()",
+          "fileName": "src/index.ts"
+        },
+        "solution": {
+          "language": "typescript",
+          "code": "// src/index.ts\nimport { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\n// Create the MCP server instance\nconst server = new Server({\n  name: 'my-first-mcp-server',\n  version: '1.0.0',\n});\n\n// Set up a simple resource handler\nserver.setRequestHandler('resources/list', async () => {\n  return {\n    resources: [\n      {\n        uri: 'server://info',\n        name: 'Server Information',\n        description: 'Basic information about this MCP server',\n        mimeType: 'application/json'\n      }\n    ]\n  };\n});\n\n// Handle resource content requests\nserver.setRequestHandler('resources/read', async (request) => {\n  if (request.params.uri === 'server://info') {\n    return {\n      contents: [\n        {\n          uri: 'server://info',\n          mimeType: 'application/json',\n          text: JSON.stringify({\n            name: 'my-first-mcp-server',\n            version: '1.0.0',\n            status: 'running',\n            timestamp: new Date().toISOString()\n          }, null, 2)\n        }\n      ]\n    };\n  }\n  throw new Error('Resource not found');\n});\n\n// Create and connect the transport\nconst transport = new StdioServerTransport();\nawait server.connect(transport);\n\nconsole.error('MCP server running on stdio');\n",
+          "explanation": "## Como Funciona\n\nEsta solução cria um servidor MCP mínimo que:\n\n1. **Instância do Servidor**: Cria um servidor com nome e versão\n2. **Handler de Lista de Recursos**: Responde a requisições `resources/list` com recursos disponíveis\n3. **Handler de Leitura de Recursos**: Lida com requisições `resources/read` para retornar conteúdo de recursos\n4. **Transporte**: Usa transporte stdio para testes locais\n\nO servidor expõe um único recurso que retorna informações sobre si mesmo em formato JSON."
+        },
+        "hints": [
+          {
+            "id": "hint-1",
+            "level": 1,
+            "content": "Comece criando uma instância do Server com um objeto de configuração contendo propriedades name e version.",
+            "revealDelay": 60
+          },
+          {
+            "id": "hint-2",
+            "level": 2,
+            "content": "Use `server.setRequestHandler('resources/list', async () => { ... })` para lidar com requisições de listagem de recursos. Retorne um objeto com um array `resources`.",
+            "revealDelay": 120
+          },
+          {
+            "id": "hint-3",
+            "level": 3,
+            "content": "Não esqueça de criar o transporte com `new StdioServerTransport()` e conectá-lo usando `await server.connect(transport)`.",
+            "codeSnippet": "const transport = new StdioServerTransport();\nawait server.connect(transport);",
+            "revealDelay": 180
+          }
+        ],
+        "validation": [
+          {
+            "id": "server-created",
+            "type": "structure",
+            "description": "Instância do servidor criada corretamente",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "new Server\\(",
+                "message": "Crie uma nova instância do Server"
+              }
+            },
+            "errorMessage": "Você precisa criar uma nova instância do Server",
+            "successMessage": "Ótimo! Instância do servidor criada com sucesso"
+          },
+          {
+            "id": "resource-handler",
+            "type": "structure",
+            "description": "Handler de lista de recursos implementado",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "setRequestHandler\\(['\"]resources/list",
+                "message": "Adicione um handler para resources/list"
+              }
+            },
+            "errorMessage": "Adicione um handler para requisições 'resources/list'",
+            "successMessage": "Perfeito! Handler de recursos configurado"
+          },
+          {
+            "id": "transport-connected",
+            "type": "structure",
+            "description": "Transporte conectado ao servidor",
+            "validator": {
+              "type": "contains",
+              "params": {
+                "pattern": "server\\.connect\\(",
+                "message": "Conecte o transporte ao servidor"
+              }
+            },
+            "errorMessage": "Não esqueça de conectar o transporte ao seu servidor",
+            "successMessage": "Excelente! Seu servidor está pronto para executar"
+          }
+        ],
+        "difficulty": "easy",
+        "concepts": ["mcp-server", "transport", "resources"]
+      }
+    },
+    {
+      "id": "testing",
+      "title": "Testando Seu Servidor MCP",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#testing",
+        "codeExamples": [
+          {
+            "id": "package-scripts",
+            "title": "Scripts do Package.json",
+            "description": "Adicione scripts convenientes para desenvolvimento",
+            "language": "json",
+            "code": "{\n  \"scripts\": {\n    \"dev\": \"tsx src/index.ts\",\n    \"build\": \"tsc\",\n    \"start\": \"node dist/index.js\",\n    \"test\": \"tsx test/server.test.ts\"\n  }\n}",
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Verificação de Conhecimento",
+      "type": "quiz",
+      "order": 6,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "quiz",
+        "title": "Teste Seu Entendimento",
+        "description": "Verifique se você entendeu os conceitos de configuração do MCP",
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "Qual versão mínima do Node.js é necessária para o SDK MCP?",
+            "points": 1,
+            "options": [
+              {
+                "id": "a",
+                "text": "Node.js 14.x",
+                "explanation": "Incorreto. O SDK MCP requer Node.js 18.x ou superior."
+              },
+              {
+                "id": "b",
+                "text": "Node.js 16.x",
+                "explanation": "Incorreto. O SDK MCP requer Node.js 18.x ou superior."
+              },
+              {
+                "id": "c",
+                "text": "Node.js 18.x",
+                "explanation": "Correto! O SDK MCP requer Node.js 18.x ou superior para recursos modernos de JavaScript."
+              },
+              {
+                "id": "d",
+                "text": "Node.js 20.x",
+                "explanation": "Embora funcione, a versão mínima requerida é Node.js 18.x."
+              }
+            ],
+            "correctAnswers": ["c"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q2",
+            "type": "true-false",
+            "question": "O transporte stdio é adequado para uso em produção.",
+            "points": 1,
+            "correctAnswer": false,
+            "explanation": "Falso! O transporte stdio é principalmente para desenvolvimento e testes locais. Para produção, use HTTP ou WebSocket."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "Qual arquivo de configuração é essencial para projetos TypeScript com MCP?",
+            "points": 1,
+            "options": [
+              {
+                "id": "a",
+                "text": "package.json",
+                "explanation": "Importante, mas não específico do TypeScript."
+              },
+              {
+                "id": "b",
+                "text": "tsconfig.json",
+                "explanation": "Correto! O tsconfig.json configura o compilador TypeScript para seu projeto MCP."
+              },
+              {
+                "id": "c",
+                "text": ".gitignore",
+                "explanation": "Útil para controle de versão, mas não essencial para TypeScript."
+              },
+              {
+                "id": "d",
+                "text": "mcp.config.json",
+                "explanation": "Este arquivo não é padrão no desenvolvimento MCP."
+              }
+            ],
+            "correctAnswers": ["b"],
+            "randomizeOptions": true
+          }
+        ],
+        "passingScore": 70,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    },
+    {
+      "id": "project-structure",
+      "title": "Melhores Práticas de Estrutura de Projeto",
+      "type": "content",
+      "order": 7,
+      "estimatedDuration": "5 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#project-structure",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "summary",
+      "title": "Resumo",
+      "type": "content",
+      "order": 8,
+      "estimatedDuration": "2 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#summary",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "next-steps",
+      "title": "Próximos Passos",
+      "type": "content",
+      "order": 9,
+      "estimatedDuration": "2 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#next-steps",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "quick-reference",
+      "title": "Referência Rápida",
+      "type": "content",
+      "order": 10,
+      "estimatedDuration": "3 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-setting-up-environment.mdx#quick-reference",
+        "codeExamples": []
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "nodejs-install",
+      "title": "Instalação do Node.js",
+      "type": "guide",
+      "url": "https://nodejs.org/pt-br/download/",
+      "description": "Guia oficial de instalação do Node.js",
+      "required": true
+    },
+    {
+      "id": "typescript-docs",
+      "title": "Documentação TypeScript",
+      "type": "reference",
+      "url": "https://www.typescriptlang.org/pt/docs/",
+      "description": "Documentação oficial do TypeScript em português",
+      "required": false
+    },
+    {
+      "id": "mcp-sdk",
+      "title": "SDK MCP no NPM",
+      "type": "reference",
+      "url": "https://www.npmjs.com/package/@modelcontextprotocol/sdk",
+      "description": "Página do SDK MCP no registro NPM",
+      "required": true
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 70,
+    "requiredSections": ["prerequisites", "installing-tools", "project-setup", "first-server"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

@@ -113,7 +113,7 @@ export default async function LearnPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {learningPaths.map((path) => (
+            {learningPaths['en'].map((path) => (
               <LearnCardServer key={path.id} path={path} />
             ))}
           </div>
@@ -134,7 +134,7 @@ export default async function LearnPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {concepts.slice(0, 6).map((concept) => (
+            {concepts['en'].slice(0, 6).map((concept) => (
               <ConceptCard key={concept.id} concept={concept} />
             ))}
           </div>

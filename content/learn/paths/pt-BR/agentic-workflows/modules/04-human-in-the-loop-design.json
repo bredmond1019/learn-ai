@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "id": "human-in-the-loop-design",
+    "pathId": "agentic-workflows",
+    "title": "Design Humano-no-Loop",
+    "description": "Aprenda a projetar sistemas de IA que combinem efetivamente inteligência artificial com expertise humana, julgamento e supervisão para tomada de decisão e controle ideais.",
+    "duration": "110 minutes",
+    "difficulty": "intermediate",
+    "order": 4,
+    "type": "concept",
+    "objectives": [
+      "Projetar padrões e interfaces eficazes de colaboração humano-IA",
+      "Implementar pontos de intervenção inteligentes e mecanismos de escalonamento",
+      "Construir sistemas de IA transparentes com tomada de decisão explicável",
+      "Criar sistemas adaptativos que aprendem com feedback e correções humanas",
+      "Projetar fluxos de trabalho de aprovação e mecanismos de supervisão humana",
+      "Desenvolver interfaces amigáveis para interação humano-IA"
+    ],
+    "prerequisites": [
+      "Agent Architecture Patterns",
+      "Tool Orchestration",
+      "Understanding of UX/UI principles",
+      "Knowledge of workflow design"
+    ],
+    "tags": [
+      "human-ai-collaboration",
+      "explainable-ai",
+      "human-computer-interaction",
+      "approval-workflows",
+      "feedback-loops",
+      "interface-design"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 275
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução ao Design Humano-no-Loop",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "55 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-in-the-loop-design.mdx",
+        "codeExamples": [
+          {
+            "id": "human-ai-coordinator",
+            "title": "Sistema de Coordenação Humano-IA",
+            "description": "Framework para coordenar tomada de decisão humana e de IA",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          },
+          {
+            "id": "intervention-manager",
+            "title": "Gerenciador de Pontos de Intervenção",
+            "description": "Sistema para gerenciar quando e como solicitar intervenção humana",
+            "language": "python",
+            "code": "# Code will be populated from existing examples",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exercises",
+      "title": "Exercícios de Humano-no-Loop",
+      "type": "exercise",
+      "order": 2,
+      "estimatedDuration": "200 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Implementação de Colaboração Humano-IA",
+        "description": "Exercícios práticos para construir sistemas humano-no-loop",
+        "exerciseType": "coding",
+        "difficulty": "hard",
+        "instructions": [
+          "Construa um sistema que combine recomendações de IA com julgamento humano",
+          "Crie um sistema de recomendação com explicações claras e capacidades de substituição humana",
+          "Projete um sistema HITL abrangente com mecanismos de aprendizado, escalonamento e aprovação",
+          "Teste e avalie a eficácia da colaboração humano-IA"
+        ],
+        "hints": [
+          "Projete interfaces intuitivas para interação humano-IA",
+          "Implemente mecanismos claros de explicação para decisões de IA",
+          "Considere a carga cognitiva e a experiência do usuário no design"
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Quiz de Design Humano-no-Loop",
+      "type": "quiz",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Quiz de Design Humano-no-Loop",
+        "description": "Teste sua compreensão dos padrões de colaboração humano-IA e princípios de design",
+        "questions": [
+          {
+            "id": "hitl_intervention_points",
+            "type": "multiple-choice",
+            "question": "Quando a intervenção humana deve ser acionada em um sistema de IA?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Apenas quando o sistema de IA falha completamente"
+              },
+              {
+                "id": "b",
+                "text": "Quando as pontuações de confiança são baixas, casos extremos são detectados ou decisões críticas são necessárias"
+              },
+              {
+                "id": "c",
+                "text": "Em intervalos aleatórios para manter os humanos engajados"
+              },
+              {
+                "id": "d",
+                "text": "Nunca, pois derrota o propósito da automação"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "A intervenção humana deve ser estrategicamente acionada quando o sistema de IA tem baixa confiança, encontra casos extremos ou precisa tomar decisões críticas que requerem julgamento humano."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "hai-guidelines",
+      "title": "Diretrizes de Interação Humano-IA",
+      "type": "guide",
+      "url": "https://hai.stanford.edu/sites/default/files/2019-12/HAI_Whitepaper_Human-Centered%20AI_12.pdf",
+      "description": "Diretrizes abrangentes para projetar sistemas de IA centrados no humano",
+      "required": true
+    },
+    {
+      "id": "explainable-ai",
+      "title": "Princípios de IA Explicável",
+      "type": "documentation",
+      "url": "https://www.darpa.mil/program/explainable-artificial-intelligence",
+      "description": "Programa de pesquisa da DARPA sobre inteligência artificial explicável",
+      "required": false
+    },
+    {
+      "id": "hci-principles",
+      "title": "Princípios de Interação Humano-Computador",
+      "type": "reference",
+      "url": "https://www.interaction-design.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed",
+      "description": "Recurso abrangente sobre princípios e melhores práticas de IHC",
+      "required": false
+    },
+    {
+      "id": "approval-workflows",
+      "title": "Padrões de Fluxo de Trabalho de Aprovação",
+      "type": "guide",
+      "url": "https://patterns.servicedesign.org/approval-workflow",
+      "description": "Padrões de design para fluxos de trabalho de aprovação em sistemas de serviço",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "exercises", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

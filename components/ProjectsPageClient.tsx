@@ -5,6 +5,8 @@ import Section from '@/components/Section';
 import Container from '@/components/Container';
 import ProjectCard from '@/components/ProjectCard';
 import { Project } from '@/types/project';
+import { getTranslations } from '@/lib/translations';
+import { type Locale } from '@/lib/learn';
 
 interface ProjectsPageProps {
   initialProjects: Project[];
@@ -12,6 +14,7 @@ interface ProjectsPageProps {
 }
 
 export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProps) {
+  const t = getTranslations(locale as Locale);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('All');
   
@@ -37,11 +40,10 @@ export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProp
       <Section spacing="lg">
         <Container>
           <h1 className="text-4xl sm:text-5xl font-bold text-center mb-6">
-            Projects
+            {t.projects.title}
           </h1>
           <p className="text-xl text-center text-foreground/80 max-w-3xl mx-auto">
-            A showcase of AI solutions that push the boundaries of what&apos;s possible, 
-            from research prototypes to production systems serving millions
+            {t.projects.description}
           </p>
         </Container>
       </Section>
@@ -68,7 +70,7 @@ export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProp
                 </svg>
                 <input
                   type="text"
-                  placeholder="Search projects by title, description, or technology..."
+                  placeholder={t.projects.search}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-background border border-gray-700 rounded-lg text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-colors"
@@ -83,7 +85,7 @@ export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProp
                 onChange={(e) => setSelectedFilter(e.target.value)}
                 className="px-4 py-3 bg-background border border-gray-700 rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-colors"
               >
-                <option value="All">All Technologies</option>
+                <option value="All">{t.projects.filterAll}</option>
                 {allTags.map(tag => (
                   <option key={tag} value={tag}>
                     {tag}
@@ -97,8 +99,8 @@ export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProp
           <div className="flex items-center justify-between mb-6">
             <p className="text-foreground/60">
               {filteredProjects.length === initialProjects.length 
-                ? `Showing all ${initialProjects.length} projects`
-                : `Showing ${filteredProjects.length} of ${initialProjects.length} projects`
+                ? t.projects.showingAll.replace('{{count}}', initialProjects.length.toString())
+                : t.projects.showingFiltered.replace('{{filtered}}', filteredProjects.length.toString()).replace('{{total}}', initialProjects.length.toString())
               }
             </p>
             
@@ -113,7 +115,7 @@ export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProp
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
-                Clear filters
+                {t.projects.clearFilters}
               </button>
             )}
           </div>
@@ -137,10 +139,10 @@ export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProp
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-foreground/80 mb-2">
-                No projects found
+                {t.projects.noResults}
               </h3>
               <p className="text-foreground/60 mb-4">
-                Try adjusting your search term or filter to find more projects.
+                {t.projects.noResultsSubtitle}
               </p>
               <button
                 onClick={() => {
@@ -149,7 +151,7 @@ export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProp
                 }}
                 className="text-primary hover:text-primary/80 transition-colors"
               >
-                View all projects
+                {t.projects.viewAll}
               </button>
             </div>
           )}
@@ -161,16 +163,16 @@ export function ProjectsPageClient({ initialProjects, locale }: ProjectsPageProp
         <Container size="md">
           <div className="text-center">
             <h2 className="text-2xl font-semibold mb-4">
-              Interested in Collaboration?
+              {t.projects.interestedInCollaboration}
             </h2>
             <p className="text-foreground/70 mb-6">
-              I&apos;m always excited to work on challenging AI projects that make a real impact.
+              {t.projects.collaborationText}
             </p>
             <a
               href="mailto:hello@aiengineer.dev"
               className="inline-flex items-center gap-2 text-primary hover:text-primary-hover transition-colors"
             >
-              <span>Let&apos;s discuss your project</span>
+              <span>{t.projects.discussProject}</span>
               <svg
                 className="w-4 h-4"
                 fill="none"

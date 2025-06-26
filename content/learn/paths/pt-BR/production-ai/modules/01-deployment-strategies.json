@@ -1,0 +1,288 @@
+{
+  "metadata": {
+    "id": "deployment-strategies",
+    "pathId": "production-ai",
+    "title": "Estratégias de Implantação",
+    "description": "Aprenda padrões e estratégias de implantação de nível empresarial para implantação confiável de sistemas de IA, incluindo containerização, orquestração e pipelines CI/CD.",
+    "duration": "90 minutes",
+    "type": "concept",
+    "difficulty": "advanced",
+    "order": 1,
+    "prerequisites": [
+      "Understanding of containerization concepts",
+      "Basic knowledge of CI/CD pipelines",
+      "Familiarity with cloud platforms",
+      "Experience with AI/ML model development"
+    ],
+    "objectives": [
+      "Projetar arquiteturas de implantação robustas para aplicações de IA",
+      "Implementar estratégias de containerização para sistemas de IA",
+      "Configurar pipelines CI/CD para implantação de modelos e aplicações de IA",
+      "Compreender padrões de implantação blue-green, canary e rolling",
+      "Configurar orquestração de contêineres para cargas de trabalho de IA",
+      "Implementar infraestrutura como código para implantações de IA"
+    ],
+    "tags": [
+      "deployment",
+      "containerization",
+      "kubernetes",
+      "ci-cd",
+      "infrastructure-as-code",
+      "production-deployment"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-20",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 270
+  },
+  "sections": [
+    {
+      "id": "deployment-patterns",
+      "title": "Padrões de Implantação de IA",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-deployment-strategies.mdx#deployment-patterns",
+        "codeExamples": [
+          {
+            "id": "blue-green-deployment",
+            "title": "Configuração de Implantação Blue-Green",
+            "description": "Configuração completa de implantação blue-green para serviços de IA",
+            "language": "yaml",
+            "code": "# Blue-Green Deployment Configuration\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ai-service-blue\n  labels:\n    app: ai-service\n    version: blue\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: ai-service\n      version: blue\n  template:\n    metadata:\n      labels:\n        app: ai-service\n        version: blue\n    spec:\n      containers:\n      - name: ai-service\n        image: ai-service:v1.0.0\n        ports:\n        - containerPort: 8080\n        env:\n        - name: VERSION\n          value: \"blue\"\n        resources:\n          requests:\n            memory: \"1Gi\"\n            cpu: \"500m\"\n          limits:\n            memory: \"2Gi\"\n            cpu: \"1000m\"\n        livenessProbe:\n          httpGet:\n            path: /health\n            port: 8080\n          initialDelaySeconds: 30\n          periodSeconds: 10\n        readinessProbe:\n          httpGet:\n            path: /ready\n            port: 8080\n          initialDelaySeconds: 5\n          periodSeconds: 5",
+            "highlightLines": [6, 7, 8, 18, 19, 20, 25, 26],
+            "runnable": false
+          },
+          {
+            "id": "canary-deployment",
+            "title": "Estratégia de Implantação Canary",
+            "description": "Implantação canary progressiva para atualizações de modelos de IA",
+            "language": "yaml",
+            "code": "# Canary Deployment with Istio\napiVersion: networking.istio.io/v1alpha3\nkind: VirtualService\nmetadata:\n  name: ai-service-canary\nspec:\n  hosts:\n  - ai-service\n  http:\n  - match:\n    - headers:\n        canary:\n          exact: \"true\"\n    route:\n    - destination:\n        host: ai-service\n        subset: v2\n      weight: 100\n  - route:\n    - destination:\n        host: ai-service\n        subset: v1\n      weight: 90\n    - destination:\n        host: ai-service\n        subset: v2\n      weight: 10\n---\napiVersion: networking.istio.io/v1alpha3\nkind: DestinationRule\nmetadata:\n  name: ai-service\nspec:\n  host: ai-service\n  subsets:\n  - name: v1\n    labels:\n      version: v1.0.0\n  - name: v2\n    labels:\n      version: v2.0.0",
+            "highlightLines": [10, 11, 12, 13, 22, 23, 26, 27],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "containerization",
+      "title": "Containerização de IA",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-deployment-strategies.mdx#containerization",
+        "codeExamples": [
+          {
+            "id": "docker-ai-app",
+            "title": "Aplicação de IA Dockerizada",
+            "description": "Dockerfile completo para containerizar aplicações de IA com otimização adequada",
+            "language": "dockerfile",
+            "code": "# Multi-stage Dockerfile for AI applications\nFROM python:3.11-slim as base\n\n# Install system dependencies\nRUN apt-get update && apt-get install -y \\\n    build-essential \\\n    curl \\\n    software-properties-common \\\n    git \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Create non-root user\nRUN useradd --create-home --shell /bin/bash app\nUSER app\nWORKDIR /home/app\n\n# Copy requirements and install Python dependencies\nCOPY --chown=app:app requirements.txt .\nRUN pip install --user --no-cache-dir -r requirements.txt\n\n# Production stage\nFROM python:3.11-slim as production\n\n# Install runtime dependencies only\nRUN apt-get update && apt-get install -y \\\n    curl \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Create non-root user\nRUN useradd --create-home --shell /bin/bash app\nUSER app\nWORKDIR /home/app\n\n# Copy Python packages from base stage\nCOPY --from=base --chown=app:app /home/app/.local /home/app/.local\n\n# Copy application code\nCOPY --chown=app:app . .\n\n# Set Python path\nENV PATH=/home/app/.local/bin:$PATH\n\n# Health check\nHEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \\\n    CMD curl -f http://localhost:8080/health || exit 1\n\n# Expose port\nEXPOSE 8080\n\n# Run the application\nCMD [\"python\", \"app.py\"]",
+            "highlightLines": [1, 12, 13, 21, 29, 30, 33, 41, 42],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "cicd-pipelines",
+      "title": "CI/CD para Sistemas de IA",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-deployment-strategies.mdx#cicd-pipelines",
+        "codeExamples": [
+          {
+            "id": "github-actions-pipeline",
+            "title": "Pipeline CI/CD do GitHub Actions",
+            "description": "Pipeline CI/CD completo para teste, construção e implantação de aplicações de IA",
+            "language": "yaml",
+            "code": "name: AI Application CI/CD\n\non:\n  push:\n    branches: [main, develop]\n  pull_request:\n    branches: [main]\n\nenv:\n  REGISTRY: ghcr.io\n  IMAGE_NAME: ${{ github.repository }}\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v3\n    \n    - name: Set up Python\n      uses: actions/setup-python@v4\n      with:\n        python-version: '3.11'\n        \n    - name: Install dependencies\n      run: |\n        python -m pip install --upgrade pip\n        pip install -r requirements.txt\n        pip install pytest pytest-cov\n        \n    - name: Run tests\n      run: |\n        pytest tests/ --cov=src/ --cov-report=xml\n        \n    - name: Upload coverage\n      uses: codecov/codecov-action@v3\n      with:\n        file: ./coverage.xml\n        \n  security-scan:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v3\n    \n    - name: Run security scan\n      uses: snyk/actions/python@master\n      env:\n        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}\n        \n  build-and-push:\n    needs: [test, security-scan]\n    runs-on: ubuntu-latest\n    if: github.ref == 'refs/heads/main'\n    steps:\n    - uses: actions/checkout@v3\n    \n    - name: Log in to Container Registry\n      uses: docker/login-action@v2\n      with:\n        registry: ${{ env.REGISTRY }}\n        username: ${{ github.actor }}\n        password: ${{ secrets.GITHUB_TOKEN }}\n        \n    - name: Extract metadata\n      id: meta\n      uses: docker/metadata-action@v4\n      with:\n        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\n        tags: |\n          type=ref,event=branch\n          type=sha,prefix=sha-\n          type=raw,value=latest,enable={{is_default_branch}}\n          \n    - name: Build and push\n      uses: docker/build-push-action@v4\n      with:\n        context: .\n        push: true\n        tags: ${{ steps.meta.outputs.tags }}\n        labels: ${{ steps.meta.outputs.labels }}\n        \n  deploy:\n    needs: build-and-push\n    runs-on: ubuntu-latest\n    if: github.ref == 'refs/heads/main'\n    steps:\n    - name: Deploy to staging\n      run: |\n        echo \"Deploying to staging environment\"\n        # Add your deployment commands here",
+            "highlightLines": [12, 29, 30, 38, 48, 49, 68, 69, 76],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "hands-on-exercise",
+      "title": "Exercício de Containerização",
+      "type": "exercise",
+      "order": 4,
+      "estimatedDuration": "45 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Containerizar Aplicação de IA",
+        "description": "Containerize uma aplicação de IA com otimização adequada para implantação em produção",
+        "exerciseType": "coding",
+        "difficulty": "medium",
+        "instructions": [
+          "Criar um Dockerfile para uma aplicação de IA baseada em Python",
+          "Implementar build multi-estágio para otimização",
+          "Adicionar práticas de segurança adequadas (usuário não-root, imagem base mínima)",
+          "Configurar verificações de saúde e monitoramento",
+          "Construir e testar o contêiner localmente",
+          "Criar arquivo docker-compose para desenvolvimento local"
+        ],
+        "startingCode": "# Dockerfile starter\nFROM python:3.11-slim\n\n# TODO: Add system dependencies\n# TODO: Create non-root user\n# TODO: Set working directory\n# TODO: Copy and install requirements\n# TODO: Copy application code\n# TODO: Configure health check\n# TODO: Set user and expose port\n# TODO: Define startup command",
+        "solution": "# Multi-stage Dockerfile for AI applications\nFROM python:3.11-slim as base\n\n# Install system dependencies\nRUN apt-get update && apt-get install -y \\\n    build-essential \\\n    curl \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Create non-root user\nRUN useradd --create-home --shell /bin/bash app\nUSER app\nWORKDIR /home/app\n\n# Copy requirements and install dependencies\nCOPY --chown=app:app requirements.txt .\nRUN pip install --user --no-cache-dir -r requirements.txt\n\n# Production stage\nFROM python:3.11-slim as production\n\n# Install runtime dependencies\nRUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*\n\n# Create non-root user\nRUN useradd --create-home --shell /bin/bash app\nUSER app\nWORKDIR /home/app\n\n# Copy dependencies from base stage\nCOPY --from=base --chown=app:app /home/app/.local /home/app/.local\n\n# Copy application\nCOPY --chown=app:app . .\n\n# Set path\nENV PATH=/home/app/.local/bin:$PATH\n\n# Health check\nHEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl -f http://localhost:8080/health || exit 1\n\n# Expose port\nEXPOSE 8080\n\n# Start application\nCMD [\"python\", \"app.py\"]",
+        "hints": [
+          "Use builds multi-estágio para reduzir o tamanho da imagem final",
+          "Sempre execute contêineres como usuários não-root para segurança",
+          "Inclua verificações de saúde para orquestração de contêineres",
+          "Faça cache das dependências pip copiando requirements.txt primeiro"
+        ],
+        "validation": [
+          {
+            "type": "contains",
+            "value": "FROM.*as base",
+            "message": "Use multi-stage build with named stages"
+          },
+          {
+            "type": "contains",
+            "value": "useradd",
+            "message": "Create a non-root user for security"
+          },
+          {
+            "type": "contains",
+            "value": "HEALTHCHECK",
+            "message": "Add health check configuration"
+          }
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Quiz de Estratégias de Implantação",
+      "type": "quiz",
+      "order": 5,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Quiz de Estratégias de Implantação",
+        "description": "Teste seu entendimento sobre padrões de implantação de IA e containerização",
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "Qual é a principal vantagem da implantação blue-green?",
+            "points": 2,
+            "options": [
+              {
+                "id": "a",
+                "text": "Velocidade de implantação mais rápida",
+                "explanation": "Incorreto. A implantação blue-green pode ser mais lenta devido à manutenção de dois ambientes."
+              },
+              {
+                "id": "b",
+                "text": "Implantação sem tempo de inatividade com capacidade de reversão instantânea",
+                "explanation": "Correto! A implantação blue-green permite a troca instantânea entre ambientes para zero tempo de inatividade."
+              },
+              {
+                "id": "c",
+                "text": "Requisitos de recursos mais baixos",
+                "explanation": "Incorreto. A implantação blue-green requer o dobro de recursos para manter dois ambientes."
+              },
+              {
+                "id": "d",
+                "text": "Melhor segurança",
+                "explanation": "Incorreto. A segurança não é o principal benefício da implantação blue-green."
+              }
+            ],
+            "correctAnswers": ["b"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "Quais melhores práticas do Docker devem ser seguidas para aplicações de IA?",
+            "points": 3,
+            "options": [
+              {
+                "id": "a",
+                "text": "Usar builds multi-estágio",
+                "explanation": "Correto! Builds multi-estágio reduzem o tamanho da imagem final e melhoram a segurança."
+              },
+              {
+                "id": "b",
+                "text": "Executar como usuário não-root",
+                "explanation": "Correto! Usuários não-root melhoram a segurança do contêiner."
+              },
+              {
+                "id": "c",
+                "text": "Incluir verificações de saúde",
+                "explanation": "Correto! Verificações de saúde permitem a orquestração adequada de contêineres."
+              },
+              {
+                "id": "d",
+                "text": "Usar a tag latest para produção",
+                "explanation": "Incorreto. A tag latest deve ser evitada em produção para reprodutibilidade."
+              }
+            ],
+            "correctAnswers": ["a", "b", "c"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q3",
+            "type": "true-false",
+            "question": "A implantação canary permite testar novas versões com um pequeno subconjunto de tráfego antes da implantação completa.",
+            "points": 1,
+            "correctAnswer": true,
+            "explanation": "Verdadeiro! A implantação canary roteia gradualmente o tráfego para novas versões para testes seguros."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "docker-best-practices",
+      "title": "Melhores Práticas do Docker para Produção",
+      "type": "documentation",
+      "url": "https://docs.docker.com/develop/dev-best-practices/",
+      "description": "Documentação oficial do Docker sobre melhores práticas de produção",
+      "required": true
+    },
+    {
+      "id": "kubernetes-deployment",
+      "title": "Estratégias de Implantação do Kubernetes",
+      "type": "guide",
+      "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+      "description": "Guia oficial do Kubernetes para estratégias de implantação",
+      "required": true
+    },
+    {
+      "id": "mlops-patterns",
+      "title": "Padrões de Implantação MLOps",
+      "type": "reference",
+      "url": "https://ml-ops.org/content/deployment",
+      "description": "Guia abrangente sobre padrões de implantação MLOps",
+      "required": false
+    },
+    {
+      "id": "github-actions-ml",
+      "title": "GitHub Actions para ML",
+      "type": "tutorial",
+      "url": "https://docs.github.com/en/actions/guides/building-and-testing-python",
+      "description": "Tutoriais do GitHub Actions para aplicações Python e ML",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["deployment-patterns", "containerization", "cicd-pipelines", "hands-on-exercise"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}
