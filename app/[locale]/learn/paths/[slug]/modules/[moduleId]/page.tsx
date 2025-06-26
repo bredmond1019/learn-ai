@@ -67,14 +67,14 @@ export default async function ModulePage({ params }: PageProps) {
               {learningPath.title}
             </Link>
             <span className="text-gray-400">/</span>
-            <span className="text-gray-900 dark:text-gray-100">{module ? module.metadata.title : content?.title || ''}</span>
+            <span className="text-gray-900 dark:text-gray-100">{moduleData ? moduleData.metadata.title : content?.title || ''}</span>
           </nav>
           
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-            {module ? module.metadata.title : content?.title || ''}
+            {moduleData ? moduleData.metadata.title : content?.title || ''}
           </h1>
           <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-            {module ? module.metadata.description : content?.description || ''}
+            {moduleData ? moduleData.metadata.description : content?.description || ''}
           </p>
         </div>
       </header>
