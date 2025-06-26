@@ -304,6 +304,22 @@ export const ptBR = {
     keyAchievementText: "Construí a equipe de Ferramentas Internas do zero, criando sistemas de automação que eliminaram horas de trabalho manual diariamente e se tornaram a base para melhorias de produtividade em toda a empresa.",
   },
   
+  // Featured Articles Section
+  featuredArticles: {
+    title: "IA Não É Só Para Gênios da Tecnologia",
+    subtitle: "Descubra como a IA está transformando o dia a dia, potencializando negócios e por que ter o guia certo faz toda a diferença",
+    description: "Vamos ser honestos - IA pode parecer intimidadora. Mas não precisa ser. Estes guias explicam como a IA realmente ajuda pessoas e negócios reais, sem o jargão técnico.",
+    part: "Parte",
+    readArticle: "Começar a Ler",
+    viewAllArticles: "Ver Todos os Artigos",
+    article1Title: "IA para o Dia a Dia: Como Está Mudando Nossa Rotina",
+    article1Excerpt: "De gerenciar sua agenda a ajudar com o jantar, descubra como a IA está silenciosamente tornando a vida mais fácil - sem precisar de formação em tecnologia.",
+    article2Title: "Como Aproveitar IA no Seu Pequeno ou Médio Negócio",
+    article2Excerpt: "Maneiras práticas de usar IA para economizar tempo, cortar custos e competir com os grandes - sem quebrar o banco.",
+    article3Title: "Por Que Engenheiros de Sistemas de IA São Importantes para o Futuro",
+    article3Excerpt: "IA é poderosa, mas precisa dos arquitetos certos. Entenda por que engenheiros de IA são a ponte entre tecnologia incrível e resultados reais.",
+  },
+  
   // Metadata
   meta: {
     title: "Brandon - Engenheiro de IA e Desenvolvedor Full-Stack",

@@ -1,4 +1,5 @@
 import Hero from '@/components/Hero';
+import FeaturedArticles from '@/components/FeaturedArticles';
 import CTASection from '@/components/CTASection';
 
 type Props = {
@@ -11,6 +12,7 @@ export default async function Home({ params }: Props) {
   return (
     <>
       <Hero locale={locale} />
+      <FeaturedArticles locale={locale} />
       <CTASection locale={locale} />
     </>
   );
