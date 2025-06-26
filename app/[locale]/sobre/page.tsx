@@ -3,19 +3,27 @@ import Container from '@/components/Container';
 import Card from '@/components/Card';
 import { OptimizedImage } from '@/components/ui/optimized-image';
 import { generateBlurDataURL } from '@/lib/image-optimization';
+import { getTranslations } from '@/lib/translations';
+import { type Locale } from '@/lib/learn';
 
-export default function AboutPage() {
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function AboutPage({ params }: Props) {
+  const { locale } = await params;
+  const t = getTranslations(locale as Locale);
+  
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <Section spacing="lg">
         <Container size="md">
           <h1 className="text-4xl sm:text-5xl font-bold text-center mb-6">
-            About Me
+            {t.about.heroTitle}
           </h1>
           <p className="text-xl text-center text-foreground/80 max-w-3xl mx-auto">
-            From teaching mathematics in middle school classrooms to building AI systems that 
-            solve real problems - my journey brings a unique perspective to engineering.
+            {t.about.heroSubtitle}
           </p>
         </Container>
       </Section>
@@ -26,25 +34,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <h2 className="text-3xl font-semibold mb-6">
-                Hi, I&apos;m <span className="text-primary">Brandon J. Redmond</span>
+                {t.about.greeting} <span className="text-primary">{t.about.name}</span>
               </h2>
               <div className="space-y-4 text-lg text-foreground/80">
-                <p>
-                  Picture this: I was standing in front of a classroom of middle schoolers, 
-                  trying to explain quadratic equations, when it hit me - the same systematic 
-                  thinking that makes a great teacher could revolutionize how we build technology.
-                </p>
-                <p>
-                  That moment sparked a journey that took me from mathematics education to 
-                  leading engineering teams, but I never stopped being a teacher at heart. 
-                  Today, I specialize in building production-ready AI systems while sharing 
-                  that knowledge with the next generation of engineers.
-                </p>
-                <p>
-                  My superpower? I break down complex AI concepts into learnable, logical 
-                  components - whether I&apos;m architecting agentic workflows or explaining 
-                  MCP servers to fellow developers.
-                </p>
+                <p>{t.about.intro.paragraph1}</p>
+                <p>{t.about.intro.paragraph2}</p>
+                <p>{t.about.intro.paragraph3}</p>
               </div>
             </div>
             
@@ -74,27 +69,18 @@ export default function AboutPage() {
       <Section spacing="xl" className="bg-background-secondary/50">
         <Container size="md">
           <h2 className="text-3xl font-semibold text-center mb-8">
-            The Pivot
+            {t.about.pivotTitle}
           </h2>
           <div className="prose prose-lg max-w-none text-foreground/80">
             <p className="text-center mb-8">
-              When the pandemic hit in 2020, I made a decision that changed everything. 
-              After years of teaching mathematics - first middle school, then high school 
-              computer science - I realized technology could amplify my impact far beyond 
-              any single classroom.
+              {t.about.pivotIntro}
             </p>
             <div className="bg-background-secondary/50 rounded-lg p-6 border border-accent/10">
               <p className="mb-4">
-                <strong className="text-primary">The Bold Move:</strong> I left my secure 
-                teaching position to teach myself software development. No bootcamp, no 
-                formal CS degree - just pure determination and 18 months of intensive 
-                self-study.
+                <strong className="text-primary">{t.about.boldMove}</strong> {t.about.boldMoveText}
               </p>
               <p>
-                <strong className="text-primary">What I Brought Forward:</strong> The ability 
-                to break complex problems into teachable steps, systematic thinking, and 
-                an obsession with making difficult concepts accessible. These weren&apos;t just 
-                teaching skills - they were engineering superpowers.
+                <strong className="text-primary">{t.about.whatIBrought}</strong> {t.about.whatIBroughtText}
               </p>
             </div>
           </div>
@@ -105,7 +91,7 @@ export default function AboutPage() {
       <Section spacing="xl">
         <Container>
           <h2 className="text-3xl font-semibold text-center mb-12">
-            0 to Team Lead in 3 Years
+            {t.about.timelineTitle}
           </h2>
           
           <div className="max-w-4xl mx-auto">
@@ -114,73 +100,55 @@ export default function AboutPage() {
               <div className="relative pl-8 border-l-2 border-accent/20">
                 <div className="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full" />
                 <div className="mb-1">
-                  <span className="text-sm text-primary font-medium">2024 - Present</span>
+                  <span className="text-sm text-primary font-medium">{t.about.timeline.current.date}</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">AI Engineering Focus</h3>
-                <p className="text-foreground/70">
-                  Building agentic AI systems and MCP servers. Teaching complex AI concepts 
-                  to engineering teams while architecting production-ready solutions.
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t.about.timeline.current.title}</h3>
+                <p className="text-foreground/70">{t.about.timeline.current.description}</p>
               </div>
 
               <div className="relative pl-8 border-l-2 border-accent/20">
                 <div className="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full" />
                 <div className="mb-1">
-                  <span className="text-sm text-primary font-medium">2023 - Present</span>
+                  <span className="text-sm text-primary font-medium">{t.about.timeline.teamLead.date}</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Team Lead - Internal Tools</h3>
-                <p className="text-foreground/70">
-                  Built the Internal Tools team from scratch. Created automation systems 
-                  that transformed company workflows and eliminated hours of manual work daily.
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t.about.timeline.teamLead.title}</h3>
+                <p className="text-foreground/70">{t.about.timeline.teamLead.description}</p>
               </div>
 
               <div className="relative pl-8 border-l-2 border-accent/20">
                 <div className="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full" />
                 <div className="mb-1">
-                  <span className="text-sm text-primary font-medium">2022 - 2023</span>
+                  <span className="text-sm text-primary font-medium">{t.about.timeline.firstDev.date}</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">First Developer Role</h3>
-                <p className="text-foreground/70">
-                  Rapid growth from junior to mid-level developer. Proved that teaching 
-                  skills translate directly to mentoring teammates and leading technical discussions.
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t.about.timeline.firstDev.title}</h3>
+                <p className="text-foreground/70">{t.about.timeline.firstDev.description}</p>
               </div>
 
               <div className="relative pl-8 border-l-2 border-accent/20">
                 <div className="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full" />
                 <div className="mb-1">
-                  <span className="text-sm text-primary font-medium">2020 - 2022</span>
+                  <span className="text-sm text-primary font-medium">{t.about.timeline.selfTaught.date}</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Self-Taught Developer Journey</h3>
-                <p className="text-foreground/70">
-                  18 months of intensive learning: Python, JavaScript, React, databases, 
-                  cloud platforms. Applied teaching methodologies to master technical concepts rapidly.
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t.about.timeline.selfTaught.title}</h3>
+                <p className="text-foreground/70">{t.about.timeline.selfTaught.description}</p>
               </div>
 
               <div className="relative pl-8 border-l-2 border-accent/20">
                 <div className="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full" />
                 <div className="mb-1">
-                  <span className="text-sm text-primary font-medium">2018 - 2020</span>
+                  <span className="text-sm text-primary font-medium">{t.about.timeline.hsTeacher.date}</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">High School CS Teacher</h3>
-                <p className="text-foreground/70">
-                  Taught computer science fundamentals while developing deeper 
-                  understanding of technology&apos;s potential to solve real-world problems.
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t.about.timeline.hsTeacher.title}</h3>
+                <p className="text-foreground/70">{t.about.timeline.hsTeacher.description}</p>
               </div>
 
               <div className="relative pl-8 border-l-2 border-accent/20">
                 <div className="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full" />
                 <div className="mb-1">
-                  <span className="text-sm text-primary font-medium">2015 - 2018</span>
+                  <span className="text-sm text-primary font-medium">{t.about.timeline.msTeacher.date}</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Middle School Math Teacher</h3>
-                <p className="text-foreground/70">
-                  Masters in Mathematics. Developed systematic approaches to 
-                  breaking down complex problems - skills that now drive my engineering process.
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t.about.timeline.msTeacher.title}</h3>
+                <p className="text-foreground/70">{t.about.timeline.msTeacher.description}</p>
               </div>
             </div>
           </div>
@@ -191,40 +159,34 @@ export default function AboutPage() {
       <Section spacing="xl" className="bg-background-secondary/50">
         <Container>
           <h2 className="text-3xl font-semibold text-center mb-12">
-            Teaching Shapes My Engineering
+            {t.about.teachingShapesTitle}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card>
               <h3 className="text-xl font-semibold mb-4 text-primary">
-                Systematic Problem Solving
+                {t.about.teachingShapes.problemSolving.title}
               </h3>
               <p className="text-foreground/80">
-                Every complex system gets broken down into learnable components. 
-                Whether it&apos;s explaining fractions or architecting microservices, 
-                the approach is the same: start simple, build understanding step by step.
+                {t.about.teachingShapes.problemSolving.description}
               </p>
             </Card>
 
             <Card>
               <h3 className="text-xl font-semibold mb-4 text-primary">
-                Clear Communication
+                {t.about.teachingShapes.communication.title}
               </h3>
               <p className="text-foreground/80">
-                Technical concepts mean nothing if you can&apos;t explain them clearly. 
-                My teaching background helps me write better documentation, lead 
-                more effective meetings, and mentor junior developers.
+                {t.about.teachingShapes.communication.description}
               </p>
             </Card>
 
             <Card>
               <h3 className="text-xl font-semibold mb-4 text-primary">
-                Patient Debugging
+                {t.about.teachingShapes.debugging.title}
               </h3>
               <p className="text-foreground/80">
-                Years of helping struggling students taught me that every bug 
-                has a logical explanation. I approach debugging the same way I 
-                approached helping students: methodically and without judgment.
+                {t.about.teachingShapes.debugging.description}
               </p>
             </Card>
           </div>
@@ -235,46 +197,40 @@ export default function AboutPage() {
       <Section spacing="xl">
         <Container>
           <h2 className="text-3xl font-semibold text-center mb-12">
-            Technical Stack
+            {t.about.technicalStackTitle}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card>
               <h3 className="text-xl font-semibold mb-4 text-primary">
-                AI & Automation
+                {t.about.technicalStack.ai.title}
               </h3>
               <ul className="space-y-2 text-foreground/80">
-                <li>• Agentic AI Systems</li>
-                <li>• MCP Server Development</li>
-                <li>• LLM Integration & RAG</li>
-                <li>• Workflow Automation</li>
-                <li>• Production AI Deployment</li>
+                {t.about.technicalStack.ai.items.map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </Card>
 
             <Card>
               <h3 className="text-xl font-semibold mb-4 text-primary">
-                Languages & Frameworks
+                {t.about.technicalStack.languages.title}
               </h3>
               <ul className="space-y-2 text-foreground/80">
-                <li>• Rust (Systems & Performance)</li>
-                <li>• Python (AI & Data)</li>
-                <li>• TypeScript/React (Frontend)</li>
-                <li>• Ruby on Rails (Backend)</li>
-                <li>• SQL & NoSQL Databases</li>
+                {t.about.technicalStack.languages.items.map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </Card>
 
             <Card>
               <h3 className="text-xl font-semibold mb-4 text-primary">
-                Infrastructure & Tools
+                {t.about.technicalStack.infrastructure.title}
               </h3>
               <ul className="space-y-2 text-foreground/80">
-                <li>• Cloud Platforms (AWS, GCP)</li>
-                <li>• Docker & Containerization</li>
-                <li>• CI/CD Pipeline Design</li>
-                <li>• Microservices Architecture</li>
-                <li>• Monitoring & Observability</li>
+                {t.about.technicalStack.infrastructure.items.map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </Card>
           </div>
@@ -285,37 +241,37 @@ export default function AboutPage() {
       <Section spacing="xl" className="bg-background-secondary/30">
         <Container>
           <h2 className="text-3xl font-semibold text-center mb-12">
-            Beyond Code
+            {t.about.beyondCodeTitle}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-xl font-semibold mb-6 text-primary">Global Perspective</h3>
+              <h3 className="text-xl font-semibold mb-6 text-primary">{t.about.globalPerspective}</h3>
               <div className="space-y-4 text-foreground/80">
                 <div className="flex items-start">
                   <span className="text-primary mr-3 mt-1">🌍</span>
                   <div>
-                    <strong>Dual Location:</strong> São Paulo, Brazil ↔ New York, NY
+                    <strong>{t.about.dualLocation}</strong> {t.about.dualLocationText}
                     <p className="text-sm text-foreground/60 mt-1">
-                      Multicultural perspective shapes how I approach global products
+                      {t.about.dualLocationSubtext}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <span className="text-primary mr-3 mt-1">🗣️</span>
                   <div>
-                    <strong>Languages:</strong> English, Portuguese, Italian
+                    <strong>{t.about.languages}</strong> {t.about.languagesText}
                     <p className="text-sm text-foreground/60 mt-1">
-                      Communication skills that open doors across cultures
+                      {t.about.languagesSubtext}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <span className="text-primary mr-3 mt-1">🎓</span>
                   <div>
-                    <strong>Education:</strong> Masters in Mathematics
+                    <strong>{t.about.education}</strong> {t.about.educationText}
                     <p className="text-sm text-foreground/60 mt-1">
-                      Strong analytical foundation for complex problem solving
+                      {t.about.educationSubtext}
                     </p>
                   </div>
                 </div>
@@ -323,32 +279,32 @@ export default function AboutPage() {
             </div>
             
             <div>
-              <h3 className="text-xl font-semibold mb-6 text-primary">Personal Interests</h3>
+              <h3 className="text-xl font-semibold mb-6 text-primary">{t.about.personalInterests}</h3>
               <div className="space-y-4 text-foreground/80">
                 <div className="flex items-start">
                   <span className="text-primary mr-3 mt-1">🧗</span>
                   <div>
-                    <strong>Rock Climbing:</strong> Mental and physical challenges
+                    <strong>{t.about.rockClimbing}</strong> {t.about.rockClimbingText}
                     <p className="text-sm text-foreground/60 mt-1">
-                      Problem-solving under pressure, just like debugging production issues
+                      {t.about.rockClimbingSubtext}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <span className="text-primary mr-3 mt-1">🎹</span>
                   <div>
-                    <strong>Piano:</strong> Pattern recognition and practice
+                    <strong>{t.about.piano}</strong> {t.about.pianoText}
                     <p className="text-sm text-foreground/60 mt-1">
-                      Music theory parallels system architecture in surprising ways
+                      {t.about.pianoSubtext}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <span className="text-primary mr-3 mt-1">✈️</span>
                   <div>
-                    <strong>Travel & Family:</strong> Global adventures
+                    <strong>{t.about.travel}</strong> {t.about.travelText}
                     <p className="text-sm text-foreground/60 mt-1">
-                      Understanding different cultures enhances product design
+                      {t.about.travelSubtext}
                     </p>
                   </div>
                 </div>
@@ -360,12 +316,10 @@ export default function AboutPage() {
           <div className="mt-12 text-center">
             <div className="bg-primary/10 border border-primary/20 rounded-lg p-6 max-w-2xl mx-auto">
               <h3 className="text-xl font-semibold text-primary mb-3">
-                Key Achievement
+                {t.about.keyAchievementTitle}
               </h3>
               <p className="text-foreground/80">
-                Built the Internal Tools team from scratch, creating automation systems 
-                that eliminated hours of manual work daily and became the foundation 
-                for company-wide productivity improvements.
+                {t.about.keyAchievementText}
               </p>
             </div>
           </div>

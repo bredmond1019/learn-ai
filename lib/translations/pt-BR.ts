@@ -117,6 +117,15 @@ export const ptBR = {
     startPath: "Iniciar Trilha",
     continuePath: "Continuar Trilha",
     viewPath: "Ver Trilha",
+    startLearningPath: "Iniciar Trilha de Aprendizado",
+    downloadSyllabus: "Baixar Programa",
+    whatYouWillLearn: "O Que Você Aprenderá",
+    learningOutcomes: "Resultados de Aprendizado",
+    courseModules: "Módulos do Curso",
+    startModule: "Iniciar Módulo",
+    readyToStart: "Pronto para Começar a Aprender?",
+    joinCommunity: "Junte-se à crescente comunidade de engenheiros dominando IA agêntica e servidores MCP.",
+    getGuidance: "Obter Orientação Pessoal",
     stats: {
       mcpServers: "Servidores MCP Construídos",
       students: "Estudantes Ensinados",
@@ -129,6 +138,15 @@ export const ptBR = {
       "Conecte novos conceitos ao conhecimento existente que você já tem",
       "A prática torna permanente - a repetição constrói compreensão"
     ]
+  },
+  
+  // Navigation
+  navigation: {
+    backToLearn: "Voltar para Aprender",
+    backToPath: "Voltar para Trilha de Aprendizado",
+    previousModule: "Módulo Anterior",
+    nextModule: "Próximo Módulo",
+    completePath: "Completar Trilha",
   },
   
   // Projects
@@ -144,6 +162,9 @@ export const ptBR = {
     noResultsSubtitle: "Tente ajustar seu termo de busca ou filtro para encontrar mais projetos.",
     viewAll: "Ver todos os projetos",
     clearFilters: "Limpar filtros",
+    interestedInCollaboration: "Interessado em Colaboração?",
+    collaborationText: "Estou sempre animado para trabalhar em projetos desafiadores de IA que causam impacto real.",
+    discussProject: "Vamos discutir seu projeto",
     backToProjects: "Voltar para Projetos",
     overview: "Visão Geral",
     technicalStack: "Stack Técnica",
@@ -154,7 +175,6 @@ export const ptBR = {
     featured: "Destaque",
     collaboration: "Interessado em Colaboração?",
     collaborationSubtitle: "Estou sempre animado para trabalhar em projetos desafiadores de IA que causam impacto real.",
-    discussProject: "Vamos discutir seu projeto",
     technologies: "Tecnologias",
     status: "Status",
     live: "Ao Vivo",
@@ -181,6 +201,107 @@ export const ptBR = {
   about: {
     title: "Sobre",
     subtitle: "Engenheiro de IA e Desenvolvedor Full-Stack apaixonado por construir sistemas inteligentes.",
+    heroTitle: "Sobre Mim",
+    heroSubtitle: "Do ensino de matemática em salas de aula do ensino fundamental à construção de sistemas de IA que resolvem problemas reais - minha jornada traz uma perspectiva única à engenharia.",
+    greeting: "Oi, eu sou",
+    name: "Brandon J. Redmond",
+    intro: {
+      paragraph1: "Imagine isso: eu estava diante de uma sala de aula de alunos do ensino fundamental, tentando explicar equações quadráticas, quando percebi - o mesmo pensamento sistemático que faz um ótimo professor poderia revolucionar como construímos tecnologia.",
+      paragraph2: "Esse momento desencadeou uma jornada que me levou da educação matemática a liderar equipes de engenharia, mas nunca deixei de ser professor no coração. Hoje, me especializo em construir sistemas de IA prontos para produção enquanto compartilho esse conhecimento com a próxima geração de engenheiros.",
+      paragraph3: "Meu superpoder? Eu decomponho conceitos complexos de IA em componentes aprendíveis e lógicos - seja arquitetando fluxos de trabalho agênticos ou explicando servidores MCP para outros desenvolvedores.",
+    },
+    pivotTitle: "A Virada",
+    pivotIntro: "Quando a pandemia chegou em 2020, tomei uma decisão que mudou tudo. Após anos ensinando matemática - primeiro no ensino fundamental, depois ciência da computação no ensino médio - percebi que a tecnologia poderia amplificar meu impacto muito além de qualquer sala de aula única.",
+    boldMove: "A Jogada Audaciosa:",
+    boldMoveText: "Deixei meu cargo seguro de professor para ensinar a mim mesmo desenvolvimento de software. Sem bootcamp, sem diploma formal de CS - apenas pura determinação e 18 meses de estudo intensivo autodidata.",
+    whatIBrought: "O Que Trouxe Comigo:",
+    whatIBroughtText: "A capacidade de decompor problemas complexos em etapas ensináveis, pensamento sistemático e uma obsessão em tornar conceitos difíceis acessíveis. Essas não eram apenas habilidades de ensino - eram superpoderes de engenharia.",
+    timelineTitle: "De 0 a Líder de Equipe em 3 Anos",
+    timeline: {
+      current: {
+        date: "2024 - Presente",
+        title: "Foco em Engenharia de IA",
+        description: "Construindo sistemas de IA agêntica e servidores MCP. Ensinando conceitos complexos de IA para equipes de engenharia enquanto arquiteto soluções prontas para produção.",
+      },
+      teamLead: {
+        date: "2023 - Presente",
+        title: "Líder de Equipe - Ferramentas Internas",
+        description: "Construí a equipe de Ferramentas Internas do zero. Criei sistemas de automação que transformaram fluxos de trabalho da empresa e eliminaram horas de trabalho manual diariamente.",
+      },
+      firstDev: {
+        date: "2022 - 2023",
+        title: "Primeiro Cargo de Desenvolvedor",
+        description: "Crescimento rápido de desenvolvedor júnior para nível médio. Provei que habilidades de ensino se traduzem diretamente em mentoria de colegas e liderança de discussões técnicas.",
+      },
+      selfTaught: {
+        date: "2020 - 2022",
+        title: "Jornada de Desenvolvedor Autodidata",
+        description: "18 meses de aprendizado intensivo: Python, JavaScript, React, bancos de dados, plataformas em nuvem. Apliquei metodologias de ensino para dominar conceitos técnicos rapidamente.",
+      },
+      hsTeacher: {
+        date: "2018 - 2020",
+        title: "Professor de CS no Ensino Médio",
+        description: "Ensinei fundamentos de ciência da computação enquanto desenvolvia compreensão mais profunda do potencial da tecnologia para resolver problemas do mundo real.",
+      },
+      msTeacher: {
+        date: "2015 - 2018",
+        title: "Professor de Matemática no Ensino Fundamental",
+        description: "Mestrado em Matemática. Desenvolvi abordagens sistemáticas para decompor problemas complexos - habilidades que agora impulsionam meu processo de engenharia.",
+      },
+    },
+    teachingShapesTitle: "O Ensino Molda Minha Engenharia",
+    teachingShapes: {
+      problemSolving: {
+        title: "Resolução Sistemática de Problemas",
+        description: "Cada sistema complexo é decomposto em componentes aprendíveis. Seja explicando frações ou arquitetando microserviços, a abordagem é a mesma: comece simples, construa compreensão passo a passo.",
+      },
+      communication: {
+        title: "Comunicação Clara",
+        description: "Conceitos técnicos não significam nada se você não pode explicá-los claramente. Meu background de ensino me ajuda a escrever melhor documentação, liderar reuniões mais eficazes e mentorar desenvolvedores júnior.",
+      },
+      debugging: {
+        title: "Depuração Paciente",
+        description: "Anos ajudando alunos com dificuldades me ensinaram que todo bug tem uma explicação lógica. Abordo a depuração da mesma forma que abordava ajudar alunos: metodicamente e sem julgamento.",
+      },
+    },
+    technicalStackTitle: "Stack Técnica",
+    technicalStack: {
+      ai: {
+        title: "IA & Automação",
+        items: ["Sistemas de IA Agêntica", "Desenvolvimento de Servidor MCP", "Integração LLM & RAG", "Automação de Fluxo de Trabalho", "Deploy de IA em Produção"],
+      },
+      languages: {
+        title: "Linguagens & Frameworks",
+        items: ["Rust (Sistemas & Performance)", "Python (IA & Dados)", "TypeScript/React (Frontend)", "Ruby on Rails (Backend)", "Bancos de Dados SQL & NoSQL"],
+      },
+      infrastructure: {
+        title: "Infraestrutura & Ferramentas",
+        items: ["Plataformas Cloud (AWS, GCP)", "Docker & Containerização", "Design de Pipeline CI/CD", "Arquitetura de Microserviços", "Monitoramento & Observabilidade"],
+      },
+    },
+    beyondCodeTitle: "Além do Código",
+    globalPerspective: "Perspectiva Global",
+    dualLocation: "Localização Dupla:",
+    dualLocationText: "São Paulo, Brasil ↔ Nova York, NY",
+    dualLocationSubtext: "Perspectiva multicultural molda como abordo produtos globais",
+    languages: "Idiomas:",
+    languagesText: "Inglês, Português, Italiano",
+    languagesSubtext: "Habilidades de comunicação que abrem portas entre culturas",
+    education: "Educação:",
+    educationText: "Mestrado em Matemática",
+    educationSubtext: "Base analítica forte para resolução de problemas complexos",
+    personalInterests: "Interesses Pessoais",
+    rockClimbing: "Escalada:",
+    rockClimbingText: "Desafios mentais e físicos",
+    rockClimbingSubtext: "Resolução de problemas sob pressão, assim como depurar problemas em produção",
+    piano: "Piano:",
+    pianoText: "Reconhecimento de padrões e prática",
+    pianoSubtext: "Teoria musical se assemelha à arquitetura de sistemas de maneiras surpreendentes",
+    travel: "Viagem & Família:",
+    travelText: "Aventuras globais",
+    travelSubtext: "Entender diferentes culturas melhora o design de produtos",
+    keyAchievementTitle: "Conquista Principal",
+    keyAchievementText: "Construí a equipe de Ferramentas Internas do zero, criando sistemas de automação que eliminaram horas de trabalho manual diariamente e se tornaram a base para melhorias de produtividade em toda a empresa.",
   },
   
   // Metadata

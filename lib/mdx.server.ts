@@ -109,7 +109,7 @@ export function getPostBySlug(slug: string, locale?: string): BlogPost | null {
 
 // Get all blog posts sorted by date (newest first) with locale support
 export function getAllPosts(locale?: string): BlogPost[] {
-  const cacheKey = cacheKeys.blog.allPosts(`-${locale || 'en'}`);
+  const cacheKey = `${cacheKeys.blog.allPosts()}-${locale || 'en'}`;
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
@@ -128,7 +128,7 @@ export function getAllPosts(locale?: string): BlogPost[] {
 
 // Get blog post metadata only (for listing pages) with locale support
 export function getAllPostsMeta(locale?: string): BlogPostMeta[] {
-  const cacheKey = cacheKeys.blog.postsMeta(`-${locale || 'en'}`);
+  const cacheKey = `${cacheKeys.blog.postsMeta()}-${locale || 'en'}`;
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
@@ -151,7 +151,7 @@ export function getAllPostsMeta(locale?: string): BlogPostMeta[] {
 
 // Get recent posts (for homepage preview) with locale support
 export function getRecentPosts(limit: number = 3, locale?: string): BlogPostMeta[] {
-  const cacheKey = cacheKeys.blog.recentPosts(`${limit}-${locale || 'en'}`);
+  const cacheKey = `${cacheKeys.blog.recentPosts(limit)}-${locale || 'en'}`;
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
@@ -182,7 +182,7 @@ export function getPostsByTag(tag: string, locale?: string): BlogPost[] {
 
 // Get all unique tags with locale support
 export function getAllTags(locale?: string): string[] {
-  const cacheKey = cacheKeys.blog.allTags(`-${locale || 'en'}`);
+  const cacheKey = `${cacheKeys.blog.allTags()}-${locale || 'en'}`;
   const cached = blogCache.get(cacheKey);
   
   if (cached !== null) {
