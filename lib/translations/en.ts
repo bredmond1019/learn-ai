@@ -74,7 +74,28 @@ export const en = {
   // Learning
   learn: {
     title: "Learn",
+    titleMain: "Learn Agentic AI & MCP Servers",
     subtitle: "Comprehensive guides and courses on AI engineering and modern development.",
+    subtitleMain: "Master the fundamentals of intelligent AI systems with a teacher who understands how to make complex concepts click. From MCP server architecture to agentic workflows, learn by building real systems.",
+    startLearning: "Start Learning",
+    exploreConcepts: "Explore Concepts",
+    teachingPhilosophy: "Teaching Philosophy: From Complex to Clear",
+    teachingSubtitle: "My approach to teaching complex AI concepts, refined through years in the classroom and now applied to cutting-edge technology.",
+    learningPaths: "Learning Paths",
+    learningPathsSubtitle: "Structured learning journeys that take you from beginner to expert. Each path is designed with clear progression and hands-on projects.",
+    keyConcepts: "Key Concepts",
+    keyConceptsSubtitle: "Essential concepts explained clearly. Each topic breaks down complex ideas into understandable components with real-world examples.",
+    whyLearn: "Why Learn Agentic AI & MCP?",
+    futureIsAgentic: "The Future is Agentic",
+    futureIsAgenticText: "AI systems are evolving from simple chatbots to intelligent agents that can plan, reason, and execute complex tasks. Companies are racing to build these systems, and demand for engineers who understand agentic architectures is exploding.",
+    mcpStandard: "MCP (Model Context Protocol) is becoming the standard for connecting AI systems to external tools and data sources, making it an essential skill for modern AI engineering.",
+    competitiveAdvantage: "Competitive Advantage",
+    competitiveAdvantageText: "While most developers are still learning basic prompt engineering, you'll master the architectural patterns that power next-generation AI applications. This knowledge translates directly to higher-impact roles and better compensation.",
+    teachingApproach: "My teaching approach ensures you don't just follow tutorials - you understand the underlying principles so you can architect your own solutions.",
+    readyToMaster: "Ready to Master Agentic AI?",
+    readyToMasterSubtitle: "Join the growing community of engineers building the next generation of AI systems. Start with fundamentals and progress to advanced production patterns.",
+    chooseYourPath: "Choose Your Path",
+    getPersonalGuidance: "Get Personal Guidance",
     concepts: "Concepts",
     paths: "Learning Paths",
     projects: "Projects",
@@ -88,6 +109,14 @@ export const en = {
     beginner: "Beginner",
     intermediate: "Intermediate",
     advanced: "Advanced",
+    hours: "hours",
+    level: "Level",
+    topics: "Topics",
+    outcomes: "Outcomes",
+    modules: "Modules",
+    startPath: "Start Path",
+    continuePath: "Continue Path",
+    viewPath: "View Path",
     startLearningPath: "Start Learning Path",
     downloadSyllabus: "Download Syllabus",
     whatYouWillLearn: "What You'll Learn",
@@ -96,8 +125,19 @@ export const en = {
     startModule: "Start Module",
     readyToStart: "Ready to Start Learning?",
     joinCommunity: "Join the growing community of engineers mastering agentic AI and MCP servers.",
-    startPath: "Start",
     getGuidance: "Get Personal Guidance",
+    stats: {
+      mcpServers: "MCP Servers Built",
+      students: "Students Taught",
+      yearsTeaching: "Years Teaching"
+    },
+    teachingPoints: [
+      "Start with the 'why' - understand the problem before diving into solutions",
+      "Break complex systems into manageable, logical components",
+      "Learn by building - every concept is paired with hands-on implementation",
+      "Connect new concepts to existing knowledge you already have",
+      "Practice makes permanent - repetition builds understanding"
+    ]
   },
   
   // Navigation
@@ -252,6 +292,22 @@ export const en = {
     travelSubtext: "Understanding different cultures enhances product design",
     keyAchievementTitle: "Key Achievement",
     keyAchievementText: "Built the Internal Tools team from scratch, creating automation systems that eliminated hours of manual work daily and became the foundation for company-wide productivity improvements.",
+  },
+  
+  // Featured Articles Section
+  featuredArticles: {
+    title: "AI Isn't Just for Tech Wizards",
+    subtitle: "Discover how AI is transforming everyday life, powering businesses, and why having the right guide matters",
+    description: "Let's be honest - AI can feel overwhelming. But it doesn't have to be. These guides break down how AI actually helps real people and real businesses, minus the tech jargon.",
+    part: "Part",
+    readArticle: "Start Reading",
+    viewAllArticles: "View All Articles",
+    article1Title: "AI for the Everyday Person: How It's Changing Our Day to Day",
+    article1Excerpt: "From managing your schedule to helping with dinner plans, discover how AI is quietly making life easier - no tech degree required.",
+    article2Title: "How to Leverage AI in Your Small to Medium Business",
+    article2Excerpt: "Practical ways businesses can use AI to save time, cut costs, and compete with the big players - without breaking the bank.",
+    article3Title: "Why AI Systems Engineers Are Important for the Future",
+    article3Excerpt: "AI is powerful, but it needs the right architects. Learn why AI engineers are the bridge between amazing technology and real results.",
   },
   
   // Metadata
