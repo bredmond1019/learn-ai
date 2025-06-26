@@ -29,7 +29,7 @@ export default function LearnCardServer({ path, className, locale = 'en' }: Lear
   };
 
   return (
-    <Card variant="interactive" className={`h-full ${className || ''}`}>
+    <Card variant="interactive" className={`h-full flex flex-col ${className || ''}`}>
       <div className="flex items-center justify-between mb-4">
         <span className={`px-3 py-1 rounded-full text-xs font-medium ${getLevelColor(path.level)}`}>
           {path.level}
@@ -75,7 +75,7 @@ export default function LearnCardServer({ path, className, locale = 'en' }: Lear
         </div>
       )}
 
-      <div className="mb-6">
+      <div className="mb-6 flex-grow">
         <h4 className="text-sm font-medium text-foreground/70 mb-2">{t('learn.outcomes')}:</h4>
         <ul className="space-y-1">
           {path.outcomes.slice(0, 3).map((outcome, index) => (
@@ -92,7 +92,7 @@ export default function LearnCardServer({ path, className, locale = 'en' }: Lear
         </ul>
       </div>
       
-      <div className="mt-auto flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
         <Link href={`/${locale}/${locale === 'pt-BR' ? 'aprender' : 'learn'}/paths/${path.id}`}>
           <Button variant="primary" className="w-full">
             {t('learn.startPath')}
