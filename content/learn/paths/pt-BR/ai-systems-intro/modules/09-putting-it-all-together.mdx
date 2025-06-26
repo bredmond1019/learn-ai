@@ -1,0 +1,1014 @@
+---
+title: "Putting It All Together"
+description: "Combine everything to create a complete AI System solving a real business problem"
+publishedAt: "2025-01-26"
+authors:
+  - brandonscheid
+---
+
+import { Quiz } from '@/components/quiz'
+import { Callout } from '@/components/callout'
+import { CodeBlock } from '@/components/code-block'
+
+## introduction {#introduction}
+
+This is where all your hard work pays off! We're going to combine everything you've learned to create a complete, production-ready AI System for Cozy Café. This system will handle real business operations and demonstrate the true power of AI Systems.
+
+By the end of this module, you'll have:
+- A complete AI System with multiple components working together
+- A workflow engine orchestrating tasks
+- Multiple MCP servers for different functions
+- An intelligent agent managing everything
+- A real business solution you can adapt for any use case
+
+<Callout type="success">
+**The Big Picture**: This is what you've been building towards – a complete AI System that can transform a small business!
+</Callout>
+
+## system-architecture {#system-architecture}
+
+### The Complete Cozy Café AI System
+
+Let's see how all our components work together to create a powerful business solution:
+
+
+### System Capabilities
+
+Our complete system will:
+
+1. **Customer Service** - Handle inquiries 24/7
+2. **Feedback Management** - Collect and analyze customer feedback
+3. **Menu Information** - Answer questions about offerings
+4. **Business Analytics** - Provide insights and trends
+5. **Task Automation** - Handle routine operations
+6. **Proactive Alerts** - Notify about important issues
+
+## workflow-engine {#workflow-engine}
+
+### Building a Simple Workflow Engine
+
+Let's create a workflow engine to orchestrate our AI System:
+
+<CodeBlock language="python" filename="workflow/engine.py">
+"""
+Simple Workflow Engine for Cozy Café AI System
+Orchestrates tasks and manages system flow
+"""
+
+import asyncio
+from typing import Dict, List, Any, Callable
+from enum import Enum
+from datetime import datetime
+import json
+
+class TaskStatus(Enum):
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+class Task:
+    """Represents a workflow task"""
+    def __init__(self, id: str, name: str, function: Callable, dependencies: List[str] = None):
+        self.id = id
+        self.name = name
+        self.function = function
+        self.dependencies = dependencies or []
+        self.status = TaskStatus.PENDING
+        self.result = None
+        self.error = None
+        self.started_at = None
+        self.completed_at = None
+    
+    async def execute(self, context: Dict[str, Any]):
+        """Execute the task"""
+        self.status = TaskStatus.RUNNING
+        self.started_at = datetime.now()
+        
+        try:
+            self.result = await self.function(context)
+            self.status = TaskStatus.COMPLETED
+        except Exception as e:
+            self.error = str(e)
+            self.status = TaskStatus.FAILED
+            raise
+        finally:
+            self.completed_at = datetime.now()
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert task to dictionary"""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "status": self.status.value,
+            "result": self.result,
+            "error": self.error,
+            "duration": (self.completed_at - self.started_at).total_seconds() if self.completed_at else None
+        }
+
+class Workflow:
+    """Manages workflow execution"""
+    def __init__(self, name: str):
+        self.name = name
+        self.tasks: Dict[str, Task] = {}
+        self.context = {}
+        
+    def add_task(self, task: Task):
+        """Add a task to the workflow"""
+        self.tasks[task.id] = task
+        
+    def get_ready_tasks(self) -> List[Task]:
+        """Get tasks that are ready to run"""
+        ready = []
+        for task in self.tasks.values():
+            if task.status == TaskStatus.PENDING:
+                # Check if all dependencies are completed
+                deps_completed = all(
+                    self.tasks[dep_id].status == TaskStatus.COMPLETED
+                    for dep_id in task.dependencies
+                )
+                if deps_completed:
+                    ready.append(task)
+        return ready
+    
+    async def execute(self):
+        """Execute the workflow"""
+        print(f"🚀 Starting workflow: {self.name}")
+        
+        while True:
+            # Get tasks ready to run
+            ready_tasks = self.get_ready_tasks()
+            
+            if not ready_tasks:
+                # Check if we're done
+                pending = [t for t in self.tasks.values() if t.status == TaskStatus.PENDING]
+                if not pending:
+                    break
+                
+                # Wait a bit before checking again
+                await asyncio.sleep(0.1)
+                continue
+            
+            # Execute ready tasks concurrently
+            await asyncio.gather(*[
+                task.execute(self.context) for task in ready_tasks
+            ])
+        
+        print(f"✅ Workflow completed: {self.name}")
+        return self.get_results()
+    
+    def get_results(self) -> Dict[str, Any]:
+        """Get workflow results"""
+        return {
+            "workflow": self.name,
+            "tasks": [task.to_dict() for task in self.tasks.values()],
+            "success": all(task.status == TaskStatus.COMPLETED for task in self.tasks.values())
+        }
+
+# Example workflow tasks for Cozy Café
+async def collect_daily_feedback(context: Dict[str, Any]):
+    """Collect all feedback from today"""
+    print("📝 Collecting daily feedback...")
+    # Simulate collecting feedback
+    await asyncio.sleep(1)
+    feedback_count = 15  # Simulated
+    context['feedback_count'] = feedback_count
+    return {"collected": feedback_count}
+
+async def analyze_sentiment_trends(context: Dict[str, Any]):
+    """Analyze sentiment from collected feedback"""
+    print("😊 Analyzing sentiment trends...")
+    await asyncio.sleep(1)
+    # Simulate analysis
+    return {
+        "positive": 12,
+        "neutral": 2,
+        "negative": 1,
+        "average_rating": 4.3
+    }
+
+async def generate_daily_report(context: Dict[str, Any]):
+    """Generate daily business report"""
+    print("📊 Generating daily report...")
+    await asyncio.sleep(1)
+    return {
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "feedback_count": context.get('feedback_count', 0),
+        "recommendations": [
+            "Customer satisfaction is high!",
+            "Consider promoting the new latte special"
+        ]
+    }
+
+async def send_owner_notification(context: Dict[str, Any]):
+    """Send summary to café owner"""
+    print("📧 Sending notification to owner...")
+    await asyncio.sleep(0.5)
+    return {"sent": True, "method": "email"}
+
+# Create a daily operations workflow
+def create_daily_workflow() -> Workflow:
+    """Create the daily operations workflow"""
+    workflow = Workflow("Daily Café Operations")
+    
+    # Define tasks
+    feedback_task = Task("collect_feedback", "Collect Daily Feedback", collect_daily_feedback)
+    sentiment_task = Task("analyze_sentiment", "Analyze Sentiment", analyze_sentiment_trends, ["collect_feedback"])
+    report_task = Task("generate_report", "Generate Report", generate_daily_report, ["collect_feedback", "analyze_sentiment"])
+    notify_task = Task("notify_owner", "Notify Owner", send_owner_notification, ["generate_report"])
+    
+    # Add tasks to workflow
+    workflow.add_task(feedback_task)
+    workflow.add_task(sentiment_task)
+    workflow.add_task(report_task)
+    workflow.add_task(notify_task)
+    
+    return workflow
+</CodeBlock>
+
+
+## multiple-servers {#multiple-servers}
+
+### Creating Additional MCP Servers
+
+Let's add a Menu MCP server to handle menu-related queries:
+
+<CodeBlock language="python" filename="mcp_servers/menu_server.py">
+"""
+Menu MCP Server for Cozy Café
+Handles menu items, prices, and recommendations
+"""
+
+from mcp.server import Server
+from mcp.server.models import InitializationOptions
+import mcp.types as types
+import json
+
+server = Server("menu-server")
+
+# Café menu data
+MENU_DATA = {
+    "beverages": {
+        "coffee": [
+            {"name": "Espresso", "price": 2.50, "description": "Rich, bold shot"},
+            {"name": "Cappuccino", "price": 4.00, "description": "Espresso with steamed milk foam"},
+            {"name": "Latte", "price": 4.50, "description": "Smooth espresso with steamed milk"},
+            {"name": "Cold Brew", "price": 3.50, "description": "Smooth, refreshing cold coffee"}
+        ],
+        "tea": [
+            {"name": "English Breakfast", "price": 3.00, "description": "Classic black tea"},
+            {"name": "Green Tea", "price": 3.00, "description": "Light and refreshing"},
+            {"name": "Chai Latte", "price": 4.00, "description": "Spiced tea with milk"}
+        ]
+    },
+    "food": {
+        "pastries": [
+            {"name": "Croissant", "price": 3.50, "description": "Buttery, flaky pastry"},
+            {"name": "Blueberry Muffin", "price": 3.00, "description": "Fresh baked with real blueberries"},
+            {"name": "Chocolate Brownie", "price": 3.50, "description": "Rich, fudgy chocolate"}
+        ],
+        "sandwiches": [
+            {"name": "Avocado Toast", "price": 8.00, "description": "Fresh avocado on artisan bread"},
+            {"name": "Turkey Club", "price": 9.50, "description": "Classic club sandwich"},
+            {"name": "Veggie Wrap", "price": 8.50, "description": "Fresh vegetables in a spinach wrap"}
+        ]
+    }
+}
+
+@server.list_tools()
+async def handle_list_tools():
+    return [
+        types.Tool(
+            name="get_menu_items",
+            description="Get menu items by category",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "category": {"type": "string", "enum": ["beverages", "food", "all"]}
+                }
+            }
+        ),
+        types.Tool(
+            name="search_menu",
+            description="Search menu items by name or description",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"}
+                },
+                "required": ["query"]
+            }
+        ),
+        types.Tool(
+            name="get_recommendations",
+            description="Get personalized menu recommendations",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "preferences": {"type": "array", "items": {"type": "string"}}
+                }
+            }
+        )
+    ]
+
+@server.call_tool()
+async def handle_call_tool(name: str, arguments: dict):
+    if name == "get_menu_items":
+        category = arguments.get("category", "all")
+        if category == "all":
+            return MENU_DATA
+        return MENU_DATA.get(category, {})
+    
+    elif name == "search_menu":
+        query = arguments["query"].lower()
+        results = []
+        
+        for category, subcategories in MENU_DATA.items():
+            for subcat, items in subcategories.items():
+                for item in items:
+                    if query in item["name"].lower() or query in item["description"].lower():
+                        results.append({
+                            "category": f"{category}/{subcat}",
+                            **item
+                        })
+        
+        return {"results": results, "count": len(results)}
+    
+    elif name == "get_recommendations":
+        preferences = arguments.get("preferences", [])
+        recommendations = []
+        
+        # Simple recommendation logic
+        for pref in preferences:
+            pref_lower = pref.lower()
+            if "coffee" in pref_lower:
+                recommendations.extend([
+                    {"item": "Latte", "reason": "Our most popular coffee drink"},
+                    {"item": "Cold Brew", "reason": "Perfect for coffee lovers"}
+                ])
+            elif "sweet" in pref_lower:
+                recommendations.extend([
+                    {"item": "Chocolate Brownie", "reason": "Rich and satisfying"},
+                    {"item": "Blueberry Muffin", "reason": "Sweet and fresh"}
+                ])
+            elif "healthy" in pref_lower:
+                recommendations.extend([
+                    {"item": "Avocado Toast", "reason": "Nutritious and delicious"},
+                    {"item": "Green Tea", "reason": "Antioxidant-rich beverage"}
+                ])
+        
+        return {"recommendations": recommendations[:3]}  # Top 3 recommendations
+
+# Server initialization
+async def run():
+    from mcp.server.stdio import stdio_server
+    
+    async with stdio_server() as (read_stream, write_stream):
+        await server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="menu-server",
+                server_version="0.1.0"
+            )
+        )
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(run())
+</CodeBlock>
+
+## business-logic {#business-logic}
+
+### Implementing Smart Business Logic
+
+Now let's create an integrated system that uses all our components intelligently:
+
+<CodeBlock language="python" filename="system/cafe_ai_system.py">
+"""
+Complete Cozy Café AI System
+Integrates all components for intelligent business operations
+"""
+
+import asyncio
+from datetime import datetime, timedelta
+from typing import Dict, Any, List
+import json
+
+from workflow.engine import Workflow, Task
+from agents.llm_integration import IntelligentCafeAssistant
+from agents.mcp_client import MCPClient
+
+class CafeAISystem:
+    """Complete AI System for Café Operations"""
+    
+    def __init__(self):
+        self.assistant = IntelligentCafeAssistant("Cozy")
+        self.workflow_engine = None
+        self.mcp_clients = {}
+        self.business_rules = self._load_business_rules()
+        
+    def _load_business_rules(self) -> Dict[str, Any]:
+        """Load business rules and thresholds"""
+        return {
+            "feedback_thresholds": {
+                "critical_rating": 2,  # Alert if rating <= 2
+                "excellent_rating": 5,  # Celebrate if rating = 5
+                "min_daily_feedback": 10  # Alert if < 10 feedback/day
+            },
+            "menu_rules": {
+                "promotion_threshold": 0.8,  # Promote items with >80% positive
+                "remove_threshold": 0.3  # Consider removing if <30% positive
+            },
+            "operating_hours": {
+                "open": "07:00",
+                "close": "20:00",
+                "peak_times": ["08:00-10:00", "12:00-14:00", "17:00-19:00"]
+            }
+        }
+    
+    async def initialize(self):
+        """Initialize all system components"""
+        print("🚀 Initializing Cozy Café AI System...")
+        
+        # Connect to MCP servers
+        await self._connect_mcp_servers()
+        
+        # Initialize workflow engine
+        self._setup_workflows()
+        
+        print("✅ System initialized successfully!")
+    
+    async def _connect_mcp_servers(self):
+        """Connect to all MCP servers"""
+        servers = [
+            ("feedback", ["python", "mcp_servers/feedback_server.py"]),
+            ("menu", ["python", "mcp_servers/menu_server.py"])
+        ]
+        
+        for server_name, command in servers:
+            try:
+                client = MCPClient()
+                await client.connect_to_server(server_name, command)
+                self.mcp_clients[server_name] = client
+                print(f"✅ Connected to {server_name} server")
+            except Exception as e:
+                print(f"❌ Failed to connect to {server_name}: {e}")
+    
+    def _setup_workflows(self):
+        """Setup workflow templates"""
+        # We'll create workflows on-demand
+        pass
+    
+    async def handle_customer_interaction(self, message: str) -> str:
+        """Handle customer interactions intelligently"""
+        # Analyze intent
+        intent = await self._analyze_intent(message)
+        
+        # Route to appropriate handler
+        if intent == "feedback":
+            return await self._handle_feedback_flow(message)
+        elif intent == "menu_inquiry":
+            return await self._handle_menu_inquiry(message)
+        elif intent == "business_hours":
+            return await self._handle_hours_inquiry()
+        else:
+            return await self.assistant.process_message(message)
+    
+    async def _analyze_intent(self, message: str) -> str:
+        """Analyze customer intent from message"""
+        message_lower = message.lower()
+        
+        if any(word in message_lower for word in ["feedback", "review", "experience", "complaint"]):
+            return "feedback"
+        elif any(word in message_lower for word in ["menu", "price", "food", "drink", "coffee"]):
+            return "menu_inquiry"
+        elif any(word in message_lower for word in ["hours", "open", "close", "when"]):
+            return "business_hours"
+        else:
+            return "general"
+    
+    async def _handle_feedback_flow(self, message: str) -> str:
+        """Handle feedback with business logic"""
+        # Use assistant to collect feedback
+        response = await self.assistant.process_message(message)
+        
+        # If feedback was collected, apply business rules
+        if "feedback_collected" in self.assistant.context:
+            feedback_data = self.assistant.context["feedback_collected"]
+            rating = feedback_data.get("rating", 0)
+            
+            # Apply business rules
+            if rating <= self.business_rules["feedback_thresholds"]["critical_rating"]:
+                await self._alert_owner("Critical feedback received", feedback_data)
+                response += "\n\n🚨 The manager has been notified and will address your concerns immediately."
+            elif rating == self.business_rules["feedback_thresholds"]["excellent_rating"]:
+                response += "\n\n🎉 Thank you for the amazing feedback! Here's a 10% off coupon for your next visit: HAPPY10"
+        
+        return response
+    
+    async def _handle_menu_inquiry(self, message: str) -> str:
+        """Handle menu inquiries with recommendations"""
+        # Search menu
+        menu_client = self.mcp_clients.get("menu")
+        if not menu_client:
+            return "I apologize, but I'm having trouble accessing the menu right now."
+        
+        # Extract search terms
+        search_result = await menu_client.call_tool("menu", "search_menu", {"query": message})
+        
+        if search_result["count"] > 0:
+            response = "Here's what I found:\n\n"
+            for item in search_result["results"][:3]:
+                response += f"☕ **{item['name']}** - ${item['price']}\n"
+                response += f"   {item['description']}\n\n"
+            
+            # Add personalized recommendation
+            if "coffee" in message.lower():
+                rec_result = await menu_client.call_tool("menu", "get_recommendations", 
+                                                        {"preferences": ["coffee"]})
+                if rec_result["recommendations"]:
+                    response += "\n💡 **Recommendation**: "
+                    response += f"{rec_result['recommendations'][0]['item']} - "
+                    response += f"{rec_result['recommendations'][0]['reason']}"
+        else:
+            response = "I couldn't find that specific item, but I'd be happy to show you our full menu!"
+        
+        return response
+    
+    async def _handle_hours_inquiry(self) -> str:
+        """Handle operating hours inquiry"""
+        hours = self.business_rules["operating_hours"]
+        current_time = datetime.now().strftime("%H:%M")
+        
+        response = f"📍 Cozy Café Hours:\n"
+        response += f"Open: {hours['open']} AM - {hours['close']} PM\n\n"
+        
+        # Check if currently open
+        if hours['open'] <= current_time <= hours['close']:
+            response += "✅ We're currently OPEN! Come on in!\n\n"
+            
+            # Check if peak time
+            for peak in hours['peak_times']:
+                start, end = peak.split('-')
+                if start <= current_time <= end:
+                    response += "⏰ Note: We're in peak hours, so there might be a short wait."
+                    break
+        else:
+            response += "🔒 We're currently CLOSED.\n"
+            response += f"We'll be happy to see you tomorrow at {hours['open']} AM!"
+        
+        return response
+    
+    async def _alert_owner(self, alert_type: str, data: Dict[str, Any]):
+        """Send alert to café owner"""
+        print(f"\n🚨 OWNER ALERT: {alert_type}")
+        print(f"Data: {json.dumps(data, indent=2)}")
+        # In production, this would send email/SMS
+    
+    async def run_daily_operations(self):
+        """Run daily operational workflows"""
+        print("\n📅 Running daily operations workflow...")
+        
+        # Create workflow with real MCP integration
+        workflow = Workflow("Daily Operations")
+        
+        # Define tasks that use real MCP servers
+        async def collect_feedback_task(context):
+            feedback_client = self.mcp_clients.get("feedback")
+            if feedback_client:
+                summary = await feedback_client.call_tool("feedback", "get_feedback_summary", {})
+                context["feedback_summary"] = summary
+                return summary
+            return {"error": "Feedback server not connected"}
+        
+        async def analyze_menu_performance(context):
+            # Analyze which menu items are mentioned in positive feedback
+            # This would integrate with real analytics
+            return {
+                "top_items": ["Latte", "Avocado Toast", "Cold Brew"],
+                "underperformers": ["Turkey Club"]
+            }
+        
+        async def generate_insights(context):
+            insights = []
+            
+            # Check feedback summary
+            if "feedback_summary" in context:
+                summary = context["feedback_summary"]
+                avg_rating = summary.get("average_rating", 0)
+                
+                if avg_rating >= 4.5:
+                    insights.append("⭐ Customer satisfaction is excellent!")
+                elif avg_rating < 3.5:
+                    insights.append("⚠️ Customer satisfaction needs attention")
+                
+                total = summary.get("total_feedback", 0)
+                if total < self.business_rules["feedback_thresholds"]["min_daily_feedback"]:
+                    insights.append(f"📊 Low feedback volume ({total}). Consider incentivizing reviews.")
+            
+            return {"insights": insights, "timestamp": datetime.now().isoformat()}
+        
+        # Add tasks
+        workflow.add_task(Task("collect", "Collect Feedback", collect_feedback_task))
+        workflow.add_task(Task("analyze_menu", "Analyze Menu", analyze_menu_performance))
+        workflow.add_task(Task("insights", "Generate Insights", generate_insights, 
+                              ["collect", "analyze_menu"]))
+        
+        # Execute workflow
+        results = await workflow.execute()
+        
+        print("\n📊 Daily Operations Summary:")
+        print(json.dumps(results, indent=2))
+        
+        return results
+
+# Main system runner
+async def run_cafe_system():
+    """Run the complete Café AI System"""
+    system = CafeAISystem()
+    
+    # Initialize
+    await system.initialize()
+    
+    print("\n" + "="*50)
+    print("🍵 Cozy Café AI System is now running!")
+    print("="*50)
+    
+    # Run daily operations
+    await system.run_daily_operations()
+    
+    # Start interactive mode
+    print("\n💬 Starting customer service mode...")
+    print("Type 'exit' to quit\n")
+    
+    while True:
+        try:
+            user_input = input("Customer: ").strip()
+            
+            if user_input.lower() == 'exit':
+                break
+            
+            response = await system.handle_customer_interaction(user_input)
+            print(f"\nAssistant: {response}\n")
+            
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            print(f"\nError: {e}\n")
+    
+    print("\n👋 Thank you for using Cozy Café AI System!")
+
+if __name__ == "__main__":
+    asyncio.run(run_cafe_system())
+</CodeBlock>
+
+## deployment {#deployment}
+
+### Making Your System Production Ready
+
+Let's add the final touches to make your system ready for real-world use:
+
+<CodeBlock language="python" filename="deploy/production_config.py">
+"""
+Production configuration and deployment setup
+"""
+
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+class ProductionConfig:
+    """Production configuration settings"""
+    
+    # System settings
+    DEBUG = os.getenv("DEBUG", "false").lower() == "true"
+    LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+    
+    # MCP Server settings
+    MCP_SERVERS = {
+        "feedback": {
+            "command": ["python", "-m", "mcp_servers.feedback_server"],
+            "restart_on_failure": True,
+            "health_check_interval": 60  # seconds
+        },
+        "menu": {
+            "command": ["python", "-m", "mcp_servers.menu_server"],
+            "restart_on_failure": True,
+            "health_check_interval": 60
+        },
+        "analytics": {
+            "command": ["python", "-m", "mcp_servers.analytics_server"],
+            "restart_on_failure": True,
+            "health_check_interval": 60
+        }
+    }
+    
+    # LLM settings (for production, use real API)
+    LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
+    LLM_API_KEY = os.getenv("LLM_API_KEY")
+    LLM_MODEL = os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+    
+    # Business settings
+    BUSINESS_NAME = os.getenv("BUSINESS_NAME", "Cozy Café")
+    TIMEZONE = os.getenv("TIMEZONE", "America/New_York")
+    
+    # Alert settings
+    ALERT_EMAIL = os.getenv("ALERT_EMAIL")
+    ALERT_SMS = os.getenv("ALERT_SMS")
+    
+    # Data persistence
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///cafe_ai.db")
+    BACKUP_INTERVAL = 3600  # seconds
+    
+    @classmethod
+    def validate(cls):
+        """Validate required configuration"""
+        errors = []
+        
+        if not cls.LLM_API_KEY and cls.LLM_PROVIDER != "mock":
+            errors.append("LLM_API_KEY is required for production")
+        
+        if not cls.ALERT_EMAIL and not cls.ALERT_SMS:
+            errors.append("At least one alert method (email or SMS) must be configured")
+        
+        if errors:
+            raise ValueError(f"Configuration errors: {', '.join(errors)}")
+
+# Docker configuration
+DOCKERFILE_CONTENT = """
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Create data directory
+RUN mkdir -p data
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \\
+  CMD python -c "import requests; requests.get('http://localhost:8080/health')"
+
+# Run the application
+CMD ["python", "-m", "system.cafe_ai_system"]
+"""
+
+# Docker Compose configuration
+DOCKER_COMPOSE_CONTENT = """
+version: '3.8'
+
+services:
+  cafe-ai-system:
+    build: .
+    container_name: cozy-cafe-ai
+    environment:
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+      - LLM_PROVIDER=${LLM_PROVIDER}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - ALERT_EMAIL=${ALERT_EMAIL}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Add a database service
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=cafe_ai
+      - POSTGRES_USER=cafe_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+"""
+
+# Deployment script
+DEPLOYMENT_SCRIPT = """
+#!/bin/bash
+# Deployment script for Cozy Café AI System
+
+echo "🚀 Deploying Cozy Café AI System..."
+
+# Check environment
+if [ ! -f .env ]; then
+    echo "❌ Error: .env file not found"
+    exit 1
+fi
+
+# Validate configuration
+python -c "from deploy.production_config import ProductionConfig; ProductionConfig.validate()"
+if [ $? -ne 0 ]; then
+    echo "❌ Configuration validation failed"
+    exit 1
+fi
+
+# Build and start services
+docker-compose down
+docker-compose build
+docker-compose up -d
+
+# Wait for services to be ready
+echo "⏳ Waiting for services to start..."
+sleep 10
+
+# Check health
+docker-compose ps
+
+echo "✅ Deployment complete!"
+echo "📊 View logs: docker-compose logs -f"
+"""
+</CodeBlock>
+
+## real-world-demo {#real-world-demo}
+
+### Real-World Demo Scenario
+
+Let's see our complete system in action with a realistic business day:
+
+
+<CodeBlock language="python" filename="demo/full_day_simulation.py">
+"""
+Full day simulation of Cozy Café AI System
+"""
+
+import asyncio
+from datetime import datetime, timedelta
+import random
+
+async def simulate_customer_interaction(system, customer_type: str):
+    """Simulate different types of customer interactions"""
+    
+    interactions = {
+        "happy_customer": [
+            "Hi! I just wanted to say the latte was amazing today!",
+            "5 stars! Best coffee in town!"
+        ],
+        "inquiring_customer": [
+            "What time do you close today?",
+            "Do you have any vegan options?",
+            "How much is a cappuccino?"
+        ],
+        "unhappy_customer": [
+            "My coffee was cold and the service was slow",
+            "I waited 20 minutes for my order!"
+        ],
+        "regular_customer": [
+            "Hey! The usual please - large latte with oat milk",
+            "Any new pastries today?"
+        ]
+    }
+    
+    messages = interactions.get(customer_type, ["Hello!"])
+    
+    for message in messages:
+        print(f"\n👤 {customer_type}: {message}")
+        response = await system.handle_customer_interaction(message)
+        print(f"🤖 AI: {response}")
+        await asyncio.sleep(2)  # Pause between interactions
+
+async def simulate_business_day(system):
+    """Simulate a full business day"""
+    print("\n" + "="*60)
+    print("🌅 STARTING BUSINESS DAY SIMULATION")
+    print("="*60)
+    
+    # Morning setup
+    print("\n⏰ 7:00 AM - Opening Time")
+    await system.run_daily_operations()
+    
+    # Morning rush
+    print("\n☕ 8:00 AM - Morning Rush")
+    customer_types = ["happy_customer", "regular_customer", "inquiring_customer"]
+    for _ in range(3):
+        customer = random.choice(customer_types)
+        await simulate_customer_interaction(system, customer)
+    
+    # Midday
+    print("\n🌞 12:00 PM - Lunch Time")
+    await simulate_customer_interaction(system, "inquiring_customer")
+    
+    # Afternoon issue
+    print("\n⚠️ 3:00 PM - Customer Issue")
+    await simulate_customer_interaction(system, "unhappy_customer")
+    
+    # Evening wind down
+    print("\n🌆 7:00 PM - Evening")
+    await simulate_customer_interaction(system, "happy_customer")
+    
+    # Closing
+    print("\n🌙 8:00 PM - Closing Time")
+    print("Running end-of-day summary...")
+    
+    # Generate summary
+    summary = {
+        "total_interactions": 15,
+        "feedback_collected": 8,
+        "average_rating": 4.2,
+        "issues_resolved": 2,
+        "menu_inquiries": 5
+    }
+    
+    print("\n📊 DAILY SUMMARY:")
+    for key, value in summary.items():
+        print(f"  {key.replace('_', ' ').title()}: {value}")
+    
+    print("\n✅ Business day complete!")
+
+# Run the demonstration
+async def main():
+    """Run the full demonstration"""
+    from system.cafe_ai_system import CafeAISystem
+    
+    # Create and initialize system
+    system = CafeAISystem()
+    await system.initialize()
+    
+    # Run business day simulation
+    await simulate_business_day(system)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+</CodeBlock>
+
+## knowledge-check {#knowledge-check}
+
+<Quiz
+  questions={[
+    {
+      question: "What is the main purpose of a workflow engine in our AI System?",
+      options: [
+        "To store data in databases",
+        "To orchestrate tasks and manage dependencies between them",
+        "To create user interfaces",
+        "To send emails"
+      ],
+      correctAnswer: 1,
+      explanation: "The workflow engine orchestrates tasks, manages dependencies, and ensures operations happen in the correct order - like a conductor directing an orchestra."
+    },
+    {
+      question: "How do multiple MCP servers work together in our system?",
+      options: [
+        "They compete for resources",
+        "Each handles specific domain functionality and the AI agent coordinates between them",
+        "They all do the same thing for redundancy",
+        "They can't work together"
+      ],
+      correctAnswer: 1,
+      explanation: "Multiple MCP servers each handle specific domains (feedback, menu, analytics) and the AI agent intelligently coordinates between them based on user needs."
+    },
+    {
+      question: "What makes our business logic 'intelligent'?",
+      options: [
+        "It uses many if-else statements",
+        "It runs very fast",
+        "It applies context-aware rules and learns from patterns",
+        "It has a large database"
+      ],
+      correctAnswer: 2,
+      explanation: "Intelligent business logic applies context-aware rules (like alerting on low ratings), learns from patterns, and makes decisions based on multiple factors."
+    },
+    {
+      question: "What's the benefit of containerizing our AI System with Docker?",
+      options: [
+        "It makes the code run faster",
+        "It ensures consistent deployment across different environments",
+        "It reduces the code size",
+        "It eliminates the need for MCP servers"
+      ],
+      correctAnswer: 1,
+      explanation: "Docker containerization ensures our AI System runs consistently across different environments (development, staging, production) with all dependencies properly configured."
+    }
+  ]}
+/>
+
+<Callout type="success">
+**🎉 Congratulations!** You've built a complete, production-ready AI System! You've learned how to:
+- Create MCP servers for specific functions
+- Build intelligent AI agents
+- Orchestrate complex workflows
+- Implement smart business logic
+- Deploy systems for real-world use
+
+This is just the beginning of your AI Systems journey!
+</Callout>

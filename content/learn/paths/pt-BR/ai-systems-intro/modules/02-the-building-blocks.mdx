@@ -1,0 +1,206 @@
+---
+title: "The Building Blocks"
+description: "Explore the key components: workflow engines, AI agents, LLMs, and MCP servers through visual diagrams"
+publishedAt: "2025-01-26"
+authors:
+  - brandonscheid
+---
+
+import { Quiz } from '@/components/quiz'
+import { Callout } from '@/components/callout'
+
+## Introduction to the Building Blocks {#introduction}
+
+Now that you understand what AI Systems are, let's explore the building blocks that make them work. Think of this like understanding the parts of a car – you don't need to be a mechanic, but knowing what each part does helps you use it better.
+
+We'll explore four main components that work together to create powerful AI Systems:
+- **Workflow Engines** - The conductor that orchestrates everything
+- **AI Agents** - The specialized workers that get things done
+- **Large Language Models (LLMs)** - The brain that understands and reasons
+- **MCP Servers** - The connectors that link everything together
+
+<Callout type="info">
+**Visual Learning Alert!** This module is packed with diagrams to help you visualize how these components work together.
+</Callout>
+
+## Workflow Engines: The Conductor {#workflow-engines}
+
+### Workflow Engines: The Master Conductor
+
+Imagine you're planning a dinner party. You need to coordinate shopping, cooking, setting the table, and greeting guests. A workflow engine is like your party planning checklist – it makes sure everything happens in the right order at the right time.
+
+
+### What Workflow Engines Do
+
+**1. Define the Process**
+- Map out all the steps needed to complete a task
+- Determine which steps can happen at the same time
+- Set rules for when to move to the next step
+
+**2. Manage the Flow**
+- Start tasks at the right time
+- Pass information between steps
+- Handle problems when things go wrong
+
+**3. Track Progress**
+- Know what's been completed
+- See what's currently running
+- Predict when everything will be done
+
+
+## AI Agents: The Workers {#ai-agents}
+
+### AI Agents: The Specialized Workers
+
+If the workflow engine is the conductor, AI agents are the musicians. Each agent has special skills and knows how to use specific tools to get work done.
+
+
+### What Makes an AI Agent?
+
+**1. Understanding**
+- Agents can understand natural language instructions
+- They know their capabilities and limitations
+- They can ask for clarification when needed
+
+**2. Planning**
+- Break down complex tasks into smaller steps
+- Decide which tools to use and in what order
+- Adapt the plan if something doesn't work
+
+**3. Action**
+- Use tools to accomplish specific tasks
+- Monitor the results of their actions
+- Report back on what they've done
+
+### Real-World Agent Examples
+
+
+## Large Language Models (LLMs): The Brain {#llms}
+
+### Large Language Models: The Brain Power
+
+Large Language Models (LLMs) are the intelligence behind AI Systems. They're like having a very knowledgeable assistant who has read millions of books and can help you understand and create text.
+
+
+### What LLMs Can Do
+
+**1. Understand Context**
+- Grasp the meaning behind questions
+- Remember earlier parts of a conversation
+- Understand nuance and intent
+
+**2. Generate Responses**
+- Write in natural, human-like language
+- Adapt tone and style as needed
+- Create content from emails to reports
+
+**3. Reason and Analyze**
+- Break down complex problems
+- Make logical connections
+- Provide explanations for decisions
+
+### LLMs in AI Systems
+
+
+## MCP Servers: The Connectors {#mcp-servers}
+
+### MCP Servers: The Universal Connectors
+
+MCP (Model Context Protocol) Servers are like universal adapters that let AI Systems connect to any tool or service. They're the translators that help different parts communicate.
+
+
+### Why MCP Servers Matter
+
+**1. Standardization**
+- One way to connect to many different services
+- No need to learn different APIs for each tool
+- Consistent interface for all connections
+
+**2. Security**
+- Control what AI Systems can access
+- Manage permissions and authentication
+- Keep sensitive data protected
+
+**3. Flexibility**
+- Easy to add new tools and services
+- Switch between different implementations
+- Build custom connectors for your needs
+
+### MCP Server Capabilities
+
+
+## How They Work Together {#integration}
+
+### The Complete Picture
+
+Now let's see how all these building blocks work together to create a functioning AI System:
+
+
+### A Real Example: Writing a Newsletter
+
+Let's walk through how these components handle a real task:
+
+
+**The Process:**
+1. **User Request**: "Create and send this week's newsletter"
+2. **Workflow Engine**: Creates a plan with research, writing, and sending steps
+3. **Research Agent**: Uses MCP to gather recent blog posts and news
+4. **Writing Agent**: Works with LLM to draft engaging content
+5. **LLM**: Provides intelligence for understanding and creating content
+6. **Email Agent**: Uses Email MCP to format and send to subscribers
+7. **Result**: Newsletter delivered to all subscribers!
+
+## Knowledge Check {#knowledge-check}
+
+<Quiz
+  questions={[
+    {
+      question: "What is the primary role of a workflow engine in an AI System?",
+      options: [
+        "To write code for the system",
+        "To coordinate and orchestrate tasks in the right order",
+        "To send emails to users",
+        "To store data in databases"
+      ],
+      correctAnswer: 1,
+      explanation: "A workflow engine acts as the conductor of an AI System, coordinating when and how different tasks are executed, managing the flow of information between components."
+    },
+    {
+      question: "What makes AI Agents different from regular software programs?",
+      options: [
+        "They can only do one specific task",
+        "They can understand natural language and adapt their approach",
+        "They don't need any tools to function",
+        "They work completely independently without coordination"
+      ],
+      correctAnswer: 1,
+      explanation: "AI Agents can understand natural language instructions, plan how to accomplish tasks, and adapt their approach based on the situation - unlike traditional programs that follow rigid rules."
+    },
+    {
+      question: "What is the main purpose of MCP Servers?",
+      options: [
+        "To replace all other software",
+        "To make systems run faster",
+        "To provide a standard way for AI Systems to connect to tools and services",
+        "To store large language models"
+      ],
+      correctAnswer: 2,
+      explanation: "MCP Servers act as universal connectors that provide a standardized way for AI Systems to interact with various tools and services, making integration easier and more secure."
+    },
+    {
+      question: "In our newsletter example, which component decided what content to include?",
+      options: [
+        "The MCP Server alone",
+        "The Workflow Engine alone",
+        "The LLM working with the agents",
+        "The Email service"
+      ],
+      correctAnswer: 2,
+      explanation: "The LLM (Large Language Model) provided the intelligence to understand what makes good newsletter content, working together with the agents to research and create the content."
+    }
+  ]}
+/>
+
+<Callout type="success">
+**Great job!** You now understand the building blocks of AI Systems. Next, we'll explore real-world applications that show these components in action!
+</Callout>

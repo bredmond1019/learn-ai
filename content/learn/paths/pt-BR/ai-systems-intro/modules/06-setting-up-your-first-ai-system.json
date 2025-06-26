@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "id": "setting-up-your-first-ai-system",
+    "pathId": "ai-systems-intro",
+    "title": "Setting Up Your First AI System",
+    "description": "Get your development environment ready for building with Python and the MCP SDK",
+    "duration": "90 minutes",
+    "type": "hands-on",
+    "difficulty": "intermediate",
+    "order": 6,
+    "prerequisites": [
+      "module-5"
+    ],
+    "objectives": [
+      "Install Python and development tools",
+      "Set up the MCP SDK",
+      "Create a project structure",
+      "Verify everything works correctly"
+    ],
+    "tags": [
+      "ai-systems",
+      "hands-on",
+      "intermediate"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "From Theory to Practice",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-setting-up-your-first-ai-system.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "what-we-will-build",
+      "title": "What We'll Build Together",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-setting-up-your-first-ai-system.mdx#what-we-will-build",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "prerequisites",
+      "title": "What You'll Need",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-setting-up-your-first-ai-system.mdx#prerequisites",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "python-setup",
+      "title": "Setting Up Python",
+      "type": "exercise",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-setting-up-your-first-ai-system.mdx#python-setup",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "mcp-sdk-installation",
+      "title": "Installing the MCP SDK",
+      "type": "exercise",
+      "order": 5,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-setting-up-your-first-ai-system.mdx#mcp-sdk-installation",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "project-structure",
+      "title": "Creating Your Project",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-setting-up-your-first-ai-system.mdx#project-structure",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "verify-setup",
+      "title": "Verify Everything Works",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-setting-up-your-first-ai-system.mdx#verify-setup",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 8,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-setting-up-your-first-ai-system.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

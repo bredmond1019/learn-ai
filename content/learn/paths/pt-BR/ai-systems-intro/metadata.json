@@ -1,0 +1,91 @@
+{
+  "id": "ai-systems-intro",
+  "title": "Sistemas de IA: Uma Introdução",
+  "description": "Uma introdução amigável aos Sistemas de IA, cobrindo motores de fluxo de trabalho, agentes de IA, LLMs e servidores MCP. Aprenda como essas tecnologias funcionam juntas para resolver problemas do mundo real para pessoas comuns e pequenas empresas.",
+  "difficulty": "beginner",
+  "estimatedHours": 12,
+  "prerequisites": [],
+  "modules": [
+    {
+      "id": "what-are-ai-systems",
+      "title": "O Que São Sistemas de IA?",
+      "description": "Descubra o que são Sistemas de IA e por que estão transformando como trabalhamos e vivemos",
+      "estimatedMinutes": 45
+    },
+    {
+      "id": "the-building-blocks",
+      "title": "Os Blocos de Construção",
+      "description": "Explore os componentes-chave: motores de fluxo, agentes de IA, LLMs e servidores MCP através de diagramas visuais",
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "real-world-applications",
+      "title": "Aplicações do Mundo Real",
+      "description": "Veja exemplos práticos de Sistemas de IA resolvendo problemas para pequenas empresas e tarefas cotidianas",
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "how-ai-systems-think",
+      "title": "Como os Sistemas de IA Pensam",
+      "description": "Entenda como os componentes trabalham juntos usando analogias simples e representações visuais",
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "benefits-of-ai-systems",
+      "title": "Os Benefícios dos Sistemas de IA",
+      "description": "Aprenda por que os Sistemas de IA importam para seu negócio ou produtividade pessoal",
+      "estimatedMinutes": 45
+    },
+    {
+      "id": "setting-up-your-first-ai-system",
+      "title": "Configurando Seu Primeiro Sistema de IA",
+      "description": "Prepare seu ambiente de desenvolvimento para construir com Python e o SDK MCP",
+      "estimatedMinutes": 90
+    },
+    {
+      "id": "building-your-first-mcp-server",
+      "title": "Construindo Seu Primeiro Servidor MCP",
+      "description": "Crie um servidor MCP simples usando Python que pode interagir com agentes de IA",
+      "estimatedMinutes": 90
+    },
+    {
+      "id": "creating-an-ai-agent",
+      "title": "Criando um Agente de IA",
+      "description": "Construa um agente de IA que se conecta ao seu servidor MCP e usa um LLM",
+      "estimatedMinutes": 90
+    },
+    {
+      "id": "putting-it-all-together",
+      "title": "Juntando Tudo",
+      "description": "Combine tudo para criar um Sistema de IA completo resolvendo um problema real de negócios",
+      "estimatedMinutes": 120
+    },
+    {
+      "id": "next-steps-and-resources",
+      "title": "Próximos Passos e Recursos",
+      "description": "Continue sua jornada em Sistemas de IA com tópicos avançados e recursos da comunidade",
+      "estimatedMinutes": 30
+    }
+  ],
+  "objectives": [
+    "Entender o que são Sistemas de IA e seus componentes principais",
+    "Visualizar como motores de fluxo, agentes, LLMs e servidores MCP trabalham juntos",
+    "Identificar aplicações do mundo real para pequenas empresas e uso pessoal",
+    "Construir um Sistema de IA simples mas funcional usando Python e o SDK MCP",
+    "Criar soluções práticas que demonstram o poder dos Sistemas de IA"
+  ],
+  "tags": ["ai-systems", "mcp", "workflow-engines", "agents", "beginner-friendly", "python"],
+  "author": "Brandon Scheid",
+  "resources": [
+    {
+      "title": "Python MCP SDK",
+      "url": "https://github.com/modelcontextprotocol/python-sdk",
+      "type": "github"
+    },
+    {
+      "title": "Documentação MCP",
+      "url": "https://modelcontextprotocol.io/docs",
+      "type": "documentation"
+    }
+  ]
+}

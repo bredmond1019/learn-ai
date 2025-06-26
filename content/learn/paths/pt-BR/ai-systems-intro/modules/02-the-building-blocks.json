@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "id": "the-building-blocks",
+    "pathId": "ai-systems-intro",
+    "title": "The Building Blocks",
+    "description": "Explore the key components: workflow engines, AI agents, LLMs, and MCP servers through visual diagrams",
+    "duration": "60 minutes",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 2,
+    "prerequisites": [
+      "module-1"
+    ],
+    "objectives": [
+      "Understand the four main components of AI Systems",
+      "Learn how workflow engines orchestrate tasks",
+      "Discover what AI Agents can do",
+      "Understand the role of LLMs and MCP servers"
+    ],
+    "tags": [
+      "ai-systems",
+      "theory",
+      "beginner"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Meet the Components",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-the-building-blocks.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "workflow-engines",
+      "title": "Workflow Engines: The Conductor",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-the-building-blocks.mdx#workflow-engines",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "ai-agents",
+      "title": "AI Agents: The Workers",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-the-building-blocks.mdx#ai-agents",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "llms",
+      "title": "Large Language Models: The Brain",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-the-building-blocks.mdx#llms",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "mcp-servers",
+      "title": "MCP Servers: The Connectors",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-the-building-blocks.mdx#mcp-servers",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "putting-together",
+      "title": "How They Work Together",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-the-building-blocks.mdx#putting-together",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 7,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-the-building-blocks.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

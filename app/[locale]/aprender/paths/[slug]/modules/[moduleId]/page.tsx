@@ -19,21 +19,26 @@ export default async function ModulePage({ params }: PageProps) {
   const { slug, moduleId, locale } = await params;
   const t = getTranslations(locale as Locale);
   
-  // For Portuguese, try to load MDX content, fallback to static for English
-  let content = moduleContent[moduleId as keyof typeof moduleContent];
-  let mdxModule = null;
-  
-  if (locale === 'pt-BR') {
-    try {
-      mdxModule = await getModule(slug, moduleId, locale as Locale);
-    } catch (error) {
-      console.log('Falling back to static content for:', moduleId);
-    }
+  // Try to load module from JSON/MDX system
+  let moduleData = null;
+  try {
+    console.log('Loading module:', { slug, moduleId, locale });
+    moduleData = await getModule(slug, moduleId, locale as Locale);
+    console.log('Module loaded successfully:', moduleData ? 'yes' : 'no');
+  } catch (error) {
+    console.log('Failed to load module from JSON/MDX:', moduleId, error);
   }
+  
+  // Fallback to static content if module not found
+  const content = !moduleData ? moduleContent[moduleId as keyof typeof moduleContent] : null;
   
   const learningPath = getLearningPathById(slug, locale as Locale);
   
-  if (!content || !learningPath) {
+  if (!moduleData && !content) {
+    notFound();
+  }
+  
+  if (!learningPath) {
     notFound();
   }
   
@@ -62,25 +67,25 @@ export default async function ModulePage({ params }: PageProps) {
               {learningPath.title}
             </Link>
             <span className="text-gray-400">/</span>
-            <span className="text-gray-900 dark:text-gray-100">{mdxModule ? mdxModule.metadata.title : content.title}</span>
+            <span className="text-gray-900 dark:text-gray-100">{moduleData ? moduleData.metadata.title : content?.title || ''}</span>
           </nav>
           
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-            {mdxModule ? mdxModule.metadata.title : content.title}
+            {moduleData ? moduleData.metadata.title : content?.title || ''}
           </h1>
           <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-            {mdxModule ? mdxModule.metadata.description : content.description}
+            {moduleData ? moduleData.metadata.description : content?.description || ''}
           </p>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {mdxModule ? (
-          <ModuleRenderer module={mdxModule} locale={locale} />
+        {moduleData ? (
+          <ModuleRenderer module={moduleData} locale={locale} />
         ) : (
           <div className="space-y-8">
-            {content.sections.map((section, index) => (
+            {content?.sections?.map((section, index) => (
             <div key={index} className="rounded-lg bg-white p-8 shadow-sm dark:bg-gray-800">
               <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {section.title}

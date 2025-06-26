@@ -1,0 +1,545 @@
+---
+title: "Building Your First MCP Server"
+description: "Create a simple MCP server using Python that can interact with AI agents"
+publishedAt: "2025-01-26"
+authors:
+  - brandonscheid
+---
+
+import { Quiz } from '@/components/quiz'
+import { Callout } from '@/components/callout'
+import { CodeBlock } from '@/components/code-block'
+
+## introduction {#introduction}
+
+Welcome to the exciting part – building your first MCP server! This is where concepts become code, and you'll see how simple it can be to create powerful AI integrations.
+
+An MCP server is like a smart assistant that knows how to do specific tasks. Today, we'll build a feedback collection server for our Cozy Café that can:
+- Collect customer feedback
+- Store it safely
+- Analyze sentiment
+- Provide summaries
+
+<Callout type="success">
+**You Can Do This!** By the end of this module, you'll have a working MCP server running on your computer. Every line of code will be explained clearly.
+</Callout>
+
+## understanding-mcp {#understanding-mcp}
+
+### What Makes an MCP Server Special?
+
+Think of an MCP server as a translator between AI agents and your business tools. It speaks a standard language that any AI can understand.
+
+
+### MCP Server Components
+
+Every MCP server has three main parts:
+
+1. **Resources** - Data the server can access
+2. **Tools** - Actions the server can perform  
+3. **Server Core** - Handles communication
+
+## feedback-server-plan {#feedback-server-plan}
+
+### Planning Our Feedback Server
+
+Before coding, let's plan what our feedback server will do:
+
+
+### User Story
+
+**As a café owner**, I want to:
+- Collect feedback without interrupting staff
+- Understand if customers are happy
+- See trends over time
+- Respond to issues quickly
+
+## basic-server {#basic-server}
+
+### Creating Your First MCP Server
+
+Let's start with a basic MCP server structure. Create a new file:
+
+<CodeBlock language="python" filename="mcp_servers/feedback_server.py">
+"""
+Cozy Café Feedback MCP Server
+Collects and analyzes customer feedback
+"""
+
+from mcp.server import Server
+from mcp.server.models import InitializationOptions
+import mcp.types as types
+import json
+import datetime
+import os
+
+# Create our server instance
+server = Server("feedback-server")
+
+# Storage for feedback (in production, use a database)
+FEEDBACK_FILE = "data/feedback.json"
+
+def ensure_data_directory():
+    """Make sure our data directory exists"""
+    os.makedirs("data", exist_ok=True)
+    
+    # Create empty feedback file if it doesn't exist
+    if not os.path.exists(FEEDBACK_FILE):
+        with open(FEEDBACK_FILE, 'w') as f:
+            json.dump([], f)
+
+@server.list_resources()
+async def handle_list_resources():
+    """List available resources"""
+    return [
+        types.Resource(
+            uri="feedback://recent",
+            name="Recent Feedback",
+            description="View recent customer feedback",
+            mimeType="application/json"
+        )
+    ]
+
+@server.read_resource()
+async def handle_read_resource(uri: str):
+    """Read a specific resource"""
+    if uri == "feedback://recent":
+        try:
+            with open(FEEDBACK_FILE, 'r') as f:
+                feedback = json.load(f)
+                # Return last 10 feedback entries
+                recent = feedback[-10:] if len(feedback) > 10 else feedback
+                return json.dumps(recent, indent=2)
+        except Exception as e:
+            return f"Error reading feedback: {str(e)}"
+    
+    raise ValueError(f"Unknown resource: {uri}")
+
+@server.list_tools()
+async def handle_list_tools():
+    """List available tools"""
+    return [
+        types.Tool(
+            name="collect_feedback",
+            description="Collect customer feedback",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "customer_name": {"type": "string"},
+                    "feedback": {"type": "string"},
+                    "rating": {"type": "number", "minimum": 1, "maximum": 5}
+                },
+                "required": ["feedback", "rating"]
+            }
+        )
+    ]
+
+# Initialize the server
+async def run():
+    """Run the MCP server"""
+    ensure_data_directory()
+    from mcp.server.stdio import stdio_server
+    
+    async with stdio_server() as (read_stream, write_stream):
+        await server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="feedback-server",
+                server_version="0.1.0"
+            )
+        )
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(run())
+</CodeBlock>
+
+<Callout type="info">
+**Code Explanation:**
+- We import MCP SDK components
+- Create a server instance with a name
+- Define resources (data we can read)
+- Define tools (actions we can take)
+- Set up the communication system
+</Callout>
+
+## adding-tools {#adding-tools}
+
+### Adding the Feedback Collection Tool
+
+Now let's implement the tool that actually collects feedback:
+
+<CodeBlock language="python" filename="mcp_servers/feedback_server.py" highlight="60-88">
+# Add this after the list_tools function
+
+@server.call_tool()
+async def handle_call_tool(name: str, arguments: dict):
+    """Handle tool execution"""
+    if name == "collect_feedback":
+        return await collect_feedback(arguments)
+    elif name == "analyze_sentiment":
+        return await analyze_sentiment(arguments)
+    elif name == "get_feedback_summary":
+        return await get_feedback_summary()
+    
+    raise ValueError(f"Unknown tool: {name}")
+
+async def collect_feedback(args: dict):
+    """Collect and store customer feedback"""
+    try:
+        # Create feedback entry
+        feedback_entry = {
+            "id": datetime.datetime.now().isoformat(),
+            "customer_name": args.get("customer_name", "Anonymous"),
+            "feedback": args["feedback"],
+            "rating": args["rating"],
+            "timestamp": datetime.datetime.now().isoformat()
+        }
+        
+        # Load existing feedback
+        with open(FEEDBACK_FILE, 'r') as f:
+            feedback_list = json.load(f)
+        
+        # Add new feedback
+        feedback_list.append(feedback_entry)
+        
+        # Save updated feedback
+        with open(FEEDBACK_FILE, 'w') as f:
+            json.dump(feedback_list, f, indent=2)
+        
+        return {
+            "success": True,
+            "message": f"Thank you for your feedback! Rating: {args['rating']}/5",
+            "feedback_id": feedback_entry["id"]
+        }
+        
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
+</CodeBlock>
+
+### Adding Sentiment Analysis
+
+Let's add a simple sentiment analysis tool:
+
+<CodeBlock language="python" filename="mcp_servers/feedback_server.py">
+# Update the list_tools function to include our new tools
+@server.list_tools()
+async def handle_list_tools():
+    """List available tools"""
+    return [
+        types.Tool(
+            name="collect_feedback",
+            description="Collect customer feedback",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "customer_name": {"type": "string"},
+                    "feedback": {"type": "string"},
+                    "rating": {"type": "number", "minimum": 1, "maximum": 5}
+                },
+                "required": ["feedback", "rating"]
+            }
+        ),
+        types.Tool(
+            name="analyze_sentiment",
+            description="Analyze sentiment of feedback text",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "text": {"type": "string"}
+                },
+                "required": ["text"]
+            }
+        ),
+        types.Tool(
+            name="get_feedback_summary",
+            description="Get a summary of all feedback",
+            inputSchema={
+                "type": "object",
+                "properties": {}
+            }
+        )
+    ]
+
+async def analyze_sentiment(args: dict):
+    """Simple sentiment analysis based on keywords"""
+    text = args["text"].lower()
+    
+    # Simple keyword-based sentiment (in production, use proper NLP)
+    positive_words = ["great", "excellent", "amazing", "love", "wonderful", 
+                     "fantastic", "perfect", "best", "awesome", "delicious"]
+    negative_words = ["bad", "terrible", "awful", "hate", "worst", 
+                     "horrible", "disgusting", "poor", "disappointing"]
+    
+    positive_count = sum(1 for word in positive_words if word in text)
+    negative_count = sum(1 for word in negative_words if word in text)
+    
+    if positive_count > negative_count:
+        sentiment = "positive"
+        confidence = positive_count / (positive_count + negative_count + 1)
+    elif negative_count > positive_count:
+        sentiment = "negative"
+        confidence = negative_count / (positive_count + negative_count + 1)
+    else:
+        sentiment = "neutral"
+        confidence = 0.5
+    
+    return {
+        "sentiment": sentiment,
+        "confidence": round(confidence, 2),
+        "positive_signals": positive_count,
+        "negative_signals": negative_count
+    }
+
+async def get_feedback_summary():
+    """Generate a summary of all feedback"""
+    try:
+        with open(FEEDBACK_FILE, 'r') as f:
+            feedback_list = json.load(f)
+        
+        if not feedback_list:
+            return {"message": "No feedback collected yet"}
+        
+        # Calculate statistics
+        total_feedback = len(feedback_list)
+        average_rating = sum(f["rating"] for f in feedback_list) / total_feedback
+        
+        # Rating distribution
+        rating_counts = {i: 0 for i in range(1, 6)}
+        for f in feedback_list:
+            rating_counts[f["rating"]] += 1
+        
+        # Recent feedback preview
+        recent = feedback_list[-3:] if len(feedback_list) > 3 else feedback_list
+        
+        return {
+            "total_feedback": total_feedback,
+            "average_rating": round(average_rating, 2),
+            "rating_distribution": rating_counts,
+            "recent_feedback": [
+                {
+                    "customer": f["customer_name"],
+                    "rating": f["rating"],
+                    "preview": f["feedback"][:50] + "..." if len(f["feedback"]) > 50 else f["feedback"]
+                }
+                for f in recent
+            ]
+        }
+        
+    except Exception as e:
+        return {"error": str(e)}
+</CodeBlock>
+
+## testing-server {#testing-server}
+
+### Testing Your MCP Server
+
+Let's create a test script to make sure our server works:
+
+<CodeBlock language="python" filename="test_feedback_server.py">
+"""
+Test script for the Cozy Café Feedback Server
+"""
+
+import asyncio
+import json
+
+# Simulate tool calls to test our server
+async def test_feedback_server():
+    print("🧪 Testing Feedback Server Functions...")
+    
+    # Test 1: Collect feedback
+    print("\n1️⃣ Testing feedback collection...")
+    feedback_data = {
+        "customer_name": "Sarah",
+        "feedback": "The coffee was excellent and the service was amazing!",
+        "rating": 5
+    }
+    
+    # In real use, this would be called by an AI agent
+    # For testing, we'll simulate the function calls
+    from mcp_servers.feedback_server import collect_feedback, analyze_sentiment, get_feedback_summary
+    
+    result = await collect_feedback(feedback_data)
+    print(f"Result: {json.dumps(result, indent=2)}")
+    
+    # Test 2: Analyze sentiment
+    print("\n2️⃣ Testing sentiment analysis...")
+    sentiment_result = await analyze_sentiment({"text": feedback_data["feedback"]})
+    print(f"Sentiment: {json.dumps(sentiment_result, indent=2)}")
+    
+    # Add more test feedback
+    test_feedback = [
+        {"customer_name": "John", "feedback": "Good coffee but slow service", "rating": 3},
+        {"customer_name": "Emma", "feedback": "Best café in town! Love the atmosphere", "rating": 5},
+        {"customer_name": "Mike", "feedback": "Coffee was cold and tasted terrible", "rating": 1}
+    ]
+    
+    for fb in test_feedback:
+        await collect_feedback(fb)
+    
+    # Test 3: Get summary
+    print("\n3️⃣ Testing feedback summary...")
+    summary = await get_feedback_summary()
+    print(f"Summary: {json.dumps(summary, indent=2)}")
+    
+    print("\n✅ All tests completed!")
+
+if __name__ == "__main__":
+    asyncio.run(test_feedback_server())
+</CodeBlock>
+
+Run the test:
+
+<CodeBlock language="bash">
+python test_feedback_server.py
+</CodeBlock>
+
+You should see output showing successful feedback collection, sentiment analysis, and summary generation!
+
+
+## enhancing-server {#enhancing-server}
+
+### Making Your Server Production Ready
+
+Let's add some professional touches to make our server robust:
+
+<CodeBlock language="python" filename="mcp_servers/feedback_server.py">
+# Add at the top of the file
+import logging
+from typing import Dict, Any
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Add error handling and validation
+def validate_feedback(args: dict) -> tuple[bool, str]:
+    """Validate feedback input"""
+    if not args.get("feedback"):
+        return False, "Feedback text is required"
+    
+    if "rating" not in args:
+        return False, "Rating is required"
+    
+    rating = args["rating"]
+    if not isinstance(rating, (int, float)) or rating < 1 or rating > 5:
+        return False, "Rating must be between 1 and 5"
+    
+    if len(args["feedback"]) > 1000:
+        return False, "Feedback is too long (max 1000 characters)"
+    
+    return True, "Valid"
+
+# Update collect_feedback with validation
+async def collect_feedback(args: dict):
+    """Collect and store customer feedback with validation"""
+    # Validate input
+    is_valid, message = validate_feedback(args)
+    if not is_valid:
+        logger.warning(f"Invalid feedback: {message}")
+        return {"success": False, "error": message}
+    
+    try:
+        # ... rest of the function remains the same
+        logger.info(f"Collected feedback with rating {args['rating']}")
+        # ... existing code ...
+</CodeBlock>
+
+### Adding a Configuration File
+
+Create a configuration file for easy customization:
+
+<CodeBlock language="python" filename="config/feedback_config.py">
+"""
+Configuration for the Feedback MCP Server
+"""
+
+# Server settings
+SERVER_NAME = "cozy-cafe-feedback"
+SERVER_VERSION = "1.0.0"
+
+# Data settings
+MAX_FEEDBACK_LENGTH = 1000
+FEEDBACK_STORAGE_PATH = "data/feedback.json"
+
+# Sentiment analysis settings
+POSITIVE_KEYWORDS = [
+    "great", "excellent", "amazing", "love", "wonderful",
+    "fantastic", "perfect", "best", "awesome", "delicious",
+    "friendly", "cozy", "recommend", "favorite"
+]
+
+NEGATIVE_KEYWORDS = [
+    "bad", "terrible", "awful", "hate", "worst",
+    "horrible", "disgusting", "poor", "disappointing",
+    "slow", "cold", "rude", "dirty"
+]
+
+# Summary settings
+RECENT_FEEDBACK_COUNT = 10
+SUMMARY_PREVIEW_LENGTH = 50
+</CodeBlock>
+
+<Callout type="success">
+**Congratulations!** You've built a fully functional MCP server that can collect feedback, analyze sentiment, and provide summaries. This server can now be used by AI agents to help manage customer feedback for the café!
+</Callout>
+
+## knowledge-check {#knowledge-check}
+
+<Quiz
+  questions={[
+    {
+      question: "What are the three main components of an MCP server?",
+      options: [
+        "Database, API, Frontend",
+        "Resources, Tools, and Server Core",
+        "Input, Process, Output",
+        "Client, Server, Network"
+      ],
+      correctAnswer: 1,
+      explanation: "MCP servers have three main components: Resources (data access), Tools (actions), and the Server Core (handles communication)."
+    },
+    {
+      question: "What does the @server.list_tools() decorator do?",
+      options: [
+        "It lists files in a directory",
+        "It defines what actions the MCP server can perform",
+        "It installs new tools",
+        "It deletes unused tools"
+      ],
+      correctAnswer: 1,
+      explanation: "The @server.list_tools() decorator defines the available tools (actions) that AI agents can call on this MCP server."
+    },
+    {
+      question: "Why do we validate input in the collect_feedback function?",
+      options: [
+        "To make the code longer",
+        "To ensure data quality and prevent errors",
+        "Because Python requires it",
+        "To slow down the server"
+      ],
+      correctAnswer: 1,
+      explanation: "Input validation ensures we receive quality data, prevents errors, and protects our system from invalid or malicious input."
+    },
+    {
+      question: "What format does our MCP server use to communicate?",
+      options: [
+        "HTTP REST API",
+        "GraphQL",
+        "Standard Input/Output (stdio)",
+        "WebSockets"
+      ],
+      correctAnswer: 2,
+      explanation: "This MCP server uses stdio (standard input/output) for communication, which allows it to work with any system that can read and write text streams."
+    }
+  ]}
+/>
+
+<Callout type="success">
+**Fantastic Progress!** You've built your first MCP server from scratch. Next, we'll create an AI agent that can use this server to help manage the café!
+</Callout>

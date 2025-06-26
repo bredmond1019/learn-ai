@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "id": "real-world-applications",
+    "pathId": "ai-systems-intro",
+    "title": "Real-World Applications",
+    "description": "See practical examples of AI Systems solving problems for small businesses and everyday tasks",
+    "duration": "60 minutes",
+    "type": "theory",
+    "difficulty": "beginner",
+    "order": 3,
+    "prerequisites": [
+      "module-2"
+    ],
+    "objectives": [
+      "See real examples of AI Systems in action",
+      "Understand how small businesses benefit from AI Systems",
+      "Learn about personal productivity applications",
+      "Analyze a detailed case study"
+    ],
+    "tags": [
+      "ai-systems",
+      "theory",
+      "beginner"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-26",
+    "author": "Brandon Scheid"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "AI Systems in Action",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-real-world-applications.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "small-business",
+      "title": "For Small Business Owners",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-real-world-applications.mdx#small-business",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "freelancers",
+      "title": "For Freelancers and Consultants",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-real-world-applications.mdx#freelancers",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "personal-productivity",
+      "title": "For Personal Productivity",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-real-world-applications.mdx#personal-productivity",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "creative-professionals",
+      "title": "For Creative Professionals",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-real-world-applications.mdx#creative-professionals",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "case-study",
+      "title": "Case Study: Local Bakery Success",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-real-world-applications.mdx#case-study",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 7,
+      "estimatedDuration": "5 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-real-world-applications.mdx#knowledge-check",
+        "codeExamples": []
+      }
+    }
+  ]
+}

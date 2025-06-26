@@ -1,0 +1,323 @@
+---
+title: "Setting Up Your First AI System"
+description: "Get your development environment ready for building with Python and the MCP SDK"
+publishedAt: "2025-01-26"
+authors:
+  - brandonscheid
+---
+
+import { Quiz } from '@/components/quiz'
+import { Callout } from '@/components/callout'
+import { CodeBlock } from '@/components/code-block'
+
+## introduction {#introduction}
+
+Congratulations on making it this far! You've learned the concepts, understood the benefits, and now it's time to roll up your sleeves and build something real. Don't worry – we'll guide you through every step.
+
+In the next few modules, we'll build a practical AI System that can help a small business. By the end, you'll have a working system that you can adapt for your own needs.
+
+<Callout type="info">
+**Beginner Friendly**: Even if you've never programmed before, our step-by-step instructions and clear explanations will help you succeed. We'll explain everything as we go!
+</Callout>
+
+## what-we-will-build {#what-we-will-build}
+
+### Our Project: Smart Business Assistant
+
+We're going to build an AI System for "Cozy Café" – a small coffee shop that needs help with:
+- Taking customer feedback
+- Answering common questions
+- Tracking busy times
+- Suggesting daily specials
+
+
+### Why This Project?
+
+This project is perfect because:
+- It solves real business problems
+- It's simple enough for beginners
+- It demonstrates all key concepts
+- You can adapt it for any business
+
+## prerequisites {#prerequisites}
+
+### What You'll Need
+
+Before we start coding, let's make sure you have everything ready. Don't worry if some of this seems new – we'll walk through each step.
+
+
+**Required Software:**
+1. **Python** - The programming language we'll use
+2. **Code Editor** - Where you'll write code (we recommend VS Code)
+3. **Terminal** - For running commands
+4. **Internet** - To download packages
+
+<Callout type="tip">
+**Time Needed**: Setting up will take about 30-45 minutes. Once done, you won't need to do this again!
+</Callout>
+
+## python-setup {#python-setup}
+
+### Step 1: Install Python
+
+Python is like the engine that will run our AI System. Let's get it installed.
+
+#### For Windows Users:
+
+1. Visit [python.org](https://python.org/downloads)
+2. Download Python 3.8 or newer
+3. Run the installer
+4. **Important**: Check "Add Python to PATH"
+5. Click "Install Now"
+
+#### For Mac Users:
+
+<CodeBlock language="bash">
+# Check if Python is already installed
+python3 --version
+
+# If not installed, use Homebrew:
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install python3
+</CodeBlock>
+
+#### For Linux Users:
+
+<CodeBlock language="bash">
+# Ubuntu/Debian
+sudo apt update
+sudo apt install python3 python3-pip
+
+# Fedora
+sudo dnf install python3 python3-pip
+</CodeBlock>
+
+### Verify Python Installation
+
+Open your terminal (Command Prompt on Windows) and type:
+
+<CodeBlock language="bash">
+python --version
+# or
+python3 --version
+</CodeBlock>
+
+You should see something like: `Python 3.9.7`
+
+<Callout type="success">
+**Success!** If you see a Python version 3.8 or higher, you're ready for the next step!
+</Callout>
+
+## mcp-sdk-installation {#mcp-sdk-installation}
+
+### Step 2: Install the MCP SDK
+
+The MCP SDK is our toolkit for building AI Systems. It's like getting a box of LEGO blocks designed specifically for AI.
+
+<CodeBlock language="bash">
+# Install the MCP SDK using pip
+pip install mcp
+
+# Or if you need to use pip3
+pip3 install mcp
+</CodeBlock>
+
+### Understanding pip
+
+`pip` is Python's package manager – think of it like an app store for Python tools. When we run `pip install mcp`, it:
+1. Downloads the MCP SDK
+2. Installs all required dependencies
+3. Makes it available in your Python programs
+
+### Install Additional Tools
+
+Let's also install some helpful tools we'll use:
+
+<CodeBlock language="bash">
+# Install additional packages
+pip install python-dotenv requests
+
+# Verify installations
+pip list | grep mcp
+</CodeBlock>
+
+
+## project-structure {#project-structure}
+
+### Step 3: Create Your Project Structure
+
+Now let's create a organized folder structure for our AI System. Good organization makes everything easier!
+
+<CodeBlock language="bash">
+# Create project directory
+mkdir cozy-cafe-ai
+cd cozy-cafe-ai
+
+# Create subdirectories
+mkdir mcp_servers
+mkdir agents
+mkdir data
+mkdir config
+</CodeBlock>
+
+Your project structure should look like this:
+
+```
+cozy-cafe-ai/
+├── mcp_servers/      # MCP server implementations
+├── agents/           # AI agent code
+├── data/            # Storage for café data
+├── config/          # Configuration files
+└── README.md        # Project documentation
+```
+
+### Create Essential Files
+
+Let's create some basic files to get started:
+
+<CodeBlock language="python" filename="config/settings.py">
+"""
+Configuration settings for Cozy Café AI System
+"""
+
+# Café Information
+CAFE_NAME = "Cozy Café"
+OPENING_HOURS = "7:00 AM - 8:00 PM"
+LOCATION = "123 Main Street"
+
+# System Settings
+DEBUG_MODE = True
+LOG_LEVEL = "INFO"
+
+# MCP Server Ports
+FEEDBACK_SERVER_PORT = 5000
+ANALYTICS_SERVER_PORT = 5001
+</CodeBlock>
+
+<CodeBlock language="python" filename="requirements.txt">
+mcp>=0.1.0
+python-dotenv>=0.19.0
+requests>=2.26.0
+</CodeBlock>
+
+<Callout type="info">
+**What are these files?**
+- `settings.py`: Stores configuration that we can easily change
+- `requirements.txt`: Lists all the packages our project needs
+</Callout>
+
+## verify-setup {#verify-setup}
+
+### Step 4: Verify Your Setup
+
+Let's make sure everything is working correctly before we start building.
+
+Create a test file to verify our setup:
+
+<CodeBlock language="python" filename="test_setup.py">
+"""
+Test script to verify our development environment
+"""
+
+print("🔍 Checking Python setup...")
+
+# Test Python version
+import sys
+python_version = sys.version.split()[0]
+print(f"✓ Python version: {python_version}")
+
+# Test MCP import
+try:
+    import mcp
+    print("✓ MCP SDK installed successfully")
+except ImportError:
+    print("✗ MCP SDK not found - please run: pip install mcp")
+
+# Test other imports
+try:
+    import dotenv
+    print("✓ python-dotenv installed")
+except ImportError:
+    print("✗ python-dotenv not found")
+
+try:
+    import requests
+    print("✓ requests library installed")
+except ImportError:
+    print("✗ requests not found")
+
+# Test file structure
+import os
+directories = ['mcp_servers', 'agents', 'data', 'config']
+for directory in directories:
+    if os.path.exists(directory):
+        print(f"✓ Directory '{directory}' exists")
+    else:
+        print(f"✗ Directory '{directory}' not found")
+
+print("\n🎉 Setup verification complete!")
+</CodeBlock>
+
+Run the test:
+
+<CodeBlock language="bash">
+python test_setup.py
+</CodeBlock>
+
+You should see all green checkmarks (✓). If you see any red X marks, follow the suggestion to fix the issue.
+
+
+## knowledge-check {#knowledge-check}
+
+<Quiz
+  questions={[
+    {
+      question: "What is the MCP SDK?",
+      options: [
+        "A video game engine",
+        "A toolkit for building AI Systems that can connect to various services",
+        "A social media platform",
+        "A database system"
+      ],
+      correctAnswer: 1,
+      explanation: "The MCP SDK (Model Context Protocol Software Development Kit) is a toolkit that makes it easy to build AI Systems that can connect to various tools and services."
+    },
+    {
+      question: "Why do we create a project structure with different folders?",
+      options: [
+        "To make the project look professional",
+        "Because Python requires it",
+        "To organize different components and make the project maintainable",
+        "To use more disk space"
+      ],
+      correctAnswer: 2,
+      explanation: "A good project structure keeps different components organized (MCP servers, agents, config, etc.), making the code easier to understand, maintain, and expand."
+    },
+    {
+      question: "What does 'pip install mcp' do?",
+      options: [
+        "Installs Python on your computer",
+        "Downloads and installs the MCP SDK package",
+        "Creates a new project folder",
+        "Connects to the internet"
+      ],
+      correctAnswer: 1,
+      explanation: "The pip install command downloads and installs Python packages. In this case, it installs the MCP SDK so we can use it in our Python programs."
+    },
+    {
+      question: "What should you do if the verification script shows red X marks?",
+      options: [
+        "Ignore them and continue",
+        "Start over from scratch",
+        "Follow the suggestions to install missing components",
+        "Buy a new computer"
+      ],
+      correctAnswer: 2,
+      explanation: "The verification script checks that everything is properly installed. If something is missing (red X), follow the provided suggestions to install the missing components."
+    }
+  ]}
+/>
+
+<Callout type="success">
+**Excellent Work!** Your development environment is ready. In the next module, we'll build your first MCP server – the foundation of our AI System!
+</Callout>
