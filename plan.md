@@ -15,11 +15,11 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 ### Phase 2: Core Component Tests
 
 #### Hero Component
-- [ ] Should render with English locale
-- [ ] Should render with Portuguese locale
-- [ ] Should display correct translations for each locale
-- [ ] Should render profile image with proper optimization
-- [ ] Should display statistics with translated labels
+- [x] Should render with English locale
+- [x] Should render with Portuguese locale
+- [x] Should display correct translations for each locale
+- [x] Should render profile image with proper optimization
+- [x] Should display statistics with translated labels
 
 #### Navigation Component
 - [ ] Should render navigation links for current locale
