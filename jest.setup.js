@@ -5,6 +5,18 @@
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom'
 
+// Add jest-axe for accessibility testing
+import { configureAxe } from 'jest-axe'
+
+const axe = configureAxe({
+  rules: {
+    // Disable color-contrast rule for now as we have dark theme
+    'color-contrast': { enabled: false },
+  },
+})
+
+global.axe = axe
+
 // Add global polyfills
 global.Request = class Request {
   constructor(url, options = {}) {

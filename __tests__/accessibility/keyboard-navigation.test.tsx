@@ -1,0 +1,64 @@
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import Navigation from '@/components/Navigation'
+
+// Mock next/navigation
+jest.mock('next/navigation', () => ({
+  usePathname: jest.fn(() => '/en'),
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+    refresh: jest.fn(),
+    prefetch: jest.fn(),
+  })),
+}))
+
+describe('Keyboard Navigation - All interactive elements are keyboard accessible', () => {
+  it('should allow tab navigation through all navigation links', async () => {
+    const user = userEvent.setup()
+    
+    render(<Navigation locale="en" />)
+    
+    // Get all navigation links specifically from desktop menu (first instance)
+    const allHomeLinks = screen.getAllByRole('link', { name: /home/i })
+    const allAboutLinks = screen.getAllByRole('link', { name: /about/i })
+    const allProjectsLinks = screen.getAllByRole('link', { name: /projects/i })
+    const allLearnLinks = screen.getAllByRole('link', { name: /learn/i })
+    const allBlogLinks = screen.getAllByRole('link', { name: /blog/i })
+    const allContactLinks = screen.getAllByRole('link', { name: /contact/i })
+    
+    // Use the first link which is from the desktop menu
+    const homeLink = allHomeLinks[0]
+    const aboutLink = allAboutLinks[0]
+    const projectsLink = allProjectsLinks[0]
+    const learnLink = allLearnLinks[0]
+    const blogLink = allBlogLinks[0]
+    const contactLink = allContactLinks[0]
+    
+    // Start tabbing from the brand link
+    const brandLink = screen.getByRole('link', { name: /brandon j\. redmond/i })
+    await user.click(brandLink)
+    expect(brandLink).toHaveFocus()
+    
+    // Tab through each navigation link
+    await user.tab()
+    expect(homeLink).toHaveFocus()
+    
+    await user.tab()
+    expect(aboutLink).toHaveFocus()
+    
+    await user.tab()
+    expect(projectsLink).toHaveFocus()
+    
+    await user.tab()
+    expect(learnLink).toHaveFocus()
+    
+    await user.tab()
+    expect(blogLink).toHaveFocus()
+    
+    await user.tab()
+    expect(contactLink).toHaveFocus()
+  })
+})
