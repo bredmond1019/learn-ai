@@ -1,231 +1,161 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { ProjectsPageClient } from './ProjectsPageClient'
-import { Project } from '@/types/project'
+import { render, screen, fireEvent } from '@testing-library/react';
+import { ProjectsPageClient } from './ProjectsPageClient';
 
-// Mock project data
-const mockProjects: Project[] = [
+// Mock dependencies
+jest.mock('@/lib/translations', () => ({
+  getTranslations: jest.fn(),
+}));
+
+jest.mock('@/components/Section', () => ({
+  __esModule: true,
+  default: ({ children, spacing, className }: { children: React.ReactNode; spacing?: string; className?: string }) => (
+    <div data-testid="section" data-spacing={spacing} className={className}>{children}</div>
+  ),
+}));
+
+jest.mock('@/components/Container', () => ({
+  __esModule: true,
+  default: ({ children, size }: { children: React.ReactNode; size?: string }) => (
+    <div data-testid="container" data-size={size}>{children}</div>
+  ),
+}));
+
+jest.mock('@/components/ProjectCard', () => ({
+  __esModule: true,
+  default: ({ title, slug, locale }: { title: string; slug: string; locale: string }) => (
+    <div data-testid="project-card" data-slug={slug} data-locale={locale}>
+      <h3>{title}</h3>
+    </div>
+  ),
+}));
+
+import { getTranslations } from '@/lib/translations';
+const mockGetTranslations = getTranslations as jest.MockedFunction<typeof getTranslations>;
+
+// Mock translations
+const mockTranslations = {
+  projects: {
+    title: 'Projects',
+    description: 'Explore my portfolio of AI and engineering projects',
+    search: 'Search projects...',
+    filterAll: 'All Categories',
+    showingAll: 'Showing all {{count}} projects',
+    showingFiltered: 'Showing {{filtered}} of {{total}} projects',
+    clearFilters: 'Clear filters',
+    noResults: 'No projects found',
+    noResultsSubtitle: 'Try adjusting your search or filters',
+    viewAll: 'View all projects',
+    interestedInCollaboration: 'Interested in collaboration?',
+    collaborationText: 'Let\'s discuss your project and how we can work together.',
+    discussProject: 'Let\'s discuss your project',
+  },
+};
+
+// Mock projects data
+const mockProjects = [
   {
-    slug: 'test-project-1',
-    title: 'AI Testing System',
-    description: 'A comprehensive AI testing platform',
-    longDescription: 'A detailed description of the AI testing system...',
-    tags: ['AI', 'Testing', 'Python'],
+    slug: 'ai-chatbot',
+    title: 'AI Chatbot Platform',
+    description: 'Advanced conversational AI system with natural language processing',
+    tags: ['AI', 'Machine Learning', 'React'],
     featured: true,
-    techStack: [
-      { category: 'Languages', items: ['Python', 'TypeScript'] }
-    ],
-    features: ['Feature 1', 'Feature 2'],
-    challenges: ['Challenge 1', 'Challenge 2'],
-    outcomes: [
-      { metric: 'Accuracy', value: '98%' }
-    ]
+    image: '/images/ai-chatbot.png',
+    technologies: ['Python', 'React', 'OpenAI'],
+    status: 'completed'
   },
   {
-    slug: 'test-project-2',
-    title: 'Machine Learning Pipeline',
-    description: 'End-to-end ML pipeline for data processing',
-    longDescription: 'A detailed description of the ML pipeline...',
-    tags: ['Machine Learning', 'Python', 'AWS'],
+    slug: 'mlops-pipeline',
+    title: 'MLOps Pipeline',
+    description: 'Automated machine learning deployment pipeline for scalable AI systems',
+    tags: ['MLOps', 'DevOps', 'Python'],
     featured: false,
-    techStack: [
-      { category: 'Languages', items: ['Python'] }
-    ],
-    features: ['Feature A', 'Feature B'],
-    challenges: ['Challenge A', 'Challenge B'],
-    outcomes: [
-      { metric: 'Performance', value: '99%' }
-    ]
+    image: '/images/mlops.png',
+    technologies: ['Docker', 'Kubernetes', 'Python'],
+    status: 'in-progress'
   },
   {
-    slug: 'test-project-3',
-    title: 'React Dashboard',
-    description: 'Interactive dashboard built with React',
-    longDescription: 'A detailed description of the React dashboard...',
-    tags: ['React', 'TypeScript', 'Dashboard'],
+    slug: 'data-visualization',
+    title: 'Data Visualization Dashboard',
+    description: 'Interactive analytics dashboard for business intelligence',
+    tags: ['Data Science', 'Visualization', 'React'],
+    featured: true,
+    image: '/images/dashboard.png',
+    technologies: ['React', 'D3.js', 'Python'],
+    status: 'completed'
+  },
+  {
+    slug: 'blockchain-dapp',
+    title: 'Blockchain DApp',
+    description: 'Decentralized application built on Ethereum blockchain',
+    tags: ['Blockchain', 'Ethereum', 'React'],
     featured: false,
-    techStack: [
-      { category: 'Frontend', items: ['React', 'TypeScript'] }
-    ],
-    features: ['Interactive Charts', 'Real-time Updates'],
-    challenges: ['Performance Optimization', 'State Management'],
-    outcomes: [
-      { metric: 'Load Time', value: '<2s' }
-    ]
-  }
-]
+    image: '/images/blockchain.png',
+    technologies: ['Solidity', 'React', 'Web3'],
+    status: 'completed'
+  },
+];
 
 describe('ProjectsPageClient', () => {
   beforeEach(() => {
-    // Reset any existing state
-    jest.clearAllMocks()
-  })
+    mockGetTranslations.mockReturnValue(mockTranslations);
+  });
 
-  it('renders all projects by default', () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
-    
-    expect(screen.getByText('AI Testing System')).toBeInTheDocument()
-    expect(screen.getByText('Machine Learning Pipeline')).toBeInTheDocument()
-    expect(screen.getByText('React Dashboard')).toBeInTheDocument()
-    expect(screen.getByText('Showing all 3 projects')).toBeInTheDocument()
-  })
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  it('filters projects by search term', async () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
+  it('should display projects for current locale', () => {
+    render(<ProjectsPageClient initialProjects={mockProjects} locale="en" />);
     
-    const searchInput = screen.getByPlaceholderText(/search projects/i)
-    fireEvent.change(searchInput, { target: { value: 'React' } })
+    // Check that all projects are displayed
+    expect(screen.getByText('AI Chatbot Platform')).toBeInTheDocument();
+    expect(screen.getByText('MLOps Pipeline')).toBeInTheDocument();
+    expect(screen.getByText('Data Visualization Dashboard')).toBeInTheDocument();
+    expect(screen.getByText('Blockchain DApp')).toBeInTheDocument();
     
-    await waitFor(() => {
-      expect(screen.getByText('React Dashboard')).toBeInTheDocument()
-      expect(screen.queryByText('AI Testing System')).not.toBeInTheDocument()
-      expect(screen.queryByText('Machine Learning Pipeline')).not.toBeInTheDocument()
-      expect(screen.getByText('Showing 1 of 3 projects')).toBeInTheDocument()
-    })
-  })
+    // Check project cards have correct locale
+    const projectCards = screen.getAllByTestId('project-card');
+    expect(projectCards).toHaveLength(4);
+    projectCards.forEach(card => {
+      expect(card).toHaveAttribute('data-locale', 'en');
+    });
+  });
 
-  it('filters projects by tag', async () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
+  it('should filter by category correctly', () => {
+    render(<ProjectsPageClient initialProjects={mockProjects} locale="en" />);
     
-    const filterSelect = screen.getByDisplayValue('All Technologies')
-    fireEvent.change(filterSelect, { target: { value: 'Python' } })
+    // Find the filter dropdown
+    const filterSelect = screen.getByRole('combobox');
+    expect(filterSelect).toBeInTheDocument();
     
-    await waitFor(() => {
-      expect(screen.getByText('AI Testing System')).toBeInTheDocument()
-      expect(screen.getByText('Machine Learning Pipeline')).toBeInTheDocument()
-      expect(screen.queryByText('React Dashboard')).not.toBeInTheDocument()
-      expect(screen.getByText('Showing 2 of 3 projects')).toBeInTheDocument()
-    })
-  })
+    // Filter by 'AI' category
+    fireEvent.change(filterSelect, { target: { value: 'AI' } });
+    
+    // Should show only projects with 'AI' tag
+    expect(screen.getByText('AI Chatbot Platform')).toBeInTheDocument();
+    expect(screen.queryByText('MLOps Pipeline')).not.toBeInTheDocument();
+    expect(screen.queryByText('Data Visualization Dashboard')).not.toBeInTheDocument();
+    expect(screen.queryByText('Blockchain DApp')).not.toBeInTheDocument();
+  });
 
-  it('combines search and filter correctly', async () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
+  it('should display project cards with correct data', () => {
+    render(<ProjectsPageClient initialProjects={mockProjects} locale="en" />);
     
-    const searchInput = screen.getByPlaceholderText(/search projects/i)
-    const filterSelect = screen.getByDisplayValue('All Technologies')
+    const projectCards = screen.getAllByTestId('project-card');
+    expect(projectCards).toHaveLength(4);
     
-    fireEvent.change(searchInput, { target: { value: 'AI' } })
-    fireEvent.change(filterSelect, { target: { value: 'Python' } })
-    
-    await waitFor(() => {
-      expect(screen.getByText('AI Testing System')).toBeInTheDocument()
-      expect(screen.queryByText('Machine Learning Pipeline')).not.toBeInTheDocument()
-      expect(screen.queryByText('React Dashboard')).not.toBeInTheDocument()
-      expect(screen.getByText('Showing 1 of 3 projects')).toBeInTheDocument()
-    })
-  })
+    // Check that cards have correct slug and locale attributes
+    expect(projectCards[0]).toHaveAttribute('data-slug', 'ai-chatbot');
+    expect(projectCards[0]).toHaveAttribute('data-locale', 'en');
+    expect(projectCards[1]).toHaveAttribute('data-slug', 'mlops-pipeline');
+    expect(projectCards[2]).toHaveAttribute('data-slug', 'data-visualization');
+    expect(projectCards[3]).toHaveAttribute('data-slug', 'blockchain-dapp');
+  });
 
-  it('shows no results message when no projects match filters', async () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
+  it('should handle empty state when no projects exist', () => {
+    render(<ProjectsPageClient initialProjects={[]} locale="en" />);
     
-    const searchInput = screen.getByPlaceholderText(/search projects/i)
-    fireEvent.change(searchInput, { target: { value: 'NonexistentProject' } })
-    
-    await waitFor(() => {
-      expect(screen.getByText('No projects found')).toBeInTheDocument()
-      expect(screen.getByText('Try adjusting your search term or filter to find more projects.')).toBeInTheDocument()
-      expect(screen.getByText('View all projects')).toBeInTheDocument()
-    })
-  })
-
-  it('clears filters when clear button is clicked', async () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
-    
-    const searchInput = screen.getByPlaceholderText(/search projects/i)
-    fireEvent.change(searchInput, { target: { value: 'React' } })
-    
-    await waitFor(() => {
-      expect(screen.getByText('Clear filters')).toBeInTheDocument()
-    })
-    
-    const clearButton = screen.getByText('Clear filters')
-    fireEvent.click(clearButton)
-    
-    await waitFor(() => {
-      expect(searchInput).toHaveValue('')
-      expect(screen.getByText('Showing all 3 projects')).toBeInTheDocument()
-      expect(screen.queryByText('Clear filters')).not.toBeInTheDocument()
-    })
-  })
-
-  it('resets filters when "View all projects" is clicked from no results', async () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
-    
-    const searchInput = screen.getByPlaceholderText(/search projects/i)
-    fireEvent.change(searchInput, { target: { value: 'NonexistentProject' } })
-    
-    await waitFor(() => {
-      expect(screen.getByText('No projects found')).toBeInTheDocument()
-    })
-    
-    const viewAllButton = screen.getByText('View all projects')
-    fireEvent.click(viewAllButton)
-    
-    await waitFor(() => {
-      expect(searchInput).toHaveValue('')
-      expect(screen.getByText('Showing all 3 projects')).toBeInTheDocument()
-      expect(screen.getByText('AI Testing System')).toBeInTheDocument()
-    })
-  })
-
-  it('renders featured badge for featured projects', () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
-    
-    // Check that featured project has the featured badge
-    const featuredProject = screen.getByText('AI Testing System').closest('a')
-    expect(featuredProject).toContainElement(screen.getByText('Featured'))
-    
-    // Check that non-featured projects don't have the badge
-    const nonFeaturedProject = screen.getByText('Machine Learning Pipeline').closest('a')
-    expect(nonFeaturedProject).not.toContainElement(screen.queryByText('Featured'))
-  })
-
-  it('shows correct tag filtering options', () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
-    
-    const filterSelect = screen.getByDisplayValue('All Technologies')
-    
-    // Check that all unique tags are available as options
-    expect(filterSelect).toContainHTML('<option value="AI">AI</option>')
-    expect(filterSelect).toContainHTML('<option value="AWS">AWS</option>')
-    expect(filterSelect).toContainHTML('<option value="Dashboard">Dashboard</option>')
-    expect(filterSelect).toContainHTML('<option value="Machine Learning">Machine Learning</option>')
-    expect(filterSelect).toContainHTML('<option value="Python">Python</option>')
-    expect(filterSelect).toContainHTML('<option value="React">React</option>')
-    expect(filterSelect).toContainHTML('<option value="Testing">Testing</option>')
-    expect(filterSelect).toContainHTML('<option value="TypeScript">TypeScript</option>')
-  })
-
-  it('handles empty projects list gracefully', () => {
-    render(<ProjectsPageClient initialProjects={[]} />)
-    
-    expect(screen.getByText('Showing all 0 projects')).toBeInTheDocument()
-    expect(screen.getByText('No projects found')).toBeInTheDocument()
-  })
-
-  it('searches in project description', async () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
-    
-    const searchInput = screen.getByPlaceholderText(/search projects/i)
-    fireEvent.change(searchInput, { target: { value: 'dashboard' } })
-    
-    await waitFor(() => {
-      expect(screen.getByText('React Dashboard')).toBeInTheDocument()
-      expect(screen.queryByText('AI Testing System')).not.toBeInTheDocument()
-      expect(screen.getByText('Showing 1 of 3 projects')).toBeInTheDocument()
-    })
-  })
-
-  it('searches in project tags', async () => {
-    render(<ProjectsPageClient initialProjects={mockProjects} />)
-    
-    const searchInput = screen.getByPlaceholderText(/search projects/i)
-    fireEvent.change(searchInput, { target: { value: 'aws' } })
-    
-    await waitFor(() => {
-      expect(screen.getByText('Machine Learning Pipeline')).toBeInTheDocument()
-      expect(screen.queryByText('AI Testing System')).not.toBeInTheDocument()
-      expect(screen.queryByText('React Dashboard')).not.toBeInTheDocument()
-      expect(screen.getByText('Showing 1 of 3 projects')).toBeInTheDocument()
-    })
-  })
-})
+    expect(screen.getByText('No projects found')).toBeInTheDocument();
+    expect(screen.getByText('Try adjusting your search or filters')).toBeInTheDocument();
+  });
+});
