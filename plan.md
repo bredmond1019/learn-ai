@@ -45,16 +45,16 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 - [x] Should preserve Python code examples functionality
 
 #### Module Navigation
-- [ ] Should show previous/next navigation
-- [ ] Should disable previous on first module
-- [ ] Should disable next on last module
-- [ ] Should maintain locale in navigation links
+- [x] Should show previous/next navigation
+- [x] Should disable previous on first module
+- [x] Should disable next on last module
+- [x] Should maintain locale in navigation links
 
 #### Progress Tracking
-- [ ] Should save progress to API
-- [ ] Should retrieve progress from API
-- [ ] Should handle errors gracefully
-- [ ] Should show completion status
+- [x] Should save progress to API
+- [x] Should retrieve progress from API
+- [x] Should handle errors gracefully
+- [x] Should show completion status
 
 ### Phase 4: Blog System Tests
 
