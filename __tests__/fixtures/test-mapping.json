@@ -1,0 +1,24 @@
+{
+  "articles": {
+    "building-ai-agents-typescript": {
+      "devtoId": 1234567,
+      "devtoUrl": "https://dev.to/brandonjredmond/building-ai-agents-with-typescript-a-practical-guide-abc123",
+      "lastSyncedAt": "2024-01-15T10:30:00Z",
+      "lastSyncedHash": "a1b2c3d4e5f6"
+    },
+    "react-server-components": {
+      "devtoId": 2345678,
+      "devtoUrl": "https://dev.to/brandonjredmond/understanding-react-server-components-def456",
+      "lastSyncedAt": "2024-01-14T15:45:00Z",
+      "lastSyncedHash": "f6e5d4c3b2a1"
+    },
+    "old-article": {
+      "devtoId": 9999999,
+      "devtoUrl": "https://dev.to/brandonjredmond/old-article-xyz789",
+      "lastSyncedAt": "2023-06-01T08:00:00Z",
+      "lastSyncedHash": "oldHash123"
+    }
+  },
+  "lastFullSync": "2024-01-15T10:30:00Z",
+  "version": "1.0.0"
+}

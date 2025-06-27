@@ -88,3 +88,6 @@ global.IntersectionObserver = class IntersectionObserver {
     return []
   }
 }
+
+// Mock fetch for API tests
+global.fetch = jest.fn()

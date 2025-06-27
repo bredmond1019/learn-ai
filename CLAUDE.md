@@ -27,9 +27,27 @@ npm test -- --testNamePattern="specific test"  # Run specific test
 npm test ComponentName.test.tsx                # Test specific file
 ```
 
-### Content Validation
+### Content Management
 ```bash
 npm run validate:content # Validate all content files
+```
+
+### Dev.to Publishing
+```bash
+npm run devto:publish <file>     # Publish single article
+npm run devto:update <file>      # Update existing article
+npm run devto:publish-dir <dir>  # Publish directory
+npm run devto:sync              # Sync changed articles
+npm run devto:list              # List published articles
+```
+
+### Deployment
+```bash
+npm run build:prod      # Production build script
+npm run deploy          # Deploy script
+npm run docker:build    # Build Docker image
+npm run docker:run      # Run Docker container
+npm run k8s:deploy      # Deploy to Kubernetes
 ```
 
 ## Architecture & Key Patterns
@@ -39,6 +57,7 @@ npm run validate:content # Validate all content files
 - **Content**: Separate directories under `/content/blog/[locale]/` and `/content/projects/[locale]/`
 - **Translations**: JSON files in `/content/translations/[locale].json`
 - **Navigation**: Auto-switches between `/en/` and `/pt-BR/` routes
+- **Route Translations**: Localized URLs (e.g., `/en/about` → `/pt-BR/sobre`)
 - **Key files**: `lib/i18n.ts`, `lib/translations.ts`, `middleware.ts`
 
 ### Learning Management System
@@ -60,6 +79,13 @@ npm run validate:content # Validate all content files
 - **API Route**: `/api/contact/route.ts` with rate limiting
 - **Environment**: Requires `RESEND_API_KEY` and `CONTACT_EMAIL`
 
+### Dev.to Integration
+- **API Client**: `lib/devto-api.ts` handles all Dev.to API calls
+- **Markdown Parser**: `lib/devto-markdown.ts` processes and validates content
+- **Mapping System**: `lib/devto-mapping.ts` tracks published articles
+- **CLI Tool**: `scripts/devto-publish.ts` provides command interface
+- **Mapping File**: `.devto-mapping.json` stores article mappings (gitignored)
+
 ### Styling Architecture
 - **Framework**: Tailwind CSS 4 with custom configuration
 - **Dark Theme**: Primary dark design (#0A0A0A background)
@@ -80,25 +106,30 @@ npm run validate:content # Validate all content files
 - **Mocks**: Server-only modules, Next.js navigation, MDX
 - **Setup**: `jest.setup.js` provides polyfills and global mocks
 
-### Common Issues & Solutions
+## Common Issues & Solutions
 
-1. **TypeScript Errors in ModuleRenderer**:
-   - Check for undefined `section.content.source` before parsing
-   - Cast `querySelector` results to `HTMLElement` for mermaid.init
+### TypeScript Errors in ModuleRenderer
+- Check for undefined `section.content.source` before parsing
+- Cast `querySelector` results to `HTMLElement` for mermaid.init
 
-2. **Module Not Found Errors**:
-   - Ensure Portuguese content exists in `/content/learn/paths/pt-BR/`
-   - Check variable naming consistency (moduleData vs module)
+### Module Not Found Errors
+- Ensure Portuguese content exists in `/content/learn/paths/pt-BR/`
+- Check variable naming consistency (moduleData vs module)
 
-3. **Build Warnings about Bundle Size**:
-   - Normal for pages using Shiki/Monaco - chunks are lazy loaded
-   - Use `npm run analyze` to investigate specific issues
+### Build Warnings about Bundle Size
+- Normal for pages using Shiki/Monaco - chunks are lazy loaded
+- Use `npm run analyze` to investigate specific issues
 
-4. **MDX Parsing Errors**:
-   - Escape curly braces in MDX: `\{` and `\}`
-   - Check for unmatched JSX tags in content
+### MDX Parsing Errors
+- Escape curly braces in MDX: `\{` and `\}`
+- Check for unmatched JSX tags in content
 
-### Environment Variables
+### Dev.to YAML Errors
+- Quote titles containing colons: `title: "Title: Subtitle"`
+- Maximum 4 tags allowed per article
+- Rate limit: ~30 requests per 30 seconds
+
+## Environment Variables
 ```bash
 # Required for production
 RESEND_API_KEY=           # Email service
@@ -107,15 +138,18 @@ CONTACT_EMAIL=            # Where contact forms are sent
 # Optional
 NEXT_PUBLIC_GA_ID=        # Google Analytics
 SENTRY_DSN=               # Error tracking
+
+# Dev.to Integration
+DEV_TO_API_KEY=           # Dev.to API key for publishing
 ```
 
-### Deployment Notes
+## Deployment Notes
 - **Platform**: Optimized for Vercel deployment
 - **Node Version**: Requires Node.js 18.x
 - **Build Command**: `npm run build:production`
 - **Environment**: Set all required env vars in deployment platform
 
-### Working with Learning Modules
+## Working with Learning Modules
 When creating or modifying learning modules:
 1. Module metadata goes in `.json` files with specific structure
 2. Module content goes in corresponding `.mdx` files

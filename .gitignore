@@ -42,3 +42,6 @@ next-env.d.ts
 
 # misc documentation and task files
 docs/misc/
+
+# Dev.to mapping file
+.devto-mapping.json
