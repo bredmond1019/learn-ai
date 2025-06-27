@@ -72,13 +72,11 @@ jest.mock('@/lib/utils', () => ({
 
 // Mock window.location
 const mockLocationHref = jest.fn();
-Object.defineProperty(window, 'location', {
-  value: {
-    href: '',
-    assign: mockLocationHref,
-  },
-  writable: true,
-});
+delete (window as any).location;
+window.location = {
+  href: '',
+  assign: mockLocationHref,
+} as any;
 
 // Test data
 const createMockModule = (id: string, title: string, order: number, prerequisites: string[] = []): Module => ({
@@ -141,10 +139,7 @@ describe('ModuleNavigation Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (usePathname as jest.Mock).mockReturnValue('/learn/paths/test-path/modules/module-1');
-    Object.defineProperty(window, 'location', {
-      value: { href: '' },
-      writable: true,
-    });
+    window.location.href = '';
   });
 
   describe('Breadcrumb Navigation', () => {
