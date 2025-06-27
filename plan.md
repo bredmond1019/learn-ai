@@ -22,8 +22,8 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 - [x] Should display statistics with translated labels
 
 #### Navigation Component
-- [ ] Should render navigation links for current locale
-- [ ] Should highlight active route
+- [x] Should render navigation links for current locale
+- [x] Should highlight active route
 - [ ] Language switcher should toggle between en/pt-BR
 - [ ] Mobile menu should open and close correctly
 - [ ] Should maintain locale in navigation links
