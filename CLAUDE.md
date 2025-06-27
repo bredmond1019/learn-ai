@@ -32,6 +32,16 @@ npm test ComponentName.test.tsx                # Test specific file
 npm run validate:content # Validate all content files
 ```
 
+### Email Testing
+```bash
+npm run email:test          # Send single test email
+npm run email:test-contact  # Test contact form functionality
+npm run email:test-all      # Test all configured email addresses  
+npm run email:verify        # Verify email configuration
+npm run email:stress        # Stress test email delivery
+npm test:email:integration  # Run production email integration tests
+```
+
 ### Dev.to Publishing
 ```bash
 npm run devto:publish <file>     # Publish single article

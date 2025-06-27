@@ -155,17 +155,20 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
     return { success: false, error: 'Missing required email fields' }
   }
 
-  // Validate API key
-  if (!process.env.RESEND_API_KEY || !resend) {
+  // Validate API key (allow mocked resend in test environment)
+  if (!process.env.RESEND_API_KEY && process.env.NODE_ENV !== 'test') {
     console.error('RESEND_API_KEY is not configured')
     return { success: false, error: 'Email service not configured' }
   }
+  
+  // Create resend instance if not available (for tests)
+  const resendClient = resend || new Resend(process.env.RESEND_API_KEY || 'test-key')
 
   // Set default from address
-  const from = options.from || process.env.RESEND_FROM_EMAIL || 'AI Engineer Portfolio <onboarding@resend.dev>'
+  const from = options.from || process.env.RESEND_FROM_EMAIL || 'Brandon Redmond <onboarding@resend.dev>'
 
   try {
-    const result = await resend.emails.send({
+    const result = await resendClient.emails.send({
       from,
       to: options.to,
       subject: options.subject,
@@ -192,7 +195,7 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
 
 // Send contact form emails (both admin notification and user confirmation)
 export async function sendContactFormEmails(data: ContactFormData): Promise<{ success: boolean; error?: string }> {
-  const adminEmail = process.env.CONTACT_EMAIL || 'hello@aiengineer.dev'
+  const adminEmail = process.env.CONTACT_EMAIL || 'bredmond1019@gmail.com'
   
   try {
     // Send admin notification

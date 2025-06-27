@@ -63,6 +63,11 @@ describe('Email Service', () => {
     })
 
     it('should check for API key configuration', async () => {
+      // Temporarily set NODE_ENV to production to test API key validation
+      const originalNodeEnv = process.env.NODE_ENV
+      const originalApiKey = process.env.RESEND_API_KEY
+      
+      process.env.NODE_ENV = 'production'
       delete process.env.RESEND_API_KEY
       
       const result = await sendEmail({
@@ -70,6 +75,10 @@ describe('Email Service', () => {
         subject: 'Test',
         html: '<p>Test</p>'
       })
+      
+      // Restore environment
+      process.env.NODE_ENV = originalNodeEnv
+      process.env.RESEND_API_KEY = originalApiKey
       
       expect(result.success).toBe(false)
       expect(result.error).toBe('Email service not configured')
@@ -92,8 +101,7 @@ describe('Email Service', () => {
         to: 'test@example.com',
         subject: 'Test Email',
         html: '<p>Test content</p>',
-        text: 'Test content',
-        reply_to: 'reply@example.com'
+        replyTo: 'reply@example.com'
       })
       expect(result.success).toBe(true)
     })
@@ -141,13 +149,13 @@ describe('Email Service', () => {
       // Check admin email
       const adminCall = mockSend.mock.calls[0][0]
       expect(adminCall.to).toBe('admin@example.com')
-      expect(adminCall.reply_to).toBe('john@example.com')
+      expect(adminCall.replyTo).toBe('john@example.com')
       expect(adminCall.subject).toContain('New Contact Form Submission')
       
       // Check user email
       const userCall = mockSend.mock.calls[1][0]
       expect(userCall.to).toBe('john@example.com')
-      expect(userCall.reply_to).toBe('admin@example.com')
+      expect(userCall.replyTo).toBe('admin@example.com')
       expect(userCall.subject).toBe('Thank you for contacting me')
     })
 
@@ -184,7 +192,7 @@ describe('Email Service', () => {
       await sendContactFormEmails(mockContactData)
 
       const adminCall = mockSend.mock.calls[0][0]
-      expect(adminCall.to).toBe('hello@aiengineeer.dev') // Note: typo in original
+      expect(adminCall.to).toBe('bredmond1019@gmail.com')
     })
   })
 })

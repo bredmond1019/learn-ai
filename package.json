@@ -24,7 +24,13 @@
     "devto:unpublish": "tsx scripts/devto-publish.ts unpublish",
     "devto:publish-dir": "tsx scripts/devto-publish.ts publish-dir",
     "devto:sync": "tsx scripts/devto-publish.ts sync",
-    "devto:list": "tsx scripts/devto-publish.ts list"
+    "devto:list": "tsx scripts/devto-publish.ts list",
+    "email:test": "tsx scripts/test-email.ts send-test",
+    "email:test-contact": "tsx scripts/test-email.ts send-contact-form",
+    "email:test-all": "tsx scripts/test-email.ts send-to-all",
+    "email:verify": "tsx scripts/test-email.ts verify-config",
+    "email:stress": "tsx scripts/test-email.ts stress-test",
+    "test:email:integration": "NODE_ENV=production TEST_EMAIL_PRODUCTION=true jest __tests__/integration/email-production.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.54.0",
