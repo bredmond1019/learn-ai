@@ -24,15 +24,15 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 #### Navigation Component
 - [x] Should render navigation links for current locale
 - [x] Should highlight active route
-- [ ] Language switcher should toggle between en/pt-BR
-- [ ] Mobile menu should open and close correctly
-- [ ] Should maintain locale in navigation links
+- [x] Language switcher should toggle between en/pt-BR
+- [x] Mobile menu should open and close correctly
+- [x] Should maintain locale in navigation links
 
 #### LanguageSwitcher Component
-- [ ] Should display current language
-- [ ] Should show dropdown on click
-- [ ] Should switch locale and redirect to same page
-- [ ] Should not overlap with dropdown arrow (regression test)
+- [x] Should display current language
+- [x] Should show dropdown on click
+- [x] Should switch locale and redirect to same page
+- [x] Should not overlap with dropdown arrow (regression test)
 
 ### Phase 3: Learning System Tests
 
