@@ -36,7 +36,7 @@ const customJestConfig = {
   
   // Transform ignore patterns - don't transform these modules
   transformIgnorePatterns: [
-    '/node_modules/(?!(next-intl|next-mdx-remote)/)',
+    '/node_modules/(?!(next-intl|next-mdx-remote|remark-gfm|micromark-util-character|micromark-util-chunked|micromark-util-classify-character|micromark-util-combine-extensions|micromark-util-decode-numeric-character-reference|micromark-util-decode-string|micromark-util-encode|micromark-util-html-tag-name|micromark-util-normalize-identifier|micromark-util-resolve-all|micromark-util-sanitize-uri|micromark-util-subtokenize|micromark-util-symbol|micromark-util-types)/)',
   ],
   
   // Use TypeScript config for tests

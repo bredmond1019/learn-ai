@@ -229,7 +229,9 @@ export async function translateContent(
       
     } catch (error) {
       lastError = error as Error;
-      console.error(`Translation attempt ${attempt} failed:`, error);
+      if (process.env.NODE_ENV !== 'test') {
+        console.error(`Translation attempt ${attempt} failed:`, error);
+      }
       
       if (attempt < MAX_RETRIES) {
         await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * attempt));

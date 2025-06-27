@@ -35,7 +35,7 @@ describe('SEOHead', () => {
       render(<SEOHead />)
       
       // Check that title is rendered
-      expect(document.title).toBe('Brandon Redmond - AI Engineer & Software Architect')
+      expect(document.title).toBe('Brandon J. Redmond - AI Engineer & Technical Leader')
       
       // Check meta tags exist
       const metaTags = document.querySelectorAll('meta')
@@ -152,7 +152,7 @@ describe('SEOHead', () => {
       
       render(<ProjectSEO project={project} />)
       
-      expect(document.title).toBe('AI Chat System | Projects')
+      expect(document.title).toBe('AI Chat System | Projects - Brandon J. Redmond')
       
       const description = document.querySelector('meta[name="description"]')
       expect(description).toHaveAttribute('content', 'Advanced AI chat system with RAG')
@@ -186,7 +186,7 @@ describe('SEOHead', () => {
       
       render(<BlogSEO post={post} />)
       
-      expect(document.title).toBe('Understanding AI Agents | Blog')
+      expect(document.title).toBe('Understanding AI Agents | Blog - Brandon J. Redmond')
       
       const ogType = document.querySelector('meta[property="og:type"]')
       expect(ogType).toHaveAttribute('content', 'article')
@@ -214,7 +214,7 @@ describe('SEOHead', () => {
     it('renders page-specific SEO for home', () => {
       render(<PageSEO pageKey="home" />)
       
-      expect(document.title).toBe('Brandon Redmond - AI Engineer & Software Architect')
+      expect(document.title).toBe('Brandon J. Redmond - AI Engineer & Technical Leader')
       
       const canonical = document.querySelector('link[rel="canonical"]')
       expect(canonical).toHaveAttribute('href', 'https://brandon-redmond.dev')

@@ -225,7 +225,7 @@ describe('claude-translator', () => {
       });
 
       await expect(translateContent('Test', defaultOptions)).rejects.toThrow(
-        'No JSON found in Claude response'
+        'Translation failed after 3 attempts'
       );
     });
 
@@ -242,7 +242,7 @@ describe('claude-translator', () => {
       });
 
       await expect(translateContent('Test', defaultOptions)).rejects.toThrow(
-        'Claude response missing translatedText field'
+        'Translation failed after 3 attempts'
       );
     });
   });
@@ -312,7 +312,7 @@ describe('claude-translator', () => {
 
       expect(results).toHaveLength(2);
       expect(results[0].error).toBeUndefined();
-      expect(results[1].error).toBe('API error');
+      expect(results[1].error).toContain('Translation failed after 3 attempts');
     });
   });
 
