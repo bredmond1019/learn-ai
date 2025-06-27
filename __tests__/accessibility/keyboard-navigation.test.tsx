@@ -87,4 +87,23 @@ describe('Keyboard Navigation - All interactive elements are keyboard accessible
     expect(menuButton).toHaveFocus()
     expect(menuButton).toHaveClass('focus:ring-2', 'focus:ring-inset', 'focus:ring-primary')
   })
+
+  it('should have skip links that work correctly', async () => {
+    const user = userEvent.setup()
+    
+    render(<Navigation locale="en" />)
+    
+    // Look for skip link (typically first focusable element)
+    const skipLink = screen.getByRole('link', { name: /skip to main content/i })
+    
+    // Skip link should be the first focusable element
+    await user.tab()
+    expect(skipLink).toHaveFocus()
+    
+    // Skip link should have proper href pointing to main content
+    expect(skipLink).toHaveAttribute('href', '#main-content')
+    
+    // Skip link should be visually hidden by default but visible on focus
+    expect(skipLink).toHaveClass('sr-only', 'focus:not-sr-only')
+  })
 })

@@ -54,8 +54,17 @@ export default function Navigation({ locale }: NavigationProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-accent/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
+      {/* Skip Link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:m-2"
+      >
+        Skip to main content
+      </a>
+      
+      <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-accent/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href={`/${locale}`} className="text-xl font-bold text-primary hover:text-primary-hover transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md">
@@ -132,5 +141,6 @@ export default function Navigation({ locale }: NavigationProps) {
         </div>
       </div>
     </nav>
+    </>
   );
 }
