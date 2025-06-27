@@ -150,7 +150,7 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 - [x] Deep links work with locale prefix
 
 #### Content Loading
-- [ ] Blog posts load correctly for each locale
+- [x] Blog posts load correctly for each locale
 - [ ] Projects load with proper translations
 - [ ] Learning modules maintain state during navigation
 
