@@ -163,7 +163,7 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 
 #### Keyboard Navigation
 - [x] All interactive elements are keyboard accessible
-- [ ] Focus indicators are visible
+- [x] Focus indicators are visible
 - [ ] Skip links work correctly
 
 #### Screen Reader Support

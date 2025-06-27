@@ -61,4 +61,30 @@ describe('Keyboard Navigation - All interactive elements are keyboard accessible
     await user.tab()
     expect(contactLink).toHaveFocus()
   })
+
+  it('should have visible focus indicators on interactive elements', async () => {
+    const user = userEvent.setup()
+    
+    render(<Navigation locale="en" />)
+    
+    // Test that focused elements have visible focus indicators
+    const brandLink = screen.getByRole('link', { name: /brandon j\. redmond/i })
+    const homeLink = screen.getAllByRole('link', { name: /home/i })[0]
+    
+    // Focus the brand link and check for focus styles
+    await user.click(brandLink)
+    expect(brandLink).toHaveFocus()
+    expect(brandLink).toHaveClass('focus:outline-none', 'focus:ring-2', 'focus:ring-primary')
+    
+    // Tab to home link and verify focus styles
+    await user.tab()
+    expect(homeLink).toHaveFocus()
+    expect(homeLink).toHaveClass('focus:outline-none')
+    
+    // Test mobile menu button focus indicators
+    const menuButton = screen.getByRole('button', { name: /open main menu/i })
+    await user.click(menuButton)
+    expect(menuButton).toHaveFocus()
+    expect(menuButton).toHaveClass('focus:ring-2', 'focus:ring-inset', 'focus:ring-primary')
+  })
 })

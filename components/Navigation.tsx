@@ -58,7 +58,7 @@ export default function Navigation({ locale }: NavigationProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link href={`/${locale}`} className="text-xl font-bold text-primary hover:text-primary-hover transition-colors">
+            <Link href={`/${locale}`} className="text-xl font-bold text-primary hover:text-primary-hover transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md">
               Brandon J. Redmond
             </Link>
           </div>
@@ -72,7 +72,7 @@ export default function Navigation({ locale }: NavigationProps) {
                   <Link
                     key={item.key}
                     href={href}
-                    className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${
+                    className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md ${
                       isCurrentPath(item.route)
                         ? 'text-primary'
                         : 'text-foreground/80 hover:text-foreground'
