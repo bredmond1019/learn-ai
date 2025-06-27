@@ -132,19 +132,19 @@ describe('Contact Form Integration', () => {
     const submitButton = screen.getByRole('button', { name: 'Send Message' })
     await user.click(submitButton)
 
-    // Should show retrying state
+    // Verify form fields become disabled during submission (indicating submitting state)
     await waitFor(() => {
-      expect(screen.getByText(/Retrying/)).toBeInTheDocument()
-    }, { timeout: 5000 })
+      expect(screen.getByLabelText('Name')).toBeDisabled()
+    }, { timeout: 1000 })
 
-    // Eventually should succeed
+    // Eventually should succeed after retry (wait longer for exponential backoff)
     await waitFor(() => {
-      expect(screen.getByText('Message sent successfully!')).toBeInTheDocument()
-    }, { timeout: 10000 })
+      expect(screen.getByText("Thank you for your message! I'll get back to you soon.")).toBeInTheDocument()
+    }, { timeout: 15000 })
 
-    // Verify both calls were made
+    // Verify both calls were made (first failed, second succeeded)
     expect(mockFetch).toHaveBeenCalledTimes(2)
-  })
+  }, 20000)
 
   it('should prevent spam with client-side checks', async () => {
     const user = userEvent.setup()

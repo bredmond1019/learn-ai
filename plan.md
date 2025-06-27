@@ -151,8 +151,8 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 
 #### Content Loading
 - [x] Blog posts load correctly for each locale
-- [ ] Projects load with proper translations
-- [ ] Learning modules maintain state during navigation
+- [x] Projects load with proper translations
+- [x] Learning modules maintain state during navigation
 
 #### Form Submission
 - [ ] Contact form submits and shows success message

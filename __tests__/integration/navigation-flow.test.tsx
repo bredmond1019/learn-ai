@@ -5,8 +5,8 @@
 
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Navigation } from '@/components/Navigation'
-import { GlobalProjectCard } from '@/components/GlobalProjectCard'
+import Navigation from '@/components/Navigation'
+import GlobalProjectCard from '@/components/GlobalProjectCard'
 import { ProjectsPageClient } from '@/components/ProjectsPageClient'
 
 // Mock next/navigation
@@ -23,11 +23,7 @@ jest.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
 }))
 
-// Mock next-intl (no longer used but keeping for compatibility)
-jest.mock('next-intl', () => ({
-  useTranslations: () => (key: string) => key,
-  useLocale: () => 'en',
-}))
+// No longer need next-intl mocking as project uses custom i18n implementation
 
 // Mock project data
 const mockProjects = [
@@ -37,6 +33,7 @@ const mockProjects = [
     description: 'Advanced NLP tool for analyzing customer feedback sentiment',
     image: '/images/projects/sentiment-analysis.jpg',
     technologies: ['Python', 'TensorFlow', 'React', 'FastAPI'],
+    tags: ['machine-learning', 'nlp', 'analytics'],
     category: 'AI/ML',
     featured: true,
     demoUrl: 'https://sentiment-demo.example.com',
@@ -55,6 +52,7 @@ const mockProjects = [
     description: 'Modern, responsive portfolio built with Next.js and TypeScript',
     image: '/images/projects/portfolio.jpg',
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'MDX'],
+    tags: ['web-development', 'portfolio', 'typescript'],
     category: 'Web Development',
     featured: true,
     githubUrl: 'https://github.com/user/portfolio',
@@ -70,18 +68,25 @@ describe('Navigation and Project Browsing Integration', () => {
 
   describe('Navigation Component', () => {
     it('should render all navigation links', () => {
-      render(<Navigation />)
+      render(<Navigation locale="en" />)
       
-      // Check for main navigation items
-      expect(screen.getByRole('link', { name: /about/i })).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: /projects/i })).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: /blog/i })).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: /contact/i })).toBeInTheDocument()
+      // Check for main navigation items (use getAllByRole for elements that appear in both desktop and mobile)
+      const aboutLinks = screen.getAllByRole('link', { name: /about/i })
+      expect(aboutLinks.length).toBeGreaterThan(0)
+      
+      const projectsLinks = screen.getAllByRole('link', { name: /projects/i })
+      expect(projectsLinks.length).toBeGreaterThan(0)
+      
+      const blogLinks = screen.getAllByRole('link', { name: /blog/i })
+      expect(blogLinks.length).toBeGreaterThan(0)
+      
+      const contactLinks = screen.getAllByRole('link', { name: /contact/i })
+      expect(contactLinks.length).toBeGreaterThan(0)
     })
 
     it('should handle mobile menu toggle', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      render(<Navigation locale="en" />)
       
       // Find mobile menu button (usually a hamburger icon)
       const mobileMenuButton = screen.getByRole('button', { name: /menu/i })
@@ -99,7 +104,7 @@ describe('Navigation and Project Browsing Integration', () => {
 
     it('should support keyboard navigation', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      render(<Navigation locale="en" />)
       
       // Tab through navigation links
       await user.tab()
@@ -113,20 +118,45 @@ describe('Navigation and Project Browsing Integration', () => {
 
   describe('Project Card Interactions', () => {
     it('should display project information correctly', () => {
-      render(<GlobalProjectCard project={mockProjects[0]} />)
+      const project = mockProjects[0]
+      render(
+        <GlobalProjectCard 
+          title={project.title}
+          description={project.description}
+          tags={project.tags}
+          slug={project.id}
+          featured={project.featured}
+          demoUrl={project.demoUrl}
+          githubUrl={project.githubUrl}
+          image={project.image}
+          status={project.status}
+        />
+      )
       
       expect(screen.getByText('AI Sentiment Analysis Tool')).toBeInTheDocument()
       expect(screen.getByText(/Advanced NLP tool/)).toBeInTheDocument()
-      expect(screen.getByText('Python')).toBeInTheDocument()
-      expect(screen.getByText('TensorFlow')).toBeInTheDocument()
-      expect(screen.getByText('AI/ML')).toBeInTheDocument()
+      expect(screen.getByText('machine-learning')).toBeInTheDocument()
+      expect(screen.getByText('nlp')).toBeInTheDocument()
     })
 
     it('should handle project card hover and focus states', async () => {
       const user = userEvent.setup()
-      render(<GlobalProjectCard project={mockProjects[0]} />)
+      const project = mockProjects[0]
+      render(
+        <GlobalProjectCard 
+          title={project.title}
+          description={project.description}
+          tags={project.tags}
+          slug={project.id}
+          featured={project.featured}
+          demoUrl={project.demoUrl}
+          githubUrl={project.githubUrl}
+          image={project.image}
+          status={project.status}
+        />
+      )
       
-      const projectCard = screen.getByRole('article')
+      const projectCard = screen.getByRole('heading', { name: 'AI Sentiment Analysis Tool' }).closest('div')
       
       // Test hover interaction
       await user.hover(projectCard)
@@ -141,90 +171,94 @@ describe('Navigation and Project Browsing Integration', () => {
     })
 
     it('should provide accessible project information', () => {
-      render(<GlobalProjectCard project={mockProjects[0]} />)
+      const project = mockProjects[0]
+      render(
+        <GlobalProjectCard 
+          title={project.title}
+          description={project.description}
+          tags={project.tags}
+          slug={project.id}
+          featured={project.featured}
+          demoUrl={project.demoUrl}
+          githubUrl={project.githubUrl}
+          image={project.image}
+          status={project.status}
+        />
+      )
       
       // Should have proper ARIA labels and structure
-      const projectCard = screen.getByRole('article')
-      expect(projectCard).toBeInTheDocument()
+      const projectTitle = screen.getByRole('heading', { name: 'AI Sentiment Analysis Tool' })
+      expect(projectTitle).toBeInTheDocument()
       
-      // Should have accessible technology list
-      const techList = screen.getByText('Python').closest('ul') || screen.getByText('Python').closest('div')
-      expect(techList).toBeInTheDocument()
+      // Should have accessible tag list
+      const tagElement = screen.getByText('machine-learning').closest('div')
+      expect(tagElement).toBeInTheDocument()
     })
   })
 
   describe('Projects Page Flow', () => {
     it('should filter projects by category', async () => {
       const user = userEvent.setup()
-      render(<ProjectsPageClient projects={mockProjects} />)
+      render(<ProjectsPageClient initialProjects={mockProjects} locale="en" />)
       
       // Should show all projects initially
       expect(screen.getByText('AI Sentiment Analysis Tool')).toBeInTheDocument()
       expect(screen.getByText('Personal Portfolio Website')).toBeInTheDocument()
       
-      // Filter by AI/ML category
-      const categoryFilter = screen.getByRole('button', { name: /ai.*ml/i })
-      if (categoryFilter) {
-        await user.click(categoryFilter)
-        
-        // Should only show AI/ML projects
-        await waitFor(() => {
-          expect(screen.getByText('AI Sentiment Analysis Tool')).toBeInTheDocument()
-          expect(screen.queryByText('Personal Portfolio Website')).not.toBeInTheDocument()
-        })
-      }
+      // Filter by category using the select dropdown
+      const categorySelect = screen.getByRole('combobox')
+      await user.selectOptions(categorySelect, 'analytics')
+      
+      // Should filter projects (analytics tag exists in first project)
+      await waitFor(() => {
+        expect(categorySelect).toHaveValue('analytics')
+        expect(screen.getByText('AI Sentiment Analysis Tool')).toBeInTheDocument()
+        expect(screen.queryByText('Personal Portfolio Website')).not.toBeInTheDocument()
+      })
     })
 
     it('should search projects by text', async () => {
       const user = userEvent.setup()
-      render(<ProjectsPageClient projects={mockProjects} />)
+      render(<ProjectsPageClient initialProjects={mockProjects} locale="en" />)
       
-      const searchInput = screen.getByRole('searchbox') || screen.getByPlaceholderText(/search/i)
-      if (searchInput) {
-        await user.type(searchInput, 'sentiment')
-        
-        // Should filter to matching projects
-        await waitFor(() => {
-          expect(screen.getByText('AI Sentiment Analysis Tool')).toBeInTheDocument()
-          expect(screen.queryByText('Personal Portfolio Website')).not.toBeInTheDocument()
-        })
-        
-        // Clear search
-        await user.clear(searchInput)
-        
-        // Should show all projects again
-        await waitFor(() => {
-          expect(screen.getByText('AI Sentiment Analysis Tool')).toBeInTheDocument()
-          expect(screen.getByText('Personal Portfolio Website')).toBeInTheDocument()
-        })
-      }
+      const searchInput = screen.getByPlaceholderText(/search/i)
+      await user.type(searchInput, 'sentiment')
+      
+      // Should filter to matching projects
+      await waitFor(() => {
+        expect(screen.getByText('AI Sentiment Analysis Tool')).toBeInTheDocument()
+        expect(screen.queryByText('Personal Portfolio Website')).not.toBeInTheDocument()
+      })
+      
+      // Clear search
+      await user.clear(searchInput)
+      
+      // Should show all projects again
+      await waitFor(() => {
+        expect(screen.getByText('AI Sentiment Analysis Tool')).toBeInTheDocument()
+        expect(screen.getByText('Personal Portfolio Website')).toBeInTheDocument()
+      })
     })
 
     it('should handle empty search results gracefully', async () => {
       const user = userEvent.setup()
-      render(<ProjectsPageClient projects={mockProjects} />)
+      render(<ProjectsPageClient initialProjects={mockProjects} locale="en" />)
       
-      const searchInput = screen.getByRole('searchbox') || screen.getByPlaceholderText(/search/i)
-      if (searchInput) {
-        await user.type(searchInput, 'nonexistent-project')
-        
-        // Should show no results message
-        await waitFor(() => {
-          const noResultsMessage = screen.queryByText(/no projects found/i) || 
-                                  screen.queryByText(/no results/i) ||
-                                  screen.queryByText(/try a different search/i)
-          if (noResultsMessage) {
-            expect(noResultsMessage).toBeInTheDocument()
-          }
-        })
-      }
+      const searchInput = screen.getByPlaceholderText(/search/i)
+      await user.type(searchInput, 'nonexistent-project')
+      
+      // Should show no projects (empty results)
+      await waitFor(() => {
+        expect(screen.queryByText('AI Sentiment Analysis Tool')).not.toBeInTheDocument()
+        expect(screen.queryByText('Personal Portfolio Website')).not.toBeInTheDocument()
+      })
     })
   })
 
   describe('Responsive Navigation Behavior', () => {
     it('should adapt to different screen sizes', () => {
       // Test desktop navigation
-      render(<Navigation />)
+      render(<Navigation locale="en" />)
       
       // Desktop navigation should be visible
       const desktopNav = screen.getByRole('navigation')
@@ -241,20 +275,21 @@ describe('Navigation and Project Browsing Integration', () => {
 
   describe('Accessibility in Navigation', () => {
     it('should support screen readers', () => {
-      render(<Navigation />)
+      render(<Navigation locale="en" />)
       
       // Should have proper navigation landmark
       const navigation = screen.getByRole('navigation')
       expect(navigation).toBeInTheDocument()
       
-      // Links should be properly labeled
-      const aboutLink = screen.getByRole('link', { name: /about/i })
-      expect(aboutLink).toHaveAttribute('href')
+      // Links should be properly labeled (use getAllByRole for elements that appear in both desktop and mobile)
+      const aboutLinks = screen.getAllByRole('link', { name: /about/i })
+      expect(aboutLinks[0]).toHaveAttribute('href')
+      expect(aboutLinks[0]).toHaveAttribute('href', '/en/about')
     })
 
     it('should support keyboard navigation patterns', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      render(<Navigation locale="en" />)
       
       // Should be able to tab through all navigation elements
       const links = screen.getAllByRole('link')
@@ -268,7 +303,7 @@ describe('Navigation and Project Browsing Integration', () => {
     })
 
     it('should have proper ARIA attributes', () => {
-      render(<Navigation />)
+      render(<Navigation locale="en" />)
       
       const navigation = screen.getByRole('navigation')
       expect(navigation).toBeInTheDocument()
