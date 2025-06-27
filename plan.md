@@ -91,16 +91,19 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 ### Phase 5: Project System Tests
 
 #### Projects Page
-- [ ] Should load projects for current locale
-- [ ] Should filter by category
-- [ ] Should display project cards with correct data
-- [ ] Should handle empty states
+- [x] Should load projects for current locale
+- [x] Should filter by category
+- [x] Should display project cards with correct data
+- [x] Should handle empty states
 
 #### Project Detail Page
-- [ ] Should display full project information
-- [ ] Should show technologies used
-- [ ] Should display screenshots/media
-- [ ] Should handle missing projects (404)
+- [x] Should display full project information
+- [x] Should show technologies used
+- [x] Should display screenshots/media (code snippets)
+- [x] Should handle missing projects (404)
+- [x] Should generate correct metadata for existing projects
+- [x] Should generate fallback metadata for non-existent projects
+- [x] Should generate static params for all locales and slugs
 
 ### Phase 6: API Route Tests
 
