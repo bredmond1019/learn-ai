@@ -250,4 +250,89 @@ describe('Locale Navigation Integration', () => {
       expect(languageSelect).toHaveValue('en')
     })
   })
+
+  describe('Deep link handling with locale prefix', () => {
+    it('should correctly render navigation for English deep links', () => {
+      mockUsePathname.mockReturnValue('/en/projects/ai-chatbot')
+      
+      render(<Navigation locale="en" />)
+
+      // Check that navigation renders correctly for deep link
+      expect(screen.getAllByText('Projects')[0]).toHaveClass('text-primary')
+      expect(screen.getAllByText('Home')[0]).not.toHaveClass('text-primary')
+      expect(screen.getAllByText('About')[0]).not.toHaveClass('text-primary')
+    })
+
+    it('should correctly render navigation for Portuguese deep links', () => {
+      mockUsePathname.mockReturnValue('/pt-BR/projetos/sistema-ai')
+      
+      render(<Navigation locale="pt-BR" />)
+
+      // Check that navigation renders correctly for Portuguese deep link
+      expect(screen.getAllByText('Projetos')[0]).toHaveClass('text-primary')
+      expect(screen.getAllByText('Início')[0]).not.toHaveClass('text-primary')
+      expect(screen.getAllByText('Sobre')[0]).not.toHaveClass('text-primary')
+    })
+
+    it('should handle navigation state for learn module deep links', () => {
+      mockUsePathname.mockReturnValue('/en/learn/paths/ai-systems-intro/modules/fundamentals')
+      
+      render(<Navigation locale="en" />)
+
+      // Learn section should be active for deep module links
+      expect(screen.getAllByText('Learn')[0]).toHaveClass('text-primary')
+      expect(screen.getAllByText('Blog')[0]).not.toHaveClass('text-primary')
+    })
+
+    it('should handle navigation state for Portuguese learn module deep links', () => {
+      mockUsePathname.mockReturnValue('/pt-BR/aprender/paths/intro-ai/modules/conceitos-basicos')
+      
+      render(<Navigation locale="pt-BR" />)
+
+      // Aprender section should be active for deep module links
+      expect(screen.getAllByText('Aprender')[0]).toHaveClass('text-primary')
+      expect(screen.getAllByText('Blog')[0]).not.toHaveClass('text-primary')
+    })
+
+    it('should handle blog post deep links with locale prefix', () => {
+      mockUsePathname.mockReturnValue('/en/blog/understanding-large-language-models')
+      
+      render(<Navigation locale="en" />)
+
+      // Blog section should be active
+      expect(screen.getAllByText('Blog')[0]).toHaveClass('text-primary')
+      expect(screen.getAllByText('Learn')[0]).not.toHaveClass('text-primary')
+    })
+
+    it('should correctly initialize language switcher for deep links', () => {
+      mockUsePathname.mockReturnValue('/pt-BR/contato')
+      
+      render(<LanguageSwitcher currentLocale="pt-BR" />)
+
+      const languageSelect = screen.getByLabelText('Select language')
+      
+      // Language switcher should be set to Portuguese
+      expect(languageSelect).toHaveValue('pt-BR')
+      
+      // Options should be available
+      expect(screen.getByRole('option', { name: 'EN - English' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'PT - Português' })).toBeInTheDocument()
+    })
+
+    it('should generate correct new URLs when switching language from deep links', async () => {
+      const user = userEvent.setup()
+      mockUsePathname.mockReturnValue('/en/about')
+      
+      render(<LanguageSwitcher currentLocale="en" />)
+
+      const languageSelect = screen.getByLabelText('Select language')
+      
+      // Switch to Portuguese from about page deep link
+      await user.selectOptions(languageSelect, 'pt-BR')
+
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith('/pt-BR/sobre')
+      })
+    })
+  })
 })
