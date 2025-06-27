@@ -6,6 +6,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Navigation from '@/components/Navigation'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 // Mock next/navigation with more sophisticated mocking for integration tests
 const mockPush = jest.fn()
@@ -146,6 +147,107 @@ describe('Locale Navigation Integration', () => {
       const homePortugueseLink = homePortugueseLinks[0] // Get the first instance
       
       expect(homePortugueseLink.closest('a')).toHaveAttribute('href', '/pt-BR')
+    })
+  })
+
+  describe('Language switching persistence', () => {
+    it('should switch from English to Portuguese and maintain correct route mapping', async () => {
+      const user = userEvent.setup()
+      mockUsePathname.mockReturnValue('/en/about')
+      
+      render(<LanguageSwitcher currentLocale="en" />)
+
+      // Find the language switcher select element
+      const languageSelect = screen.getByLabelText('Select language')
+      expect(languageSelect).toHaveValue('en')
+
+      // Switch to Portuguese
+      await user.selectOptions(languageSelect, 'pt-BR')
+
+      // Verify router.push was called with correct Portuguese route mapping
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith('/pt-BR/sobre')
+      })
+    })
+
+    it('should switch from Portuguese to English and maintain correct route mapping', async () => {
+      const user = userEvent.setup()
+      mockUsePathname.mockReturnValue('/pt-BR/projetos')
+      
+      render(<LanguageSwitcher currentLocale="pt-BR" />)
+
+      const languageSelect = screen.getByLabelText('Select language')
+      expect(languageSelect).toHaveValue('pt-BR')
+
+      // Switch to English
+      await user.selectOptions(languageSelect, 'en')
+
+      // Verify router.push was called with correct English route mapping
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith('/en/projects')
+      })
+    })
+
+    it('should handle language switching from complex nested routes', async () => {
+      const user = userEvent.setup()
+      mockUsePathname.mockReturnValue('/en/learn/paths/ai-basics/modules/introduction')
+      
+      render(<LanguageSwitcher currentLocale="en" />)
+
+      const languageSelect = screen.getByLabelText('Select language')
+      
+      // Switch to Portuguese - nested routes are preserved but only root path gets mapped
+      // Current implementation only maps exact path matches, so nested paths aren't translated
+      await user.selectOptions(languageSelect, 'pt-BR')
+
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith('/pt-BR/learn/paths/ai-basics/modules/introduction')
+      })
+    })
+
+    it('should handle language switching from home page', async () => {
+      const user = userEvent.setup()
+      mockUsePathname.mockReturnValue('/en')
+      
+      render(<LanguageSwitcher currentLocale="en" />)
+
+      const languageSelect = screen.getByLabelText('Select language')
+      
+      // Switch to Portuguese from home page
+      await user.selectOptions(languageSelect, 'pt-BR')
+
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith('/pt-BR')
+      })
+    })
+
+    it('should handle language switching for blog routes', async () => {
+      const user = userEvent.setup()
+      mockUsePathname.mockReturnValue('/pt-BR/blog/ai-fundamentals')
+      
+      render(<LanguageSwitcher currentLocale="pt-BR" />)
+
+      const languageSelect = screen.getByLabelText('Select language')
+      
+      // Switch to English - blog route stays the same in both languages
+      await user.selectOptions(languageSelect, 'en')
+
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith('/en/blog/ai-fundamentals')
+      })
+    })
+
+    it('should display correct language labels and options', () => {
+      render(<LanguageSwitcher currentLocale="en" />)
+
+      const languageSelect = screen.getByLabelText('Select language')
+      
+      // Check that both language options are available
+      expect(screen.getByRole('option', { name: 'EN - English' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'PT - Português' })).toBeInTheDocument()
+      
+      // Check current selection
+      expect(languageSelect).toHaveValue('en')
     })
   })
 })

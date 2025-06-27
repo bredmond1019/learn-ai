@@ -146,7 +146,7 @@ This plan follows Kent Beck's Test-Driven Development methodology. Each test sho
 
 #### Navigation Flow
 - [x] User can navigate between pages maintaining locale
-- [ ] Language switch persists across navigation
+- [x] Language switch persists across navigation
 - [ ] Deep links work with locale prefix
 
 #### Content Loading
