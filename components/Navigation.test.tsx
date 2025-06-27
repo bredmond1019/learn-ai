@@ -3,12 +3,17 @@ import Navigation from './Navigation';
 
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
-  usePathname: () => '/',
+  usePathname: () => '/en',
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    refresh: jest.fn(),
+  }),
 }));
 
 describe('Navigation', () => {
   it('renders navigation items', () => {
-    render(<Navigation />);
+    render(<Navigation locale="en" />);
     
     // Use getAllByText since items appear in both desktop and mobile menus
     expect(screen.getAllByText('Home')).toHaveLength(2);
@@ -21,13 +26,13 @@ describe('Navigation', () => {
 
 
   it('renders brand name', () => {
-    render(<Navigation />);
+    render(<Navigation locale="en" />);
     
     expect(screen.getByText('Brandon J. Redmond')).toBeInTheDocument();
   });
 
   it('toggles mobile menu', () => {
-    render(<Navigation />);
+    render(<Navigation locale="en" />);
     
     const menuButton = screen.getByRole('button', { name: /open main menu/i });
     
@@ -45,7 +50,7 @@ describe('Navigation', () => {
   });
 
   it('highlights active page', () => {
-    render(<Navigation />);
+    render(<Navigation locale="en" />);
     
     const homeLinks = screen.getAllByText('Home');
     // Both desktop and mobile home links should have active styling
@@ -54,12 +59,12 @@ describe('Navigation', () => {
   });
 
   it('creates proper links', () => {
-    render(<Navigation />);
+    render(<Navigation locale="en" />);
     
     const homeLink = screen.getAllByText('Home')[0].closest('a');
     const aboutLink = screen.getAllByText('About')[0].closest('a');
     
-    expect(homeLink).toHaveAttribute('href', '/');
-    expect(aboutLink).toHaveAttribute('href', '/about');
+    expect(homeLink).toHaveAttribute('href', '/en');
+    expect(aboutLink).toHaveAttribute('href', '/en/about');
   });
 });

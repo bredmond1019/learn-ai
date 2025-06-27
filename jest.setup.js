@@ -65,3 +65,14 @@ jest.mock('next-mdx-remote/serialize', () => ({
 
 // Set test environment variables
 process.env.NEXT_PUBLIC_SITE_URL = 'http://localhost:3000'
+
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+  takeRecords() {
+    return []
+  }
+}

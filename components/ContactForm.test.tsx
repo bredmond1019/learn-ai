@@ -138,9 +138,9 @@ describe('ContactForm', () => {
       })
     })
 
-    // Check for success toast message
+    // Check for success message
     await waitFor(() => {
-      expect(screen.getByText('Message sent successfully!')).toBeInTheDocument()
+      expect(screen.getByText("Thank you for your message! I'll get back to you soon.")).toBeInTheDocument()
     })
   })
 
