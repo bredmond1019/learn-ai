@@ -1,0 +1,615 @@
+# Maestria em Engenharia de Prompts
+
+## beyond-basics
+
+Bem-vindo à engenharia de prompts avançada! Embora prompts básicos possam te iniciar, dominar a engenharia de prompts é crucial para construir aplicações de IA prontas para produção.
+
+<Callout type="info">
+Este módulo assume que você entende conceitos básicos de prompts como mensagens de sistema, temperatura e limites de tokens. Vamos focar em técnicas avançadas usadas em sistemas de produção.
+</Callout>
+
+### Por que a Engenharia de Prompts Avançada Importa
+
+- **Confiabilidade**: Saídas consistentes através de entradas diversas
+- **Eficiência**: Minimizar uso de tokens e custos de API
+- **Performance**: Tempos de resposta mais rápidos e melhor precisão
+- **Manutenibilidade**: Prompts que escalam com sua aplicação
+
+### Princípios Chave
+
+1. **Instruções Explícitas**: Seja específico sobre formato, restrições e casos extremos
+2. **Gestão de Contexto**: Forneça contexto relevante sem sobrecarregar o modelo
+3. **Controle de Saída**: Use formatos estruturados para parsing previsível
+4. **Tratamento de Erro**: Construa fallbacks e validação
+
+<CodeExample language="python">
+# Prompt básico (ineficiente)
+prompt = "Resuma este texto"
+
+# Prompt avançado (pronto para produção)
+prompt = """Você é um especialista em resumo de texto. 
+Resuma o seguinte texto de acordo com estes requisitos:
+- Comprimento: 2-3 sentenças (50-75 palavras)
+- Estilo: Profissional, terceira pessoa
+- Foco: Insights chave e informações acionáveis
+- Formato: Parágrafo único, sem bullet points
+
+Texto para resumir:
+{text}
+
+Resumo:"""
+</CodeExample>
+
+## advanced-techniques
+
+### 1. Aprendizado Few-Shot com Exemplos Dinâmicos
+
+Em vez de exemplos estáticos, use aprendizado few-shot dinâmico que se adapta à tarefa:
+
+<CodeExample language="python">
+def create_dynamic_prompt(task, examples, new_input):
+    # Selecionar exemplos mais relevantes baseados em similaridade
+    relevant_examples = select_similar_examples(new_input, examples, k=3)
+    
+    prompt = f"Tarefa: {task}\n\nExemplos:\n"
+    for ex in relevant_examples:
+        prompt += f"Entrada: {ex['input']}\nSaída: {ex['output']}\n\n"
+    
+    prompt += f"Entrada: {new_input}\nSaída:"
+    return prompt
+
+# Implementação com similaridade baseada em embedding
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+def select_similar_examples(query, examples, k=3):
+    # Obter embeddings (usando seu modelo de embedding preferido)
+    query_embedding = get_embedding(query)
+    example_embeddings = [get_embedding(ex['input']) for ex in examples]
+    
+    # Calcular similaridades
+    similarities = cosine_similarity([query_embedding], example_embeddings)[0]
+    
+    # Obter top k índices
+    top_indices = np.argsort(similarities)[-k:][::-1]
+    
+    return [examples[i] for i in top_indices]
+</CodeExample>
+
+### 2. Prompting Chain-of-Thought (CoT)
+
+Force o modelo a mostrar seu raciocínio para tarefas complexas:
+
+<CodeExample language="python">
+cot_prompt = """Resolva isso passo a passo.
+
+Problema: {problem}
+
+Vamos trabalhar nisso sistematicamente:
+1. Primeiro, vou identificar o que nos é pedido para encontrar
+2. Então, vou listar a informação dada
+3. Em seguida, vou determinar a abordagem
+4. Finalmente, vou executar a solução
+
+Passo 1: O que precisamos encontrar:
+[Sua análise aqui]
+
+Passo 2: Informação dada:
+[Liste fatos chave]
+
+Passo 3: Abordagem:
+[Explique seu método]
+
+Passo 4: Solução:
+[Trabalhe através da solução]
+
+Portanto, a resposta é: [resposta final]"""
+</CodeExample>
+
+### 3. Prompting de Auto-Consistência
+
+Gere múltiplas soluções e selecione a mais comum:
+
+<CodeExample language="python">
+async def self_consistency_prompt(prompt, n=5, temperature=0.7):
+    # Gerar múltiplas completions
+    responses = []
+    for _ in range(n):
+        response = await generate_completion(
+            prompt, 
+            temperature=temperature
+        )
+        responses.append(response)
+    
+    # Extrair respostas e encontrar consenso
+    answers = [extract_answer(r) for r in responses]
+    
+    # Retornar resposta mais comum
+    from collections import Counter
+    most_common = Counter(answers).most_common(1)[0][0]
+    
+    return {
+        'answer': most_common,
+        'confidence': Counter(answers)[most_common] / n,
+        'all_responses': responses
+    }
+</CodeExample>
+
+### 4. Princípios de IA Constitucional
+
+Construa segurança e alinhamento em seus prompts:
+
+<CodeExample language="python">
+constitutional_prompt = """Você é um assistente de IA útil limitado por estes princípios:
+1. Precisão: Forneça informação factual e verificável
+2. Segurança: Recuse solicitações prejudiciais educadamente
+3. Privacidade: Nunca peça ou armazene informação pessoal
+4. Transparência: Reconheça limitações e incertezas
+
+Solicitação do usuário: {user_input}
+
+Primeiro, avalie se esta solicitação se alinha com os princípios acima.
+Se sim, forneça uma resposta útil.
+Se não, explique educadamente por que não pode cumprir a solicitação e sugira alternativas.
+
+Avaliação:
+[Analise a solicitação]
+
+Resposta:
+[Sua resposta aqui]"""
+</CodeExample>
+
+## prompt-chaining
+
+### Construindo Workflows Complexos
+
+O encadeamento de prompts permite quebrar tarefas complexas em passos gerenciáveis:
+
+<CodeExample language="python">
+class PromptChain:
+    def __init__(self):
+        self.steps = []
+        self.context = {}
+    
+    def add_step(self, name, prompt_template, parser=None):
+        self.steps.append({
+            'name': name,
+            'prompt': prompt_template,
+            'parser': parser or (lambda x: x)
+        })
+        return self
+    
+    async def execute(self, initial_input):
+        self.context['input'] = initial_input
+        
+        for step in self.steps:
+            # Formatar prompt com contexto atual
+            prompt = step['prompt'].format(**self.context)
+            
+            # Obter completion
+            response = await generate_completion(prompt)
+            
+            # Analisar e armazenar resultado
+            parsed = step['parser'](response)
+            self.context[step['name']] = parsed
+            
+            # Log para depuração
+            print(f"Passo '{step['name']}' concluído")
+        
+        return self.context
+
+# Exemplo: Cadeia de Assistente de Pesquisa
+research_chain = PromptChain()
+
+research_chain.add_step(
+    'extract_topics',
+    """Extraia os tópicos principais desta consulta que precisam de pesquisa:
+    Consulta: {input}
+    
+    Liste os tópicos (um por linha):""",
+    lambda x: x.strip().split('\n')
+)
+
+research_chain.add_step(
+    'generate_questions',
+    """Para estes tópicos de pesquisa: {extract_topics}
+    
+    Gere 3 perguntas de pesquisa específicas para cada tópico:""",
+    lambda x: parse_questions(x)
+)
+
+research_chain.add_step(
+    'synthesize',
+    """Baseado nestas perguntas de pesquisa: {generate_questions}
+    
+    Crie um plano de pesquisa abrangente com:
+    1. Metodologia
+    2. Fontes de dados necessárias
+    3. Estimativa de cronograma
+    4. Resultados esperados"""
+)
+
+# Executar a cadeia
+result = await research_chain.execute("Como podemos reduzir emissões de carbono no transporte urbano?")
+</CodeExample>
+
+### Padrões Avançados de Encadeamento
+
+<Diagram>
+graph LR
+    A[Entrada do Usuário] --> B[Validação]
+    B --> C{Válido?}
+    C -->|Sim| D[Classificação]
+    C -->|Não| E[Tratador de Erro]
+    D --> F[Roteamento para Especialista]
+    F --> G[Especialista 1]
+    F --> H[Especialista 2]
+    F --> I[Especialista 3]
+    G --> J[Agregador]
+    H --> J
+    I --> J
+    J --> K[Saída Final]
+    E --> L[Entrada Refinada]
+    L --> B
+</Diagram>
+
+<CodeExample language="python">
+class ConditionalChain:
+    def __init__(self):
+        self.validators = []
+        self.routers = {}
+        self.specialists = {}
+        
+    def add_validator(self, validator_func):
+        self.validators.append(validator_func)
+        
+    def add_router(self, condition, specialist_name):
+        self.routers[condition] = specialist_name
+        
+    def add_specialist(self, name, prompt_template):
+        self.specialists[name] = prompt_template
+        
+    async def execute(self, input_data):
+        # Fase de validação
+        for validator in self.validators:
+            is_valid, error_msg = validator(input_data)
+            if not is_valid:
+                return {'error': error_msg}
+        
+        # Fase de classificação
+        classification = await self.classify_input(input_data)
+        
+        # Fase de roteamento
+        specialist_name = self.routers.get(classification, 'default')
+        specialist_prompt = self.specialists[specialist_name]
+        
+        # Fase de execução
+        result = await generate_completion(
+            specialist_prompt.format(input=input_data)
+        )
+        
+        return {
+            'classification': classification,
+            'specialist': specialist_name,
+            'result': result
+        }
+</CodeExample>
+
+## optimization-strategies
+
+### Técnicas de Otimização de Tokens
+
+<Callout type="warning">
+Custos de tokens podem escalar rapidamente em produção. Essas estratégias de otimização podem reduzir custos em 50-80% sem sacrificar qualidade.
+</Callout>
+
+#### 1. Técnicas de Compressão
+
+<CodeExample language="python">
+def compress_prompt(text, max_tokens=1000):
+    """Comprime prompts de forma inteligente preservando significado"""
+    
+    # Remover espaços em branco redundantes
+    text = ' '.join(text.split())
+    
+    # Usar abreviações para termos comuns
+    abbreviations = {
+        'por exemplo': 'ex.',
+        'isso é': 'ou seja',
+        'et cetera': 'etc.',
+        'versus': 'vs.',
+    }
+    for full, abbr in abbreviations.items():
+        text = text.replace(full, abbr)
+    
+    # Remover palavras de preenchimento
+    filler_words = ['muito', 'realmente', 'na verdade', 'basicamente']
+    for word in filler_words:
+        text = re.sub(f'\\b{word}\\b', '', text, flags=re.IGNORECASE)
+    
+    # Truncar se ainda muito longo
+    if count_tokens(text) > max_tokens:
+        text = smart_truncate(text, max_tokens)
+    
+    return text
+
+def smart_truncate(text, max_tokens):
+    """Trunca texto de forma inteligente em fronteiras de sentença"""
+    sentences = text.split('.')
+    truncated = []
+    token_count = 0
+    
+    for sentence in sentences:
+        sentence_tokens = count_tokens(sentence + '.')
+        if token_count + sentence_tokens <= max_tokens:
+            truncated.append(sentence)
+            token_count += sentence_tokens
+        else:
+            break
+    
+    return '.'.join(truncated) + '.'
+</CodeExample>
+
+#### 2. Estratégias de Cache
+
+<CodeExample language="python">
+from functools import lru_cache
+import hashlib
+import redis
+
+class PromptCache:
+    def __init__(self, redis_client=None):
+        self.redis = redis_client or redis.Redis()
+        self.ttl = 3600  # 1 hora padrão
+        
+    def _hash_prompt(self, prompt, model, temperature):
+        """Criar chave de cache a partir de parâmetros do prompt"""
+        content = f"{prompt}|{model}|{temperature}"
+        return hashlib.sha256(content.encode()).hexdigest()
+    
+    async def get_or_generate(self, prompt, model='gpt-4', temperature=0.7):
+        # Gerar chave de cache
+        cache_key = self._hash_prompt(prompt, model, temperature)
+        
+        # Verificar cache
+        cached = self.redis.get(cache_key)
+        if cached:
+            return {
+                'response': cached.decode(),
+                'cached': True
+            }
+        
+        # Gerar nova resposta
+        response = await generate_completion(prompt, model, temperature)
+        
+        # Cache para solicitações similares
+        self.redis.setex(cache_key, self.ttl, response)
+        
+        return {
+            'response': response,
+            'cached': False
+        }
+
+# Uso com cache semântico
+class SemanticCache(PromptCache):
+    def __init__(self, similarity_threshold=0.95):
+        super().__init__()
+        self.threshold = similarity_threshold
+        self.embeddings_cache = {}
+        
+    async def find_similar(self, prompt):
+        """Encontrar prompts cached semanticamente similares"""
+        prompt_embedding = await get_embedding(prompt)
+        
+        for cached_prompt, cached_data in self.embeddings_cache.items():
+            similarity = cosine_similarity(
+                [prompt_embedding], 
+                [cached_data['embedding']]
+            )[0][0]
+            
+            if similarity >= self.threshold:
+                return cached_data['response']
+        
+        return None
+</CodeExample>
+
+#### 3. Estratégia de Seleção de Modelo
+
+<CodeExample language="python">
+class ModelSelector:
+    """Seleciona dinamicamente o modelo mais custo-efetivo"""
+    
+    def __init__(self):
+        self.models = {
+            'gpt-3.5-turbo': {'cost': 0.002, 'capability': 0.7},
+            'gpt-4': {'cost': 0.03, 'capability': 0.95},
+            'claude-instant': {'cost': 0.001, 'capability': 0.8},
+            'claude-2': {'cost': 0.01, 'capability': 0.9}
+        }
+        
+    def select_model(self, task_complexity, budget_remaining):
+        """Seleciona modelo baseado na complexidade da tarefa e orçamento"""
+        
+        if task_complexity < 0.3:
+            # Tarefas simples: usar modelo mais barato
+            return 'gpt-3.5-turbo'
+        
+        elif task_complexity < 0.7:
+            # Complexidade média: equilibrar custo e capacidade
+            if budget_remaining > 100:
+                return 'claude-2'
+            else:
+                return 'claude-instant'
+        
+        else:
+            # Tarefas complexas: usar melhor modelo
+            return 'gpt-4'
+    
+    def estimate_cost(self, prompt, model):
+        """Estimar custo para um prompt"""
+        token_count = count_tokens(prompt)
+        cost_per_1k = self.models[model]['cost']
+        return (token_count / 1000) * cost_per_1k
+</CodeExample>
+
+### Monitoramento de Performance
+
+<CodeExample language="python">
+import time
+from dataclasses import dataclass
+from typing import Dict, List
+
+@dataclass
+class PromptMetrics:
+    prompt_id: str
+    model: str
+    tokens_input: int
+    tokens_output: int
+    latency_ms: float
+    cost: float
+    success: bool
+    error: str = None
+
+class PromptMonitor:
+    def __init__(self):
+        self.metrics: List[PromptMetrics] = []
+        
+    async def monitored_completion(self, prompt, model='gpt-4', **kwargs):
+        start_time = time.time()
+        prompt_id = hashlib.md5(prompt.encode()).hexdigest()[:8]
+        
+        try:
+            # Contar tokens de entrada
+            tokens_input = count_tokens(prompt)
+            
+            # Gerar completion
+            response = await generate_completion(prompt, model, **kwargs)
+            
+            # Contar tokens de saída
+            tokens_output = count_tokens(response)
+            
+            # Calcular métricas
+            latency_ms = (time.time() - start_time) * 1000
+            cost = self.calculate_cost(tokens_input, tokens_output, model)
+            
+            # Registrar métricas
+            metric = PromptMetrics(
+                prompt_id=prompt_id,
+                model=model,
+                tokens_input=tokens_input,
+                tokens_output=tokens_output,
+                latency_ms=latency_ms,
+                cost=cost,
+                success=True
+            )
+            
+            self.metrics.append(metric)
+            return response
+            
+        except Exception as e:
+            # Registrar falha
+            metric = PromptMetrics(
+                prompt_id=prompt_id,
+                model=model,
+                tokens_input=count_tokens(prompt),
+                tokens_output=0,
+                latency_ms=(time.time() - start_time) * 1000,
+                cost=0,
+                success=False,
+                error=str(e)
+            )
+            self.metrics.append(metric)
+            raise
+    
+    def get_analytics(self) -> Dict:
+        """Gerar análises das métricas coletadas"""
+        if not self.metrics:
+            return {}
+        
+        successful = [m for m in self.metrics if m.success]
+        
+        return {
+            'total_requests': len(self.metrics),
+            'success_rate': len(successful) / len(self.metrics),
+            'avg_latency_ms': sum(m.latency_ms for m in successful) / len(successful),
+            'total_cost': sum(m.cost for m in self.metrics),
+            'avg_tokens_input': sum(m.tokens_input for m in successful) / len(successful),
+            'avg_tokens_output': sum(m.tokens_output for m in successful) / len(successful),
+            'errors': [m.error for m in self.metrics if not m.success]
+        }
+</CodeExample>
+
+## quiz
+
+<Quiz>
+  <Question
+    question="Qual técnica é mais efetiva para garantir formato de saída consistente em sistemas de produção?"
+    options={[
+      "Usar valores altos de temperatura",
+      "Fornecer instruções explícitas de formato com exemplos",
+      "Manter prompts o mais curtos possível",
+      "Evitar mensagens de sistema"
+    ]}
+    correct={1}
+    explanation="Instruções explícitas de formato com exemplos garantem que o modelo entenda exatamente que estrutura de saída é esperada, levando a parsing mais confiável em sistemas de produção."
+  />
+  
+  <Question
+    question="Qual é o principal benefício do cache semântico na engenharia de prompts?"
+    options={[
+      "Reduz requisitos de armazenamento",
+      "Captura consultas similares mesmo com diferentes palavras",
+      "Melhora a precisão do modelo",
+      "Elimina a necessidade de embeddings"
+    ]}
+    correct={1}
+    explanation="Cache semântico pode identificar e reutilizar respostas para consultas semanticamente similares mas formuladas diferentemente, reduzindo significativamente chamadas de API e custos."
+  />
+  
+  <Question
+    question="No encadeamento de prompts, qual é a consideração mais importante para confiabilidade?"
+    options={[
+      "Usar o mesmo modelo para todos os passos",
+      "Minimizar o número de passos",
+      "Tratamento adequado de erros e validação entre passos",
+      "Sempre usar temperature=0"
+    ]}
+    correct={2}
+    explanation="Tratamento de erros e validação entre passos garante que falhas em um passo não se propaguem através de toda a cadeia, tornando o sistema mais robusto e depurável."
+  />
+  
+  <Question
+    question="Qual estratégia é menos efetiva para reduzir custos de tokens?"
+    options={[
+      "Comprimir prompts removendo redundância",
+      "Usar cache semântico para consultas similares",
+      "Sempre usar o modelo mais capaz",
+      "Selecionar modelos dinamicamente baseado na complexidade da tarefa"
+    ]}
+    correct={2}
+    explanation="Sempre usar o modelo mais capaz (e caro) independentemente da complexidade da tarefa é ineficiente. Seleção dinâmica de modelo baseada nos requisitos da tarefa pode reduzir significativamente custos."
+  />
+  
+  <Question
+    question="Qual é a principal vantagem do prompting de auto-consistência?"
+    options={[
+      "Usa menos tokens",
+      "É mais rápido que prompts únicos",
+      "Melhora confiabilidade encontrando consenso entre múltiplas saídas",
+      "Elimina a necessidade de configurações de temperatura"
+    ]}
+    correct={2}
+    explanation="Prompting de auto-consistência gera múltiplas soluções e seleciona a resposta mais comum, melhorando a confiabilidade especialmente para tarefas onde o modelo pode ocasionalmente cometer erros."
+  />
+</Quiz>
+
+## Summary
+
+Você aprendeu técnicas avançadas de engenharia de prompts essenciais para sistemas de IA de produção:
+
+✅ **Técnicas Avançadas**: Aprendizado few-shot, CoT, auto-consistência e IA constitucional
+✅ **Encadeamento de Prompts**: Construindo workflows complexos com lógica condicional
+✅ **Otimização**: Redução de tokens, cache e seleção dinâmica de modelo
+✅ **Monitoramento**: Rastreamento de métricas para melhoria contínua
+
+Próximo módulo: **Fine-tuning e Adaptação de Modelo** - Aprenda quando e como customizar modelos para seus casos de uso específicos.

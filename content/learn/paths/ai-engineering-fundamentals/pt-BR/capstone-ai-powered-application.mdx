@@ -1,0 +1,2462 @@
+# Capstone: Construa uma Aplicação Alimentada por IA
+
+## project-planning
+
+Bem-vindo ao seu projeto capstone! Você construirá **IntelliDoc**, um sistema de análise de documentos e perguntas-respostas alimentado por IA pronto para produção. Este projeto integra todos os conceitos que você aprendeu: prompting avançado, sistemas RAG, frameworks de avaliação e padrões de arquitetura empresarial.
+
+<Callout type="info">
+Este capstone foi projetado para ser implementado ao longo de 2-3 semanas. Você construirá um sistema real que poderia ser implantado em produção, demonstrando maestria dos princípios de engenharia de IA.
+</Callout>
+
+### Visão Geral do Projeto: IntelliDoc
+
+**IntelliDoc** é um sistema inteligente de análise de documentos que permite aos usuários:
+- Fazer upload de documentos (PDFs, docs Word, arquivos texto)
+- Fazer perguntas sobre o conteúdo dos documentos
+- Obter respostas alimentadas por IA com citações das fontes
+- Analisar sentimento dos documentos e tópicos-chave
+- Gerar resumos e insights
+
+### Requisitos do Sistema
+
+**Requisitos Funcionais:**
+1. Pipeline de ingestão de documentos com suporte a múltiplos formatos
+2. Perguntas-respostas baseadas em RAG com atribuição de fonte
+3. Análise de documentos (sentimento, tópicos, entidades)
+4. Autenticação de usuário e gestão de documentos
+5. Interface de chat em tempo real
+6. Dashboard admin com analytics
+
+**Requisitos Não-Funcionais:**
+1. Lidar com 1000+ documentos por usuário
+2. Tempos de resposta sub-3-segundos
+3. 99.9% uptime
+4. Escalável para 10.000+ usuários simultâneos
+5. Conformidade SOC 2 para uso empresarial
+
+### Visão Geral da Arquitetura
+
+<Diagram>
+graph TB
+    subgraph "Camada Frontend"
+        A[App Web React]
+        B[Dashboard Admin]
+    end
+    
+    subgraph "API Gateway"
+        C[Autenticação]
+        D[Rate Limiting]
+        E[Roteamento de Requisições]
+    end
+    
+    subgraph "Serviços Centrais"
+        F[Serviço de Documentos]
+        G[Serviço RAG]
+        H[Serviço de Análise]
+        I[Serviço de Usuário]
+    end
+    
+    subgraph "Componentes IA"
+        J[Gateway LLM]
+        K[Serviço de Embedding]
+        L[Banco de Dados Vetorial]
+        M[Parser de Documentos]
+    end
+    
+    subgraph "Camada de Dados"
+        N[PostgreSQL]
+        O[Cache Redis]
+        P[Armazenamento S3]
+    end
+    
+    subgraph "Infraestrutura"
+        Q[Monitoramento]
+        R[Logging]
+        S[Métricas]
+    end
+    
+    A --> C
+    B --> C
+    C --> F
+    C --> G
+    C --> H
+    C --> I
+    
+    F --> M
+    F --> P
+    G --> J
+    G --> K
+    G --> L
+    H --> J
+    
+    F --> N
+    G --> O
+    I --> N
+    
+    F --> Q
+    G --> Q
+    H --> Q
+</Diagram>
+
+### Stack Tecnológico
+
+<CodeExample language="yaml">
+# Stack Tecnológico do Projeto
+frontend:
+  framework: "React 18 com TypeScript"
+  ui_library: "Tailwind CSS + Headless UI"
+  state_management: "Zustand"
+  
+backend:
+  language: "Python 3.11"
+  framework: "FastAPI"
+  async_runtime: "asyncio + uvicorn"
+  
+ai_ml:
+  llm_provider: "OpenAI GPT-4"
+  embedding_model: "text-embedding-ada-002"
+  vector_database: "Pinecone"
+  document_parsing: "unstructured + PyPDF2"
+  
+databases:
+  primary: "PostgreSQL 15"
+  cache: "Redis 7"
+  
+storage:
+  documents: "AWS S3"
+  models: "HuggingFace Hub"
+  
+infrastructure:
+  container_runtime: "Docker"
+  orchestration: "Kubernetes"
+  cloud_provider: "AWS"
+  monitoring: "Prometheus + Grafana"
+  logging: "ELK Stack"
+  
+security:
+  authentication: "Auth0"
+  secrets_management: "AWS Secrets Manager"
+  encryption: "AES-256"
+</CodeExample>
+
+### Estrutura do Projeto
+
+<CodeExample language="bash">
+intellidoc/
+├── frontend/                   # Aplicação React
+│   ├── src/
+│   │   ├── components/        # Componentes UI reutilizáveis
+│   │   ├── pages/            # Páginas da aplicação
+│   │   ├── hooks/            # Hooks React customizados
+│   │   ├── stores/           # Gestão de estado
+│   │   └── utils/            # Funções utilitárias
+│   ├── public/
+│   └── package.json
+│
+├── backend/                    # Backend FastAPI
+│   ├── app/
+│   │   ├── api/              # Rotas da API
+│   │   ├── core/             # Configurações centrais
+│   │   ├── models/           # Modelos de banco de dados
+│   │   ├── services/         # Lógica de negócio
+│   │   ├── schemas/          # Schemas Pydantic
+│   │   └── utils/            # Funções utilitárias
+│   ├── tests/                # Suíte de testes
+│   ├── alembic/              # Migrações de banco
+│   └── requirements.txt
+│
+├── ai-services/               # Microsserviços de IA
+│   ├── rag-service/          # Implementação RAG
+│   ├── embedding-service/    # Embeddings de texto
+│   ├── analysis-service/     # Análise de documentos
+│   └── llm-gateway/          # Camada de abstração LLM
+│
+├── infrastructure/            # Infraestrutura como Código
+│   ├── terraform/            # Infraestrutura AWS
+│   ├── kubernetes/           # Manifestos K8s
+│   ├── docker/              # Dockerfiles
+│   └── monitoring/          # Configs de monitoramento
+│
+├── docs/                     # Documentação
+│   ├── api/                 # Documentação da API
+│   ├── architecture/        # Arquitetura do sistema
+│   └── deployment/          # Guias de deployment
+│
+└── scripts/                  # Scripts de automação
+    ├── setup.sh             # Configuração do ambiente
+    ├── deploy.sh            # Script de deployment
+    └── test.sh              # Automação de testes
+</CodeExample>
+
+### Fases de Desenvolvimento
+
+**Fase 1: Fundação (Semana 1)**
+- Configurar ambiente de desenvolvimento
+- Implementar ingestão básica de documentos
+- Criar interface simples de Q&A
+- Implementação básica de RAG
+
+**Fase 2: Funcionalidades Centrais (Semana 2)**
+- Parsing avançado de documentos
+- Sistema RAG de produção
+- Funcionalidades de análise de documentos
+- Autenticação de usuário
+
+**Fase 3: Pronto para Produção (Semana 3)**
+- Otimização de performance
+- Testes abrangentes
+- Monitoramento e logging
+- Automação de deployment
+
+### Checklist para Começar
+
+Antes de começar a implementação, certifique-se de ter:
+
+✅ **Ambiente de Desenvolvimento**
+- Python 3.11+ instalado
+- Node.js 18+ para frontend
+- Docker e Docker Compose
+- Git para controle de versão
+
+✅ **Chaves de API e Serviços**
+- Chave de API OpenAI
+- Conta Pinecone e chave de API
+- Conta AWS (tier gratuito suficiente)
+- Conta Auth0 para autenticação
+
+✅ **Ferramentas de Desenvolvimento**
+- VS Code ou IDE preferida
+- Postman para testes de API
+- Cliente de banco de dados (DBeaver, pgAdmin)
+
+✅ **Pré-requisitos de Conhecimento**
+- Todos os módulos anteriores concluídos
+- Entendimento básico de React
+- Familiaridade com bancos de dados SQL
+- Conhecimento básico de Docker
+
+## implementation-guide
+
+### Passo 1: Configuração do Projeto e Ambiente
+
+Vamos começar configurando a estrutura do projeto e ambiente de desenvolvimento.
+
+<CodeExample language="bash">
+# Criar estrutura do projeto
+mkdir intellidoc
+cd intellidoc
+
+# Inicializar repositório git
+git init
+echo "# IntelliDoc - Análise de Documentos Alimentada por IA" > README.md
+
+# Criar estrutura de diretórios
+mkdir -p {frontend,backend,ai-services,infrastructure,docs,scripts}
+mkdir -p backend/{app,tests,alembic}
+mkdir -p backend/app/{api,core,models,services,schemas,utils}
+mkdir -p ai-services/{rag-service,embedding-service,analysis-service,llm-gateway}
+mkdir -p infrastructure/{terraform,kubernetes,docker,monitoring}
+
+# Criar arquivos de ambiente
+touch .env.development
+touch .env.production
+touch .gitignore
+</CodeExample>
+
+<CodeExample language="python">
+# backend/app/core/config.py
+"""Gestão de configuração da aplicação"""
+
+from typing import Any, Dict, Optional
+from pydantic import BaseSettings, validator
+import secrets
+
+class Settings(BaseSettings):
+    """Configurações da aplicação"""
+    
+    # Configurações da API
+    API_V1_STR: str = "/api/v1"
+    SECRET_KEY: str = secrets.token_urlsafe(32)
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8  # 8 dias
+    
+    # Banco de dados
+    POSTGRES_SERVER: str = "localhost"
+    POSTGRES_USER: str = "intellidoc"
+    POSTGRES_PASSWORD: str = "password"
+    POSTGRES_DB: str = "intellidoc"
+    POSTGRES_PORT: str = "5432"
+    
+    @property
+    def DATABASE_URL(self) -> str:
+        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+    
+    # Redis
+    REDIS_URL: str = "redis://localhost:6379"
+    
+    # Serviços de IA
+    OPENAI_API_KEY: str
+    PINECONE_API_KEY: str
+    PINECONE_ENVIRONMENT: str = "us-west1-gcp-free"
+    
+    # Armazenamento
+    AWS_ACCESS_KEY_ID: str
+    AWS_SECRET_ACCESS_KEY: str
+    AWS_REGION: str = "us-west-2"
+    S3_BUCKET: str = "intellidoc-documents"
+    
+    # Autenticação
+    AUTH0_DOMAIN: str
+    AUTH0_API_AUDIENCE: str
+    AUTH0_ISSUER: str
+    AUTH0_ALGORITHMS: list = ["RS256"]
+    
+    # Aplicação
+    PROJECT_NAME: str = "IntelliDoc"
+    DEBUG: bool = False
+    ENVIRONMENT: str = "development"
+    
+    # Monitoramento
+    SENTRY_DSN: Optional[str] = None
+    
+    # Rate Limiting
+    RATE_LIMIT_PER_MINUTE: int = 100
+    
+    class Config:
+        env_file = ".env"
+        case_sensitive = True
+
+# Instância global de configurações
+settings = Settings()
+</CodeExample>
+
+### Passo 2: Modelos de Banco de Dados e Schemas
+
+<CodeExample language="python">
+# backend/app/models/database.py
+"""Modelos de banco de dados para IntelliDoc"""
+
+from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, JSON, ForeignKey, Float
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+import uuid
+
+Base = declarative_base()
+
+class User(Base):
+    """Modelo de usuário"""
+    __tablename__ = "users"
+    
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    auth0_id = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
+    full_name = Column(String, nullable=False)
+    is_active = Column(Boolean, default=True)
+    is_superuser = Column(Boolean, default=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    
+    # Relacionamentos
+    documents = relationship("Document", back_populates="owner")
+    conversations = relationship("Conversation", back_populates="user")
+
+class Document(Base):
+    """Modelo de documento"""
+    __tablename__ = "documents"
+    
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    filename = Column(String, nullable=False)
+    original_filename = Column(String, nullable=False)
+    file_size = Column(Integer, nullable=False)
+    file_type = Column(String, nullable=False)
+    s3_key = Column(String, nullable=False)
+    
+    # Status de processamento
+    processing_status = Column(String, default="pending")  # pending, processing, completed, failed
+    processing_error = Column(Text, nullable=True)
+    
+    # Conteúdo
+    content = Column(Text, nullable=True)
+    content_hash = Column(String, nullable=True)
+    page_count = Column(Integer, nullable=True)
+    
+    # Metadados
+    metadata = Column(JSON, default={})
+    
+    # Resultados de análise
+    sentiment_score = Column(Float, nullable=True)
+    key_topics = Column(JSON, default=[])
+    named_entities = Column(JSON, default=[])
+    summary = Column(Text, nullable=True)
+    
+    # Relacionamentos
+    owner_id = Column(String, ForeignKey("users.id"), nullable=False)
+    owner = relationship("User", back_populates="documents")
+    chunks = relationship("DocumentChunk", back_populates="document")
+    
+    # Timestamps
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+class DocumentChunk(Base):
+    """Chunk de documento para RAG"""
+    __tablename__ = "document_chunks"
+    
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    document_id = Column(String, ForeignKey("documents.id"), nullable=False)
+    
+    # Conteúdo do chunk
+    content = Column(Text, nullable=False)
+    chunk_index = Column(Integer, nullable=False)
+    page_number = Column(Integer, nullable=True)
+    
+    # Embedding vetorial
+    embedding_id = Column(String, nullable=True)  # Referência ao banco vetorial
+    
+    # Metadados
+    metadata = Column(JSON, default={})
+    
+    # Relacionamento
+    document = relationship("Document", back_populates="chunks")
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class Conversation(Base):
+    """Modelo de conversa para histórico de chat"""
+    __tablename__ = "conversations"
+    
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String, ForeignKey("users.id"), nullable=False)
+    title = Column(String, nullable=False)
+    
+    # Relacionamentos
+    user = relationship("User", back_populates="conversations")
+    messages = relationship("Message", back_populates="conversation")
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+class Message(Base):
+    """Modelo de mensagem para histórico de conversa"""
+    __tablename__ = "messages"
+    
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    conversation_id = Column(String, ForeignKey("conversations.id"), nullable=False)
+    
+    # Conteúdo da mensagem
+    content = Column(Text, nullable=False)
+    message_type = Column(String, nullable=False)  # user, assistant, system
+    
+    # Metadados de resposta da IA
+    model_used = Column(String, nullable=True)
+    confidence_score = Column(Float, nullable=True)
+    processing_time_ms = Column(Integer, nullable=True)
+    sources = Column(JSON, default=[])  # Fontes de documentos usadas
+    
+    # Relacionamento
+    conversation = relationship("Conversation", back_populates="messages")
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class Analytics(Base):
+    """Armazenamento de analytics e métricas"""
+    __tablename__ = "analytics"
+    
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String, ForeignKey("users.id"), nullable=True)
+    
+    # Dados do evento
+    event_type = Column(String, nullable=False)  # document_upload, question_asked, etc.
+    event_data = Column(JSON, default={})
+    
+    # Métricas de performance
+    response_time_ms = Column(Integer, nullable=True)
+    success = Column(Boolean, default=True)
+    error_message = Column(Text, nullable=True)
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+</CodeExample>
+
+<CodeExample language="python">
+# backend/app/schemas/document.py
+"""Schemas Pydantic para operações de documento"""
+
+from typing import List, Optional, Dict, Any
+from pydantic import BaseModel, validator
+from datetime import datetime
+from enum import Enum
+
+class ProcessingStatus(str, Enum):
+    PENDING = "pending"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+class DocumentBase(BaseModel):
+    """Schema base de documento"""
+    filename: str
+    file_type: str
+
+class DocumentCreate(DocumentBase):
+    """Schema de criação de documento"""
+    original_filename: str
+    file_size: int
+    s3_key: str
+
+class DocumentUpdate(BaseModel):
+    """Schema de atualização de documento"""
+    processing_status: Optional[ProcessingStatus]
+    processing_error: Optional[str]
+    content: Optional[str]
+    content_hash: Optional[str]
+    page_count: Optional[int]
+    metadata: Optional[Dict[str, Any]]
+    sentiment_score: Optional[float]
+    key_topics: Optional[List[str]]
+    named_entities: Optional[List[Dict[str, Any]]]
+    summary: Optional[str]
+
+class DocumentResponse(DocumentBase):
+    """Schema de resposta de documento"""
+    id: str
+    processing_status: ProcessingStatus
+    processing_error: Optional[str]
+    file_size: int
+    page_count: Optional[int]
+    sentiment_score: Optional[float]
+    key_topics: List[str]
+    summary: Optional[str]
+    created_at: datetime
+    updated_at: Optional[datetime]
+    
+    class Config:
+        orm_mode = True
+
+class DocumentAnalysis(BaseModel):
+    """Resultados de análise de documento"""
+    sentiment_score: float
+    sentiment_label: str
+    key_topics: List[str]
+    named_entities: List[Dict[str, Any]]
+    summary: str
+    readability_score: float
+    word_count: int
+    
+class QuestionAnswerRequest(BaseModel):
+    """Schema de requisição Q&A"""
+    question: str
+    document_ids: Optional[List[str]] = None
+    conversation_id: Optional[str] = None
+    max_sources: int = 5
+    temperature: float = 0.7
+    
+    @validator('question')
+    def question_must_not_be_empty(cls, v):
+        if not v.strip():
+            raise ValueError('Pergunta não pode estar vazia')
+        return v.strip()
+
+class QuestionAnswerResponse(BaseModel):
+    """Schema de resposta Q&A"""
+    answer: str
+    sources: List[Dict[str, Any]]
+    confidence: float
+    model_used: str
+    processing_time_ms: int
+    conversation_id: str
+    message_id: str
+</CodeExample>
+
+### Passo 3: Serviço de Processamento de Documentos
+
+<CodeExample language="python">
+# backend/app/services/document_processor.py
+"""Serviço de processamento de documentos com capacidades avançadas de parsing"""
+
+import asyncio
+from typing import Dict, List, Any, Optional, Tuple
+import aiofiles
+import hashlib
+from pathlib import Path
+import logging
+from datetime import datetime
+
+# Bibliotecas de parsing de documentos
+import PyPDF2
+from unstructured.partition.auto import partition
+from unstructured.staging.base import dict_to_elements
+import docx
+import pandas as pd
+
+# Processamento de texto
+import spacy
+from textstat import flesch_reading_ease
+import re
+
+# Armazenamento
+import boto3
+from botocore.exceptions import ClientError
+
+from app.core.config import settings
+from app.models.database import Document, DocumentChunk
+from app.schemas.document import DocumentAnalysis
+
+logger = logging.getLogger(__name__)
+
+class DocumentProcessor:
+    """Serviço avançado de processamento de documentos"""
+    
+    def __init__(self):
+        self.s3_client = boto3.client(
+            's3',
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+            region_name=settings.AWS_REGION
+        )
+        
+        # Carregar modelo spaCy para tarefas de NLP
+        try:
+            self.nlp = spacy.load("en_core_web_sm")
+        except OSError:
+            logger.warning("Modelo spaCy não encontrado. Instale com: python -m spacy download en_core_web_sm")
+            self.nlp = None
+    
+    async def process_document(self, document: Document, file_path: str) -> DocumentAnalysis:
+        """Processa documento carregado de forma abrangente"""
+        
+        try:
+            # Extrair conteúdo de texto
+            content, metadata = await self._extract_content(file_path, document.file_type)
+            
+            # Gerar hash do conteúdo
+            content_hash = hashlib.sha256(content.encode()).hexdigest()
+            
+            # Analisar documento
+            analysis = await self._analyze_document(content)
+            
+            # Criar chunks para RAG
+            chunks = await self._create_chunks(content, metadata)
+            
+            # Atualizar documento no banco de dados
+            document.content = content
+            document.content_hash = content_hash
+            document.page_count = metadata.get('page_count')
+            document.metadata = metadata
+            document.sentiment_score = analysis.sentiment_score
+            document.key_topics = analysis.key_topics
+            document.named_entities = analysis.named_entities
+            document.summary = analysis.summary
+            document.processing_status = "completed"
+            
+            # Armazenar chunks (você implementará armazenamento de chunk no serviço RAG)
+            for chunk_data in chunks:
+                chunk = DocumentChunk(
+                    document_id=document.id,
+                    content=chunk_data['content'],
+                    chunk_index=chunk_data['index'],
+                    page_number=chunk_data.get('page_number'),
+                    metadata=chunk_data.get('metadata', {})
+                )
+                # Adicionar à sessão (implementar gestão de sessão de banco de dados)
+            
+            return analysis
+            
+        except Exception as e:
+            logger.error(f"Processamento de documento falhou: {e}")
+            document.processing_status = "failed"
+            document.processing_error = str(e)
+            raise
+    
+    async def _extract_content(self, file_path: str, file_type: str) -> Tuple[str, Dict[str, Any]]:
+        """Extrai conteúdo de texto de vários formatos de documento"""
+        
+        content = ""
+        metadata = {}
+        
+        try:
+            if file_type == "application/pdf":
+                content, metadata = await self._extract_pdf_content(file_path)
+            elif file_type in ["application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword"]:
+                content, metadata = await self._extract_docx_content(file_path)
+            elif file_type == "text/plain":
+                content, metadata = await self._extract_text_content(file_path)
+            elif file_type in ["application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]:
+                content, metadata = await self._extract_excel_content(file_path)
+            else:
+                # Usar biblioteca unstructured como fallback
+                content, metadata = await self._extract_with_unstructured(file_path)
+            
+            return content.strip(), metadata
+            
+        except Exception as e:
+            logger.error(f"Extração de conteúdo falhou para {file_type}: {e}")
+            raise
+    
+    async def _extract_pdf_content(self, file_path: str) -> Tuple[str, Dict[str, Any]]:
+        """Extrai conteúdo de arquivos PDF"""
+        
+        content = ""
+        metadata = {"page_count": 0}
+        
+        async with aiofiles.open(file_path, 'rb') as file:
+            pdf_content = await file.read()
+            
+            # Usar PyPDF2 para extração básica
+            pdf_reader = PyPDF2.PdfReader(io.BytesIO(pdf_content))
+            
+            metadata["page_count"] = len(pdf_reader.pages)
+            
+            for page_num, page in enumerate(pdf_reader.pages):
+                page_text = page.extract_text()
+                content += f"\n--- Página {page_num + 1} ---\n{page_text}"
+        
+        return content, metadata
+    
+    async def _extract_docx_content(self, file_path: str) -> Tuple[str, Dict[str, Any]]:
+        """Extrai conteúdo de documentos Word"""
+        
+        doc = docx.Document(file_path)
+        
+        content = ""
+        metadata = {"paragraph_count": len(doc.paragraphs)}
+        
+        for paragraph in doc.paragraphs:
+            content += paragraph.text + "\n"
+        
+        # Extrair tabelas
+        for table in doc.tables:
+            for row in table.rows:
+                row_text = "\t".join(cell.text for cell in row.cells)
+                content += row_text + "\n"
+        
+        return content, metadata
+    
+    async def _extract_text_content(self, file_path: str) -> Tuple[str, Dict[str, Any]]:
+        """Extrai conteúdo de arquivos de texto simples"""
+        
+        async with aiofiles.open(file_path, 'r', encoding='utf-8') as file:
+            content = await file.read()
+        
+        metadata = {
+            "line_count": len(content.splitlines()),
+            "character_count": len(content)
+        }
+        
+        return content, metadata
+    
+    async def _extract_excel_content(self, file_path: str) -> Tuple[str, Dict[str, Any]]:
+        """Extrai conteúdo de arquivos Excel"""
+        
+        # Ler todas as planilhas
+        excel_file = pd.ExcelFile(file_path)
+        content = ""
+        metadata = {"sheet_count": len(excel_file.sheet_names)}
+        
+        for sheet_name in excel_file.sheet_names:
+            df = pd.read_excel(file_path, sheet_name=sheet_name)
+            content += f"\n--- Planilha: {sheet_name} ---\n"
+            content += df.to_string(index=False) + "\n"
+        
+        return content, metadata
+    
+    async def _extract_with_unstructured(self, file_path: str) -> Tuple[str, Dict[str, Any]]:
+        """Extrai conteúdo usando biblioteca unstructured"""
+        
+        elements = partition(filename=file_path)
+        content = "\n".join([str(element) for element in elements])
+        
+        metadata = {
+            "element_count": len(elements),
+            "extraction_method": "unstructured"
+        }
+        
+        return content, metadata
+    
+    async def _analyze_document(self, content: str) -> DocumentAnalysis:
+        """Realiza análise abrangente de documento"""
+        
+        # Análise de sentimento
+        sentiment_score, sentiment_label = await self._analyze_sentiment(content)
+        
+        # Extrair tópicos-chave
+        key_topics = await self._extract_topics(content)
+        
+        # Reconhecimento de entidades nomeadas
+        named_entities = await self._extract_entities(content)
+        
+        # Gerar resumo
+        summary = await self._generate_summary(content)
+        
+        # Calcular legibilidade
+        readability_score = flesch_reading_ease(content)
+        
+        # Contagem de palavras
+        word_count = len(content.split())
+        
+        return DocumentAnalysis(
+            sentiment_score=sentiment_score,
+            sentiment_label=sentiment_label,
+            key_topics=key_topics,
+            named_entities=named_entities,
+            summary=summary,
+            readability_score=readability_score,
+            word_count=word_count
+        )
+    
+    async def _analyze_sentiment(self, content: str) -> Tuple[float, str]:
+        """Analisa sentimento do documento"""
+        
+        # Implementação simples - em produção, use um modelo de sentimento adequado
+        positive_words = ['bom', 'excelente', 'positivo', 'ótimo', 'maravilhoso', 'fantástico']
+        negative_words = ['ruim', 'terrível', 'negativo', 'horrível', 'péssimo', 'pobre']
+        
+        content_lower = content.lower()
+        positive_count = sum(1 for word in positive_words if word in content_lower)
+        negative_count = sum(1 for word in negative_words if word in content_lower)
+        
+        total_sentiment_words = positive_count + negative_count
+        if total_sentiment_words == 0:
+            return 0.5, "neutro"
+        
+        sentiment_score = positive_count / total_sentiment_words
+        
+        if sentiment_score > 0.6:
+            label = "positivo"
+        elif sentiment_score < 0.4:
+            label = "negativo"
+        else:
+            label = "neutro"
+        
+        return sentiment_score, label
+    
+    async def _extract_topics(self, content: str) -> List[str]:
+        """Extrai tópicos-chave do documento"""
+        
+        if not self.nlp:
+            return []
+        
+        # Processar texto com spaCy
+        doc = self.nlp(content[:1000000])  # Limite para memória
+        
+        # Extrair sintagmas nominais como tópicos
+        topics = []
+        for chunk in doc.noun_chunks:
+            if len(chunk.text.split()) >= 2 and chunk.text.lower() not in topics:
+                topics.append(chunk.text.lower())
+        
+        # Retornar top 10 tópicos
+        return topics[:10]
+    
+    async def _extract_entities(self, content: str) -> List[Dict[str, Any]]:
+        """Extrai entidades nomeadas do documento"""
+        
+        if not self.nlp:
+            return []
+        
+        doc = self.nlp(content[:1000000])  # Limite para memória
+        
+        entities = []
+        for ent in doc.ents:
+            entities.append({
+                "text": ent.text,
+                "label": ent.label_,
+                "description": spacy.explain(ent.label_),
+                "start": ent.start_char,
+                "end": ent.end_char
+            })
+        
+        return entities
+    
+    async def _generate_summary(self, content: str) -> str:
+        """Gera resumo do documento"""
+        
+        # Sumarização extrativa simples
+        sentences = re.split(r'[.!?]+', content)
+        
+        # Pegar primeiras sentenças e algumas do meio
+        if len(sentences) <= 3:
+            return content[:500] + "..." if len(content) > 500 else content
+        
+        summary_sentences = sentences[:2]  # Primeiras 2 sentenças
+        if len(sentences) > 10:
+            summary_sentences.append(sentences[len(sentences)//2])  # Sentença do meio
+        
+        summary = ". ".join(summary_sentences).strip()
+        
+        # Limitar comprimento do resumo
+        if len(summary) > 300:
+            summary = summary[:300] + "..."
+        
+        return summary
+    
+    async def _create_chunks(self, content: str, metadata: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Cria chunks para sistema RAG"""
+        
+        # Estratégia simples de chunking - dividir por parágrafos ou sentenças
+        chunk_size = 1000  # caracteres
+        overlap = 200      # sobreposição de caracteres
+        
+        chunks = []
+        start = 0
+        chunk_index = 0
+        
+        while start < len(content):
+            end = start + chunk_size
+            
+            # Tentar quebrar na fronteira de sentença
+            if end < len(content):
+                # Procurar fim de sentença nos próximos 100 caracteres
+                sentence_end = content.find('.', end)
+                if sentence_end != -1 and sentence_end - end < 100:
+                    end = sentence_end + 1
+            
+            chunk_content = content[start:end].strip()
+            
+            if chunk_content:
+                chunks.append({
+                    'content': chunk_content,
+                    'index': chunk_index,
+                    'metadata': {
+                        'start_char': start,
+                        'end_char': end,
+                        'char_count': len(chunk_content)
+                    }
+                })
+                chunk_index += 1
+            
+            start = end - overlap
+        
+        return chunks
+    
+    async def upload_to_s3(self, file_path: str, s3_key: str) -> bool:
+        """Faz upload de arquivo para S3"""
+        
+        try:
+            await asyncio.get_event_loop().run_in_executor(
+                None,
+                self.s3_client.upload_file,
+                file_path,
+                settings.S3_BUCKET,
+                s3_key
+            )
+            return True
+        except ClientError as e:
+            logger.error(f"Upload S3 falhou: {e}")
+            return False
+</CodeExample>
+
+### Passo 4: Implementação do Serviço RAG
+
+<CodeExample language="python">
+# ai-services/rag-service/rag_system.py
+"""Implementação do sistema RAG de produção"""
+
+import asyncio
+from typing import List, Dict, Any, Optional, Tuple
+import openai
+import pinecone
+import numpy as np
+from dataclasses import dataclass
+import logging
+from datetime import datetime
+import json
+
+from embedding_service import EmbeddingService
+from prompt_templates import PromptTemplates
+
+logger = logging.getLogger(__name__)
+
+@dataclass
+class RetrievalResult:
+    content: str
+    document_id: str
+    chunk_id: str
+    score: float
+    metadata: Dict[str, Any]
+
+@dataclass
+class RAGResponse:
+    answer: str
+    sources: List[RetrievalResult]
+    confidence: float
+    model_used: str
+    processing_time_ms: int
+
+class ProductionRAGSystem:
+    """Sistema RAG pronto para produção com funcionalidades avançadas"""
+    
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        
+        # Inicializar OpenAI
+        openai.api_key = config['openai_api_key']
+        
+        # Inicializar Pinecone
+        pinecone.init(
+            api_key=config['pinecone_api_key'],
+            environment=config['pinecone_environment']
+        )
+        
+        # Criar ou conectar ao índice
+        self.index_name = config.get('pinecone_index', 'intellidoc-embeddings')
+        if self.index_name not in pinecone.list_indexes():
+            pinecone.create_index(
+                self.index_name,
+                dimension=1536,  # Dimensão do embedding OpenAI
+                metric='cosine'
+            )
+        
+        self.index = pinecone.Index(self.index_name)
+        
+        # Inicializar serviços
+        self.embedding_service = EmbeddingService(config)
+        self.prompt_templates = PromptTemplates()
+        
+        # Configuração
+        self.retrieval_top_k = config.get('retrieval_top_k', 10)
+        self.generation_model = config.get('generation_model', 'gpt-4')
+        self.embedding_model = config.get('embedding_model', 'text-embedding-ada-002')
+        
+    async def ingest_document_chunks(self, chunks: List[Dict[str, Any]], document_id: str):
+        """Ingere chunks de documento no banco de dados vetorial"""
+        
+        try:
+            # Gerar embeddings para todos os chunks
+            chunk_texts = [chunk['content'] for chunk in chunks]
+            embeddings = await self.embedding_service.generate_embeddings(chunk_texts)
+            
+            # Preparar vetores para upsert
+            vectors = []
+            for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+                vector_id = f"{document_id}_{chunk['index']}"
+                
+                metadata = {
+                    'document_id': document_id,
+                    'chunk_index': chunk['index'],
+                    'content': chunk['content'][:1000],  # Limite de metadados Pinecone
+                    'char_count': len(chunk['content']),
+                    **chunk.get('metadata', {})
+                }
+                
+                vectors.append({
+                    'id': vector_id,
+                    'values': embedding,
+                    'metadata': metadata
+                })
+            
+            # Upsert para Pinecone em lotes
+            batch_size = 100
+            for i in range(0, len(vectors), batch_size):
+                batch = vectors[i:i + batch_size]
+                self.index.upsert(vectors=batch)
+                
+            logger.info(f"Ingeridos {len(vectors)} chunks para documento {document_id}")
+            
+        except Exception as e:
+            logger.error(f"Ingestão de documento falhou: {e}")
+            raise
+    
+    async def query(self, 
+                   question: str,
+                   document_ids: Optional[List[str]] = None,
+                   conversation_history: Optional[List[Dict[str, str]]] = None,
+                   **kwargs) -> RAGResponse:
+        """Responde pergunta usando pipeline RAG"""
+        
+        start_time = datetime.now()
+        
+        try:
+            # 1. Processar e melhorar consulta
+            enhanced_query = await self._enhance_query(question, conversation_history)
+            
+            # 2. Recuperar chunks relevantes
+            retrieval_results = await self._retrieve_relevant_chunks(
+                enhanced_query, 
+                document_ids,
+                top_k=kwargs.get('top_k', self.retrieval_top_k)
+            )
+            
+            # 3. Re-ranquear resultados
+            reranked_results = await self._rerank_results(enhanced_query, retrieval_results)
+            
+            # 4. Gerar resposta
+            answer, confidence = await self._generate_answer(
+                question,
+                reranked_results,
+                conversation_history,
+                **kwargs
+            )
+            
+            # 5. Calcular tempo de processamento
+            processing_time = (datetime.now() - start_time).total_seconds() * 1000
+            
+            return RAGResponse(
+                answer=answer,
+                sources=reranked_results[:5],  # Retornar top 5 fontes
+                confidence=confidence,
+                model_used=self.generation_model,
+                processing_time_ms=int(processing_time)
+            )
+            
+        except Exception as e:
+            logger.error(f"Consulta RAG falhou: {e}")
+            raise
+    
+    async def _enhance_query(self, 
+                           question: str, 
+                           conversation_history: Optional[List[Dict[str, str]]]) -> str:
+        """Melhora consulta com contexto de conversa"""
+        
+        if not conversation_history:
+            return question
+        
+        # Criar contexto de conversa recente
+        context_messages = conversation_history[-3:]  # Últimas 3 trocas
+        context = "\n".join([
+            f"Usuário: {msg['content']}" if msg['type'] == 'user' 
+            else f"Assistente: {msg['content']}"
+            for msg in context_messages
+        ])
+        
+        # Usar LLM para melhorar consulta com contexto
+        enhancement_prompt = self.prompt_templates.get_query_enhancement_prompt(
+            original_question=question,
+            conversation_context=context
+        )
+        
+        try:
+            response = await openai.ChatCompletion.acreate(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": enhancement_prompt}],
+                max_tokens=200,
+                temperature=0.3
+            )
+            
+            enhanced_query = response.choices[0].message.content.strip()
+            
+            # Fallback para original se melhoria falhar
+            if not enhanced_query or len(enhanced_query) < 10:
+                return question
+            
+            return enhanced_query
+            
+        except Exception as e:
+            logger.warning(f"Melhoria de consulta falhou: {e}")
+            return question
+    
+    async def _retrieve_relevant_chunks(self, 
+                                      query: str,
+                                      document_ids: Optional[List[str]] = None,
+                                      top_k: int = 10) -> List[RetrievalResult]:
+        """Recupera chunks relevantes do banco de dados vetorial"""
+        
+        # Gerar embedding da consulta
+        query_embedding = await self.embedding_service.generate_embeddings([query])
+        query_vector = query_embedding[0]
+        
+        # Construir filtro para documentos específicos
+        filter_dict = {}
+        if document_ids:
+            filter_dict['document_id'] = {'$in': document_ids}
+        
+        # Consultar Pinecone
+        search_results = self.index.query(
+            vector=query_vector,
+            top_k=top_k * 2,  # Obter mais resultados para re-ranqueamento
+            filter=filter_dict if filter_dict else None,
+            include_metadata=True
+        )
+        
+        # Converter para objetos RetrievalResult
+        results = []
+        for match in search_results.matches:
+            if match.score > 0.7:  # Limiar de similaridade
+                results.append(RetrievalResult(
+                    content=match.metadata.get('content', ''),
+                    document_id=match.metadata.get('document_id', ''),
+                    chunk_id=match.id,
+                    score=match.score,
+                    metadata=match.metadata
+                ))
+        
+        return results
+    
+    async def _rerank_results(self, query: str, results: List[RetrievalResult]) -> List[RetrievalResult]:
+        """Re-ranqueia resultados usando cross-encoder ou outros métodos avançados"""
+        
+        # Re-ranqueamento simples baseado em sobreposição de termos da consulta
+        # Em produção, use um modelo cross-encoder como ms-marco-MiniLM
+        
+        query_terms = set(query.lower().split())
+        
+        for result in results:
+            content_terms = set(result.content.lower().split())
+            overlap = len(query_terms.intersection(content_terms))
+            term_boost = overlap / len(query_terms) if query_terms else 0
+            
+            # Combinar similaridade semântica com sobreposição de termos
+            result.score = (result.score * 0.8) + (term_boost * 0.2)
+        
+        # Ordenar por pontuação combinada
+        results.sort(key=lambda x: x.score, reverse=True)
+        
+        return results
+    
+    async def _generate_answer(self, 
+                             question: str,
+                             sources: List[RetrievalResult],
+                             conversation_history: Optional[List[Dict[str, str]]] = None,
+                             **kwargs) -> Tuple[str, float]:
+        """Gera resposta usando LLM com contexto recuperado"""
+        
+        # Construir contexto das fontes
+        context_pieces = []
+        for i, source in enumerate(sources[:5]):  # Usar top 5 fontes
+            context_pieces.append(f"[Fonte {i+1}]: {source.content}")
+        
+        context = "\n\n".join(context_pieces)
+        
+        # Construir contexto de conversa
+        conversation_context = ""
+        if conversation_history:
+            recent_messages = conversation_history[-4:]  # Últimas 4 mensagens
+            conversation_context = "\n".join([
+                f"{'Usuário' if msg['type'] == 'user' else 'Assistente'}: {msg['content']}"
+                for msg in recent_messages
+            ])
+        
+        # Gerar prompt
+        system_prompt = self.prompt_templates.get_rag_system_prompt()
+        user_prompt = self.prompt_templates.get_rag_user_prompt(
+            question=question,
+            context=context,
+            conversation_history=conversation_context
+        )
+        
+        # Gerar resposta
+        try:
+            response = await openai.ChatCompletion.acreate(
+                model=self.generation_model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                max_tokens=kwargs.get('max_tokens', 1000),
+                temperature=kwargs.get('temperature', 0.7),
+                presence_penalty=0.1,
+                frequency_penalty=0.1
+            )
+            
+            answer = response.choices[0].message.content.strip()
+            
+            # Calcular confiança baseada em vários fatores
+            confidence = self._calculate_confidence(answer, sources, question)
+            
+            return answer, confidence
+            
+        except Exception as e:
+            logger.error(f"Geração de resposta falhou: {e}")
+            raise
+    
+    def _calculate_confidence(self, answer: str, sources: List[RetrievalResult], question: str) -> float:
+        """Calcula pontuação de confiança para a resposta gerada"""
+        
+        factors = []
+        
+        # Fator de qualidade da fonte
+        if sources:
+            avg_source_score = sum(source.score for source in sources[:3]) / min(3, len(sources))
+            factors.append(avg_source_score)
+        else:
+            factors.append(0.3)  # Baixa confiança sem fontes
+        
+        # Fator de comprimento da resposta (muito curta ou muito longa pode indicar problemas)
+        answer_length = len(answer.split())
+        if 20 <= answer_length <= 200:
+            length_factor = 1.0
+        elif answer_length < 10:
+            length_factor = 0.5  # Respostas muito curtas são suspeitas
+        else:
+            length_factor = 0.8  # Respostas muito longas podem ser verbosas
+        factors.append(length_factor)
+        
+        # Relevância pergunta-resposta (heurística simples)
+        question_terms = set(question.lower().split())
+        answer_terms = set(answer.lower().split())
+        relevance = len(question_terms.intersection(answer_terms)) / len(question_terms)
+        factors.append(relevance)
+        
+        # Combinar fatores
+        confidence = sum(factors) / len(factors)
+        
+        # Garantir que confiança está entre 0 e 1
+        return max(0.0, min(1.0, confidence))
+    
+    async def delete_document(self, document_id: str):
+        """Deleta todos os chunks de um documento do banco de dados vetorial"""
+        
+        try:
+            # Consultar todos os chunks deste documento
+            filter_dict = {'document_id': document_id}
+            
+            # Deletar vetores (Pinecone não suporta delete em massa por filtro)
+            # Então precisamos consultar primeiro e depois deletar por IDs
+            query_result = self.index.query(
+                vector=[0.0] * 1536,  # Vetor dummy
+                top_k=10000,  # Número grande para obter todos os chunks
+                filter=filter_dict,
+                include_metadata=True
+            )
+            
+            chunk_ids = [match.id for match in query_result.matches]
+            
+            if chunk_ids:
+                # Deletar em lotes
+                batch_size = 1000
+                for i in range(0, len(chunk_ids), batch_size):
+                    batch = chunk_ids[i:i + batch_size]
+                    self.index.delete(ids=batch)
+                
+                logger.info(f"Deletados {len(chunk_ids)} chunks para documento {document_id}")
+            
+        except Exception as e:
+            logger.error(f"Deleção de documento falhou: {e}")
+            raise
+</CodeExample>
+
+## testing-deployment
+
+### Estratégia de Teste Abrangente
+
+<CodeExample language="python">
+# backend/tests/test_rag_system.py
+"""Testes abrangentes para sistema RAG"""
+
+import pytest
+import asyncio
+from unittest.mock import Mock, patch, AsyncMock
+import numpy as np
+
+from ai_services.rag_service.rag_system import ProductionRAGSystem, RetrievalResult
+from ai_services.rag_service.embedding_service import EmbeddingService
+
+class TestRAGSystem:
+    """Suíte de testes para funcionalidade do sistema RAG"""
+    
+    @pytest.fixture
+    def mock_config(self):
+        return {
+            'openai_api_key': 'test-key',
+            'pinecone_api_key': 'test-key',
+            'pinecone_environment': 'test',
+            'pinecone_index': 'test-index',
+            'generation_model': 'gpt-4',
+            'embedding_model': 'text-embedding-ada-002'
+        }
+    
+    @pytest.fixture
+    def rag_system(self, mock_config):
+        with patch('ai_services.rag_service.rag_system.pinecone'), \
+             patch('ai_services.rag_service.rag_system.openai'):
+            return ProductionRAGSystem(mock_config)
+    
+    @pytest.mark.asyncio
+    async def test_document_ingestion(self, rag_system):
+        """Testa ingestão de chunks de documento"""
+        
+        # Mock do serviço de embedding
+        with patch.object(rag_system.embedding_service, 'generate_embeddings') as mock_embeddings:
+            mock_embeddings.return_value = [np.random.random(1536).tolist() for _ in range(3)]
+            
+            # Mock do índice Pinecone
+            rag_system.index.upsert = Mock()
+            
+            chunks = [
+                {'content': 'Conteúdo de teste 1', 'index': 0, 'metadata': {}},
+                {'content': 'Conteúdo de teste 2', 'index': 1, 'metadata': {}},
+                {'content': 'Conteúdo de teste 3', 'index': 2, 'metadata': {}}
+            ]
+            
+            await rag_system.ingest_document_chunks(chunks, 'test-doc-id')
+            
+            # Verificar se embeddings foram gerados
+            mock_embeddings.assert_called_once()
+            
+            # Verificar se vetores foram inseridos
+            rag_system.index.upsert.assert_called()
+    
+    @pytest.mark.asyncio
+    async def test_query_processing(self, rag_system):
+        """Testa processamento de consulta end-to-end"""
+        
+        # Mock do serviço de embedding
+        with patch.object(rag_system.embedding_service, 'generate_embeddings') as mock_embeddings:
+            mock_embeddings.return_value = [np.random.random(1536).tolist()]
+            
+            # Mock da consulta Pinecone
+            mock_matches = [
+                Mock(
+                    id='test-chunk-1',
+                    score=0.85,
+                    metadata={
+                        'content': 'Este é conteúdo de teste sobre sistemas de IA.',
+                        'document_id': 'doc1',
+                        'chunk_index': 0
+                    }
+                )
+            ]
+            rag_system.index.query = Mock(return_value=Mock(matches=mock_matches))
+            
+            # Mock da resposta OpenAI
+            with patch('ai_services.rag_service.rag_system.openai.ChatCompletion.acreate') as mock_openai:
+                mock_openai.return_value = Mock(
+                    choices=[Mock(message=Mock(content="Sistemas de IA são tecnologias complexas."))]
+                )
+                
+                response = await rag_system.query("O que são sistemas de IA?")
+                
+                # Verificar estrutura da resposta
+                assert response.answer == "Sistemas de IA são tecnologias complexas."
+                assert len(response.sources) > 0
+                assert 0 <= response.confidence <= 1
+                assert response.processing_time_ms > 0
+    
+    @pytest.mark.asyncio
+    async def test_confidence_calculation(self, rag_system):
+        """Testa cálculo de pontuação de confiança"""
+        
+        # Cenário de alta confiança
+        sources = [
+            RetrievalResult(
+                content="Conteúdo de teste",
+                document_id="doc1",
+                chunk_id="chunk1",
+                score=0.9,
+                metadata={}
+            )
+        ]
+        
+        confidence = rag_system._calculate_confidence(
+            "Esta é uma resposta abrangente sobre o tópico.",
+            sources,
+            "Sobre o que é o tópico?"
+        )
+        
+        assert 0.5 <= confidence <= 1.0  # Deve ser relativamente alta
+        
+        # Cenário de baixa confiança
+        low_confidence = rag_system._calculate_confidence(
+            "Não sei.",
+            [],
+            "Pergunta técnica complexa?"
+        )
+        
+        assert 0.0 <= low_confidence <= 0.5  # Deve ser baixa
+
+@pytest.mark.asyncio
+async def test_document_processor():
+    """Testa funcionalidade de processamento de documentos"""
+    
+    from backend.app.services.document_processor import DocumentProcessor
+    
+    processor = DocumentProcessor()
+    
+    # Testar análise de sentimento
+    positive_text = "Este é um documento excelente com conteúdo maravilhoso."
+    sentiment_score, sentiment_label = await processor._analyze_sentiment(positive_text)
+    
+    assert sentiment_score > 0.5
+    assert sentiment_label == "positivo"
+    
+    # Testar chunking
+    long_text = "Este é um teste. " * 100  # 1500+ caracteres
+    chunks = await processor._create_chunks(long_text, {})
+    
+    assert len(chunks) > 1  # Deve criar múltiplos chunks
+    assert all('content' in chunk for chunk in chunks)
+
+def test_api_endpoints():
+    """Testa funcionalidade dos endpoints da API"""
+    
+    from fastapi.testclient import TestClient
+    from backend.app.main import app
+    
+    client = TestClient(app)
+    
+    # Testar health check
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json()["status"] == "healthy"
+    
+    # Testar upload de documento (mock)
+    with patch('backend.app.api.documents.upload_document') as mock_upload:
+        mock_upload.return_value = {"id": "test-id", "status": "processing"}
+        
+        # Nota: Em testes reais, você faria upload de arquivos reais
+        response = client.post("/api/v1/documents/upload")
+        # Adicionar teste adequado de upload de arquivo aqui
+
+class TestPerformance:
+    """Testes de performance para o sistema"""
+    
+    @pytest.mark.asyncio
+    async def test_embedding_generation_performance(self):
+        """Testa performance de geração de embedding"""
+        
+        from ai_services.embedding_service import EmbeddingService
+        
+        config = {'openai_api_key': 'test-key'}
+        service = EmbeddingService(config)
+        
+        # Mock da API OpenAI
+        with patch('openai.Embedding.acreate') as mock_embedding:
+            mock_embedding.return_value = Mock(
+                data=[Mock(embedding=np.random.random(1536).tolist()) for _ in range(10)]
+            )
+            
+            start_time = asyncio.get_event_loop().time()
+            
+            texts = [f"Texto de teste {i}" for i in range(10)]
+            embeddings = await service.generate_embeddings(texts)
+            
+            end_time = asyncio.get_event_loop().time()
+            
+            # Deve completar em tempo razoável
+            assert end_time - start_time < 5.0  # 5 segundos máximo
+            assert len(embeddings) == 10
+    
+    @pytest.mark.asyncio
+    async def test_query_response_time(self, rag_system):
+        """Testa tempo de resposta de consulta"""
+        
+        # Mock de todas as chamadas externas para velocidade
+        with patch.object(rag_system, '_retrieve_relevant_chunks') as mock_retrieve, \
+             patch.object(rag_system, '_generate_answer') as mock_generate:
+            
+            mock_retrieve.return_value = []
+            mock_generate.return_value = ("Resposta de teste", 0.8)
+            
+            start_time = asyncio.get_event_loop().time()
+            
+            response = await rag_system.query("Pergunta de teste")
+            
+            end_time = asyncio.get_event_loop().time()
+            
+            # Deve responder em 3 segundos (mockado)
+            assert end_time - start_time < 3.0
+            assert response.answer == "Resposta de teste"
+
+class TestIntegration:
+    """Testes de integração"""
+    
+    @pytest.mark.integration
+    @pytest.mark.asyncio
+    async def test_full_document_workflow(self):
+        """Testa workflow completo de upload e consulta de documento"""
+        
+        # Este seria um teste de integração completo
+        # 1. Upload de documento
+        # 2. Processar documento
+        # 3. Consultar documento
+        # 4. Verificar resposta
+        
+        # Nota: Isso requer chaves de API reais e serviços
+        # Pular no CI/CD sem configuração adequada
+        pytest.skip("Requer serviços ativos")
+
+# Teste de carga com locust
+# backend/tests/load_test.py
+"""Teste de carga com Locust"""
+
+from locust import HttpUser, task, between
+import random
+
+class IntelliDocUser(HttpUser):
+    wait_time = between(1, 3)
+    
+    def on_start(self):
+        """Login do usuário"""
+        # Mock de autenticação
+        self.token = "test-token"
+        self.client.headers.update({"Authorization": f"Bearer {self.token}"})
+    
+    @task(3)
+    def query_document(self):
+        """Simula consultas de documento"""
+        questions = [
+            "Sobre o que é este documento?",
+            "Pode resumir os pontos principais?",
+            "Quais são as descobertas-chave?",
+            "Quem são os principais stakeholders mencionados?"
+        ]
+        
+        self.client.post("/api/v1/chat/query", json={
+            "question": random.choice(questions),
+            "document_ids": ["test-doc-id"]
+        })
+    
+    @task(1)
+    def upload_document(self):
+        """Simula upload de documento"""
+        # Mock de upload de arquivo
+        self.client.post("/api/v1/documents/upload", files={
+            "file": ("test.txt", "Este é conteúdo de teste", "text/plain")
+        })
+    
+    @task(2)
+    def list_documents(self):
+        """Lista documentos do usuário"""
+        self.client.get("/api/v1/documents/")
+</CodeExample>
+
+### Configuração de Deployment
+
+<CodeExample language="yaml">
+# docker-compose.prod.yml
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+    environment:
+      - REACT_APP_API_URL=http://api.intellidoc.com
+      - REACT_APP_AUTH0_DOMAIN=${AUTH0_DOMAIN}
+    depends_on:
+      - backend
+    networks:
+      - intellidoc-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/intellidoc
+      - REDIS_URL=redis://redis:6379
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - intellidoc-network
+    restart: unless-stopped
+
+  rag-service:
+    build:
+      context: ./ai-services/rag-service
+    ports:
+      - "8001:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+    networks:
+      - intellidoc-network
+    restart: unless-stopped
+
+  embedding-service:
+    build:
+      context: ./ai-services/embedding-service
+    ports:
+      - "8002:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - intellidoc-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=intellidoc
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - intellidoc-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - intellidoc-network
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - intellidoc-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  intellidoc-network:
+    driver: bridge
+</CodeExample>
+
+<CodeExample language="yaml">
+# kubernetes/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intellidoc-backend
+  labels:
+    app: intellidoc-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: intellidoc-backend
+  template:
+    metadata:
+      labels:
+        app: intellidoc-backend
+    spec:
+      containers:
+      - name: backend
+        image: intellidoc/backend:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: intellidoc-secrets
+              key: database-url
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: intellidoc-secrets
+              key: openai-api-key
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intellidoc-backend-service
+spec:
+  selector:
+    app: intellidoc-backend
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: intellidoc-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+spec:
+  tls:
+  - hosts:
+    - api.intellidoc.com
+    secretName: intellidoc-tls
+  rules:
+  - host: api.intellidoc.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: intellidoc-backend-service
+            port:
+              number: 80
+</CodeExample>
+
+## monitoring-maintenance
+
+### Stack de Monitoramento de Produção
+
+<CodeExample language="python">
+# backend/app/monitoring/metrics.py
+"""Coleta abrangente de métricas para IntelliDoc"""
+
+from prometheus_client import Counter, Histogram, Gauge, Info, start_http_server
+import time
+import asyncio
+import logging
+from typing import Dict, Any
+from datetime import datetime, timedelta
+import psutil
+import GPUtil
+
+# Métricas Prometheus
+REQUEST_COUNT = Counter('intellidoc_requests_total', 'Total de requisições', ['method', 'endpoint', 'status'])
+REQUEST_DURATION = Histogram('intellidoc_request_duration_seconds', 'Duração da requisição', ['endpoint'])
+ACTIVE_USERS = Gauge('intellidoc_active_users', 'Número de usuários ativos')
+DOCUMENT_COUNT = Gauge('intellidoc_documents_total', 'Total de documentos')
+QUERY_COUNT = Counter('intellidoc_queries_total', 'Total de consultas', ['user_id'])
+RAG_LATENCY = Histogram('intellidoc_rag_latency_seconds', 'Latência de consulta RAG')
+EMBEDDING_LATENCY = Histogram('intellidoc_embedding_latency_seconds', 'Latência de geração de embedding')
+CONFIDENCE_SCORE = Histogram('intellidoc_confidence_score', 'Pontuações de confiança de resposta')
+
+# Métricas do sistema
+CPU_USAGE = Gauge('intellidoc_cpu_usage_percent', 'Porcentagem de uso de CPU')
+MEMORY_USAGE = Gauge('intellidoc_memory_usage_percent', 'Porcentagem de uso de memória')
+GPU_USAGE = Gauge('intellidoc_gpu_usage_percent', 'Porcentagem de uso de GPU')
+DISK_USAGE = Gauge('intellidoc_disk_usage_percent', 'Porcentagem de uso de disco')
+
+# Informações da aplicação
+APP_INFO = Info('intellidoc_app', 'Informações da aplicação')
+
+class MetricsCollector:
+    """Coleta centralizada de métricas"""
+    
+    def __init__(self):
+        self.start_time = time.time()
+        self.active_users_cache = set()
+        self.last_cleanup = datetime.now()
+        
+        # Definir informações da aplicação
+        APP_INFO.info({
+            'version': '1.0.0',
+            'environment': 'production',
+            'started_at': datetime.now().isoformat()
+        })
+    
+    def record_request(self, method: str, endpoint: str, status_code: int, duration: float):
+        """Registra métricas de requisição HTTP"""
+        REQUEST_COUNT.labels(method=method, endpoint=endpoint, status=str(status_code)).inc()
+        REQUEST_DURATION.labels(endpoint=endpoint).observe(duration)
+    
+    def record_query(self, user_id: str, latency: float, confidence: float):
+        """Registra métricas de consulta RAG"""
+        QUERY_COUNT.labels(user_id=user_id).inc()
+        RAG_LATENCY.observe(latency)
+        CONFIDENCE_SCORE.observe(confidence)
+        
+        # Rastrear usuários ativos
+        self.active_users_cache.add(user_id)
+        self._update_active_users()
+    
+    def record_embedding_generation(self, latency: float):
+        """Registra métricas de geração de embedding"""
+        EMBEDDING_LATENCY.observe(latency)
+    
+    def update_document_count(self, count: int):
+        """Atualiza contagem total de documentos"""
+        DOCUMENT_COUNT.set(count)
+    
+    def _update_active_users(self):
+        """Atualiza contagem de usuários ativos (limpa usuários antigos periodicamente)"""
+        now = datetime.now()
+        
+        # Limpeza a cada hora
+        if now - self.last_cleanup > timedelta(hours=1):
+            # Em produção, consultar banco de dados para usuários realmente ativos
+            # Por enquanto, limpar cache periodicamente
+            self.active_users_cache.clear()
+            self.last_cleanup = now
+        
+        ACTIVE_USERS.set(len(self.active_users_cache))
+    
+    async def collect_system_metrics(self):
+        """Coleta métricas de performance do sistema"""
+        while True:
+            try:
+                # Uso de CPU
+                cpu_percent = psutil.cpu_percent(interval=1)
+                CPU_USAGE.set(cpu_percent)
+                
+                # Uso de memória
+                memory = psutil.virtual_memory()
+                MEMORY_USAGE.set(memory.percent)
+                
+                # Uso de disco
+                disk = psutil.disk_usage('/')
+                DISK_USAGE.set(disk.percent)
+                
+                # Uso de GPU (se disponível)
+                try:
+                    gpus = GPUtil.getGPUs()
+                    if gpus:
+                        GPU_USAGE.set(gpus[0].load * 100)
+                except:
+                    pass  # Nenhuma GPU disponível
+                
+                await asyncio.sleep(30)  # Coletar a cada 30 segundos
+                
+            except Exception as e:
+                logging.error(f"Coleta de métricas do sistema falhou: {e}")
+                await asyncio.sleep(60)
+
+# Instância global de métricas
+metrics = MetricsCollector()
+
+def start_metrics_server(port: int = 8090):
+    """Inicia servidor de métricas Prometheus"""
+    start_http_server(port)
+    logging.info(f"Servidor de métricas iniciado na porta {port}")
+</CodeExample>
+
+<CodeExample language="python">
+# backend/app/monitoring/health_checks.py
+"""Sistema abrangente de verificação de saúde"""
+
+import asyncio
+import httpx
+import psycopg2
+import redis
+import openai
+import pinecone
+from typing import Dict, Any, List
+from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
+
+class HealthChecker:
+    """Verificação abrangente de saúde para todos os componentes do sistema"""
+    
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.checks = {
+            'database': self._check_database,
+            'redis': self._check_redis,
+            'openai': self._check_openai,
+            'pinecone': self._check_pinecone,
+            's3': self._check_s3,
+            'disk_space': self._check_disk_space,
+            'memory': self._check_memory
+        }
+        
+    async def check_all(self) -> Dict[str, Any]:
+        """Executa todas as verificações de saúde"""
+        
+        results = {}
+        overall_healthy = True
+        
+        for check_name, check_func in self.checks.items():
+            try:
+                start_time = datetime.now()
+                result = await check_func()
+                duration = (datetime.now() - start_time).total_seconds()
+                
+                results[check_name] = {
+                    'healthy': result.get('healthy', False),
+                    'message': result.get('message', ''),
+                    'details': result.get('details', {}),
+                    'response_time_ms': duration * 1000,
+                    'timestamp': start_time.isoformat()
+                }
+                
+                if not result.get('healthy', False):
+                    overall_healthy = False
+                    
+            except Exception as e:
+                logger.error(f"Verificação de saúde '{check_name}' falhou: {e}")
+                results[check_name] = {
+                    'healthy': False,
+                    'message': f"Verificação de saúde falhou: {str(e)}",
+                    'details': {},
+                    'response_time_ms': 0,
+                    'timestamp': datetime.now().isoformat()
+                }
+                overall_healthy = False
+        
+        return {
+            'healthy': overall_healthy,
+            'checks': results,
+            'timestamp': datetime.now().isoformat()
+        }
+    
+    async def _check_database(self) -> Dict[str, Any]:
+        """Verifica conectividade do banco de dados PostgreSQL"""
+        
+        try:
+            conn = psycopg2.connect(self.config['DATABASE_URL'])
+            cursor = conn.cursor()
+            cursor.execute("SELECT 1")
+            result = cursor.fetchone()
+            cursor.close()
+            conn.close()
+            
+            return {
+                'healthy': result[0] == 1,
+                'message': 'Conexão com banco de dados bem-sucedida',
+                'details': {'query_result': result[0]}
+            }
+            
+        except Exception as e:
+            return {
+                'healthy': False,
+                'message': f'Conexão com banco de dados falhou: {str(e)}',
+                'details': {}
+            }
+    
+    async def _check_redis(self) -> Dict[str, Any]:
+        """Verifica conectividade do Redis"""
+        
+        try:
+            r = redis.from_url(self.config['REDIS_URL'])
+            r.ping()
+            
+            # Testar set/get
+            test_key = 'health_check_test'
+            r.set(test_key, 'test_value', ex=10)
+            value = r.get(test_key)
+            r.delete(test_key)
+            
+            return {
+                'healthy': value.decode() == 'test_value',
+                'message': 'Conexão e operações Redis bem-sucedidas',
+                'details': {'test_operation': 'passed'}
+            }
+            
+        except Exception as e:
+            return {
+                'healthy': False,
+                'message': f'Conexão Redis falhou: {str(e)}',
+                'details': {}
+            }
+    
+    async def _check_openai(self) -> Dict[str, Any]:
+        """Verifica conectividade da API OpenAI"""
+        
+        try:
+            openai.api_key = self.config['OPENAI_API_KEY']
+            
+            # Testar com completion simples
+            response = await openai.ChatCompletion.acreate(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": "Diga 'saudável'"}],
+                max_tokens=5
+            )
+            
+            result_text = response.choices[0].message.content.strip().lower()
+            
+            return {
+                'healthy': 'saudável' in result_text,
+                'message': 'Conexão com API OpenAI bem-sucedida',
+                'details': {'response': result_text}
+            }
+            
+        except Exception as e:
+            return {
+                'healthy': False,
+                'message': f'Conexão com API OpenAI falhou: {str(e)}',
+                'details': {}
+            }
+    
+    async def _check_pinecone(self) -> Dict[str, Any]:
+        """Verifica conectividade do banco de dados vetorial Pinecone"""
+        
+        try:
+            pinecone.init(
+                api_key=self.config['PINECONE_API_KEY'],
+                environment=self.config['PINECONE_ENVIRONMENT']
+            )
+            
+            # Listar índices para testar conectividade
+            indexes = pinecone.list_indexes()
+            
+            return {
+                'healthy': True,
+                'message': 'Conexão Pinecone bem-sucedida',
+                'details': {'available_indexes': len(indexes)}
+            }
+            
+        except Exception as e:
+            return {
+                'healthy': False,
+                'message': f'Conexão Pinecone falhou: {str(e)}',
+                'details': {}
+            }
+    
+    async def _check_s3(self) -> Dict[str, Any]:
+        """Verifica conectividade S3"""
+        
+        try:
+            import boto3
+            
+            s3_client = boto3.client(
+                's3',
+                aws_access_key_id=self.config['AWS_ACCESS_KEY_ID'],
+                aws_secret_access_key=self.config['AWS_SECRET_ACCESS_KEY'],
+                region_name=self.config['AWS_REGION']
+            )
+            
+            # Testar acesso ao bucket
+            response = s3_client.head_bucket(Bucket=self.config['S3_BUCKET'])
+            
+            return {
+                'healthy': True,
+                'message': 'Acesso ao bucket S3 bem-sucedido',
+                'details': {'bucket': self.config['S3_BUCKET']}
+            }
+            
+        except Exception as e:
+            return {
+                'healthy': False,
+                'message': f'Conexão S3 falhou: {str(e)}',
+                'details': {}
+            }
+    
+    async def _check_disk_space(self) -> Dict[str, Any]:
+        """Verifica espaço disponível em disco"""
+        
+        try:
+            import psutil
+            
+            disk_usage = psutil.disk_usage('/')
+            free_percent = (disk_usage.free / disk_usage.total) * 100
+            
+            # Alertar se menos de 10% de espaço livre
+            healthy = free_percent > 10
+            
+            return {
+                'healthy': healthy,
+                'message': f'Espaço em disco: {free_percent:.1f}% livre',
+                'details': {
+                    'total_gb': disk_usage.total / (1024**3),
+                    'free_gb': disk_usage.free / (1024**3),
+                    'free_percent': free_percent
+                }
+            }
+            
+        except Exception as e:
+            return {
+                'healthy': False,
+                'message': f'Verificação de espaço em disco falhou: {str(e)}',
+                'details': {}
+            }
+    
+    async def _check_memory(self) -> Dict[str, Any]:
+        """Verifica memória disponível"""
+        
+        try:
+            import psutil
+            
+            memory = psutil.virtual_memory()
+            available_percent = memory.available / memory.total * 100
+            
+            # Alertar se menos de 20% de memória disponível
+            healthy = available_percent > 20
+            
+            return {
+                'healthy': healthy,
+                'message': f'Memória: {available_percent:.1f}% disponível',
+                'details': {
+                    'total_gb': memory.total / (1024**3),
+                    'available_gb': memory.available / (1024**3),
+                    'available_percent': available_percent
+                }
+            }
+            
+        except Exception as e:
+            return {
+                'healthy': False,
+                'message': f'Verificação de memória falhou: {str(e)}',
+                'details': {}
+            }
+
+# Verificador de saúde global
+health_checker = HealthChecker({
+    'DATABASE_URL': 'postgresql://user:pass@localhost:5432/intellidoc',
+    'REDIS_URL': 'redis://localhost:6379',
+    'OPENAI_API_KEY': 'your-openai-key',
+    'PINECONE_API_KEY': 'your-pinecone-key',
+    'PINECONE_ENVIRONMENT': 'us-west1-gcp-free',
+    'AWS_ACCESS_KEY_ID': 'your-aws-key',
+    'AWS_SECRET_ACCESS_KEY': 'your-aws-secret',
+    'AWS_REGION': 'us-west-2',
+    'S3_BUCKET': 'intellidoc-documents'
+})
+</CodeExample>
+
+<CodeExample language="yaml">
+# monitoring/grafana-dashboard.json
+{
+  "dashboard": {
+    "id": null,
+    "title": "Dashboard de Produção IntelliDoc",
+    "tags": ["intellidoc", "ai", "rag"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Taxa de Requisições",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(intellidoc_requests_total[5m])",
+            "legendFormat": "Requisições/seg"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "unit": "reqps"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Tempo de Resposta",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(intellidoc_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "95º percentil"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(intellidoc_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "50º percentil"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Performance de Consulta RAG",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(intellidoc_rag_latency_seconds_bucket[5m]))",
+            "legendFormat": "RAG 95º percentil"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Distribuição de Pontuação de Confiança",
+        "type": "histogram",
+        "targets": [
+          {
+            "expr": "intellidoc_confidence_score_bucket",
+            "legendFormat": "Pontuação de Confiança"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Recursos do Sistema",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "intellidoc_cpu_usage_percent",
+            "legendFormat": "CPU %"
+          },
+          {
+            "expr": "intellidoc_memory_usage_percent",
+            "legendFormat": "Memória %"
+          },
+          {
+            "expr": "intellidoc_gpu_usage_percent",
+            "legendFormat": "GPU %"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Usuários Ativos",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "intellidoc_active_users",
+            "legendFormat": "Usuários Ativos"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Taxa de Erro",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(intellidoc_requests_total{status=~\"4..|5..\"}[5m]) / rate(intellidoc_requests_total[5m]) * 100",
+            "legendFormat": "Taxa de Erro %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 5}
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "5s"
+  }
+}
+</CodeExample>
+
+## final-assessment
+
+<Quiz>
+  <Question
+    question="Na arquitetura IntelliDoc, qual é o propósito principal de dividir documentos em chunks?"
+    options={[
+      "Para reduzir custos de armazenamento",
+      "Para permitir busca semântica e recuperação dentro de limites gerenciáveis de tokens",
+      "Para melhorar velocidades de upload",
+      "Para comprimir tamanhos de arquivo"
+    ]}
+    correct={1}
+    explanation="O chunking de documentos permite busca semântica dividindo documentos grandes em pedaços menores e gerenciáveis que podem ser embedidos e recuperados efetivamente enquanto permanecem dentro dos limites de contexto do LLM."
+  />
+  
+  <Question
+    question="Qual estratégia de teste é mais crítica para um sistema RAG de produção?"
+    options={[
+      "Testes unitários apenas para funções individuais",
+      "Testes de carga apenas para usuários simultâneos", 
+      "Testes de integração end-to-end cobrindo o pipeline completo de consulta",
+      "Testes manuais por desenvolvedores"
+    ]}
+    correct={2}
+    explanation="Testes de integração end-to-end são críticos para sistemas RAG porque validam o pipeline completo desde processamento de consulta através de recuperação, geração e formatação de resposta, garantindo que todos os componentes funcionem juntos corretamente."
+  />
+  
+  <Question
+    question="Qual é a métrica mais importante para monitorar a qualidade do sistema RAG?"
+    options={[
+      "Apenas tempo de resposta",
+      "Velocidade de geração de embedding",
+      "Uma combinação de confiança de resposta, relevância de recuperação e feedback do usuário",
+      "Uso de memória"
+    ]}
+    correct={2}
+    explanation="Qualidade do sistema RAG requer monitoramento de múltiplas dimensões: confiança de resposta indica certeza do modelo, relevância de recuperação garante bom contexto, e feedback do usuário fornece validação real da performance do sistema."
+  />
+  
+  <Question
+    question="No deployment de produção, por que o padrão circuit breaker é importante para serviços de IA?"
+    options={[
+      "Para economizar custos de eletricidade",
+      "Para prevenir falhas em cascata quando serviços externos de IA estão down ou lentos",
+      "Para melhorar qualidade de embedding",
+      "Para reduzir custos de API"
+    ]}
+    correct={1}
+    explanation="Circuit breakers previnem falhas em cascata detectando quando serviços externos de IA (como OpenAI) estão falhando e temporariamente parando requisições para permitir que o serviço se recupere, mantendo estabilidade geral do sistema."
+  />
+  
+  <Question
+    question="Qual é a abordagem recomendada para lidar com falhas de processamento de documentos em produção?"
+    options={[
+      "Tentar novamente indefinidamente até o sucesso",
+      "Deletar imediatamente documentos que falharam",
+      "Implementar backoff exponencial com filas de dead letter e processos de revisão manual",
+      "Ignorar falhas e continuar"
+    ]}
+    correct={2}
+    explanation="Sistemas de produção precisam de tratamento robusto de erros: backoff exponencial previne sobrecarga de serviços, filas de dead letter preservam documentos falhados para análise, e processos de revisão manual ajudam a melhorar o sistema e lidar com casos extremos."
+  />
+  
+  <Question
+    question="Para deployment empresarial do IntelliDoc, qual medida de segurança é mais crítica?"
+    options={[
+      "Apenas requisitos de complexidade de senha",
+      "Criptografia end-to-end, controles de acesso, audit logging e conformidade de residência de dados",
+      "Certificados SSL básicos",
+      "Apenas IP whitelisting"
+    ]}
+    correct={1}
+    explanation="Sistemas de IA empresariais lidando com documentos requerem segurança abrangente: criptografia end-to-end protege dados em trânsito e em repouso, controles de acesso garantem autorização adequada, audit logging permite conformidade, e residência de dados atende requisitos regulatórios."
+  />
+</Quiz>
+
+## Resumo de Conclusão do Projeto
+
+Parabéns! Você completou o projeto capstone IntelliDoc. Aqui está o que você conquistou:
+
+### ✅ **Arquitetura de Sistema**
+- Projetou um sistema de IA escalável baseado em microsserviços
+- Implementou separação adequada de responsabilidades
+- Aplicou padrões de arquitetura empresarial
+
+### ✅ **Habilidades de Engenharia de IA**
+- Construiu um sistema RAG de produção com recuperação avançada
+- Implementou processamento abrangente de documentos
+- Criou pipelines inteligentes de engenharia de prompts
+- Desenvolveu frameworks robustos de avaliação
+
+### ✅ **Melhores Práticas de Engenharia de Software**
+- Estratégia de teste abrangente (unidade, integração, carga)
+- Pipeline CI/CD com deployments automatizados
+- Stack de monitoramento e observabilidade
+- Padrões de tratamento de erro e resiliência
+
+### ✅ **Prontidão para Produção**
+- Health checks e coleta de métricas
+- Implementação de segurança
+- Otimização de performance
+- Considerações de escalabilidade
+
+### Próximos Passos
+
+1. **Implante Seu Sistema**: Use os manifestos Kubernetes fornecidos para implantar IntelliDoc
+2. **Estenda Funcionalidade**: Adicione recursos como suporte multi-idioma ou analytics avançados
+3. **Otimize Performance**: Implemente quantização de modelo e estratégias de cache
+4. **Escale a Arquitetura**: Adicione mais serviços de IA especializados
+
+### Impacto no Portfólio
+
+Este capstone demonstra sua capacidade de:
+- Projetar e implementar sistemas de IA complexos
+- Aplicar rigor de engenharia de software a projetos de IA
+- Construir aplicações prontas para produção e escaláveis
+- Integrar múltiplas tecnologias de IA efetivamente
+
+Você está agora pronto para enfrentar desafios de engenharia de IA empresarial com confiança!
+
+**Parabéns por completar o caminho de aprendizado AI Engineering Fundamentals!** 🚀

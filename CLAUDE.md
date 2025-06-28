@@ -34,6 +34,15 @@ npx tsx scripts/comprehensive-validation.ts # Run comprehensive validation
 npx tsx scripts/test-error-boundaries.ts    # Test error boundary handling
 ```
 
+### Translation Management
+```bash
+npm run translate:scan      # Scan for missing Portuguese translations
+npm run translate:priority  # Translate high-priority content (blog + ai-engineering-fundamentals)
+npm run translate:blog      # Translate blog posts only
+npm run translate:learning  # Translate learning modules only
+npm run translate:all       # Translate all missing content
+```
+
 ### Email Testing
 ```bash
 npm run email:test          # Send single test email
@@ -165,6 +174,9 @@ SENTRY_DSN=               # Error tracking
 
 # Dev.to Integration
 DEV_TO_API_KEY=           # Dev.to API key for publishing
+
+# Translation System
+ANTHROPIC_API_KEY=        # Claude API key for content translation
 ```
 
 ## Deployment Notes

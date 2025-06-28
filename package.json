@@ -30,7 +30,12 @@
     "email:test-all": "tsx scripts/test-email.ts send-to-all",
     "email:verify": "tsx scripts/test-email.ts verify-config",
     "email:stress": "tsx scripts/test-email.ts stress-test",
-    "test:email:integration": "NODE_ENV=production TEST_EMAIL_PRODUCTION=true jest __tests__/integration/email-production.test.ts"
+    "test:email:integration": "NODE_ENV=production TEST_EMAIL_PRODUCTION=true jest __tests__/integration/email-production.test.ts",
+    "translate:scan": "tsx scripts/translate-content.ts scan",
+    "translate:priority": "tsx scripts/translate-content.ts priority --confirm",
+    "translate:all": "tsx scripts/translate-content.ts translate --confirm",
+    "translate:blog": "tsx scripts/translate-content.ts translate --type blog --confirm",
+    "translate:learning": "tsx scripts/translate-content.ts translate --type learning-module --confirm"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.54.0",

@@ -1,0 +1,2295 @@
+# Padrões de Arquitetura de Sistemas IA
+
+## enterprise-patterns
+
+Sistemas IA empresariais requerem arquiteturas robustas, escaláveis e mantíveis que possam lidar com a complexidade do mundo real. Compreender padrões arquiteturais comprovados é essencial para construir sistemas que escalam do protótipo à produção.
+
+<Callout type="info">
+Sistemas IA não são apenas sobre modelos—são sistemas distribuídos complexos que requerem o mesmo rigor arquitetural de qualquer software empresarial, com considerações adicionais para ciclo de vida de modelos, pipelines de dados e otimização de inferência.
+</Callout>
+
+### Padrões Centrais de IA Empresarial
+
+<Diagram>
+graph TB
+    A[Aplicações Cliente] --> B[API Gateway]
+    B --> C[Load Balancer]
+    C --> D[Camada de Serving de Modelo]
+    
+    D --> E[Registry de Modelo]
+    D --> F[Feature Store]
+    D --> G[Cache de Inferência]
+    
+    H[Pipeline de Dados] --> I[Engenharia de Features]
+    I --> F
+    
+    J[Pipeline de Treinamento] --> K[Treinamento de Modelo]
+    K --> L[Validação de Modelo]
+    L --> E
+    
+    M[Serviço de Monitoramento] --> N[Performance do Modelo]
+    M --> O[Detecção de Drift de Dados]
+    M --> P[Métricas de Infraestrutura]
+    
+    Q[Serviço de Configuração] --> D
+    Q --> H
+    Q --> J
+</Diagram>
+
+### O Padrão Model-as-a-Service
+
+<CodeExample language="python">
+from abc import ABC, abstractmethod
+from typing import Dict, List, Any, Optional
+from dataclasses import dataclass
+import asyncio
+import logging
+from datetime import datetime
+import uuid
+
+@dataclass
+class ModelMetadata:
+    model_id: str
+    version: str
+    framework: str
+    input_schema: Dict[str, Any]
+    output_schema: Dict[str, Any]
+    performance_metrics: Dict[str, float]
+    created_at: str
+    tags: List[str]
+
+@dataclass
+class InferenceRequest:
+    request_id: str
+    model_id: str
+    version: Optional[str]
+    inputs: Dict[str, Any]
+    parameters: Dict[str, Any]
+    metadata: Dict[str, Any]
+
+@dataclass
+class InferenceResponse:
+    request_id: str
+    model_id: str
+    version: str
+    outputs: Dict[str, Any]
+    confidence: Optional[float]
+    latency_ms: float
+    metadata: Dict[str, Any]
+
+class ModelService(ABC):
+    """Classe base abstrata para serviços de modelo"""
+    
+    @abstractmethod
+    async def predict(self, request: InferenceRequest) -> InferenceResponse:
+        pass
+    
+    @abstractmethod
+    async def health_check(self) -> Dict[str, Any]:
+        pass
+    
+    @abstractmethod
+    def get_metadata(self) -> ModelMetadata:
+        pass
+
+class ModelRegistry:
+    """Registry central para metadados e versionamento de modelos"""
+    
+    def __init__(self):
+        self.models: Dict[str, Dict[str, ModelMetadata]] = {}
+        self.deployments: Dict[str, str] = {}  # model_id -> versão_ativa
+        
+    def register_model(self, metadata: ModelMetadata):
+        """Registrar uma nova versão de modelo"""
+        if metadata.model_id not in self.models:
+            self.models[metadata.model_id] = {}
+        
+        self.models[metadata.model_id][metadata.version] = metadata
+        
+        # Definir como versão ativa se for a primeira versão
+        if metadata.model_id not in self.deployments:
+            self.deployments[metadata.model_id] = metadata.version
+    
+    def get_model_metadata(self, model_id: str, version: Optional[str] = None) -> Optional[ModelMetadata]:
+        """Obter metadados do modelo para versão específica ou versão ativa"""
+        if model_id not in self.models:
+            return None
+        
+        if version is None:
+            version = self.deployments.get(model_id)
+            if version is None:
+                return None
+        
+        return self.models[model_id].get(version)
+    
+    def promote_model(self, model_id: str, version: str):
+        """Promover uma versão de modelo para ativa"""
+        if model_id in self.models and version in self.models[model_id]:
+            self.deployments[model_id] = version
+        else:
+            raise ValueError(f"Modelo {model_id} versão {version} não encontrado")
+    
+    def list_models(self) -> List[Dict[str, Any]]:
+        """Listar todos os modelos registrados"""
+        result = []
+        for model_id, versions in self.models.items():
+            active_version = self.deployments.get(model_id)
+            result.append({
+                'model_id': model_id,
+                'versions': list(versions.keys()),
+                'active_version': active_version,
+                'latest_version': max(versions.keys()) if versions else None
+            })
+        return result
+
+class ModelOrchestrator:
+    """Orquestra requisições através de múltiplos serviços de modelo"""
+    
+    def __init__(self, registry: ModelRegistry):
+        self.registry = registry
+        self.model_services: Dict[str, ModelService] = {}
+        self.load_balancers: Dict[str, 'LoadBalancer'] = {}
+        
+    def register_service(self, model_id: str, version: str, service: ModelService):
+        """Registrar uma instância de serviço de modelo"""
+        key = f"{model_id}:{version}"
+        self.model_services[key] = service
+        
+        # Atualizar load balancer
+        if model_id not in self.load_balancers:
+            self.load_balancers[model_id] = LoadBalancer()
+        
+        self.load_balancers[model_id].add_instance(version, service)
+    
+    async def predict(self, request: InferenceRequest) -> InferenceResponse:
+        """Rotear requisição de predição para o serviço de modelo apropriado"""
+        
+        # Resolver versão se não especificada
+        if request.version is None:
+            metadata = self.registry.get_model_metadata(request.model_id)
+            if metadata is None:
+                raise ValueError(f"Modelo {request.model_id} não encontrado")
+            request.version = metadata.version
+        
+        # Obter load balancer para modelo
+        if request.model_id not in self.load_balancers:
+            raise ValueError(f"Nenhum serviço disponível para modelo {request.model_id}")
+        
+        load_balancer = self.load_balancers[request.model_id]
+        
+        # Rotear requisição
+        service = await load_balancer.get_instance(request.version)
+        if service is None:
+            raise ValueError(f"Nenhum serviço disponível para {request.model_id}:{request.version}")
+        
+        # Executar predição
+        try:
+            response = await service.predict(request)
+            await load_balancer.record_success(request.version)
+            return response
+        except Exception as e:
+            await load_balancer.record_failure(request.version)
+            raise
+
+class LoadBalancer:
+    """Load balancer para instâncias de serviço de modelo"""
+    
+    def __init__(self, strategy: str = "round_robin"):
+        self.strategy = strategy
+        self.instances: Dict[str, List[ModelService]] = {}
+        self.current_index: Dict[str, int] = {}
+        self.health_status: Dict[str, Dict[int, bool]] = {}
+        
+    def add_instance(self, version: str, service: ModelService):
+        """Adicionar uma instância de serviço"""
+        if version not in self.instances:
+            self.instances[version] = []
+            self.current_index[version] = 0
+            self.health_status[version] = {}
+        
+        self.instances[version].append(service)
+        instance_id = len(self.instances[version]) - 1
+        self.health_status[version][instance_id] = True
+    
+    async def get_instance(self, version: str) -> Optional[ModelService]:
+        """Obter próxima instância disponível usando estratégia de load balancing"""
+        
+        if version not in self.instances or not self.instances[version]:
+            return None
+        
+        if self.strategy == "round_robin":
+            return await self._round_robin_select(version)
+        elif self.strategy == "least_connections":
+            return await self._least_connections_select(version)
+        else:
+            return self.instances[version][0]  # Fallback para primeira instância
+    
+    async def _round_robin_select(self, version: str) -> Optional[ModelService]:
+        """Load balancing round-robin"""
+        instances = self.instances[version]
+        health = self.health_status[version]
+        
+        # Encontrar próxima instância saudável
+        start_index = self.current_index[version]
+        for i in range(len(instances)):
+            index = (start_index + i) % len(instances)
+            if health.get(index, True):  # Padrão para saudável se não rastreado
+                self.current_index[version] = (index + 1) % len(instances)
+                return instances[index]
+        
+        return None  # Nenhuma instância saudável
+    
+    async def record_success(self, version: str):
+        """Registrar requisição bem-sucedida"""
+        # Atualizar status de saúde, métricas, etc.
+        pass
+    
+    async def record_failure(self, version: str):
+        """Registrar requisição falha"""
+        # Atualizar status de saúde, potencialmente marcar instância como não saudável
+        pass
+
+class FeatureStore:
+    """Armazenamento e serving centralizado de features"""
+    
+    def __init__(self):
+        self.online_features: Dict[str, Dict[str, Any]] = {}
+        self.feature_schemas: Dict[str, Dict[str, Any]] = {}
+        
+    def register_feature_group(self, name: str, schema: Dict[str, Any]):
+        """Registrar um schema de grupo de features"""
+        self.feature_schemas[name] = schema
+        
+    async def get_features(self, feature_group: str, entity_id: str) -> Dict[str, Any]:
+        """Obter features para uma entidade"""
+        
+        # Implementação mock - em produção, isso consultaria um banco de dados
+        if feature_group in self.online_features and entity_id in self.online_features[feature_group]:
+            return self.online_features[feature_group][entity_id]
+        
+        # Retornar valores padrão baseados no schema
+        if feature_group in self.feature_schemas:
+            defaults = {}
+            for feature_name, feature_def in self.feature_schemas[feature_group].items():
+                defaults[feature_name] = feature_def.get('default', 0)
+            return defaults
+        
+        return {}
+    
+    async def write_features(self, feature_group: str, entity_id: str, features: Dict[str, Any]):
+        """Escrever features no store online"""
+        
+        if feature_group not in self.online_features:
+            self.online_features[feature_group] = {}
+        
+        self.online_features[feature_group][entity_id] = features
+
+class ConfigurationService:
+    """Gerenciamento de configuração centralizado"""
+    
+    def __init__(self):
+        self.configs: Dict[str, Any] = {}
+        self.watchers: Dict[str, List[callable]] = {}
+        
+    def set_config(self, key: str, value: Any):
+        """Definir valor de configuração"""
+        old_value = self.configs.get(key)
+        self.configs[key] = value
+        
+        # Notificar observadores
+        if key in self.watchers and old_value != value:
+            for callback in self.watchers[key]:
+                try:
+                    callback(key, value, old_value)
+                except Exception as e:
+                    logging.error(f"Erro no observador de configuração: {e}")
+    
+    def get_config(self, key: str, default: Any = None) -> Any:
+        """Obter valor de configuração"""
+        return self.configs.get(key, default)
+    
+    def watch_config(self, key: str, callback: callable):
+        """Observar mudanças de configuração"""
+        if key not in self.watchers:
+            self.watchers[key] = []
+        self.watchers[key].append(callback)
+
+class AIServiceMesh:
+    """Service mesh para serviços IA com roteamento avançado e observabilidade"""
+    
+    def __init__(self):
+        self.registry = ModelRegistry()
+        self.orchestrator = ModelOrchestrator(self.registry)
+        self.feature_store = FeatureStore()
+        self.config_service = ConfigurationService()
+        self.circuit_breakers: Dict[str, 'CircuitBreaker'] = {}
+        
+    async def serve_request(self, request: InferenceRequest) -> InferenceResponse:
+        """Servir uma requisição de inferência através do service mesh"""
+        
+        request.request_id = request.request_id or str(uuid.uuid4())
+        start_time = datetime.now()
+        
+        try:
+            # Aplicar padrão circuit breaker
+            circuit_breaker = self._get_circuit_breaker(request.model_id)
+            if circuit_breaker.is_open():
+                raise Exception("Circuit breaker está aberto")
+            
+            # Enriquecer requisição com features se necessário
+            if request.metadata.get('use_features', False):
+                entity_id = request.metadata.get('entity_id')
+                if entity_id:
+                    features = await self.feature_store.get_features(
+                        request.model_id, entity_id
+                    )
+                    request.inputs.update(features)
+            
+            # Rotear para serviço de modelo
+            response = await self.orchestrator.predict(request)
+            
+            # Registrar sucesso
+            await circuit_breaker.record_success()
+            
+            # Atualizar latência
+            latency = (datetime.now() - start_time).total_seconds() * 1000
+            response.latency_ms = latency
+            
+            return response
+            
+        except Exception as e:
+            await circuit_breaker.record_failure()
+            
+            # Retornar resposta de erro
+            return InferenceResponse(
+                request_id=request.request_id,
+                model_id=request.model_id,
+                version="desconhecido",
+                outputs={"error": str(e)},
+                confidence=None,
+                latency_ms=(datetime.now() - start_time).total_seconds() * 1000,
+                metadata={"error": True}
+            )
+    
+    def _get_circuit_breaker(self, model_id: str) -> 'CircuitBreaker':
+        """Obter ou criar circuit breaker para modelo"""
+        if model_id not in self.circuit_breakers:
+            self.circuit_breakers[model_id] = CircuitBreaker(
+                failure_threshold=5,
+                timeout_seconds=60
+            )
+        return self.circuit_breakers[model_id]
+
+class CircuitBreaker:
+    """Implementação do padrão circuit breaker"""
+    
+    def __init__(self, failure_threshold: int = 5, timeout_seconds: int = 60):
+        self.failure_threshold = failure_threshold
+        self.timeout_seconds = timeout_seconds
+        self.failure_count = 0
+        self.last_failure_time = None
+        self.state = "CLOSED"  # CLOSED, OPEN, HALF_OPEN
+        
+    def is_open(self) -> bool:
+        """Verificar se circuit breaker está aberto"""
+        if self.state == "OPEN":
+            if self.last_failure_time:
+                time_since_failure = (datetime.now() - self.last_failure_time).total_seconds()
+                if time_since_failure >= self.timeout_seconds:
+                    self.state = "HALF_OPEN"
+                    return False
+            return True
+        return False
+    
+    async def record_success(self):
+        """Registrar operação bem-sucedida"""
+        self.failure_count = 0
+        self.state = "CLOSED"
+    
+    async def record_failure(self):
+        """Registrar operação falha"""
+        self.failure_count += 1
+        self.last_failure_time = datetime.now()
+        
+        if self.failure_count >= self.failure_threshold:
+            self.state = "OPEN"
+</CodeExample>
+
+### O Padrão Feature Pipeline
+
+<CodeExample language="python">
+from typing import Dict, Any, List, Optional
+import asyncio
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+import pandas as pd
+
+@dataclass
+class FeatureDefinition:
+    name: str
+    data_type: str
+    source: str
+    transformation: str
+    dependencies: List[str]
+    freshness_sla: int  # minutos
+    
+class FeaturePipeline:
+    """Pipeline de engenharia e serving de features"""
+    
+    def __init__(self):
+        self.feature_definitions: Dict[str, FeatureDefinition] = {}
+        self.transformations: Dict[str, callable] = {}
+        self.data_sources: Dict[str, 'DataSource'] = {}
+        self.scheduler = FeatureScheduler()
+        
+    def register_feature(self, definition: FeatureDefinition, 
+                        transformation: callable):
+        """Registrar uma definição de feature e sua transformação"""
+        self.feature_definitions[definition.name] = definition
+        self.transformations[definition.name] = transformation
+        
+        # Agendar computação de feature
+        self.scheduler.schedule_feature(
+            definition.name, 
+            definition.freshness_sla,
+            self._compute_feature
+        )
+    
+    def register_data_source(self, name: str, source: 'DataSource'):
+        """Registrar uma fonte de dados"""
+        self.data_sources[name] = source
+        
+    async def _compute_feature(self, feature_name: str):
+        """Computar uma feature"""
+        definition = self.feature_definitions[feature_name]
+        transformation = self.transformations[feature_name]
+        
+        # Obter dados da fonte
+        source_data = await self._get_source_data(definition.source)
+        
+        # Aplicar transformação
+        feature_values = await transformation(source_data)
+        
+        # Armazenar no feature store
+        await self._store_features(feature_name, feature_values)
+        
+    async def _get_source_data(self, source_name: str) -> pd.DataFrame:
+        """Obter dados da fonte"""
+        if source_name not in self.data_sources:
+            raise ValueError(f"Fonte de dados {source_name} não encontrada")
+        
+        return await self.data_sources[source_name].get_data()
+    
+    async def _store_features(self, feature_name: str, 
+                            feature_values: Dict[str, Any]):
+        """Armazenar features computadas"""
+        # Implementação armazenaria no feature store
+        pass
+
+class FeatureScheduler:
+    """Agendar jobs de computação de features"""
+    
+    def __init__(self):
+        self.scheduled_features: Dict[str, Dict] = {}
+        self.running = False
+        
+    def schedule_feature(self, feature_name: str, interval_minutes: int,
+                        compute_function: callable):
+        """Agendar uma feature para computação regular"""
+        self.scheduled_features[feature_name] = {
+            'interval_minutes': interval_minutes,
+            'compute_function': compute_function,
+            'last_run': None,
+            'next_run': datetime.now()
+        }
+    
+    async def start(self):
+        """Iniciar o agendador"""
+        self.running = True
+        while self.running:
+            current_time = datetime.now()
+            
+            for feature_name, schedule in self.scheduled_features.items():
+                if current_time >= schedule['next_run']:
+                    try:
+                        await schedule['compute_function'](feature_name)
+                        schedule['last_run'] = current_time
+                        schedule['next_run'] = current_time + timedelta(
+                            minutes=schedule['interval_minutes']
+                        )
+                    except Exception as e:
+                        logging.error(f"Computação de feature falhou para {feature_name}: {e}")
+            
+            await asyncio.sleep(60)  # Verificar a cada minuto
+    
+    def stop(self):
+        """Parar o agendador"""
+        self.running = False
+
+class DataSource:
+    """Fonte de dados abstrata"""
+    
+    async def get_data(self) -> pd.DataFrame:
+        """Obter dados da fonte"""
+        raise NotImplementedError
+
+class DatabaseSource(DataSource):
+    """Fonte de dados de banco de dados"""
+    
+    def __init__(self, connection_string: str, query: str):
+        self.connection_string = connection_string
+        self.query = query
+    
+    async def get_data(self) -> pd.DataFrame:
+        """Obter dados do banco de dados"""
+        # Implementação mock
+        return pd.DataFrame({
+            'entity_id': ['user_1', 'user_2', 'user_3'],
+            'value': [1.0, 2.0, 3.0]
+        })
+
+class StreamingSource(DataSource):
+    """Fonte de dados streaming"""
+    
+    def __init__(self, topic: str, window_minutes: int = 60):
+        self.topic = topic
+        self.window_minutes = window_minutes
+    
+    async def get_data(self) -> pd.DataFrame:
+        """Obter dados da fonte streaming"""
+        # Implementação mock
+        return pd.DataFrame({
+            'entity_id': ['user_1', 'user_2'],
+            'event_count': [10, 15],
+            'timestamp': [datetime.now(), datetime.now()]
+        })
+</CodeExample>
+
+## microservices-ai
+
+### Arquitetura de Microsserviços para Sistemas IA
+
+Dividir sistemas IA em microsserviços fornece escalabilidade, manutenibilidade e flexibilidade de deploy, mas requer design cuidadoso de limites de serviços.
+
+<Diagram>
+graph TB
+    subgraph "Camada API"
+        A[API Gateway]
+        B[Serviço de Autenticação]
+        C[Serviço de Rate Limiting]
+    end
+    
+    subgraph "Serviços IA"
+        D[Serviço de Classificação de Texto]
+        E[Serviço de Geração de Texto]
+        F[Serviço de Embedding]
+        G[Serviço de Recomendação]
+    end
+    
+    subgraph "Serviços de Dados"
+        H[Serviço Feature Store]
+        I[Serviço Registry de Modelo]
+        J[Serviço de Tracking de Experimento]
+    end
+    
+    subgraph "Serviços de Infraestrutura"
+        K[Serviço de Monitoramento]
+        L[Serviço de Configuração]
+        M[Serviço de Logging]
+    end
+    
+    A --> D
+    A --> E
+    A --> F
+    A --> G
+    
+    D --> H
+    E --> H
+    F --> I
+    G --> H
+    
+    D --> K
+    E --> K
+    F --> K
+    G --> K
+</Diagram>
+
+<CodeExample language="python">
+from fastapi import FastAPI, HTTPException, Depends, status
+from pydantic import BaseModel
+from typing import List, Dict, Any, Optional
+import asyncio
+import httpx
+from datetime import datetime
+import logging
+
+# Modelos de Serviço
+class TextClassificationRequest(BaseModel):
+    text: str
+    model_version: Optional[str] = None
+    confidence_threshold: Optional[float] = 0.5
+
+class TextClassificationResponse(BaseModel):
+    text: str
+    predicted_class: str
+    confidence: float
+    all_predictions: Dict[str, float]
+    model_version: str
+    processing_time_ms: float
+
+class EmbeddingRequest(BaseModel):
+    texts: List[str]
+    model_type: Optional[str] = "default"
+    normalize: Optional[bool] = True
+
+class EmbeddingResponse(BaseModel):
+    embeddings: List[List[float]]
+    model_type: str
+    dimension: int
+    processing_time_ms: float
+
+# Microsserviço de Classificação de Texto
+class TextClassificationService:
+    """Microsserviço para classificação de texto"""
+    
+    def __init__(self):
+        self.app = FastAPI(title="Serviço de Classificação de Texto", version="1.0.0")
+        self.models = {}
+        self.setup_routes()
+        
+    def setup_routes(self):
+        """Configurar rotas FastAPI"""
+        
+        @self.app.post("/classify", response_model=TextClassificationResponse)
+        async def classify_text(request: TextClassificationRequest):
+            start_time = datetime.now()
+            
+            try:
+                # Carregar modelo se não estiver em cache
+                model = await self._get_model(request.model_version)
+                
+                # Realizar classificação
+                predictions = await self._classify(model, request.text)
+                
+                # Filtrar por threshold de confiança
+                filtered_predictions = {
+                    k: v for k, v in predictions.items() 
+                    if v >= request.confidence_threshold
+                }
+                
+                if not filtered_predictions:
+                    predicted_class = max(predictions, key=predictions.get)
+                    confidence = predictions[predicted_class]
+                else:
+                    predicted_class = max(filtered_predictions, key=filtered_predictions.get)
+                    confidence = filtered_predictions[predicted_class]
+                
+                processing_time = (datetime.now() - start_time).total_seconds() * 1000
+                
+                return TextClassificationResponse(
+                    text=request.text,
+                    predicted_class=predicted_class,
+                    confidence=confidence,
+                    all_predictions=predictions,
+                    model_version=request.model_version or "default",
+                    processing_time_ms=processing_time
+                )
+                
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
+        
+        @self.app.get("/health")
+        async def health_check():
+            return {"status": "saudável", "timestamp": datetime.now()}
+        
+        @self.app.get("/models")
+        async def list_models():
+            return {"available_models": list(self.models.keys())}
+    
+    async def _get_model(self, version: Optional[str]):
+        """Obter ou carregar modelo"""
+        version = version or "default"
+        
+        if version not in self.models:
+            # Mock de carregamento de modelo
+            await asyncio.sleep(0.1)  # Simular tempo de carregamento
+            self.models[version] = {"loaded_at": datetime.now()}
+        
+        return self.models[version]
+    
+    async def _classify(self, model, text: str) -> Dict[str, float]:
+        """Realizar classificação de texto"""
+        # Mock de classificação
+        await asyncio.sleep(0.01)  # Simular tempo de inferência
+        
+        return {
+            "positivo": 0.7,
+            "negativo": 0.2,
+            "neutro": 0.1
+        }
+
+# Microsserviço de Embedding
+class EmbeddingService:
+    """Microsserviço para embeddings de texto"""
+    
+    def __init__(self):
+        self.app = FastAPI(title="Serviço de Embedding", version="1.0.0")
+        self.models = {}
+        self.setup_routes()
+    
+    def setup_routes(self):
+        """Configurar rotas FastAPI"""
+        
+        @self.app.post("/embed", response_model=EmbeddingResponse)
+        async def generate_embeddings(request: EmbeddingRequest):
+            start_time = datetime.now()
+            
+            try:
+                # Obter modelo
+                model = await self._get_model(request.model_type)
+                
+                # Gerar embeddings
+                embeddings = await self._generate_embeddings(
+                    model, request.texts, request.normalize
+                )
+                
+                processing_time = (datetime.now() - start_time).total_seconds() * 1000
+                
+                return EmbeddingResponse(
+                    embeddings=embeddings,
+                    model_type=request.model_type,
+                    dimension=len(embeddings[0]) if embeddings else 0,
+                    processing_time_ms=processing_time
+                )
+                
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
+        
+        @self.app.get("/health")
+        async def health_check():
+            return {"status": "saudável", "timestamp": datetime.now()}
+    
+    async def _get_model(self, model_type: str):
+        """Obter ou carregar modelo de embedding"""
+        if model_type not in self.models:
+            await asyncio.sleep(0.2)  # Simular carregamento
+            self.models[model_type] = {
+                "dimension": 384,
+                "loaded_at": datetime.now()
+            }
+        
+        return self.models[model_type]
+    
+    async def _generate_embeddings(self, model, texts: List[str], 
+                                 normalize: bool) -> List[List[float]]:
+        """Gerar embeddings para textos"""
+        # Mock de geração de embedding
+        await asyncio.sleep(0.01 * len(texts))
+        
+        embeddings = []
+        for text in texts:
+            # Gerar embedding mock
+            embedding = [0.1 * i for i in range(model["dimension"])]
+            
+            if normalize:
+                # Normalização simples
+                norm = sum(x**2 for x in embedding) ** 0.5
+                embedding = [x / norm for x in embedding]
+            
+            embeddings.append(embedding)
+        
+        return embeddings
+
+# Service Discovery e Comunicação
+class ServiceRegistry:
+    """Registry de serviços para microsserviços"""
+    
+    def __init__(self):
+        self.services: Dict[str, List[Dict[str, Any]]] = {}
+        
+    def register_service(self, service_name: str, host: str, port: int,
+                        health_check_url: str):
+        """Registrar um serviço"""
+        if service_name not in self.services:
+            self.services[service_name] = []
+        
+        service_info = {
+            "host": host,
+            "port": port,
+            "health_check_url": health_check_url,
+            "registered_at": datetime.now(),
+            "healthy": True
+        }
+        
+        self.services[service_name].append(service_info)
+    
+    def get_service_instance(self, service_name: str) -> Optional[Dict[str, Any]]:
+        """Obter uma instância de serviço saudável"""
+        if service_name not in self.services:
+            return None
+        
+        healthy_instances = [
+            instance for instance in self.services[service_name]
+            if instance["healthy"]
+        ]
+        
+        if not healthy_instances:
+            return None
+        
+        # Seleção round-robin simples
+        return healthy_instances[0]
+    
+    async def health_check_all(self):
+        """Realizar health checks em todos os serviços registrados"""
+        async with httpx.AsyncClient() as client:
+            for service_name, instances in self.services.items():
+                for instance in instances:
+                    try:
+                        response = await client.get(
+                            f"http://{instance['host']}:{instance['port']}{instance['health_check_url']}",
+                            timeout=5.0
+                        )
+                        instance["healthy"] = response.status_code == 200
+                    except:
+                        instance["healthy"] = False
+
+class ServiceClient:
+    """Cliente para comunicação com outros microsserviços"""
+    
+    def __init__(self, service_registry: ServiceRegistry):
+        self.registry = service_registry
+        self.http_client = httpx.AsyncClient()
+    
+    async def call_service(self, service_name: str, endpoint: str,
+                          method: str = "GET", data: Optional[Dict] = None) -> Dict[str, Any]:
+        """Chamar outro microsserviço"""
+        
+        # Obter instância de serviço
+        instance = self.registry.get_service_instance(service_name)
+        if not instance:
+            raise Exception(f"Nenhuma instância saudável encontrada para serviço {service_name}")
+        
+        # Construir URL
+        url = f"http://{instance['host']}:{instance['port']}{endpoint}"
+        
+        # Fazer requisição
+        try:
+            if method == "GET":
+                response = await self.http_client.get(url)
+            elif method == "POST":
+                response = await self.http_client.post(url, json=data)
+            else:
+                raise ValueError(f"Método não suportado: {method}")
+            
+            if response.status_code != 200:
+                raise Exception(f"Chamada de serviço falhou: {response.status_code}")
+            
+            return response.json()
+            
+        except Exception as e:
+            # Marcar instância como não saudável
+            instance["healthy"] = False
+            raise e
+
+# Serviço de Orquestração
+class AIOrchestrationService:
+    """Serviço de orquestração que combina múltiplos serviços IA"""
+    
+    def __init__(self, service_registry: ServiceRegistry):
+        self.app = FastAPI(title="Serviço de Orquestração IA", version="1.0.0")
+        self.registry = service_registry
+        self.client = ServiceClient(service_registry)
+        self.setup_routes()
+    
+    def setup_routes(self):
+        """Configurar rotas de orquestração"""
+        
+        @self.app.post("/analyze_text")
+        async def analyze_text(request: Dict[str, Any]):
+            """Análise de texto abrangente usando múltiplos serviços"""
+            
+            text = request.get("text", "")
+            if not text:
+                raise HTTPException(status_code=400, detail="Texto é obrigatório")
+            
+            results = {}
+            
+            try:
+                # Chamadas de serviço paralelas
+                tasks = [
+                    self._classify_text(text),
+                    self._generate_embedding(text),
+                ]
+                
+                classification, embedding = await asyncio.gather(*tasks)
+                
+                results["classification"] = classification
+                results["embedding"] = embedding
+                results["status"] = "success"
+                
+                return results
+                
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
+    
+    async def _classify_text(self, text: str) -> Dict[str, Any]:
+        """Chamar serviço de classificação de texto"""
+        return await self.client.call_service(
+            "text-classification",
+            "/classify",
+            "POST",
+            {"text": text}
+        )
+    
+    async def _generate_embedding(self, text: str) -> Dict[str, Any]:
+        """Chamar serviço de embedding"""
+        return await self.client.call_service(
+            "embedding",
+            "/embed",
+            "POST",
+            {"texts": [text]}
+        )
+
+# API Gateway
+class APIGateway:
+    """API Gateway para roteamento e preocupações transversais"""
+    
+    def __init__(self, service_registry: ServiceRegistry):
+        self.app = FastAPI(title="Gateway API IA", version="1.0.0")
+        self.registry = service_registry
+        self.client = ServiceClient(service_registry)
+        self.rate_limiter = RateLimiter()
+        self.auth_service = AuthenticationService()
+        self.setup_routes()
+    
+    def setup_routes(self):
+        """Configurar rotas do gateway"""
+        
+        @self.app.middleware("http")
+        async def add_cors_header(request, call_next):
+            """Adicionar headers CORS"""
+            response = await call_next(request)
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            return response
+        
+        @self.app.post("/api/v1/text/classify")
+        async def classify_text(
+            request: TextClassificationRequest,
+            user = Depends(self.auth_service.get_current_user)
+        ):
+            """Proxy para serviço de classificação de texto"""
+            
+            # Rate limiting
+            if not await self.rate_limiter.allow_request(user["user_id"], "classify"):
+                raise HTTPException(status_code=429, detail="Limite de taxa excedido")
+            
+            # Proxy para serviço
+            return await self.client.call_service(
+                "text-classification",
+                "/classify",
+                "POST",
+                request.dict()
+            )
+        
+        @self.app.post("/api/v1/text/embed")
+        async def generate_embeddings(
+            request: EmbeddingRequest,
+            user = Depends(self.auth_service.get_current_user)
+        ):
+            """Proxy para serviço de embedding"""
+            
+            # Rate limiting
+            if not await self.rate_limiter.allow_request(user["user_id"], "embed"):
+                raise HTTPException(status_code=429, detail="Limite de taxa excedido")
+            
+            # Proxy para serviço
+            return await self.client.call_service(
+                "embedding",
+                "/embed",
+                "POST",
+                request.dict()
+            )
+
+class RateLimiter:
+    """Implementação de rate limiting"""
+    
+    def __init__(self):
+        self.requests: Dict[str, List[datetime]] = {}
+        self.limits = {
+            "classify": {"requests": 100, "window_minutes": 1},
+            "embed": {"requests": 50, "window_minutes": 1}
+        }
+    
+    async def allow_request(self, user_id: str, operation: str) -> bool:
+        """Verificar se requisição deve ser permitida"""
+        
+        if operation not in self.limits:
+            return True
+        
+        key = f"{user_id}:{operation}"
+        current_time = datetime.now()
+        
+        # Inicializar se não existe
+        if key not in self.requests:
+            self.requests[key] = []
+        
+        # Limpar requisições antigas
+        window_minutes = self.limits[operation]["window_minutes"]
+        cutoff_time = current_time - timedelta(minutes=window_minutes)
+        self.requests[key] = [
+            req_time for req_time in self.requests[key]
+            if req_time > cutoff_time
+        ]
+        
+        # Verificar limite
+        max_requests = self.limits[operation]["requests"]
+        if len(self.requests[key]) >= max_requests:
+            return False
+        
+        # Adicionar requisição atual
+        self.requests[key].append(current_time)
+        return True
+
+class AuthenticationService:
+    """Serviço de autenticação"""
+    
+    def __init__(self):
+        self.users = {
+            "test_user": {
+                "user_id": "test_user",
+                "email": "test@example.com",
+                "role": "user"
+            }
+        }
+    
+    async def get_current_user(self, token: str = "test_token") -> Dict[str, Any]:
+        """Obter usuário atual do token"""
+        # Mock de autenticação
+        return self.users["test_user"]
+</CodeExample>
+
+## event-driven-ai
+
+### Arquitetura Orientada a Eventos para Sistemas IA
+
+Arquiteturas orientadas a eventos permitem sistemas IA em tempo real que respondem a mudanças de dados, ações do usuário e eventos do sistema de forma assíncrona.
+
+<CodeExample language="python">
+import asyncio
+from typing import Dict, Any, List, Optional, Callable
+from dataclasses import dataclass, asdict
+from datetime import datetime
+import json
+import logging
+from enum import Enum
+import uuid
+
+class EventType(Enum):
+    DATA_INGESTED = "data.ingested"
+    MODEL_UPDATED = "model.updated"
+    PREDICTION_REQUESTED = "prediction.requested"
+    PREDICTION_COMPLETED = "prediction.completed"
+    FEEDBACK_RECEIVED = "feedback.received"
+    DRIFT_DETECTED = "drift.detected"
+    ALERT_TRIGGERED = "alert.triggered"
+
+@dataclass
+class Event:
+    id: str
+    type: EventType
+    source: str
+    timestamp: datetime
+    data: Dict[str, Any]
+    correlation_id: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
+
+class EventBus:
+    """Bus central de eventos para publicação e subscrição de eventos"""
+    
+    def __init__(self):
+        self.subscribers: Dict[EventType, List[Callable]] = {}
+        self.event_store: List[Event] = []
+        self.logger = logging.getLogger(__name__)
+    
+    def subscribe(self, event_type: EventType, handler: Callable):
+        """Subscrever a um tipo de evento"""
+        if event_type not in self.subscribers:
+            self.subscribers[event_type] = []
+        self.subscribers[event_type].append(handler)
+    
+    async def publish(self, event: Event):
+        """Publicar um evento para todos os subscritores"""
+        
+        # Armazenar evento
+        self.event_store.append(event)
+        
+        # Registrar evento
+        self.logger.info(f"Evento publicado: {event.type.value} de {event.source}")
+        
+        # Notificar subscritores
+        if event.type in self.subscribers:
+            tasks = []
+            for handler in self.subscribers[event.type]:
+                tasks.append(self._handle_event(handler, event))
+            
+            # Executar handlers concorrentemente
+            await asyncio.gather(*tasks, return_exceptions=True)
+    
+    async def _handle_event(self, handler: Callable, event: Event):
+        """Manipular evento com tratamento de erro"""
+        try:
+            await handler(event)
+        except Exception as e:
+            self.logger.error(f"Erro manipulando evento {event.id}: {e}")
+
+class DataIngestionService:
+    """Serviço que ingere dados e publica eventos"""
+    
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
+        self.processed_data: List[Dict[str, Any]] = []
+    
+    async def ingest_data(self, data: Dict[str, Any], source: str):
+        """Ingerir novos dados e publicar evento"""
+        
+        # Processar dados
+        processed_item = {
+            "id": str(uuid.uuid4()),
+            "source": source,
+            "data": data,
+            "ingested_at": datetime.now().isoformat(),
+            "processed": True
+        }
+        
+        self.processed_data.append(processed_item)
+        
+        # Publicar evento
+        event = Event(
+            id=str(uuid.uuid4()),
+            type=EventType.DATA_INGESTED,
+            source="data-ingestion-service",
+            timestamp=datetime.now(),
+            data=processed_item
+        )
+        
+        await self.event_bus.publish(event)
+        
+        return processed_item
+
+class ModelTrainingService:
+    """Serviço que treina modelos baseado em eventos de ingestão de dados"""
+    
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
+        self.training_data: List[Dict[str, Any]] = []
+        
+        # Subscrever a eventos de ingestão de dados
+        self.event_bus.subscribe(EventType.DATA_INGESTED, self.handle_data_ingested)
+    
+    async def handle_data_ingested(self, event: Event):
+        """Manipular evento de ingestão de dados"""
+        
+        data_item = event.data
+        self.training_data.append(data_item)
+        
+        # Verificar se temos dados suficientes para disparar treinamento
+        if len(self.training_data) >= 100:  # Threshold para retreinamento
+            await self.trigger_training()
+    
+    async def trigger_training(self):
+        """Disparar treinamento de modelo"""
+        
+        # Mock do processo de treinamento
+        await asyncio.sleep(1)  # Simular tempo de treinamento
+        
+        new_model = {
+            "model_id": str(uuid.uuid4()),
+            "version": "1.0.0",
+            "trained_at": datetime.now().isoformat(),
+            "training_data_size": len(self.training_data),
+            "performance_metrics": {
+                "accuracy": 0.95,
+                "f1_score": 0.92
+            }
+        }
+        
+        # Limpar dados de treinamento
+        self.training_data = []
+        
+        # Publicar evento de modelo atualizado
+        event = Event(
+            id=str(uuid.uuid4()),
+            type=EventType.MODEL_UPDATED,
+            source="model-training-service",
+            timestamp=datetime.now(),
+            data=new_model
+        )
+        
+        await self.event_bus.publish(event)
+
+class ModelDeploymentService:
+    """Serviço que deploya modelos baseado em eventos de conclusão de treinamento"""
+    
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
+        self.deployed_models: Dict[str, Dict[str, Any]] = {}
+        
+        # Subscrever a eventos de atualização de modelo
+        self.event_bus.subscribe(EventType.MODEL_UPDATED, self.handle_model_updated)
+    
+    async def handle_model_updated(self, event: Event):
+        """Manipular evento de atualização de modelo"""
+        
+        model_info = event.data
+        
+        # Validar modelo antes do deployment
+        is_valid = await self.validate_model(model_info)
+        
+        if is_valid:
+            await self.deploy_model(model_info)
+        else:
+            logging.warning(f"Validação de modelo falhou: {model_info['model_id']}")
+    
+    async def validate_model(self, model_info: Dict[str, Any]) -> bool:
+        """Validar modelo antes do deployment"""
+        
+        # Mock de validação
+        await asyncio.sleep(0.1)
+        
+        # Verificar métricas de performance
+        accuracy = model_info.get("performance_metrics", {}).get("accuracy", 0)
+        return accuracy >= 0.90  # Threshold mínimo de acurácia
+    
+    async def deploy_model(self, model_info: Dict[str, Any]):
+        """Fazer deploy do modelo"""
+        
+        # Mock de deployment
+        await asyncio.sleep(0.5)
+        
+        deployment_info = {
+            **model_info,
+            "deployed_at": datetime.now().isoformat(),
+            "deployment_status": "active",
+            "endpoint": f"/api/models/{model_info['model_id']}/predict"
+        }
+        
+        self.deployed_models[model_info["model_id"]] = deployment_info
+        
+        logging.info(f"Modelo deployado: {model_info['model_id']}")
+
+class PredictionService:
+    """Serviço que manipula requisições de predição"""
+    
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
+        self.active_model = None
+        
+        # Subscrever a eventos de deployment de modelo
+        self.event_bus.subscribe(EventType.MODEL_UPDATED, self.handle_model_updated)
+    
+    async def handle_model_updated(self, event: Event):
+        """Atualizar modelo ativo quando novo modelo é deployado"""
+        self.active_model = event.data
+        logging.info(f"Modelo ativo atualizado para: {self.active_model['model_id']}")
+    
+    async def predict(self, input_data: Dict[str, Any], 
+                     correlation_id: Optional[str] = None) -> Dict[str, Any]:
+        """Fazer uma predição"""
+        
+        request_id = str(uuid.uuid4())
+        correlation_id = correlation_id or request_id
+        
+        # Publicar evento de predição solicitada
+        request_event = Event(
+            id=request_id,
+            type=EventType.PREDICTION_REQUESTED,
+            source="prediction-service",
+            timestamp=datetime.now(),
+            data={
+                "input_data": input_data,
+                "model_id": self.active_model["model_id"] if self.active_model else None
+            },
+            correlation_id=correlation_id
+        )
+        
+        await self.event_bus.publish(request_event)
+        
+        # Realizar predição
+        if not self.active_model:
+            raise Exception("Nenhum modelo ativo disponível")
+        
+        # Mock de predição
+        await asyncio.sleep(0.1)
+        prediction_result = {
+            "prediction": "positivo",
+            "confidence": 0.87,
+            "model_id": self.active_model["model_id"],
+            "request_id": request_id
+        }
+        
+        # Publicar evento de predição concluída
+        completion_event = Event(
+            id=str(uuid.uuid4()),
+            type=EventType.PREDICTION_COMPLETED,
+            source="prediction-service",
+            timestamp=datetime.now(),
+            data=prediction_result,
+            correlation_id=correlation_id
+        )
+        
+        await self.event_bus.publish(completion_event)
+        
+        return prediction_result
+
+class FeedbackCollectionService:
+    """Serviço que coleta feedback do usuário"""
+    
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
+        self.feedback_data: List[Dict[str, Any]] = []
+    
+    async def collect_feedback(self, prediction_id: str, feedback: Dict[str, Any]):
+        """Coletar feedback do usuário sobre uma predição"""
+        
+        feedback_entry = {
+            "feedback_id": str(uuid.uuid4()),
+            "prediction_id": prediction_id,
+            "feedback": feedback,
+            "collected_at": datetime.now().isoformat()
+        }
+        
+        self.feedback_data.append(feedback_entry)
+        
+        # Publicar evento de feedback
+        event = Event(
+            id=str(uuid.uuid4()),
+            type=EventType.FEEDBACK_RECEIVED,
+            source="feedback-collection-service",
+            timestamp=datetime.now(),
+            data=feedback_entry
+        )
+        
+        await self.event_bus.publish(event)
+
+class DriftDetectionService:
+    """Serviço que monitora drift de dados"""
+    
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
+        self.prediction_history: List[Dict[str, Any]] = []
+        
+        # Subscrever a eventos de predição
+        self.event_bus.subscribe(
+            EventType.PREDICTION_COMPLETED,
+            self.handle_prediction_completed
+        )
+    
+    async def handle_prediction_completed(self, event: Event):
+        """Manipular predições concluídas para detecção de drift"""
+        
+        prediction_data = event.data
+        self.prediction_history.append(prediction_data)
+        
+        # Manter apenas predições recentes
+        if len(self.prediction_history) > 1000:
+            self.prediction_history = self.prediction_history[-1000:]
+        
+        # Verificar drift periodicamente
+        if len(self.prediction_history) % 100 == 0:
+            await self.check_for_drift()
+    
+    async def check_for_drift(self):
+        """Verificar drift de dados"""
+        
+        # Mock de detecção de drift
+        await asyncio.sleep(0.1)
+        
+        # Simulação simples de drift
+        recent_predictions = self.prediction_history[-100:]
+        avg_confidence = sum(
+            p.get("confidence", 0) for p in recent_predictions
+        ) / len(recent_predictions)
+        
+        # Drift detectado se confiança média cai significativamente
+        if avg_confidence < 0.7:
+            drift_event = Event(
+                id=str(uuid.uuid4()),
+                type=EventType.DRIFT_DETECTED,
+                source="drift-detection-service",
+                timestamp=datetime.now(),
+                data={
+                    "drift_type": "confidence_degradation",
+                    "avg_confidence": avg_confidence,
+                    "threshold": 0.7,
+                    "sample_size": len(recent_predictions)
+                }
+            )
+            
+            await self.event_bus.publish(drift_event)
+
+class AlertingService:
+    """Serviço que manipula alertas baseados em eventos"""
+    
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
+        self.alerts: List[Dict[str, Any]] = []
+        
+        # Subscrever a eventos de detecção de drift
+        self.event_bus.subscribe(EventType.DRIFT_DETECTED, self.handle_drift_detected)
+    
+    async def handle_drift_detected(self, event: Event):
+        """Manipular evento de detecção de drift"""
+        
+        drift_data = event.data
+        
+        alert = {
+            "alert_id": str(uuid.uuid4()),
+            "type": "model_performance_degradation",
+            "severity": "warning",
+            "message": f"Drift de dados detectado: {drift_data['drift_type']}",
+            "data": drift_data,
+            "created_at": datetime.now().isoformat()
+        }
+        
+        self.alerts.append(alert)
+        
+        # Publicar evento de alerta
+        alert_event = Event(
+            id=str(uuid.uuid4()),
+            type=EventType.ALERT_TRIGGERED,
+            source="alerting-service",
+            timestamp=datetime.now(),
+            data=alert
+        )
+        
+        await self.event_bus.publish(alert_event)
+        
+        # Enviar alerta real (email, Slack, etc.)
+        await self.send_alert(alert)
+    
+    async def send_alert(self, alert: Dict[str, Any]):
+        """Enviar alerta para sistemas externos"""
+        logging.warning(f"ALERTA: {alert['message']}")
+
+class EventDrivenAISystem:
+    """Sistema IA orientado a eventos completo"""
+    
+    def __init__(self):
+        self.event_bus = EventBus()
+        
+        # Inicializar serviços
+        self.data_ingestion = DataIngestionService(self.event_bus)
+        self.model_training = ModelTrainingService(self.event_bus)
+        self.model_deployment = ModelDeploymentService(self.event_bus)
+        self.prediction = PredictionService(self.event_bus)
+        self.feedback_collection = FeedbackCollectionService(self.event_bus)
+        self.drift_detection = DriftDetectionService(self.event_bus)
+        self.alerting = AlertingService(self.event_bus)
+    
+    async def simulate_workflow(self):
+        """Simular um workflow completo de IA"""
+        
+        print("Iniciando simulação do sistema IA orientado a eventos...")
+        
+        # 1. Ingerir alguns dados
+        for i in range(150):  # Suficiente para disparar treinamento
+            await self.data_ingestion.ingest_data(
+                {"text": f"texto exemplo {i}", "label": "positivo"},
+                "training_data"
+            )
+            await asyncio.sleep(0.01)  # Pequeno delay
+        
+        # Aguardar conclusão do treinamento
+        await asyncio.sleep(2)
+        
+        # 2. Fazer algumas predições
+        for i in range(50):
+            await self.prediction.predict(
+                {"text": f"entrada teste {i}"},
+                correlation_id=f"user_session_{i % 10}"
+            )
+            await asyncio.sleep(0.02)
+        
+        # 3. Fornecer algum feedback
+        await self.feedback_collection.collect_feedback(
+            "some_prediction_id",
+            {"rating": 4, "correct": True}
+        )
+        
+        # Aguardar detecção de drift
+        await asyncio.sleep(1)
+        
+        print("Simulação completa!")
+        print(f"Total de eventos publicados: {len(self.event_bus.event_store)}")
+        print(f"Alertas gerados: {len(self.alerting.alerts)}")
+
+# Exemplo de uso
+async def run_event_driven_system():
+    system = EventDrivenAISystem()
+    await system.simulate_workflow()
+
+# Executar com: asyncio.run(run_event_driven_system())
+</CodeExample>
+
+## deployment-strategies
+
+### Padrões Modernos de Deployment e Infraestrutura
+
+<CodeExample language="python">
+from typing import Dict, List, Any, Optional
+import yaml
+import json
+from dataclasses import dataclass
+from enum import Enum
+
+class DeploymentStrategy(Enum):
+    BLUE_GREEN = "blue_green"
+    CANARY = "canary"
+    ROLLING = "rolling"
+    A_B_TEST = "a_b_test"
+
+@dataclass
+class DeploymentConfig:
+    strategy: DeploymentStrategy
+    model_version: str
+    traffic_split: Dict[str, float]
+    success_criteria: Dict[str, Any]
+    rollback_criteria: Dict[str, Any]
+    monitoring_duration_minutes: int
+
+class KubernetesDeployment:
+    """Padrões de deployment Kubernetes para modelos IA"""
+    
+    def generate_deployment_yaml(self, 
+                                model_name: str,
+                                model_version: str,
+                                config: Dict[str, Any]) -> str:
+        """Gerar YAML de deployment Kubernetes"""
+        
+        deployment = {
+            'apiVersion': 'apps/v1',
+            'kind': 'Deployment',
+            'metadata': {
+                'name': f'{model_name}-{model_version}',
+                'labels': {
+                    'app': model_name,
+                    'version': model_version,
+                    'component': 'model-server'
+                }
+            },
+            'spec': {
+                'replicas': config.get('replicas', 3),
+                'selector': {
+                    'matchLabels': {
+                        'app': model_name,
+                        'version': model_version
+                    }
+                },
+                'template': {
+                    'metadata': {
+                        'labels': {
+                            'app': model_name,
+                            'version': model_version
+                        }
+                    },
+                    'spec': {
+                        'containers': [{
+                            'name': 'model-server',
+                            'image': config.get('image', f'{model_name}:{model_version}'),
+                            'ports': [{
+                                'containerPort': config.get('port', 8000),
+                                'name': 'http'
+                            }],
+                            'env': [
+                                {
+                                    'name': 'MODEL_VERSION',
+                                    'value': model_version
+                                },
+                                {
+                                    'name': 'MODEL_PATH',
+                                    'value': config.get('model_path', '/models')
+                                }
+                            ],
+                            'resources': {
+                                'requests': {
+                                    'memory': config.get('memory_request', '2Gi'),
+                                    'cpu': config.get('cpu_request', '1000m'),
+                                    'nvidia.com/gpu': config.get('gpu_request', '0')
+                                },
+                                'limits': {
+                                    'memory': config.get('memory_limit', '4Gi'),
+                                    'cpu': config.get('cpu_limit', '2000m'),
+                                    'nvidia.com/gpu': config.get('gpu_limit', '1')
+                                }
+                            },
+                            'livenessProbe': {
+                                'httpGet': {
+                                    'path': '/health',
+                                    'port': 'http'
+                                },
+                                'initialDelaySeconds': 30,
+                                'periodSeconds': 10
+                            },
+                            'readinessProbe': {
+                                'httpGet': {
+                                    'path': '/ready',
+                                    'port': 'http'
+                                },
+                                'initialDelaySeconds': 10,
+                                'periodSeconds': 5
+                            }
+                        }],
+                        'nodeSelector': config.get('node_selector', {}),
+                        'tolerations': config.get('tolerations', []),
+                        'affinity': config.get('affinity', {})
+                    }
+                }
+            }
+        }
+        
+        return yaml.dump(deployment, default_flow_style=False)
+    
+    def generate_service_yaml(self, model_name: str) -> str:
+        """Gerar YAML de serviço Kubernetes"""
+        
+        service = {
+            'apiVersion': 'v1',
+            'kind': 'Service',
+            'metadata': {
+                'name': f'{model_name}-service',
+                'labels': {
+                    'app': model_name
+                }
+            },
+            'spec': {
+                'selector': {
+                    'app': model_name
+                },
+                'ports': [{
+                    'port': 80,
+                    'targetPort': 'http',
+                    'protocol': 'TCP'
+                }],
+                'type': 'ClusterIP'
+            }
+        }
+        
+        return yaml.dump(service, default_flow_style=False)
+    
+    def generate_hpa_yaml(self, model_name: str, 
+                         min_replicas: int = 2,
+                         max_replicas: int = 10,
+                         target_cpu: int = 70) -> str:
+        """Gerar YAML de Horizontal Pod Autoscaler"""
+        
+        hpa = {
+            'apiVersion': 'autoscaling/v2',
+            'kind': 'HorizontalPodAutoscaler',
+            'metadata': {
+                'name': f'{model_name}-hpa'
+            },
+            'spec': {
+                'scaleTargetRef': {
+                    'apiVersion': 'apps/v1',
+                    'kind': 'Deployment',
+                    'name': model_name
+                },
+                'minReplicas': min_replicas,
+                'maxReplicas': max_replicas,
+                'metrics': [
+                    {
+                        'type': 'Resource',
+                        'resource': {
+                            'name': 'cpu',
+                            'target': {
+                                'type': 'Utilization',
+                                'averageUtilization': target_cpu
+                            }
+                        }
+                    },
+                    {
+                        'type': 'Resource',
+                        'resource': {
+                            'name': 'memory',
+                            'target': {
+                                'type': 'Utilization',
+                                'averageUtilization': 80
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+        
+        return yaml.dump(hpa, default_flow_style=False)
+
+class BlueGreenDeployment:
+    """Estratégia de deployment Blue-Green"""
+    
+    def __init__(self):
+        self.environments = {
+            'blue': {'active': True, 'version': None},
+            'green': {'active': False, 'version': None}
+        }
+    
+    async def deploy(self, new_version: str, config: DeploymentConfig) -> Dict[str, Any]:
+        """Executar deployment blue-green"""
+        
+        # Determinar ambiente alvo
+        current_env = 'blue' if self.environments['blue']['active'] else 'green'
+        target_env = 'green' if current_env == 'blue' else 'blue'
+        
+        deployment_steps = [
+            f"1. Deploy da versão {new_version} no ambiente {target_env}",
+            f"2. Executar health checks no {target_env}",
+            f"3. Executar testes de integração no {target_env}",
+            f"4. Alternar tráfego do {current_env} para {target_env}",
+            f"5. Monitorar por {config.monitoring_duration_minutes} minutos",
+            f"6. Manter {current_env} como backup para rollback rápido"
+        ]
+        
+        # Mock de execução de deployment
+        for i, step in enumerate(deployment_steps):
+            print(f"Executando: {step}")
+            await asyncio.sleep(0.1)  # Simular execução do passo
+        
+        # Atualizar estados dos ambientes
+        self.environments[target_env]['active'] = True
+        self.environments[target_env]['version'] = new_version
+        self.environments[current_env]['active'] = False
+        
+        return {
+            'status': 'success',
+            'active_environment': target_env,
+            'active_version': new_version,
+            'backup_environment': current_env,
+            'backup_version': self.environments[current_env]['version']
+        }
+    
+    async def rollback(self) -> Dict[str, Any]:
+        """Rollback para versão anterior"""
+        
+        current_env = 'blue' if self.environments['blue']['active'] else 'green'
+        backup_env = 'green' if current_env == 'blue' else 'blue'
+        
+        # Alternar de volta
+        self.environments[backup_env]['active'] = True
+        self.environments[current_env]['active'] = False
+        
+        return {
+            'status': 'rollback_complete',
+            'active_environment': backup_env,
+            'active_version': self.environments[backup_env]['version']
+        }
+
+class CanaryDeployment:
+    """Estratégia de deployment Canary"""
+    
+    def __init__(self):
+        self.traffic_splits = {}
+        self.metrics_history = []
+    
+    async def deploy(self, new_version: str, config: DeploymentConfig) -> Dict[str, Any]:
+        """Executar deployment canary"""
+        
+        phases = [
+            {'traffic_percent': 5, 'duration_minutes': 10},
+            {'traffic_percent': 25, 'duration_minutes': 15},
+            {'traffic_percent': 50, 'duration_minutes': 20},
+            {'traffic_percent': 100, 'duration_minutes': 5}
+        ]
+        
+        for phase in phases:
+            print(f"Fase canary: {phase['traffic_percent']}% de tráfego para {new_version}")
+            
+            # Atualizar divisão de tráfego
+            self.traffic_splits = {
+                'stable': 100 - phase['traffic_percent'],
+                'canary': phase['traffic_percent']
+            }
+            
+            # Monitorar métricas
+            metrics = await self._monitor_canary_metrics(
+                phase['duration_minutes'], 
+                config.success_criteria
+            )
+            
+            # Verificar critérios de sucesso
+            if not self._evaluate_success_criteria(metrics, config.success_criteria):
+                return await self._rollback_canary()
+        
+        # Canary bem-sucedido, promover para stable
+        return {
+            'status': 'success',
+            'promoted_version': new_version,
+            'traffic_split': {'stable': 100, 'canary': 0}
+        }
+    
+    async def _monitor_canary_metrics(self, duration_minutes: int, 
+                                    criteria: Dict[str, Any]) -> Dict[str, float]:
+        """Monitorar métricas canary"""
+        
+        # Mock de coleta de métricas
+        await asyncio.sleep(0.1 * duration_minutes)  # Simular monitoramento
+        
+        metrics = {
+            'error_rate': 0.02,  # Taxa de erro de 2%
+            'latency_p95': 150,  # 150ms
+            'throughput': 1000,  # 1000 RPS
+            'accuracy': 0.95     # 95% de acurácia
+        }
+        
+        self.metrics_history.append({
+            'timestamp': datetime.now().isoformat(),
+            'metrics': metrics,
+            'traffic_split': self.traffic_splits.copy()
+        })
+        
+        return metrics
+    
+    def _evaluate_success_criteria(self, metrics: Dict[str, float],
+                                 criteria: Dict[str, Any]) -> bool:
+        """Avaliar se métricas atendem critérios de sucesso"""
+        
+        for metric_name, threshold in criteria.items():
+            if metric_name not in metrics:
+                continue
+            
+            metric_value = metrics[metric_name]
+            
+            if metric_name in ['error_rate']:
+                # Menor é melhor
+                if metric_value > threshold:
+                    return False
+            elif metric_name in ['latency_p95']:
+                # Menor é melhor
+                if metric_value > threshold:
+                    return False
+            else:
+                # Maior é melhor (accuracy, throughput)
+                if metric_value < threshold:
+                    return False
+        
+        return True
+    
+    async def _rollback_canary(self) -> Dict[str, Any]:
+        """Rollback do deployment canary"""
+        
+        self.traffic_splits = {'stable': 100, 'canary': 0}
+        
+        return {
+            'status': 'rollback',
+            'reason': 'Critérios de sucesso não atendidos',
+            'traffic_split': self.traffic_splits
+        }
+
+class TerraformInfrastructure:
+    """Infraestrutura como Código usando padrões Terraform"""
+    
+    def generate_ai_infrastructure(self, config: Dict[str, Any]) -> Dict[str, str]:
+        """Gerar configuração Terraform para infraestrutura IA"""
+        
+        # Arquivo principal de infraestrutura
+        main_tf = f"""
+# Configuração do provider
+terraform {{
+  required_providers {{
+    aws = {{
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }}
+    kubernetes = {{
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }}
+  }}
+}}
+
+provider "aws" {{
+  region = var.aws_region
+}}
+
+# Cluster EKS para serving de modelo
+module "eks" {{
+  source = "./modules/eks"
+  
+  cluster_name    = var.cluster_name
+  cluster_version = var.k8s_version
+  
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+  
+  node_groups = {{
+    general = {{
+      instance_types = ["t3.medium"]
+      min_size       = 2
+      max_size       = 10
+      desired_size   = 3
+    }}
+    
+    gpu = {{
+      instance_types = ["g4dn.xlarge"]
+      min_size       = 0
+      max_size       = 5
+      desired_size   = 1
+      
+      taints = [{{
+        key    = "nvidia.com/gpu"
+        value  = "true"
+        effect = "NO_SCHEDULE"
+      }}]
+    }}
+  }}
+}}
+
+# Bucket S3 para artefatos de modelo
+resource "aws_s3_bucket" "model_artifacts" {{
+  bucket = "${{var.project_name}}-model-artifacts"
+}}
+
+resource "aws_s3_bucket_versioning" "model_artifacts" {{
+  bucket = aws_s3_bucket.model_artifacts.id
+  versioning_configuration {{
+    status = "Enabled"
+  }}
+}}
+
+# RDS para armazenamento de metadados
+resource "aws_db_instance" "metadata" {{
+  identifier = "${{var.project_name}}-metadata"
+  
+  engine         = "postgres"
+  engine_version = "14.9"
+  instance_class = "db.t3.micro"
+  
+  allocated_storage     = 20
+  max_allocated_storage = 100
+  
+  db_name  = "ai_metadata"
+  username = var.db_username
+  password = var.db_password
+  
+  vpc_security_group_ids = [aws_security_group.rds.id]
+  db_subnet_group_name   = aws_db_subnet_group.main.name
+  
+  backup_retention_period = 7
+  backup_window          = "03:00-04:00"
+  maintenance_window     = "sun:04:00-sun:05:00"
+  
+  skip_final_snapshot = true
+}}
+
+# ElastiCache para caching
+resource "aws_elasticache_replication_group" "cache" {{
+  replication_group_id       = "${{var.project_name}}-cache"
+  description                = "Cache Redis para sistema IA"
+  
+  node_type            = "cache.t3.micro"
+  port                 = 6379
+  parameter_group_name = "default.redis7"
+  
+  num_cache_clusters = 2
+  
+  subnet_group_name  = aws_elasticache_subnet_group.main.name
+  security_group_ids = [aws_security_group.cache.id]
+}}
+
+# CloudWatch para monitoramento
+resource "aws_cloudwatch_log_group" "ai_logs" {{
+  name              = "/aws/ai-system/${{var.project_name}}"
+  retention_in_days = 14
+}}
+"""
+        
+        # Arquivo de variáveis
+        variables_tf = f"""
+variable "aws_region" {{
+  description = "Região AWS"
+  type        = string
+  default     = "us-west-2"
+}}
+
+variable "project_name" {{
+  description = "Nome do projeto"
+  type        = string
+  default     = "{config.get('project_name', 'ai-system')}"
+}}
+
+variable "cluster_name" {{
+  description = "Nome do cluster EKS"
+  type        = string
+  default     = "${{var.project_name}}-eks"
+}}
+
+variable "k8s_version" {{
+  description = "Versão do Kubernetes"
+  type        = string
+  default     = "1.27"
+}}
+
+variable "db_username" {{
+  description = "Username do banco de dados"
+  type        = string
+  default     = "ai_admin"
+}}
+
+variable "db_password" {{
+  description = "Senha do banco de dados"
+  type        = string
+  sensitive   = true
+}}
+"""
+        
+        # Arquivo de outputs
+        outputs_tf = """
+output "cluster_endpoint" {
+  description = "Endpoint do cluster EKS"
+  value       = module.eks.cluster_endpoint
+}
+
+output "cluster_name" {
+  description = "Nome do cluster EKS"
+  value       = module.eks.cluster_name
+}
+
+output "model_bucket" {
+  description = "Bucket S3 para artefatos de modelo"
+  value       = aws_s3_bucket.model_artifacts.bucket
+}
+
+output "database_endpoint" {
+  description = "Endpoint do banco de dados RDS"
+  value       = aws_db_instance.metadata.endpoint
+}
+
+output "cache_endpoint" {
+  description = "Endpoint do ElastiCache"
+  value       = aws_elasticache_replication_group.cache.primary_endpoint_address
+}
+"""
+        
+        return {
+            'main.tf': main_tf,
+            'variables.tf': variables_tf,
+            'outputs.tf': outputs_tf
+        }
+
+class DockerContainerization:
+    """Padrões de containerização Docker para modelos IA"""
+    
+    def generate_dockerfile(self, model_type: str, config: Dict[str, Any]) -> str:
+        """Gerar Dockerfile para modelo IA"""
+        
+        if model_type == "pytorch":
+            return self._generate_pytorch_dockerfile(config)
+        elif model_type == "tensorflow":
+            return self._generate_tensorflow_dockerfile(config)
+        else:
+            return self._generate_generic_dockerfile(config)
+    
+    def _generate_pytorch_dockerfile(self, config: Dict[str, Any]) -> str:
+        """Gerar Dockerfile específico para PyTorch"""
+        
+        return f"""
+# Build multi-stage para modelo PyTorch
+FROM python:3.9-slim as base
+
+# Instalar dependências do sistema
+RUN apt-get update && apt-get install -y \\
+    build-essential \\
+    curl \\
+    && rm -rf /var/lib/apt/lists/*
+
+# Definir diretório de trabalho
+WORKDIR /app
+
+# Instalar dependências Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Stage de produção
+FROM base as production
+
+# Copiar artefatos do modelo
+COPY models/ ./models/
+COPY src/ ./src/
+
+# Definir variáveis de ambiente
+ENV MODEL_PATH=/app/models
+ENV PYTHONPATH=/app/src
+ENV WORKERS={config.get('workers', 4)}
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \\
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Expor porta
+EXPOSE 8000
+
+# Executar aplicação
+CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "$WORKERS"]
+"""
+    
+    def _generate_tensorflow_dockerfile(self, config: Dict[str, Any]) -> str:
+        """Gerar Dockerfile específico para TensorFlow"""
+        
+        return f"""
+FROM tensorflow/serving:{config.get('tf_version', '2.13.0')}
+
+# Copiar modelo
+COPY models/ /models/
+
+# Definir variáveis de ambiente
+ENV MODEL_NAME={config.get('model_name', 'model')}
+ENV MODEL_BASE_PATH=/models
+
+# Expor portas
+EXPOSE 8500 8501
+
+# Iniciar TensorFlow Serving
+CMD ["tensorflow_model_server", "--port=8500", "--rest_api_port=8501", "--model_name=$MODEL_NAME", "--model_base_path=$MODEL_BASE_PATH"]
+"""
+    
+    def generate_docker_compose(self, services: List[str]) -> str:
+        """Gerar docker-compose.yml para setup multi-serviço"""
+        
+        compose = {
+            'version': '3.8',
+            'services': {},
+            'networks': {
+                'ai-network': {
+                    'driver': 'bridge'
+                }
+            },
+            'volumes': {
+                'model-data': {},
+                'redis-data': {},
+                'postgres-data': {}
+            }
+        }
+        
+        # Adicionar serviços
+        if 'api-gateway' in services:
+            compose['services']['api-gateway'] = {
+                'build': './api-gateway',
+                'ports': ['8080:8080'],
+                'environment': [
+                    'MODEL_SERVICE_URL=http://model-service:8000',
+                    'REDIS_URL=redis://redis:6379'
+                ],
+                'depends_on': ['model-service', 'redis'],
+                'networks': ['ai-network']
+            }
+        
+        if 'model-service' in services:
+            compose['services']['model-service'] = {
+                'build': './model-service',
+                'ports': ['8000:8000'],
+                'environment': [
+                    'MODEL_PATH=/models',
+                    'POSTGRES_URL=postgresql://user:pass@postgres:5432/ai'
+                ],
+                'volumes': ['model-data:/models'],
+                'depends_on': ['postgres'],
+                'networks': ['ai-network']
+            }
+        
+        if 'redis' in services:
+            compose['services']['redis'] = {
+                'image': 'redis:7-alpine',
+                'ports': ['6379:6379'],
+                'volumes': ['redis-data:/data'],
+                'networks': ['ai-network']
+            }
+        
+        if 'postgres' in services:
+            compose['services']['postgres'] = {
+                'image': 'postgres:14',
+                'environment': [
+                    'POSTGRES_DB=ai',
+                    'POSTGRES_USER=user',
+                    'POSTGRES_PASSWORD=pass'
+                ],
+                'volumes': ['postgres-data:/var/lib/postgresql/data'],
+                'ports': ['5432:5432'],
+                'networks': ['ai-network']
+            }
+        
+        return yaml.dump(compose, default_flow_style=False)
+</CodeExample>
+
+## quiz
+
+<Quiz>
+  <Question
+    question="Qual é o principal benefício do padrão Model-as-a-Service?"
+    options={[
+      "Reduz o uso de memória",
+      "Fornece gerenciamento centralizado de modelos, versionamento e interfaces de serving consistentes",
+      "Elimina a necessidade de monitoramento",
+      "Otimiza automaticamente a performance do modelo"
+    ]}
+    correct={1}
+    explanation="Model-as-a-Service fornece gerenciamento centralizado de metadados de modelo, versões e interfaces de serving, permitindo padrões de deployment consistentes e gerenciamento mais fácil do ciclo de vida do modelo em toda a organização."
+  />
+  
+  <Question
+    question="Qual estratégia de deployment é melhor para testar novos modelos com risco mínimo?"
+    options={[
+      "Deployment Blue-Green",
+      "Deployment Rolling",
+      "Deployment Canary",
+      "Deployment Big Bang"
+    ]}
+    correct={2}
+    explanation="Deployment Canary gradualmente roteia tráfego para novas versões enquanto monitora métricas, permitindo detectar problemas com impacto mínimo e fazer rollback facilmente se necessário."
+  />
+  
+  <Question
+    question="Na arquitetura de microsserviços para sistemas IA, qual é a consideração mais importante para limites de serviço?"
+    options={[
+      "Tecnologia de banco de dados",
+      "Consistência de linguagem de programação",
+      "Alinhamento de capacidade de negócio e ciclo de vida do modelo",
+      "Tamanho da equipe"
+    ]}
+    correct={2}
+    explanation="Limites de serviço devem alinhar com capacidades de negócio e ciclos de vida de modelo para garantir que serviços possam evoluir independentemente mantendo responsabilidades claras para treinamento, serving e processamento de dados de modelos."
+  />
+  
+  <Question
+    question="Qual é a vantagem chave da arquitetura orientada a eventos para sistemas IA?"
+    options={[
+      "É mais fácil de implementar que APIs REST",
+      "Permite processamento assíncrono em tempo real de mudanças de dados e atualizações de modelo",
+      "Requer menos infraestrutura",
+      "Garante tempos de resposta mais rápidos"
+    ]}
+    correct={1}
+    explanation="Arquitetura orientada a eventos permite processamento assíncrono em tempo real onde serviços podem reagir a mudanças de dados, atualizações de modelo e feedback sem acoplamento forte, suportando workflows ML dinâmicos."
+  />
+  
+  <Question
+    question="Qual padrão de infraestrutura é mais adequado para cargas de trabalho IA variáveis?"
+    options={[
+      "Clusters de tamanho fixo",
+      "Scaling manual",
+      "Auto-scaling com pools de nós GPU",
+      "Instância única grande"
+    ]}
+    correct={2}
+    explanation="Auto-scaling com pools de nós GPU fornece gerenciamento de recursos custo-efetivo para cargas de trabalho IA variáveis, escalando automaticamente para picos de treinamento/inferência e reduzindo durante períodos de baixo uso."
+  />
+</Quiz>
+
+## Summary
+
+Você dominou padrões de arquitetura IA empresarial:
+
+✅ **Padrões Empresariais**: Model-as-a-Service, Feature Store e Gerenciamento de Configuração
+✅ **Microsserviços**: Limites de serviço, padrões de comunicação e orquestração
+✅ **Arquitetura Orientada a Eventos**: Processamento assíncrono, event buses e sistemas reativos
+✅ **Estratégias de Deployment**: Blue-Green, Canary e automação de infraestrutura
+✅ **Padrões de Infraestrutura**: Kubernetes, containerização e Infraestrutura como Código
+
+Módulo final: **Capstone: Construir uma Aplicação Alimentada por IA** - Aplique tudo que aprendeu para construir uma aplicação IA completa e pronta para produção do zero.
