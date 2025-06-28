@@ -1,0 +1,47 @@
+{
+  "id": "capstone-ai-powered-application",
+  "title": "Capstone: Construa uma Aplicação Alimentada por IA",
+  "description": "Aplique tudo que você aprendeu para construir uma aplicação de IA completa e pronta para produção, desde análise de requisitos até implantação e monitoramento.",
+  "sections": [
+    {
+      "id": "project-planning",
+      "title": "Planejamento do Projeto e Design de Arquitetura",
+      "content": {
+        "type": "lesson",
+        "source": "capstone-ai-powered-application.mdx#project-planning"
+      }
+    },
+    {
+      "id": "implementation-guide",
+      "title": "Guia de Implementação Passo a Passo",
+      "content": {
+        "type": "lesson",
+        "source": "capstone-ai-powered-application.mdx#implementation-guide"
+      }
+    },
+    {
+      "id": "testing-deployment",
+      "title": "Teste e Implantação",
+      "content": {
+        "type": "lesson",
+        "source": "capstone-ai-powered-application.mdx#testing-deployment"
+      }
+    },
+    {
+      "id": "monitoring-maintenance",
+      "title": "Monitoramento e Manutenção em Produção",
+      "content": {
+        "type": "lesson",
+        "source": "capstone-ai-powered-application.mdx#monitoring-maintenance"
+      }
+    },
+    {
+      "id": "final-assessment",
+      "title": "Avaliação Final",
+      "content": {
+        "type": "quiz",
+        "source": "capstone-ai-powered-application.mdx#final-assessment"
+      }
+    }
+  ]
+}

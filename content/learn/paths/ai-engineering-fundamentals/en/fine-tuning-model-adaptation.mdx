@@ -1,0 +1,1242 @@
+# Fine-tuning and Model Adaptation
+
+## when-to-fine-tune
+
+Fine-tuning is powerful but not always necessary. Understanding when to fine-tune versus when to use prompt engineering is crucial for efficient AI system development.
+
+<Callout type="info">
+Fine-tuning should be your last resort, not your first choice. Start with prompt engineering, then consider RAG, and only fine-tune when other approaches fall short.
+</Callout>
+
+### Decision Framework
+
+<Diagram>
+graph TD
+    A[Task Requirements] --> B{Sufficient with prompting?}
+    B -->|Yes| C[Use Prompt Engineering]
+    B -->|No| D{Need external knowledge?}
+    D -->|Yes| E[Implement RAG System]
+    D -->|No| F{Consistent format/style needed?}
+    F -->|Yes| G[Consider Fine-tuning]
+    F -->|No| H{Domain-specific terminology?}
+    H -->|Yes| G
+    H -->|No| I[Revisit Prompt Engineering]
+    G --> J{Have quality dataset?}
+    J -->|Yes| K[Proceed with Fine-tuning]
+    J -->|No| L[Collect and Label Data]
+</Diagram>
+
+### When Fine-tuning is Worth It
+
+**✅ Good Candidates for Fine-tuning:**
+
+1. **Consistent Format Requirements**
+   - Structured output (JSON, XML) that must be perfect
+   - Specific writing style or tone
+   - Domain-specific formatting standards
+
+2. **Domain Expertise**
+   - Medical, legal, or technical terminology
+   - Industry-specific knowledge
+   - Specialized reasoning patterns
+
+3. **Cost Optimization**
+   - Shorter prompts after fine-tuning
+   - Reduced token usage
+   - Better performance with smaller models
+
+4. **Latency Requirements**
+   - Real-time applications
+   - Edge deployment scenarios
+   - High-frequency API calls
+
+<CodeExample language="python">
+# Example: Medical diagnosis assistant
+# Before fine-tuning: Long prompt with medical context
+long_prompt = """
+You are a medical AI assistant. Follow these guidelines:
+- Always include differential diagnosis
+- Use ICD-10 codes when applicable
+- Consider patient history and symptoms
+- Recommend further testing when appropriate
+- Never provide definitive diagnosis without proper examination
+
+Patient presents with: {symptoms}
+Medical history: {history}
+Physical exam: {exam_findings}
+
+Please provide analysis following medical protocol...
+"""
+
+# After fine-tuning: Much shorter, specialized prompt
+short_prompt = "Patient: {symptoms} | History: {history} | Exam: {exam_findings}"
+# Fine-tuned model already knows medical protocols and formatting
+</CodeExample>
+
+### When to Avoid Fine-tuning
+
+**❌ Poor Candidates for Fine-tuning:**
+
+1. **Frequently Changing Requirements**
+   - Experimental features
+   - Rapidly evolving use cases
+   - A/B testing scenarios
+
+2. **Limited Data**
+   - < 1,000 high-quality examples
+   - Imbalanced datasets
+   - Low-quality annotations
+
+3. **General Knowledge Tasks**
+   - Common sense reasoning
+   - Basic Q&A
+   - General writing assistance
+
+<CodeExample language="python">
+# Example: Don't fine-tune for this
+# This is better handled with prompt engineering + RAG
+
+def customer_support_bad_example():
+    """
+    Don't fine-tune for customer support that needs to:
+    - Access current product information
+    - Handle policy updates
+    - Respond to new product launches
+    - Adapt to seasonal promotions
+    """
+    # This changes too frequently for fine-tuning to be effective
+    pass
+
+def customer_support_good_example():
+    """
+    Instead, use RAG + well-crafted prompts:
+    """
+    return {
+        'knowledge_base': 'current_product_info',
+        'prompt_template': 'professional_support_style',
+        'retrieval_system': 'semantic_search',
+        'fallback': 'human_escalation'
+    }
+</CodeExample>
+
+## preparing-datasets
+
+Quality data is the foundation of successful fine-tuning. Poor data leads to poor models, regardless of technique.
+
+<Callout type="warning">
+The garbage in, garbage out principle is especially true for fine-tuning. Spend 80% of your time on data quality, 20% on the actual training.
+</Callout>
+
+### Dataset Requirements
+
+**Minimum Requirements:**
+- 1,000+ high-quality examples
+- Consistent formatting
+- Balanced representation
+- Clear input-output relationships
+
+**Recommended:**
+- 5,000+ examples for production use
+- Multiple annotators for quality control
+- Regular data audits and updates
+
+### Data Collection Strategies
+
+<CodeExample language="python">
+import pandas as pd
+from typing import List, Dict, Tuple
+import json
+
+class DatasetBuilder:
+    def __init__(self):
+        self.examples = []
+        self.quality_metrics = {}
+        
+    def add_example(self, input_text: str, output_text: str, 
+                   source: str = "manual", confidence: float = 1.0):
+        """Add a training example with metadata"""
+        example = {
+            'input': input_text.strip(),
+            'output': output_text.strip(),
+            'source': source,
+            'confidence': confidence,
+            'length_input': len(input_text.split()),
+            'length_output': len(output_text.split()),
+            'created_at': pd.Timestamp.now()
+        }
+        self.examples.append(example)
+        
+    def from_user_interactions(self, interactions: List[Dict]):
+        """Extract training data from user interactions"""
+        for interaction in interactions:
+            if interaction.get('rating', 0) >= 4:  # Only high-rated interactions
+                self.add_example(
+                    input_text=interaction['user_input'],
+                    output_text=interaction['ai_response'],
+                    source='user_feedback',
+                    confidence=interaction['rating'] / 5.0
+                )
+                
+    def from_existing_model(self, model_name: str, prompts: List[str]):
+        """Generate synthetic data from existing model"""
+        for prompt in prompts:
+            response = generate_completion(prompt, model=model_name)
+            
+            # Human review required for synthetic data
+            self.add_example(
+                input_text=prompt,
+                output_text=response,
+                source=f'synthetic_{model_name}',
+                confidence=0.8  # Lower confidence for synthetic
+            )
+            
+    def validate_quality(self) -> Dict:
+        """Comprehensive quality validation"""
+        df = pd.DataFrame(self.examples)
+        
+        quality_report = {
+            'total_examples': len(df),
+            'avg_input_length': df['length_input'].mean(),
+            'avg_output_length': df['length_output'].mean(),
+            'length_variance': {
+                'input_std': df['length_input'].std(),
+                'output_std': df['length_output'].std()
+            },
+            'source_distribution': df['source'].value_counts().to_dict(),
+            'confidence_stats': {
+                'mean': df['confidence'].mean(),
+                'min': df['confidence'].min(),
+                'below_threshold': (df['confidence'] < 0.7).sum()
+            }
+        }
+        
+        # Flag potential issues
+        issues = []
+        
+        if quality_report['total_examples'] < 1000:
+            issues.append(f"Low sample count: {quality_report['total_examples']}")
+            
+        if quality_report['length_variance']['input_std'] > 100:
+            issues.append("High input length variance - consider bucketing")
+            
+        if quality_report['confidence_stats']['below_threshold'] > len(df) * 0.2:
+            issues.append("Too many low-confidence examples")
+            
+        quality_report['issues'] = issues
+        return quality_report
+</CodeExample>
+
+### Data Augmentation Techniques
+
+<CodeExample language="python">
+import random
+from transformers import pipeline
+
+class DataAugmenter:
+    def __init__(self):
+        self.paraphraser = pipeline("text2text-generation", 
+                                  model="tuner007/pegasus_paraphrase")
+        
+    def paraphrase_inputs(self, dataset: List[Dict], 
+                         augmentation_factor: int = 2) -> List[Dict]:
+        """Generate paraphrased versions of inputs"""
+        augmented = []
+        
+        for example in dataset:
+            # Original example
+            augmented.append(example)
+            
+            # Generate paraphrases
+            for _ in range(augmentation_factor):
+                paraphrased = self.paraphraser(
+                    example['input'], 
+                    max_length=len(example['input'].split()) + 10,
+                    do_sample=True
+                )[0]['generated_text']
+                
+                augmented.append({
+                    'input': paraphrased,
+                    'output': example['output'],
+                    'source': 'paraphrased',
+                    'confidence': example['confidence'] * 0.9
+                })
+                
+        return augmented
+    
+    def add_variations(self, example: Dict) -> List[Dict]:
+        """Add systematic variations to examples"""
+        variations = [example]  # Original
+        
+        input_text = example['input']
+        output_text = example['output']
+        
+        # Formality variations
+        variations.extend([
+            {
+                'input': self.make_formal(input_text),
+                'output': output_text,
+                'source': 'formal_variation',
+                'confidence': example['confidence']
+            },
+            {
+                'input': self.make_casual(input_text),
+                'output': output_text,
+                'source': 'casual_variation',
+                'confidence': example['confidence']
+            }
+        ])
+        
+        # Length variations
+        if len(input_text.split()) > 10:
+            variations.append({
+                'input': self.compress_text(input_text),
+                'output': output_text,
+                'source': 'compressed',
+                'confidence': example['confidence']
+            })
+            
+        return variations
+    
+    def make_formal(self, text: str) -> str:
+        """Convert text to more formal style"""
+        replacements = {
+            "don't": "do not",
+            "can't": "cannot",
+            "won't": "will not",
+            "it's": "it is",
+            "you're": "you are"
+        }
+        
+        for informal, formal in replacements.items():
+            text = text.replace(informal, formal)
+            
+        return text
+    
+    def make_casual(self, text: str) -> str:
+        """Convert text to more casual style"""
+        replacements = {
+            "do not": "don't",
+            "cannot": "can't",
+            "will not": "won't",
+            "it is": "it's",
+            "you are": "you're"
+        }
+        
+        for formal, casual in replacements.items():
+            text = text.replace(formal, casual)
+            
+        return text
+</CodeExample>
+
+### Quality Control Pipeline
+
+<CodeExample language="python">
+from dataclasses import dataclass
+from typing import Set
+import re
+
+@dataclass
+class QualityIssue:
+    type: str
+    description: str
+    severity: str  # 'low', 'medium', 'high'
+    example_id: str
+
+class QualityController:
+    def __init__(self):
+        self.rules = []
+        self.add_default_rules()
+        
+    def add_rule(self, rule_func, name: str, severity: str = 'medium'):
+        """Add a quality control rule"""
+        self.rules.append({
+            'func': rule_func,
+            'name': name,
+            'severity': severity
+        })
+        
+    def add_default_rules(self):
+        """Add standard quality control rules"""
+        
+        # Length-based rules
+        self.add_rule(
+            lambda ex: len(ex['input'].split()) < 3,
+            "Input too short",
+            'high'
+        )
+        
+        self.add_rule(
+            lambda ex: len(ex['output'].split()) < 2,
+            "Output too short",
+            'high'
+        )
+        
+        # Content quality rules
+        self.add_rule(
+            lambda ex: ex['input'].lower() == ex['output'].lower(),
+            "Input equals output",
+            'high'
+        )
+        
+        self.add_rule(
+            lambda ex: len(set(ex['input'].split()) & set(ex['output'].split())) / 
+                      max(len(ex['input'].split()), 1) > 0.8,
+            "High word overlap",
+            'medium'
+        )
+        
+        # Format consistency rules
+        self.add_rule(
+            lambda ex: bool(re.search(r'[^\x00-\x7F]', ex['input'])),
+            "Non-ASCII characters in input",
+            'low'
+        )
+        
+    def check_example(self, example: Dict, example_id: str) -> List[QualityIssue]:
+        """Check a single example against all rules"""
+        issues = []
+        
+        for rule in self.rules:
+            try:
+                if rule['func'](example):
+                    issues.append(QualityIssue(
+                        type=rule['name'],
+                        description=f"Example fails: {rule['name']}",
+                        severity=rule['severity'],
+                        example_id=example_id
+                    ))
+            except Exception as e:
+                issues.append(QualityIssue(
+                    type="Rule execution error",
+                    description=f"Error checking {rule['name']}: {str(e)}",
+                    severity='high',
+                    example_id=example_id
+                ))
+                
+        return issues
+    
+    def audit_dataset(self, dataset: List[Dict]) -> Dict:
+        """Comprehensive dataset audit"""
+        all_issues = []
+        
+        for i, example in enumerate(dataset):
+            issues = self.check_example(example, str(i))
+            all_issues.extend(issues)
+            
+        # Summarize issues
+        issue_summary = {}
+        for issue in all_issues:
+            key = f"{issue.severity}_{issue.type}"
+            issue_summary[key] = issue_summary.get(key, 0) + 1
+            
+        return {
+            'total_issues': len(all_issues),
+            'issue_breakdown': issue_summary,
+            'high_severity_count': len([i for i in all_issues if i.severity == 'high']),
+            'recommendations': self.get_recommendations(all_issues, len(dataset))
+        }
+    
+    def get_recommendations(self, issues: List[QualityIssue], total_examples: int) -> List[str]:
+        """Generate actionable recommendations"""
+        recommendations = []
+        
+        high_severity = len([i for i in issues if i.severity == 'high'])
+        issue_rate = len(issues) / total_examples
+        
+        if high_severity > total_examples * 0.1:
+            recommendations.append("Review and fix high-severity issues before training")
+            
+        if issue_rate > 0.3:
+            recommendations.append("Consider improving data collection process")
+            
+        if any('too short' in i.type for i in issues):
+            recommendations.append("Add minimum length requirements to data collection")
+            
+        return recommendations
+</CodeExample>
+
+## fine-tuning-techniques
+
+### Choosing the Right Approach
+
+<Diagram>
+flowchart TD
+    A[Fine-tuning Approach] --> B[Full Fine-tuning]
+    A --> C[Parameter-Efficient Methods]
+    A --> D[Adapter Methods]
+    
+    B --> B1[Complete model retraining]
+    B --> B2[High computational cost]
+    B --> B3[Best performance]
+    
+    C --> C1[LoRA - Low-Rank Adaptation]
+    C --> C2[Prefix Tuning]
+    C --> C3[Prompt Tuning]
+    
+    D --> D1[Task-specific adapters]
+    D --> D2[Modular approach]
+    D --> D3[Easy deployment]
+</Diagram>
+
+### LoRA (Low-Rank Adaptation)
+
+LoRA is often the best choice for most fine-tuning scenarios - efficient and effective.
+
+<CodeExample language="python">
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import LoraConfig, get_peft_model, TaskType
+import torch
+
+class LoRAFineTuner:
+    def __init__(self, base_model_name: str, task_type: str = "CAUSAL_LM"):
+        self.base_model_name = base_model_name
+        self.task_type = getattr(TaskType, task_type)
+        self.tokenizer = None
+        self.model = None
+        self.peft_model = None
+        
+    def setup_model(self, lora_config: dict = None):
+        """Initialize model with LoRA configuration"""
+        
+        # Default LoRA configuration
+        if lora_config is None:
+            lora_config = {
+                "r": 16,  # Rank
+                "lora_alpha": 32,  # Scaling parameter
+                "target_modules": ["q_proj", "v_proj"],  # Which layers to adapt
+                "lora_dropout": 0.1,
+                "bias": "none",
+                "task_type": self.task_type,
+            }
+        
+        # Load tokenizer and model
+        self.tokenizer = AutoTokenizer.from_pretrained(self.base_model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(
+            self.base_model_name,
+            torch_dtype=torch.float16,
+            device_map="auto"
+        )
+        
+        # Add padding token if missing
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+            
+        # Apply LoRA
+        peft_config = LoraConfig(**lora_config)
+        self.peft_model = get_peft_model(self.model, peft_config)
+        
+        # Print trainable parameters
+        self.peft_model.print_trainable_parameters()
+        
+    def prepare_dataset(self, examples: List[Dict], max_length: int = 512):
+        """Prepare dataset for training"""
+        
+        def tokenize_function(example):
+            # Combine input and output for causal LM
+            text = f"{example['input']}\n{example['output']}"
+            
+            tokenized = self.tokenizer(
+                text,
+                truncation=True,
+                padding="max_length",
+                max_length=max_length,
+                return_tensors="pt"
+            )
+            
+            # For causal LM, labels are the same as input_ids
+            tokenized["labels"] = tokenized["input_ids"].clone()
+            
+            return tokenized
+        
+        # Process all examples
+        tokenized_dataset = []
+        for example in examples:
+            tokenized_dataset.append(tokenize_function(example))
+            
+        return tokenized_dataset
+    
+    def train(self, train_dataset, eval_dataset=None, training_args=None):
+        """Fine-tune the model with LoRA"""
+        from transformers import Trainer, TrainingArguments
+        
+        if training_args is None:
+            training_args = TrainingArguments(
+                output_dir="./lora_model",
+                num_train_epochs=3,
+                per_device_train_batch_size=4,
+                per_device_eval_batch_size=4,
+                gradient_accumulation_steps=2,
+                warmup_steps=100,
+                learning_rate=5e-4,
+                fp16=True,
+                logging_steps=10,
+                evaluation_strategy="steps" if eval_dataset else "no",
+                eval_steps=100,
+                save_steps=500,
+                save_total_limit=2,
+                remove_unused_columns=False,
+            )
+        
+        trainer = Trainer(
+            model=self.peft_model,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=eval_dataset,
+            tokenizer=self.tokenizer,
+        )
+        
+        # Train the model
+        trainer.train()
+        
+        # Save the adapter
+        self.peft_model.save_pretrained("./lora_adapter")
+        self.tokenizer.save_pretrained("./lora_adapter")
+        
+        return trainer
+
+# Usage example
+fine_tuner = LoRAFineTuner("microsoft/DialoGPT-medium")
+fine_tuner.setup_model()
+
+# Prepare your dataset
+train_data = fine_tuner.prepare_dataset(training_examples)
+eval_data = fine_tuner.prepare_dataset(validation_examples)
+
+# Train
+trainer = fine_tuner.train(train_data, eval_data)
+</CodeExample>
+
+### Advanced Training Strategies
+
+<CodeExample language="python">
+import numpy as np
+from transformers import EarlyStoppingCallback
+import wandb
+
+class AdvancedTrainer:
+    def __init__(self, model, tokenizer):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.training_history = []
+        
+    def curriculum_learning(self, dataset: List[Dict], 
+                          difficulty_metric: callable = None):
+        """Implement curriculum learning - easy examples first"""
+        
+        if difficulty_metric is None:
+            # Default: use input length as difficulty
+            difficulty_metric = lambda x: len(x['input'].split())
+        
+        # Sort by difficulty
+        sorted_data = sorted(dataset, key=difficulty_metric)
+        
+        # Create curriculum phases
+        phases = []
+        total_examples = len(sorted_data)
+        
+        # Phase 1: Easiest 30%
+        phases.append(sorted_data[:int(0.3 * total_examples)])
+        
+        # Phase 2: Medium 50%
+        phases.append(sorted_data[:int(0.8 * total_examples)])
+        
+        # Phase 3: All examples
+        phases.append(sorted_data)
+        
+        return phases
+    
+    def adaptive_learning_rate(self, trainer, eval_metric_history: List[float]):
+        """Adjust learning rate based on performance"""
+        
+        if len(eval_metric_history) < 3:
+            return  # Need history to adapt
+        
+        # Check if performance is plateauing
+        recent_improvement = (eval_metric_history[-1] - eval_metric_history[-3])
+        
+        if recent_improvement < 0.001:  # Performance plateau
+            # Reduce learning rate
+            current_lr = trainer.optimizer.param_groups[0]['lr']
+            new_lr = current_lr * 0.5
+            
+            for param_group in trainer.optimizer.param_groups:
+                param_group['lr'] = new_lr
+                
+            print(f"Reduced learning rate to {new_lr}")
+    
+    def multi_objective_training(self, primary_loss, secondary_losses: Dict):
+        """Balance multiple training objectives"""
+        
+        class MultiObjectiveLoss:
+            def __init__(self, weights: Dict[str, float]):
+                self.weights = weights
+                
+            def __call__(self, primary, secondary_dict):
+                total_loss = self.weights['primary'] * primary
+                
+                for name, loss in secondary_dict.items():
+                    if name in self.weights:
+                        total_loss += self.weights[name] * loss
+                
+                return total_loss
+        
+        # Example: Balance fluency and factuality
+        loss_weights = {
+            'primary': 0.7,      # Main task loss
+            'fluency': 0.2,      # Fluency penalty
+            'factuality': 0.1    # Factual consistency
+        }
+        
+        return MultiObjectiveLoss(loss_weights)
+    
+    def setup_monitoring(self, project_name: str):
+        """Setup comprehensive training monitoring"""
+        
+        # Initialize Weights & Biases
+        wandb.init(project=project_name)
+        
+        # Custom metrics tracking
+        class MetricsCallback:
+            def __init__(self):
+                self.step = 0
+                
+            def on_log(self, args, state, control, model=None, logs=None, **kwargs):
+                if logs:
+                    # Track custom metrics
+                    if 'eval_loss' in logs:
+                        wandb.log({
+                            'eval_loss': logs['eval_loss'],
+                            'step': self.step
+                        })
+                    
+                    # Track gradient norms
+                    if model:
+                        total_norm = 0
+                        for p in model.parameters():
+                            if p.grad is not None:
+                                param_norm = p.grad.data.norm(2)
+                                total_norm += param_norm.item() ** 2
+                        total_norm = total_norm ** (1. / 2)
+                        
+                        wandb.log({
+                            'gradient_norm': total_norm,
+                            'step': self.step
+                        })
+                    
+                    self.step += 1
+        
+        return MetricsCallback()
+    
+    def progressive_unfreezing(self, model, num_phases: int = 3):
+        """Gradually unfreeze model layers during training"""
+        
+        # Get all layer names
+        layer_names = [name for name, _ in model.named_parameters()]
+        layers_per_phase = len(layer_names) // num_phases
+        
+        def unfreeze_phase(phase: int):
+            """Unfreeze layers for a specific phase"""
+            start_idx = phase * layers_per_phase
+            end_idx = start_idx + layers_per_phase
+            
+            for i, (name, param) in enumerate(model.named_parameters()):
+                if i >= start_idx and i < end_idx:
+                    param.requires_grad = True
+                    print(f"Unfroze layer: {name}")
+        
+        return unfreeze_phase
+</CodeExample>
+
+## evaluation-deployment
+
+### Comprehensive Evaluation Framework
+
+<CodeExample language="python">
+from typing import List, Dict, Any
+import numpy as np
+from sklearn.metrics import accuracy_score, f1_score
+import pandas as pd
+
+class ModelEvaluator:
+    def __init__(self, model, tokenizer):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.metrics = {}
+        
+    def evaluate_generation_quality(self, test_examples: List[Dict]) -> Dict:
+        """Evaluate text generation quality"""
+        
+        predictions = []
+        references = []
+        
+        for example in test_examples:
+            # Generate prediction
+            inputs = self.tokenizer(
+                example['input'], 
+                return_tensors="pt",
+                truncation=True,
+                max_length=512
+            )
+            
+            with torch.no_grad():
+                outputs = self.model.generate(
+                    **inputs,
+                    max_new_tokens=150,
+                    temperature=0.7,
+                    do_sample=True,
+                    pad_token_id=self.tokenizer.eos_token_id
+                )
+            
+            prediction = self.tokenizer.decode(
+                outputs[0][inputs['input_ids'].shape[1]:], 
+                skip_special_tokens=True
+            )
+            
+            predictions.append(prediction)
+            references.append(example['output'])
+        
+        # Calculate metrics
+        metrics = {
+            'bleu': self.calculate_bleu(predictions, references),
+            'rouge': self.calculate_rouge(predictions, references),
+            'semantic_similarity': self.calculate_semantic_similarity(predictions, references),
+            'length_ratio': self.calculate_length_metrics(predictions, references),
+            'factual_consistency': self.evaluate_factual_consistency(predictions, references)
+        }
+        
+        return metrics
+    
+    def calculate_bleu(self, predictions: List[str], references: List[str]) -> float:
+        """Calculate BLEU score"""
+        from nltk.translate.bleu_score import sentence_bleu
+        import nltk
+        nltk.download('punkt', quiet=True)
+        
+        bleu_scores = []
+        for pred, ref in zip(predictions, references):
+            pred_tokens = nltk.word_tokenize(pred.lower())
+            ref_tokens = nltk.word_tokenize(ref.lower())
+            
+            score = sentence_bleu([ref_tokens], pred_tokens)
+            bleu_scores.append(score)
+        
+        return np.mean(bleu_scores)
+    
+    def calculate_rouge(self, predictions: List[str], references: List[str]) -> Dict:
+        """Calculate ROUGE scores"""
+        from rouge_score import rouge_scorer
+        
+        scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
+        scores = {'rouge1': [], 'rouge2': [], 'rougeL': []}
+        
+        for pred, ref in zip(predictions, references):
+            rouge_scores = scorer.score(ref, pred)
+            for metric in scores.keys():
+                scores[metric].append(rouge_scores[metric].fmeasure)
+        
+        return {metric: np.mean(scores[metric]) for metric in scores}
+    
+    def calculate_semantic_similarity(self, predictions: List[str], references: List[str]) -> float:
+        """Calculate semantic similarity using embeddings"""
+        from sentence_transformers import SentenceTransformer
+        
+        model = SentenceTransformer('all-MiniLM-L6-v2')
+        
+        pred_embeddings = model.encode(predictions)
+        ref_embeddings = model.encode(references)
+        
+        similarities = []
+        for pred_emb, ref_emb in zip(pred_embeddings, ref_embeddings):
+            similarity = np.dot(pred_emb, ref_emb) / (
+                np.linalg.norm(pred_emb) * np.linalg.norm(ref_emb)
+            )
+            similarities.append(similarity)
+        
+        return np.mean(similarities)
+    
+    def evaluate_factual_consistency(self, predictions: List[str], references: List[str]) -> float:
+        """Evaluate factual consistency"""
+        # Simplified version - in practice, use specialized models like FactCC
+        
+        consistency_scores = []
+        for pred, ref in zip(predictions, references):
+            # Extract key facts (simplified)
+            pred_facts = set(self.extract_facts(pred))
+            ref_facts = set(self.extract_facts(ref))
+            
+            if not ref_facts:
+                consistency_scores.append(1.0)  # No facts to check
+                continue
+            
+            # Calculate overlap
+            consistent_facts = pred_facts.intersection(ref_facts)
+            consistency = len(consistent_facts) / len(ref_facts)
+            consistency_scores.append(consistency)
+        
+        return np.mean(consistency_scores)
+    
+    def extract_facts(self, text: str) -> List[str]:
+        """Extract key facts from text (simplified implementation)"""
+        import re
+        
+        # Extract numerical facts
+        numbers = re.findall(r'\b\d+\.?\d*\b', text)
+        
+        # Extract named entities (simplified)
+        entities = re.findall(r'\b[A-Z][a-z]+\b', text)
+        
+        return numbers + entities
+    
+    def benchmark_performance(self, test_suite: Dict[str, List[Dict]]) -> Dict:
+        """Run comprehensive benchmark across multiple test suites"""
+        
+        results = {}
+        
+        for suite_name, examples in test_suite.items():
+            print(f"Evaluating {suite_name}...")
+            
+            suite_results = self.evaluate_generation_quality(examples)
+            results[suite_name] = suite_results
+            
+            # Task-specific metrics
+            if 'reasoning' in suite_name.lower():
+                results[suite_name]['logical_consistency'] = self.evaluate_reasoning(examples)
+            
+            if 'code' in suite_name.lower():
+                results[suite_name]['syntax_validity'] = self.evaluate_code_syntax(examples)
+        
+        return results
+    
+    def create_evaluation_report(self, results: Dict) -> str:
+        """Generate comprehensive evaluation report"""
+        
+        report = "# Model Evaluation Report\n\n"
+        
+        # Overall summary
+        report += "## Overall Performance\n\n"
+        
+        avg_bleu = np.mean([r['bleu'] for r in results.values()])
+        avg_rouge = np.mean([r['rouge']['rougeL'] for r in results.values()])
+        avg_semantic = np.mean([r['semantic_similarity'] for r in results.values()])
+        
+        report += f"- Average BLEU: {avg_bleu:.3f}\n"
+        report += f"- Average ROUGE-L: {avg_rouge:.3f}\n"
+        report += f"- Average Semantic Similarity: {avg_semantic:.3f}\n\n"
+        
+        # Detailed breakdown
+        report += "## Detailed Results by Test Suite\n\n"
+        
+        for suite_name, metrics in results.items():
+            report += f"### {suite_name}\n\n"
+            
+            for metric_name, value in metrics.items():
+                if isinstance(value, dict):
+                    for sub_metric, sub_value in value.items():
+                        report += f"- {metric_name}.{sub_metric}: {sub_value:.3f}\n"
+                else:
+                    report += f"- {metric_name}: {value:.3f}\n"
+            
+            report += "\n"
+        
+        # Recommendations
+        report += "## Recommendations\n\n"
+        
+        if avg_bleu < 0.3:
+            report += "- Consider improving fluency through additional training data\n"
+        
+        if avg_semantic < 0.7:
+            report += "- Focus on semantic consistency in training examples\n"
+        
+        return report
+</CodeExample>
+
+### Deployment Strategies
+
+<CodeExample language="python">
+import os
+from typing import Optional
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import PeftModel
+
+class ModelDeployment:
+    def __init__(self, base_model_path: str, adapter_path: Optional[str] = None):
+        self.base_model_path = base_model_path
+        self.adapter_path = adapter_path
+        self.model = None
+        self.tokenizer = None
+        
+    def load_for_inference(self, device: str = "auto"):
+        """Load model optimized for inference"""
+        
+        # Load tokenizer
+        self.tokenizer = AutoTokenizer.from_pretrained(self.base_model_path)
+        
+        # Load base model
+        self.model = AutoModelForCausalLM.from_pretrained(
+            self.base_model_path,
+            torch_dtype=torch.float16,
+            device_map=device,
+            low_cpu_mem_usage=True
+        )
+        
+        # Load adapter if provided
+        if self.adapter_path:
+            self.model = PeftModel.from_pretrained(
+                self.model, 
+                self.adapter_path,
+                torch_dtype=torch.float16
+            )
+            
+            # Merge adapter for faster inference
+            self.model = self.model.merge_and_unload()
+        
+        # Optimize for inference
+        self.model.eval()
+        if hasattr(self.model, 'compile'):
+            self.model = torch.compile(self.model)
+    
+    def create_api_endpoint(self, app_framework='fastapi'):
+        """Create REST API endpoint"""
+        
+        if app_framework == 'fastapi':
+            from fastapi import FastAPI, HTTPException
+            from pydantic import BaseModel
+            
+            app = FastAPI(title="Fine-tuned Model API")
+            
+            class GenerationRequest(BaseModel):
+                prompt: str
+                max_tokens: int = 150
+                temperature: float = 0.7
+                top_p: float = 0.9
+            
+            class GenerationResponse(BaseModel):
+                generated_text: str
+                input_tokens: int
+                output_tokens: int
+                
+            @app.post("/generate", response_model=GenerationResponse)
+            async def generate_text(request: GenerationRequest):
+                try:
+                    # Tokenize input
+                    inputs = self.tokenizer(
+                        request.prompt,
+                        return_tensors="pt",
+                        truncation=True,
+                        max_length=512
+                    )
+                    
+                    input_token_count = inputs['input_ids'].shape[1]
+                    
+                    # Generate
+                    with torch.no_grad():
+                        outputs = self.model.generate(
+                            **inputs,
+                            max_new_tokens=request.max_tokens,
+                            temperature=request.temperature,
+                            top_p=request.top_p,
+                            do_sample=True,
+                            pad_token_id=self.tokenizer.eos_token_id
+                        )
+                    
+                    # Decode output
+                    generated_text = self.tokenizer.decode(
+                        outputs[0][input_token_count:],
+                        skip_special_tokens=True
+                    )
+                    
+                    output_token_count = outputs[0].shape[0] - input_token_count
+                    
+                    return GenerationResponse(
+                        generated_text=generated_text,
+                        input_tokens=input_token_count,
+                        output_tokens=output_token_count
+                    )
+                    
+                except Exception as e:
+                    raise HTTPException(status_code=500, detail=str(e))
+            
+            return app
+    
+    def create_docker_config(self) -> str:
+        """Generate Dockerfile for deployment"""
+        
+        dockerfile = """
+FROM nvidia/cuda:11.8-runtime-ubuntu20.04
+
+# Install Python and dependencies
+RUN apt-get update && apt-get install -y \\
+    python3 \\
+    python3-pip \\
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
+# Copy model files
+COPY model/ ./model/
+COPY adapter/ ./adapter/
+
+# Copy application code
+COPY app.py .
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \\
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Run application
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+"""
+        return dockerfile
+    
+    def create_kubernetes_config(self) -> str:
+        """Generate Kubernetes deployment configuration"""
+        
+        k8s_config = """
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fine-tuned-model
+  labels:
+    app: fine-tuned-model
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fine-tuned-model
+  template:
+    metadata:
+      labels:
+        app: fine-tuned-model
+    spec:
+      containers:
+      - name: model-server
+        image: your-registry/fine-tuned-model:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "8Gi"
+            cpu: "2000m"
+            nvidia.com/gpu: 1
+          limits:
+            memory: "16Gi"
+            cpu: "4000m"
+            nvidia.com/gpu: 1
+        env:
+        - name: MODEL_PATH
+          value: "/app/model"
+        - name: ADAPTER_PATH
+          value: "/app/adapter"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fine-tuned-model-service
+spec:
+  selector:
+    app: fine-tuned-model
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
+"""
+        return k8s_config
+</CodeExample>
+
+## quiz
+
+<Quiz>
+  <Question
+    question="When is fine-tuning preferred over prompt engineering + RAG?"
+    options={[
+      "When you need to access current information",
+      "When you need consistent output formatting and domain-specific expertise",
+      "When you have limited computational resources",
+      "When requirements change frequently"
+    ]}
+    correct={1}
+    explanation="Fine-tuning is best for consistent formatting requirements and domain-specific knowledge that doesn't change frequently. For current information, RAG is better; for limited resources, prompt engineering is more efficient; for changing requirements, prompting offers more flexibility."
+  />
+  
+  <Question
+    question="What is the minimum recommended dataset size for production fine-tuning?"
+    options={[
+      "100 examples",
+      "500 examples", 
+      "1,000 examples",
+      "10,000 examples"
+    ]}
+    correct={2}
+    explanation="While 1,000 examples is the minimum for decent results, 5,000+ examples are recommended for production use. Quality matters more than quantity, but sufficient quantity is needed for generalization."
+  />
+  
+  <Question
+    question="What is the main advantage of LoRA over full fine-tuning?"
+    options={[
+      "Better final performance",
+      "Works with smaller datasets",
+      "Much lower computational cost while maintaining quality",
+      "Eliminates the need for evaluation"
+    ]}
+    correct={2}
+    explanation="LoRA (Low-Rank Adaptation) significantly reduces computational costs by only training a small number of additional parameters while achieving performance close to full fine-tuning."
+  />
+  
+  <Question
+    question="Which metric is most important for evaluating factual consistency?"
+    options={[
+      "BLEU score",
+      "ROUGE score",
+      "Perplexity",
+      "Fact verification against reference"
+    ]}
+    correct={3}
+    explanation="While BLEU and ROUGE measure text similarity and perplexity measures language modeling quality, factual consistency requires specifically checking whether generated facts match reference facts."
+  />
+  
+  <Question
+    question="In curriculum learning, what is the recommended training progression?"
+    options={[
+      "Hard examples first, then easy ones",
+      "Random order throughout training",
+      "Easy examples first, gradually increasing difficulty", 
+      "Only use examples of similar difficulty"
+    ]}
+    correct={2}
+    explanation="Curriculum learning works by starting with easier examples to establish basic patterns, then gradually introducing more complex examples as the model becomes more capable."
+  />
+</Quiz>
+
+## Summary
+
+You've mastered fine-tuning and model adaptation:
+
+✅ **Decision Framework**: When to fine-tune vs. prompt engineering vs. RAG
+✅ **Data Preparation**: Quality control, augmentation, and validation pipelines
+✅ **Training Techniques**: LoRA, curriculum learning, and advanced strategies
+✅ **Evaluation**: Comprehensive metrics and benchmarking approaches
+✅ **Deployment**: Production-ready deployment with APIs and monitoring
+
+Next module: **Evaluation and Testing AI Systems** - Learn systematic approaches to testing and validating AI systems in production.

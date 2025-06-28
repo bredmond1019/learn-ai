@@ -1,0 +1,1375 @@
+# AI Security: Protecting Your AI Systems
+
+<Callout type="warning">
+AI systems face unique security challenges beyond traditional software. This module covers essential security practices for protecting AI models, data, and infrastructure in production environments.
+</Callout>
+
+## Introduction to AI Security
+
+AI security encompasses protecting machine learning models, training data, inference pipelines, and the infrastructure supporting AI systems. Unlike traditional software security, AI systems face unique vulnerabilities through their data dependencies, model architectures, and deployment patterns.
+
+### Why AI Security Matters
+
+<CodeExample language="python">
+# Example of a simple adversarial attack
+import numpy as np
+
+def generate_adversarial_example(model, original_image, epsilon=0.1):
+    """
+    Generate an adversarial example using FGSM (Fast Gradient Sign Method)
+    """
+    # Calculate gradients
+    gradients = calculate_gradients(model, original_image)
+    
+    # Create perturbation
+    perturbation = epsilon * np.sign(gradients)
+    
+    # Add perturbation to original image
+    adversarial_image = original_image + perturbation
+    
+    # Clip to valid range
+    return np.clip(adversarial_image, 0, 1)
+
+# Result: Image looks identical to humans but fools the AI
+</CodeExample>
+
+<Callout type="info">
+A single pixel change can cause an AI to misclassify an image. A carefully crafted prompt can make an LLM reveal sensitive information. These vulnerabilities make AI security critical for production systems.
+</Callout>
+
+## Threat Modeling for AI Systems
+
+Effective AI security starts with understanding potential threats. The STRIDE framework, adapted for AI systems, helps identify vulnerabilities:
+
+<Diagram>
+graph TD
+    A[AI System Threats] --> B[Spoofing]
+    A --> C[Tampering]
+    A --> D[Repudiation]
+    A --> E[Information Disclosure]
+    A --> F[Denial of Service]
+    A --> G[Elevation of Privilege]
+    
+    B --> B1[Fake training data]
+    B --> B2[Identity attacks]
+    
+    C --> C1[Model poisoning]
+    C --> C2[Parameter manipulation]
+    
+    E --> E1[Model extraction]
+    E --> E2[Data leakage]
+    
+    F --> F1[Resource exhaustion]
+    F --> F2[Adversarial DOS]
+</Diagram>
+
+### AI-Specific Threat Categories
+
+<CodeExample language="python">
+class AIThreatModel:
+    """Framework for categorizing AI security threats"""
+    
+    def __init__(self):
+        self.threat_categories = {
+            "data_poisoning": {
+                "description": "Malicious data injected during training",
+                "impact": "Model learns incorrect patterns",
+                "example": "Backdoor triggers in images"
+            },
+            "model_extraction": {
+                "description": "Stealing model through queries",
+                "impact": "IP theft, privacy breach",
+                "example": "Recreating GPT through API calls"
+            },
+            "adversarial_examples": {
+                "description": "Inputs designed to fool model",
+                "impact": "Incorrect predictions",
+                "example": "Stop sign classified as speed limit"
+            },
+            "prompt_injection": {
+                "description": "Malicious prompts for LLMs",
+                "impact": "Bypassing safety filters",
+                "example": "Making ChatGPT reveal training data"
+            }
+        }
+    
+    def assess_risk(self, system_type, deployment_env):
+        """Assess security risks for specific AI system"""
+        risks = []
+        
+        if system_type == "llm":
+            risks.extend(["prompt_injection", "jailbreaking", "data_leakage"])
+        elif system_type == "computer_vision":
+            risks.extend(["adversarial_examples", "model_inversion"])
+        
+        if deployment_env == "edge":
+            risks.append("physical_tampering")
+        elif deployment_env == "api":
+            risks.extend(["model_extraction", "dos_attacks"])
+        
+        return self.prioritize_risks(risks)
+</CodeExample>
+
+## Data Security and Privacy
+
+Protecting training data and user information is fundamental to AI security. This includes securing data at rest, in transit, and during processing.
+
+### Implementing Data Protection
+
+<CodeExample language="python">
+import hashlib
+from cryptography.fernet import Fernet
+from typing import Dict, Any
+import json
+
+class SecureDataPipeline:
+    """Secure data handling for AI training and inference"""
+    
+    def __init__(self, encryption_key: bytes = None):
+        self.encryption_key = encryption_key or Fernet.generate_key()
+        self.cipher = Fernet(self.encryption_key)
+        self.data_hashes = {}
+    
+    def encrypt_dataset(self, data: Dict[str, Any]) -> bytes:
+        """Encrypt sensitive training data"""
+        # Convert to JSON
+        json_data = json.dumps(data)
+        
+        # Generate hash for integrity checking
+        data_hash = hashlib.sha256(json_data.encode()).hexdigest()
+        self.data_hashes[data_hash] = True
+        
+        # Encrypt
+        encrypted = self.cipher.encrypt(json_data.encode())
+        return encrypted
+    
+    def secure_preprocessing(self, encrypted_data: bytes) -> Dict[str, Any]:
+        """Decrypt and validate data before processing"""
+        # Decrypt
+        decrypted = self.cipher.decrypt(encrypted_data)
+        data = json.loads(decrypted)
+        
+        # Verify integrity
+        data_hash = hashlib.sha256(decrypted).hexdigest()
+        if data_hash not in self.data_hashes:
+            raise ValueError("Data integrity check failed")
+        
+        # Apply privacy-preserving transformations
+        return self.apply_differential_privacy(data)
+    
+    def apply_differential_privacy(self, data: Dict[str, Any], 
+                                 epsilon: float = 1.0) -> Dict[str, Any]:
+        """Add noise for differential privacy"""
+        import numpy as np
+        
+        # Add Laplacian noise to numerical features
+        for key, value in data.items():
+            if isinstance(value, (int, float)):
+                noise = np.random.laplace(0, 1/epsilon)
+                data[key] = value + noise
+        
+        return data
+
+# Usage example
+pipeline = SecureDataPipeline()
+sensitive_data = {"salary": 50000, "age": 30, "name": "REDACTED"}
+encrypted = pipeline.encrypt_dataset(sensitive_data)
+secure_data = pipeline.secure_preprocessing(encrypted)
+</CodeExample>
+
+### Privacy-Preserving Techniques
+
+<Callout type="success">
+**Best Practices for Data Privacy:**
+- Implement differential privacy in training pipelines
+- Use federated learning to keep data distributed
+- Apply homomorphic encryption for sensitive computations
+- Anonymize PII before training
+- Implement data retention policies
+</Callout>
+
+## Model Protection
+
+AI models represent valuable intellectual property and can leak sensitive information about training data. Protecting models requires multiple layers of security.
+
+### Model Encryption and Access Control
+
+<CodeExample language="python">
+import pickle
+import os
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+import base64
+
+class SecureModelManager:
+    """Secure storage and loading of AI models"""
+    
+    def __init__(self, master_password: str):
+        # Derive encryption key from password
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=b'stable_salt',  # In production, use random salt
+            iterations=100000,
+        )
+        key = base64.urlsafe_b64encode(kdf.derive(master_password.encode()))
+        self.cipher = Fernet(key)
+        self.access_log = []
+    
+    def save_model_secure(self, model, filepath: str, 
+                         allowed_users: list = None):
+        """Save model with encryption and access control"""
+        # Serialize model
+        model_bytes = pickle.dumps(model)
+        
+        # Add metadata
+        metadata = {
+            "model_hash": hashlib.sha256(model_bytes).hexdigest(),
+            "timestamp": datetime.now().isoformat(),
+            "allowed_users": allowed_users or [],
+            "version": "1.0"
+        }
+        
+        # Combine model and metadata
+        package = {
+            "model": base64.b64encode(model_bytes).decode(),
+            "metadata": metadata
+        }
+        
+        # Encrypt package
+        encrypted = self.cipher.encrypt(
+            json.dumps(package).encode()
+        )
+        
+        # Save with restricted permissions
+        with open(filepath, 'wb') as f:
+            f.write(encrypted)
+        os.chmod(filepath, 0o600)  # Owner read/write only
+        
+        return metadata["model_hash"]
+    
+    def load_model_secure(self, filepath: str, user_id: str) -> Any:
+        """Load model with authentication and logging"""
+        # Read encrypted file
+        with open(filepath, 'rb') as f:
+            encrypted = f.read()
+        
+        # Decrypt and parse
+        decrypted = self.cipher.decrypt(encrypted)
+        package = json.loads(decrypted)
+        metadata = package["metadata"]
+        
+        # Check access permissions
+        if metadata["allowed_users"] and user_id not in metadata["allowed_users"]:
+            self.log_access_attempt(user_id, filepath, success=False)
+            raise PermissionError(f"User {user_id} not authorized")
+        
+        # Verify model integrity
+        model_bytes = base64.b64decode(package["model"])
+        if hashlib.sha256(model_bytes).hexdigest() != metadata["model_hash"]:
+            raise ValueError("Model integrity check failed")
+        
+        # Log successful access
+        self.log_access_attempt(user_id, filepath, success=True)
+        
+        # Deserialize and return model
+        return pickle.loads(model_bytes)
+    
+    def log_access_attempt(self, user_id: str, filepath: str, 
+                          success: bool):
+        """Audit log for model access"""
+        self.access_log.append({
+            "user": user_id,
+            "file": filepath,
+            "timestamp": datetime.now().isoformat(),
+            "success": success
+        })
+</CodeExample>
+
+### Watermarking and Model Fingerprinting
+
+<Diagram>
+graph LR
+    A[Original Model] --> B[Add Watermark]
+    B --> C[Watermarked Model]
+    C --> D[Deploy to Production]
+    
+    E[Suspected Stolen Model] --> F[Extract Watermark]
+    F --> G{Watermark Present?}
+    G -->|Yes| H[Prove Ownership]
+    G -->|No| I[Not Your Model]
+    
+    B --> J[Watermark Techniques]
+    J --> K[Parameter Embedding]
+    J --> L[Backdoor Patterns]
+    J --> M[Architecture Signatures]
+</Diagram>
+
+## Adversarial Defense
+
+Adversarial attacks can fool AI systems with carefully crafted inputs. Building robust defenses is crucial for production systems.
+
+### Implementing Adversarial Training
+
+<CodeExample language="python">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class AdversarialTrainer:
+    """Adversarial training for robust models"""
+    
+    def __init__(self, model, epsilon=0.1, alpha=0.01):
+        self.model = model
+        self.epsilon = epsilon  # Maximum perturbation
+        self.alpha = alpha      # Step size
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    def fgsm_attack(self, images, labels):
+        """Fast Gradient Sign Method attack"""
+        images.requires_grad = True
+        
+        # Forward pass
+        outputs = self.model(images)
+        loss = F.cross_entropy(outputs, labels)
+        
+        # Calculate gradients
+        self.model.zero_grad()
+        loss.backward()
+        
+        # Create adversarial examples
+        data_grad = images.grad.data
+        sign_data_grad = data_grad.sign()
+        perturbed_images = images + self.epsilon * sign_data_grad
+        
+        # Clamp to valid range
+        perturbed_images = torch.clamp(perturbed_images, 0, 1)
+        
+        return perturbed_images
+    
+    def pgd_attack(self, images, labels, num_steps=10):
+        """Projected Gradient Descent attack"""
+        perturbed_images = images.clone().detach()
+        
+        for _ in range(num_steps):
+            perturbed_images.requires_grad = True
+            outputs = self.model(perturbed_images)
+            loss = F.cross_entropy(outputs, labels)
+            
+            self.model.zero_grad()
+            loss.backward()
+            
+            # Update with gradient
+            data_grad = perturbed_images.grad.data
+            perturbed_images = perturbed_images + self.alpha * data_grad.sign()
+            
+            # Project back to epsilon ball
+            delta = torch.clamp(perturbed_images - images, 
+                              min=-self.epsilon, max=self.epsilon)
+            perturbed_images = torch.clamp(images + delta, 0, 1).detach()
+        
+        return perturbed_images
+    
+    def adversarial_train_step(self, images, labels, optimizer):
+        """Single training step with adversarial examples"""
+        # Generate adversarial examples
+        adv_images = self.pgd_attack(images, labels)
+        
+        # Train on both clean and adversarial
+        optimizer.zero_grad()
+        
+        # Clean loss
+        clean_outputs = self.model(images)
+        clean_loss = F.cross_entropy(clean_outputs, labels)
+        
+        # Adversarial loss
+        adv_outputs = self.model(adv_images)
+        adv_loss = F.cross_entropy(adv_outputs, labels)
+        
+        # Combined loss
+        total_loss = 0.5 * clean_loss + 0.5 * adv_loss
+        total_loss.backward()
+        optimizer.step()
+        
+        return {
+            "clean_loss": clean_loss.item(),
+            "adv_loss": adv_loss.item(),
+            "total_loss": total_loss.item()
+        }
+
+# Usage
+model = YourNeuralNetwork()
+trainer = AdversarialTrainer(model, epsilon=0.1)
+optimizer = torch.optim.Adam(model.parameters())
+
+for epoch in range(num_epochs):
+    for images, labels in train_loader:
+        losses = trainer.adversarial_train_step(images, labels, optimizer)
+        print(f"Clean: {losses['clean_loss']:.4f}, "
+              f"Adversarial: {losses['adv_loss']:.4f}")
+</CodeExample>
+
+### Defense Strategies
+
+<Callout type="info">
+**Multi-Layer Defense Approach:**
+1. **Input Validation**: Detect anomalous inputs before processing
+2. **Adversarial Training**: Include adversarial examples in training
+3. **Ensemble Methods**: Use multiple models to cross-validate
+4. **Gradient Masking**: Hide gradients from attackers
+5. **Input Transformation**: Random preprocessing to destroy adversarial patterns
+</Callout>
+
+## Secure Deployment
+
+Deploying AI models securely requires protecting the inference pipeline, API endpoints, and model serving infrastructure.
+
+### Secure Model Serving Architecture
+
+<Diagram>
+graph TB
+    A[Client Request] --> B[API Gateway]
+    B --> C{Authentication}
+    C -->|Failed| D[Reject]
+    C -->|Success| E[Rate Limiter]
+    E --> F[Input Validator]
+    F --> G[Secure Container]
+    
+    G --> H[Model Server]
+    H --> I[Inference Engine]
+    I --> J[Output Sanitizer]
+    J --> K[Response]
+    
+    L[Security Monitoring] --> G
+    L --> M[Anomaly Detection]
+    L --> N[Audit Logs]
+    
+    O[Model Registry] --> H
+    P[Secrets Manager] --> H
+</Diagram>
+
+### Implementing Secure API Endpoints
+
+<CodeExample language="python">
+from flask import Flask, request, jsonify
+from functools import wraps
+import jwt
+import redis
+import time
+from typing import Dict, Any
+import numpy as np
+
+app = Flask(__name__)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
+
+class SecureModelAPI:
+    """Secure API for model serving"""
+    
+    def __init__(self, model, secret_key):
+        self.model = model
+        self.secret_key = secret_key
+        self.request_history = []
+    
+    def authenticate(self, f):
+        """JWT authentication decorator"""
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            token = request.headers.get('Authorization', '').replace('Bearer ', '')
+            
+            if not token:
+                return jsonify({'error': 'No token provided'}), 401
+            
+            try:
+                payload = jwt.decode(token, self.secret_key, 
+                                   algorithms=['HS256'])
+                request.user_id = payload['user_id']
+            except jwt.InvalidTokenError:
+                return jsonify({'error': 'Invalid token'}), 401
+            
+            return f(*args, **kwargs)
+        return decorated_function
+    
+    def rate_limit(self, max_requests=100, window=3600):
+        """Rate limiting decorator"""
+        def decorator(f):
+            @wraps(f)
+            def decorated_function(*args, **kwargs):
+                user_id = getattr(request, 'user_id', 'anonymous')
+                key = f"rate_limit:{user_id}:{f.__name__}"
+                
+                try:
+                    requests = redis_client.incr(key)
+                    if requests == 1:
+                        redis_client.expire(key, window)
+                    
+                    if requests > max_requests:
+                        return jsonify({
+                            'error': 'Rate limit exceeded',
+                            'retry_after': redis_client.ttl(key)
+                        }), 429
+                except:
+                    pass  # Don't block on Redis errors
+                
+                return f(*args, **kwargs)
+            return decorated_function
+        return decorator
+    
+    def validate_input(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Validate and sanitize input data"""
+        # Check required fields
+        required_fields = ['input_data', 'model_version']
+        for field in required_fields:
+            if field not in data:
+                raise ValueError(f"Missing required field: {field}")
+        
+        # Validate input dimensions
+        input_array = np.array(data['input_data'])
+        expected_shape = self.model.input_shape
+        
+        if input_array.shape != expected_shape:
+            raise ValueError(
+                f"Invalid input shape. Expected {expected_shape}, "
+                f"got {input_array.shape}"
+            )
+        
+        # Check for adversarial patterns
+        if self.detect_adversarial(input_array):
+            raise ValueError("Potential adversarial input detected")
+        
+        return {
+            'input': input_array,
+            'version': data['model_version'],
+            'timestamp': time.time()
+        }
+    
+    def detect_adversarial(self, input_data: np.ndarray) -> bool:
+        """Simple adversarial detection"""
+        # Check for unusual statistical properties
+        if input_data.std() > 2.0:  # Unusually high variance
+            return True
+        
+        # Check for specific patterns
+        if np.any(np.abs(input_data) > 10):  # Out of expected range
+            return True
+        
+        return False
+    
+    def secure_inference(self, validated_input: Dict[str, Any]) -> Dict[str, Any]:
+        """Perform secure model inference"""
+        try:
+            # Add input noise for robustness
+            input_data = validated_input['input']
+            noise = np.random.normal(0, 0.01, input_data.shape)
+            noisy_input = input_data + noise
+            
+            # Run inference
+            start_time = time.time()
+            prediction = self.model.predict(noisy_input)
+            inference_time = time.time() - start_time
+            
+            # Post-process results
+            result = {
+                'prediction': prediction.tolist(),
+                'confidence': float(np.max(prediction)),
+                'inference_time': inference_time,
+                'model_version': validated_input['version']
+            }
+            
+            # Log for monitoring
+            self.log_inference(validated_input, result)
+            
+            return result
+            
+        except Exception as e:
+            # Don't leak internal errors
+            raise ValueError("Inference failed")
+    
+    def log_inference(self, input_data: Dict, result: Dict):
+        """Audit logging for inference requests"""
+        log_entry = {
+            'user_id': getattr(request, 'user_id', 'anonymous'),
+            'timestamp': time.time(),
+            'input_hash': hashlib.sha256(
+                str(input_data).encode()
+            ).hexdigest(),
+            'result_summary': {
+                'confidence': result['confidence'],
+                'inference_time': result['inference_time']
+            }
+        }
+        self.request_history.append(log_entry)
+
+# API setup
+api = SecureModelAPI(model=load_model(), secret_key='your-secret-key')
+
+@app.route('/predict', methods=['POST'])
+@api.authenticate
+@api.rate_limit(max_requests=100, window=3600)
+def predict():
+    try:
+        # Validate input
+        validated = api.validate_input(request.json)
+        
+        # Perform inference
+        result = api.secure_inference(validated)
+        
+        return jsonify(result), 200
+        
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
+    except Exception:
+        return jsonify({'error': 'Internal server error'}), 500
+
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({'status': 'healthy'}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, ssl_context='adhoc')
+</CodeExample>
+
+## API Security
+
+Securing AI APIs requires implementing authentication, authorization, rate limiting, and monitoring to prevent abuse and protect model IP.
+
+### Comprehensive API Security Implementation
+
+<CodeExample language="python">
+from dataclasses import dataclass
+from typing import Optional, List, Dict
+import asyncio
+from datetime import datetime, timedelta
+import aioredis
+import hashlib
+
+@dataclass
+class APISecurityConfig:
+    """Configuration for API security features"""
+    enable_auth: bool = True
+    enable_rate_limiting: bool = True
+    enable_input_validation: bool = True
+    enable_output_filtering: bool = True
+    enable_audit_logging: bool = True
+    max_requests_per_minute: int = 60
+    max_requests_per_hour: int = 1000
+    max_input_size: int = 1048576  # 1MB
+    blocked_patterns: List[str] = None
+    allowed_origins: List[str] = None
+
+class SecureAIAPIGateway:
+    """Comprehensive security gateway for AI APIs"""
+    
+    def __init__(self, config: APISecurityConfig):
+        self.config = config
+        self.redis = None
+        self.blocked_ips = set()
+        self.suspicious_patterns = [
+            r'<script.*?>.*?</script>',  # XSS attempts
+            r'union.*select',  # SQL injection
+            r'eval\s*\(',  # Code injection
+            r'__import__',  # Python import hijacking
+        ]
+    
+    async def initialize(self):
+        """Initialize Redis connection for distributed state"""
+        self.redis = await aioredis.create_redis_pool(
+            'redis://localhost',
+            minsize=5,
+            maxsize=10
+        )
+    
+    async def authenticate_request(self, request) -> Optional[str]:
+        """Multi-factor authentication for API requests"""
+        # Check API key
+        api_key = request.headers.get('X-API-Key')
+        if not api_key:
+            return None
+        
+        # Validate API key format
+        if not self.validate_api_key_format(api_key):
+            await self.log_security_event('invalid_api_key_format', request)
+            return None
+        
+        # Check if key exists and is active
+        user_id = await self.redis.hget('api_keys', api_key)
+        if not user_id:
+            await self.log_security_event('unknown_api_key', request)
+            return None
+        
+        # Check if user is banned
+        if await self.redis.sismember('banned_users', user_id):
+            await self.log_security_event('banned_user_attempt', request)
+            return None
+        
+        # Validate request signature (optional second factor)
+        if self.config.enable_request_signing:
+            if not self.validate_request_signature(request, api_key):
+                await self.log_security_event('invalid_signature', request)
+                return None
+        
+        return user_id.decode('utf-8')
+    
+    def validate_api_key_format(self, api_key: str) -> bool:
+        """Validate API key format"""
+        # Expected format: sk-<32 char hex>
+        if not api_key.startswith('sk-'):
+            return False
+        
+        key_part = api_key[3:]
+        if len(key_part) != 32:
+            return False
+        
+        try:
+            int(key_part, 16)  # Valid hex?
+            return True
+        except ValueError:
+            return False
+    
+    def validate_request_signature(self, request, api_key: str) -> bool:
+        """Validate HMAC signature of request"""
+        signature = request.headers.get('X-Signature')
+        if not signature:
+            return False
+        
+        # Recreate signature
+        timestamp = request.headers.get('X-Timestamp')
+        if not timestamp:
+            return False
+        
+        # Check timestamp is recent (prevent replay attacks)
+        try:
+            req_time = datetime.fromisoformat(timestamp)
+            if abs((datetime.utcnow() - req_time).total_seconds()) > 300:
+                return False
+        except:
+            return False
+        
+        # Compute expected signature
+        message = f"{request.method}{request.path}{timestamp}{request.body}"
+        expected_sig = hmac.new(
+            api_key.encode(),
+            message.encode(),
+            hashlib.sha256
+        ).hexdigest()
+        
+        return hmac.compare_digest(signature, expected_sig)
+    
+    async def check_rate_limits(self, user_id: str, endpoint: str) -> bool:
+        """Distributed rate limiting with sliding window"""
+        now = int(time.time())
+        
+        # Per-minute limit
+        minute_key = f"rate:{user_id}:{endpoint}:{now // 60}"
+        minute_count = await self.redis.incr(minute_key)
+        await self.redis.expire(minute_key, 60)
+        
+        if minute_count > self.config.max_requests_per_minute:
+            await self.log_security_event('rate_limit_exceeded_minute', 
+                                        {'user_id': user_id, 'endpoint': endpoint})
+            return False
+        
+        # Per-hour limit (sliding window)
+        hour_key = f"rate:hour:{user_id}:{endpoint}"
+        
+        # Remove old entries
+        await self.redis.zremrangebyscore(hour_key, 0, now - 3600)
+        
+        # Add current request
+        await self.redis.zadd(hour_key, now, f"{now}:{uuid.uuid4()}")
+        
+        # Count requests in last hour
+        hour_count = await self.redis.zcard(hour_key)
+        await self.redis.expire(hour_key, 3600)
+        
+        if hour_count > self.config.max_requests_per_hour:
+            await self.log_security_event('rate_limit_exceeded_hour',
+                                        {'user_id': user_id, 'endpoint': endpoint})
+            return False
+        
+        return True
+    
+    async def validate_input(self, request_data: Dict) -> Dict:
+        """Comprehensive input validation and sanitization"""
+        # Size check
+        data_size = len(json.dumps(request_data))
+        if data_size > self.config.max_input_size:
+            raise ValueError(f"Input too large: {data_size} bytes")
+        
+        # Check for malicious patterns
+        data_str = str(request_data)
+        for pattern in self.suspicious_patterns:
+            if re.search(pattern, data_str, re.IGNORECASE):
+                await self.log_security_event('malicious_pattern_detected',
+                                            {'pattern': pattern})
+                raise ValueError("Invalid input detected")
+        
+        # Type validation
+        validated = {}
+        schema = self.get_endpoint_schema(request.path)
+        
+        for field, field_type in schema.items():
+            if field not in request_data and field_type.get('required', False):
+                raise ValueError(f"Missing required field: {field}")
+            
+            if field in request_data:
+                value = request_data[field]
+                expected_type = field_type['type']
+                
+                # Validate type
+                if not isinstance(value, expected_type):
+                    raise ValueError(
+                        f"Invalid type for {field}: expected {expected_type.__name__}"
+                    )
+                
+                # Additional validation
+                if 'validator' in field_type:
+                    if not field_type['validator'](value):
+                        raise ValueError(f"Validation failed for {field}")
+                
+                validated[field] = value
+        
+        return validated
+    
+    async def filter_output(self, response_data: Dict, user_id: str) -> Dict:
+        """Filter sensitive information from responses"""
+        # Remove internal fields
+        filtered = {
+            k: v for k, v in response_data.items()
+            if not k.startswith('_internal_')
+        }
+        
+        # Apply user-specific filtering
+        user_permissions = await self.get_user_permissions(user_id)
+        
+        if 'debug' not in user_permissions:
+            # Remove debug information
+            filtered.pop('debug_info', None)
+            filtered.pop('model_internals', None)
+        
+        if 'raw_scores' not in user_permissions:
+            # Round confidence scores
+            if 'confidence' in filtered:
+                filtered['confidence'] = round(filtered['confidence'], 2)
+        
+        return filtered
+    
+    async def log_security_event(self, event_type: str, details: Dict):
+        """Centralized security event logging"""
+        event = {
+            'timestamp': datetime.utcnow().isoformat(),
+            'event_type': event_type,
+            'details': details,
+            'ip_address': details.get('ip_address'),
+            'user_id': details.get('user_id'),
+        }
+        
+        # Store in Redis for real-time monitoring
+        await self.redis.lpush('security_events', json.dumps(event))
+        await self.redis.ltrim('security_events', 0, 10000)  # Keep last 10k
+        
+        # Check if this should trigger alerts
+        if event_type in ['malicious_pattern_detected', 'banned_user_attempt']:
+            await self.send_security_alert(event)
+    
+    async def detect_anomalies(self, request, user_id: str) -> bool:
+        """Detect anomalous behavior patterns"""
+        # Get user's request history
+        history_key = f"request_history:{user_id}"
+        history = await self.redis.lrange(history_key, 0, 100)
+        
+        # Analyze patterns
+        if len(history) > 10:
+            # Check for sudden spike in requests
+            recent_timestamps = [
+                json.loads(h)['timestamp'] for h in history[:10]
+            ]
+            time_diffs = [
+                recent_timestamps[i] - recent_timestamps[i+1]
+                for i in range(len(recent_timestamps)-1)
+            ]
+            
+            avg_diff = sum(time_diffs) / len(time_diffs)
+            if avg_diff < 0.1:  # Less than 100ms between requests
+                return True
+        
+        # Check for unusual request patterns
+        endpoints = [json.loads(h)['endpoint'] for h in history]
+        if len(set(endpoints)) == 1 and len(endpoints) > 50:
+            # Same endpoint hit repeatedly
+            return True
+        
+        return False
+
+# Middleware integration
+async def security_middleware(request, call_next):
+    """FastAPI middleware for comprehensive security"""
+    gateway = SecureAIAPIGateway(APISecurityConfig())
+    
+    try:
+        # Authenticate
+        user_id = await gateway.authenticate_request(request)
+        if not user_id:
+            return JSONResponse(
+                status_code=401,
+                content={"error": "Authentication failed"}
+            )
+        
+        # Rate limiting
+        if not await gateway.check_rate_limits(user_id, request.url.path):
+            return JSONResponse(
+                status_code=429,
+                content={"error": "Rate limit exceeded"}
+            )
+        
+        # Anomaly detection
+        if await gateway.detect_anomalies(request, user_id):
+            await gateway.log_security_event('anomaly_detected', 
+                                           {'user_id': user_id})
+            return JSONResponse(
+                status_code=403,
+                content={"error": "Suspicious activity detected"}
+            )
+        
+        # Process request
+        response = await call_next(request)
+        return response
+        
+    except Exception as e:
+        await gateway.log_security_event('security_error', 
+                                       {'error': str(e)})
+        return JSONResponse(
+            status_code=500,
+            content={"error": "Internal server error"}
+        )
+</CodeExample>
+
+## Monitoring and Incident Response
+
+Continuous monitoring and rapid incident response are crucial for maintaining AI system security.
+
+### Security Monitoring System
+
+<Diagram>
+graph TB
+    A[AI System] --> B[Log Aggregator]
+    B --> C[SIEM System]
+    
+    C --> D[Real-time Analysis]
+    D --> E{Threat Detected?}
+    E -->|Yes| F[Alert Security Team]
+    E -->|No| G[Continue Monitoring]
+    
+    F --> H[Incident Response]
+    H --> I[Investigate]
+    H --> J[Contain]
+    H --> K[Remediate]
+    
+    B --> L[Log Storage]
+    L --> M[Forensic Analysis]
+    
+    C --> N[ML Anomaly Detection]
+    N --> O[Behavioral Analysis]
+    N --> P[Pattern Recognition]
+</Diagram>
+
+### Implementing Security Monitoring
+
+<CodeExample language="python">
+import asyncio
+from collections import deque
+from datetime import datetime, timedelta
+import numpy as np
+from typing import List, Dict, Any
+import logging
+
+class AISecurityMonitor:
+    """Real-time security monitoring for AI systems"""
+    
+    def __init__(self, alert_threshold: float = 0.8):
+        self.alert_threshold = alert_threshold
+        self.metrics_window = deque(maxlen=1000)
+        self.alerts = []
+        self.logger = logging.getLogger('ai_security')
+        
+        # Initialize anomaly detectors
+        self.detectors = {
+            'latency': LatencyAnomalyDetector(),
+            'error_rate': ErrorRateDetector(),
+            'input_distribution': InputDistributionDetector(),
+            'access_pattern': AccessPatternDetector()
+        }
+    
+    async def monitor_inference(self, request_id: str, 
+                              input_data: np.ndarray,
+                              output_data: np.ndarray,
+                              metadata: Dict[str, Any]):
+        """Monitor individual inference for security issues"""
+        metrics = {
+            'request_id': request_id,
+            'timestamp': datetime.utcnow(),
+            'input_stats': self.calculate_input_stats(input_data),
+            'output_stats': self.calculate_output_stats(output_data),
+            'latency': metadata.get('latency'),
+            'user_id': metadata.get('user_id'),
+            'endpoint': metadata.get('endpoint')
+        }
+        
+        # Add to metrics window
+        self.metrics_window.append(metrics)
+        
+        # Run anomaly detection
+        anomalies = await self.detect_anomalies(metrics)
+        
+        if anomalies:
+            await self.handle_anomalies(anomalies, metrics)
+    
+    def calculate_input_stats(self, input_data: np.ndarray) -> Dict:
+        """Calculate statistical properties of input"""
+        return {
+            'mean': float(np.mean(input_data)),
+            'std': float(np.std(input_data)),
+            'min': float(np.min(input_data)),
+            'max': float(np.max(input_data)),
+            'shape': input_data.shape,
+            'entropy': self.calculate_entropy(input_data)
+        }
+    
+    def calculate_entropy(self, data: np.ndarray) -> float:
+        """Calculate Shannon entropy of data"""
+        # Bin the data
+        hist, _ = np.histogram(data.flatten(), bins=50)
+        hist = hist / hist.sum()
+        
+        # Calculate entropy
+        entropy = -np.sum(hist * np.log2(hist + 1e-10))
+        return float(entropy)
+    
+    async def detect_anomalies(self, metrics: Dict) -> List[Dict]:
+        """Run all anomaly detectors"""
+        anomalies = []
+        
+        for detector_name, detector in self.detectors.items():
+            score = detector.analyze(metrics, list(self.metrics_window))
+            
+            if score > self.alert_threshold:
+                anomalies.append({
+                    'detector': detector_name,
+                    'score': score,
+                    'details': detector.get_details()
+                })
+        
+        return anomalies
+    
+    async def handle_anomalies(self, anomalies: List[Dict], 
+                             metrics: Dict):
+        """Handle detected anomalies"""
+        alert = {
+            'id': str(uuid.uuid4()),
+            'timestamp': datetime.utcnow(),
+            'severity': self.calculate_severity(anomalies),
+            'anomalies': anomalies,
+            'metrics': metrics,
+            'status': 'active'
+        }
+        
+        self.alerts.append(alert)
+        
+        # Log alert
+        self.logger.warning(f"Security anomaly detected: {alert}")
+        
+        # Take automated actions based on severity
+        if alert['severity'] == 'critical':
+            await self.critical_response(alert)
+        elif alert['severity'] == 'high':
+            await self.high_severity_response(alert)
+        
+        # Notify security team
+        await self.notify_security_team(alert)
+    
+    def calculate_severity(self, anomalies: List[Dict]) -> str:
+        """Calculate overall severity of anomalies"""
+        max_score = max(a['score'] for a in anomalies)
+        
+        if max_score > 0.95:
+            return 'critical'
+        elif max_score > 0.85:
+            return 'high'
+        elif max_score > 0.7:
+            return 'medium'
+        else:
+            return 'low'
+    
+    async def critical_response(self, alert: Dict):
+        """Automated response to critical security events"""
+        # Block user if applicable
+        user_id = alert['metrics'].get('user_id')
+        if user_id:
+            await self.temporarily_block_user(user_id, duration=300)
+        
+        # Increase monitoring sensitivity
+        self.alert_threshold *= 0.8
+        
+        # Trigger model rollback if needed
+        if 'model_extraction' in [a['detector'] for a in alert['anomalies']]:
+            await self.initiate_model_rollback()
+    
+    async def generate_security_report(self) -> Dict:
+        """Generate comprehensive security report"""
+        recent_alerts = [
+            a for a in self.alerts 
+            if a['timestamp'] > datetime.utcnow() - timedelta(hours=24)
+        ]
+        
+        report = {
+            'timestamp': datetime.utcnow(),
+            'summary': {
+                'total_requests': len(self.metrics_window),
+                'total_alerts': len(recent_alerts),
+                'critical_alerts': sum(1 for a in recent_alerts 
+                                     if a['severity'] == 'critical'),
+                'blocked_users': len(self.blocked_users),
+                'system_health': self.calculate_system_health()
+            },
+            'top_threats': self.identify_top_threats(recent_alerts),
+            'recommendations': self.generate_recommendations(recent_alerts)
+        }
+        
+        return report
+
+class LatencyAnomalyDetector:
+    """Detect abnormal latency patterns"""
+    
+    def __init__(self, window_size: int = 100):
+        self.window_size = window_size
+        self.baseline_mean = None
+        self.baseline_std = None
+    
+    def analyze(self, current: Dict, history: List[Dict]) -> float:
+        """Analyze latency for anomalies"""
+        if not history or 'latency' not in current:
+            return 0.0
+        
+        # Extract latencies
+        latencies = [h.get('latency', 0) for h in history[-self.window_size:]]
+        current_latency = current['latency']
+        
+        # Calculate baseline
+        if len(latencies) > 10:
+            self.baseline_mean = np.mean(latencies)
+            self.baseline_std = np.std(latencies)
+        
+        if self.baseline_mean is None:
+            return 0.0
+        
+        # Calculate z-score
+        z_score = abs((current_latency - self.baseline_mean) / 
+                     (self.baseline_std + 1e-6))
+        
+        # Normalize to [0, 1]
+        anomaly_score = 1 - np.exp(-z_score / 2)
+        
+        return float(anomaly_score)
+    
+    def get_details(self) -> Dict:
+        """Get detector details"""
+        return {
+            'baseline_mean': self.baseline_mean,
+            'baseline_std': self.baseline_std,
+            'description': 'Abnormal latency detected'
+        }
+
+# Usage example
+monitor = AISecurityMonitor(alert_threshold=0.8)
+
+# In your inference pipeline
+async def secure_inference(model, input_data, user_id):
+    request_id = str(uuid.uuid4())
+    start_time = time.time()
+    
+    try:
+        # Perform inference
+        output = model.predict(input_data)
+        latency = time.time() - start_time
+        
+        # Monitor for security
+        await monitor.monitor_inference(
+            request_id=request_id,
+            input_data=input_data,
+            output_data=output,
+            metadata={
+                'latency': latency,
+                'user_id': user_id,
+                'endpoint': '/predict'
+            }
+        )
+        
+        return output
+        
+    except Exception as e:
+        # Log security event
+        await monitor.handle_inference_error(request_id, e)
+        raise
+</CodeExample>
+
+### Incident Response Playbook
+
+<Callout type="warning">
+**AI Security Incident Response Steps:**
+
+1. **Detection & Alert** (0-5 minutes)
+   - Automated detection triggers alert
+   - Security team notified
+   - Initial severity assessment
+
+2. **Triage & Analysis** (5-30 minutes)
+   - Determine attack vector
+   - Assess impact scope
+   - Identify affected systems
+
+3. **Containment** (30-60 minutes)
+   - Isolate affected components
+   - Block malicious actors
+   - Prevent lateral movement
+
+4. **Eradication** (1-4 hours)
+   - Remove malicious inputs
+   - Patch vulnerabilities
+   - Clean poisoned data
+
+5. **Recovery** (4-24 hours)
+   - Restore from clean backups
+   - Retrain models if needed
+   - Verify system integrity
+
+6. **Post-Incident** (1-7 days)
+   - Document lessons learned
+   - Update security measures
+   - Improve detection rules
+</Callout>
+
+## Best Practices Summary
+
+<Callout type="success">
+**AI Security Best Practices Checklist:**
+
+✅ **Data Security**
+- Encrypt data at rest and in transit
+- Implement differential privacy
+- Anonymize PII before training
+- Regular data audits
+
+✅ **Model Protection**
+- Encrypt model files
+- Use secure model registries
+- Implement access controls
+- Add watermarks to models
+
+✅ **Adversarial Defense**
+- Use adversarial training
+- Implement input validation
+- Deploy ensemble models
+- Monitor for anomalies
+
+✅ **API Security**
+- Strong authentication (OAuth2, JWT)
+- Rate limiting per user/endpoint
+- Input size restrictions
+- Output filtering
+
+✅ **Deployment Security**
+- Use secure containers
+- Network isolation
+- Regular security updates
+- Least privilege principle
+
+✅ **Monitoring**
+- Real-time anomaly detection
+- Comprehensive logging
+- Security dashboards
+- Incident response plan
+
+✅ **Compliance**
+- GDPR/CCPA compliance
+- Security audits
+- Penetration testing
+- Documentation
+</Callout>
+
+## Quiz
+
+<Quiz>
+  <QuizQuestion>
+    <Question>
+      What is the primary purpose of adversarial training in AI security?
+    </Question>
+    <Options>
+      <Option>To improve model accuracy on clean data</Option>
+      <Option correct>To make models robust against adversarial attacks</Option>
+      <Option>To reduce training time</Option>
+      <Option>To compress model size</Option>
+    </Options>
+    <Explanation>
+      Adversarial training involves training models on both clean and adversarially perturbed examples to improve robustness against attacks that try to fool the model with carefully crafted inputs.
+    </Explanation>
+  </QuizQuestion>
+
+  <QuizQuestion>
+    <Question>
+      Which attack involves gradually extracting a model's parameters through API queries?
+    </Question>
+    <Options>
+      <Option>Data poisoning</Option>
+      <Option>Adversarial examples</Option>
+      <Option correct>Model extraction</Option>
+      <Option>Denial of service</Option>
+    </Options>
+    <Explanation>
+      Model extraction attacks involve querying an AI API repeatedly to gather enough information to recreate or approximate the original model, potentially stealing intellectual property.
+    </Explanation>
+  </QuizQuestion>
+
+  <QuizQuestion>
+    <Question>
+      What is the recommended approach for storing sensitive AI models?
+    </Question>
+    <Options>
+      <Option>Plain text files with restricted permissions</Option>
+      <Option>Compressed archives with passwords</Option>
+      <Option correct>Encrypted files with access controls and audit logging</Option>
+      <Option>Cloud storage with public read access</Option>
+    </Options>
+    <Explanation>
+      AI models should be encrypted at rest, have proper access controls to limit who can load them, and include audit logging to track all access attempts for security monitoring.
+    </Explanation>
+  </QuizQuestion>
+
+  <QuizQuestion>
+    <Question>
+      Which technique adds controlled noise to training data to preserve privacy?
+    </Question>
+    <Options>
+      <Option>Data augmentation</Option>
+      <Option correct>Differential privacy</Option>
+      <Option>Feature scaling</Option>
+      <Option>Batch normalization</Option>
+    </Options>
+    <Explanation>
+      Differential privacy adds carefully calibrated noise to data or model outputs to prevent the extraction of information about individual training examples while maintaining overall utility.
+    </Explanation>
+  </QuizQuestion>
+
+  <QuizQuestion>
+    <Question>
+      What is a key indicator of a potential model extraction attack?
+    </Question>
+    <Options>
+      <Option>Low latency requests</Option>
+      <Option>Requests from mobile devices</Option>
+      <Option correct>Unusually high volume of diverse queries from a single user</Option>
+      <Option>Requests during business hours</Option>
+    </Options>
+    <Explanation>
+      Model extraction attacks typically involve sending many diverse queries to map the model's decision boundaries. Monitoring for users making an unusually high number of varied requests can help detect these attacks.
+    </Explanation>
+  </QuizQuestion>
+</Quiz>

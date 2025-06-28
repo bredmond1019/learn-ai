@@ -1,0 +1,47 @@
+{
+  "id": "evaluation-testing-ai-systems",
+  "title": "Avaliação e Teste de Sistemas de IA",
+  "description": "Aprenda abordagens sistemáticas para avaliar, testar e validar sistemas de IA para implantação em produção com confiança.",
+  "sections": [
+    {
+      "id": "testing-fundamentals",
+      "title": "Fundamentos de Teste de IA",
+      "content": {
+        "type": "lesson",
+        "source": "evaluation-testing-ai-systems.mdx#testing-fundamentals"
+      }
+    },
+    {
+      "id": "evaluation-metrics",
+      "title": "Métricas de Avaliação Abrangentes",
+      "content": {
+        "type": "lesson",
+        "source": "evaluation-testing-ai-systems.mdx#evaluation-metrics"
+      }
+    },
+    {
+      "id": "automated-testing",
+      "title": "Pipelines de Teste Automatizado",
+      "content": {
+        "type": "lesson",
+        "source": "evaluation-testing-ai-systems.mdx#automated-testing"
+      }
+    },
+    {
+      "id": "human-evaluation",
+      "title": "Avaliação Humana e Teste A/B",
+      "content": {
+        "type": "lesson",
+        "source": "evaluation-testing-ai-systems.mdx#human-evaluation"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Verificação de Conhecimento",
+      "content": {
+        "type": "quiz",
+        "source": "evaluation-testing-ai-systems.mdx#quiz"
+      }
+    }
+  ]
+}

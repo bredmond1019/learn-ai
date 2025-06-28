@@ -1,0 +1,47 @@
+{
+  "id": "evaluation-testing-ai-systems",
+  "title": "Evaluation and Testing AI Systems",
+  "description": "Learn systematic approaches to evaluate, test, and validate AI systems for production deployment with confidence.",
+  "sections": [
+    {
+      "id": "testing-fundamentals",
+      "title": "AI Testing Fundamentals",
+      "content": {
+        "type": "lesson",
+        "source": "evaluation-testing-ai-systems.mdx#testing-fundamentals"
+      }
+    },
+    {
+      "id": "evaluation-metrics",
+      "title": "Comprehensive Evaluation Metrics",
+      "content": {
+        "type": "lesson",
+        "source": "evaluation-testing-ai-systems.mdx#evaluation-metrics"
+      }
+    },
+    {
+      "id": "automated-testing",
+      "title": "Automated Testing Pipelines",
+      "content": {
+        "type": "lesson",
+        "source": "evaluation-testing-ai-systems.mdx#automated-testing"
+      }
+    },
+    {
+      "id": "human-evaluation",
+      "title": "Human Evaluation and A/B Testing",
+      "content": {
+        "type": "lesson",
+        "source": "evaluation-testing-ai-systems.mdx#human-evaluation"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "content": {
+        "type": "quiz",
+        "source": "evaluation-testing-ai-systems.mdx#quiz"
+      }
+    }
+  ]
+}

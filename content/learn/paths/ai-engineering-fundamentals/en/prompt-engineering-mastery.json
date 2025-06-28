@@ -1,0 +1,47 @@
+{
+  "id": "prompt-engineering-mastery",
+  "title": "Prompt Engineering Mastery",
+  "description": "Master advanced prompt engineering techniques to build reliable, efficient, and cost-effective AI applications.",
+  "sections": [
+    {
+      "id": "beyond-basics",
+      "title": "Beyond Basic Prompting",
+      "content": {
+        "type": "lesson",
+        "source": "prompt-engineering-mastery.mdx#beyond-basics"
+      }
+    },
+    {
+      "id": "advanced-techniques",
+      "title": "Advanced Prompting Techniques",
+      "content": {
+        "type": "lesson",
+        "source": "prompt-engineering-mastery.mdx#advanced-techniques"
+      }
+    },
+    {
+      "id": "prompt-chaining",
+      "title": "Prompt Chaining and Workflows",
+      "content": {
+        "type": "lesson",
+        "source": "prompt-engineering-mastery.mdx#prompt-chaining"
+      }
+    },
+    {
+      "id": "optimization-strategies",
+      "title": "Cost and Performance Optimization",
+      "content": {
+        "type": "lesson",
+        "source": "prompt-engineering-mastery.mdx#optimization-strategies"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "content": {
+        "type": "quiz",
+        "source": "prompt-engineering-mastery.mdx#quiz"
+      }
+    }
+  ]
+}

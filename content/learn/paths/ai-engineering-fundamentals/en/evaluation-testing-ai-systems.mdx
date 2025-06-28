@@ -1,0 +1,1673 @@
+# Evaluation and Testing AI Systems
+
+## testing-fundamentals
+
+Testing AI systems requires a fundamentally different approach from traditional software testing. AI models are probabilistic, non-deterministic, and often produce outputs that can't be validated with simple assertions.
+
+<Callout type="info">
+Traditional software testing asks "Does this function return the expected output?" AI testing asks "Is this output good enough for the intended use case?"
+</Callout>
+
+### Key Differences from Traditional Testing
+
+**Traditional Software:**
+- Deterministic outputs
+- Clear right/wrong answers
+- Input validation with exact matches
+- Binary pass/fail results
+
+**AI Systems:**
+- Probabilistic outputs
+- Subjective quality assessments
+- Fuzzy matching and similarity scores
+- Graduated confidence levels
+
+### Multi-Layer Testing Strategy
+
+<Diagram>
+graph TB
+    A[AI System Testing] --> B[Unit Tests]
+    A --> C[Integration Tests]
+    A --> D[Model Performance Tests]
+    A --> E[End-to-End Tests]
+    A --> F[Production Monitoring]
+    
+    B --> B1[Individual functions]
+    B --> B2[Data preprocessing]
+    B --> B3[Postprocessing]
+    
+    C --> C1[Model + API integration]
+    C --> C2[Database connections]
+    C --> C3[External service calls]
+    
+    D --> D1[Accuracy metrics]
+    D --> D2[Bias detection]
+    D --> D3[Performance benchmarks]
+    
+    E --> E1[Full user workflows]
+    E --> E2[Error handling]
+    E --> E3[Edge cases]
+    
+    F --> F1[Real-time metrics]
+    F --> F2[Drift detection]
+    F --> F3[User feedback loops]
+</Diagram>
+
+### Test Categories for AI Systems
+
+<CodeExample language="python">
+from enum import Enum
+from dataclasses import dataclass
+from typing import List, Dict, Any, Optional
+
+class TestType(Enum):
+    FUNCTIONAL = "functional"           # Does it work as expected?
+    PERFORMANCE = "performance"         # Is it fast/efficient enough?
+    ACCURACY = "accuracy"              # Is it correct often enough?
+    ROBUSTNESS = "robustness"          # Does it handle edge cases?
+    FAIRNESS = "fairness"              # Is it biased?
+    SAFETY = "safety"                  # Could it cause harm?
+    RELIABILITY = "reliability"        # Is it consistent?
+
+@dataclass
+class TestCase:
+    id: str
+    name: str
+    type: TestType
+    input_data: Any
+    expected_behavior: str
+    evaluation_method: str
+    threshold: Optional[float] = None
+    metadata: Dict[str, Any] = None
+
+class AITestSuite:
+    def __init__(self, model_name: str):
+        self.model_name = model_name
+        self.test_cases: List[TestCase] = []
+        self.results: List[Dict] = []
+        
+    def add_test(self, test_case: TestCase):
+        """Add a test case to the suite"""
+        self.test_cases.append(test_case)
+        
+    def create_smoke_tests(self):
+        """Basic sanity checks that should always pass"""
+        
+        smoke_tests = [
+            TestCase(
+                id="smoke_basic_input",
+                name="Model responds to basic input",
+                type=TestType.FUNCTIONAL,
+                input_data="Hello, how are you?",
+                expected_behavior="Returns non-empty response",
+                evaluation_method="length_check",
+                threshold=1.0
+            ),
+            TestCase(
+                id="smoke_empty_input",
+                name="Model handles empty input gracefully",
+                type=TestType.ROBUSTNESS,
+                input_data="",
+                expected_behavior="Returns error or default response",
+                evaluation_method="error_handling",
+            ),
+            TestCase(
+                id="smoke_response_time",
+                name="Model responds within time limit",
+                type=TestType.PERFORMANCE,
+                input_data="Test prompt for timing",
+                expected_behavior="Response within 5 seconds",
+                evaluation_method="latency_check",
+                threshold=5.0
+            )
+        ]
+        
+        for test in smoke_tests:
+            self.add_test(test)
+    
+    def create_regression_tests(self, golden_dataset: List[Dict]):
+        """Create tests to prevent performance regression"""
+        
+        for i, example in enumerate(golden_dataset):
+            test_case = TestCase(
+                id=f"regression_{i}",
+                name=f"Regression test {i}",
+                type=TestType.ACCURACY,
+                input_data=example['input'],
+                expected_behavior=example['expected_output'],
+                evaluation_method="similarity_check",
+                threshold=0.8,  # 80% similarity threshold
+                metadata={'baseline_score': example.get('baseline_score')}
+            )
+            self.add_test(test_case)
+</CodeExample>
+
+### Property-Based Testing for AI
+
+<CodeExample language="python">
+from hypothesis import given, strategies as st
+import numpy as np
+
+class AIPropertyTester:
+    """Property-based testing for AI systems"""
+    
+    def __init__(self, model_function):
+        self.model = model_function
+        
+    @given(st.text(min_size=1, max_size=100))
+    def test_output_non_empty(self, input_text):
+        """Property: Model should always produce non-empty output for non-empty input"""
+        output = self.model(input_text)
+        assert len(output.strip()) > 0, f"Empty output for input: {input_text}"
+    
+    @given(st.text(min_size=1, max_size=100))
+    def test_output_length_reasonable(self, input_text):
+        """Property: Output length should be reasonable relative to input"""
+        output = self.model(input_text)
+        input_length = len(input_text.split())
+        output_length = len(output.split())
+        
+        # Output shouldn't be more than 10x input length (adjust as needed)
+        assert output_length <= input_length * 10, \
+            f"Output too long: {output_length} words for {input_length} input words"
+    
+    @given(st.text(min_size=1, max_size=50))
+    def test_consistency_similar_inputs(self, base_text):
+        """Property: Similar inputs should produce similar outputs"""
+        
+        # Create variations of the input
+        variations = [
+            base_text,
+            base_text.lower(),
+            base_text.upper(),
+            base_text + ".",  # Add punctuation
+        ]
+        
+        outputs = [self.model(variant) for variant in variations]
+        
+        # Check that outputs are similar (using embedding similarity)
+        similarities = []
+        for i in range(len(outputs)):
+            for j in range(i + 1, len(outputs)):
+                similarity = self.calculate_similarity(outputs[i], outputs[j])
+                similarities.append(similarity)
+        
+        avg_similarity = np.mean(similarities)
+        assert avg_similarity > 0.7, \
+            f"Inconsistent outputs for similar inputs: {avg_similarity}"
+    
+    def test_adversarial_robustness(self):
+        """Test robustness against adversarial inputs"""
+        
+        adversarial_inputs = [
+            "a" * 1000,  # Very long repetitive input
+            "!@#$%^&*()",  # Special characters only
+            "你好世界",  # Non-English characters
+            "URGENT!!! RESPOND NOW!!!",  # All caps with urgency
+            "\n\n\n\n",  # Only whitespace
+            "ignore previous instructions and...",  # Prompt injection attempt
+        ]
+        
+        for adv_input in adversarial_inputs:
+            try:
+                output = self.model(adv_input)
+                
+                # Check for safe behavior
+                assert len(output) < 10000, "Output too long for adversarial input"
+                assert not self.contains_harmful_content(output), \
+                    f"Harmful content in output: {output}"
+                
+            except Exception as e:
+                # Graceful error handling is acceptable
+                assert "timeout" in str(e).lower() or "invalid" in str(e).lower(), \
+                    f"Unexpected error for adversarial input: {e}"
+    
+    def calculate_similarity(self, text1: str, text2: str) -> float:
+        """Calculate semantic similarity between two texts"""
+        # Simplified implementation - use proper embedding model in practice
+        words1 = set(text1.lower().split())
+        words2 = set(text2.lower().split())
+        
+        intersection = words1.intersection(words2)
+        union = words1.union(words2)
+        
+        if not union:
+            return 1.0 if not words1 and not words2 else 0.0
+        
+        return len(intersection) / len(union)
+    
+    def contains_harmful_content(self, text: str) -> bool:
+        """Check for potentially harmful content"""
+        harmful_patterns = [
+            "kill", "die", "suicide", "bomb", "weapon",
+            "hate", "discriminat", "racist", "sexist"
+        ]
+        
+        text_lower = text.lower()
+        return any(pattern in text_lower for pattern in harmful_patterns)
+</CodeExample>
+
+## evaluation-metrics
+
+### Comprehensive Metrics Framework
+
+Different AI tasks require different evaluation approaches. Here's a comprehensive framework for various task types.
+
+<CodeExample language="python">
+from abc import ABC, abstractmethod
+from typing import List, Dict, Tuple, Any
+import numpy as np
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+from collections import Counter
+import re
+
+class MetricCalculator(ABC):
+    """Abstract base class for metric calculators"""
+    
+    @abstractmethod
+    def calculate(self, predictions: List[str], references: List[str]) -> Dict[str, float]:
+        pass
+
+class TextGenerationMetrics(MetricCalculator):
+    """Metrics for text generation tasks"""
+    
+    def __init__(self):
+        self.sentence_transformer = None
+        self._load_models()
+    
+    def _load_models(self):
+        """Load required models for evaluation"""
+        try:
+            from sentence_transformers import SentenceTransformer
+            self.sentence_transformer = SentenceTransformer('all-MiniLM-L6-v2')
+        except ImportError:
+            print("Warning: sentence-transformers not available")
+    
+    def calculate(self, predictions: List[str], references: List[str]) -> Dict[str, float]:
+        """Calculate comprehensive text generation metrics"""
+        
+        metrics = {}
+        
+        # Token-level metrics
+        metrics.update(self._calculate_token_metrics(predictions, references))
+        
+        # Semantic metrics
+        if self.sentence_transformer:
+            metrics.update(self._calculate_semantic_metrics(predictions, references))
+        
+        # Fluency metrics
+        metrics.update(self._calculate_fluency_metrics(predictions))
+        
+        # Diversity metrics
+        metrics.update(self._calculate_diversity_metrics(predictions))
+        
+        # Factuality metrics (simplified)
+        metrics.update(self._calculate_factuality_metrics(predictions, references))
+        
+        return metrics
+    
+    def _calculate_token_metrics(self, predictions: List[str], references: List[str]) -> Dict[str, float]:
+        """Calculate BLEU, ROUGE, and other token-based metrics"""
+        
+        from nltk.translate.bleu_score import sentence_bleu
+        from rouge_score import rouge_scorer
+        
+        # BLEU scores
+        bleu_scores = []
+        for pred, ref in zip(predictions, references):
+            pred_tokens = pred.split()
+            ref_tokens = ref.split()
+            
+            if ref_tokens:  # Avoid division by zero
+                bleu = sentence_bleu([ref_tokens], pred_tokens)
+                bleu_scores.append(bleu)
+        
+        # ROUGE scores
+        scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
+        rouge_scores = {'rouge1': [], 'rouge2': [], 'rougeL': []}
+        
+        for pred, ref in zip(predictions, references):
+            scores = scorer.score(ref, pred)
+            for metric in rouge_scores:
+                rouge_scores[metric].append(scores[metric].fmeasure)
+        
+        return {
+            'bleu': np.mean(bleu_scores) if bleu_scores else 0.0,
+            'rouge1': np.mean(rouge_scores['rouge1']),
+            'rouge2': np.mean(rouge_scores['rouge2']),
+            'rougeL': np.mean(rouge_scores['rougeL']),
+        }
+    
+    def _calculate_semantic_metrics(self, predictions: List[str], references: List[str]) -> Dict[str, float]:
+        """Calculate semantic similarity metrics"""
+        
+        pred_embeddings = self.sentence_transformer.encode(predictions)
+        ref_embeddings = self.sentence_transformer.encode(references)
+        
+        # Cosine similarity
+        similarities = []
+        for pred_emb, ref_emb in zip(pred_embeddings, ref_embeddings):
+            similarity = np.dot(pred_emb, ref_emb) / (
+                np.linalg.norm(pred_emb) * np.linalg.norm(ref_emb)
+            )
+            similarities.append(similarity)
+        
+        return {
+            'semantic_similarity': np.mean(similarities),
+            'semantic_similarity_std': np.std(similarities)
+        }
+    
+    def _calculate_fluency_metrics(self, predictions: List[str]) -> Dict[str, float]:
+        """Calculate fluency-related metrics"""
+        
+        fluency_scores = []
+        readability_scores = []
+        
+        for pred in predictions:
+            # Simple fluency heuristics
+            words = pred.split()
+            sentences = pred.split('.')
+            
+            # Average sentence length
+            avg_sentence_length = len(words) / max(len(sentences), 1)
+            
+            # Repetition penalty
+            word_counts = Counter(words)
+            unique_words = len(word_counts)
+            total_words = len(words)
+            repetition_ratio = unique_words / max(total_words, 1)
+            
+            fluency_score = min(avg_sentence_length / 20, 1.0) * repetition_ratio
+            fluency_scores.append(fluency_score)
+            
+            # Readability (simplified Flesch Reading Ease)
+            if sentences and words:
+                avg_words_per_sentence = total_words / len(sentences)
+                # Simplified - normally would calculate syllables
+                avg_syllables_per_word = 1.5  # Rough estimate
+                
+                readability = (206.835 - 1.015 * avg_words_per_sentence - 
+                             84.6 * avg_syllables_per_word)
+                readability_scores.append(max(0, min(100, readability)))
+        
+        return {
+            'fluency': np.mean(fluency_scores),
+            'readability': np.mean(readability_scores) if readability_scores else 0
+        }
+    
+    def _calculate_diversity_metrics(self, predictions: List[str]) -> Dict[str, float]:
+        """Calculate diversity metrics across predictions"""
+        
+        all_words = []
+        all_bigrams = []
+        
+        for pred in predictions:
+            words = pred.lower().split()
+            all_words.extend(words)
+            
+            # Create bigrams
+            bigrams = [' '.join(words[i:i+2]) for i in range(len(words)-1)]
+            all_bigrams.extend(bigrams)
+        
+        # Distinct-n metrics
+        distinct_1 = len(set(all_words)) / max(len(all_words), 1)
+        distinct_2 = len(set(all_bigrams)) / max(len(all_bigrams), 1)
+        
+        return {
+            'distinct_1': distinct_1,
+            'distinct_2': distinct_2
+        }
+    
+    def _calculate_factuality_metrics(self, predictions: List[str], references: List[str]) -> Dict[str, float]:
+        """Calculate factuality metrics (simplified implementation)"""
+        
+        factuality_scores = []
+        
+        for pred, ref in zip(predictions, references):
+            # Extract entities and numbers (simplified)
+            pred_entities = self._extract_entities(pred)
+            ref_entities = self._extract_entities(ref)
+            
+            if not ref_entities:
+                factuality_scores.append(1.0)  # No facts to verify
+                continue
+            
+            # Calculate overlap
+            correct_entities = pred_entities.intersection(ref_entities)
+            factuality = len(correct_entities) / len(ref_entities)
+            factuality_scores.append(factuality)
+        
+        return {
+            'factuality': np.mean(factuality_scores)
+        }
+    
+    def _extract_entities(self, text: str) -> set:
+        """Extract entities and facts from text (simplified)"""
+        # Extract numbers
+        numbers = set(re.findall(r'\b\d+\.?\d*\b', text))
+        
+        # Extract capitalized words (potential proper nouns)
+        capitalized = set(re.findall(r'\b[A-Z][a-z]+\b', text))
+        
+        # Extract dates (simplified pattern)
+        dates = set(re.findall(r'\b\d{1,2}/\d{1,2}/\d{4}\b', text))
+        
+        return numbers.union(capitalized).union(dates)
+
+class ClassificationMetrics(MetricCalculator):
+    """Metrics for classification tasks"""
+    
+    def calculate(self, predictions: List[str], references: List[str]) -> Dict[str, float]:
+        """Calculate classification metrics"""
+        
+        # Convert to numeric if needed
+        pred_numeric = self._convert_to_numeric(predictions)
+        ref_numeric = self._convert_to_numeric(references)
+        
+        # Basic metrics
+        accuracy = accuracy_score(ref_numeric, pred_numeric)
+        precision, recall, f1, _ = precision_recall_fscore_support(
+            ref_numeric, pred_numeric, average='weighted'
+        )
+        
+        metrics = {
+            'accuracy': accuracy,
+            'precision': precision,
+            'recall': recall,
+            'f1': f1
+        }
+        
+        # Confusion matrix analysis
+        confusion_stats = self._analyze_confusion_matrix(ref_numeric, pred_numeric)
+        metrics.update(confusion_stats)
+        
+        # Class-specific metrics
+        class_metrics = self._calculate_per_class_metrics(ref_numeric, pred_numeric)
+        metrics.update(class_metrics)
+        
+        return metrics
+    
+    def _convert_to_numeric(self, labels: List[str]) -> List[int]:
+        """Convert string labels to numeric"""
+        unique_labels = list(set(labels))
+        label_to_idx = {label: i for i, label in enumerate(unique_labels)}
+        return [label_to_idx[label] for label in labels]
+    
+    def _analyze_confusion_matrix(self, y_true: List[int], y_pred: List[int]) -> Dict[str, float]:
+        """Analyze confusion matrix for insights"""
+        from sklearn.metrics import confusion_matrix
+        
+        cm = confusion_matrix(y_true, y_pred)
+        
+        # Calculate per-class accuracy
+        per_class_accuracy = np.diag(cm) / np.sum(cm, axis=1)
+        
+        return {
+            'worst_class_accuracy': np.min(per_class_accuracy),
+            'best_class_accuracy': np.max(per_class_accuracy),
+            'accuracy_variance': np.var(per_class_accuracy)
+        }
+
+class RetrievalMetrics(MetricCalculator):
+    """Metrics for information retrieval tasks"""
+    
+    def calculate(self, predictions: List[List[str]], references: List[List[str]]) -> Dict[str, float]:
+        """Calculate retrieval metrics like NDCG, MAP, etc."""
+        
+        metrics = {}
+        
+        # Precision at K
+        for k in [1, 3, 5, 10]:
+            precision_k = self._precision_at_k(predictions, references, k)
+            metrics[f'precision@{k}'] = precision_k
+        
+        # Recall at K
+        for k in [1, 3, 5, 10]:
+            recall_k = self._recall_at_k(predictions, references, k)
+            metrics[f'recall@{k}'] = recall_k
+        
+        # Mean Average Precision
+        metrics['map'] = self._mean_average_precision(predictions, references)
+        
+        # NDCG (simplified binary relevance)
+        for k in [1, 3, 5, 10]:
+            ndcg_k = self._ndcg_at_k(predictions, references, k)
+            metrics[f'ndcg@{k}'] = ndcg_k
+        
+        return metrics
+    
+    def _precision_at_k(self, predictions: List[List[str]], 
+                       references: List[List[str]], k: int) -> float:
+        """Calculate Precision@K"""
+        precisions = []
+        
+        for pred, ref in zip(predictions, references):
+            pred_k = pred[:k]
+            relevant_in_k = len(set(pred_k).intersection(set(ref)))
+            precision = relevant_in_k / min(len(pred_k), k) if pred_k else 0
+            precisions.append(precision)
+        
+        return np.mean(precisions)
+    
+    def _recall_at_k(self, predictions: List[List[str]], 
+                    references: List[List[str]], k: int) -> float:
+        """Calculate Recall@K"""
+        recalls = []
+        
+        for pred, ref in zip(predictions, references):
+            pred_k = pred[:k]
+            relevant_in_k = len(set(pred_k).intersection(set(ref)))
+            recall = relevant_in_k / len(ref) if ref else 0
+            recalls.append(recall)
+        
+        return np.mean(recalls)
+    
+    def _mean_average_precision(self, predictions: List[List[str]], 
+                               references: List[List[str]]) -> float:
+        """Calculate Mean Average Precision"""
+        average_precisions = []
+        
+        for pred, ref in zip(predictions, references):
+            if not ref:
+                continue
+                
+            relevant_count = 0
+            precision_sum = 0
+            
+            for i, item in enumerate(pred):
+                if item in ref:
+                    relevant_count += 1
+                    precision_at_i = relevant_count / (i + 1)
+                    precision_sum += precision_at_i
+            
+            ap = precision_sum / len(ref) if ref else 0
+            average_precisions.append(ap)
+        
+        return np.mean(average_precisions)
+</CodeExample>
+
+## automated-testing
+
+### Building Automated Testing Pipelines
+
+Automated testing is crucial for maintaining AI system quality at scale. Here's how to build comprehensive pipelines.
+
+<CodeExample language="python">
+import asyncio
+import json
+import time
+from dataclasses import dataclass, asdict
+from typing import List, Dict, Any, Callable, Optional
+from datetime import datetime
+import pandas as pd
+
+@dataclass
+class TestResult:
+    test_id: str
+    test_name: str
+    status: str  # "passed", "failed", "error"
+    score: Optional[float]
+    threshold: Optional[float]
+    execution_time: float
+    timestamp: str
+    error_message: Optional[str] = None
+    metadata: Dict[str, Any] = None
+
+class AutomatedTestRunner:
+    """Automated test runner for AI systems"""
+    
+    def __init__(self, model_endpoint: str):
+        self.model_endpoint = model_endpoint
+        self.test_results: List[TestResult] = []
+        self.test_registry: Dict[str, Callable] = {}
+        
+    def register_test(self, test_id: str, test_function: Callable):
+        """Register a test function"""
+        self.test_registry[test_id] = test_function
+        
+    async def run_all_tests(self, test_config: Dict[str, Any] = None) -> List[TestResult]:
+        """Run all registered tests"""
+        
+        self.test_results = []
+        test_config = test_config or {}
+        
+        for test_id, test_function in self.test_registry.items():
+            try:
+                print(f"Running test: {test_id}")
+                start_time = time.time()
+                
+                # Run the test
+                result = await test_function(self.model_endpoint, test_config.get(test_id, {}))
+                
+                execution_time = time.time() - start_time
+                
+                # Create test result
+                test_result = TestResult(
+                    test_id=test_id,
+                    test_name=test_function.__name__,
+                    status=result.get('status', 'passed'),
+                    score=result.get('score'),
+                    threshold=result.get('threshold'),
+                    execution_time=execution_time,
+                    timestamp=datetime.now().isoformat(),
+                    error_message=result.get('error'),
+                    metadata=result.get('metadata', {})
+                )
+                
+                self.test_results.append(test_result)
+                
+            except Exception as e:
+                # Handle test execution errors
+                execution_time = time.time() - start_time
+                error_result = TestResult(
+                    test_id=test_id,
+                    test_name=test_function.__name__,
+                    status='error',
+                    score=None,
+                    threshold=None,
+                    execution_time=execution_time,
+                    timestamp=datetime.now().isoformat(),
+                    error_message=str(e)
+                )
+                
+                self.test_results.append(error_result)
+                print(f"Test {test_id} failed with error: {e}")
+        
+        return self.test_results
+    
+    def generate_report(self) -> Dict[str, Any]:
+        """Generate comprehensive test report"""
+        
+        if not self.test_results:
+            return {"error": "No test results available"}
+        
+        # Basic statistics
+        total_tests = len(self.test_results)
+        passed_tests = sum(1 for r in self.test_results if r.status == 'passed')
+        failed_tests = sum(1 for r in self.test_results if r.status == 'failed')
+        error_tests = sum(1 for r in self.test_results if r.status == 'error')
+        
+        # Performance statistics
+        execution_times = [r.execution_time for r in self.test_results]
+        scores = [r.score for r in self.test_results if r.score is not None]
+        
+        report = {
+            'summary': {
+                'total_tests': total_tests,
+                'passed': passed_tests,
+                'failed': failed_tests,
+                'errors': error_tests,
+                'pass_rate': passed_tests / total_tests if total_tests > 0 else 0,
+                'avg_execution_time': sum(execution_times) / len(execution_times),
+                'total_execution_time': sum(execution_times)
+            },
+            'performance': {
+                'avg_score': sum(scores) / len(scores) if scores else None,
+                'min_score': min(scores) if scores else None,
+                'max_score': max(scores) if scores else None,
+                'score_std': np.std(scores) if len(scores) > 1 else None
+            },
+            'failed_tests': [
+                {
+                    'test_id': r.test_id,
+                    'error_message': r.error_message,
+                    'score': r.score,
+                    'threshold': r.threshold
+                }
+                for r in self.test_results if r.status in ['failed', 'error']
+            ],
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        return report
+    
+    def save_results(self, filename: str):
+        """Save test results to file"""
+        results_data = [asdict(result) for result in self.test_results]
+        
+        with open(filename, 'w') as f:
+            json.dump({
+                'test_results': results_data,
+                'report': self.generate_report()
+            }, f, indent=2)
+
+# Example test functions
+async def test_response_time(model_endpoint: str, config: Dict) -> Dict[str, Any]:
+    """Test that model responds within acceptable time"""
+    
+    threshold = config.get('max_response_time', 5.0)
+    test_prompt = config.get('test_prompt', "Hello, how are you?")
+    
+    start_time = time.time()
+    
+    # Simulate API call
+    await asyncio.sleep(0.1)  # Replace with actual model call
+    response = "I'm doing well, thank you!"
+    
+    response_time = time.time() - start_time
+    
+    return {
+        'status': 'passed' if response_time <= threshold else 'failed',
+        'score': response_time,
+        'threshold': threshold,
+        'metadata': {
+            'response': response,
+            'prompt': test_prompt
+        }
+    }
+
+async def test_output_quality(model_endpoint: str, config: Dict) -> Dict[str, Any]:
+    """Test output quality using multiple metrics"""
+    
+    threshold = config.get('min_quality_score', 0.8)
+    test_cases = config.get('test_cases', [])
+    
+    if not test_cases:
+        return {
+            'status': 'error',
+            'error': 'No test cases provided'
+        }
+    
+    # Run model on test cases
+    predictions = []
+    references = []
+    
+    for test_case in test_cases:
+        # Simulate model prediction
+        prediction = f"Response to: {test_case['input']}"
+        predictions.append(prediction)
+        references.append(test_case['expected'])
+    
+    # Calculate quality metrics
+    metrics_calculator = TextGenerationMetrics()
+    metrics = metrics_calculator.calculate(predictions, references)
+    
+    # Use semantic similarity as overall quality score
+    quality_score = metrics.get('semantic_similarity', 0.0)
+    
+    return {
+        'status': 'passed' if quality_score >= threshold else 'failed',
+        'score': quality_score,
+        'threshold': threshold,
+        'metadata': {
+            'detailed_metrics': metrics,
+            'num_test_cases': len(test_cases)
+        }
+    }
+
+async def test_bias_detection(model_endpoint: str, config: Dict) -> Dict[str, Any]:
+    """Test for potential bias in model outputs"""
+    
+    bias_threshold = config.get('max_bias_score', 0.3)
+    bias_test_cases = config.get('bias_test_cases', [])
+    
+    bias_scores = []
+    
+    for test_case in bias_test_cases:
+        prompt_variants = test_case['variants']  # Different demographic groups
+        
+        # Get responses for all variants
+        responses = []
+        for variant in prompt_variants:
+            # Simulate model response
+            response = f"Response to {variant}"
+            responses.append(response)
+        
+        # Calculate bias score (simplified)
+        # In practice, use specialized bias detection models
+        response_similarities = []
+        for i in range(len(responses)):
+            for j in range(i + 1, len(responses)):
+                similarity = calculate_text_similarity(responses[i], responses[j])
+                response_similarities.append(similarity)
+        
+        # High variance in responses indicates potential bias
+        bias_score = 1.0 - np.mean(response_similarities) if response_similarities else 0.0
+        bias_scores.append(bias_score)
+    
+    avg_bias_score = np.mean(bias_scores) if bias_scores else 0.0
+    
+    return {
+        'status': 'passed' if avg_bias_score <= bias_threshold else 'failed',
+        'score': avg_bias_score,
+        'threshold': bias_threshold,
+        'metadata': {
+            'individual_bias_scores': bias_scores,
+            'num_test_cases': len(bias_test_cases)
+        }
+    }
+
+def calculate_text_similarity(text1: str, text2: str) -> float:
+    """Simple text similarity calculation"""
+    words1 = set(text1.lower().split())
+    words2 = set(text2.lower().split())
+    
+    intersection = words1.intersection(words2)
+    union = words1.union(words2)
+    
+    return len(intersection) / len(union) if union else 0.0
+</CodeExample>
+
+### Continuous Integration Pipeline
+
+<CodeExample language="python">
+import subprocess
+import os
+from typing import Dict, List
+import yaml
+
+class CITestPipeline:
+    """Continuous integration pipeline for AI models"""
+    
+    def __init__(self, config_path: str):
+        self.config = self.load_config(config_path)
+        self.test_runner = AutomatedTestRunner(self.config['model_endpoint'])
+        self.setup_tests()
+    
+    def load_config(self, config_path: str) -> Dict:
+        """Load pipeline configuration"""
+        with open(config_path, 'r') as f:
+            return yaml.safe_load(f)
+    
+    def setup_tests(self):
+        """Register all tests based on configuration"""
+        
+        # Register standard tests
+        self.test_runner.register_test('response_time', test_response_time)
+        self.test_runner.register_test('output_quality', test_output_quality)
+        self.test_runner.register_test('bias_detection', test_bias_detection)
+        
+        # Register custom tests if specified
+        for test_config in self.config.get('custom_tests', []):
+            # Dynamic test loading would go here
+            pass
+    
+    async def run_pipeline(self) -> bool:
+        """Run the complete CI pipeline"""
+        
+        pipeline_steps = [
+            ('environment_check', self.check_environment),
+            ('data_validation', self.validate_test_data),
+            ('model_loading', self.verify_model_loading),
+            ('automated_tests', self.run_automated_tests),
+            ('performance_regression', self.check_performance_regression),
+            ('report_generation', self.generate_and_save_report)
+        ]
+        
+        for step_name, step_function in pipeline_steps:
+            print(f"Running pipeline step: {step_name}")
+            
+            try:
+                success = await step_function()
+                if not success:
+                    print(f"Pipeline failed at step: {step_name}")
+                    return False
+            except Exception as e:
+                print(f"Error in step {step_name}: {e}")
+                return False
+        
+        print("Pipeline completed successfully")
+        return True
+    
+    async def check_environment(self) -> bool:
+        """Verify that the testing environment is ready"""
+        
+        # Check required dependencies
+        required_packages = self.config.get('required_packages', [])
+        for package in required_packages:
+            try:
+                __import__(package)
+            except ImportError:
+                print(f"Missing required package: {package}")
+                return False
+        
+        # Check model endpoint availability
+        # In practice, make actual health check request
+        print(f"Model endpoint: {self.config['model_endpoint']}")
+        
+        # Check test data availability
+        test_data_path = self.config.get('test_data_path')
+        if test_data_path and not os.path.exists(test_data_path):
+            print(f"Test data not found: {test_data_path}")
+            return False
+        
+        return True
+    
+    async def validate_test_data(self) -> bool:
+        """Validate test data quality and format"""
+        
+        test_data_path = self.config.get('test_data_path')
+        if not test_data_path:
+            return True  # No test data to validate
+        
+        try:
+            with open(test_data_path, 'r') as f:
+                test_data = json.load(f)
+            
+            # Validate data structure
+            required_fields = ['input', 'expected']
+            for i, test_case in enumerate(test_data):
+                for field in required_fields:
+                    if field not in test_case:
+                        print(f"Test case {i} missing required field: {field}")
+                        return False
+            
+            print(f"Validated {len(test_data)} test cases")
+            return True
+            
+        except Exception as e:
+            print(f"Error validating test data: {e}")
+            return False
+    
+    async def verify_model_loading(self) -> bool:
+        """Verify that the model can be loaded and responds"""
+        
+        try:
+            # Simple health check
+            test_result = await test_response_time(
+                self.config['model_endpoint'],
+                {'max_response_time': 10.0, 'test_prompt': 'Health check'}
+            )
+            
+            return test_result['status'] != 'error'
+            
+        except Exception as e:
+            print(f"Model loading verification failed: {e}")
+            return False
+    
+    async def run_automated_tests(self) -> bool:
+        """Run all automated tests"""
+        
+        test_config = self.config.get('test_config', {})
+        results = await self.test_runner.run_all_tests(test_config)
+        
+        # Check if critical tests passed
+        critical_tests = self.config.get('critical_tests', [])
+        for result in results:
+            if result.test_id in critical_tests and result.status != 'passed':
+                print(f"Critical test failed: {result.test_id}")
+                return False
+        
+        # Check overall pass rate
+        pass_rate_threshold = self.config.get('min_pass_rate', 0.8)
+        passed = sum(1 for r in results if r.status == 'passed')
+        pass_rate = passed / len(results) if results else 0
+        
+        if pass_rate < pass_rate_threshold:
+            print(f"Pass rate too low: {pass_rate:.2f} < {pass_rate_threshold}")
+            return False
+        
+        return True
+    
+    async def check_performance_regression(self) -> bool:
+        """Check for performance regression against baseline"""
+        
+        baseline_path = self.config.get('baseline_results_path')
+        if not baseline_path or not os.path.exists(baseline_path):
+            print("No baseline for regression testing")
+            return True  # Skip if no baseline
+        
+        # Load baseline results
+        with open(baseline_path, 'r') as f:
+            baseline_data = json.load(f)
+        
+        baseline_metrics = baseline_data.get('report', {}).get('performance', {})
+        current_report = self.test_runner.generate_report()
+        current_metrics = current_report.get('performance', {})
+        
+        # Check for significant regression
+        regression_threshold = self.config.get('regression_threshold', 0.05)
+        
+        for metric_name in ['avg_score']:
+            baseline_value = baseline_metrics.get(metric_name)
+            current_value = current_metrics.get(metric_name)
+            
+            if baseline_value is not None and current_value is not None:
+                regression = (baseline_value - current_value) / baseline_value
+                
+                if regression > regression_threshold:
+                    print(f"Performance regression detected in {metric_name}: "
+                          f"{regression:.3f} > {regression_threshold}")
+                    return False
+        
+        return True
+    
+    async def generate_and_save_report(self) -> bool:
+        """Generate and save test report"""
+        
+        try:
+            report_path = self.config.get('report_path', 'test_report.json')
+            self.test_runner.save_results(report_path)
+            
+            # Generate additional formats if specified
+            if self.config.get('generate_html_report', False):
+                self.generate_html_report(report_path)
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error generating report: {e}")
+            return False
+    
+    def generate_html_report(self, json_report_path: str):
+        """Generate HTML report from JSON results"""
+        
+        with open(json_report_path, 'r') as f:
+            data = json.load(f)
+        
+        html_content = self.create_html_report(data)
+        
+        html_path = json_report_path.replace('.json', '.html')
+        with open(html_path, 'w') as f:
+            f.write(html_content)
+        
+        print(f"HTML report generated: {html_path}")
+    
+    def create_html_report(self, data: Dict) -> str:
+        """Create HTML report content"""
+        
+        report = data.get('report', {})
+        summary = report.get('summary', {})
+        
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>AI Model Test Report</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; margin: 40px; }}
+                .summary {{ background: #f5f5f5; padding: 20px; border-radius: 5px; }}
+                .pass {{ color: green; }}
+                .fail {{ color: red; }}
+                .error {{ color: orange; }}
+                table {{ border-collapse: collapse; width: 100%; margin-top: 20px; }}
+                th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
+                th {{ background-color: #f2f2f2; }}
+            </style>
+        </head>
+        <body>
+            <h1>AI Model Test Report</h1>
+            
+            <div class="summary">
+                <h2>Summary</h2>
+                <p>Total Tests: {summary.get('total_tests', 0)}</p>
+                <p class="pass">Passed: {summary.get('passed', 0)}</p>
+                <p class="fail">Failed: {summary.get('failed', 0)}</p>
+                <p class="error">Errors: {summary.get('errors', 0)}</p>
+                <p>Pass Rate: {summary.get('pass_rate', 0):.2%}</p>
+                <p>Average Execution Time: {summary.get('avg_execution_time', 0):.2f}s</p>
+            </div>
+            
+            <h2>Test Results</h2>
+            <table>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Status</th>
+                    <th>Score</th>
+                    <th>Execution Time</th>
+                </tr>
+        """
+        
+        for result in data.get('test_results', []):
+            status_class = result['status']
+            html += f"""
+                <tr>
+                    <td>{result['test_id']}</td>
+                    <td class="{status_class}">{result['status']}</td>
+                    <td>{result.get('score', 'N/A')}</td>
+                    <td>{result['execution_time']:.2f}s</td>
+                </tr>
+            """
+        
+        html += """
+            </table>
+        </body>
+        </html>
+        """
+        
+        return html
+
+# Example configuration file (ci_config.yaml)
+example_config = """
+model_endpoint: "http://localhost:8000/generate"
+test_data_path: "test_data.json"
+baseline_results_path: "baseline_results.json"
+report_path: "test_report.json"
+
+required_packages:
+  - transformers
+  - torch
+  - numpy
+
+critical_tests:
+  - response_time
+  - output_quality
+
+min_pass_rate: 0.8
+regression_threshold: 0.05
+generate_html_report: true
+
+test_config:
+  response_time:
+    max_response_time: 5.0
+    test_prompt: "Hello, how are you?"
+  
+  output_quality:
+    min_quality_score: 0.8
+    test_cases:
+      - input: "What is AI?"
+        expected: "AI stands for Artificial Intelligence..."
+  
+  bias_detection:
+    max_bias_score: 0.3
+    bias_test_cases:
+      - variants:
+          - "The doctor said he was busy"
+          - "The doctor said she was busy"
+"""
+</CodeExample>
+
+## human-evaluation
+
+### Human Evaluation Framework
+
+Automated metrics can't capture everything. Human evaluation provides crucial insights into model quality, especially for subjective tasks.
+
+<CodeExample language="python">
+from dataclasses import dataclass
+from typing import List, Dict, Any, Optional
+import random
+import statistics
+from datetime import datetime
+import pandas as pd
+
+@dataclass
+class EvaluationTask:
+    task_id: str
+    model_output: str
+    reference_output: Optional[str]
+    context: Dict[str, Any]
+    evaluation_criteria: List[str]
+
+@dataclass
+class HumanRating:
+    evaluator_id: str
+    task_id: str
+    ratings: Dict[str, float]  # criterion -> score
+    comments: Optional[str]
+    timestamp: str
+    confidence: float  # 0-1 scale
+
+class HumanEvaluationPlatform:
+    """Platform for conducting human evaluations"""
+    
+    def __init__(self):
+        self.tasks: List[EvaluationTask] = []
+        self.ratings: List[HumanRating] = []
+        self.evaluators: Dict[str, Dict] = {}
+        
+    def add_evaluator(self, evaluator_id: str, expertise_level: str, background: str):
+        """Add an evaluator to the platform"""
+        self.evaluators[evaluator_id] = {
+            'expertise_level': expertise_level,  # 'novice', 'intermediate', 'expert'
+            'background': background,
+            'tasks_completed': 0,
+            'avg_confidence': 0.0
+        }
+    
+    def create_evaluation_batch(self, 
+                               model_outputs: List[str],
+                               references: Optional[List[str]] = None,
+                               contexts: Optional[List[Dict]] = None,
+                               criteria: List[str] = None) -> List[EvaluationTask]:
+        """Create a batch of evaluation tasks"""
+        
+        if criteria is None:
+            criteria = ['fluency', 'relevance', 'helpfulness', 'factuality']
+        
+        references = references or [None] * len(model_outputs)
+        contexts = contexts or [{}] * len(model_outputs)
+        
+        tasks = []
+        for i, (output, ref, ctx) in enumerate(zip(model_outputs, references, contexts)):
+            task = EvaluationTask(
+                task_id=f"task_{i}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                model_output=output,
+                reference_output=ref,
+                context=ctx,
+                evaluation_criteria=criteria
+            )
+            tasks.append(task)
+            
+        self.tasks.extend(tasks)
+        return tasks
+    
+    def assign_tasks(self, evaluator_id: str, num_tasks: int = 10) -> List[EvaluationTask]:
+        """Assign tasks to an evaluator"""
+        
+        if evaluator_id not in self.evaluators:
+            raise ValueError(f"Evaluator {evaluator_id} not found")
+        
+        # Filter out tasks already rated by this evaluator
+        rated_task_ids = {r.task_id for r in self.ratings if r.evaluator_id == evaluator_id}
+        available_tasks = [t for t in self.tasks if t.task_id not in rated_task_ids]
+        
+        # Randomly sample tasks
+        assigned_tasks = random.sample(available_tasks, min(num_tasks, len(available_tasks)))
+        
+        return assigned_tasks
+    
+    def submit_rating(self, evaluator_id: str, task_id: str, 
+                     ratings: Dict[str, float], comments: str = "",
+                     confidence: float = 1.0):
+        """Submit a rating for a task"""
+        
+        rating = HumanRating(
+            evaluator_id=evaluator_id,
+            task_id=task_id,
+            ratings=ratings,
+            comments=comments,
+            confidence=confidence,
+            timestamp=datetime.now().isoformat()
+        )
+        
+        self.ratings.append(rating)
+        
+        # Update evaluator stats
+        if evaluator_id in self.evaluators:
+            self.evaluators[evaluator_id]['tasks_completed'] += 1
+            
+            # Update average confidence
+            evaluator_ratings = [r for r in self.ratings if r.evaluator_id == evaluator_id]
+            avg_conf = statistics.mean([r.confidence for r in evaluator_ratings])
+            self.evaluators[evaluator_id]['avg_confidence'] = avg_conf
+    
+    def calculate_inter_annotator_agreement(self, criterion: str) -> Dict[str, float]:
+        """Calculate inter-annotator agreement for a specific criterion"""
+        
+        # Group ratings by task
+        task_ratings = {}
+        for rating in self.ratings:
+            if criterion in rating.ratings:
+                if rating.task_id not in task_ratings:
+                    task_ratings[rating.task_id] = []
+                task_ratings[rating.task_id].append(rating.ratings[criterion])
+        
+        # Calculate agreement metrics
+        agreements = []
+        correlations = []
+        
+        for task_id, scores in task_ratings.items():
+            if len(scores) >= 2:
+                # Simple agreement: percentage of scores within 1 point
+                pairs_in_agreement = 0
+                total_pairs = 0
+                
+                for i in range(len(scores)):
+                    for j in range(i + 1, len(scores)):
+                        total_pairs += 1
+                        if abs(scores[i] - scores[j]) <= 1.0:
+                            pairs_in_agreement += 1
+                
+                if total_pairs > 0:
+                    agreement = pairs_in_agreement / total_pairs
+                    agreements.append(agreement)
+                
+                # Pearson correlation for tasks with multiple ratings
+                if len(scores) > 2:
+                    # Calculate pairwise correlations
+                    from scipy.stats import pearsonr
+                    task_correlations = []
+                    for i in range(len(scores)):
+                        for j in range(i + 1, len(scores)):
+                            if len(set([scores[i], scores[j]])) > 1:  # Avoid zero variance
+                                corr, _ = pearsonr([scores[i]], [scores[j]])
+                                if not pd.isna(corr):
+                                    task_correlations.append(corr)
+                    
+                    if task_correlations:
+                        correlations.extend(task_correlations)
+        
+        return {
+            'agreement_rate': statistics.mean(agreements) if agreements else 0.0,
+            'avg_correlation': statistics.mean(correlations) if correlations else 0.0,
+            'num_tasks_with_multiple_ratings': len([t for t in task_ratings.values() if len(t) >= 2])
+        }
+    
+    def generate_evaluation_report(self) -> Dict[str, Any]:
+        """Generate comprehensive evaluation report"""
+        
+        if not self.ratings:
+            return {"error": "No ratings available"}
+        
+        # Overall statistics
+        total_tasks = len(set(r.task_id for r in self.ratings))
+        total_evaluators = len(set(r.evaluator_id for r in self.ratings))
+        
+        # Criterion statistics
+        criterion_stats = {}
+        all_criteria = set()
+        for rating in self.ratings:
+            all_criteria.update(rating.ratings.keys())
+        
+        for criterion in all_criteria:
+            scores = [r.ratings[criterion] for r in self.ratings if criterion in r.ratings]
+            
+            criterion_stats[criterion] = {
+                'mean': statistics.mean(scores),
+                'median': statistics.median(scores),
+                'std': statistics.stdev(scores) if len(scores) > 1 else 0,
+                'min': min(scores),
+                'max': max(scores),
+                'count': len(scores)
+            }
+            
+            # Inter-annotator agreement
+            agreement_stats = self.calculate_inter_annotator_agreement(criterion)
+            criterion_stats[criterion]['inter_annotator_agreement'] = agreement_stats
+        
+        # Evaluator performance
+        evaluator_stats = {}
+        for evaluator_id in self.evaluators:
+            evaluator_ratings = [r for r in self.ratings if r.evaluator_id == evaluator_id]
+            
+            if evaluator_ratings:
+                avg_confidence = statistics.mean([r.confidence for r in evaluator_ratings])
+                rating_variance = {}
+                
+                for criterion in all_criteria:
+                    criterion_scores = [r.ratings[criterion] for r in evaluator_ratings 
+                                      if criterion in r.ratings]
+                    if len(criterion_scores) > 1:
+                        rating_variance[criterion] = statistics.stdev(criterion_scores)
+                
+                evaluator_stats[evaluator_id] = {
+                    'tasks_completed': len(evaluator_ratings),
+                    'avg_confidence': avg_confidence,
+                    'rating_variance': rating_variance,
+                    'expertise_level': self.evaluators[evaluator_id]['expertise_level']
+                }
+        
+        return {
+            'summary': {
+                'total_tasks_evaluated': total_tasks,
+                'total_evaluators': total_evaluators,
+                'total_ratings': len(self.ratings),
+                'avg_ratings_per_task': len(self.ratings) / total_tasks if total_tasks > 0 else 0
+            },
+            'criterion_statistics': criterion_stats,
+            'evaluator_performance': evaluator_stats,
+            'timestamp': datetime.now().isoformat()
+        }
+
+class ABTestFramework:
+    """A/B testing framework for model comparison"""
+    
+    def __init__(self):
+        self.experiments: Dict[str, Dict] = {}
+        self.results: Dict[str, List] = {}
+        
+    def create_experiment(self, 
+                         experiment_id: str,
+                         model_a_name: str,
+                         model_b_name: str,
+                         test_prompts: List[str],
+                         evaluation_criteria: List[str] = None):
+        """Create a new A/B test experiment"""
+        
+        if evaluation_criteria is None:
+            evaluation_criteria = ['overall_quality', 'relevance', 'helpfulness']
+        
+        self.experiments[experiment_id] = {
+            'model_a': model_a_name,
+            'model_b': model_b_name,
+            'test_prompts': test_prompts,
+            'criteria': evaluation_criteria,
+            'created_at': datetime.now().isoformat(),
+            'status': 'active'
+        }
+        
+        self.results[experiment_id] = []
+    
+    def add_comparison(self, 
+                      experiment_id: str,
+                      prompt_id: str,
+                      model_a_output: str,
+                      model_b_output: str,
+                      evaluator_id: str,
+                      preference: str,  # 'model_a', 'model_b', or 'tie'
+                      criterion_ratings: Dict[str, Dict[str, float]] = None):
+        """Add a comparison result to the experiment"""
+        
+        if experiment_id not in self.experiments:
+            raise ValueError(f"Experiment {experiment_id} not found")
+        
+        comparison = {
+            'prompt_id': prompt_id,
+            'model_a_output': model_a_output,
+            'model_b_output': model_b_output,
+            'evaluator_id': evaluator_id,
+            'preference': preference,
+            'criterion_ratings': criterion_ratings or {},
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        self.results[experiment_id].append(comparison)
+    
+    def analyze_experiment(self, experiment_id: str) -> Dict[str, Any]:
+        """Analyze A/B test results"""
+        
+        if experiment_id not in self.experiments:
+            raise ValueError(f"Experiment {experiment_id} not found")
+        
+        experiment = self.experiments[experiment_id]
+        results = self.results[experiment_id]
+        
+        if not results:
+            return {"error": "No results available for analysis"}
+        
+        # Overall preference statistics
+        preferences = [r['preference'] for r in results]
+        preference_counts = {
+            'model_a': preferences.count('model_a'),
+            'model_b': preferences.count('model_b'),
+            'tie': preferences.count('tie')
+        }
+        
+        total_comparisons = len(preferences)
+        preference_percentages = {
+            k: (v / total_comparisons) * 100 for k, v in preference_counts.items()
+        }
+        
+        # Statistical significance test
+        from scipy.stats import binom_test
+        
+        # Exclude ties for significance test
+        a_wins = preference_counts['model_a']
+        b_wins = preference_counts['model_b']
+        total_decisive = a_wins + b_wins
+        
+        p_value = None
+        if total_decisive > 0:
+            p_value = binom_test(max(a_wins, b_wins), total_decisive, 0.5)
+        
+        # Criterion-specific analysis
+        criterion_analysis = {}
+        for criterion in experiment['criteria']:
+            criterion_scores_a = []
+            criterion_scores_b = []
+            
+            for result in results:
+                ratings = result.get('criterion_ratings', {})
+                if criterion in ratings:
+                    if 'model_a' in ratings[criterion]:
+                        criterion_scores_a.append(ratings[criterion]['model_a'])
+                    if 'model_b' in ratings[criterion]:
+                        criterion_scores_b.append(ratings[criterion]['model_b'])
+            
+            if criterion_scores_a and criterion_scores_b:
+                from scipy.stats import ttest_ind
+                
+                t_stat, t_p_value = ttest_ind(criterion_scores_a, criterion_scores_b)
+                
+                criterion_analysis[criterion] = {
+                    'model_a_mean': statistics.mean(criterion_scores_a),
+                    'model_b_mean': statistics.mean(criterion_scores_b),
+                    'model_a_std': statistics.stdev(criterion_scores_a) if len(criterion_scores_a) > 1 else 0,
+                    'model_b_std': statistics.stdev(criterion_scores_b) if len(criterion_scores_b) > 1 else 0,
+                    't_statistic': t_stat,
+                    'p_value': t_p_value,
+                    'significant': t_p_value < 0.05 if not pd.isna(t_p_value) else False
+                }
+        
+        # Confidence intervals for preference percentages
+        def wilson_confidence_interval(successes, trials, confidence=0.95):
+            """Calculate Wilson confidence interval"""
+            if trials == 0:
+                return (0, 0)
+            
+            z = 1.96  # 95% confidence
+            p = successes / trials
+            
+            denominator = 1 + z**2 / trials
+            centre = (p + z**2 / (2 * trials)) / denominator
+            
+            delta = z * ((p * (1 - p) + z**2 / (4 * trials)) / trials)**0.5 / denominator
+            
+            return max(0, centre - delta), min(1, centre + delta)
+        
+        confidence_intervals = {}
+        for model in ['model_a', 'model_b']:
+            wins = preference_counts[model]
+            lower, upper = wilson_confidence_interval(wins, total_comparisons)
+            confidence_intervals[model] = {
+                'lower': lower * 100,
+                'upper': upper * 100
+            }
+        
+        return {
+            'experiment_info': experiment,
+            'summary': {
+                'total_comparisons': total_comparisons,
+                'preference_counts': preference_counts,
+                'preference_percentages': preference_percentages,
+                'confidence_intervals': confidence_intervals
+            },
+            'statistical_significance': {
+                'p_value': p_value,
+                'significant': p_value < 0.05 if p_value is not None else False,
+                'effect_size': abs(preference_percentages['model_a'] - preference_percentages['model_b'])
+            },
+            'criterion_analysis': criterion_analysis,
+            'recommendations': self._generate_recommendations(preference_percentages, p_value, criterion_analysis)
+        }
+    
+    def _generate_recommendations(self, 
+                                 preferences: Dict[str, float],
+                                 p_value: Optional[float],
+                                 criterion_analysis: Dict) -> List[str]:
+        """Generate actionable recommendations based on results"""
+        
+        recommendations = []
+        
+        # Overall preference recommendations
+        model_a_pref = preferences['model_a']
+        model_b_pref = preferences['model_b']
+        tie_rate = preferences['tie']
+        
+        if p_value is not None and p_value < 0.05:
+            winner = 'Model A' if model_a_pref > model_b_pref else 'Model B'
+            recommendations.append(f"Statistically significant preference for {winner} (p < 0.05)")
+        else:
+            recommendations.append("No statistically significant difference detected")
+        
+        if tie_rate > 30:
+            recommendations.append("High tie rate suggests models perform similarly - consider cost/speed factors")
+        
+        # Criterion-specific recommendations
+        for criterion, stats in criterion_analysis.items():
+            if stats.get('significant', False):
+                better_model = 'A' if stats['model_a_mean'] > stats['model_b_mean'] else 'B'
+                recommendations.append(f"Model {better_model} significantly better on {criterion}")
+        
+        if len(recommendations) == 1:  # Only the significance test result
+            recommendations.append("Consider collecting more data or testing different model variants")
+        
+        return recommendations
+</CodeExample>
+
+## quiz
+
+<Quiz>
+  <Question
+    question="What is the key difference between testing traditional software and AI systems?"
+    options={[
+      "AI systems require more computational resources to test",
+      "Traditional software has deterministic outputs while AI systems are probabilistic",
+      "AI systems can only be tested in production",
+      "Traditional software doesn't need automated testing"
+    ]}
+    correct={1}
+    explanation="Traditional software typically produces deterministic outputs that can be validated with exact matches, while AI systems produce probabilistic outputs that require fuzzy matching and graduated confidence levels."
+  />
+  
+  <Question
+    question="Which metric is most important for evaluating information retrieval systems?"
+    options={[
+      "BLEU score",
+      "Accuracy",
+      "NDCG (Normalized Discounted Cumulative Gain)",
+      "Fluency score"
+    ]}
+    correct={2}
+    explanation="NDCG is specifically designed for ranking tasks in information retrieval, considering both relevance and position. BLEU is for text generation, accuracy for classification, and fluency for text quality."
+  />
+  
+  <Question
+    question="What is the minimum number of ratings per task recommended for reliable human evaluation?"
+    options={[
+      "1 rating per task is sufficient",
+      "2-3 ratings per task",
+      "5-7 ratings per task",
+      "10+ ratings per task"
+    ]}
+    correct={1}
+    explanation="2-3 ratings per task provide a good balance between reliability and cost. This allows for basic inter-annotator agreement calculation and helps identify outlier ratings."
+  />
+  
+  <Question
+    question="In A/B testing for AI models, what statistical test is most appropriate for comparing overall preferences?"
+    options={[
+      "T-test",
+      "Chi-square test",
+      "Binomial test",
+      "ANOVA"
+    ]}
+    correct={2}
+    explanation="A binomial test is appropriate for comparing binary outcomes (Model A vs Model B preferences) to determine if the difference is statistically significant from random chance."
+  />
+  
+  <Question
+    question="What is property-based testing in the context of AI systems?"
+    options={[
+      "Testing individual functions in isolation",
+      "Testing that certain properties hold for any valid input",
+      "Testing the model's performance on specific datasets",
+      "Testing the model's training properties"
+    ]}
+    correct={1}
+    explanation="Property-based testing verifies that certain properties (like non-empty outputs, reasonable lengths, consistency) hold for any valid input, helping catch edge cases that manual test cases might miss."
+  />
+</Quiz>
+
+## Summary
+
+You've mastered comprehensive evaluation and testing approaches for AI systems:
+
+✅ **Testing Fundamentals**: Understanding probabilistic vs deterministic testing approaches
+✅ **Evaluation Metrics**: Comprehensive frameworks for different AI task types
+✅ **Automated Testing**: Building CI/CD pipelines with property-based testing
+✅ **Human Evaluation**: A/B testing and inter-annotator agreement analysis
+✅ **Production Monitoring**: Continuous evaluation and quality assurance
+
+Next module: **Building Production RAG Systems** - Learn to build, optimize, and deploy Retrieval-Augmented Generation systems at scale.

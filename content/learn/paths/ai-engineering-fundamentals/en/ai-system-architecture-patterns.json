@@ -1,0 +1,47 @@
+{
+  "id": "ai-system-architecture-patterns",
+  "title": "AI System Architecture Patterns",
+  "description": "Master enterprise-scale architecture patterns for deploying, scaling, and maintaining AI systems in production environments.",
+  "sections": [
+    {
+      "id": "enterprise-patterns",
+      "title": "Enterprise AI Architecture Patterns",
+      "content": {
+        "type": "lesson",
+        "source": "ai-system-architecture-patterns.mdx#enterprise-patterns"
+      }
+    },
+    {
+      "id": "microservices-ai",
+      "title": "Microservices for AI Systems",
+      "content": {
+        "type": "lesson",
+        "source": "ai-system-architecture-patterns.mdx#microservices-ai"
+      }
+    },
+    {
+      "id": "event-driven-ai",
+      "title": "Event-Driven AI Architectures",
+      "content": {
+        "type": "lesson",
+        "source": "ai-system-architecture-patterns.mdx#event-driven-ai"
+      }
+    },
+    {
+      "id": "deployment-strategies",
+      "title": "Deployment and Infrastructure Patterns",
+      "content": {
+        "type": "lesson",
+        "source": "ai-system-architecture-patterns.mdx#deployment-strategies"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "content": {
+        "type": "quiz",
+        "source": "ai-system-architecture-patterns.mdx#quiz"
+      }
+    }
+  ]
+}

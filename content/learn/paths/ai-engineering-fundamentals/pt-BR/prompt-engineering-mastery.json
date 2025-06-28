@@ -1,0 +1,47 @@
+{
+  "id": "prompt-engineering-mastery",
+  "title": "Maestria em Engenharia de Prompts",
+  "description": "Domine técnicas avançadas de engenharia de prompts para construir aplicações de IA confiáveis, eficientes e econômicas.",
+  "sections": [
+    {
+      "id": "beyond-basics",
+      "title": "Além do Básico em Prompts",
+      "content": {
+        "type": "lesson",
+        "source": "prompt-engineering-mastery.mdx#beyond-basics"
+      }
+    },
+    {
+      "id": "advanced-techniques",
+      "title": "Técnicas Avançadas de Prompting",
+      "content": {
+        "type": "lesson",
+        "source": "prompt-engineering-mastery.mdx#advanced-techniques"
+      }
+    },
+    {
+      "id": "prompt-chaining",
+      "title": "Encadeamento de Prompts e Workflows",
+      "content": {
+        "type": "lesson",
+        "source": "prompt-engineering-mastery.mdx#prompt-chaining"
+      }
+    },
+    {
+      "id": "optimization-strategies",
+      "title": "Otimização de Custo e Performance",
+      "content": {
+        "type": "lesson",
+        "source": "prompt-engineering-mastery.mdx#optimization-strategies"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Verificação de Conhecimento",
+      "content": {
+        "type": "quiz",
+        "source": "prompt-engineering-mastery.mdx#quiz"
+      }
+    }
+  ]
+}

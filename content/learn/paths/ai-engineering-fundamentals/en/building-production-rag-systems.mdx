@@ -1,0 +1,2042 @@
+# Building Production RAG Systems
+
+## rag-fundamentals
+
+Retrieval-Augmented Generation (RAG) bridges the gap between the knowledge cutoff of language models and real-time, domain-specific information. Building production RAG systems requires careful architecture decisions and optimization strategies.
+
+<Callout type="info">
+RAG is not just about "adding a vector database." It's about creating a robust information retrieval and synthesis pipeline that maintains accuracy, relevance, and performance at scale.
+</Callout>
+
+### Core RAG Architecture
+
+<Diagram>
+graph TB
+    A[User Query] --> B[Query Processor]
+    B --> C[Retrieval Engine]
+    C --> D[Vector Database]
+    C --> E[Traditional Search]
+    C --> F[Knowledge Graph]
+    
+    D --> G[Document Ranker]
+    E --> G
+    F --> G
+    
+    G --> H[Context Builder]
+    H --> I[LLM Generator]
+    I --> J[Response Post-processor]
+    J --> K[Final Response]
+    
+    L[Document Ingestion] --> M[Chunking Strategy]
+    M --> N[Embedding Generation]
+    N --> D
+    
+    O[Metadata Extraction] --> P[Structured Data]
+    P --> F
+</Diagram>
+
+### Production-Ready RAG Components
+
+<CodeExample language="python">
+from abc import ABC, abstractmethod
+from typing import List, Dict, Any, Optional, Tuple
+import asyncio
+from dataclasses import dataclass
+import numpy as np
+from datetime import datetime
+import logging
+
+@dataclass
+class Document:
+    id: str
+    content: str
+    metadata: Dict[str, Any]
+    embedding: Optional[np.ndarray] = None
+    
+@dataclass
+class RetrievalResult:
+    document: Document
+    score: float
+    rank: int
+    explanation: Optional[str] = None
+
+@dataclass
+class RAGResponse:
+    answer: str
+    sources: List[RetrievalResult]
+    confidence: float
+    processing_time: float
+    metadata: Dict[str, Any]
+
+class DocumentProcessor(ABC):
+    """Abstract base class for document processing"""
+    
+    @abstractmethod
+    async def process(self, documents: List[Dict[str, Any]]) -> List[Document]:
+        pass
+
+class Retriever(ABC):
+    """Abstract base class for retrievers"""
+    
+    @abstractmethod
+    async def retrieve(self, query: str, top_k: int = 10) -> List[RetrievalResult]:
+        pass
+
+class Generator(ABC):
+    """Abstract base class for generators"""
+    
+    @abstractmethod
+    async def generate(self, query: str, context: List[RetrievalResult]) -> str:
+        pass
+
+class ProductionRAGSystem:
+    """Production-ready RAG system with comprehensive architecture"""
+    
+    def __init__(self, 
+                 processor: DocumentProcessor,
+                 retrievers: List[Retriever],
+                 generator: Generator,
+                 config: Dict[str, Any] = None):
+        
+        self.processor = processor
+        self.retrievers = retrievers
+        self.generator = generator
+        self.config = config or {}
+        
+        # Initialize components
+        self.query_processor = QueryProcessor(self.config.get('query_config', {}))
+        self.context_builder = ContextBuilder(self.config.get('context_config', {}))
+        self.response_validator = ResponseValidator(self.config.get('validation_config', {}))
+        
+        # Monitoring and logging
+        self.logger = logging.getLogger(__name__)
+        self.metrics = RAGMetrics()
+        
+    async def ingest_documents(self, raw_documents: List[Dict[str, Any]]):
+        """Ingest and process documents for retrieval"""
+        
+        start_time = datetime.now()
+        
+        try:
+            # Process documents
+            processed_docs = await self.processor.process(raw_documents)
+            
+            # Store in all retrievers
+            for retriever in self.retrievers:
+                if hasattr(retriever, 'add_documents'):
+                    await retriever.add_documents(processed_docs)
+            
+            processing_time = (datetime.now() - start_time).total_seconds()
+            
+            self.metrics.record_ingestion(
+                num_documents=len(processed_docs),
+                processing_time=processing_time
+            )
+            
+            self.logger.info(f"Ingested {len(processed_docs)} documents in {processing_time:.2f}s")
+            
+        except Exception as e:
+            self.logger.error(f"Document ingestion failed: {e}")
+            raise
+    
+    async def query(self, user_query: str, **kwargs) -> RAGResponse:
+        """Main query processing pipeline"""
+        
+        start_time = datetime.now()
+        
+        try:
+            # 1. Process and enhance query
+            processed_query = await self.query_processor.process(user_query)
+            
+            # 2. Retrieve from multiple sources
+            retrieval_tasks = [
+                retriever.retrieve(processed_query.text, 
+                                 top_k=kwargs.get('top_k', 10))
+                for retriever in self.retrievers
+            ]
+            
+            retrieval_results = await asyncio.gather(*retrieval_tasks)
+            
+            # 3. Merge and rank results
+            merged_results = await self._merge_retrieval_results(retrieval_results)
+            
+            # 4. Build context
+            context = await self.context_builder.build_context(
+                processed_query, merged_results, **kwargs
+            )
+            
+            # 5. Generate response
+            generated_answer = await self.generator.generate(
+                processed_query.text, context
+            )
+            
+            # 6. Validate and post-process
+            validated_response = await self.response_validator.validate(
+                generated_answer, context, processed_query
+            )
+            
+            processing_time = (datetime.now() - start_time).total_seconds()
+            
+            # 7. Create final response
+            response = RAGResponse(
+                answer=validated_response.text,
+                sources=context,
+                confidence=validated_response.confidence,
+                processing_time=processing_time,
+                metadata={
+                    'query_processing': processed_query.metadata,
+                    'retrieval_stats': self._get_retrieval_stats(merged_results),
+                    'generation_stats': validated_response.metadata
+                }
+            )
+            
+            # Record metrics
+            self.metrics.record_query(
+                processing_time=processing_time,
+                num_sources=len(context),
+                confidence=response.confidence
+            )
+            
+            return response
+            
+        except Exception as e:
+            self.logger.error(f"Query processing failed: {e}")
+            raise
+    
+    async def _merge_retrieval_results(self, 
+                                     retrieval_results: List[List[RetrievalResult]]) -> List[RetrievalResult]:
+        """Merge and deduplicate results from multiple retrievers"""
+        
+        # Flatten all results
+        all_results = []
+        for results in retrieval_results:
+            all_results.extend(results)
+        
+        # Deduplicate by document ID
+        seen_docs = set()
+        unique_results = []
+        
+        for result in all_results:
+            if result.document.id not in seen_docs:
+                unique_results.append(result)
+                seen_docs.add(result.document.id)
+        
+        # Re-rank using ensemble scoring
+        reranked_results = await self._ensemble_rerank(unique_results)
+        
+        return reranked_results
+    
+    async def _ensemble_rerank(self, results: List[RetrievalResult]) -> List[RetrievalResult]:
+        """Re-rank results using ensemble method"""
+        
+        # Normalize scores across different retrievers
+        if not results:
+            return results
+        
+        # Simple ensemble: average of normalized scores
+        max_score = max(r.score for r in results)
+        min_score = min(r.score for r in results)
+        score_range = max_score - min_score if max_score > min_score else 1
+        
+        for result in results:
+            normalized_score = (result.score - min_score) / score_range
+            result.score = normalized_score
+        
+        # Sort by score
+        results.sort(key=lambda x: x.score, reverse=True)
+        
+        # Update ranks
+        for i, result in enumerate(results):
+            result.rank = i + 1
+        
+        return results
+
+class QueryProcessor:
+    """Advanced query processing and enhancement"""
+    
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.query_expander = QueryExpander()
+        self.intent_classifier = IntentClassifier()
+        
+    async def process(self, query: str) -> 'ProcessedQuery':
+        """Process and enhance the user query"""
+        
+        # Clean and normalize
+        cleaned_query = self._clean_query(query)
+        
+        # Classify intent
+        intent = await self.intent_classifier.classify(cleaned_query)
+        
+        # Expand query with synonyms and related terms
+        expanded_query = await self.query_expander.expand(cleaned_query, intent)
+        
+        # Extract entities and keywords
+        entities = self._extract_entities(cleaned_query)
+        keywords = self._extract_keywords(cleaned_query)
+        
+        return ProcessedQuery(
+            original=query,
+            text=expanded_query,
+            intent=intent,
+            entities=entities,
+            keywords=keywords,
+            metadata={
+                'cleaning_applied': cleaned_query != query,
+                'expansion_terms': expanded_query.split() if expanded_query != cleaned_query else [],
+                'processing_timestamp': datetime.now().isoformat()
+            }
+        )
+    
+    def _clean_query(self, query: str) -> str:
+        """Clean and normalize the query"""
+        import re
+        
+        # Remove extra whitespace
+        cleaned = ' '.join(query.split())
+        
+        # Remove special characters but keep essential punctuation
+        cleaned = re.sub(r'[^\w\s\?\!\.]', ' ', cleaned)
+        
+        # Normalize case (optional, depends on use case)
+        if self.config.get('normalize_case', False):
+            cleaned = cleaned.lower()
+        
+        return cleaned.strip()
+    
+    def _extract_entities(self, query: str) -> List[Dict[str, Any]]:
+        """Extract named entities from query"""
+        # Simplified implementation - use spaCy or similar in production
+        import re
+        
+        entities = []
+        
+        # Extract potential dates
+        date_patterns = [
+            r'\b\d{1,2}/\d{1,2}/\d{4}\b',  # MM/DD/YYYY
+            r'\b\d{4}-\d{2}-\d{2}\b',      # YYYY-MM-DD
+            r'\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}\b'
+        ]
+        
+        for pattern in date_patterns:
+            matches = re.finditer(pattern, query, re.IGNORECASE)
+            for match in matches:
+                entities.append({
+                    'text': match.group(),
+                    'type': 'DATE',
+                    'start': match.start(),
+                    'end': match.end()
+                })
+        
+        # Extract potential organizations/proper nouns
+        proper_nouns = re.finditer(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', query)
+        for match in proper_nouns:
+            entities.append({
+                'text': match.group(),
+                'type': 'ORGANIZATION',
+                'start': match.start(),
+                'end': match.end()
+            })
+        
+        return entities
+    
+    def _extract_keywords(self, query: str) -> List[str]:
+        """Extract important keywords from query"""
+        import re
+        
+        # Remove stop words (simplified list)
+        stop_words = {
+            'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
+            'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+            'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
+            'should', 'what', 'when', 'where', 'why', 'how', 'can', 'may'
+        }
+        
+        words = re.findall(r'\b\w+\b', query.lower())
+        keywords = [word for word in words if word not in stop_words and len(word) > 2]
+        
+        return keywords
+
+@dataclass
+class ProcessedQuery:
+    original: str
+    text: str
+    intent: str
+    entities: List[Dict[str, Any]]
+    keywords: List[str]
+    metadata: Dict[str, Any]
+
+class ContextBuilder:
+    """Intelligent context building for LLM generation"""
+    
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.max_context_length = config.get('max_context_length', 4000)
+        self.context_strategy = config.get('strategy', 'relevance_based')
+        
+    async def build_context(self, 
+                           query: ProcessedQuery,
+                           results: List[RetrievalResult],
+                           **kwargs) -> List[RetrievalResult]:
+        """Build optimal context from retrieval results"""
+        
+        if self.context_strategy == 'relevance_based':
+            return await self._relevance_based_selection(query, results)
+        elif self.context_strategy == 'diversity_based':
+            return await self._diversity_based_selection(query, results)
+        elif self.context_strategy == 'temporal_based':
+            return await self._temporal_based_selection(query, results)
+        else:
+            return results[:self.config.get('max_documents', 5)]
+    
+    async def _relevance_based_selection(self, 
+                                       query: ProcessedQuery,
+                                       results: List[RetrievalResult]) -> List[RetrievalResult]:
+        """Select context based purely on relevance scores"""
+        
+        selected_results = []
+        current_length = 0
+        
+        for result in results:
+            # Estimate token count (rough approximation)
+            estimated_tokens = len(result.document.content.split()) * 1.3
+            
+            if current_length + estimated_tokens <= self.max_context_length:
+                selected_results.append(result)
+                current_length += estimated_tokens
+            else:
+                break
+        
+        return selected_results
+    
+    async def _diversity_based_selection(self, 
+                                       query: ProcessedQuery,
+                                       results: List[RetrievalResult]) -> List[RetrievalResult]:
+        """Select diverse context to avoid redundancy"""
+        
+        if not results:
+            return []
+        
+        selected_results = [results[0]]  # Always include top result
+        current_length = len(results[0].document.content.split()) * 1.3
+        
+        for result in results[1:]:
+            # Check diversity against already selected
+            is_diverse = True
+            for selected in selected_results:
+                similarity = self._calculate_content_similarity(
+                    result.document.content,
+                    selected.document.content
+                )
+                
+                if similarity > self.config.get('diversity_threshold', 0.8):
+                    is_diverse = False
+                    break
+            
+            if is_diverse:
+                estimated_tokens = len(result.document.content.split()) * 1.3
+                if current_length + estimated_tokens <= self.max_context_length:
+                    selected_results.append(result)
+                    current_length += estimated_tokens
+        
+        return selected_results
+    
+    def _calculate_content_similarity(self, content1: str, content2: str) -> float:
+        """Calculate similarity between two pieces of content"""
+        # Simplified Jaccard similarity
+        words1 = set(content1.lower().split())
+        words2 = set(content2.lower().split())
+        
+        intersection = words1.intersection(words2)
+        union = words1.union(words2)
+        
+        return len(intersection) / len(union) if union else 0.0
+
+class ResponseValidator:
+    """Validate and enhance generated responses"""
+    
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.fact_checker = FactChecker() if config.get('enable_fact_checking') else None
+        self.safety_checker = SafetyChecker() if config.get('enable_safety_checking') else None
+        
+    async def validate(self, 
+                      response: str,
+                      context: List[RetrievalResult],
+                      query: ProcessedQuery) -> 'ValidatedResponse':
+        """Validate and enhance the generated response"""
+        
+        validation_results = {}
+        confidence_factors = []
+        
+        # 1. Fact checking
+        if self.fact_checker:
+            fact_check_result = await self.fact_checker.check(response, context)
+            validation_results['fact_check'] = fact_check_result
+            confidence_factors.append(fact_check_result.confidence)
+        
+        # 2. Safety checking
+        if self.safety_checker:
+            safety_result = await self.safety_checker.check(response)
+            validation_results['safety'] = safety_result
+            if not safety_result.is_safe:
+                # Return safe fallback response
+                response = self._generate_safe_fallback(query)
+                confidence_factors.append(0.5)  # Low confidence for fallback
+            else:
+                confidence_factors.append(0.9)  # High confidence for safe content
+        
+        # 3. Coherence checking
+        coherence_score = self._check_coherence(response, query)
+        validation_results['coherence'] = coherence_score
+        confidence_factors.append(coherence_score)
+        
+        # 4. Source attribution
+        attributed_response = self._add_source_attribution(response, context)
+        
+        # Calculate overall confidence
+        overall_confidence = np.mean(confidence_factors) if confidence_factors else 0.7
+        
+        return ValidatedResponse(
+            text=attributed_response,
+            confidence=overall_confidence,
+            validation_results=validation_results,
+            metadata={
+                'validation_timestamp': datetime.now().isoformat(),
+                'validators_used': list(validation_results.keys())
+            }
+        )
+    
+    def _check_coherence(self, response: str, query: ProcessedQuery) -> float:
+        """Check if response is coherent and relevant to query"""
+        
+        # Simple coherence checks
+        response_words = set(response.lower().split())
+        query_words = set(query.keywords)
+        
+        # Keyword overlap
+        overlap = len(response_words.intersection(query_words))
+        keyword_relevance = overlap / len(query_words) if query_words else 0
+        
+        # Length reasonableness
+        word_count = len(response.split())
+        length_score = 1.0 if 10 <= word_count <= 500 else max(0.3, 1.0 - abs(word_count - 100) / 400)
+        
+        # Combine scores
+        coherence_score = (keyword_relevance * 0.6) + (length_score * 0.4)
+        
+        return min(1.0, coherence_score)
+    
+    def _add_source_attribution(self, response: str, context: List[RetrievalResult]) -> str:
+        """Add source attribution to the response"""
+        
+        if not context or not self.config.get('add_citations', True):
+            return response
+        
+        # Simple citation format
+        citations = []
+        for i, result in enumerate(context[:3], 1):  # Limit to top 3 sources
+            source_info = result.document.metadata.get('title', f"Document {result.document.id}")
+            citations.append(f"[{i}] {source_info}")
+        
+        if citations:
+            response += "\n\n**Sources:**\n" + "\n".join(citations)
+        
+        return response
+    
+    def _generate_safe_fallback(self, query: ProcessedQuery) -> str:
+        """Generate a safe fallback response"""
+        return ("I understand you're asking about this topic, but I don't have "
+                "sufficient reliable information to provide a complete answer. "
+                "Please try rephrasing your question or consult authoritative sources.")
+
+@dataclass
+class ValidatedResponse:
+    text: str
+    confidence: float
+    validation_results: Dict[str, Any]
+    metadata: Dict[str, Any]
+
+class RAGMetrics:
+    """Comprehensive metrics collection for RAG systems"""
+    
+    def __init__(self):
+        self.query_metrics = []
+        self.ingestion_metrics = []
+        
+    def record_query(self, processing_time: float, num_sources: int, confidence: float):
+        """Record query processing metrics"""
+        self.query_metrics.append({
+            'timestamp': datetime.now().isoformat(),
+            'processing_time': processing_time,
+            'num_sources': num_sources,
+            'confidence': confidence
+        })
+    
+    def record_ingestion(self, num_documents: int, processing_time: float):
+        """Record document ingestion metrics"""
+        self.ingestion_metrics.append({
+            'timestamp': datetime.now().isoformat(),
+            'num_documents': num_documents,
+            'processing_time': processing_time
+        })
+    
+    def get_performance_summary(self) -> Dict[str, Any]:
+        """Get performance summary statistics"""
+        if not self.query_metrics:
+            return {}
+        
+        processing_times = [m['processing_time'] for m in self.query_metrics]
+        confidences = [m['confidence'] for m in self.query_metrics]
+        
+        return {
+            'total_queries': len(self.query_metrics),
+            'avg_processing_time': np.mean(processing_times),
+            'p95_processing_time': np.percentile(processing_times, 95),
+            'avg_confidence': np.mean(confidences),
+            'queries_per_minute': len(self.query_metrics) / max(1, len(self.query_metrics) / 60)
+        }
+</CodeExample>
+
+## advanced-retrieval
+
+### Hybrid Retrieval Strategies
+
+Modern production RAG systems combine multiple retrieval approaches for better coverage and accuracy.
+
+<CodeExample language="python">
+from typing import List, Dict, Any, Optional
+import asyncio
+import numpy as np
+from abc import ABC, abstractmethod
+
+class HybridRetriever(Retriever):
+    """Combines multiple retrieval strategies"""
+    
+    def __init__(self, 
+                 vector_retriever: 'VectorRetriever',
+                 keyword_retriever: 'KeywordRetriever',
+                 graph_retriever: Optional['GraphRetriever'] = None,
+                 weights: Dict[str, float] = None):
+        
+        self.vector_retriever = vector_retriever
+        self.keyword_retriever = keyword_retriever
+        self.graph_retriever = graph_retriever
+        
+        # Default weights for combining scores
+        self.weights = weights or {
+            'vector': 0.6,
+            'keyword': 0.3,
+            'graph': 0.1
+        }
+    
+    async def retrieve(self, query: str, top_k: int = 10) -> List[RetrievalResult]:
+        """Retrieve using hybrid approach"""
+        
+        # Run retrievers in parallel
+        tasks = [
+            self.vector_retriever.retrieve(query, top_k * 2),
+            self.keyword_retriever.retrieve(query, top_k * 2)
+        ]
+        
+        if self.graph_retriever:
+            tasks.append(self.graph_retriever.retrieve(query, top_k))
+        
+        results = await asyncio.gather(*tasks)
+        
+        vector_results = results[0]
+        keyword_results = results[1]
+        graph_results = results[2] if len(results) > 2 else []
+        
+        # Combine and re-rank
+        combined_results = self._combine_results(
+            vector_results, keyword_results, graph_results
+        )
+        
+        return combined_results[:top_k]
+    
+    def _combine_results(self, 
+                        vector_results: List[RetrievalResult],
+                        keyword_results: List[RetrievalResult],
+                        graph_results: List[RetrievalResult]) -> List[RetrievalResult]:
+        """Combine results from different retrievers"""
+        
+        # Create document score maps
+        doc_scores = {}
+        
+        # Process vector results
+        for result in vector_results:
+            doc_id = result.document.id
+            if doc_id not in doc_scores:
+                doc_scores[doc_id] = {'document': result.document, 'scores': {}}
+            doc_scores[doc_id]['scores']['vector'] = result.score
+        
+        # Process keyword results
+        for result in keyword_results:
+            doc_id = result.document.id
+            if doc_id not in doc_scores:
+                doc_scores[doc_id] = {'document': result.document, 'scores': {}}
+            doc_scores[doc_id]['scores']['keyword'] = result.score
+        
+        # Process graph results
+        for result in graph_results:
+            doc_id = result.document.id
+            if doc_id not in doc_scores:
+                doc_scores[doc_id] = {'document': result.document, 'scores': {}}
+            doc_scores[doc_id]['scores']['graph'] = result.score
+        
+        # Calculate combined scores
+        combined_results = []
+        for doc_id, data in doc_scores.items():
+            scores = data['scores']
+            
+            # Weighted combination
+            combined_score = 0
+            for retriever_type, weight in self.weights.items():
+                if retriever_type in scores:
+                    combined_score += scores[retriever_type] * weight
+            
+            combined_results.append(RetrievalResult(
+                document=data['document'],
+                score=combined_score,
+                rank=0,  # Will be set after sorting
+                explanation=f"Hybrid score: {combined_score:.3f} from {list(scores.keys())}"
+            ))
+        
+        # Sort by combined score
+        combined_results.sort(key=lambda x: x.score, reverse=True)
+        
+        # Update ranks
+        for i, result in enumerate(combined_results):
+            result.rank = i + 1
+        
+        return combined_results
+
+class VectorRetriever(Retriever):
+    """Semantic vector-based retrieval"""
+    
+    def __init__(self, embedding_model: str, vector_store: 'VectorStore'):
+        self.embedding_model = embedding_model
+        self.vector_store = vector_store
+        self.embedder = EmbeddingModel(embedding_model)
+    
+    async def retrieve(self, query: str, top_k: int = 10) -> List[RetrievalResult]:
+        """Retrieve documents using semantic similarity"""
+        
+        # Generate query embedding
+        query_embedding = await self.embedder.embed(query)
+        
+        # Search vector store
+        similar_docs = await self.vector_store.similarity_search(
+            query_embedding, top_k=top_k
+        )
+        
+        results = []
+        for i, (doc, score) in enumerate(similar_docs):
+            results.append(RetrievalResult(
+                document=doc,
+                score=score,
+                rank=i + 1,
+                explanation=f"Semantic similarity: {score:.3f}"
+            ))
+        
+        return results
+
+class KeywordRetriever(Retriever):
+    """Traditional keyword-based retrieval"""
+    
+    def __init__(self, search_engine: 'SearchEngine'):
+        self.search_engine = search_engine
+        
+    async def retrieve(self, query: str, top_k: int = 10) -> List[RetrievalResult]:
+        """Retrieve documents using keyword matching"""
+        
+        # Enhanced query processing for better keyword matching
+        enhanced_query = self._enhance_query(query)
+        
+        # Search using keyword engine
+        search_results = await self.search_engine.search(enhanced_query, top_k=top_k)
+        
+        results = []
+        for i, (doc, score) in enumerate(search_results):
+            results.append(RetrievalResult(
+                document=doc,
+                score=score,
+                rank=i + 1,
+                explanation=f"Keyword match score: {score:.3f}"
+            ))
+        
+        return results
+    
+    def _enhance_query(self, query: str) -> str:
+        """Enhance query for better keyword matching"""
+        
+        # Add common synonyms and variations
+        synonyms = {
+            'car': ['vehicle', 'automobile'],
+            'house': ['home', 'residence'],
+            'company': ['corporation', 'business', 'firm'],
+            'person': ['individual', 'human'],
+        }
+        
+        enhanced_terms = []
+        words = query.lower().split()
+        
+        for word in words:
+            enhanced_terms.append(word)
+            if word in synonyms:
+                enhanced_terms.extend(synonyms[word])
+        
+        return ' '.join(enhanced_terms)
+
+class GraphRetriever(Retriever):
+    """Knowledge graph-based retrieval"""
+    
+    def __init__(self, knowledge_graph: 'KnowledgeGraph'):
+        self.knowledge_graph = knowledge_graph
+        
+    async def retrieve(self, query: str, top_k: int = 10) -> List[RetrievalResult]:
+        """Retrieve using knowledge graph relationships"""
+        
+        # Extract entities from query
+        entities = self._extract_entities(query)
+        
+        # Find related entities and documents
+        related_docs = []
+        
+        for entity in entities:
+            # Get entity relationships
+            relationships = await self.knowledge_graph.get_relationships(entity)
+            
+            for rel in relationships:
+                # Find documents related to connected entities
+                connected_docs = await self.knowledge_graph.get_entity_documents(
+                    rel.target_entity
+                )
+                related_docs.extend(connected_docs)
+        
+        # Score and rank documents
+        scored_docs = self._score_graph_results(related_docs, entities)
+        
+        results = []
+        for i, (doc, score) in enumerate(scored_docs[:top_k]):
+            results.append(RetrievalResult(
+                document=doc,
+                score=score,
+                rank=i + 1,
+                explanation=f"Graph relationship score: {score:.3f}"
+            ))
+        
+        return results
+    
+    def _extract_entities(self, query: str) -> List[str]:
+        """Extract named entities from query"""
+        # Simplified implementation - use spaCy or similar in production
+        import re
+        
+        # Extract potential entities (capitalized words)
+        entities = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', query)
+        
+        return entities
+    
+    def _score_graph_results(self, docs: List[Document], query_entities: List[str]) -> List[Tuple[Document, float]]:
+        """Score documents based on graph relationships"""
+        
+        doc_scores = {}
+        
+        for doc in docs:
+            score = 0
+            doc_entities = doc.metadata.get('entities', [])
+            
+            # Score based on entity overlap
+            entity_overlap = len(set(query_entities).intersection(set(doc_entities)))
+            score += entity_overlap * 0.5
+            
+            # Score based on relationship strength
+            relationship_strength = doc.metadata.get('relationship_strength', 0)
+            score += relationship_strength * 0.3
+            
+            # Score based on entity importance
+            entity_importance = doc.metadata.get('entity_importance', 0)
+            score += entity_importance * 0.2
+            
+            doc_scores[doc.id] = (doc, score)
+        
+        # Sort by score
+        return sorted(doc_scores.values(), key=lambda x: x[1], reverse=True)
+
+class ReRanker:
+    """Re-rank retrieval results using advanced models"""
+    
+    def __init__(self, model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"):
+        self.model_name = model_name
+        self.model = self._load_reranker_model()
+    
+    def _load_reranker_model(self):
+        """Load cross-encoder model for re-ranking"""
+        try:
+            from sentence_transformers import CrossEncoder
+            return CrossEncoder(self.model_name)
+        except ImportError:
+            print("sentence-transformers not available, using fallback re-ranker")
+            return None
+    
+    async def rerank(self, query: str, results: List[RetrievalResult], top_k: int = 10) -> List[RetrievalResult]:
+        """Re-rank results using cross-encoder"""
+        
+        if not self.model or not results:
+            return results[:top_k]
+        
+        # Prepare query-document pairs
+        pairs = [(query, result.document.content) for result in results]
+        
+        # Get re-ranking scores
+        scores = self.model.predict(pairs)
+        
+        # Update scores and re-sort
+        for result, score in zip(results, scores):
+            result.score = float(score)
+            result.explanation = f"Re-ranked score: {score:.3f}"
+        
+        # Sort by new scores
+        results.sort(key=lambda x: x.score, reverse=True)
+        
+        # Update ranks
+        for i, result in enumerate(results):
+            result.rank = i + 1
+        
+        return results[:top_k]
+
+class AdaptiveRetriever(Retriever):
+    """Adaptive retriever that learns from user interactions"""
+    
+    def __init__(self, base_retrievers: List[Retriever]):
+        self.base_retrievers = base_retrievers
+        self.retriever_weights = {i: 1.0 for i in range(len(base_retrievers))}
+        self.feedback_history = []
+        
+    async def retrieve(self, query: str, top_k: int = 10) -> List[RetrievalResult]:
+        """Retrieve using adaptive weighting"""
+        
+        # Get results from all retrievers
+        all_results = []
+        for i, retriever in enumerate(self.base_retrievers):
+            results = await retriever.retrieve(query, top_k)
+            
+            # Weight results based on retriever performance
+            weight = self.retriever_weights[i]
+            for result in results:
+                result.score *= weight
+                
+            all_results.extend(results)
+        
+        # Merge and deduplicate
+        merged_results = self._merge_adaptive_results(all_results)
+        
+        return merged_results[:top_k]
+    
+    def record_feedback(self, query: str, results: List[RetrievalResult], 
+                       user_feedback: Dict[str, Any]):
+        """Record user feedback to improve future retrievals"""
+        
+        feedback_entry = {
+            'query': query,
+            'results': results,
+            'feedback': user_feedback,
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        self.feedback_history.append(feedback_entry)
+        
+        # Update retriever weights based on feedback
+        self._update_weights(feedback_entry)
+    
+    def _update_weights(self, feedback_entry: Dict[str, Any]):
+        """Update retriever weights based on user feedback"""
+        
+        feedback = feedback_entry['feedback']
+        results = feedback_entry['results']
+        
+        # Identify which retrievers contributed to highly-rated results
+        for result in results:
+            if 'retriever_id' in result.metadata:
+                retriever_id = result.metadata['retriever_id']
+                
+                # Adjust weight based on user rating
+                user_rating = feedback.get('rating', 0.5)  # 0-1 scale
+                
+                # Learning rate
+                learning_rate = 0.1
+                
+                # Update weight: increase for good results, decrease for bad
+                adjustment = learning_rate * (user_rating - 0.5)
+                self.retriever_weights[retriever_id] += adjustment
+                
+                # Keep weights positive and normalized
+                self.retriever_weights[retriever_id] = max(0.1, self.retriever_weights[retriever_id])
+        
+        # Normalize weights
+        total_weight = sum(self.retriever_weights.values())
+        for key in self.retriever_weights:
+            self.retriever_weights[key] /= total_weight
+    
+    def _merge_adaptive_results(self, results: List[RetrievalResult]) -> List[RetrievalResult]:
+        """Merge results with adaptive scoring"""
+        
+        # Group by document ID
+        doc_groups = {}
+        for result in results:
+            doc_id = result.document.id
+            if doc_id not in doc_groups:
+                doc_groups[doc_id] = []
+            doc_groups[doc_id].append(result)
+        
+        # Combine scores for same documents
+        merged_results = []
+        for doc_id, group in doc_groups.items():
+            if len(group) == 1:
+                merged_results.append(group[0])
+            else:
+                # Combine scores (could use max, mean, or weighted combination)
+                combined_score = max(result.score for result in group)
+                best_result = max(group, key=lambda x: x.score)
+                best_result.score = combined_score
+                best_result.explanation = f"Combined from {len(group)} retrievers"
+                merged_results.append(best_result)
+        
+        # Sort by score
+        merged_results.sort(key=lambda x: x.score, reverse=True)
+        
+        return merged_results
+</CodeExample>
+
+## optimization-scaling
+
+### Performance Optimization Strategies
+
+<CodeExample language="python">
+import asyncio
+import time
+from typing import Dict, List, Any, Optional
+from dataclasses import dataclass
+from concurrent.futures import ThreadPoolExecutor
+import logging
+
+class RAGOptimizer:
+    """Comprehensive optimization for RAG systems"""
+    
+    def __init__(self, rag_system: ProductionRAGSystem):
+        self.rag_system = rag_system
+        self.cache = CacheManager()
+        self.batch_processor = BatchProcessor()
+        self.connection_pool = ConnectionPoolManager()
+        
+    async def optimize_query_processing(self):
+        """Apply various query processing optimizations"""
+        
+        # 1. Enable caching at multiple levels
+        await self._setup_multi_level_caching()
+        
+        # 2. Optimize retrieval parallelization
+        await self._optimize_retrieval_parallelization()
+        
+        # 3. Enable result streaming
+        await self._setup_result_streaming()
+        
+        # 4. Optimize embedding computation
+        await self._optimize_embedding_computation()
+    
+    async def _setup_multi_level_caching(self):
+        """Setup caching at query, embedding, and result levels"""
+        
+        # Query-level cache
+        self.cache.add_layer('query', CacheLayer(
+            ttl=3600,  # 1 hour
+            max_size=10000,
+            strategy='lru'
+        ))
+        
+        # Embedding cache
+        self.cache.add_layer('embedding', CacheLayer(
+            ttl=86400,  # 24 hours  
+            max_size=50000,
+            strategy='lfu'  # Least frequently used
+        ))
+        
+        # Retrieval results cache
+        self.cache.add_layer('retrieval', CacheLayer(
+            ttl=1800,  # 30 minutes
+            max_size=5000,
+            strategy='lru'
+        ))
+
+class CacheManager:
+    """Advanced multi-level caching system"""
+    
+    def __init__(self):
+        self.layers: Dict[str, 'CacheLayer'] = {}
+        self.hit_rates: Dict[str, List[float]] = {}
+        
+    def add_layer(self, name: str, cache_layer: 'CacheLayer'):
+        """Add a cache layer"""
+        self.layers[name] = cache_layer
+        self.hit_rates[name] = []
+    
+    async def get(self, layer: str, key: str) -> Optional[Any]:
+        """Get value from specific cache layer"""
+        if layer not in self.layers:
+            return None
+        
+        start_time = time.time()
+        value = await self.layers[layer].get(key)
+        
+        # Record hit/miss
+        hit = value is not None
+        self.hit_rates[layer].append(1.0 if hit else 0.0)
+        
+        # Keep only recent hit rates
+        if len(self.hit_rates[layer]) > 1000:
+            self.hit_rates[layer] = self.hit_rates[layer][-1000:]
+        
+        return value
+    
+    async def set(self, layer: str, key: str, value: Any, ttl: Optional[int] = None):
+        """Set value in specific cache layer"""
+        if layer in self.layers:
+            await self.layers[layer].set(key, value, ttl)
+    
+    def get_hit_rates(self) -> Dict[str, float]:
+        """Get current hit rates for all layers"""
+        rates = {}
+        for layer, hits in self.hit_rates.items():
+            if hits:
+                rates[layer] = sum(hits) / len(hits)
+            else:
+                rates[layer] = 0.0
+        return rates
+
+class CacheLayer:
+    """Individual cache layer implementation"""
+    
+    def __init__(self, ttl: int, max_size: int, strategy: str = 'lru'):
+        self.ttl = ttl
+        self.max_size = max_size
+        self.strategy = strategy
+        self.data: Dict[str, Any] = {}
+        self.timestamps: Dict[str, float] = {}
+        self.access_counts: Dict[str, int] = {}
+        self.access_times: Dict[str, float] = {}
+        
+    async def get(self, key: str) -> Optional[Any]:
+        """Get value from cache"""
+        current_time = time.time()
+        
+        if key not in self.data:
+            return None
+        
+        # Check TTL
+        if current_time - self.timestamps[key] > self.ttl:
+            await self._remove(key)
+            return None
+        
+        # Update access statistics
+        self.access_counts[key] = self.access_counts.get(key, 0) + 1
+        self.access_times[key] = current_time
+        
+        return self.data[key]
+    
+    async def set(self, key: str, value: Any, ttl: Optional[int] = None):
+        """Set value in cache"""
+        current_time = time.time()
+        
+        # Check if cache is full
+        if len(self.data) >= self.max_size and key not in self.data:
+            await self._evict()
+        
+        self.data[key] = value
+        self.timestamps[key] = current_time
+        self.access_counts[key] = 1
+        self.access_times[key] = current_time
+    
+    async def _evict(self):
+        """Evict items based on strategy"""
+        if not self.data:
+            return
+        
+        if self.strategy == 'lru':
+            # Remove least recently used
+            oldest_key = min(self.access_times.keys(), key=lambda k: self.access_times[k])
+            await self._remove(oldest_key)
+        
+        elif self.strategy == 'lfu':
+            # Remove least frequently used
+            least_used_key = min(self.access_counts.keys(), key=lambda k: self.access_counts[k])
+            await self._remove(least_used_key)
+        
+        elif self.strategy == 'fifo':
+            # Remove first inserted
+            oldest_key = min(self.timestamps.keys(), key=lambda k: self.timestamps[k])
+            await self._remove(oldest_key)
+    
+    async def _remove(self, key: str):
+        """Remove key from cache"""
+        self.data.pop(key, None)
+        self.timestamps.pop(key, None)
+        self.access_counts.pop(key, None)
+        self.access_times.pop(key, None)
+
+class BatchProcessor:
+    """Batch processing for efficiency"""
+    
+    def __init__(self, batch_size: int = 32, max_wait_time: float = 0.1):
+        self.batch_size = batch_size
+        self.max_wait_time = max_wait_time
+        self.pending_requests: List[Dict[str, Any]] = []
+        self.batch_lock = asyncio.Lock()
+        
+    async def process_embeddings(self, texts: List[str]) -> List[np.ndarray]:
+        """Process embeddings in batches for efficiency"""
+        
+        if len(texts) <= self.batch_size:
+            # Small batch, process immediately
+            return await self._compute_embeddings_batch(texts)
+        
+        # Large batch, split into smaller batches
+        results = []
+        for i in range(0, len(texts), self.batch_size):
+            batch = texts[i:i + self.batch_size]
+            batch_results = await self._compute_embeddings_batch(batch)
+            results.extend(batch_results)
+        
+        return results
+    
+    async def _compute_embeddings_batch(self, texts: List[str]) -> List[np.ndarray]:
+        """Compute embeddings for a batch of texts"""
+        # Mock implementation - replace with actual embedding model
+        await asyncio.sleep(0.01)  # Simulate processing time
+        
+        embeddings = []
+        for text in texts:
+            # Generate mock embedding
+            embedding = np.random.random(384)  # Mock 384-dim embedding
+            embeddings.append(embedding)
+        
+        return embeddings
+
+class ConnectionPoolManager:
+    """Manage database and API connections efficiently"""
+    
+    def __init__(self):
+        self.pools: Dict[str, Any] = {}
+        self.pool_configs = {
+            'vector_db': {
+                'min_connections': 5,
+                'max_connections': 20,
+                'connection_timeout': 30
+            },
+            'search_engine': {
+                'min_connections': 3,
+                'max_connections': 15,
+                'connection_timeout': 10
+            },
+            'llm_api': {
+                'min_connections': 2,
+                'max_connections': 10,
+                'connection_timeout': 60
+            }
+        }
+    
+    async def get_connection(self, pool_name: str):
+        """Get connection from pool"""
+        if pool_name not in self.pools:
+            await self._create_pool(pool_name)
+        
+        # Mock connection retrieval
+        return MockConnection(pool_name)
+    
+    async def _create_pool(self, pool_name: str):
+        """Create connection pool"""
+        config = self.pool_configs.get(pool_name, {})
+        
+        # Mock pool creation
+        self.pools[pool_name] = {
+            'config': config,
+            'active_connections': 0,
+            'created_at': time.time()
+        }
+
+class MockConnection:
+    """Mock connection for demonstration"""
+    
+    def __init__(self, pool_name: str):
+        self.pool_name = pool_name
+        self.created_at = time.time()
+    
+    async def execute(self, query: str):
+        """Mock query execution"""
+        await asyncio.sleep(0.01)  # Simulate network latency
+        return f"Result from {self.pool_name}"
+
+class PerformanceMonitor:
+    """Monitor and analyze RAG system performance"""
+    
+    def __init__(self):
+        self.metrics = {
+            'query_latencies': [],
+            'retrieval_times': [],
+            'generation_times': [],
+            'cache_hit_rates': {},
+            'throughput': [],
+            'error_rates': []
+        }
+        
+    def record_query_latency(self, latency: float):
+        """Record end-to-end query latency"""
+        self.metrics['query_latencies'].append({
+            'timestamp': time.time(),
+            'latency': latency
+        })
+    
+    def record_retrieval_time(self, retrieval_time: float):
+        """Record retrieval component time"""
+        self.metrics['retrieval_times'].append({
+            'timestamp': time.time(),
+            'time': retrieval_time
+        })
+    
+    def record_generation_time(self, generation_time: float):
+        """Record generation component time"""
+        self.metrics['generation_times'].append({
+            'timestamp': time.time(),
+            'time': generation_time
+        })
+    
+    def get_performance_summary(self, window_minutes: int = 60) -> Dict[str, Any]:
+        """Get performance summary for recent time window"""
+        
+        current_time = time.time()
+        window_start = current_time - (window_minutes * 60)
+        
+        # Filter metrics to time window
+        recent_latencies = [
+            m['latency'] for m in self.metrics['query_latencies']
+            if m['timestamp'] >= window_start
+        ]
+        
+        recent_retrieval_times = [
+            m['time'] for m in self.metrics['retrieval_times']
+            if m['timestamp'] >= window_start
+        ]
+        
+        recent_generation_times = [
+            m['time'] for m in self.metrics['generation_times']
+            if m['timestamp'] >= window_start
+        ]
+        
+        if not recent_latencies:
+            return {'error': 'No data in time window'}
+        
+        return {
+            'query_latency': {
+                'mean': np.mean(recent_latencies),
+                'p50': np.percentile(recent_latencies, 50),
+                'p95': np.percentile(recent_latencies, 95),
+                'p99': np.percentile(recent_latencies, 99),
+                'count': len(recent_latencies)
+            },
+            'retrieval_time': {
+                'mean': np.mean(recent_retrieval_times) if recent_retrieval_times else 0,
+                'p95': np.percentile(recent_retrieval_times, 95) if recent_retrieval_times else 0
+            },
+            'generation_time': {
+                'mean': np.mean(recent_generation_times) if recent_generation_times else 0,
+                'p95': np.percentile(recent_generation_times, 95) if recent_generation_times else 0
+            },
+            'throughput': len(recent_latencies) / (window_minutes / 60),  # QPS
+            'window_minutes': window_minutes
+        }
+
+class AutoScaler:
+    """Automatic scaling based on performance metrics"""
+    
+    def __init__(self, monitor: PerformanceMonitor):
+        self.monitor = monitor
+        self.scaling_policies = {
+            'latency_threshold': 2.0,      # Scale up if p95 latency > 2s
+            'throughput_threshold': 100,    # Scale up if QPS > 100
+            'cpu_threshold': 80,           # Scale up if CPU > 80%
+            'memory_threshold': 85         # Scale up if memory > 85%
+        }
+        
+    async def check_scaling_conditions(self) -> Dict[str, Any]:
+        """Check if scaling is needed"""
+        
+        performance = self.monitor.get_performance_summary(window_minutes=5)
+        
+        scaling_decisions = {
+            'scale_up': False,
+            'scale_down': False,
+            'reasons': []
+        }
+        
+        if 'error' in performance:
+            return scaling_decisions
+        
+        # Check latency threshold
+        p95_latency = performance['query_latency']['p95']
+        if p95_latency > self.scaling_policies['latency_threshold']:
+            scaling_decisions['scale_up'] = True
+            scaling_decisions['reasons'].append(f"High latency: {p95_latency:.2f}s")
+        
+        # Check throughput threshold  
+        throughput = performance['throughput']
+        if throughput > self.scaling_policies['throughput_threshold']:
+            scaling_decisions['scale_up'] = True
+            scaling_decisions['reasons'].append(f"High throughput: {throughput:.1f} QPS")
+        
+        # Consider scale down if metrics are consistently low
+        if (p95_latency < self.scaling_policies['latency_threshold'] * 0.3 and
+            throughput < self.scaling_policies['throughput_threshold'] * 0.2):
+            scaling_decisions['scale_down'] = True
+            scaling_decisions['reasons'].append("Low utilization")
+        
+        return scaling_decisions
+    
+    async def execute_scaling(self, scaling_decision: Dict[str, Any]):
+        """Execute scaling actions"""
+        
+        if scaling_decision['scale_up']:
+            await self._scale_up(scaling_decision['reasons'])
+        elif scaling_decision['scale_down']:
+            await self._scale_down(scaling_decision['reasons'])
+    
+    async def _scale_up(self, reasons: List[str]):
+        """Scale up resources"""
+        logging.info(f"Scaling up due to: {', '.join(reasons)}")
+        
+        # Implement actual scaling logic:
+        # - Increase container replicas
+        # - Add more worker processes
+        # - Increase connection pool sizes
+        # - Request more compute resources
+        
+        # Mock implementation
+        await asyncio.sleep(0.1)
+        logging.info("Scale up completed")
+    
+    async def _scale_down(self, reasons: List[str]):
+        """Scale down resources"""
+        logging.info(f"Scaling down due to: {', '.join(reasons)}")
+        
+        # Implement actual scaling logic:
+        # - Reduce container replicas
+        # - Remove worker processes
+        # - Decrease connection pool sizes
+        # - Release compute resources
+        
+        # Mock implementation
+        await asyncio.sleep(0.1)
+        logging.info("Scale down completed")
+</CodeExample>
+
+## monitoring-maintenance
+
+### Production Monitoring and Maintenance
+
+<CodeExample language="python">
+import asyncio
+import logging
+from typing import Dict, List, Any, Optional
+from dataclasses import dataclass, asdict
+from datetime import datetime, timedelta
+import json
+import numpy as np
+
+@dataclass
+class Alert:
+    alert_id: str
+    severity: str  # 'info', 'warning', 'error', 'critical'
+    component: str
+    message: str
+    timestamp: str
+    metadata: Dict[str, Any]
+    resolved: bool = False
+
+class RAGMonitoringSystem:
+    """Comprehensive monitoring for production RAG systems"""
+    
+    def __init__(self, rag_system: ProductionRAGSystem):
+        self.rag_system = rag_system
+        self.alerts: List[Alert] = []
+        self.health_checks = HealthCheckManager()
+        self.drift_detector = DataDriftDetector()
+        self.quality_monitor = QualityMonitor()
+        
+        # Configure logging
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        self.logger = logging.getLogger(__name__)
+    
+    async def start_monitoring(self):
+        """Start all monitoring tasks"""
+        
+        # Start monitoring tasks
+        tasks = [
+            self._monitor_system_health(),
+            self._monitor_data_drift(),
+            self._monitor_response_quality(),
+            self._monitor_user_feedback(),
+            self._generate_periodic_reports()
+        ]
+        
+        await asyncio.gather(*tasks)
+    
+    async def _monitor_system_health(self):
+        """Monitor system health continuously"""
+        
+        while True:
+            try:
+                health_status = await self.health_checks.check_all()
+                
+                for component, status in health_status.items():
+                    if not status['healthy']:
+                        await self._create_alert(
+                            severity='error',
+                            component=component,
+                            message=f"Health check failed: {status['error']}",
+                            metadata=status
+                        )
+                
+                await asyncio.sleep(30)  # Check every 30 seconds
+                
+            except Exception as e:
+                self.logger.error(f"Health monitoring error: {e}")
+                await asyncio.sleep(60)  # Wait longer on error
+    
+    async def _monitor_data_drift(self):
+        """Monitor for data drift in queries and documents"""
+        
+        while True:
+            try:
+                drift_results = await self.drift_detector.check_drift()
+                
+                for drift_type, result in drift_results.items():
+                    if result['drift_detected']:
+                        severity = 'warning' if result['drift_score'] < 0.3 else 'error'
+                        
+                        await self._create_alert(
+                            severity=severity,
+                            component='data_drift',
+                            message=f"Data drift detected in {drift_type}",
+                            metadata=result
+                        )
+                
+                await asyncio.sleep(3600)  # Check every hour
+                
+            except Exception as e:
+                self.logger.error(f"Drift monitoring error: {e}")
+                await asyncio.sleep(3600)
+    
+    async def _monitor_response_quality(self):
+        """Monitor response quality continuously"""
+        
+        while True:
+            try:
+                quality_metrics = await self.quality_monitor.assess_recent_responses()
+                
+                # Check for quality degradation
+                if quality_metrics['avg_confidence'] < 0.6:
+                    await self._create_alert(
+                        severity='warning',
+                        component='response_quality',
+                        message=f"Low average confidence: {quality_metrics['avg_confidence']:.2f}",
+                        metadata=quality_metrics
+                    )
+                
+                if quality_metrics['error_rate'] > 0.05:  # 5% error rate threshold
+                    await self._create_alert(
+                        severity='error',
+                        component='response_quality',
+                        message=f"High error rate: {quality_metrics['error_rate']:.2%}",
+                        metadata=quality_metrics
+                    )
+                
+                await asyncio.sleep(300)  # Check every 5 minutes
+                
+            except Exception as e:
+                self.logger.error(f"Quality monitoring error: {e}")
+                await asyncio.sleep(300)
+    
+    async def _create_alert(self, severity: str, component: str, 
+                           message: str, metadata: Dict[str, Any]):
+        """Create and log an alert"""
+        
+        alert = Alert(
+            alert_id=f"{component}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            severity=severity,
+            component=component,
+            message=message,
+            timestamp=datetime.now().isoformat(),
+            metadata=metadata
+        )
+        
+        self.alerts.append(alert)
+        
+        # Log alert
+        log_level = {
+            'info': logging.INFO,
+            'warning': logging.WARNING,
+            'error': logging.ERROR,
+            'critical': logging.CRITICAL
+        }.get(severity, logging.INFO)
+        
+        self.logger.log(log_level, f"ALERT [{severity.upper()}] {component}: {message}")
+        
+        # Send to external alerting system (Slack, PagerDuty, etc.)
+        await self._send_external_alert(alert)
+    
+    async def _send_external_alert(self, alert: Alert):
+        """Send alert to external systems"""
+        
+        # Mock implementation - replace with actual alerting integrations
+        if alert.severity in ['error', 'critical']:
+            # Send to PagerDuty or similar
+            self.logger.info(f"Sending critical alert to PagerDuty: {alert.alert_id}")
+        
+        if alert.severity in ['warning', 'error', 'critical']:
+            # Send to Slack or similar
+            await self._send_slack_notification(alert)
+    
+    async def _send_slack_notification(self, alert: Alert):
+        """Send alert notification to Slack"""
+        
+        # Mock Slack integration
+        emoji = {
+            'info': ':information_source:',
+            'warning': ':warning:',
+            'error': ':x:',
+            'critical': ':rotating_light:'
+        }.get(alert.severity, ':question:')
+        
+        message = f"{emoji} *{alert.severity.upper()}* Alert\n"
+        message += f"Component: {alert.component}\n"
+        message += f"Message: {alert.message}\n"
+        message += f"Time: {alert.timestamp}"
+        
+        self.logger.info(f"Slack notification: {message}")
+
+class HealthCheckManager:
+    """Manage health checks for all system components"""
+    
+    def __init__(self):
+        self.checks = {
+            'vector_database': self._check_vector_database,
+            'search_engine': self._check_search_engine,
+            'llm_api': self._check_llm_api,
+            'embedding_service': self._check_embedding_service,
+            'cache_system': self._check_cache_system
+        }
+    
+    async def check_all(self) -> Dict[str, Dict[str, Any]]:
+        """Run all health checks"""
+        
+        results = {}
+        
+        for component, check_func in self.checks.items():
+            try:
+                start_time = datetime.now()
+                result = await check_func()
+                response_time = (datetime.now() - start_time).total_seconds()
+                
+                results[component] = {
+                    'healthy': result,
+                    'response_time': response_time,
+                    'last_check': datetime.now().isoformat(),
+                    'error': None
+                }
+                
+            except Exception as e:
+                results[component] = {
+                    'healthy': False,
+                    'response_time': None,
+                    'last_check': datetime.now().isoformat(),
+                    'error': str(e)
+                }
+        
+        return results
+    
+    async def _check_vector_database(self) -> bool:
+        """Check vector database connectivity and performance"""
+        
+        # Mock health check
+        await asyncio.sleep(0.01)  # Simulate DB query
+        
+        # Check if response time is acceptable
+        # Check if database is reachable
+        # Check if indices are healthy
+        
+        return True  # Mock success
+    
+    async def _check_search_engine(self) -> bool:
+        """Check search engine health"""
+        
+        # Mock health check
+        await asyncio.sleep(0.005)
+        
+        # Check if search service is responsive
+        # Check if indices are up to date
+        # Check if query performance is acceptable
+        
+        return True  # Mock success
+    
+    async def _check_llm_api(self) -> bool:
+        """Check LLM API health"""
+        
+        # Mock health check
+        await asyncio.sleep(0.02)
+        
+        # Check API connectivity
+        # Check response times
+        # Check rate limits
+        
+        return True  # Mock success
+    
+    async def _check_embedding_service(self) -> bool:
+        """Check embedding service health"""
+        
+        # Mock health check
+        await asyncio.sleep(0.01)
+        
+        # Check if embedding model is loaded
+        # Check if GPU/CPU resources are available
+        # Check if batch processing is working
+        
+        return True  # Mock success
+    
+    async def _check_cache_system(self) -> bool:
+        """Check cache system health"""
+        
+        # Mock health check
+        await asyncio.sleep(0.001)
+        
+        # Check cache connectivity
+        # Check cache hit rates
+        # Check memory usage
+        
+        return True  # Mock success
+
+class DataDriftDetector:
+    """Detect drift in input queries and document corpus"""
+    
+    def __init__(self):
+        self.baseline_stats = {}
+        self.recent_stats = {}
+        
+    async def check_drift(self) -> Dict[str, Dict[str, Any]]:
+        """Check for various types of data drift"""
+        
+        drift_results = {}
+        
+        # Query drift detection
+        drift_results['query_drift'] = await self._detect_query_drift()
+        
+        # Document corpus drift
+        drift_results['corpus_drift'] = await self._detect_corpus_drift()
+        
+        # User behavior drift
+        drift_results['behavior_drift'] = await self._detect_behavior_drift()
+        
+        return drift_results
+    
+    async def _detect_query_drift(self) -> Dict[str, Any]:
+        """Detect drift in user queries"""
+        
+        # Mock implementation - replace with actual drift detection
+        # Analyze query length distributions
+        # Analyze vocabulary changes
+        # Analyze intent distributions
+        
+        # Simulated drift score
+        drift_score = np.random.random() * 0.4  # Mock low drift
+        
+        return {
+            'drift_detected': drift_score > 0.2,
+            'drift_score': drift_score,
+            'drift_type': 'query_distribution',
+            'details': {
+                'avg_query_length_change': np.random.normal(0, 2),
+                'vocabulary_similarity': 0.95 - drift_score,
+                'intent_distribution_change': drift_score
+            }
+        }
+    
+    async def _detect_corpus_drift(self) -> Dict[str, Any]:
+        """Detect drift in document corpus"""
+        
+        # Mock implementation
+        drift_score = np.random.random() * 0.3
+        
+        return {
+            'drift_detected': drift_score > 0.25,
+            'drift_score': drift_score,
+            'drift_type': 'corpus_content',
+            'details': {
+                'new_documents_added': np.random.randint(0, 100),
+                'content_similarity_change': drift_score,
+                'topic_distribution_change': drift_score * 0.8
+            }
+        }
+    
+    async def _detect_behavior_drift(self) -> Dict[str, Any]:
+        """Detect drift in user behavior patterns"""
+        
+        # Mock implementation
+        drift_score = np.random.random() * 0.2
+        
+        return {
+            'drift_detected': drift_score > 0.15,
+            'drift_score': drift_score,
+            'drift_type': 'user_behavior',
+            'details': {
+                'query_frequency_change': drift_score,
+                'feedback_pattern_change': drift_score * 1.2,
+                'session_length_change': drift_score * 0.9
+            }
+        }
+
+class QualityMonitor:
+    """Monitor response quality over time"""
+    
+    def __init__(self):
+        self.quality_history = []
+        
+    async def assess_recent_responses(self, window_hours: int = 24) -> Dict[str, Any]:
+        """Assess quality of recent responses"""
+        
+        # Mock quality assessment
+        # In production, this would analyze:
+        # - Confidence scores
+        # - User feedback
+        # - Factual accuracy
+        # - Relevance scores
+        # - Error rates
+        
+        cutoff_time = datetime.now() - timedelta(hours=window_hours)
+        
+        # Mock metrics
+        metrics = {
+            'avg_confidence': 0.75 + np.random.normal(0, 0.1),
+            'error_rate': max(0, np.random.normal(0.02, 0.01)),
+            'avg_relevance_score': 0.8 + np.random.normal(0, 0.05),
+            'user_satisfaction': 0.85 + np.random.normal(0, 0.1),
+            'response_count': np.random.randint(100, 1000),
+            'unique_users': np.random.randint(50, 300)
+        }
+        
+        # Ensure values are in valid ranges
+        for key in ['avg_confidence', 'avg_relevance_score', 'user_satisfaction']:
+            metrics[key] = max(0, min(1, metrics[key]))
+        
+        metrics['error_rate'] = max(0, min(1, metrics['error_rate']))
+        
+        return metrics
+
+class MaintenanceScheduler:
+    """Schedule and execute maintenance tasks"""
+    
+    def __init__(self, rag_system: ProductionRAGSystem):
+        self.rag_system = rag_system
+        self.scheduled_tasks = []
+        
+    def schedule_maintenance(self):
+        """Schedule regular maintenance tasks"""
+        
+        # Daily tasks
+        self.schedule_task(
+            name="index_optimization",
+            interval_hours=24,
+            function=self._optimize_indices
+        )
+        
+        # Weekly tasks
+        self.schedule_task(
+            name="model_performance_review",
+            interval_hours=168,  # Weekly
+            function=self._review_model_performance
+        )
+        
+        # Monthly tasks
+        self.schedule_task(
+            name="full_system_audit",
+            interval_hours=720,  # Monthly
+            function=self._full_system_audit
+        )
+    
+    def schedule_task(self, name: str, interval_hours: int, function):
+        """Schedule a maintenance task"""
+        
+        task = {
+            'name': name,
+            'interval_hours': interval_hours,
+            'function': function,
+            'last_run': None,
+            'next_run': datetime.now()
+        }
+        
+        self.scheduled_tasks.append(task)
+    
+    async def run_maintenance_loop(self):
+        """Run maintenance task scheduler"""
+        
+        while True:
+            current_time = datetime.now()
+            
+            for task in self.scheduled_tasks:
+                if current_time >= task['next_run']:
+                    await self._execute_maintenance_task(task)
+            
+            await asyncio.sleep(3600)  # Check every hour
+    
+    async def _execute_maintenance_task(self, task: Dict[str, Any]):
+        """Execute a maintenance task"""
+        
+        try:
+            logging.info(f"Starting maintenance task: {task['name']}")
+            
+            start_time = datetime.now()
+            await task['function']()
+            duration = (datetime.now() - start_time).total_seconds()
+            
+            # Update task schedule
+            task['last_run'] = start_time
+            task['next_run'] = start_time + timedelta(hours=task['interval_hours'])
+            
+            logging.info(f"Completed maintenance task: {task['name']} in {duration:.2f}s")
+            
+        except Exception as e:
+            logging.error(f"Maintenance task failed: {task['name']} - {e}")
+            
+            # Reschedule for retry (shorter interval)
+            task['next_run'] = datetime.now() + timedelta(hours=1)
+    
+    async def _optimize_indices(self):
+        """Optimize vector database indices"""
+        
+        # Mock optimization
+        await asyncio.sleep(2)  # Simulate optimization time
+        
+        # In production:
+        # - Rebuild vector indices
+        # - Update search indices
+        # - Clean up old embeddings
+        # - Optimize database queries
+        
+        logging.info("Index optimization completed")
+    
+    async def _review_model_performance(self):
+        """Review and potentially update models"""
+        
+        # Mock review
+        await asyncio.sleep(5)  # Simulate review time
+        
+        # In production:
+        # - Analyze model performance metrics
+        # - Compare with newer model versions
+        # - Test potential model updates
+        # - Generate performance reports
+        
+        logging.info("Model performance review completed")
+    
+    async def _full_system_audit(self):
+        """Perform comprehensive system audit"""
+        
+        # Mock audit
+        await asyncio.sleep(10)  # Simulate audit time
+        
+        # In production:
+        # - Security audit
+        # - Performance audit
+        # - Data quality audit
+        # - Cost analysis
+        # - Capacity planning
+        
+        logging.info("Full system audit completed")
+</CodeExample>
+
+## quiz
+
+<Quiz>
+  <Question
+    question="What is the primary advantage of hybrid retrieval over single-method retrieval?"
+    options={[
+      "It's always faster than individual methods",
+      "It combines strengths of different approaches for better coverage and accuracy",
+      "It requires less computational resources",
+      "It eliminates the need for reranking"
+    ]}
+    correct={1}
+    explanation="Hybrid retrieval combines vector similarity, keyword matching, and potentially graph relationships to capture different aspects of relevance that individual methods might miss, leading to more comprehensive and accurate results."
+  />
+  
+  <Question
+    question="Which caching strategy is most appropriate for embedding computations?"
+    options={[
+      "FIFO (First In, First Out)",
+      "LRU (Least Recently Used)",
+      "LFU (Least Frequently Used)",
+      "No caching needed"
+    ]}
+    correct={2}
+    explanation="LFU is ideal for embeddings because frequently used embeddings (like common queries or popular documents) should stay in cache longer, as they're likely to be needed again soon."
+  />
+  
+  <Question
+    question="What is the most critical metric to monitor for data drift detection?"
+    options={[
+      "Query response time",
+      "Cache hit rate",
+      "Distribution shift in query patterns or document content",
+      "Memory usage"
+    ]}
+    correct={2}
+    explanation="Distribution shifts in queries or documents indicate that the system's training data or assumptions may no longer be valid, requiring retraining or recalibration. This is more critical than performance metrics for long-term system health."
+  />
+  
+  <Question
+    question="When should you consider re-ranking retrieved documents?"
+    options={[
+      "Always, for every query",
+      "Never, initial ranking is sufficient",
+      "When initial retrieval uses simple similarity and you need more sophisticated relevance scoring",
+      "Only for queries with more than 100 results"
+    ]}
+    correct={2}
+    explanation="Re-ranking is valuable when initial retrieval methods (like basic vector similarity) may miss nuanced relevance factors that cross-encoders or more sophisticated models can capture."
+  />
+  
+  <Question
+    question="What is the recommended approach for handling context length limits in RAG systems?"
+    options={[
+      "Always use the maximum context length available",
+      "Truncate documents to fit more of them",
+      "Use intelligent selection based on relevance, diversity, and token budget",
+      "Only include the single most relevant document"
+    ]}
+    correct={2}
+    explanation="Intelligent context building balances relevance (most important information), diversity (avoiding redundancy), and token budget (staying within model limits) to provide the most useful context for generation."
+  />
+</Quiz>
+
+## Summary
+
+You've mastered building production-ready RAG systems:
+
+✅ **Architecture Design**: Comprehensive RAG pipelines with proper component separation
+✅ **Advanced Retrieval**: Hybrid strategies combining vector, keyword, and graph approaches  
+✅ **Optimization**: Caching, batching, connection pooling, and auto-scaling strategies
+✅ **Monitoring**: Health checks, drift detection, quality monitoring, and alerting
+✅ **Maintenance**: Automated tasks for index optimization and performance reviews
+
+Next module: **AI System Architecture Patterns** - Learn enterprise-scale architecture patterns for deploying AI systems in production environments.

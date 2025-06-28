@@ -477,7 +477,10 @@ describe('ModuleNavigation Component', () => {
       
       render(<ModuleNavigation {...propsWithCompletedSections} />);
       
-      expect(screen.getByTestId('check-circle-icon')).toBeInTheDocument();
+      // The current module should be expanded by default and show section icons
+      // Look for any check circle icon (there might be multiple)
+      const checkIcons = screen.queryAllByTestId('check-circle-icon');
+      expect(checkIcons.length).toBeGreaterThan(0);
     });
   });
 

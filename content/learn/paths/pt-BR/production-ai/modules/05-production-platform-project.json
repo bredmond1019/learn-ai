@@ -1,0 +1,474 @@
+{
+  "metadata": {
+    "id": "production-platform-project",
+    "pathId": "production-ai",
+    "title": "Projeto Final: Construir uma Plataforma de IA em Produção",
+    "description": "Aplique todos os conceitos de IA em produção em um projeto abrangente: construa, implante, monitore, escale e proteja uma plataforma de IA completa com requisitos e restrições do mundo real.",
+    "duration": "480 minutos",
+    "type": "project",
+    "difficulty": "advanced",
+    "order": 5,
+    "prerequisites": [
+      "Conclusão dos módulos 1-4 do caminho Sistemas de IA em Produção",
+      "Experiência com Docker e Kubernetes",
+      "Compreensão de pipelines CI/CD",
+      "Conhecimento de ferramentas de monitoramento e observabilidade",
+      "Familiaridade com melhores práticas de segurança",
+      "Acesso a plataforma de nuvem (AWS, GCP ou Azure)"
+    ],
+    "objectives": [
+      "Projetar e implementar uma arquitetura de plataforma de IA pronta para produção",
+      "Implantar serviços de IA usando estratégias avançadas de implantação",
+      "Implementar monitoramento e observabilidade abrangentes",
+      "Configurar auto-escalonamento e gerenciamento de carga",
+      "Aplicar melhores práticas de segurança e modelagem de ameaças",
+      "Criar pipelines CI/CD para implantação automatizada",
+      "Implementar estratégias de otimização de custos",
+      "Documentar e apresentar a solução completa"
+    ],
+    "tags": [
+      "projeto-final",
+      "implantacao-producao",
+      "engenharia-plataforma",
+      "ia-full-stack",
+      "arquitetura-empresarial",
+      "projeto-pratico"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-28",
+    "author": "Equipe de Engenharia de IA",
+    "estimatedCompletionTime": 1440
+  },
+  "sections": [
+    {
+      "id": "project-overview",
+      "title": "Visão Geral do Projeto e Requisitos",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "30 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#project-overview"
+      },
+      "objectives": [
+        "Compreender o escopo completo do projeto e entregáveis",
+        "Revisar requisitos técnicos e de negócios",
+        "Configurar ambiente de desenvolvimento e ferramentas"
+      ]
+    },
+    {
+      "id": "architecture-design",
+      "title": "Design da Arquitetura da Plataforma",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "60 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#architecture-design",
+        "diagrams": [
+          {
+            "id": "platform-architecture",
+            "type": "mermaid",
+            "title": "Arquitetura Completa da Plataforma de IA"
+          },
+          {
+            "id": "data-flow",
+            "type": "mermaid",
+            "title": "Fluxo de Dados e Pipeline de Processamento"
+          }
+        ]
+      },
+      "objectives": [
+        "Projetar arquitetura de microsserviços escalável",
+        "Planejar fluxo de dados e pipelines de processamento",
+        "Definir contratos de API e padrões de comunicação"
+      ]
+    },
+    {
+      "id": "phase1-deployment",
+      "title": "Fase 1: Infraestrutura Central de Implantação",
+      "type": "exercise",
+      "order": 3,
+      "estimatedDuration": "120 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#phase1-deployment",
+        "codeExamples": [
+          {
+            "id": "kubernetes-manifests",
+            "language": "yaml",
+            "title": "Manifestos de Implantação Kubernetes"
+          },
+          {
+            "id": "terraform-infrastructure",
+            "language": "hcl",
+            "title": "Infraestrutura como Código com Terraform"
+          },
+          {
+            "id": "docker-compose",
+            "language": "yaml",
+            "title": "Ambiente de Desenvolvimento Local"
+          }
+        ]
+      },
+      "objectives": [
+        "Configurar cluster Kubernetes e namespaces",
+        "Implementar estratégia de implantação blue-green",
+        "Configurar service mesh para gerenciamento de tráfego",
+        "Implantar serviços de IA principais com limites de recursos adequados"
+      ]
+    },
+    {
+      "id": "phase2-monitoring",
+      "title": "Fase 2: Monitoramento e Observabilidade",
+      "type": "exercise",
+      "order": 4,
+      "estimatedDuration": "90 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#phase2-monitoring",
+        "codeExamples": [
+          {
+            "id": "prometheus-config",
+            "language": "yaml",
+            "title": "Configuração do Prometheus"
+          },
+          {
+            "id": "grafana-dashboards",
+            "language": "json",
+            "title": "Definições de Dashboards Grafana"
+          },
+          {
+            "id": "distributed-tracing",
+            "language": "python",
+            "title": "Integração OpenTelemetry"
+          }
+        ]
+      },
+      "objectives": [
+        "Implantar Prometheus, Grafana e Jaeger",
+        "Implementar métricas customizadas para desempenho de IA",
+        "Criar dashboards e alertas abrangentes",
+        "Configurar rastreamento distribuído entre serviços"
+      ]
+    },
+    {
+      "id": "phase3-scaling",
+      "title": "Fase 3: Auto-Escalonamento e Gerenciamento de Carga",
+      "type": "exercise",
+      "order": 5,
+      "estimatedDuration": "90 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#phase3-scaling",
+        "codeExamples": [
+          {
+            "id": "hpa-configuration",
+            "language": "yaml",
+            "title": "Configuração do Horizontal Pod Autoscaler"
+          },
+          {
+            "id": "load-balancer",
+            "language": "yaml",
+            "title": "Regras Avançadas de Balanceamento de Carga"
+          },
+          {
+            "id": "queue-based-scaling",
+            "language": "python",
+            "title": "Lógica de Auto-escalonamento Baseada em Fila"
+          }
+        ]
+      },
+      "objectives": [
+        "Configurar escalonamento horizontal e vertical",
+        "Implementar escalonamento baseado em fila para processamento em lote",
+        "Configurar balanceamento de carga com verificações de saúde",
+        "Otimizar utilização de recursos e custos"
+      ]
+    },
+    {
+      "id": "phase4-security",
+      "title": "Fase 4: Implementação de Segurança",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "90 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#phase4-security",
+        "codeExamples": [
+          {
+            "id": "oauth-implementation",
+            "language": "python",
+            "title": "Autenticação OAuth2 + JWT"
+          },
+          {
+            "id": "network-policies",
+            "language": "yaml",
+            "title": "Políticas de Rede Kubernetes"
+          },
+          {
+            "id": "secrets-management",
+            "language": "yaml",
+            "title": "Integração com HashiCorp Vault"
+          }
+        ]
+      },
+      "objectives": [
+        "Implementar autenticação e autorização de ponta a ponta",
+        "Configurar políticas de rede e segurança do service mesh",
+        "Configurar gerenciamento de segredos com Vault",
+        "Implementar validação de entrada e limitação de taxa"
+      ]
+    },
+    {
+      "id": "phase5-cicd",
+      "title": "Fase 5: Pipeline CI/CD",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "60 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#phase5-cicd",
+        "codeExamples": [
+          {
+            "id": "gitlab-pipeline",
+            "language": "yaml",
+            "title": "Pipeline CI/CD GitLab"
+          },
+          {
+            "id": "argocd-config",
+            "language": "yaml",
+            "title": "Configuração GitOps ArgoCD"
+          }
+        ]
+      },
+      "objectives": [
+        "Criar pipeline de testes automatizados",
+        "Implementar fluxo de trabalho de implantação GitOps",
+        "Configurar mecanismos de rollback automatizados",
+        "Configurar versionamento de modelo e registro"
+      ]
+    },
+    {
+      "id": "testing-validation",
+      "title": "Testes e Validação",
+      "type": "content",
+      "order": 8,
+      "estimatedDuration": "60 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#testing-validation",
+        "codeExamples": [
+          {
+            "id": "load-testing",
+            "language": "python",
+            "title": "Testes de Carga com Locust"
+          },
+          {
+            "id": "chaos-engineering",
+            "language": "yaml",
+            "title": "Experimentos de Engenharia do Caos"
+          }
+        ]
+      },
+      "objectives": [
+        "Realizar testes de carga abrangentes",
+        "Executar experimentos de engenharia do caos",
+        "Validar controles de segurança",
+        "Verificar monitoramento e alertas"
+      ]
+    },
+    {
+      "id": "documentation-presentation",
+      "title": "Documentação e Apresentação",
+      "type": "content",
+      "order": 9,
+      "estimatedDuration": "30 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-production-platform-project.mdx#documentation-presentation"
+      },
+      "objectives": [
+        "Criar documentação técnica abrangente",
+        "Preparar diagramas de arquitetura e runbooks",
+        "Documentar procedimentos de implantação",
+        "Apresentar solução e lições aprendidas"
+      ]
+    }
+  ],
+  "deliverables": [
+    {
+      "id": "source-code",
+      "title": "Repositório Completo de Código-Fonte",
+      "description": "Todo código da aplicação, infraestrutura como código e arquivos de configuração",
+      "required": true
+    },
+    {
+      "id": "architecture-docs",
+      "title": "Documentação de Arquitetura",
+      "description": "Diagramas detalhados de arquitetura, decisões de design e trade-offs",
+      "required": true
+    },
+    {
+      "id": "deployment-guide",
+      "title": "Guia de Implantação",
+      "description": "Instruções passo a passo de implantação e runbooks",
+      "required": true
+    },
+    {
+      "id": "monitoring-dashboards",
+      "title": "Dashboards de Monitoramento",
+      "description": "Dashboards Grafana exportados e configurações de alerta",
+      "required": true
+    },
+    {
+      "id": "security-report",
+      "title": "Relatório de Avaliação de Segurança",
+      "description": "Modelo de ameaças, controles de segurança e resultados de testes de penetração",
+      "required": true
+    },
+    {
+      "id": "performance-analysis",
+      "title": "Análise de Desempenho",
+      "description": "Resultados de testes de carga, comportamento de escalonamento e recomendações de otimização",
+      "required": false
+    },
+    {
+      "id": "cost-analysis",
+      "title": "Relatório de Análise de Custos",
+      "description": "Custos de infraestrutura, estratégias de otimização e análise de ROI",
+      "required": false
+    },
+    {
+      "id": "presentation",
+      "title": "Apresentação do Projeto",
+      "description": "Apresentação de 30 minutos cobrindo arquitetura, implementação e lições aprendidas",
+      "required": true
+    }
+  ],
+  "evaluationCriteria": {
+    "architecture": {
+      "weight": 20,
+      "criteria": [
+        "Escalabilidade e resiliência do design",
+        "Decomposição adequada em microsserviços",
+        "Clara separação de responsabilidades",
+        "Uso efetivo de padrões cloud-native"
+      ]
+    },
+    "deployment": {
+      "weight": 20,
+      "criteria": [
+        "Implementação bem-sucedida de implantação blue-green",
+        "Containerização e orquestração adequadas",
+        "Qualidade da infraestrutura como código",
+        "Automação e confiabilidade da implantação"
+      ]
+    },
+    "monitoring": {
+      "weight": 15,
+      "criteria": [
+        "Coleta abrangente de métricas",
+        "Dashboards e visualizações eficazes",
+        "Configuração proativa de alertas",
+        "Implementação de rastreamento distribuído"
+      ]
+    },
+    "scaling": {
+      "weight": 15,
+      "criteria": [
+        "Configuração e eficácia do auto-escalonamento",
+        "Implementação de balanceamento de carga",
+        "Otimização de recursos",
+        "Desempenho sob carga"
+      ]
+    },
+    "security": {
+      "weight": 20,
+      "criteria": [
+        "Implementação de autenticação e autorização",
+        "Configuração de segurança de rede",
+        "Gerenciamento de segredos",
+        "Validação de entrada e limitação de taxa"
+      ]
+    },
+    "documentation": {
+      "weight": 10,
+      "criteria": [
+        "Clareza e completude da documentação",
+        "Qualidade dos diagramas de arquitetura",
+        "Utilidade dos runbooks",
+        "Documentação e comentários do código"
+      ]
+    }
+  },
+  "resources": [
+    {
+      "id": "kubernetes-docs",
+      "title": "Documentação do Kubernetes",
+      "type": "documentation",
+      "url": "https://kubernetes.io/pt/docs/",
+      "description": "Documentação oficial do Kubernetes para implantação e orquestração",
+      "required": true
+    },
+    {
+      "id": "prometheus-guide",
+      "title": "Melhores Práticas do Prometheus",
+      "type": "guide",
+      "url": "https://prometheus.io/docs/practices/",
+      "description": "Melhores práticas para monitoramento com Prometheus",
+      "required": true
+    },
+    {
+      "id": "istio-security",
+      "title": "Documentação de Segurança do Istio",
+      "type": "documentation",
+      "url": "https://istio.io/latest/docs/concepts/security/",
+      "description": "Segurança de service mesh com Istio",
+      "required": false
+    },
+    {
+      "id": "mlops-reference",
+      "title": "Arquitetura de Referência MLOps",
+      "type": "reference",
+      "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+      "description": "Arquitetura de referência MLOps do Google Cloud",
+      "required": false
+    },
+    {
+      "id": "chaos-toolkit",
+      "title": "Documentação do Chaos Toolkit",
+      "type": "tool",
+      "url": "https://chaostoolkit.org/",
+      "description": "Kit de ferramentas de engenharia do caos para testes de resiliência",
+      "required": false
+    }
+  ],
+  "supportMaterials": [
+    {
+      "id": "starter-template",
+      "title": "Template Inicial do Projeto",
+      "description": "Estrutura básica do projeto e arquivos de configuração para começar",
+      "type": "code"
+    },
+    {
+      "id": "reference-implementation",
+      "title": "Implementação de Referência",
+      "description": "Implementação de exemplo de componentes-chave (disponível após tentar cada fase)",
+      "type": "code"
+    },
+    {
+      "id": "troubleshooting-guide",
+      "title": "Problemas Comuns e Soluções",
+      "description": "Guia de solução de problemas para questões comuns encontradas durante o projeto",
+      "type": "guide"
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 85,
+    "requiredDeliverables": ["source-code", "architecture-docs", "deployment-guide", "monitoring-dashboards", "security-report", "presentation"],
+    "peerReview": true,
+    "instructorReview": true,
+    "completionCertificate": true
+  }
+}

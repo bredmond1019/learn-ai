@@ -1,0 +1,47 @@
+{
+  "id": "fine-tuning-model-adaptation",
+  "title": "Fine-tuning e Adaptação de Modelos",
+  "description": "Aprenda quando e como fazer fine-tuning de modelos, criar adaptadores personalizados e otimizar modelos para domínios e tarefas específicas.",
+  "sections": [
+    {
+      "id": "when-to-fine-tune",
+      "title": "Quando Fazer Fine-tuning vs Engenharia de Prompts",
+      "content": {
+        "type": "lesson",
+        "source": "fine-tuning-model-adaptation.mdx#when-to-fine-tune"
+      }
+    },
+    {
+      "id": "preparing-datasets",
+      "title": "Preparação de Datasets e Controle de Qualidade",
+      "content": {
+        "type": "lesson",
+        "source": "fine-tuning-model-adaptation.mdx#preparing-datasets"
+      }
+    },
+    {
+      "id": "fine-tuning-techniques",
+      "title": "Técnicas de Fine-tuning e Melhores Práticas",
+      "content": {
+        "type": "lesson",
+        "source": "fine-tuning-model-adaptation.mdx#fine-tuning-techniques"
+      }
+    },
+    {
+      "id": "evaluation-deployment",
+      "title": "Avaliação e Implantação",
+      "content": {
+        "type": "lesson",
+        "source": "fine-tuning-model-adaptation.mdx#evaluation-deployment"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Verificação de Conhecimento",
+      "content": {
+        "type": "quiz",
+        "source": "fine-tuning-model-adaptation.mdx#quiz"
+      }
+    }
+  ]
+}

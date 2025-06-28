@@ -1,0 +1,47 @@
+{
+  "id": "capstone-ai-powered-application",
+  "title": "Capstone: Build an AI-Powered Application",
+  "description": "Apply everything you've learned to build a complete, production-ready AI application from requirement analysis to deployment and monitoring.",
+  "sections": [
+    {
+      "id": "project-planning",
+      "title": "Project Planning and Architecture Design",
+      "content": {
+        "type": "lesson",
+        "source": "capstone-ai-powered-application.mdx#project-planning"
+      }
+    },
+    {
+      "id": "implementation-guide",
+      "title": "Step-by-Step Implementation",
+      "content": {
+        "type": "lesson",
+        "source": "capstone-ai-powered-application.mdx#implementation-guide"
+      }
+    },
+    {
+      "id": "testing-deployment",
+      "title": "Testing and Deployment",
+      "content": {
+        "type": "lesson",
+        "source": "capstone-ai-powered-application.mdx#testing-deployment"
+      }
+    },
+    {
+      "id": "monitoring-maintenance",
+      "title": "Production Monitoring and Maintenance",
+      "content": {
+        "type": "lesson",
+        "source": "capstone-ai-powered-application.mdx#monitoring-maintenance"
+      }
+    },
+    {
+      "id": "final-assessment",
+      "title": "Final Assessment",
+      "content": {
+        "type": "quiz",
+        "source": "capstone-ai-powered-application.mdx#final-assessment"
+      }
+    }
+  ]
+}

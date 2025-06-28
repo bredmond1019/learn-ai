@@ -1,0 +1,95 @@
+{
+  "id": "ai-engineering-fundamentals",
+  "title": {
+    "en": "AI Engineering Fundamentals",
+    "pt-BR": "Fundamentos de Engenharia de IA"
+  },
+  "description": {
+    "en": "Bridge the gap from software engineering to AI engineering with practical, hands-on modules covering prompt engineering, fine-tuning, RAG systems, and production deployment patterns.",
+    "pt-BR": "Faça a transição da engenharia de software para a engenharia de IA com módulos práticos cobrindo engenharia de prompts, fine-tuning, sistemas RAG e padrões de implantação em produção."
+  },
+  "level": "intermediate",
+  "duration": "8-10 hours",
+  "prerequisites": {
+    "en": [
+      "Basic understanding of AI/ML concepts",
+      "Proficiency in Python programming",
+      "Experience with RESTful APIs",
+      "Familiarity with version control (Git)"
+    ],
+    "pt-BR": [
+      "Compreensão básica de conceitos de IA/ML",
+      "Proficiência em programação Python",
+      "Experiência com APIs RESTful",
+      "Familiaridade com controle de versão (Git)"
+    ]
+  },
+  "skills": {
+    "en": [
+      "Advanced prompt engineering techniques",
+      "Fine-tuning and model adaptation",
+      "Building and deploying RAG systems",
+      "AI system evaluation and testing",
+      "Production architecture patterns",
+      "Cost optimization strategies"
+    ],
+    "pt-BR": [
+      "Técnicas avançadas de engenharia de prompts",
+      "Fine-tuning e adaptação de modelos",
+      "Construção e implantação de sistemas RAG",
+      "Avaliação e teste de sistemas de IA",
+      "Padrões de arquitetura de produção",
+      "Estratégias de otimização de custos"
+    ]
+  },
+  "modules": [
+    {
+      "id": "prompt-engineering-mastery",
+      "title": {
+        "en": "Prompt Engineering Mastery",
+        "pt-BR": "Maestria em Engenharia de Prompts"
+      },
+      "duration": "90 minutes"
+    },
+    {
+      "id": "fine-tuning-model-adaptation",
+      "title": {
+        "en": "Fine-tuning and Model Adaptation",
+        "pt-BR": "Fine-tuning e Adaptação de Modelos"
+      },
+      "duration": "120 minutes"
+    },
+    {
+      "id": "evaluation-testing-ai-systems",
+      "title": {
+        "en": "Evaluation and Testing AI Systems",
+        "pt-BR": "Avaliação e Teste de Sistemas de IA"
+      },
+      "duration": "90 minutes"
+    },
+    {
+      "id": "building-production-rag-systems",
+      "title": {
+        "en": "Building Production RAG Systems",
+        "pt-BR": "Construindo Sistemas RAG de Produção"
+      },
+      "duration": "120 minutes"
+    },
+    {
+      "id": "ai-system-architecture-patterns",
+      "title": {
+        "en": "AI System Architecture Patterns",
+        "pt-BR": "Padrões de Arquitetura de Sistemas de IA"
+      },
+      "duration": "90 minutes"
+    },
+    {
+      "id": "capstone-ai-powered-application",
+      "title": {
+        "en": "Capstone: Build an AI-Powered Application",
+        "pt-BR": "Capstone: Construa uma Aplicação Alimentada por IA"
+      },
+      "duration": "120 minutes"
+    }
+  ]
+}

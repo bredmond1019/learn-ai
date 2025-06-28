@@ -1,0 +1,47 @@
+{
+  "id": "building-production-rag-systems",
+  "title": "Building Production RAG Systems",
+  "description": "Master the design, implementation, and optimization of Retrieval-Augmented Generation systems for production deployment at scale.",
+  "sections": [
+    {
+      "id": "rag-fundamentals",
+      "title": "RAG Architecture and Design Patterns",
+      "content": {
+        "type": "lesson",
+        "source": "building-production-rag-systems.mdx#rag-fundamentals"
+      }
+    },
+    {
+      "id": "advanced-retrieval",
+      "title": "Advanced Retrieval Strategies",
+      "content": {
+        "type": "lesson",
+        "source": "building-production-rag-systems.mdx#advanced-retrieval"
+      }
+    },
+    {
+      "id": "optimization-scaling",
+      "title": "Optimization and Scaling",
+      "content": {
+        "type": "lesson",
+        "source": "building-production-rag-systems.mdx#optimization-scaling"
+      }
+    },
+    {
+      "id": "monitoring-maintenance",
+      "title": "Monitoring and Maintenance",
+      "content": {
+        "type": "lesson",
+        "source": "building-production-rag-systems.mdx#monitoring-maintenance"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "content": {
+        "type": "quiz",
+        "source": "building-production-rag-systems.mdx#quiz"
+      }
+    }
+  ]
+}

@@ -1,0 +1,3126 @@
+---
+title: "Capstone: Build a Production AI Platform"
+description: "Apply all production AI concepts in a comprehensive project: build, deploy, monitor, scale, and secure a complete AI platform with real-world requirements and constraints"
+duration: "480 minutes"
+difficulty: "advanced"
+objectives:
+  - "Design and implement a production-ready AI platform architecture"
+  - "Deploy AI services using advanced deployment strategies"
+  - "Implement comprehensive monitoring and observability"
+  - "Configure auto-scaling and load management"
+  - "Apply security best practices and threat modeling"
+  - "Create CI/CD pipelines for automated deployment"
+  - "Implement cost optimization strategies"
+  - "Document and present the complete solution"
+tags:
+  - "capstone-project"
+  - "production-deployment"
+  - "platform-engineering"
+  - "full-stack-ai"
+  - "enterprise-architecture"
+  - "hands-on-project"
+lastUpdated: "2025-06-28"
+author: "AI Engineering Team"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Diagram } from '@/components/claude-sdk/Diagram'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+
+# Capstone: Build a Production AI Platform
+
+## Project Overview & Requirements {#project-overview}
+
+Welcome to the most comprehensive challenge of your AI engineering journey! In this capstone project, you'll architect and build a complete production AI platform that demonstrates enterprise-grade engineering practices.
+
+### The Challenge: AI-Powered Document Intelligence Platform
+
+You'll build **DocuMind** - a production-ready platform that processes, analyzes, and extracts insights from documents using multiple AI models. This platform will serve as a real-world demonstration of all the production AI concepts you've learned.
+
+### Core Platform Features
+
+🧠 **Multi-Model Processing**: Integrate LLMs, vision models, and specialized extractors
+📊 **Real-time Analytics**: Process documents with sub-second response times
+🔄 **High Availability**: 99.9% uptime with zero-downtime deployments
+📈 **Auto-Scaling**: Handle 10x traffic spikes automatically
+🔒 **Enterprise Security**: SOC2-compliant security controls
+💰 **Cost Optimization**: Efficient resource utilization and model caching
+
+### Business Requirements
+
+Your platform must meet these business-critical requirements:
+
+1. **Performance**: Process 1000+ documents per minute at peak load
+2. **Reliability**: 99.9% uptime SLA with automatic failover
+3. **Security**: End-to-end encryption and audit logging
+4. **Scalability**: Support 10x growth without architecture changes
+5. **Cost**: Optimize for $0.10 per document processed
+6. **Compliance**: GDPR-compliant data handling
+
+<Callout type="info">
+  **Real-World Scenario**: This project simulates building a platform for a growing SaaS company with enterprise customers. Every decision should balance technical excellence with business constraints.
+</Callout>
+
+### Technical Stack
+
+You'll work with this modern cloud-native stack:
+
+- **Container Orchestration**: Kubernetes (EKS/GKE/AKS)
+- **Service Mesh**: Istio for traffic management
+- **Monitoring**: Prometheus + Grafana + Jaeger
+- **CI/CD**: GitLab CI or GitHub Actions + ArgoCD
+- **Infrastructure**: Terraform for IaC
+- **Security**: Vault for secrets, OPA for policies
+- **AI/ML**: Multiple model providers (OpenAI, Anthropic, local models)
+
+## Architecture Design {#architecture-design}
+
+Let's design a scalable, resilient architecture that can grow with your business needs.
+
+<Exercise
+  id="architecture-design"
+  title="Design Your Platform Architecture"
+/>
+
+### High-Level Architecture
+
+<Diagram
+  id="platform-architecture"
+  title="DocuMind Platform Architecture"
+  type="mermaid"
+  code={`graph TB
+    subgraph "External Layer"
+        Users[Users]
+        API[API Gateway]
+        CDN[CDN]
+    end
+    
+    subgraph "Application Layer"
+        WEB[Web Frontend]
+        PROC[Document Processor]
+        ANALYTICS[Analytics Service]
+        AUTH[Auth Service]
+    end
+    
+    subgraph "AI Layer"
+        ROUTER[Model Router]
+        LLM1[LLM Service 1]
+        LLM2[LLM Service 2]
+        VISION[Vision Model]
+        EXTRACT[Extraction Model]
+    end
+    
+    subgraph "Data Layer"
+        CACHE[Redis Cache]
+        DB[(PostgreSQL)]
+        S3[Object Storage]
+        QUEUE[Message Queue]
+    end
+    
+    subgraph "Infrastructure Layer"
+        K8S[Kubernetes]
+        ISTIO[Istio Mesh]
+        VAULT[HashiCorp Vault]
+    end
+    
+    subgraph "Observability"
+        PROM[Prometheus]
+        GRAF[Grafana]
+        JAEGER[Jaeger]
+        ELK[ELK Stack]
+    end
+    
+    Users --> CDN
+    CDN --> API
+    API --> AUTH
+    API --> WEB
+    API --> PROC
+    
+    PROC --> QUEUE
+    QUEUE --> ROUTER
+    ROUTER --> LLM1
+    ROUTER --> LLM2
+    ROUTER --> VISION
+    ROUTER --> EXTRACT
+    
+    PROC --> S3
+    PROC --> DB
+    ROUTER --> CACHE
+    
+    ANALYTICS --> DB
+    ANALYTICS --> CACHE
+    
+    K8S --> Application Layer
+    K8S --> AI Layer
+    ISTIO --> K8S
+    VAULT --> K8S
+    
+    PROM --> K8S
+    GRAF --> PROM
+    JAEGER --> ISTIO
+    ELK --> K8S`}
+/>
+
+### Data Flow Architecture
+
+<Diagram
+  id="data-flow"
+  title="Document Processing Pipeline"
+  type="mermaid"
+  code={`sequenceDiagram
+    participant User
+    participant API
+    participant Auth
+    participant Processor
+    participant Queue
+    participant Router
+    participant Models
+    participant Storage
+    participant Cache
+    
+    User->>API: Upload Document
+    API->>Auth: Validate Token
+    Auth-->>API: Token Valid
+    API->>Storage: Store Document
+    API->>Queue: Queue Processing Job
+    API-->>User: Job ID
+    
+    Queue->>Processor: Dequeue Job
+    Processor->>Storage: Retrieve Document
+    Processor->>Router: Route to Models
+    
+    Router->>Cache: Check Cache
+    alt Cache Hit
+        Cache-->>Router: Cached Result
+    else Cache Miss
+        Router->>Models: Process Document
+        Models-->>Router: Results
+        Router->>Cache: Store Result
+    end
+    
+    Router-->>Processor: Processing Complete
+    Processor->>Storage: Store Results
+    Processor->>Queue: Update Job Status
+    
+    User->>API: Check Status
+    API->>Queue: Get Job Status
+    Queue-->>API: Job Complete
+    API->>Storage: Get Results
+    API-->>User: Return Results`}
+/>
+
+### Microservices Design Principles
+
+Your platform should follow these architectural principles:
+
+<CodeExample
+  title="Service Architecture Template"
+  language="yaml"
+  code={`# service-template.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: document-processor
+  namespace: documind
+  labels:
+    app: document-processor
+    version: v1
+spec:
+  ports:
+    - port: 8080
+      name: http
+    - port: 9090
+      name: metrics
+  selector:
+    app: document-processor
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-processor
+  namespace: documind
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: document-processor
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: document-processor
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: document-processor
+      containers:
+      - name: processor
+        image: documind/processor:1.0.0
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: LOG_LEVEL
+          value: "info"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: config
+          mountPath: /etc/config
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: processor-config`}
+/>
+
+## Phase 1: Core Deployment Infrastructure {#phase1-deployment}
+
+Let's build the foundational infrastructure that will support your AI platform.
+
+<Exercise
+  id="phase1-deployment"
+  title="Set Up Core Deployment Infrastructure"
+/>
+
+### Kubernetes Cluster Setup
+
+First, provision your Kubernetes cluster with proper configurations:
+
+<CodeExample
+  title="Terraform Kubernetes Cluster"
+  language="hcl"
+  code={`# kubernetes-cluster.tf
+resource "google_container_cluster" "documind" {
+  name     = "documind-cluster"
+  location = var.region
+  
+  # Use release channel for automatic updates
+  release_channel {
+    channel = "REGULAR"
+  }
+  
+  # Configure cluster autoscaling
+  cluster_autoscaling {
+    enabled = true
+    resource_limits {
+      resource_type = "cpu"
+      minimum       = 10
+      maximum       = 100
+    }
+    resource_limits {
+      resource_type = "memory"
+      minimum       = 40
+      maximum       = 400
+    }
+    auto_provisioning_defaults {
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+      service_account = google_service_account.cluster_nodes.email
+    }
+  }
+  
+  # Network configuration
+  network    = google_compute_network.documind.name
+  subnetwork = google_compute_subnetwork.documind.name
+  
+  ip_allocation_policy {
+    cluster_secondary_range_name  = "pods"
+    services_secondary_range_name = "services"
+  }
+  
+  # Enable workload identity
+  workload_identity_config {
+    workload_pool = "${var.project_id}.svc.id.goog"
+  }
+  
+  # Node pool configuration
+  node_pool {
+    name = "default-pool"
+    
+    initial_node_count = 3
+    
+    autoscaling {
+      min_node_count = 3
+      max_node_count = 10
+    }
+    
+    management {
+      auto_repair  = true
+      auto_upgrade = true
+    }
+    
+    node_config {
+      machine_type = "n2-standard-4"
+      disk_size_gb = 100
+      disk_type    = "pd-ssd"
+      
+      metadata = {
+        disable-legacy-endpoints = "true"
+      }
+      
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+      
+      labels = {
+        environment = "production"
+        team        = "platform"
+      }
+      
+      taint {
+        key    = "workload-type"
+        value  = "general"
+        effect = "NO_SCHEDULE"
+      }
+    }
+  }
+  
+  # GPU node pool for AI workloads
+  node_pool {
+    name = "gpu-pool"
+    
+    initial_node_count = 0
+    
+    autoscaling {
+      min_node_count = 0
+      max_node_count = 5
+    }
+    
+    node_config {
+      machine_type = "n1-standard-4"
+      
+      guest_accelerator {
+        type  = "nvidia-tesla-t4"
+        count = 1
+      }
+      
+      taint {
+        key    = "workload-type"
+        value  = "gpu"
+        effect = "NO_SCHEDULE"
+      }
+    }
+  }
+}
+
+# Configure Istio service mesh
+resource "helm_release" "istio_base" {
+  name       = "istio-base"
+  repository = "https://istio-release.storage.googleapis.com/charts"
+  chart      = "base"
+  namespace  = "istio-system"
+  
+  create_namespace = true
+}
+
+resource "helm_release" "istiod" {
+  name       = "istiod"
+  repository = "https://istio-release.storage.googleapis.com/charts"
+  chart      = "istiod"
+  namespace  = "istio-system"
+  
+  set {
+    name  = "pilot.autoscaleEnabled"
+    value = "true"
+  }
+  
+  set {
+    name  = "pilot.autoscaleMin"
+    value = "2"
+  }
+  
+  set {
+    name  = "pilot.autoscaleMax"
+    value = "5"
+  }
+  
+  depends_on = [helm_release.istio_base]
+}`}
+/>
+
+### Blue-Green Deployment Strategy
+
+Implement zero-downtime deployments with blue-green strategy:
+
+<CodeExample
+  title="Blue-Green Deployment Configuration"
+  language="yaml"
+  code={`# blue-green-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: document-processor
+  namespace: documind
+spec:
+  selector:
+    app: document-processor
+    version: active  # This selector will be updated during deployment
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+# Blue Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-processor-blue
+  namespace: documind
+  labels:
+    app: document-processor
+    version: blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: document-processor
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: document-processor
+        version: blue
+    spec:
+      containers:
+      - name: processor
+        image: documind/processor:1.0.0
+        # ... container configuration
+---
+# Green Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-processor-green
+  namespace: documind
+  labels:
+    app: document-processor
+    version: green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: document-processor
+      version: green
+  template:
+    metadata:
+      labels:
+        app: document-processor
+        version: green
+    spec:
+      containers:
+      - name: processor
+        image: documind/processor:1.1.0  # New version
+        # ... container configuration
+---
+# Deployment Script
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: blue-green-switch
+  namespace: documind
+spec:
+  template:
+    spec:
+      serviceAccountName: deployment-manager
+      containers:
+      - name: switch
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/bash
+        - -c
+        - |
+          # Health check new version
+          echo "Checking green deployment health..."
+          kubectl wait --for=condition=available --timeout=300s \
+            deployment/document-processor-green -n documind
+          
+          # Switch traffic to green
+          echo "Switching traffic to green..."
+          kubectl patch service document-processor -n documind \
+            -p '{"spec":{"selector":{"version":"green"}}}'
+          
+          # Wait for traffic to stabilize
+          sleep 30
+          
+          # Scale down blue
+          echo "Scaling down blue deployment..."
+          kubectl scale deployment document-processor-blue -n documind --replicas=0
+          
+          echo "Blue-green deployment complete!"
+      restartPolicy: Never`}
+/>
+
+### Service Mesh Configuration
+
+Configure Istio for advanced traffic management:
+
+<CodeExample
+  title="Istio Traffic Management"
+  language="yaml"
+  code={`# virtual-service.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: document-processor
+  namespace: documind
+spec:
+  hosts:
+  - document-processor
+  http:
+  - match:
+    - headers:
+        x-version:
+          exact: canary
+    route:
+    - destination:
+        host: document-processor
+        subset: canary
+      weight: 100
+  - route:
+    - destination:
+        host: document-processor
+        subset: stable
+      weight: 90
+    - destination:
+        host: document-processor
+        subset: canary
+      weight: 10
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: document-processor
+  namespace: documind
+spec:
+  host: document-processor
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 50
+        http2MaxRequests: 100
+        maxRequestsPerConnection: 2
+    loadBalancer:
+      simple: LEAST_REQUEST
+    outlierDetection:
+      consecutiveErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50
+      minHealthPercent: 50
+  subsets:
+  - name: stable
+    labels:
+      version: stable
+  - name: canary
+    labels:
+      version: canary
+---
+# Circuit Breaker Configuration
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: ai-model-service
+  namespace: documind
+spec:
+  host: ai-model-service
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 10
+      http:
+        http1MaxPendingRequests: 10
+        http2MaxRequests: 20
+        maxRequestsPerConnection: 1
+    outlierDetection:
+      consecutiveErrors: 3
+      interval: 10s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 100
+      minHealthPercent: 0
+      splitExternalLocalOriginErrors: true`}
+/>
+
+## Phase 2: Monitoring & Observability {#phase2-monitoring}
+
+Build comprehensive monitoring to ensure platform reliability and performance.
+
+<Exercise
+  id="phase2-monitoring"
+  title="Implement Full-Stack Observability"
+/>
+
+### Prometheus Configuration
+
+Set up Prometheus for metrics collection:
+
+<CodeExample
+  title="Prometheus Configuration"
+  language="yaml"
+  code={`# prometheus-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+      external_labels:
+        cluster: 'documind-prod'
+        region: 'us-east-1'
+    
+    # Alerting configuration
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          - alertmanager:9093
+    
+    # Load rules
+    rule_files:
+      - '/etc/prometheus/rules/*.yml'
+    
+    # Scrape configurations
+    scrape_configs:
+    # Kubernetes API server
+    - job_name: 'kubernetes-apiservers'
+      kubernetes_sd_configs:
+      - role: endpoints
+      scheme: https
+      tls_config:
+        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+        action: keep
+        regex: default;kubernetes;https
+    
+    # Kubernetes nodes
+    - job_name: 'kubernetes-nodes'
+      kubernetes_sd_configs:
+      - role: node
+      relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+      - target_label: __address__
+        replacement: kubernetes.default.svc:443
+      - source_labels: [__meta_kubernetes_node_name]
+        regex: (.+)
+        target_label: __metrics_path__
+        replacement: /api/v1/nodes/${1}/proxy/metrics
+    
+    # Kubernetes pods
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+      - role: pod
+      relabel_configs:
+      # Only scrape pods with prometheus annotations
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: kubernetes_namespace
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: kubernetes_pod_name
+    
+    # Custom AI metrics
+    - job_name: 'ai-models'
+      static_configs:
+      - targets: ['model-router:9090', 'llm-service:9090', 'vision-service:9090']
+      metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'go_.*'
+        action: drop
+---
+# Alert Rules
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-rules
+  namespace: monitoring
+data:
+  ai-platform-rules.yml: |
+    groups:
+    - name: ai_platform_alerts
+      interval: 30s
+      rules:
+      # High error rate
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+            /
+            sum(rate(http_requests_total[5m])) by (service)
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High error rate detected for {{ $labels.service }}"
+          description: "Service {{ $labels.service }} has error rate of {{ $value | humanizePercentage }}"
+      
+      # AI model latency
+      - alert: AIModelHighLatency
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(model_inference_duration_seconds_bucket[5m])) by (model, le)
+          ) > 2
+        for: 5m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "High latency for model {{ $labels.model }}"
+          description: "95th percentile latency is {{ $value }}s"
+      
+      # Pod memory usage
+      - alert: PodMemoryUsageHigh
+        expr: |
+          (
+            container_memory_working_set_bytes{pod!=""}
+            /
+            container_spec_memory_limit_bytes{pod!=""}
+          ) > 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Pod {{ $labels.pod }} memory usage is high"
+          description: "Memory usage is {{ $value | humanizePercentage }} of limit"
+      
+      # Document processing queue
+      - alert: ProcessingQueueBacklog
+        expr: |
+          document_processing_queue_size > 1000
+        for: 10m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Document processing queue backlog"
+          description: "Queue size is {{ $value }}, processing may be delayed"`}
+/>
+
+### Custom AI Metrics Implementation
+
+Implement custom metrics for AI model performance:
+
+<CodeExample
+  title="AI Model Metrics"
+  language="python"
+  code={`# metrics.py
+from prometheus_client import Counter, Histogram, Gauge, Info
+import time
+from functools import wraps
+
+# Define metrics
+model_inference_counter = Counter(
+    'model_inference_total',
+    'Total number of model inferences',
+    ['model', 'version', 'status']
+)
+
+model_inference_duration = Histogram(
+    'model_inference_duration_seconds',
+    'Model inference duration in seconds',
+    ['model', 'version'],
+    buckets=(0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10)
+)
+
+model_token_usage = Counter(
+    'model_token_usage_total',
+    'Total tokens used by model',
+    ['model', 'version', 'type']  # type: input/output
+)
+
+model_cache_hits = Counter(
+    'model_cache_hits_total',
+    'Number of cache hits for model results',
+    ['model']
+)
+
+active_model_instances = Gauge(
+    'active_model_instances',
+    'Number of active model instances',
+    ['model', 'version']
+)
+
+model_info = Info(
+    'model_info',
+    'Model information',
+    ['model']
+)
+
+document_processing_queue = Gauge(
+    'document_processing_queue_size',
+    'Current size of document processing queue'
+)
+
+# Decorator for tracking model inference
+def track_inference(model_name, version):
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            start_time = time.time()
+            status = 'success'
+            
+            try:
+                # Track active instances
+                active_model_instances.labels(
+                    model=model_name,
+                    version=version
+                ).inc()
+                
+                # Execute inference
+                result = await func(*args, **kwargs)
+                
+                # Track token usage if available
+                if hasattr(result, 'usage'):
+                    model_token_usage.labels(
+                        model=model_name,
+                        version=version,
+                        type='input'
+                    ).inc(result.usage.prompt_tokens)
+                    
+                    model_token_usage.labels(
+                        model=model_name,
+                        version=version,
+                        type='output'
+                    ).inc(result.usage.completion_tokens)
+                
+                return result
+                
+            except Exception as e:
+                status = 'error'
+                raise
+                
+            finally:
+                # Record metrics
+                duration = time.time() - start_time
+                
+                model_inference_counter.labels(
+                    model=model_name,
+                    version=version,
+                    status=status
+                ).inc()
+                
+                model_inference_duration.labels(
+                    model=model_name,
+                    version=version
+                ).observe(duration)
+                
+                active_model_instances.labels(
+                    model=model_name,
+                    version=version
+                ).dec()
+        
+        return wrapper
+    return decorator
+
+# Model router with caching metrics
+class ModelRouter:
+    def __init__(self, cache_client):
+        self.cache = cache_client
+        self.models = {}
+        
+    @track_inference("router", "1.0")
+    async def route_request(self, request):
+        # Check cache first
+        cache_key = self._generate_cache_key(request)
+        cached_result = await self.cache.get(cache_key)
+        
+        if cached_result:
+            model_cache_hits.labels(model=request.model).inc()
+            return cached_result
+        
+        # Route to appropriate model
+        model = self._select_model(request)
+        result = await model.process(request)
+        
+        # Cache result
+        await self.cache.set(cache_key, result, ttl=3600)
+        
+        return result
+    
+    def _select_model(self, request):
+        # Model selection logic based on request type
+        if request.type == "vision":
+            return self.models["vision"]
+        elif request.type == "extraction":
+            return self.models["extraction"]
+        else:
+            return self.models["llm"]`}
+/>
+
+### Grafana Dashboards
+
+Create comprehensive dashboards for platform monitoring:
+
+<CodeExample
+  title="AI Platform Dashboard"
+  language="json"
+  code={`{
+  "dashboard": {
+    "title": "DocuMind AI Platform",
+    "panels": [
+      {
+        "title": "Request Rate",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total[5m])) by (service)",
+            "legendFormat": "{{ service }}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
+      },
+      {
+        "title": "Error Rate",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) by (service) / sum(rate(http_requests_total[5m])) by (service)",
+            "legendFormat": "{{ service }}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
+      },
+      {
+        "title": "Model Inference Latency (p95)",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(model_inference_duration_seconds_bucket[5m])) by (model, le))",
+            "legendFormat": "{{ model }}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 }
+      },
+      {
+        "title": "Token Usage Rate",
+        "targets": [
+          {
+            "expr": "sum(rate(model_token_usage_total[5m])) by (model, type)",
+            "legendFormat": "{{ model }} - {{ type }}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 }
+      },
+      {
+        "title": "Cache Hit Rate",
+        "targets": [
+          {
+            "expr": "sum(rate(model_cache_hits_total[5m])) by (model) / (sum(rate(model_cache_hits_total[5m])) by (model) + sum(rate(model_inference_total[5m])) by (model))",
+            "legendFormat": "{{ model }}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 }
+      },
+      {
+        "title": "Processing Queue Size",
+        "targets": [
+          {
+            "expr": "document_processing_queue_size",
+            "legendFormat": "Queue Size"
+          }
+        ],
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": { "params": [1000], "type": "gt" },
+              "operator": { "type": "and" },
+              "query": { "params": ["A", "5m", "now"] },
+              "reducer": { "params": [], "type": "avg" },
+              "type": "query"
+            }
+          ]
+        },
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 }
+      }
+    ]
+  }
+}`}
+/>
+
+### Distributed Tracing
+
+Implement end-to-end request tracing:
+
+<CodeExample
+  title="OpenTelemetry Integration"
+  language="python"
+  code={`# tracing.py
+from opentelemetry import trace
+from opentelemetry.exporter.jaeger import JaegerExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.instrumentation.redis import RedisInstrumentor
+from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
+
+# Configure tracing
+def setup_tracing(service_name: str, jaeger_endpoint: str):
+    # Create tracer provider
+    provider = TracerProvider()
+    trace.set_tracer_provider(provider)
+    
+    # Configure Jaeger exporter
+    jaeger_exporter = JaegerExporter(
+        agent_host_name=jaeger_endpoint,
+        agent_port=6831,
+    )
+    
+    # Add batch processor
+    span_processor = BatchSpanProcessor(jaeger_exporter)
+    provider.add_span_processor(span_processor)
+    
+    # Auto-instrument libraries
+    FastAPIInstrumentor.instrument()
+    RequestsInstrumentor.instrument()
+    RedisInstrumentor.instrument()
+    SQLAlchemyInstrumentor.instrument()
+    
+    return trace.get_tracer(service_name)
+
+# Custom span decorator
+def trace_operation(operation_name: str):
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            tracer = trace.get_tracer(__name__)
+            
+            with tracer.start_as_current_span(operation_name) as span:
+                # Add custom attributes
+                span.set_attribute("operation.type", "ai_processing")
+                
+                try:
+                    result = await func(*args, **kwargs)
+                    span.set_attribute("operation.status", "success")
+                    return result
+                    
+                except Exception as e:
+                    span.set_attribute("operation.status", "error")
+                    span.set_attribute("error.message", str(e))
+                    span.record_exception(e)
+                    raise
+        
+        return wrapper
+    return decorator
+
+# Document processing with tracing
+class DocumentProcessor:
+    def __init__(self, tracer):
+        self.tracer = tracer
+        
+    @trace_operation("process_document")
+    async def process(self, document_id: str):
+        span = trace.get_current_span()
+        span.set_attribute("document.id", document_id)
+        
+        # Pre-processing
+        with self.tracer.start_as_current_span("preprocess"):
+            document = await self.preprocess_document(document_id)
+            span.set_attribute("document.size", len(document))
+        
+        # Model inference
+        with self.tracer.start_as_current_span("model_inference"):
+            model_span = trace.get_current_span()
+            model_span.set_attribute("model.name", "gpt-4")
+            
+            result = await self.run_model_inference(document)
+            model_span.set_attribute("model.tokens", result.token_count)
+        
+        # Post-processing
+        with self.tracer.start_as_current_span("postprocess"):
+            final_result = await self.postprocess_result(result)
+        
+        return final_result`}
+/>
+
+## Phase 3: Auto-Scaling & Load Management {#phase3-scaling}
+
+Configure intelligent auto-scaling to handle variable workloads efficiently.
+
+<Exercise
+  id="phase3-scaling"
+  title="Implement Advanced Auto-Scaling"
+/>
+
+### Horizontal Pod Autoscaler Configuration
+
+<CodeExample
+  title="Multi-Metric HPA"
+  language="yaml"
+  code={`# hpa-configuration.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: document-processor-hpa
+  namespace: documind
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: document-processor
+  minReplicas: 3
+  maxReplicas: 50
+  metrics:
+  # CPU utilization
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  # Memory utilization
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  # Custom metric: Request rate
+  - type: Pods
+    pods:
+      metric:
+        name: http_requests_per_second
+      target:
+        type: AverageValue
+        averageValue: "100"
+  # Custom metric: Processing queue depth
+  - type: External
+    external:
+      metric:
+        name: document_processing_queue_size
+        selector:
+          matchLabels:
+            queue: "main"
+      target:
+        type: Value
+        value: "50"
+  # Scale up/down policies
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 60
+      - type: Pods
+        value: 10
+        periodSeconds: 60
+      selectPolicy: Max
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 25
+        periodSeconds: 60
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+      selectPolicy: Min
+---
+# Vertical Pod Autoscaler
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: ai-model-vpa
+  namespace: documind
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ai-model-service
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+    - containerName: model-server
+      minAllowed:
+        cpu: 1000m
+        memory: 2Gi
+      maxAllowed:
+        cpu: 8000m
+        memory: 16Gi
+      controlledResources: ["cpu", "memory"]`}
+/>
+
+### Queue-Based Autoscaling
+
+Implement sophisticated queue-based scaling:
+
+<CodeExample
+  title="Queue-Based Autoscaler"
+  language="python"
+  code={`# queue_autoscaler.py
+import asyncio
+from kubernetes import client, config
+from prometheus_client import Gauge
+import logging
+
+class QueueBasedAutoscaler:
+    def __init__(self, namespace: str, deployment_name: str):
+        self.namespace = namespace
+        self.deployment_name = deployment_name
+        self.k8s_apps = client.AppsV1Api()
+        self.logger = logging.getLogger(__name__)
+        
+        # Metrics
+        self.current_replicas = Gauge(
+            'autoscaler_current_replicas',
+            'Current number of replicas',
+            ['deployment']
+        )
+        self.target_replicas = Gauge(
+            'autoscaler_target_replicas',
+            'Target number of replicas',
+            ['deployment']
+        )
+        
+    async def run(self):
+        """Main autoscaling loop"""
+        while True:
+            try:
+                await self.scale_based_on_queue()
+                await asyncio.sleep(30)  # Check every 30 seconds
+            except Exception as e:
+                self.logger.error(f"Autoscaling error: {e}")
+                await asyncio.sleep(60)
+    
+    async def scale_based_on_queue(self):
+        # Get current queue depth
+        queue_depth = await self.get_queue_depth()
+        
+        # Get current deployment info
+        deployment = self.k8s_apps.read_namespaced_deployment(
+            name=self.deployment_name,
+            namespace=self.namespace
+        )
+        current_replicas = deployment.spec.replicas
+        
+        # Calculate target replicas
+        target_replicas = self.calculate_target_replicas(
+            queue_depth,
+            current_replicas
+        )
+        
+        # Update metrics
+        self.current_replicas.labels(
+            deployment=self.deployment_name
+        ).set(current_replicas)
+        self.target_replicas.labels(
+            deployment=self.deployment_name
+        ).set(target_replicas)
+        
+        # Scale if needed
+        if target_replicas != current_replicas:
+            self.logger.info(
+                f"Scaling {self.deployment_name} from {current_replicas} "
+                f"to {target_replicas} replicas (queue depth: {queue_depth})"
+            )
+            await self.scale_deployment(target_replicas)
+    
+    def calculate_target_replicas(self, queue_depth: int, current: int) -> int:
+        """
+        Calculate target replicas based on queue depth
+        
+        Rules:
+        - 1 replica per 20 items in queue
+        - Minimum 3 replicas
+        - Maximum 50 replicas
+        - Scale up aggressively, scale down conservatively
+        """
+        # Base calculation: 1 replica per 20 items
+        target = max(3, queue_depth // 20)
+        
+        # Apply limits
+        target = min(50, target)
+        
+        # Conservative scale down
+        if target < current:
+            # Only scale down by 25% at a time
+            target = max(target, int(current * 0.75))
+        
+        # Aggressive scale up
+        elif target > current and queue_depth > 100:
+            # Scale up by at least 50% if queue is growing
+            target = max(target, int(current * 1.5))
+        
+        return target
+    
+    async def get_queue_depth(self) -> int:
+        """Get current queue depth from monitoring system"""
+        # Implementation depends on your queue system
+        # This could query Redis, RabbitMQ, Kafka, etc.
+        pass
+    
+    async def scale_deployment(self, replicas: int):
+        """Scale the deployment to target replicas"""
+        body = {"spec": {"replicas": replicas}}
+        
+        self.k8s_apps.patch_namespaced_deployment_scale(
+            name=self.deployment_name,
+            namespace=self.namespace,
+            body=body
+        )
+
+# Advanced load balancing with model awareness
+class ModelAwareLoadBalancer:
+    def __init__(self):
+        self.model_instances = {}
+        self.request_counts = {}
+        
+    async def route_request(self, request):
+        """Route request to optimal model instance"""
+        model_type = request.model_type
+        
+        # Get available instances
+        instances = await self.get_healthy_instances(model_type)
+        
+        if not instances:
+            raise Exception(f"No healthy instances for {model_type}")
+        
+        # Select instance based on load
+        instance = self.select_instance(instances, request)
+        
+        # Track request
+        self.request_counts[instance] = self.request_counts.get(instance, 0) + 1
+        
+        return instance
+    
+    def select_instance(self, instances, request):
+        """
+        Select optimal instance based on:
+        - Current load
+        - Request complexity
+        - Instance capabilities
+        - Geographic proximity
+        """
+        scores = {}
+        
+        for instance in instances:
+            # Base score
+            score = 100
+            
+            # Adjust for current load
+            current_load = self.request_counts.get(instance, 0)
+            score -= current_load * 10
+            
+            # Adjust for request complexity
+            if request.complexity == "high" and instance.gpu_enabled:
+                score += 50
+            
+            # Adjust for geographic proximity
+            if request.region == instance.region:
+                score += 20
+            
+            scores[instance] = score
+        
+        # Select instance with highest score
+        return max(scores, key=scores.get)`}
+/>
+
+### Resource Optimization
+
+Optimize resource allocation for cost efficiency:
+
+<CodeExample
+  title="Resource Optimization Configuration"
+  language="yaml"
+  code={`# resource-optimization.yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: documind-quota
+  namespace: documind
+spec:
+  hard:
+    requests.cpu: "100"
+    requests.memory: "200Gi"
+    limits.cpu: "200"
+    limits.memory: "400Gi"
+    persistentvolumeclaims: "10"
+    services.loadbalancers: "5"
+---
+# Pod Disruption Budget
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: document-processor-pdb
+  namespace: documind
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: document-processor
+---
+# Priority Classes for workload management
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000
+globalDefault: false
+description: "High priority class for critical services"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: batch-priority
+value: 100
+globalDefault: false
+description: "Low priority for batch processing"
+---
+# Node affinity for GPU workloads
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vision-model-service
+  namespace: documind
+spec:
+  template:
+    spec:
+      priorityClassName: high-priority
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: accelerator
+                operator: In
+                values:
+                - nvidia-tesla-t4
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - vision-model-service
+              topologyKey: kubernetes.io/hostname
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      - key: workload-type
+        operator: Equal
+        value: gpu
+        effect: NoSchedule`}
+/>
+
+## Phase 4: Security Implementation {#phase4-security}
+
+Implement comprehensive security controls for enterprise-grade protection.
+
+<Exercise
+  id="phase4-security"
+  title="Implement Enterprise Security Controls"
+/>
+
+### Authentication and Authorization
+
+Implement OAuth2 + JWT with RBAC:
+
+<CodeExample
+  title="Security Implementation"
+  language="python"
+  code={`# auth.py
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+from datetime import datetime, timedelta
+import redis
+from typing import Optional, List
+import secrets
+
+# Configuration
+SECRET_KEY = secrets.token_urlsafe(32)
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+REFRESH_TOKEN_EXPIRE_DAYS = 7
+
+# Setup
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+redis_client = redis.Redis(decode_responses=True)
+
+# RBAC Permissions
+class Permissions:
+    # Document operations
+    DOCUMENT_READ = "document:read"
+    DOCUMENT_WRITE = "document:write"
+    DOCUMENT_DELETE = "document:delete"
+    
+    # Model operations
+    MODEL_INFERENCE = "model:inference"
+    MODEL_MANAGE = "model:manage"
+    
+    # Admin operations
+    USER_MANAGE = "user:manage"
+    SYSTEM_ADMIN = "system:admin"
+
+# Role definitions
+ROLES = {
+    "user": [
+        Permissions.DOCUMENT_READ,
+        Permissions.DOCUMENT_WRITE,
+        Permissions.MODEL_INFERENCE
+    ],
+    "power_user": [
+        Permissions.DOCUMENT_READ,
+        Permissions.DOCUMENT_WRITE,
+        Permissions.DOCUMENT_DELETE,
+        Permissions.MODEL_INFERENCE
+    ],
+    "admin": [
+        Permissions.DOCUMENT_READ,
+        Permissions.DOCUMENT_WRITE,
+        Permissions.DOCUMENT_DELETE,
+        Permissions.MODEL_INFERENCE,
+        Permissions.MODEL_MANAGE,
+        Permissions.USER_MANAGE
+    ],
+    "system_admin": ["*"]  # All permissions
+}
+
+class TokenData:
+    def __init__(self, username: str, scopes: List[str] = None):
+        self.username = username
+        self.scopes = scopes or []
+
+class User:
+    def __init__(self, username: str, email: str, roles: List[str]):
+        self.username = username
+        self.email = email
+        self.roles = roles
+        self.permissions = self._get_permissions()
+    
+    def _get_permissions(self) -> List[str]:
+        permissions = set()
+        for role in self.roles:
+            if role in ROLES:
+                permissions.update(ROLES[role])
+        return list(permissions)
+    
+    def has_permission(self, permission: str) -> bool:
+        return "*" in self.permissions or permission in self.permissions
+
+# Token management
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    
+    to_encode.update({"exp": expire, "type": "access"})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    
+    # Store in Redis for revocation capability
+    redis_client.setex(
+        f"token:{encoded_jwt}",
+        int(expires_delta.total_seconds() if expires_delta else ACCESS_TOKEN_EXPIRE_MINUTES * 60),
+        "valid"
+    )
+    
+    return encoded_jwt
+
+def create_refresh_token(username: str) -> str:
+    refresh_token = secrets.token_urlsafe(32)
+    
+    # Store in Redis with longer expiration
+    redis_client.setex(
+        f"refresh:{refresh_token}",
+        REFRESH_TOKEN_EXPIRE_DAYS * 24 * 3600,
+        username
+    )
+    
+    return refresh_token
+
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    
+    try:
+        # Check if token is revoked
+        if not redis_client.get(f"token:{token}"):
+            raise credentials_exception
+        
+        # Decode token
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+        
+        # Get user from database
+        user = await get_user(username)
+        if user is None:
+            raise credentials_exception
+        
+        return user
+        
+    except JWTError:
+        raise credentials_exception
+
+# Permission checker
+def require_permission(permission: str):
+    async def permission_checker(current_user: User = Depends(get_current_user)):
+        if not current_user.has_permission(permission):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Not enough permissions. Required: {permission}"
+            )
+        return current_user
+    return permission_checker
+
+# Rate limiting with Redis
+class RateLimiter:
+    def __init__(self, max_requests: int = 100, window: int = 60):
+        self.max_requests = max_requests
+        self.window = window
+        self.redis = redis_client
+    
+    async def check_rate_limit(self, key: str) -> bool:
+        pipe = self.redis.pipeline()
+        now = datetime.utcnow().timestamp()
+        window_start = now - self.window
+        
+        # Remove old entries
+        pipe.zremrangebyscore(key, 0, window_start)
+        
+        # Count requests in window
+        pipe.zcard(key)
+        
+        # Add current request
+        pipe.zadd(key, {str(now): now})
+        
+        # Set expiration
+        pipe.expire(key, self.window + 1)
+        
+        results = pipe.execute()
+        request_count = results[1]
+        
+        return request_count < self.max_requests
+
+# API endpoints with security
+@app.post("/api/v1/documents", response_model=DocumentResponse)
+@require_permission(Permissions.DOCUMENT_WRITE)
+async def create_document(
+    document: DocumentCreate,
+    current_user: User = Depends(get_current_user),
+    rate_limit: bool = Depends(RateLimiter().check_rate_limit)
+):
+    if not rate_limit:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Rate limit exceeded"
+        )
+    
+    # Audit log
+    await audit_log(
+        user=current_user.username,
+        action="document.create",
+        resource=document.id,
+        ip=request.client.host
+    )
+    
+    # Process document
+    return await process_document(document, current_user)`}
+/>
+
+### Network Security Policies
+
+Configure Kubernetes network policies:
+
+<CodeExample
+  title="Network Policies"
+  language="yaml"
+  code={`# network-policies.yaml
+# Default deny all ingress
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: documind
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+---
+# Allow frontend to API
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-api
+  namespace: documind
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: frontend
+    - namespaceSelector:
+        matchLabels:
+          name: istio-system
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Allow API to services
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-api-to-services
+  namespace: documind
+spec:
+  podSelector:
+    matchLabels:
+      tier: service
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: api-gateway
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Allow services to database
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-services-to-database
+  namespace: documind
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: service
+    ports:
+    - protocol: TCP
+      port: 5432
+---
+# Egress rules for external APIs
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-model-egress
+  namespace: documind
+spec:
+  podSelector:
+    matchLabels:
+      app: model-router
+  policyTypes:
+  - Egress
+  egress:
+  # Allow DNS
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow HTTPS to AI providers
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+        except:
+        - 169.254.169.254/32  # Block metadata service
+        - 10.0.0.0/8
+        - 192.168.0.0/16
+        - 172.16.0.0/12
+    ports:
+    - protocol: TCP
+      port: 443`}
+/>
+
+### Secrets Management with Vault
+
+Implement HashiCorp Vault integration:
+
+<CodeExample
+  title="Vault Integration"
+  language="python"
+  code={`# vault_integration.py
+import hvac
+from kubernetes import client, config
+import base64
+import json
+
+class VaultSecretManager:
+    def __init__(self, vault_url: str, role: str, namespace: str):
+        self.vault_url = vault_url
+        self.role = role
+        self.namespace = namespace
+        self.client = None
+        self._authenticate()
+    
+    def _authenticate(self):
+        """Authenticate with Vault using Kubernetes auth"""
+        # Get service account token
+        with open('/var/run/secrets/kubernetes.io/serviceaccount/token', 'r') as f:
+            jwt_token = f.read()
+        
+        # Initialize Vault client
+        self.client = hvac.Client(url=self.vault_url)
+        
+        # Authenticate with Kubernetes auth method
+        response = self.client.auth.kubernetes.login(
+            role=self.role,
+            jwt=jwt_token
+        )
+        
+        self.client.token = response['auth']['client_token']
+    
+    def get_secret(self, path: str) -> dict:
+        """Retrieve secret from Vault"""
+        try:
+            response = self.client.secrets.kv.v2.read_secret_version(
+                path=path,
+                mount_point='secret'
+            )
+            return response['data']['data']
+        except Exception as e:
+            raise Exception(f"Failed to retrieve secret: {e}")
+    
+    def create_kubernetes_secret(self, secret_name: str, vault_path: str):
+        """Create Kubernetes secret from Vault data"""
+        # Get secret from Vault
+        vault_data = self.get_secret(vault_path)
+        
+        # Prepare Kubernetes secret
+        k8s_secret = client.V1Secret(
+            metadata=client.V1ObjectMeta(
+                name=secret_name,
+                namespace=self.namespace,
+                annotations={
+                    'vault.hashicorp.com/path': vault_path,
+                    'vault.hashicorp.com/role': self.role
+                }
+            ),
+            data={
+                key: base64.b64encode(value.encode()).decode()
+                for key, value in vault_data.items()
+            }
+        )
+        
+        # Create in Kubernetes
+        config.load_incluster_config()
+        v1 = client.CoreV1Api()
+        v1.create_namespaced_secret(
+            namespace=self.namespace,
+            body=k8s_secret
+        )
+    
+    def rotate_database_credentials(self):
+        """Rotate database credentials"""
+        # Generate new credentials
+        new_creds = self.client.secrets.database.generate_credentials(
+            name='postgres',
+            mount_point='database'
+        )
+        
+        # Update application configuration
+        self.update_app_config({
+            'DB_USERNAME': new_creds['data']['username'],
+            'DB_PASSWORD': new_creds['data']['password']
+        })
+        
+        # Trigger rolling update
+        self.trigger_deployment_rollout('document-processor')
+
+# Vault policy for the application
+vault_policy = """
+path "secret/data/documind/*" {
+  capabilities = ["read", "list"]
+}
+
+path "database/creds/documind-role" {
+  capabilities = ["read"]
+}
+
+path "pki/issue/documind-cert" {
+  capabilities = ["create", "update"]
+}
+
+path "transit/encrypt/documind" {
+  capabilities = ["update"]
+}
+
+path "transit/decrypt/documind" {
+  capabilities = ["update"]
+}
+"""
+
+# Kubernetes manifests for Vault
+vault_k8s_config = """
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-auth
+  namespace: documind
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vault-auth-delegator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  name: vault-auth
+  namespace: documind
+---
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: vault-documind
+  namespace: documind
+spec:
+  provider: vault
+  parameters:
+    vaultAddress: "http://vault.vault.svc.cluster.local:8200"
+    roleName: "documind-role"
+    objects: |
+      - objectName: "db-password"
+        secretPath: "secret/data/documind/database"
+        secretKey: "password"
+      - objectName: "api-key"
+        secretPath: "secret/data/documind/api"
+        secretKey: "key"
+"""`}
+/>
+
+## Phase 5: CI/CD Pipeline {#phase5-cicd}
+
+Implement a complete CI/CD pipeline with GitOps principles.
+
+<Exercise
+  id="phase5-cicd"
+  title="Build Production CI/CD Pipeline"
+/>
+
+### GitLab CI Pipeline
+
+<CodeExample
+  title=".gitlab-ci.yml"
+  language="yaml"
+  code={`# .gitlab-ci.yml
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  KUBERNETES_NAMESPACE: documind
+  CONTAINER_REGISTRY: ${CI_REGISTRY}/${CI_PROJECT_PATH}
+
+stages:
+  - test
+  - security
+  - build
+  - deploy-staging
+  - integration-tests
+  - deploy-production
+
+# Test stage
+unit-tests:
+  stage: test
+  image: python:3.11
+  services:
+    - postgres:14
+    - redis:7
+  variables:
+    POSTGRES_DB: test_db
+    POSTGRES_USER: test_user
+    POSTGRES_PASSWORD: test_pass
+    DATABASE_URL: postgresql://test_user:test_pass@postgres:5432/test_db
+    REDIS_URL: redis://redis:6379
+  before_script:
+    - pip install poetry
+    - poetry install
+  script:
+    - poetry run pytest tests/unit -v --cov=app --cov-report=xml
+    - poetry run black --check app/
+    - poetry run ruff check app/
+    - poetry run mypy app/
+  coverage: '/Total coverage: \d+\.\d+%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+
+# Security scanning
+security-scan:
+  stage: security
+  image: aquasec/trivy:latest
+  script:
+    - trivy fs --security-checks vuln,config --severity HIGH,CRITICAL .
+  allow_failure: true
+
+dependency-check:
+  stage: security
+  image: python:3.11
+  script:
+    - pip install safety bandit
+    - safety check
+    - bandit -r app/ -f json -o bandit-report.json
+  artifacts:
+    reports:
+      sast: bandit-report.json
+
+# Build stage
+build-images:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    # Build main application
+    - docker build -t ${CONTAINER_REGISTRY}/api:${CI_COMMIT_SHA} -f docker/api/Dockerfile .
+    - docker build -t ${CONTAINER_REGISTRY}/processor:${CI_COMMIT_SHA} -f docker/processor/Dockerfile .
+    - docker build -t ${CONTAINER_REGISTRY}/model-router:${CI_COMMIT_SHA} -f docker/model-router/Dockerfile .
+    
+    # Security scan images
+    - |
+      for image in api processor model-router; do
+        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+          aquasec/trivy image ${CONTAINER_REGISTRY}/${image}:${CI_COMMIT_SHA}
+      done
+    
+    # Push images
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - |
+      for image in api processor model-router; do
+        docker push ${CONTAINER_REGISTRY}/${image}:${CI_COMMIT_SHA}
+      done
+  only:
+    - main
+    - develop
+
+# Deploy to staging
+deploy-staging:
+  stage: deploy-staging
+  image: bitnami/kubectl:latest
+  environment:
+    name: staging
+    url: https://staging.documind.io
+  script:
+    - kubectl config use-context ${CI_PROJECT_NAME}:staging
+    - |
+      for service in api processor model-router; do
+        kubectl set image deployment/${service} \
+          ${service}=${CONTAINER_REGISTRY}/${service}:${CI_COMMIT_SHA} \
+          -n ${KUBERNETES_NAMESPACE}-staging
+      done
+    - kubectl rollout status deployment/api -n ${KUBERNETES_NAMESPACE}-staging
+  only:
+    - develop
+
+# Integration tests
+integration-tests:
+  stage: integration-tests
+  image: python:3.11
+  environment:
+    name: staging
+  script:
+    - pip install poetry
+    - poetry install
+    - poetry run pytest tests/integration -v --api-url=${STAGING_API_URL}
+  only:
+    - develop
+
+# Deploy to production
+deploy-production:
+  stage: deploy-production
+  image: bitnami/kubectl:latest
+  environment:
+    name: production
+    url: https://api.documind.io
+  script:
+    # Update GitOps repository
+    - git clone https://${GITOPS_TOKEN}@gitlab.com/documind/gitops.git
+    - cd gitops
+    - |
+      for service in api processor model-router; do
+        yq eval -i ".spec.template.spec.containers[0].image = \"${CONTAINER_REGISTRY}/${service}:${CI_COMMIT_SHA}\"" \
+          production/deployments/${service}.yaml
+      done
+    - |
+      git config user.email "ci@documind.io"
+      git config user.name "CI Bot"
+      git add .
+      git commit -m "Deploy ${CI_COMMIT_SHA} to production"
+      git push
+  only:
+    - main
+  when: manual
+
+# Rollback job
+rollback-production:
+  stage: deploy-production
+  image: bitnami/kubectl:latest
+  environment:
+    name: production
+  script:
+    - kubectl config use-context ${CI_PROJECT_NAME}:production
+    - |
+      for service in api processor model-router; do
+        kubectl rollout undo deployment/${service} -n ${KUBERNETES_NAMESPACE}
+      done
+  only:
+    - main
+  when: manual`}
+/>
+
+### ArgoCD GitOps Configuration
+
+<CodeExample
+  title="ArgoCD Application"
+  language="yaml"
+  code={`# argocd-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: documind-production
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: production
+  source:
+    repoURL: https://gitlab.com/documind/gitops.git
+    targetRevision: main
+    path: production
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: documind
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  revisionHistoryLimit: 10
+  
+  # Health checks
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas
+  
+  # Notification settings
+  notifications:
+    - webhook:
+        url: https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
+        headers:
+          - name: Content-Type
+            value: application/json
+        body: |
+          {
+            "text": "Application {{.app.metadata.name}} sync status: {{.app.status.sync.status}}"
+          }
+---
+# AppProject for production
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: production
+  namespace: argocd
+spec:
+  description: Production applications
+  sourceRepos:
+  - 'https://gitlab.com/documind/gitops.git'
+  destinations:
+  - namespace: documind
+    server: https://kubernetes.default.svc
+  - namespace: documind-staging
+    server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  roles:
+  - name: admin
+    policies:
+    - p, proj:production:admin, applications, *, production/*, allow
+    groups:
+    - documind:admins
+  - name: developer
+    policies:
+    - p, proj:production:developer, applications, get, production/*, allow
+    - p, proj:production:developer, applications, sync, production/*, allow
+    groups:
+    - documind:developers`}
+/>
+
+### Model Registry and Versioning
+
+<CodeExample
+  title="Model Registry Implementation"
+  language="python"
+  code={`# model_registry.py
+from datetime import datetime
+from typing import Dict, List, Optional
+import mlflow
+from sqlalchemy import create_engine, Column, String, DateTime, JSON, Float
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+Base = declarative_base()
+
+class ModelVersion(Base):
+    __tablename__ = 'model_versions'
+    
+    id = Column(String, primary_key=True)
+    model_name = Column(String, nullable=False)
+    version = Column(String, nullable=False)
+    artifact_uri = Column(String, nullable=False)
+    metrics = Column(JSON)
+    parameters = Column(JSON)
+    tags = Column(JSON)
+    stage = Column(String, default='None')  # None, Staging, Production, Archived
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class ModelRegistry:
+    def __init__(self, database_url: str, mlflow_uri: str):
+        self.engine = create_engine(database_url)
+        Base.metadata.create_all(self.engine)
+        self.Session = sessionmaker(bind=self.engine)
+        
+        mlflow.set_tracking_uri(mlflow_uri)
+        
+    def register_model(
+        self,
+        model_name: str,
+        model_path: str,
+        metrics: Dict[str, float],
+        parameters: Dict[str, any],
+        tags: Dict[str, str] = None
+    ) -> str:
+        """Register a new model version"""
+        with mlflow.start_run() as run:
+            # Log model
+            mlflow.log_artifact(model_path)
+            
+            # Log metrics
+            for key, value in metrics.items():
+                mlflow.log_metric(key, value)
+            
+            # Log parameters
+            for key, value in parameters.items():
+                mlflow.log_param(key, value)
+            
+            # Log tags
+            if tags:
+                for key, value in tags.items():
+                    mlflow.set_tag(key, value)
+            
+            # Register model
+            model_uri = f"runs:/{run.info.run_id}/model"
+            mv = mlflow.register_model(model_uri, model_name)
+            
+            # Store in database
+            session = self.Session()
+            model_version = ModelVersion(
+                id=mv.version,
+                model_name=model_name,
+                version=mv.version,
+                artifact_uri=model_uri,
+                metrics=metrics,
+                parameters=parameters,
+                tags=tags
+            )
+            session.add(model_version)
+            session.commit()
+            
+            return mv.version
+    
+    def promote_model(self, model_name: str, version: str, stage: str):
+        """Promote model to new stage"""
+        # Update MLflow
+        client = mlflow.tracking.MlflowClient()
+        client.transition_model_version_stage(
+            name=model_name,
+            version=version,
+            stage=stage
+        )
+        
+        # Update database
+        session = self.Session()
+        model = session.query(ModelVersion).filter_by(
+            model_name=model_name,
+            version=version
+        ).first()
+        
+        if model:
+            model.stage = stage
+            session.commit()
+    
+    def get_production_model(self, model_name: str) -> Optional[ModelVersion]:
+        """Get current production model"""
+        session = self.Session()
+        return session.query(ModelVersion).filter_by(
+            model_name=model_name,
+            stage='Production'
+        ).first()
+    
+    def rollback_model(self, model_name: str):
+        """Rollback to previous production version"""
+        session = self.Session()
+        
+        # Get current and previous production models
+        models = session.query(ModelVersion).filter_by(
+            model_name=model_name
+        ).order_by(ModelVersion.created_at.desc()).all()
+        
+        current_prod = None
+        previous_prod = None
+        
+        for model in models:
+            if model.stage == 'Production':
+                current_prod = model
+            elif model.stage == 'Archived' and previous_prod is None:
+                previous_prod = model
+        
+        if current_prod and previous_prod:
+            # Swap stages
+            current_prod.stage = 'Archived'
+            previous_prod.stage = 'Production'
+            session.commit()
+            
+            # Update MLflow
+            client = mlflow.tracking.MlflowClient()
+            client.transition_model_version_stage(
+                name=model_name,
+                version=current_prod.version,
+                stage='Archived'
+            )
+            client.transition_model_version_stage(
+                name=model_name,
+                version=previous_prod.version,
+                stage='Production'
+            )
+
+# CI/CD integration
+class ModelDeployment:
+    def __init__(self, registry: ModelRegistry, k8s_client):
+        self.registry = registry
+        self.k8s = k8s_client
+    
+    async def deploy_model(self, model_name: str, version: str):
+        """Deploy specific model version"""
+        # Get model details
+        model = self.registry.get_model_version(model_name, version)
+        
+        # Update Kubernetes deployment
+        deployment = f"{model_name}-model-server"
+        container_spec = {
+            "image": f"documind/model-server:latest",
+            "env": [
+                {"name": "MODEL_NAME", "value": model_name},
+                {"name": "MODEL_VERSION", "value": version},
+                {"name": "MODEL_URI", "value": model.artifact_uri}
+            ]
+        }
+        
+        # Perform rolling update
+        self.k8s.patch_namespaced_deployment(
+            name=deployment,
+            namespace="documind",
+            body={"spec": {"template": {"spec": {"containers": [container_spec]}}}}
+        )
+        
+        # Wait for rollout
+        await self.wait_for_rollout(deployment)
+        
+        # Run validation tests
+        await self.validate_deployment(model_name, version)`}
+/>
+
+## Testing & Validation {#testing-validation}
+
+Comprehensive testing ensures platform reliability under production conditions.
+
+<Exercise
+  id="testing-validation"
+  title="Validate Platform Performance and Reliability"
+/>
+
+### Load Testing with Locust
+
+<CodeExample
+  title="Load Testing Suite"
+  language="python"
+  code={`# locustfile.py
+from locust import HttpUser, task, between, events
+from locust.contrib.fasthttp import FastHttpUser
+import json
+import random
+import time
+import base64
+
+class DocumentProcessingUser(FastHttpUser):
+    wait_time = between(1, 3)
+    
+    def on_start(self):
+        """Login and get auth token"""
+        response = self.client.post("/api/v1/auth/login", json={
+            "username": "test_user",
+            "password": "test_password"
+        })
+        
+        if response.status_code == 200:
+            self.token = response.json()["access_token"]
+            self.client.headers.update({
+                "Authorization": f"Bearer {self.token}"
+            })
+    
+    @task(3)
+    def upload_document(self):
+        """Test document upload"""
+        # Generate random document
+        document_size = random.choice([1024, 5120, 10240])  # 1KB, 5KB, 10KB
+        document_content = base64.b64encode(
+            bytes(random.getrandbits(8) for _ in range(document_size))
+        ).decode()
+        
+        with self.client.post(
+            "/api/v1/documents",
+            json={
+                "title": f"Test Document {time.time()}",
+                "content": document_content,
+                "type": random.choice(["pdf", "docx", "txt"])
+            },
+            catch_response=True
+        ) as response:
+            if response.status_code == 201:
+                response.success()
+                # Store document ID for later tasks
+                doc_id = response.json()["id"]
+                self.environment.runner.document_ids.append(doc_id)
+            else:
+                response.failure(f"Got status code {response.status_code}")
+    
+    @task(5)
+    def process_document(self):
+        """Test document processing"""
+        if hasattr(self.environment.runner, 'document_ids') and self.environment.runner.document_ids:
+            doc_id = random.choice(self.environment.runner.document_ids)
+            
+            with self.client.post(
+                f"/api/v1/documents/{doc_id}/process",
+                json={
+                    "model": random.choice(["gpt-4", "claude-3", "llama-2"]),
+                    "task": random.choice(["summarize", "extract", "classify"])
+                },
+                catch_response=True
+            ) as response:
+                if response.status_code in [200, 202]:
+                    response.success()
+                else:
+                    response.failure(f"Processing failed: {response.status_code}")
+    
+    @task(2)
+    def check_status(self):
+        """Check processing status"""
+        if hasattr(self.environment.runner, 'document_ids') and self.environment.runner.document_ids:
+            doc_id = random.choice(self.environment.runner.document_ids)
+            
+            self.client.get(f"/api/v1/documents/{doc_id}/status")
+    
+    @task(1)
+    def get_analytics(self):
+        """Test analytics endpoint"""
+        self.client.get("/api/v1/analytics/usage")
+
+class AdminUser(HttpUser):
+    wait_time = between(5, 10)
+    weight = 1  # 10% of users
+    
+    @task
+    def view_dashboard(self):
+        """Admin dashboard access"""
+        self.client.get("/api/v1/admin/dashboard")
+    
+    @task
+    def manage_models(self):
+        """Model management tasks"""
+        self.client.get("/api/v1/admin/models")
+        
+        # Occasionally update model config
+        if random.random() < 0.1:
+            self.client.patch(
+                "/api/v1/admin/models/gpt-4/config",
+                json={"max_tokens": random.choice([1000, 2000, 4000])}
+            )
+
+# Custom events for monitoring
+@events.init.add_listener
+def on_locust_init(environment, **kwargs):
+    environment.runner.document_ids = []
+
+@events.request.add_listener
+def on_request(request_type, name, response_time, response_length, response, context, exception, **kwargs):
+    if exception:
+        print(f"Request failed: {name} - {exception}")
+    elif response_time > 1000:  # Log slow requests
+        print(f"Slow request: {name} - {response_time}ms")
+
+# Stress test scenarios
+class StressTestUser(FastHttpUser):
+    wait_time = between(0.1, 0.5)  # Aggressive timing
+    
+    @task
+    def burst_traffic(self):
+        """Simulate traffic burst"""
+        for _ in range(10):
+            self.client.get("/api/v1/health", name="burst_health_check")
+
+# Run with: locust -f locustfile.py --host=https://api.documind.io`}
+/>
+
+### Chaos Engineering
+
+Test system resilience with chaos experiments:
+
+<CodeExample
+  title="Chaos Engineering Experiments"
+  language="yaml"
+  code={`# chaos-experiments.yaml
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: pod-failure-api
+  namespace: documind
+spec:
+  action: pod-failure
+  mode: fixed
+  value: "1"
+  duration: "60s"
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: api-gateway
+  scheduler:
+    cron: "@hourly"
+---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay-models
+  namespace: documind
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: model-router
+  delay:
+    latency: "200ms"
+    correlation: "25"
+    jitter: "50ms"
+  duration: "5m"
+  scheduler:
+    cron: "0 */4 * * *"
+---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: cpu-stress-processor
+  namespace: documind
+spec:
+  mode: all
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: document-processor
+  stressors:
+    cpu:
+      workers: 2
+      load: 80
+  duration: "3m"
+---
+# DNS Chaos
+apiVersion: chaos-mesh.org/v1alpha1
+kind: DNSChaos
+metadata:
+  name: dns-failure-external
+  namespace: documind
+spec:
+  action: error
+  mode: all
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: model-router
+  patterns:
+    - "api.openai.com"
+    - "api.anthropic.com"
+  duration: "2m"
+---
+# IO Chaos for storage testing
+apiVersion: chaos-mesh.org/v1alpha1
+kind: IOChaos
+metadata:
+  name: io-delay-storage
+  namespace: documind
+spec:
+  action: latency
+  mode: all
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: document-processor
+  volumePath: /data
+  path: "/data/*"
+  delay: "100ms"
+  percent: 50
+  duration: "5m"
+---
+# Chaos testing script
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chaos-test-script
+  namespace: documind
+data:
+  run-chaos-test.sh: |
+    #!/bin/bash
+    
+    echo "Starting chaos engineering test suite..."
+    
+    # Function to check system health
+    check_health() {
+        echo "Checking system health..."
+        kubectl get pods -n documind
+        curl -f https://api.documind.io/health || return 1
+        return 0
+    }
+    
+    # Baseline performance
+    echo "Recording baseline performance..."
+    k6 run baseline-test.js
+    
+    # Apply chaos experiments
+    experiments=("pod-failure-api" "network-delay-models" "cpu-stress-processor")
+    
+    for exp in "${experiments[@]}"; do
+        echo "Applying chaos experiment: $exp"
+        kubectl apply -f chaos-experiments.yaml
+        
+        # Wait for chaos to take effect
+        sleep 30
+        
+        # Run performance test during chaos
+        k6 run chaos-test.js --tag experiment=$exp
+        
+        # Check if system recovers
+        kubectl delete chaosengineering $exp -n documind
+        sleep 60
+        
+        if check_health; then
+            echo "✓ System recovered from $exp"
+        else
+            echo "✗ System failed to recover from $exp"
+            exit 1
+        fi
+    done
+    
+    echo "Chaos engineering tests completed successfully!"`}
+/>
+
+## Documentation & Presentation {#documentation-presentation}
+
+Professional documentation is crucial for platform adoption and maintenance.
+
+### Architecture Documentation
+
+<CodeExample
+  title="Architecture Decision Record (ADR)"
+  language="markdown"
+  code={`# ADR-001: Multi-Model AI Architecture
+
+## Status
+Accepted
+
+## Context
+DocuMind needs to support multiple AI models (OpenAI, Anthropic, local models) with different capabilities and costs. We need an architecture that allows flexible model selection based on task requirements, cost constraints, and performance needs.
+
+## Decision
+We will implement a Model Router pattern with the following components:
+
+1. **Model Router Service**: Central service that routes requests to appropriate models
+2. **Model Adapters**: Standardized interfaces for different model providers
+3. **Result Cache**: Redis-based caching for expensive model calls
+4. **Fallback Chain**: Automatic fallback to alternative models on failure
+
+## Consequences
+
+### Positive
+- Flexibility to add new models without changing client code
+- Cost optimization through intelligent routing
+- Improved reliability through fallback mechanisms
+- Performance improvement through caching
+
+### Negative
+- Additional complexity in request routing
+- Potential latency from routing decisions
+- Cache invalidation complexity
+
+## Implementation
+See `services/model-router/` for implementation details.
+
+---
+
+# ADR-002: Blue-Green Deployment Strategy
+
+## Status
+Accepted
+
+## Context
+Zero-downtime deployments are critical for our SLA. We need a deployment strategy that allows testing new versions in production before switching traffic.
+
+## Decision
+Implement blue-green deployments with:
+- Separate blue and green environments
+- Istio for traffic management
+- Automated health checks before switching
+- Quick rollback capability
+
+## Consequences
+- Zero-downtime deployments
+- Safe production testing
+- Double resource usage during deployments
+- Complex routing configuration`}
+/>
+
+### Runbook Documentation
+
+<CodeExample
+  title="Production Runbook"
+  language="markdown"
+  code={`# DocuMind Production Runbook
+
+## Emergency Contacts
+- On-call Engineer: Use PagerDuty rotation
+- Platform Lead: platform-lead@documind.io
+- Security Team: security@documind.io
+
+## Common Operations
+
+### 1. Scaling Services
+
+#### Manual Scaling
+\`\`\`bash
+# Scale document processor
+kubectl scale deployment document-processor -n documind --replicas=10
+
+# Scale model service
+kubectl scale deployment model-router -n documind --replicas=5
+\`\`\`
+
+#### Check Autoscaling Status
+\`\`\`bash
+kubectl get hpa -n documind
+kubectl describe hpa document-processor-hpa -n documind
+\`\`\`
+
+### 2. Model Management
+
+#### Switch Model Version
+\`\`\`bash
+# Update model version
+kubectl set env deployment/model-router -n documind MODEL_VERSION=v2.1
+
+# Verify rollout
+kubectl rollout status deployment/model-router -n documind
+\`\`\`
+
+#### Add New Model
+1. Update model configuration in ConfigMap
+2. Apply configuration: \`kubectl apply -f configs/models.yaml\`
+3. Restart model router: \`kubectl rollout restart deployment/model-router -n documind\`
+
+### 3. Incident Response
+
+#### High Error Rate
+1. Check error logs: \`kubectl logs -l app=api-gateway -n documind --tail=100\`
+2. Check upstream services: \`kubectl get pods -n documind\`
+3. Review recent deployments: \`kubectl rollout history deployment -n documind\`
+4. Consider rollback if recent deployment
+
+#### Performance Degradation
+1. Check metrics in Grafana dashboard
+2. Identify bottleneck service
+3. Scale affected service
+4. Review model cache hit rates
+5. Check external API rate limits
+
+#### Database Issues
+1. Check connection pool metrics
+2. Review slow query logs
+3. Check disk usage: \`kubectl exec -it postgres-0 -n documind -- df -h\`
+4. Consider read replica failover
+
+### 4. Rollback Procedures
+
+#### Application Rollback
+\`\`\`bash
+# Rollback to previous version
+kubectl rollout undo deployment/api-gateway -n documind
+
+# Rollback to specific revision
+kubectl rollout undo deployment/api-gateway -n documind --to-revision=10
+\`\`\`
+
+#### Model Rollback
+\`\`\`python
+from model_registry import ModelRegistry
+
+registry = ModelRegistry()
+registry.rollback_model("gpt-4-processor")
+\`\`\`
+
+### 5. Monitoring Queries
+
+#### Prometheus Queries
+- Error rate: \`sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)\`
+- P95 latency: \`histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))\`
+- Model inference time: \`histogram_quantile(0.95, rate(model_inference_duration_seconds_bucket[5m]))\`
+
+#### Log Queries (Elasticsearch)
+- Error logs: \`kubernetes.labels.app:"api-gateway" AND level:"ERROR"\`
+- Slow requests: \`response_time:>1000 AND kubernetes.namespace:"documind"\`
+- Failed model calls: \`message:"model inference failed" AND model:*\`
+
+### 6. Maintenance Procedures
+
+#### Certificate Renewal
+\`\`\`bash
+# Check certificate expiration
+kubectl get certificate -n documind
+kubectl describe certificate api-cert -n documind
+
+# Trigger renewal
+kubectl annotate certificate api-cert -n documind cert-manager.io/issue-temporary-certificate="true"
+\`\`\`
+
+#### Database Maintenance
+\`\`\`bash
+# Backup database
+kubectl exec -it postgres-0 -n documind -- pg_dump -U postgres documind > backup.sql
+
+# Vacuum analyze
+kubectl exec -it postgres-0 -n documind -- psql -U postgres -d documind -c "VACUUM ANALYZE;"
+\`\`\`
+
+## Disaster Recovery
+
+### Full System Recovery
+1. Verify Kubernetes cluster is healthy
+2. Restore persistent volumes from snapshots
+3. Deploy infrastructure: \`terraform apply\`
+4. Deploy applications: \`kubectl apply -k overlays/production\`
+5. Restore database from backup
+6. Verify all services are healthy
+7. Run smoke tests
+8. Enable traffic ingress`}
+/>
+
+### Project Presentation Template
+
+<CodeExample
+  title="presentation-outline.md"
+  language="markdown"
+  code={`# DocuMind Platform: Production AI at Scale
+
+## Executive Summary (5 minutes)
+- Platform Overview
+- Business Value Delivered
+- Key Metrics Achieved
+- Cost Analysis
+
+## Architecture Deep Dive (10 minutes)
+- High-level Architecture
+- Microservices Design
+- AI Model Integration
+- Data Flow Patterns
+
+## Production Engineering (10 minutes)
+- Deployment Strategy
+- Monitoring & Observability
+- Auto-scaling Implementation
+- Security Architecture
+
+## Demonstrations (5 minutes)
+- Live platform demo
+- Load test results
+- Chaos engineering results
+- Zero-downtime deployment
+
+## Lessons Learned (5 minutes)
+- Technical Challenges
+- Solutions Implemented
+- Best Practices Discovered
+- Future Improvements
+
+## Q&A (10 minutes)
+
+## Appendix
+- Detailed metrics
+- Cost breakdown
+- Technical specifications
+- Reference architecture`}
+/>
+
+## Summary and Next Steps {#summary}
+
+Congratulations! You've built a production-grade AI platform that demonstrates enterprise-level engineering skills.
+
+### What You've Accomplished
+
+✅ **Architecture**: Designed scalable microservices with proper separation of concerns
+✅ **Deployment**: Implemented blue-green deployments with zero downtime
+✅ **Monitoring**: Built comprehensive observability with custom metrics
+✅ **Scaling**: Created intelligent auto-scaling for cost optimization
+✅ **Security**: Implemented defense-in-depth with enterprise controls
+✅ **CI/CD**: Automated deployment pipeline with GitOps
+✅ **Testing**: Validated with load testing and chaos engineering
+✅ **Documentation**: Created professional runbooks and architecture docs
+
+### Key Takeaways
+
+1. **Production Complexity**: Real-world systems require careful attention to many non-functional requirements
+2. **Observability First**: You can't fix what you can't see - comprehensive monitoring is essential
+3. **Security by Design**: Security must be built in from the start, not added later
+4. **Automation Everything**: Manual processes don't scale - automate deployment, scaling, and recovery
+5. **Test in Production**: Chaos engineering and load testing reveal issues before customers do
+
+### Career Applications
+
+This project prepares you for roles such as:
+- **Platform Engineer**: Building and maintaining production infrastructure
+- **SRE (Site Reliability Engineer)**: Ensuring system reliability and performance
+- **DevOps Engineer**: Implementing CI/CD and automation
+- **Cloud Architect**: Designing scalable cloud solutions
+- **AI Infrastructure Engineer**: Specializing in ML/AI platforms
+
+### Next Steps
+
+1. **Enhance the Platform**:
+   - Add multi-region deployment
+   - Implement edge caching
+   - Add A/B testing capabilities
+   - Build custom Kubernetes operators
+
+2. **Explore Advanced Topics**:
+   - Service mesh advanced features
+   - eBPF for observability
+   - GitOps with Flux
+   - Cost optimization with FinOps
+
+3. **Get Certified**:
+   - Kubernetes (CKA/CKAD)
+   - Cloud platforms (AWS/GCP/Azure)
+   - Security (CKS)
+
+<Callout type="success">
+  **Achievement Unlocked!** You've completed the Production AI Systems learning path. You now have the skills to build, deploy, and maintain AI platforms that serve millions of users reliably and efficiently.
+</Callout>
+
+## Additional Resources {#resources}
+
+- [Kubernetes Production Best Practices](https://kubernetes.io/docs/setup/production-environment/)
+- [The Site Reliability Workbook](https://sre.google/workbook/table-of-contents/)
+- [Cloud Native Architecture](https://www.cncf.io/projects/)
+- [MLOps Principles](https://ml-ops.org/)
+- [Platform Engineering Community](https://platformengineering.org/)
+
+Share your platform implementation and connect with other engineers building production AI systems!

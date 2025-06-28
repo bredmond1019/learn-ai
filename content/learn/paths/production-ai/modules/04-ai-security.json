@@ -1,0 +1,418 @@
+{
+  "metadata": {
+    "id": "ai-security",
+    "pathId": "production-ai",
+    "title": "AI Security & Threat Modeling",
+    "description": "Master security best practices for AI systems including threat modeling, secure deployment, and protection against AI-specific attacks like prompt injection and model extraction.",
+    "duration": "120 minutes",
+    "type": "concept",
+    "difficulty": "advanced",
+    "order": 4,
+    "prerequisites": [
+      "Understanding of basic security concepts",
+      "Experience with API security",
+      "Knowledge of AI/ML systems architecture",
+      "Familiarity with authentication and authorization"
+    ],
+    "objectives": [
+      "Identify and mitigate AI-specific security threats",
+      "Implement secure authentication and authorization for AI endpoints",
+      "Design input validation and sanitization for AI prompts",
+      "Configure rate limiting and DDoS protection for AI services",
+      "Deploy AI models securely with encryption and access controls",
+      "Apply privacy-preserving techniques in AI systems",
+      "Conduct threat modeling for AI applications",
+      "Set up security monitoring and incident response",
+      "Ensure compliance with privacy regulations for AI"
+    ],
+    "tags": [
+      "security",
+      "threat-modeling",
+      "prompt-injection",
+      "authentication",
+      "privacy",
+      "compliance",
+      "ai-security"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-28",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 360
+  },
+  "sections": [
+    {
+      "id": "ai-threat-landscape",
+      "title": "AI-Specific Threat Landscape",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#ai-threat-landscape",
+        "codeExamples": [
+          {
+            "id": "prompt-injection-example",
+            "language": "python",
+            "title": "Detecting Prompt Injection Attempts"
+          },
+          {
+            "id": "model-extraction-defense",
+            "language": "python",
+            "title": "Defending Against Model Extraction"
+          }
+        ]
+      },
+      "objectives": [
+        "Understand unique security threats to AI systems",
+        "Recognize common attack patterns",
+        "Learn about OWASP Top 10 for LLM Applications"
+      ]
+    },
+    {
+      "id": "authentication-authorization",
+      "title": "Authentication & Authorization for AI",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#authentication-authorization",
+        "codeExamples": [
+          {
+            "id": "jwt-ai-endpoint",
+            "language": "typescript",
+            "title": "JWT Authentication for AI Endpoints"
+          },
+          {
+            "id": "rbac-implementation",
+            "language": "python",
+            "title": "Role-Based Access Control for AI Services"
+          }
+        ]
+      },
+      "objectives": [
+        "Implement secure authentication for AI endpoints",
+        "Design granular authorization systems",
+        "Manage API keys and tokens securely"
+      ]
+    },
+    {
+      "id": "input-validation",
+      "title": "Input Validation & Sanitization",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#input-validation",
+        "codeExamples": [
+          {
+            "id": "prompt-sanitization",
+            "language": "python",
+            "title": "Prompt Sanitization Pipeline"
+          },
+          {
+            "id": "content-filtering",
+            "language": "typescript",
+            "title": "Content Filtering for AI Inputs"
+          }
+        ]
+      },
+      "objectives": [
+        "Implement robust input validation for AI prompts",
+        "Create sanitization pipelines",
+        "Prevent injection attacks"
+      ]
+    },
+    {
+      "id": "rate-limiting-ddos",
+      "title": "Rate Limiting & DDoS Protection",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#rate-limiting-ddos",
+        "codeExamples": [
+          {
+            "id": "token-bucket-implementation",
+            "language": "python",
+            "title": "Token Bucket Rate Limiter"
+          },
+          {
+            "id": "cloudflare-protection",
+            "language": "typescript",
+            "title": "Cloudflare DDoS Protection Setup"
+          }
+        ]
+      },
+      "objectives": [
+        "Implement rate limiting for AI endpoints",
+        "Configure DDoS protection",
+        "Handle resource-intensive AI requests"
+      ]
+    },
+    {
+      "id": "secure-deployment",
+      "title": "Secure Model Deployment & Storage",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#secure-deployment",
+        "codeExamples": [
+          {
+            "id": "model-encryption",
+            "language": "python",
+            "title": "Encrypting AI Models at Rest"
+          },
+          {
+            "id": "secure-inference",
+            "language": "python",
+            "title": "Secure Model Inference Pipeline"
+          }
+        ]
+      },
+      "objectives": [
+        "Encrypt models at rest and in transit",
+        "Implement secure model serving",
+        "Protect intellectual property"
+      ]
+    },
+    {
+      "id": "privacy-preserving",
+      "title": "Privacy-Preserving AI Techniques",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#privacy-preserving",
+        "codeExamples": [
+          {
+            "id": "differential-privacy",
+            "language": "python",
+            "title": "Implementing Differential Privacy"
+          },
+          {
+            "id": "federated-learning",
+            "language": "python",
+            "title": "Federated Learning Setup"
+          }
+        ]
+      },
+      "objectives": [
+        "Apply differential privacy to AI systems",
+        "Implement data anonymization",
+        "Use privacy-preserving training techniques"
+      ]
+    },
+    {
+      "id": "threat-modeling",
+      "title": "Threat Modeling for AI Systems",
+      "type": "content",
+      "order": 7,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#threat-modeling",
+        "diagrams": [
+          {
+            "id": "ai-threat-model",
+            "type": "mermaid",
+            "title": "AI System Threat Model"
+          }
+        ]
+      },
+      "objectives": [
+        "Create comprehensive threat models for AI systems",
+        "Identify attack vectors and vulnerabilities",
+        "Prioritize security controls"
+      ]
+    },
+    {
+      "id": "security-monitoring",
+      "title": "Security Monitoring & Incident Response",
+      "type": "content",
+      "order": 8,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#security-monitoring",
+        "codeExamples": [
+          {
+            "id": "anomaly-detection",
+            "language": "python",
+            "title": "AI Usage Anomaly Detection"
+          },
+          {
+            "id": "security-logging",
+            "language": "typescript",
+            "title": "Comprehensive Security Logging"
+          }
+        ]
+      },
+      "objectives": [
+        "Set up security monitoring for AI systems",
+        "Implement anomaly detection",
+        "Create incident response procedures"
+      ]
+    },
+    {
+      "id": "compliance",
+      "title": "Compliance & Regulatory Considerations",
+      "type": "content",
+      "order": 9,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#compliance"
+      },
+      "objectives": [
+        "Understand GDPR implications for AI",
+        "Implement CCPA compliance measures",
+        "Document AI decision-making processes"
+      ]
+    },
+    {
+      "id": "hands-on-exercise",
+      "title": "Hands-On: Secure AI Endpoint Implementation",
+      "type": "exercise",
+      "order": 10,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-ai-security.mdx#hands-on-exercise",
+        "codeExamples": [
+          {
+            "id": "secure-ai-api",
+            "language": "python",
+            "title": "Complete Secure AI API Implementation"
+          }
+        ]
+      },
+      "objectives": [
+        "Build a secure AI endpoint from scratch",
+        "Implement all security best practices",
+        "Test against common attacks"
+      ]
+    }
+  ],
+  "quiz": {
+    "id": "ai-security-quiz",
+    "title": "AI Security Knowledge Check",
+    "questions": [
+      {
+        "id": "q1",
+        "type": "multiple-choice",
+        "question": "What is prompt injection in the context of AI security?",
+        "options": [
+          "A technique to speed up AI model inference",
+          "An attack where malicious instructions are embedded in user input to manipulate AI behavior",
+          "A method for optimizing prompt templates",
+          "A way to inject dependencies into AI systems"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Prompt injection is a security vulnerability where attackers embed malicious instructions within prompts to manipulate the AI's behavior, potentially bypassing safety measures or accessing unauthorized functionality."
+      },
+      {
+        "id": "q2",
+        "type": "multiple-choice",
+        "question": "Which technique helps prevent model extraction attacks?",
+        "options": [
+          "Using faster GPUs for inference",
+          "Implementing rate limiting and output perturbation",
+          "Storing models in plain text",
+          "Increasing model size"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Rate limiting prevents attackers from making numerous queries needed for extraction, while output perturbation adds controlled noise to responses, making it harder to reverse-engineer the model."
+      },
+      {
+        "id": "q3",
+        "type": "multiple-choice",
+        "question": "What is differential privacy in AI systems?",
+        "options": [
+          "Different privacy settings for different users",
+          "A technique that adds calibrated noise to protect individual data points while maintaining statistical utility",
+          "Separating private and public AI models",
+          "Using different encryption keys for different data"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Differential privacy is a mathematical framework that adds carefully calibrated noise to AI outputs or training processes, ensuring individual data points cannot be extracted while maintaining overall statistical accuracy."
+      },
+      {
+        "id": "q4",
+        "type": "multiple-choice",
+        "question": "Why is input validation critical for AI systems?",
+        "options": [
+          "To improve model accuracy",
+          "To prevent prompt injection, data poisoning, and resource exhaustion attacks",
+          "To make prompts shorter",
+          "To reduce API costs"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Input validation is crucial for preventing various attacks including prompt injection (malicious instructions), data poisoning (corrupting training data), and resource exhaustion (DoS attacks through complex inputs)."
+      },
+      {
+        "id": "q5",
+        "type": "multiple-choice",
+        "question": "What is the primary purpose of rate limiting in AI services?",
+        "options": [
+          "To increase response speed",
+          "To reduce server costs",
+          "To prevent abuse, protect against DoS attacks, and limit model extraction attempts",
+          "To improve model performance"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Rate limiting serves multiple security purposes: preventing service abuse, protecting against denial-of-service attacks, limiting model extraction attempts, and ensuring fair resource allocation among users."
+      }
+    ],
+    "passingScore": 80
+  },
+  "resources": [
+    {
+      "title": "OWASP Top 10 for LLM Applications",
+      "type": "reference",
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "description": "Comprehensive guide to the most critical security risks in LLM applications",
+      "required": true
+    },
+    {
+      "title": "AI Security Best Practices Guide",
+      "type": "guide",
+      "url": "https://github.com/microsoft/AI-Security-Risk-Assessment",
+      "description": "Microsoft's comprehensive AI security risk assessment framework",
+      "required": false
+    },
+    {
+      "title": "Adversarial Robustness Toolbox",
+      "type": "tool",
+      "url": "https://github.com/Trusted-AI/adversarial-robustness-toolbox",
+      "description": "Python library for machine learning security",
+      "required": false
+    },
+    {
+      "title": "Privacy-Preserving Machine Learning",
+      "type": "reference",
+      "url": "https://www.microsoft.com/en-us/research/project/privacy-preserving-machine-learning/",
+      "description": "Microsoft Research on privacy-preserving ML techniques",
+      "required": false
+    }
+  ],
+  "nextSteps": [
+    {
+      "title": "Complete the hands-on exercise",
+      "description": "Build and test a secure AI endpoint with all security measures"
+    },
+    {
+      "title": "Review OWASP Top 10 for LLMs",
+      "description": "Deep dive into each vulnerability category and mitigation strategies"
+    },
+    {
+      "title": "Implement security monitoring",
+      "description": "Set up comprehensive logging and anomaly detection for your AI systems"
+    }
+  ]
+}

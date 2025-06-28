@@ -1,0 +1,47 @@
+{
+  "id": "building-production-rag-systems",
+  "title": "Construindo Sistemas RAG de Produção",
+  "description": "Domine o design, implementação e otimização de sistemas RAG (Retrieval-Augmented Generation) para implantação em produção em escala.",
+  "sections": [
+    {
+      "id": "rag-fundamentals",
+      "title": "Arquitetura RAG e Padrões de Design",
+      "content": {
+        "type": "lesson",
+        "source": "building-production-rag-systems.mdx#rag-fundamentals"
+      }
+    },
+    {
+      "id": "advanced-retrieval",
+      "title": "Estratégias Avançadas de Recuperação",
+      "content": {
+        "type": "lesson",
+        "source": "building-production-rag-systems.mdx#advanced-retrieval"
+      }
+    },
+    {
+      "id": "optimization-scaling",
+      "title": "Otimização e Escalabilidade",
+      "content": {
+        "type": "lesson",
+        "source": "building-production-rag-systems.mdx#optimization-scaling"
+      }
+    },
+    {
+      "id": "monitoring-maintenance",
+      "title": "Monitoramento e Manutenção",
+      "content": {
+        "type": "lesson",
+        "source": "building-production-rag-systems.mdx#monitoring-maintenance"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Verificação de Conhecimento",
+      "content": {
+        "type": "quiz",
+        "source": "building-production-rag-systems.mdx#quiz"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "ai-system-architecture-patterns",
+  "title": "Padrões de Arquitetura de Sistemas de IA",
+  "description": "Domine padrões de arquitetura em escala empresarial para implantar, escalar e manter sistemas de IA em ambientes de produção.",
+  "sections": [
+    {
+      "id": "enterprise-patterns",
+      "title": "Padrões de Arquitetura Empresarial de IA",
+      "content": {
+        "type": "lesson",
+        "source": "ai-system-architecture-patterns.mdx#enterprise-patterns"
+      }
+    },
+    {
+      "id": "microservices-ai",
+      "title": "Microsserviços para Sistemas de IA",
+      "content": {
+        "type": "lesson",
+        "source": "ai-system-architecture-patterns.mdx#microservices-ai"
+      }
+    },
+    {
+      "id": "event-driven-ai",
+      "title": "Arquiteturas de IA Orientadas por Eventos",
+      "content": {
+        "type": "lesson",
+        "source": "ai-system-architecture-patterns.mdx#event-driven-ai"
+      }
+    },
+    {
+      "id": "deployment-strategies",
+      "title": "Estratégias de Implantação e Infraestrutura",
+      "content": {
+        "type": "lesson",
+        "source": "ai-system-architecture-patterns.mdx#deployment-strategies"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Verificação de Conhecimento",
+      "content": {
+        "type": "quiz",
+        "source": "ai-system-architecture-patterns.mdx#quiz"
+      }
+    }
+  ]
+}

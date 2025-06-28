@@ -1,0 +1,401 @@
+{
+  "metadata": {
+    "id": "ai-system-monitoring",
+    "pathId": "production-ai",
+    "title": "AI System Monitoring & Observability",
+    "description": "Master the art of monitoring AI systems in production, including metrics collection, logging strategies, real-time dashboards, and proactive alerting for model performance and system health.",
+    "duration": "120 minutes",
+    "type": "concept",
+    "difficulty": "advanced",
+    "order": 2,
+    "prerequisites": [
+      "Understanding of AI/ML model deployment",
+      "Basic knowledge of monitoring concepts",
+      "Familiarity with logging and metrics",
+      "Experience with production systems"
+    ],
+    "objectives": [
+      "Understand unique monitoring requirements for AI systems",
+      "Implement comprehensive metrics collection for model performance",
+      "Design effective logging strategies for AI applications",
+      "Build real-time monitoring dashboards",
+      "Configure intelligent alerting for model drift and degradation",
+      "Master observability tools and platforms for AI workloads"
+    ],
+    "tags": [
+      "monitoring",
+      "observability",
+      "metrics",
+      "logging",
+      "alerting",
+      "model-drift",
+      "production-ai"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-06-28",
+    "author": "AI Engineering Team",
+    "estimatedCompletionTime": 360
+  },
+  "sections": [
+    {
+      "id": "ai-monitoring-fundamentals",
+      "title": "AI Monitoring Fundamentals",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-ai-system-monitoring.mdx#ai-monitoring-fundamentals",
+        "codeExamples": [
+          {
+            "id": "metrics-comparison",
+            "title": "AI vs Traditional Software Metrics",
+            "description": "Comprehensive comparison of monitoring approaches",
+            "language": "python",
+            "code": "# Traditional Web Application Metrics\nclass TraditionalMetrics:\n    def __init__(self):\n        self.metrics = {\n            'request_latency': [],\n            'error_rate': 0,\n            'throughput': 0,\n            'cpu_usage': 0,\n            'memory_usage': 0\n        }\n    \n    def track_request(self, duration, status_code):\n        self.metrics['request_latency'].append(duration)\n        if status_code >= 500:\n            self.metrics['error_rate'] += 1\n\n# AI System Metrics\nclass AISystemMetrics:\n    def __init__(self):\n        self.metrics = {\n            # Traditional metrics\n            'inference_latency': [],\n            'error_rate': 0,\n            'throughput': 0,\n            'resource_usage': {},\n            \n            # AI-specific metrics\n            'model_accuracy': [],\n            'prediction_confidence': [],\n            'input_distribution': {},\n            'output_distribution': {},\n            'token_usage': {'prompt': 0, 'completion': 0},\n            'model_drift_score': 0,\n            'feature_drift': {},\n            'cost_per_inference': 0\n        }\n    \n    def track_inference(self, input_data, prediction, confidence, duration):\n        # Track traditional metrics\n        self.metrics['inference_latency'].append(duration)\n        \n        # Track AI-specific metrics\n        self.metrics['prediction_confidence'].append(confidence)\n        self._update_distributions(input_data, prediction)\n        self._calculate_drift_metrics(input_data)\n        \n    def _update_distributions(self, input_data, prediction):\n        # Monitor input/output distributions for drift detection\n        pass\n        \n    def _calculate_drift_metrics(self, input_data):\n        # Calculate statistical drift from baseline\n        pass",
+            "highlightLines": [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 40, 41, 42],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "key-metrics",
+      "title": "Key Metrics for AI Systems",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-ai-system-monitoring.mdx#key-metrics",
+        "codeExamples": [
+          {
+            "id": "metrics-implementation",
+            "title": "Comprehensive AI Metrics Collection",
+            "description": "Production-ready metrics collection system for AI applications",
+            "language": "python",
+            "code": "import time\nimport numpy as np\nfrom prometheus_client import Counter, Histogram, Gauge, Summary\nfrom typing import Dict, List, Any, Optional\nimport logging\n\nclass AIMetricsCollector:\n    def __init__(self, model_name: str, version: str):\n        self.model_name = model_name\n        self.version = version\n        \n        # Performance Metrics\n        self.inference_duration = Histogram(\n            'ai_inference_duration_seconds',\n            'Time spent on model inference',\n            ['model', 'version', 'endpoint'],\n            buckets=(0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0)\n        )\n        \n        self.token_usage = Counter(\n            'ai_token_usage_total',\n            'Total tokens consumed',\n            ['model', 'version', 'token_type']\n        )\n        \n        self.prediction_confidence = Histogram(\n            'ai_prediction_confidence',\n            'Model prediction confidence scores',\n            ['model', 'version'],\n            buckets=(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)\n        )\n        \n        # Model Quality Metrics\n        self.model_accuracy = Gauge(\n            'ai_model_accuracy',\n            'Current model accuracy',\n            ['model', 'version']\n        )\n        \n        self.drift_score = Gauge(\n            'ai_model_drift_score',\n            'Model drift score from baseline',\n            ['model', 'version', 'drift_type']\n        )\n        \n        # Business Metrics\n        self.inference_cost = Counter(\n            'ai_inference_cost_dollars',\n            'Cumulative inference cost in dollars',\n            ['model', 'version']\n        )\n        \n        self.error_rate = Counter(\n            'ai_inference_errors_total',\n            'Total number of inference errors',\n            ['model', 'version', 'error_type']\n        )\n        \n        # Initialize baseline for drift detection\n        self.baseline_distribution = None\n        self.logger = logging.getLogger(__name__)\n        \n    def track_inference(self, \n                       input_data: Dict[str, Any],\n                       prediction: Any,\n                       confidence: float,\n                       tokens: Dict[str, int],\n                       endpoint: str = 'default') -> None:\n        \"\"\"Track metrics for a single inference request\"\"\"\n        \n        # Record inference timing\n        start_time = time.time()\n        \n        # Track performance metrics\n        duration = time.time() - start_time\n        self.inference_duration.labels(\n            model=self.model_name,\n            version=self.version,\n            endpoint=endpoint\n        ).observe(duration)\n        \n        # Track token usage\n        for token_type, count in tokens.items():\n            self.token_usage.labels(\n                model=self.model_name,\n                version=self.version,\n                token_type=token_type\n            ).inc(count)\n        \n        # Track confidence\n        self.prediction_confidence.labels(\n            model=self.model_name,\n            version=self.version\n        ).observe(confidence)\n        \n        # Calculate and track cost\n        cost = self._calculate_cost(tokens, duration)\n        self.inference_cost.labels(\n            model=self.model_name,\n            version=self.version\n        ).inc(cost)\n        \n        # Check for drift\n        drift_score = self._calculate_drift(input_data)\n        if drift_score > 0.1:  # Threshold\n            self.logger.warning(f\"High drift detected: {drift_score}\")\n            \n    def _calculate_cost(self, tokens: Dict[str, int], duration: float) -> float:\n        \"\"\"Calculate inference cost based on tokens and compute time\"\"\"\n        # Example pricing model\n        token_cost = (tokens.get('prompt', 0) * 0.00001 + \n                     tokens.get('completion', 0) * 0.00003)\n        compute_cost = duration * 0.0001  # Cost per second\n        return token_cost + compute_cost\n        \n    def _calculate_drift(self, input_data: Dict[str, Any]) -> float:\n        \"\"\"Calculate drift score from baseline distribution\"\"\"\n        if self.baseline_distribution is None:\n            return 0.0\n            \n        # Implement drift detection algorithm\n        # This is a simplified example\n        current_features = self._extract_features(input_data)\n        drift_score = self._compute_kl_divergence(\n            self.baseline_distribution, \n            current_features\n        )\n        \n        self.drift_score.labels(\n            model=self.model_name,\n            version=self.version,\n            drift_type='input'\n        ).set(drift_score)\n        \n        return drift_score",
+            "highlightLines": [12, 19, 25, 33, 39, 45, 52, 93, 102, 114],
+            "runnable": false
+          },
+          {
+            "id": "drift-detection",
+            "title": "Model Drift Detection System",
+            "description": "Real-time drift detection for production AI models",
+            "language": "python",
+            "code": "import numpy as np\nfrom scipy import stats\nfrom typing import Dict, List, Tuple\nimport pandas as pd\nfrom dataclasses import dataclass\nimport json\n\n@dataclass\nclass DriftReport:\n    timestamp: float\n    drift_score: float\n    drift_type: str\n    features_affected: List[str]\n    severity: str\n    recommended_action: str\n\nclass ModelDriftDetector:\n    def __init__(self, \n                 baseline_data: pd.DataFrame,\n                 sensitivity: float = 0.05,\n                 window_size: int = 1000):\n        \"\"\"\n        Initialize drift detector with baseline data\n        \n        Args:\n            baseline_data: Training data distribution\n            sensitivity: P-value threshold for drift detection\n            window_size: Number of samples for drift calculation\n        \"\"\"\n        self.baseline_stats = self._calculate_baseline_stats(baseline_data)\n        self.sensitivity = sensitivity\n        self.window_size = window_size\n        self.current_window = []\n        self.drift_history = []\n        \n    def _calculate_baseline_stats(self, data: pd.DataFrame) -> Dict:\n        \"\"\"Calculate statistical properties of baseline data\"\"\"\n        stats = {}\n        \n        for column in data.columns:\n            if data[column].dtype in ['float64', 'int64']:\n                stats[column] = {\n                    'mean': data[column].mean(),\n                    'std': data[column].std(),\n                    'min': data[column].min(),\n                    'max': data[column].max(),\n                    'quantiles': data[column].quantile([0.25, 0.5, 0.75]).to_dict()\n                }\n            else:\n                # Categorical features\n                stats[column] = {\n                    'distribution': data[column].value_counts(normalize=True).to_dict()\n                }\n                \n        return stats\n    \n    def detect_drift(self, new_data: pd.DataFrame) -> DriftReport:\n        \"\"\"Detect drift in new data compared to baseline\"\"\"\n        self.current_window.extend(new_data.to_dict('records'))\n        \n        # Keep only recent samples\n        if len(self.current_window) > self.window_size:\n            self.current_window = self.current_window[-self.window_size:]\n            \n        window_df = pd.DataFrame(self.current_window)\n        \n        # Perform drift tests\n        drift_results = self._perform_drift_tests(window_df)\n        \n        # Generate drift report\n        report = self._generate_drift_report(drift_results)\n        self.drift_history.append(report)\n        \n        return report\n    \n    def _perform_drift_tests(self, data: pd.DataFrame) -> Dict:\n        \"\"\"Perform statistical tests for drift detection\"\"\"\n        results = {}\n        \n        for column in data.columns:\n            if column not in self.baseline_stats:\n                continue\n                \n            if data[column].dtype in ['float64', 'int64']:\n                # Kolmogorov-Smirnov test for numerical features\n                baseline_mean = self.baseline_stats[column]['mean']\n                baseline_std = self.baseline_stats[column]['std']\n                \n                # Generate baseline samples for KS test\n                baseline_samples = np.random.normal(\n                    baseline_mean, baseline_std, size=len(data)\n                )\n                \n                ks_stat, p_value = stats.ks_2samp(\n                    baseline_samples, \n                    data[column].values\n                )\n                \n                results[column] = {\n                    'test': 'ks',\n                    'statistic': ks_stat,\n                    'p_value': p_value,\n                    'drift_detected': p_value < self.sensitivity\n                }\n                \n            else:\n                # Chi-square test for categorical features\n                current_dist = data[column].value_counts(normalize=True)\n                baseline_dist = self.baseline_stats[column]['distribution']\n                \n                # Align distributions\n                all_categories = set(current_dist.index) | set(baseline_dist.keys())\n                current_counts = [current_dist.get(cat, 0) * len(data) \n                                for cat in all_categories]\n                baseline_counts = [baseline_dist.get(cat, 0) * len(data) \n                                 for cat in all_categories]\n                \n                chi2_stat, p_value = stats.chisquare(\n                    current_counts, \n                    baseline_counts\n                )\n                \n                results[column] = {\n                    'test': 'chi2',\n                    'statistic': chi2_stat,\n                    'p_value': p_value,\n                    'drift_detected': p_value < self.sensitivity\n                }\n                \n        return results\n    \n    def _generate_drift_report(self, drift_results: Dict) -> DriftReport:\n        \"\"\"Generate comprehensive drift report\"\"\"\n        features_with_drift = [\n            feature for feature, result in drift_results.items()\n            if result['drift_detected']\n        ]\n        \n        # Calculate overall drift score\n        drift_scores = [\n            result['statistic'] for result in drift_results.values()\n            if result['drift_detected']\n        ]\n        \n        if drift_scores:\n            overall_drift_score = np.mean(drift_scores)\n        else:\n            overall_drift_score = 0.0\n            \n        # Determine severity\n        if overall_drift_score > 0.8:\n            severity = 'critical'\n            action = 'Immediate model retraining required'\n        elif overall_drift_score > 0.5:\n            severity = 'high'\n            action = 'Schedule model retraining soon'\n        elif overall_drift_score > 0.3:\n            severity = 'medium'\n            action = 'Monitor closely, prepare for retraining'\n        elif overall_drift_score > 0.1:\n            severity = 'low'\n            action = 'Continue monitoring'\n        else:\n            severity = 'none'\n            action = 'No action required'\n            \n        return DriftReport(\n            timestamp=time.time(),\n            drift_score=overall_drift_score,\n            drift_type='feature_drift',\n            features_affected=features_with_drift,\n            severity=severity,\n            recommended_action=action\n        )",
+            "highlightLines": [8, 9, 10, 11, 12, 13, 14, 15, 36, 56, 75, 92, 93, 94, 114, 115, 116, 130, 146, 147, 148],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "logging-strategies",
+      "title": "Logging Strategies for AI",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-ai-system-monitoring.mdx#logging-strategies",
+        "codeExamples": [
+          {
+            "id": "structured-logging",
+            "title": "Structured Logging for AI Applications",
+            "description": "Implementing comprehensive structured logging for AI systems",
+            "language": "python",
+            "code": "import json\nimport logging\nimport traceback\nfrom datetime import datetime\nfrom typing import Dict, Any, Optional\nimport hashlib\nfrom dataclasses import dataclass, asdict\n\n@dataclass\nclass AILogEntry:\n    timestamp: str\n    request_id: str\n    model_name: str\n    model_version: str\n    inference_type: str\n    input_hash: str\n    output: Any\n    confidence: float\n    latency_ms: float\n    token_usage: Dict[str, int]\n    metadata: Dict[str, Any]\n    error: Optional[str] = None\n    \nclass AILogger:\n    def __init__(self, \n                 service_name: str,\n                 log_level: str = 'INFO',\n                 enable_input_logging: bool = False):\n        \"\"\"\n        Initialize AI-specific logger\n        \n        Args:\n            service_name: Name of the AI service\n            log_level: Logging level\n            enable_input_logging: Whether to log full inputs (privacy consideration)\n        \"\"\"\n        self.service_name = service_name\n        self.enable_input_logging = enable_input_logging\n        \n        # Configure structured logging\n        self.logger = logging.getLogger(service_name)\n        handler = logging.StreamHandler()\n        \n        # JSON formatter for structured logs\n        formatter = logging.Formatter(\n            '%(message)s'\n        )\n        handler.setFormatter(formatter)\n        self.logger.addHandler(handler)\n        self.logger.setLevel(getattr(logging, log_level))\n        \n    def log_inference(self,\n                     request_id: str,\n                     model_name: str,\n                     model_version: str,\n                     input_data: Any,\n                     output: Any,\n                     confidence: float,\n                     latency_ms: float,\n                     token_usage: Dict[str, int],\n                     metadata: Optional[Dict[str, Any]] = None) -> None:\n        \"\"\"Log AI inference request with all relevant details\"\"\"\n        \n        # Hash input for privacy while maintaining traceability\n        input_hash = self._hash_input(input_data)\n        \n        # Prepare log entry\n        log_entry = AILogEntry(\n            timestamp=datetime.utcnow().isoformat(),\n            request_id=request_id,\n            model_name=model_name,\n            model_version=model_version,\n            inference_type='prediction',\n            input_hash=input_hash,\n            output=self._sanitize_output(output),\n            confidence=confidence,\n            latency_ms=latency_ms,\n            token_usage=token_usage,\n            metadata=metadata or {}\n        )\n        \n        # Add input data if enabled\n        if self.enable_input_logging:\n            log_entry.metadata['input_data'] = input_data\n            \n        # Log as JSON\n        self.logger.info(json.dumps(asdict(log_entry)))\n        \n        # Log performance warnings\n        if latency_ms > 1000:\n            self.logger.warning(f\"High latency detected: {latency_ms}ms for request {request_id}\")\n            \n        if confidence < 0.5:\n            self.logger.warning(f\"Low confidence prediction: {confidence} for request {request_id}\")\n            \n    def log_error(self,\n                 request_id: str,\n                 model_name: str,\n                 model_version: str,\n                 error: Exception,\n                 input_data: Optional[Any] = None) -> None:\n        \"\"\"Log AI inference errors with full context\"\"\"\n        \n        error_details = {\n            'error_type': type(error).__name__,\n            'error_message': str(error),\n            'stack_trace': traceback.format_exc()\n        }\n        \n        log_entry = AILogEntry(\n            timestamp=datetime.utcnow().isoformat(),\n            request_id=request_id,\n            model_name=model_name,\n            model_version=model_version,\n            inference_type='error',\n            input_hash=self._hash_input(input_data) if input_data else 'none',\n            output=None,\n            confidence=0.0,\n            latency_ms=0.0,\n            token_usage={},\n            metadata=error_details,\n            error=str(error)\n        )\n        \n        self.logger.error(json.dumps(asdict(log_entry)))\n        \n    def log_model_event(self,\n                       event_type: str,\n                       model_name: str,\n                       model_version: str,\n                       details: Dict[str, Any]) -> None:\n        \"\"\"Log model lifecycle events\"\"\"\n        \n        event = {\n            'timestamp': datetime.utcnow().isoformat(),\n            'event_type': event_type,\n            'model_name': model_name,\n            'model_version': model_version,\n            'service': self.service_name,\n            'details': details\n        }\n        \n        self.logger.info(json.dumps(event))\n        \n    def _hash_input(self, input_data: Any) -> str:\n        \"\"\"Create hash of input for privacy-preserving logging\"\"\"\n        input_str = json.dumps(input_data, sort_keys=True)\n        return hashlib.sha256(input_str.encode()).hexdigest()[:16]\n        \n    def _sanitize_output(self, output: Any) -> Any:\n        \"\"\"Sanitize output data for logging\"\"\"\n        # Implement output sanitization logic\n        # e.g., remove PII, truncate large outputs\n        if isinstance(output, str) and len(output) > 1000:\n            return output[:1000] + '... [truncated]'\n        return output\n\n# Usage example\nlogger = AILogger(\n    service_name='recommendation-service',\n    log_level='INFO',\n    enable_input_logging=False  # Privacy-first approach\n)\n\n# Log successful inference\nlogger.log_inference(\n    request_id='req-123',\n    model_name='recommendation-model',\n    model_version='v2.1.0',\n    input_data={'user_id': '12345', 'context': 'homepage'},\n    output={'recommendations': ['item1', 'item2', 'item3']},\n    confidence=0.92,\n    latency_ms=145.3,\n    token_usage={'prompt': 50, 'completion': 100},\n    metadata={'experiment': 'A/B-test-1'}\n)",
+            "highlightLines": [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 65, 85, 88, 91, 141, 145],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "monitoring-dashboards",
+      "title": "Real-time Monitoring Dashboards",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-ai-system-monitoring.mdx#monitoring-dashboards",
+        "codeExamples": [
+          {
+            "id": "grafana-dashboard",
+            "title": "Grafana Dashboard Configuration",
+            "description": "Production-ready Grafana dashboard for AI system monitoring",
+            "language": "json",
+            "code": "{\n  \"dashboard\": {\n    \"title\": \"AI System Monitoring Dashboard\",\n    \"uid\": \"ai-monitoring-prod\",\n    \"version\": 1,\n    \"timezone\": \"browser\",\n    \"panels\": [\n      {\n        \"id\": 1,\n        \"title\": \"Inference Latency\",\n        \"type\": \"graph\",\n        \"gridPos\": {\"x\": 0, \"y\": 0, \"w\": 12, \"h\": 8},\n        \"targets\": [\n          {\n            \"expr\": \"histogram_quantile(0.95, rate(ai_inference_duration_seconds_bucket[5m]))\",\n            \"legendFormat\": \"p95 latency\"\n          },\n          {\n            \"expr\": \"histogram_quantile(0.99, rate(ai_inference_duration_seconds_bucket[5m]))\",\n            \"legendFormat\": \"p99 latency\"\n          }\n        ],\n        \"yaxes\": [\n          {\n            \"format\": \"s\",\n            \"label\": \"Latency\"\n          }\n        ]\n      },\n      {\n        \"id\": 2,\n        \"title\": \"Model Confidence Distribution\",\n        \"type\": \"heatmap\",\n        \"gridPos\": {\"x\": 12, \"y\": 0, \"w\": 12, \"h\": 8},\n        \"targets\": [\n          {\n            \"expr\": \"rate(ai_prediction_confidence_bucket[5m])\",\n            \"format\": \"heatmap\"\n          }\n        ]\n      },\n      {\n        \"id\": 3,\n        \"title\": \"Token Usage Rate\",\n        \"type\": \"graph\",\n        \"gridPos\": {\"x\": 0, \"y\": 8, \"w\": 12, \"h\": 8},\n        \"targets\": [\n          {\n            \"expr\": \"rate(ai_token_usage_total[5m])\",\n            \"legendFormat\": \"{{token_type}}\"\n          }\n        ],\n        \"stack\": true,\n        \"fill\": 2\n      },\n      {\n        \"id\": 4,\n        \"title\": \"Model Drift Score\",\n        \"type\": \"graph\",\n        \"gridPos\": {\"x\": 12, \"y\": 8, \"w\": 12, \"h\": 8},\n        \"targets\": [\n          {\n            \"expr\": \"ai_model_drift_score\",\n            \"legendFormat\": \"{{drift_type}}\"\n          }\n        ],\n        \"alert\": {\n          \"conditions\": [\n            {\n              \"evaluator\": {\n                \"params\": [0.3],\n                \"type\": \"gt\"\n              },\n              \"operator\": {\n                \"type\": \"and\"\n              },\n              \"query\": {\n                \"model\": {\n                  \"refId\": \"A\"\n                }\n              },\n              \"reducer\": {\n                \"type\": \"avg\"\n              },\n              \"type\": \"query\"\n            }\n          ],\n          \"executionErrorState\": \"alerting\",\n          \"name\": \"High Model Drift Detected\",\n          \"noDataState\": \"no_data\"\n        }\n      },\n      {\n        \"id\": 5,\n        \"title\": \"Error Rate by Type\",\n        \"type\": \"piechart\",\n        \"gridPos\": {\"x\": 0, \"y\": 16, \"w\": 8, \"h\": 8},\n        \"targets\": [\n          {\n            \"expr\": \"sum by (error_type) (rate(ai_inference_errors_total[5m]))\",\n            \"legendFormat\": \"{{error_type}}\"\n          }\n        ]\n      },\n      {\n        \"id\": 6,\n        \"title\": \"Inference Cost\",\n        \"type\": \"stat\",\n        \"gridPos\": {\"x\": 8, \"y\": 16, \"w\": 8, \"h\": 8},\n        \"targets\": [\n          {\n            \"expr\": \"sum(rate(ai_inference_cost_dollars[24h])) * 86400\",\n            \"legendFormat\": \"Daily Cost\"\n          }\n        ],\n        \"format\": \"currencyUSD\"\n      },\n      {\n        \"id\": 7,\n        \"title\": \"Model Accuracy Trend\",\n        \"type\": \"graph\",\n        \"gridPos\": {\"x\": 16, \"y\": 16, \"w\": 8, \"h\": 8},\n        \"targets\": [\n          {\n            \"expr\": \"ai_model_accuracy\",\n            \"legendFormat\": \"{{model}} v{{version}}\"\n          }\n        ],\n        \"yaxes\": [\n          {\n            \"format\": \"percentunit\",\n            \"min\": 0,\n            \"max\": 1\n          }\n        ]\n      }\n    ],\n    \"time\": {\n      \"from\": \"now-6h\",\n      \"to\": \"now\"\n    },\n    \"refresh\": \"10s\"\n  }\n}",
+            "highlightLines": [14, 15, 36, 37, 48, 49, 61, 62, 65, 66, 67, 68, 69, 70, 71, 95, 96, 107, 108, 119, 120],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "alerting-strategies",
+      "title": "Alert Strategies and Thresholds",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-ai-system-monitoring.mdx#alerting-strategies",
+        "codeExamples": [
+          {
+            "id": "alert-configuration",
+            "title": "Intelligent Alert Configuration",
+            "description": "Comprehensive alerting rules for AI system monitoring",
+            "language": "yaml",
+            "code": "# Prometheus Alert Rules for AI Systems\ngroups:\n  - name: ai_system_alerts\n    interval: 30s\n    rules:\n      # Performance Alerts\n      - alert: HighInferenceLatency\n        expr: |\n          histogram_quantile(0.95, \n            sum by (model, version) (\n              rate(ai_inference_duration_seconds_bucket[5m])\n            )\n          ) > 1.0\n        for: 5m\n        labels:\n          severity: warning\n          team: ai-platform\n        annotations:\n          summary: \"High inference latency detected\"\n          description: \"Model {{$labels.model}} v{{$labels.version}} has p95 latency of {{$value}}s\"\n          runbook: \"https://wiki.company.com/runbooks/ai-latency\"\n          \n      - alert: CriticalInferenceLatency\n        expr: |\n          histogram_quantile(0.99, \n            sum by (model, version) (\n              rate(ai_inference_duration_seconds_bucket[5m])\n            )\n          ) > 5.0\n        for: 2m\n        labels:\n          severity: critical\n          team: ai-platform\n          pagerduty: true\n        annotations:\n          summary: \"Critical inference latency - user impact\"\n          description: \"Model {{$labels.model}} p99 latency is {{$value}}s\"\n          \n      # Model Quality Alerts\n      - alert: ModelDriftDetected\n        expr: ai_model_drift_score > 0.3\n        for: 10m\n        labels:\n          severity: warning\n          team: data-science\n        annotations:\n          summary: \"Model drift detected\"\n          description: \"Model {{$labels.model}} shows drift score of {{$value}}\"\n          recommended_action: \"Review model performance and consider retraining\"\n          \n      - alert: CriticalModelDrift\n        expr: ai_model_drift_score > 0.7\n        for: 5m\n        labels:\n          severity: critical\n          team: data-science\n          requires_action: immediate\n        annotations:\n          summary: \"Critical model drift - accuracy degradation likely\"\n          description: \"Model {{$labels.model}} drift score: {{$value}}\"\n          \n      - alert: LowPredictionConfidence\n        expr: |\n          histogram_quantile(0.5, \n            sum by (model) (\n              rate(ai_prediction_confidence_bucket[15m])\n            )\n          ) < 0.5\n        for: 15m\n        labels:\n          severity: warning\n          team: data-science\n        annotations:\n          summary: \"Low model confidence trend\"\n          description: \"Median confidence for {{$labels.model}} is below 50%\"\n          \n      # Cost and Resource Alerts\n      - alert: HighTokenUsage\n        expr: |\n          sum by (model) (\n            rate(ai_token_usage_total[1h])\n          ) > 100000\n        for: 5m\n        labels:\n          severity: warning\n          team: platform\n          cost_impact: high\n        annotations:\n          summary: \"High token usage detected\"\n          description: \"Model {{$labels.model}} using {{$value}} tokens/hour\"\n          \n      - alert: InferenceCostSpike\n        expr: |\n          sum(\n            rate(ai_inference_cost_dollars[1h])\n          ) > 100\n        for: 10m\n        labels:\n          severity: critical\n          team: platform\n          finance_notify: true\n        annotations:\n          summary: \"Inference cost exceeding budget\"\n          description: \"Current rate: ${{$value}}/hour\"\n          \n      # Error Rate Alerts\n      - alert: HighErrorRate\n        expr: |\n          sum by (model, error_type) (\n            rate(ai_inference_errors_total[5m])\n          ) / sum by (model) (\n            rate(ai_inference_duration_seconds_count[5m])\n          ) > 0.05\n        for: 5m\n        labels:\n          severity: warning\n          team: ai-platform\n        annotations:\n          summary: \"High error rate detected\"\n          description: \"Model {{$labels.model}} error rate: {{$value | humanizePercentage}}\"\n          \n      # Availability Alerts\n      - alert: ModelEndpointDown\n        expr: up{job=\"ai-inference\"} == 0\n        for: 1m\n        labels:\n          severity: critical\n          team: ai-platform\n          pagerduty: true\n        annotations:\n          summary: \"AI model endpoint is down\"\n          description: \"Endpoint {{$labels.instance}} is not responding\"\n          \n  - name: ai_slo_alerts\n    interval: 30s\n    rules:\n      # SLO-based Alerts\n      - alert: InferenceLatencySLOBreach\n        expr: |\n          (\n            sum(rate(ai_inference_duration_seconds_bucket{le=\"1.0\"}[30m]))\n            /\n            sum(rate(ai_inference_duration_seconds_count[30m]))\n          ) < 0.95\n        for: 5m\n        labels:\n          severity: warning\n          slo: latency\n          team: ai-platform\n        annotations:\n          summary: \"Inference latency SLO breach\"\n          description: \"Less than 95% of requests completing within 1s\"\n          \n      - alert: ModelAccuracySLOBreach\n        expr: ai_model_accuracy < 0.90\n        for: 30m\n        labels:\n          severity: critical\n          slo: accuracy\n          team: data-science\n        annotations:\n          summary: \"Model accuracy below SLO\"\n          description: \"Model {{$labels.model}} accuracy: {{$value | humanizePercentage}}\"",
+            "highlightLines": [7, 8, 9, 10, 11, 12, 40, 41, 50, 51, 62, 63, 64, 65, 66, 76, 77, 78, 79, 88, 89, 90, 91, 102, 103, 104, 105, 106, 107, 117, 118, 133, 134, 135, 136, 137, 138, 149, 150],
+            "runnable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "observability-tools",
+      "title": "Observability Tools & Platforms",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-ai-system-monitoring.mdx#observability-tools"
+      }
+    },
+    {
+      "id": "hands-on-exercise",
+      "title": "Build a Monitoring System",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "45 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Implement AI Monitoring System",
+        "description": "Build a complete monitoring system for an AI application including metrics collection, logging, and alerting",
+        "exerciseType": "coding",
+        "difficulty": "hard",
+        "instructions": [
+          "Create a metrics collector for AI inference requests",
+          "Implement structured logging with privacy considerations",
+          "Set up drift detection for model inputs",
+          "Configure alerts for performance and quality issues",
+          "Create a simple dashboard visualization",
+          "Test the monitoring system with simulated traffic"
+        ],
+        "startingCode": "from typing import Dict, Any, List\nimport time\nimport logging\n\nclass AIMonitoringSystem:\n    def __init__(self, model_name: str, version: str):\n        self.model_name = model_name\n        self.version = version\n        # TODO: Initialize metrics collectors\n        # TODO: Set up structured logging\n        # TODO: Initialize drift detector\n        \n    def track_inference(self, \n                       request_id: str,\n                       input_data: Dict[str, Any],\n                       prediction: Any,\n                       confidence: float) -> None:\n        \"\"\"Track metrics for an inference request\"\"\"\n        # TODO: Record performance metrics\n        # TODO: Log structured data\n        # TODO: Check for drift\n        # TODO: Evaluate alerts\n        pass\n        \n    def get_metrics_summary(self) -> Dict[str, Any]:\n        \"\"\"Return current metrics summary\"\"\"\n        # TODO: Aggregate and return metrics\n        pass\n\n# Test your implementation\nif __name__ == \"__main__\":\n    monitor = AIMonitoringSystem(\"test-model\", \"v1.0\")\n    \n    # Simulate inference requests\n    for i in range(100):\n        monitor.track_inference(\n            request_id=f\"req-{i}\",\n            input_data={\"feature1\": i * 0.1, \"feature2\": i * 0.2},\n            prediction=\"class_a\" if i % 2 == 0 else \"class_b\",\n            confidence=0.8 + (i % 20) * 0.01\n        )\n        time.sleep(0.1)\n    \n    print(monitor.get_metrics_summary())",
+        "solution": "from typing import Dict, Any, List, Optional\nimport time\nimport logging\nimport json\nimport numpy as np\nfrom collections import defaultdict, deque\nfrom dataclasses import dataclass, asdict\nfrom datetime import datetime\nimport statistics\n\n@dataclass\nclass MetricsSummary:\n    total_requests: int\n    average_latency_ms: float\n    p95_latency_ms: float\n    p99_latency_ms: float\n    average_confidence: float\n    error_rate: float\n    drift_score: float\n    alerts_triggered: List[str]\n\nclass AIMonitoringSystem:\n    def __init__(self, model_name: str, version: str):\n        self.model_name = model_name\n        self.version = version\n        \n        # Metrics collectors\n        self.latencies = deque(maxlen=1000)\n        self.confidences = deque(maxlen=1000)\n        self.error_count = 0\n        self.total_requests = 0\n        self.feature_baseline = None\n        self.feature_window = deque(maxlen=100)\n        \n        # Alerts\n        self.alert_thresholds = {\n            'high_latency': 1000,  # ms\n            'low_confidence': 0.5,\n            'high_error_rate': 0.05,\n            'drift_threshold': 0.3\n        }\n        self.active_alerts = set()\n        \n        # Structured logging\n        self.logger = self._setup_logger()\n        \n    def _setup_logger(self) -> logging.Logger:\n        logger = logging.getLogger(f\"{self.model_name}-{self.version}\")\n        handler = logging.StreamHandler()\n        formatter = logging.Formatter('%(message)s')\n        handler.setFormatter(formatter)\n        logger.addHandler(handler)\n        logger.setLevel(logging.INFO)\n        return logger\n        \n    def track_inference(self, \n                       request_id: str,\n                       input_data: Dict[str, Any],\n                       prediction: Any,\n                       confidence: float,\n                       error: Optional[Exception] = None) -> None:\n        \"\"\"Track metrics for an inference request\"\"\"\n        start_time = time.time()\n        \n        # Record performance metrics\n        latency_ms = (time.time() - start_time) * 1000\n        self.latencies.append(latency_ms)\n        self.confidences.append(confidence)\n        self.total_requests += 1\n        \n        if error:\n            self.error_count += 1\n            \n        # Log structured data\n        log_entry = {\n            'timestamp': datetime.utcnow().isoformat(),\n            'request_id': request_id,\n            'model_name': self.model_name,\n            'model_version': self.version,\n            'latency_ms': latency_ms,\n            'confidence': confidence,\n            'prediction': str(prediction),\n            'error': str(error) if error else None\n        }\n        self.logger.info(json.dumps(log_entry))\n        \n        # Check for drift\n        drift_score = self._calculate_drift(input_data)\n        \n        # Evaluate alerts\n        self._check_alerts(latency_ms, confidence, drift_score)\n        \n    def _calculate_drift(self, input_data: Dict[str, Any]) -> float:\n        \"\"\"Simple drift detection based on feature statistics\"\"\"\n        features = list(input_data.values())\n        self.feature_window.append(features)\n        \n        if self.feature_baseline is None and len(self.feature_window) >= 50:\n            # Set baseline from first 50 samples\n            self.feature_baseline = np.mean(list(self.feature_window)[:50], axis=0)\n            \n        if self.feature_baseline is not None and len(self.feature_window) >= 20:\n            current_mean = np.mean(list(self.feature_window)[-20:], axis=0)\n            drift_score = np.mean(np.abs(current_mean - self.feature_baseline))\n            return float(drift_score)\n            \n        return 0.0\n        \n    def _check_alerts(self, latency_ms: float, confidence: float, drift_score: float) -> None:\n        \"\"\"Check and trigger alerts based on thresholds\"\"\"\n        # Latency alert\n        if latency_ms > self.alert_thresholds['high_latency']:\n            self._trigger_alert('high_latency', f\"Latency {latency_ms}ms exceeds threshold\")\n        else:\n            self._clear_alert('high_latency')\n            \n        # Confidence alert\n        if confidence < self.alert_thresholds['low_confidence']:\n            self._trigger_alert('low_confidence', f\"Confidence {confidence} below threshold\")\n        else:\n            self._clear_alert('low_confidence')\n            \n        # Error rate alert\n        if self.total_requests > 0:\n            error_rate = self.error_count / self.total_requests\n            if error_rate > self.alert_thresholds['high_error_rate']:\n                self._trigger_alert('high_error_rate', f\"Error rate {error_rate:.2%} exceeds threshold\")\n            else:\n                self._clear_alert('high_error_rate')\n                \n        # Drift alert\n        if drift_score > self.alert_thresholds['drift_threshold']:\n            self._trigger_alert('drift_detected', f\"Drift score {drift_score:.3f} exceeds threshold\")\n        else:\n            self._clear_alert('drift_detected')\n            \n    def _trigger_alert(self, alert_type: str, message: str) -> None:\n        if alert_type not in self.active_alerts:\n            self.active_alerts.add(alert_type)\n            self.logger.warning(f\"ALERT: {alert_type} - {message}\")\n            \n    def _clear_alert(self, alert_type: str) -> None:\n        if alert_type in self.active_alerts:\n            self.active_alerts.remove(alert_type)\n            self.logger.info(f\"CLEARED: {alert_type} alert cleared\")\n            \n    def get_metrics_summary(self) -> Dict[str, Any]:\n        \"\"\"Return current metrics summary\"\"\"\n        if not self.latencies:\n            return {\"error\": \"No metrics collected yet\"}\n            \n        latencies_sorted = sorted(self.latencies)\n        \n        summary = MetricsSummary(\n            total_requests=self.total_requests,\n            average_latency_ms=statistics.mean(self.latencies),\n            p95_latency_ms=latencies_sorted[int(len(latencies_sorted) * 0.95)],\n            p99_latency_ms=latencies_sorted[int(len(latencies_sorted) * 0.99)],\n            average_confidence=statistics.mean(self.confidences) if self.confidences else 0,\n            error_rate=self.error_count / self.total_requests if self.total_requests > 0 else 0,\n            drift_score=self._calculate_drift({\"dummy\": 0}),  # Get latest drift score\n            alerts_triggered=list(self.active_alerts)\n        )\n        \n        return asdict(summary)\n\n# Test implementation\nif __name__ == \"__main__\":\n    monitor = AIMonitoringSystem(\"test-model\", \"v1.0\")\n    \n    # Simulate inference requests with varying characteristics\n    for i in range(100):\n        # Simulate drift by changing feature distribution\n        drift_factor = 0 if i < 50 else 0.5\n        \n        monitor.track_inference(\n            request_id=f\"req-{i}\",\n            input_data={\n                \"feature1\": i * 0.1 + drift_factor,\n                \"feature2\": i * 0.2 + drift_factor\n            },\n            prediction=\"class_a\" if i % 2 == 0 else \"class_b\",\n            confidence=0.8 + (i % 20) * 0.01 - (0.3 if i > 80 else 0),\n            error=Exception(\"Timeout\") if i % 30 == 0 else None\n        )\n        time.sleep(0.01)\n    \n    print(\"\\nMetrics Summary:\")\n    print(json.dumps(monitor.get_metrics_summary(), indent=2))",
+        "hints": [
+          "Use deque for efficient rolling window calculations",
+          "Implement structured logging with JSON format for easy parsing",
+          "Calculate percentiles using sorted arrays for latency metrics",
+          "Track baseline statistics for drift detection",
+          "Use sets to manage active alerts and avoid duplicate notifications"
+        ],
+        "validation": [
+          {
+            "type": "contains",
+            "value": "class AIMonitoringSystem",
+            "message": "Define the monitoring system class"
+          },
+          {
+            "type": "contains",
+            "value": "track_inference",
+            "message": "Implement inference tracking method"
+          },
+          {
+            "type": "contains",
+            "value": "json.dumps",
+            "message": "Use JSON for structured logging"
+          },
+          {
+            "type": "contains",
+            "value": "_calculate_drift",
+            "message": "Implement drift detection"
+          },
+          {
+            "type": "contains",
+            "value": "get_metrics_summary",
+            "message": "Implement metrics aggregation"
+          }
+        ]
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Monitoring & Observability Quiz",
+      "type": "quiz",
+      "order": 8,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "AI Monitoring Knowledge Check",
+        "description": "Test your understanding of AI system monitoring and observability concepts",
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "Which metrics are unique to AI system monitoring compared to traditional software?",
+            "points": 3,
+            "options": [
+              {
+                "id": "a",
+                "text": "Model prediction confidence scores",
+                "explanation": "Correct! Confidence scores are specific to AI predictions."
+              },
+              {
+                "id": "b",
+                "text": "Token usage and costs",
+                "explanation": "Correct! Token-based pricing is specific to LLM systems."
+              },
+              {
+                "id": "c",
+                "text": "Response latency",
+                "explanation": "Incorrect. Latency is monitored in all software systems."
+              },
+              {
+                "id": "d",
+                "text": "Feature and prediction drift",
+                "explanation": "Correct! Drift detection is unique to ML/AI systems."
+              }
+            ],
+            "correctAnswers": ["a", "b", "d"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q2",
+            "type": "true-false",
+            "question": "Structured logging with JSON format makes it easier to parse and analyze AI system logs.",
+            "points": 1,
+            "correctAnswer": true,
+            "explanation": "True! JSON structured logs enable efficient parsing, searching, and analysis of AI system events."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "What is the primary purpose of monitoring model drift in production?",
+            "points": 2,
+            "options": [
+              {
+                "id": "a",
+                "text": "To reduce infrastructure costs",
+                "explanation": "Incorrect. Drift monitoring is about model quality, not cost reduction."
+              },
+              {
+                "id": "b",
+                "text": "To detect when model performance may degrade due to data distribution changes",
+                "explanation": "Correct! Drift indicates that input data has changed from training distribution."
+              },
+              {
+                "id": "c",
+                "text": "To improve response latency",
+                "explanation": "Incorrect. Drift monitoring doesn't directly affect latency."
+              },
+              {
+                "id": "d",
+                "text": "To increase model confidence scores",
+                "explanation": "Incorrect. Drift detection identifies problems but doesn't fix them."
+              }
+            ],
+            "correctAnswers": ["b"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q4",
+            "type": "multiple-choice",
+            "question": "Which statistical test is commonly used for detecting drift in numerical features?",
+            "points": 2,
+            "options": [
+              {
+                "id": "a",
+                "text": "T-test",
+                "explanation": "Partially correct, but not the most common for drift detection."
+              },
+              {
+                "id": "b",
+                "text": "Kolmogorov-Smirnov test",
+                "explanation": "Correct! KS test compares distributions effectively."
+              },
+              {
+                "id": "c",
+                "text": "Linear regression",
+                "explanation": "Incorrect. This is a modeling technique, not a statistical test."
+              },
+              {
+                "id": "d",
+                "text": "F-test",
+                "explanation": "Incorrect. F-test is for variance comparison, not distribution drift."
+              }
+            ],
+            "correctAnswers": ["b"],
+            "randomizeOptions": true
+          },
+          {
+            "id": "q5",
+            "type": "true-false",
+            "question": "Alert fatigue can be prevented by setting appropriate thresholds and using time-based conditions.",
+            "points": 1,
+            "correctAnswer": true,
+            "explanation": "True! Proper threshold configuration and requiring sustained conditions reduce false positives."
+          }
+        ],
+        "passingScore": 70,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "prometheus-docs",
+      "title": "Prometheus Documentation",
+      "type": "documentation",
+      "url": "https://prometheus.io/docs/introduction/overview/",
+      "description": "Official Prometheus documentation for metrics collection",
+      "required": true
+    },
+    {
+      "id": "grafana-best-practices",
+      "title": "Grafana Best Practices",
+      "type": "guide",
+      "url": "https://grafana.com/docs/grafana/latest/best-practices/",
+      "description": "Best practices for creating effective dashboards",
+      "required": true
+    },
+    {
+      "id": "opentelemetry-ai",
+      "title": "OpenTelemetry for AI/ML",
+      "type": "reference",
+      "url": "https://opentelemetry.io/docs/",
+      "description": "OpenTelemetry instrumentation for AI applications",
+      "required": false
+    },
+    {
+      "id": "mlops-monitoring",
+      "title": "MLOps Monitoring Guide",
+      "type": "tutorial",
+      "url": "https://ml-ops.org/content/model-monitoring",
+      "description": "Comprehensive guide to ML model monitoring in production",
+      "required": true
+    },
+    {
+      "id": "datadog-ai-monitoring",
+      "title": "Datadog AI/ML Monitoring",
+      "type": "reference",
+      "url": "https://docs.datadoghq.com/ml/",
+      "description": "Enterprise AI monitoring with Datadog",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 70,
+    "requiredSections": ["ai-monitoring-fundamentals", "key-metrics", "logging-strategies", "hands-on-exercise"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}
