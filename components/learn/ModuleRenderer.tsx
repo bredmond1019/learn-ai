@@ -85,12 +85,17 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
     if (!content) return null;
     
     // Remove h2 headers since we display section titles from JSON
-    let processedContent = content.replace(/^## [^\n]*\{#[^}]+\}$/gm, '');
+    // First, identify if there's an h3 immediately after h2 (with optional blank lines)
+    let processedContent = content;
     
-    // Debug: Check if h2 headers were removed
-    if (content !== processedContent) {
-      console.log('Removed h2 headers from content');
-    }
+    // Replace h2 followed by h3 pattern
+    processedContent = processedContent.replace(
+      /^## [^\n]*\n+### [^\n]*/gm,
+      ''
+    );
+    
+    // Then remove any remaining h2 headers (like Knowledge Check)
+    processedContent = processedContent.replace(/^## [^\n]*$/gm, '');
     
     // Process Quiz components
     processedContent = processedContent.replace(
