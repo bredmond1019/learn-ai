@@ -119,6 +119,32 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
       }
     );
     
+    // Process CodeBlock components
+    processedContent = processedContent.replace(
+      /<CodeBlock\s+([^>]+)>([\s\S]*?)<\/CodeBlock>/g,
+      (match, attributes, codeContent) => {
+        // Parse attributes
+        const languageMatch = attributes.match(/language="([^"]+)"/);
+        const filenameMatch = attributes.match(/filename="([^"]+)"/);
+        const highlightMatch = attributes.match(/highlight="([^"]+)"/);
+        
+        const language = languageMatch ? languageMatch[1] : 'text';
+        const filename = filenameMatch ? filenameMatch[1] : null;
+        const highlight = highlightMatch ? highlightMatch[1] : null;
+        
+        // Convert to markdown code block format
+        let header = '';
+        if (filename) {
+          header += `# ${filename}\n`;
+        }
+        if (highlight) {
+          header += `# Highlight lines: ${highlight}\n`;
+        }
+        
+        return `\`\`\`${language}\n${header}${codeContent.trim()}\n\`\`\``;
+      }
+    );
+    
     // Process CodeExample components - handle the complete component including multiline code
     let codeExampleIndex = 0;
     while (true) {
@@ -235,23 +261,31 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                   li: ({ children }) => (
                     <li className="text-gray-700 dark:text-gray-300">{children}</li>
                   ),
-                  code: ({ className, children, ...props }: any) => {
-                    const inline = !!(props.inline);
-                    const match = /language-(\w+)/.exec(className || '');
-                    const language = match ? match[1] : 'typescript';
-                    
-                    if (!inline && typeof children === 'string') {
-                      return (
-                        <div className="mb-4">
-                          <CodeBlock
-                            code={children}
-                            language={language}
-                            showLineNumbers={true}
-                          />
-                        </div>
-                      );
+                  pre: ({ children, ...props }: any) => {
+                    // Handle code blocks - pre wraps code elements
+                    const codeElement = children?.props;
+                    if (codeElement && codeElement.className) {
+                      const match = /language-(\w+)/.exec(codeElement.className || '');
+                      const language = match ? match[1] : 'typescript';
+                      const codeContent = codeElement.children;
+                      
+                      if (typeof codeContent === 'string') {
+                        return (
+                          <div className="mb-4">
+                            <CodeBlock
+                              code={codeContent}
+                              language={language}
+                              showLineNumbers={true}
+                            />
+                          </div>
+                        );
+                      }
                     }
-                    
+                    // Fallback for pre without code
+                    return <pre className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded overflow-x-auto">{children}</pre>;
+                  },
+                  code: ({ className, children, ...props }: any) => {
+                    // Only handle inline code here
                     return (
                       <code className="px-1 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-sm">
                         {children}
@@ -313,23 +347,31 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                   li: ({ children }) => (
                     <li className="text-gray-700 dark:text-gray-300">{children}</li>
                   ),
-                  code: ({ className, children, ...props }: any) => {
-                    const inline = !!(props.inline);
-                    const match = /language-(\w+)/.exec(className || '');
-                    const language = match ? match[1] : 'typescript';
-                    
-                    if (!inline && typeof children === 'string') {
-                      return (
-                        <div className="mb-4">
-                          <CodeBlock
-                            code={children}
-                            language={language}
-                            showLineNumbers={true}
-                          />
-                        </div>
-                      );
+                  pre: ({ children, ...props }: any) => {
+                    // Handle code blocks - pre wraps code elements
+                    const codeElement = children?.props;
+                    if (codeElement && codeElement.className) {
+                      const match = /language-(\w+)/.exec(codeElement.className || '');
+                      const language = match ? match[1] : 'typescript';
+                      const codeContent = codeElement.children;
+                      
+                      if (typeof codeContent === 'string') {
+                        return (
+                          <div className="mb-4">
+                            <CodeBlock
+                              code={codeContent}
+                              language={language}
+                              showLineNumbers={true}
+                            />
+                          </div>
+                        );
+                      }
                     }
-                    
+                    // Fallback for pre without code
+                    return <pre className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded overflow-x-auto">{children}</pre>;
+                  },
+                  code: ({ className, children, ...props }: any) => {
+                    // Only handle inline code here
                     return (
                       <code className="px-1 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-sm">
                         {children}
