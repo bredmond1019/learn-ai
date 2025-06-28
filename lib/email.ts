@@ -201,7 +201,7 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
     }
 
     console.log('[EMAIL SUCCESS] Email sent successfully:', {
-      id: result?.id || 'unknown',
+      id: (result as any)?.data?.id || (result as any)?.id || 'unknown',
       from,
       to: options.to,
       subject: options.subject
