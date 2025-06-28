@@ -30,6 +30,8 @@ npm test ComponentName.test.tsx                # Test specific file
 ### Content Management
 ```bash
 npm run validate:content # Validate all content files
+npx tsx scripts/comprehensive-validation.ts # Run comprehensive validation
+npx tsx scripts/test-error-boundaries.ts    # Test error boundary handling
 ```
 
 ### Email Testing
@@ -46,9 +48,11 @@ npm test:email:integration  # Run production email integration tests
 ```bash
 npm run devto:publish <file>     # Publish single article
 npm run devto:update <file>      # Update existing article
+npm run devto:unpublish <file>   # Unpublish article
 npm run devto:publish-dir <dir>  # Publish directory
 npm run devto:sync              # Sync changed articles
 npm run devto:list              # List published articles
+npx tsx scripts/test-devto.ts   # Test Dev.to API integration
 ```
 
 ### Deployment
@@ -58,6 +62,7 @@ npm run deploy          # Deploy script
 npm run docker:build    # Build Docker image
 npm run docker:run      # Run Docker container
 npm run k8s:deploy      # Deploy to Kubernetes
+npm run k8s:status      # Check Kubernetes pod status
 ```
 
 ## Architecture & Key Patterns
@@ -87,7 +92,9 @@ npm run k8s:deploy      # Deploy to Kubernetes
 - **Provider**: Resend API integration
 - **Contact Form**: `components/ContactForm.tsx` with validation
 - **API Route**: `/api/contact/route.ts` with rate limiting
-- **Environment**: Requires `RESEND_API_KEY` and `CONTACT_EMAIL`
+- **Environment**: Requires `RESEND_API_KEY`, `CONTACT_EMAIL`, and `RESEND_FROM_EMAIL`
+- **Email Service**: `lib/email.ts` with enhanced error logging for production debugging
+- **Templates**: Supports both admin notifications and user confirmations
 
 ### Dev.to Integration
 - **API Client**: `lib/devto-api.ts` handles all Dev.to API calls
@@ -139,11 +146,18 @@ npm run k8s:deploy      # Deploy to Kubernetes
 - Maximum 4 tags allowed per article
 - Rate limit: ~30 requests per 30 seconds
 
+### Email Configuration Issues
+- **Vercel Deployment**: Set `RESEND_FROM_EMAIL` to a verified domain email address
+- **Sender Verification**: Use domain-verified emails, not free providers like Gmail for the from address
+- **Error Debugging**: Check Vercel function logs for detailed error information with `[EMAIL ERROR]` prefix
+- **Local Testing**: Use `npm run email:test` to verify configuration before deployment
+
 ## Environment Variables
 ```bash
 # Required for production
-RESEND_API_KEY=           # Email service
+RESEND_API_KEY=           # Resend API key for email service
 CONTACT_EMAIL=            # Where contact forms are sent
+RESEND_FROM_EMAIL=        # Verified sender email address for Resend (e.g., "Brandon Redmond <noreply@yourdomain.com>")
 
 # Optional
 NEXT_PUBLIC_GA_ID=        # Google Analytics

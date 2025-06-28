@@ -157,15 +157,28 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
 
   // Validate API key (allow mocked resend in test environment)
   if (!process.env.RESEND_API_KEY && process.env.NODE_ENV !== 'test') {
-    console.error('RESEND_API_KEY is not configured')
+    console.error('[EMAIL ERROR] RESEND_API_KEY is not configured in environment variables')
     return { success: false, error: 'Email service not configured' }
   }
   
   // Create resend instance if not available (for tests)
   const resendClient = resend || new Resend(process.env.RESEND_API_KEY || 'test-key')
 
-  // Set default from address
-  const from = options.from || process.env.RESEND_FROM_EMAIL || 'Brandon Redmond <onboarding@resend.dev>'
+  // Set default from address - use a proper verified domain or fallback that won't fail
+  const from = options.from || process.env.RESEND_FROM_EMAIL || 'Brandon Redmond <bredmond1019@gmail.com>'
+
+  // Enhanced logging for production debugging
+  console.log('[EMAIL DEBUG] Attempting to send email:', {
+    from,
+    to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
+    subject: options.subject,
+    hasHtml: !!options.html,
+    hasText: !!options.text,
+    replyTo: options.replyTo,
+    environment: process.env.NODE_ENV,
+    hasApiKey: !!process.env.RESEND_API_KEY,
+    fromEnvVar: !!process.env.RESEND_FROM_EMAIL
+  })
 
   try {
     const result = await resendClient.emails.send({
@@ -178,14 +191,31 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
 
     // Check if result has an error property
     if (result && typeof result === 'object' && 'error' in result && result.error) {
-      console.error('Resend API error:', result.error)
+      console.error('[EMAIL ERROR] Resend API returned error:', {
+        error: result.error,
+        from,
+        to: options.to,
+        subject: options.subject
+      })
       return { success: false, error: result.error.message || 'Failed to send email' }
     }
 
-    console.log('Email sent successfully:', result)
+    console.log('[EMAIL SUCCESS] Email sent successfully:', {
+      id: result?.id || 'unknown',
+      from,
+      to: options.to,
+      subject: options.subject
+    })
     return { success: true }
   } catch (error) {
-    console.error('Email sending error:', error)
+    console.error('[EMAIL ERROR] Exception during email sending:', {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      from,
+      to: options.to,
+      subject: options.subject,
+      errorType: error?.constructor?.name || typeof error
+    })
     return { 
       success: false, 
       error: error instanceof Error ? error.message : 'Unknown error occurred' 
@@ -209,7 +239,11 @@ export async function sendContactFormEmails(data: ContactFormData): Promise<{ su
     })
 
     if (!adminResult.success) {
-      console.error('Failed to send admin notification:', adminResult.error)
+      console.error('[EMAIL ERROR] Failed to send admin notification:', {
+        error: adminResult.error,
+        to: adminEmail,
+        contactData: { name: data.name, email: data.email, reason: data.reason }
+      })
       return adminResult
     }
 
@@ -224,13 +258,23 @@ export async function sendContactFormEmails(data: ContactFormData): Promise<{ su
     })
 
     if (!userResult.success) {
-      console.error('Failed to send user confirmation:', userResult.error)
+      console.error('[EMAIL ERROR] Failed to send user confirmation:', {
+        error: userResult.error,
+        to: data.email,
+        contactData: { name: data.name, email: data.email, reason: data.reason }
+      })
       // Still return success since admin notification was sent
     }
 
     return { success: true }
   } catch (error) {
-    console.error('Error sending contact form emails:', error)
+    console.error('[EMAIL ERROR] Exception in sendContactFormEmails:', {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      contactData: { name: data.name, email: data.email, reason: data.reason },
+      adminEmail,
+      errorType: error?.constructor?.name || typeof error
+    })
     return { 
       success: false, 
       error: error instanceof Error ? error.message : 'Failed to send emails' 

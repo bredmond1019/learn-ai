@@ -21,15 +21,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // Define categories and their associated keywords/tags
 const categories = {
-  'mcp-advanced': {
-    name: 'Model Context Protocol (MCP)',
-    description: 'Advanced MCP implementations, architectures, and use cases',
-    keywords: ['mcp', 'model context protocol', 'agentic ai', 'distributed', 'workflow']
-  },
   'ai-fundamentals': {
     name: 'AI Engineering Fundamentals',
     description: 'Core concepts and practices for building AI systems',
     keywords: ['fundamentals', 'basics', 'prompt engineering', 'ai-powered applications', 'pure python']
+  },
+  'mcp-advanced': {
+    name: 'Model Context Protocol (MCP)',
+    description: 'Advanced MCP implementations, architectures, and use cases',
+    keywords: ['mcp', 'model context protocol', 'agentic ai', 'distributed', 'workflow']
   },
   'production-ops': {
     name: 'Production & Operations',
@@ -65,8 +65,8 @@ export default async function BlogPage({ params }: Props) {
   
   // Categorize posts
   const categorizedPosts: Record<string, any[]> = {
-    'mcp-advanced': [],
     'ai-fundamentals': [],
+    'mcp-advanced': [],
     'production-ops': []
   }
   
