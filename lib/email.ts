@@ -1,7 +1,18 @@
 import { Resend } from 'resend'
 
-// Initialize Resend client (only if API key is available)
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
+// Lazy initialization of Resend client to ensure env vars are loaded
+let resend: Resend | null = null
+
+function getResendClient(): Resend | null {
+  if (!resend && process.env.RESEND_API_KEY) {
+    console.log('[EMAIL INIT] Creating Resend client with API key:', {
+      apiKeyPrefix: process.env.RESEND_API_KEY.slice(0, 10) + '...',
+      nodeEnv: process.env.NODE_ENV
+    })
+    resend = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resend
+}
 
 export interface EmailOptions {
   to: string | string[]
@@ -155,14 +166,29 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
     return { success: false, error: 'Missing required email fields' }
   }
 
-  // Validate API key (allow mocked resend in test environment)
+  // Validate required environment variables
   if (!process.env.RESEND_API_KEY && process.env.NODE_ENV !== 'test') {
-    console.error('[EMAIL ERROR] RESEND_API_KEY is not configured in environment variables')
+    console.error('[EMAIL ERROR] RESEND_API_KEY is not configured in environment variables', {
+      nodeEnv: process.env.NODE_ENV,
+      hasKey: !!process.env.RESEND_API_KEY,
+      vercel: process.env.VERCEL,
+      vercelEnv: process.env.VERCEL_ENV,
+      allEnvKeys: Object.keys(process.env).filter(k => k.includes('RESEND') || k.includes('CONTACT') || k.includes('EMAIL'))
+    })
     return { success: false, error: 'Email service not configured' }
   }
   
-  // Create resend instance if not available (for tests)
-  const resendClient = resend || new Resend(process.env.RESEND_API_KEY || 'test-key')
+  // Get resend client (lazy initialization)
+  const resendClient = getResendClient()
+  
+  if (!resendClient) {
+    console.error('[EMAIL ERROR] No Resend client available - API key missing', {
+      hasApiKey: !!process.env.RESEND_API_KEY,
+      apiKeyLength: process.env.RESEND_API_KEY?.length || 0,
+      nodeEnv: process.env.NODE_ENV
+    })
+    return { success: false, error: 'Email service not configured' }
+  }
 
   // Set default from address - use a proper verified domain or fallback that won't fail
   const from = options.from || process.env.RESEND_FROM_EMAIL || 'Brandon Redmond <bredmond1019@gmail.com>'
