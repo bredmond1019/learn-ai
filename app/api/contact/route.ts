@@ -62,12 +62,27 @@ export async function POST(request: NextRequest) {
       })
 
       if (!emailResult.success) {
-        console.error('Failed to send contact form emails:', emailResult.error)
+        console.error('[CONTACT FORM ERROR] Failed to send emails:', {
+          error: emailResult.error,
+          name: data.name,
+          email: data.email,
+          reason: data.reason,
+          timestamp: new Date().toISOString()
+        })
         
         // Check if it's a configuration issue
         if (emailResult.error === 'Email service not configured') {
           return NextResponse.json(
             { error: 'Email service is not properly configured. Please try again later.' },
+            { status: 503 }
+          )
+        }
+        
+        // Check for specific Resend errors
+        if (emailResult.error?.includes('API key is invalid')) {
+          console.error('[CONTACT FORM ERROR] Invalid API key detected')
+          return NextResponse.json(
+            { error: 'Email service configuration error. Please try again later.' },
             { status: 503 }
           )
         }

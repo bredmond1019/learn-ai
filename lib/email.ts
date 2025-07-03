@@ -5,11 +5,19 @@ let resend: Resend | null = null
 
 function getResendClient(): Resend | null {
   if (!resend && process.env.RESEND_API_KEY) {
-    console.log('[EMAIL INIT] Creating Resend client with API key:', {
-      apiKeyPrefix: process.env.RESEND_API_KEY.slice(0, 10) + '...',
-      nodeEnv: process.env.NODE_ENV
-    })
-    resend = new Resend(process.env.RESEND_API_KEY)
+    try {
+      console.log('[EMAIL INIT] Creating Resend client with API key:', {
+        apiKeyPrefix: process.env.RESEND_API_KEY.slice(0, 10) + '...',
+        apiKeyLength: process.env.RESEND_API_KEY.length,
+        nodeEnv: process.env.NODE_ENV,
+        hasSpaces: process.env.RESEND_API_KEY.includes(' '),
+        startsWithRe: process.env.RESEND_API_KEY.startsWith('re_')
+      })
+      resend = new Resend(process.env.RESEND_API_KEY)
+    } catch (error) {
+      console.error('[EMAIL INIT ERROR] Failed to create Resend client:', error)
+      return null
+    }
   }
   return resend
 }
@@ -207,13 +215,20 @@ export async function sendEmail(options: EmailOptions): Promise<{ success: boole
   })
 
   try {
-    const result = await resendClient.emails.send({
+    const emailPayload = {
       from,
       to: options.to,
       subject: options.subject,
       html: options.html || options.text || '',
       replyTo: options.replyTo,
+    }
+    
+    console.log('[EMAIL DEBUG] Sending email with payload:', {
+      ...emailPayload,
+      html: emailPayload.html ? `${emailPayload.html.substring(0, 100)}...` : undefined
     })
+    
+    const result = await resendClient.emails.send(emailPayload)
 
     // Check if result has an error property
     if (result && typeof result === 'object' && 'error' in result && result.error) {
