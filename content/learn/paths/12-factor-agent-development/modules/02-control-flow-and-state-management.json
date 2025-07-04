@@ -1,0 +1,222 @@
+{
+  "id": "02-control-flow-and-state-management",
+  "pathId": "12-factor-agent-development",
+  "title": "Control Flow and State Management",
+  "description": "Master the art of building stateless, pausable agents. Learn why owning your control flow is the key to reliability, and how to separate business state from execution state for production-grade agent systems.",
+  "duration": "120 minutes",
+  "estimatedCompletionTime": "120 minutes",
+  "type": "module",
+  "difficulty": "intermediate",
+  "order": 2,
+  "objectives": [
+    "Understand why agents are just prompts + switch statements + context + loops",
+    "Build stateless agents that can pause, resume, and recover from failures",
+    "Learn to separate business state from execution state effectively",
+    "Master control flow patterns that prevent infinite loops and context explosion",
+    "Implement production-ready state serialization strategies"
+  ],
+  "prerequisites": [
+    "Completion of Module 1: Rethinking Agents as Software",
+    "Understanding of basic state management concepts",
+    "Experience with async programming and REST APIs"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "The Control Flow Problem",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#introduction"
+      }
+    },
+    {
+      "id": "own-your-control-flow",
+      "title": "Factor 6: Own Your Control Flow",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#own-your-control-flow"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "The Naive Agent Loop",
+          "description": "Understanding why simple loops fail at scale"
+        },
+        {
+          "language": "python",
+          "title": "Production Control Flow",
+          "description": "Building agents with deterministic, manageable loops"
+        }
+      ]
+    },
+    {
+      "id": "stateless-design",
+      "title": "Factor 7: Stateless Agent Design",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#stateless-design"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Pausable Agent Implementation",
+          "description": "Building agents that can suspend and resume execution"
+        },
+        {
+          "language": "python",
+          "title": "State Serialization Patterns",
+          "description": "Efficient strategies for persisting agent state"
+        }
+      ]
+    },
+    {
+      "id": "state-separation",
+      "title": "Factor 11: Separate Business State from Execution State",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#state-separation"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "State Architecture",
+          "description": "Designing clear boundaries between state types"
+        }
+      ]
+    },
+    {
+      "id": "quiz-control-flow",
+      "title": "Knowledge Check: Control Flow Mastery",
+      "type": "quiz",
+      "order": 5,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "quiz",
+        "source": "control-flow-quiz"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "What are the four fundamental components of any agent system?",
+            "options": [
+              "Framework, model, database, and API",
+              "Prompt, switch statement, context, and loop",
+              "Input, processing, output, and storage",
+              "Planning, execution, monitoring, and logging"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Every agent boils down to: a prompt (instructions), a switch statement (routing JSON to code), context (memory), and a loop (control flow). Everything else is built on top of these primitives."
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "Why should agents be designed to be stateless?",
+            "options": [
+              "To reduce memory usage",
+              "To enable pause/resume and failure recovery",
+              "To improve LLM response quality",
+              "To simplify the codebase"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Stateless agents can serialize their entire state to a database, enabling pause/resume functionality, failure recovery, and horizontal scaling. The agent doesn't hold state—it loads it when needed."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "What's the key difference between business state and execution state?",
+            "options": [
+              "Business state is encrypted, execution state is not",
+              "Business state is user data, execution state is workflow metadata",
+              "Business state is permanent, execution state is temporary",
+              "Business state is in memory, execution state is in database"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Business state includes user messages, data, and application-specific information. Execution state includes step counters, retry attempts, and workflow position—the machinery of running the agent."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetry": true,
+        "showExplanations": true
+      }
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Build a Pausable Customer Service Agent",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "exercise",
+        "source": "pausable-agent-exercise"
+      },
+      "exercise": {
+        "title": "Pausable Customer Service Agent",
+        "difficulty": "intermediate",
+        "estimatedTime": "30 minutes",
+        "description": "Implement an agent that can handle long-running customer requests with human approval steps",
+        "instructions": [
+          "Create a stateless agent class that processes customer requests",
+          "Implement state serialization for pause/resume functionality",
+          "Add proper separation between business and execution state",
+          "Build control flow that prevents infinite loops",
+          "Test with scenarios requiring human approval mid-workflow"
+        ],
+        "hints": [
+          "Use a state dictionary with clear sections for business vs execution data",
+          "Implement a maximum step counter to prevent runaway loops",
+          "Consider using UUIDs for state IDs to enable concurrent workflows"
+        ],
+        "solutionUrl": "/learn/solutions/pausable-agent-exercise"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "Stateless Agents: Why Your Agent Shouldn't Remember Anything",
+      "type": "article",
+      "url": "https://12factor-agents.com/blog/stateless-design",
+      "description": "Deep dive into stateless agent architecture patterns"
+    },
+    {
+      "title": "Control Flow Patterns for Production Agents",
+      "type": "guide",
+      "url": "https://12factor-agents.com/guides/control-flow",
+      "description": "Common patterns for managing agent execution flow"
+    },
+    {
+      "title": "State Management Best Practices",
+      "type": "video",
+      "url": "https://12factor-agents.com/videos/state-management",
+      "description": "Video walkthrough of state separation techniques"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "own-your-control-flow", "stateless-design", "state-separation"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 100 minutes",
+      "bonusChallenges": ["distributed-state-challenge"]
+    }
+  }
+}

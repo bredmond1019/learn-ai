@@ -1,0 +1,227 @@
+{
+  "id": "03-prompt-and-context-engineering",
+  "pathId": "12-factor-agent-development",
+  "title": "Prompt and Context Engineering",
+  "description": "Learn why production prompts require hand-crafted precision, not generic templates. Master context window management, error handling patterns, and the engineering discipline that turns 80% reliability into 99%.",
+  "duration": "120 minutes",
+  "estimatedCompletionTime": "120 minutes",
+  "type": "module",
+  "difficulty": "intermediate",
+  "order": 3,
+  "objectives": [
+    "Understand why every production token must be hand-crafted",
+    "Master explicit context window management strategies",
+    "Implement intelligent error handling that improves agent behavior",
+    "Learn prompt engineering patterns that ensure reliability at scale",
+    "Build context optimization techniques for complex workflows"
+  ],
+  "prerequisites": [
+    "Completion of Modules 1-2",
+    "Experience with LLM prompting basics",
+    "Understanding of token limits and context windows"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "The Last Mile Problem",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#introduction"
+      }
+    },
+    {
+      "id": "own-your-prompts",
+      "title": "Factor 2: Own Your Prompts",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#own-your-prompts"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "From Generic to Production Prompts",
+          "description": "The evolution of a prompt from prototype to production"
+        },
+        {
+          "language": "python",
+          "title": "Token-Level Optimization",
+          "description": "Engineering prompts for maximum precision and efficiency"
+        }
+      ]
+    },
+    {
+      "id": "context-window-management",
+      "title": "Factor 3: Manage Context Windows Explicitly",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "35 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#context-window-management"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Dynamic Context Management",
+          "description": "Building context windows that adapt to agent needs"
+        },
+        {
+          "language": "python",
+          "title": "Context Compression Strategies",
+          "description": "Techniques for fitting more information in less space"
+        }
+      ]
+    },
+    {
+      "id": "error-handling",
+      "title": "Factor 10: Explicit Error Handling",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#error-handling"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Intelligent Error Processing",
+          "description": "Turning errors into learning opportunities for your agent"
+        },
+        {
+          "language": "python",
+          "title": "Error Recovery Patterns",
+          "description": "Building agents that gracefully handle and recover from failures"
+        }
+      ]
+    },
+    {
+      "id": "quiz-prompt-engineering",
+      "title": "Knowledge Check: Prompt Engineering Mastery",
+      "type": "quiz",
+      "order": 5,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "quiz",
+        "source": "prompt-engineering-quiz"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "Why do production agents require hand-crafted prompts instead of generic templates?",
+            "options": [
+              "Hand-crafted prompts are shorter and save tokens",
+              "LLMs are pure functions - token precision determines output quality",
+              "Templates are copyrighted and can't be used commercially",
+              "Hand-crafted prompts are easier to maintain"
+            ],
+            "correctAnswer": 1,
+            "explanation": "LLMs are pure functions: the same input tokens always produce similar outputs. The only way to improve reliability beyond a certain point is to carefully control every token that goes in."
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "What's the most effective strategy for managing large context windows?",
+            "options": [
+              "Always use the maximum available context size",
+              "Compress and summarize older information dynamically",
+              "Only include the most recent interactions",
+              "Let the LLM decide what to remember"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Dynamic compression and summarization lets you maintain relevant history while staying within token limits. This gives better results than blindly truncating or maxing out context."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "When an agent encounters an error, what should go in the context window?",
+            "options": [
+              "The complete error stack trace for debugging",
+              "Nothing - errors should be hidden from the LLM",
+              "A processed summary of what failed and why",
+              "Just the error code"
+            ],
+            "correctAnswer": 2,
+            "explanation": "Don't blindly append full error traces. Process errors into clear, actionable summaries that help the LLM understand what went wrong and how to proceed differently."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetry": true,
+        "showExplanations": true
+      }
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Build a Context-Optimized Support Agent",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "exercise",
+        "source": "context-optimized-agent-exercise"
+      },
+      "exercise": {
+        "title": "Context-Optimized Support Agent",
+        "difficulty": "intermediate",
+        "estimatedTime": "30 minutes",
+        "description": "Create an agent that maintains conversation quality across long support sessions through intelligent context management",
+        "instructions": [
+          "Implement a prompt system with token-level optimization",
+          "Build dynamic context compression for conversation history",
+          "Add intelligent error handling with learning capabilities",
+          "Create context window monitoring and alerts",
+          "Test with conversations exceeding 50 turns"
+        ],
+        "hints": [
+          "Track token usage for each component of your context",
+          "Implement different compression strategies for different content types",
+          "Consider using a sliding window with intelligent summarization"
+        ],
+        "solutionUrl": "/learn/solutions/context-optimized-agent-exercise"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "The Token Engineering Handbook",
+      "type": "guide",
+      "url": "https://12factor-agents.com/guides/token-engineering",
+      "description": "Advanced techniques for prompt optimization"
+    },
+    {
+      "title": "Context Window Management Patterns",
+      "type": "article",
+      "url": "https://12factor-agents.com/blog/context-patterns",
+      "description": "Production patterns for managing agent memory"
+    },
+    {
+      "title": "Error Handling in LLM Systems",
+      "type": "video",
+      "url": "https://12factor-agents.com/videos/error-handling",
+      "description": "Building resilient agents through intelligent error processing"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "own-your-prompts", "context-window-management", "error-handling"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 100 minutes",
+      "bonusChallenges": ["multi-model-context-challenge"]
+    }
+  }
+}

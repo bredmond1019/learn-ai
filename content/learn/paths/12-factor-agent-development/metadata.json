@@ -1,0 +1,76 @@
+{
+  "id": "12-factor-agent-development",
+  "title": "12-Factor Agent Development",
+  "description": "Master the 12 core patterns for building production-ready AI agents. Move beyond framework abstractions to create reliable, maintainable LLM applications using proven software engineering principles.",
+  "level": "intermediate",
+  "difficulty": "intermediate",
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "duration": "8-10 hours",
+  "totalDuration": "10 hours",
+  "estimatedHours": 10,
+  "topics": [
+    "AI Agents",
+    "LLM Applications", 
+    "Software Architecture",
+    "Production AI",
+    "Agent Design Patterns",
+    "Control Flow",
+    "State Management",
+    "Human-Agent Interaction"
+  ],
+  "tags": [
+    "agents",
+    "llm",
+    "production",
+    "architecture",
+    "12-factor",
+    "reliability",
+    "software-engineering"
+  ],
+  "prerequisites": [
+    "ai-engineering-fundamentals"
+  ],
+  "learningOutcomes": [
+    "Understand why most agents fail at the 70-80% quality mark and how to push beyond it",
+    "Master JSON extraction as the fundamental building block of agent systems",
+    "Design and implement stateless, interruptible agent architectures",
+    "Build production-ready micro-agents with clear boundaries and responsibilities",
+    "Create robust human-agent collaboration systems",
+    "Apply software engineering principles to LLM application development"
+  ],
+  "modules": [
+    "01-rethinking-agents-as-software",
+    "02-control-flow-and-state-management",
+    "03-prompt-and-context-engineering",
+    "04-human-agent-collaboration",
+    "05-building-production-micro-agents"
+  ],
+  "resources": [
+    {
+      "title": "12-Factor Agents GitHub Repository",
+      "type": "repository",
+      "url": "https://github.com/12factor-agents/12factor-agents",
+      "required": true
+    },
+    {
+      "title": "Original 12-Factor Agents Talk by Dex Horthy",
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=8kMaTybvDUw",
+      "required": false
+    },
+    {
+      "title": "HumanLayer Documentation",
+      "type": "documentation",
+      "url": "https://docs.humanlayer.com",
+      "required": false
+    },
+    {
+      "title": "Production Agent Case Studies",
+      "type": "article",
+      "url": "https://12factor-agents.com/case-studies",
+      "required": false
+    }
+  ]
+}

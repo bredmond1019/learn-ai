@@ -1,0 +1,239 @@
+{
+  "id": "05-building-production-micro-agents",
+  "pathId": "12-factor-agent-development",
+  "title": "Building Production Micro-Agents",
+  "description": "Master the art of building small, focused agents that do one thing exceptionally well. Learn to compose micro-agents into robust systems and find the bleeding edge of what's possible with current LLMs.",
+  "duration": "120 minutes",
+  "estimatedCompletionTime": "120 minutes",
+  "type": "module",
+  "difficulty": "advanced",
+  "order": 5,
+  "objectives": [
+    "Understand why small agents with 3-10 steps outperform complex orchestrations",
+    "Learn to identify and extract micro-agent boundaries from monolithic workflows",
+    "Master the composition patterns for connecting micro-agents",
+    "Implement production-grade monitoring and observability for agent systems",
+    "Find and push the bleeding edge of LLM capabilities"
+  ],
+  "prerequisites": [
+    "Completion of Module 1: Rethinking Agents as Software",
+    "Completion of Module 4: Human-Agent Collaboration",
+    "Experience with microservices architecture concepts",
+    "Understanding of distributed systems basics",
+    "Familiarity with observability tools (logs, metrics, traces)"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "The Micro-Agent Revolution",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#introduction"
+      }
+    },
+    {
+      "id": "small-focused-agents",
+      "title": "Factor 5: Small, Focused Agents Beat Monoliths",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#small-focused-agents"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Micro-Agent Architecture",
+          "description": "Building agents with clear boundaries and limited scope"
+        },
+        {
+          "language": "typescript",
+          "title": "Agent Composition Patterns",
+          "description": "Connecting micro-agents into workflows"
+        }
+      ]
+    },
+    {
+      "id": "deployment-bot-case-study",
+      "title": "Case Study: Production Deployment Bot",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#deployment-bot-case-study"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Deployment Micro-Agent Implementation",
+          "description": "Real-world example from production"
+        }
+      ]
+    },
+    {
+      "id": "finding-the-bleeding-edge",
+      "title": "Factor 12: Find the Bleeding Edge",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#finding-the-bleeding-edge"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Pushing LLM Boundaries",
+          "description": "Techniques for achieving reliable results at the edge of capabilities"
+        }
+      ]
+    },
+    {
+      "id": "observability-monitoring",
+      "title": "Production Observability for Micro-Agents",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#observability-monitoring"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Agent Telemetry System",
+          "description": "Comprehensive monitoring for agent systems"
+        }
+      ]
+    },
+    {
+      "id": "quiz-micro-agents",
+      "title": "Knowledge Check: Micro-Agent Architecture",
+      "type": "quiz",
+      "order": 6,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "quiz",
+        "source": "micro-agents-quiz"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "What's the ideal number of steps for a micro-agent?",
+            "options": [
+              "1-2 steps for maximum simplicity",
+              "3-10 steps for focused functionality",
+              "20-50 steps for comprehensive coverage",
+              "100+ steps for full autonomy"
+            ],
+            "correctAnswer": 1,
+            "explanation": "3-10 steps hits the sweet spot: complex enough to be useful, simple enough to be reliable and maintainable."
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "Why do micro-agents outperform monolithic agents in production?",
+            "options": [
+              "They use less memory",
+              "They're easier to debug, test, and maintain",
+              "They run faster",
+              "They require fewer API calls"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Micro-agents excel because each one can be debugged, tested, and optimized independently. When something goes wrong, you know exactly which agent and which step failed."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "What does 'finding the bleeding edge' mean in agent development?",
+            "options": [
+              "Using the latest LLM models",
+              "Implementing cutting-edge frameworks",
+              "Finding tasks just beyond current reliability and engineering them to work",
+              "Pushing agents to their breaking point"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The bleeding edge is where you take something LLMs can almost do reliably and engineer your system to make it work consistently—creating capabilities others can't achieve."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetry": true,
+        "showExplanations": true
+      }
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Build a Micro-Agent System",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "exercise",
+        "source": "micro-agent-system-exercise"
+      },
+      "exercise": {
+        "title": "Customer Support Micro-Agent Network",
+        "difficulty": "advanced",
+        "estimatedTime": "30 minutes",
+        "description": "Build a system of micro-agents that handle different aspects of customer support",
+        "instructions": [
+          "Design 3-4 micro-agents for: intent classification, knowledge retrieval, response generation, and escalation",
+          "Implement clear interfaces between agents",
+          "Add observability to track request flow through the system",
+          "Build a coordinator that manages agent composition",
+          "Test with various customer scenarios"
+        ],
+        "hints": [
+          "Start by defining the exact responsibility of each agent",
+          "Use structured data (JSON) for inter-agent communication",
+          "Each agent should have its own prompt and context management",
+          "Consider failure modes: what if one agent fails?",
+          "Implement circuit breakers for resilience"
+        ],
+        "solutionUrl": "/learn/solutions/micro-agent-system-exercise"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "Micro-Agent Design Patterns",
+      "type": "guide",
+      "url": "https://12factor-agents.com/patterns/micro-agents",
+      "description": "Common patterns for designing and composing micro-agents"
+    },
+    {
+      "title": "Agent Observability Best Practices",
+      "type": "article",
+      "url": "https://12factor-agents.com/guides/observability",
+      "description": "How to monitor and debug production agent systems"
+    },
+    {
+      "title": "The Deployment Bot Architecture",
+      "type": "case-study",
+      "url": "https://12factor-agents.com/case-studies/deployment-bot",
+      "description": "Deep dive into a production micro-agent system"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "small-focused-agents", "deployment-bot-case-study", "finding-the-bleeding-edge"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 100 minutes",
+      "bonusChallenges": ["build-production-ready-system"]
+    }
+  }
+}

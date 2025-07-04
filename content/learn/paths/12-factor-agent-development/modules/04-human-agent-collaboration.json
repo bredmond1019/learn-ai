@@ -1,0 +1,224 @@
+{
+  "id": "04-human-agent-collaboration",
+  "pathId": "12-factor-agent-development",
+  "title": "Human-Agent Collaboration",
+  "description": "Master the art of building agents that work WITH humans, not despite them. Learn to implement approval workflows, multi-channel interactions, and the A2 protocol for reliable human-in-the-loop systems.",
+  "duration": "120 minutes",
+  "estimatedCompletionTime": "120 minutes",
+  "type": "module",
+  "difficulty": "advanced",
+  "order": 4,
+  "objectives": [
+    "Understand why human-in-the-loop is a first-class operation, not an edge case",
+    "Implement approval workflows that don't break agent execution state",
+    "Build multi-channel agents that meet users where they are (Slack, email, Discord)",
+    "Master the A2 protocol for standardized human-agent communication",
+    "Design agents that gracefully handle human delays and context switching"
+  ],
+  "prerequisites": [
+    "Completion of Module 1: Rethinking Agents as Software",
+    "Understanding of async programming and state management",
+    "Basic knowledge of WebSockets or message queuing systems",
+    "Familiarity with at least one messaging platform API (Slack, Discord, etc.)"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "The Human Paradox",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#introduction"
+      }
+    },
+    {
+      "id": "contact-humans-as-tools",
+      "title": "Factor 8: Contact Humans as First-Class Operations",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#contact-humans-as-tools"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Human Contact as a Tool Call",
+          "description": "Implementing human interaction as a pausable, resumable operation"
+        },
+        {
+          "language": "typescript",
+          "title": "State Management for Human Delays",
+          "description": "Handling async human responses without losing context"
+        }
+      ]
+    },
+    {
+      "id": "meet-users-where-they-are",
+      "title": "Factor 9: Meet Users Where They Are",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#meet-users-where-they-are"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Multi-Channel Agent Router",
+          "description": "Building agents that work across Slack, email, and Discord"
+        },
+        {
+          "language": "typescript",
+          "title": "Channel-Agnostic Message Handler",
+          "description": "Abstracting communication channels for consistent agent behavior"
+        }
+      ]
+    },
+    {
+      "id": "a2-protocol",
+      "title": "The A2 Protocol: Standardizing Human-Agent Communication",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#a2-protocol"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "A2 Protocol Implementation",
+          "description": "Building compliant human-agent interaction handlers"
+        }
+      ]
+    },
+    {
+      "id": "quiz-collaboration",
+      "title": "Knowledge Check: Human-Agent Collaboration",
+      "type": "quiz",
+      "order": 5,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "quiz",
+        "source": "human-agent-collaboration-quiz"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "Why should human contact be treated as a 'tool' rather than a special case?",
+            "options": [
+              "It makes the code simpler",
+              "It allows the agent to pause execution and resume from the exact same state",
+              "Humans are just another API",
+              "It's required by the A2 protocol"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Treating human contact as a tool allows the agent to serialize its state, pause execution, and resume seamlessly when the human responds—even days later."
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "What's the main benefit of meeting users where they are (multi-channel)?",
+            "options": [
+              "It looks more impressive in demos",
+              "Users don't need to context-switch between their workflow and your agent",
+              "It's easier to implement",
+              "You can charge more for the service"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Users are most effective when they can interact with agents within their existing workflows—whether that's Slack, email, or Discord—without switching contexts."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "In the deployment bot example, what happens when a human rejects a deployment step?",
+            "options": [
+              "The entire workflow fails and must restart",
+              "The agent ignores the rejection and continues",
+              "The agent adjusts its execution plan based on the human's feedback",
+              "An error is logged and the process halts"
+            ],
+            "correctAnswer": 2,
+            "explanation": "Good agents treat human feedback as input that can modify their execution plan. They adapt based on human decisions rather than failing or ignoring them."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetry": true,
+        "showExplanations": true
+      }
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Build a Multi-Channel Approval Bot",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "35 minutes",
+      "content": {
+        "type": "exercise",
+        "source": "approval-bot-exercise"
+      },
+      "exercise": {
+        "title": "Deployment Approval Agent",
+        "difficulty": "advanced",
+        "estimatedTime": "35 minutes",
+        "description": "Build an agent that manages deployment approvals across Slack and email, handling async human responses",
+        "instructions": [
+          "Create a state machine for deployment workflow with human approval points",
+          "Implement serializable state that can pause/resume across restarts",
+          "Build handlers for both Slack and email responses",
+          "Add timeout handling for approvals that take too long",
+          "Implement approval delegation when primary approver is unavailable"
+        ],
+        "hints": [
+          "Use a proper state persistence layer (Redis/PostgreSQL) not in-memory storage",
+          "Design your state schema to handle partial approvals and rejections",
+          "Consider using webhooks for Slack and email parsing for email responses",
+          "Human responses might come hours or days later—plan accordingly"
+        ],
+        "solutionUrl": "/learn/solutions/approval-bot-exercise"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "The A2 Protocol Specification",
+      "type": "specification",
+      "url": "https://github.com/a2-protocol/spec",
+      "description": "Full specification for standardized agent-to-agent and agent-to-human communication"
+    },
+    {
+      "title": "Building Slack Bots That Don't Suck",
+      "type": "guide",
+      "url": "https://12factor-agents.com/guides/slack-bots",
+      "description": "Practical guide to building Slack bots that users actually want to use"
+    },
+    {
+      "title": "Email as an Agent Interface",
+      "type": "article",
+      "url": "https://12factor-agents.com/blog/email-agents",
+      "description": "Why email might be the best UI for your agent"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "contact-humans-as-tools", "meet-users-where-they-are", "a2-protocol"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 100 minutes",
+      "bonusChallenges": ["multi-tenant-approval-system"]
+    }
+  }
+}

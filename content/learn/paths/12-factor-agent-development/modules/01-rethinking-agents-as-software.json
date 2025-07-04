@@ -1,0 +1,178 @@
+{
+  "id": "01-rethinking-agents-as-software",
+  "pathId": "12-factor-agent-development",
+  "title": "Rethinking Agents as Software",
+  "description": "Discover why the most powerful LLM capability isn't complex orchestration—it's simple JSON extraction. Learn to see past the 'magic' and understand agents as deterministic software components.",
+  "duration": "90 minutes",
+  "estimatedCompletionTime": "90 minutes",
+  "type": "module",
+  "difficulty": "intermediate",
+  "order": 1,
+  "objectives": [
+    "Understand why JSON extraction is the fundamental building block of agent systems",
+    "Recognize that 'tool use' is just JSON routing to deterministic code",
+    "Learn to decompose agent behaviors into software patterns",
+    "Build your first JSON-extraction-based agent component"
+  ],
+  "prerequisites": [
+    "Basic understanding of LLMs and API calls",
+    "Familiarity with JSON and basic programming concepts",
+    "Experience with at least one programming language"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "The 70-80% Problem",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#introduction"
+      }
+    },
+    {
+      "id": "json-extraction-magic",
+      "title": "Factor 1: JSON Extraction is Your Superpower",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#json-extraction"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Basic JSON Extraction",
+          "description": "Converting natural language to structured data"
+        },
+        {
+          "language": "python",
+          "title": "Advanced Extraction with Validation",
+          "description": "Ensuring extracted JSON meets your schema requirements"
+        }
+      ]
+    },
+    {
+      "id": "tools-are-code",
+      "title": "Factor 4: 'Tool Use' is Just JSON and Code",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#tools-are-code"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "From 'Tool Use' to Switch Statements",
+          "description": "Demystifying how agents interact with the world"
+        }
+      ]
+    },
+    {
+      "id": "quiz-rethinking",
+      "title": "Knowledge Check: Agents as Software",
+      "type": "quiz",
+      "order": 4,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "quiz",
+        "source": "rethinking-agents-quiz"
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "What is the most fundamental capability that makes LLM-based agents possible?",
+            "options": [
+              "Complex reasoning chains",
+              "Tool orchestration frameworks",
+              "Converting natural language to structured JSON",
+              "Large context windows"
+            ],
+            "correctAnswer": 2,
+            "explanation": "JSON extraction—converting unstructured natural language into structured data—is the foundation of all agent capabilities. Everything else builds on this."
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "When an agent 'uses a tool', what's actually happening under the hood?",
+            "options": [
+              "The LLM directly executes code",
+              "The agent gains special capabilities",
+              "JSON output is routed to deterministic code",
+              "A framework handles everything automatically"
+            ],
+            "correctAnswer": 2,
+            "explanation": "'Tool use' is just the LLM outputting JSON that gets passed to regular code through a switch statement or router. There's no magic—just software."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetry": true,
+        "showExplanations": true
+      }
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Build Your First JSON-Extraction Agent",
+      "type": "exercise",
+      "order": 5,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "exercise",
+        "source": "json-extraction-exercise"
+      },
+      "exercise": {
+        "title": "Customer Intent Classifier",
+        "difficulty": "beginner",
+        "estimatedTime": "30 minutes",
+        "description": "Build a simple agent component that extracts customer intent from natural language messages",
+        "instructions": [
+          "Create a prompt that instructs an LLM to extract intent and entities from customer messages",
+          "Define a JSON schema for the expected output",
+          "Implement a router function that handles different intents",
+          "Test with various customer message examples"
+        ],
+        "hints": [
+          "Start with a clear schema definition before writing the prompt",
+          "Include examples in your prompt for better accuracy",
+          "Consider edge cases like ambiguous or multi-intent messages"
+        ],
+        "solutionUrl": "/learn/solutions/json-extraction-exercise"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "Why Most Production Agents Aren't Agentic",
+      "type": "article",
+      "url": "https://12factor-agents.com/blog/production-reality",
+      "description": "Deep dive into what production agents actually look like"
+    },
+    {
+      "title": "JSON Schema Best Practices for LLMs",
+      "type": "guide",
+      "url": "https://12factor-agents.com/guides/json-schema",
+      "description": "How to design schemas that LLMs can reliably produce"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "json-extraction-magic", "tools-are-code"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 75 minutes",
+      "bonusChallenges": ["advanced-extraction-challenge"]
+    }
+  }
+}
