@@ -88,26 +88,49 @@ This document distills the patterns that separate production-ready agents from i
 
 ### The 12-Factor Agent Framework
 
-```mermaid
-mindmap
-  root((12-Factor Agents))
-    Foundations
-      Factor 1: JSON Extraction
-      Factor 4: Tools Are Code
-      Factor 6: Own Control Flow
-    State & Context
-      Factor 3: Manage Context
-      Factor 7: Stateless Design
-      Factor 11: Separate States
-    Human Integration
-      Factor 8: Contact Humans
-      Factor 9: Multi-Channel
-    Production Excellence
-      Factor 2: Own Your Prompts
-      Factor 5: Micro-Agents
-      Factor 10: Error Handling
-      Factor 12: Bleeding Edge
-```
+The 12 factors are organized into four key categories:
+
+<Card>
+  <CardContent className="p-6">
+    <div className="space-y-4">
+      <div>
+        <h4 className="font-semibold text-lg mb-2">🏗️ Foundations</h4>
+        <ul className="space-y-1 ml-4">
+          <li><strong>Factor 1: JSON Extraction</strong> - Transform natural language to structured data</li>
+          <li><strong>Factor 4: Tools Are Code</strong> - Demystify "tool use" as simple JSON routing</li>
+          <li><strong>Factor 6: Own Control Flow</strong> - Master the prompt-switch-context-loop pattern</li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 className="font-semibold text-lg mb-2">📊 State & Context</h4>
+        <ul className="space-y-1 ml-4">
+          <li><strong>Factor 3: Manage Context</strong> - Prevent context window explosion</li>
+          <li><strong>Factor 7: Stateless Design</strong> - Enable pause, resume, and horizontal scaling</li>
+          <li><strong>Factor 11: Separate States</strong> - Distinguish business from execution state</li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 className="font-semibold text-lg mb-2">👥 Human Integration</h4>
+        <ul className="space-y-1 ml-4">
+          <li><strong>Factor 8: Contact Humans</strong> - Make human interaction a first-class operation</li>
+          <li><strong>Factor 9: Multi-Channel</strong> - Meet users where they are (email, Slack, etc.)</li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 className="font-semibold text-lg mb-2">🚀 Production Excellence</h4>
+        <ul className="space-y-1 ml-4">
+          <li><strong>Factor 2: Own Your Prompts</strong> - Hand-craft every token for production quality</li>
+          <li><strong>Factor 5: Micro-Agents</strong> - Build small, focused agents (3-10 steps max)</li>
+          <li><strong>Factor 10: Error Handling</strong> - Process errors intelligently, not blindly</li>
+          <li><strong>Factor 12: Bleeding Edge</strong> - Find what models almost do well, engineer the rest</li>
+        </ul>
+      </div>
+    </div>
+  </CardContent>
+</Card>
 
 ---
 
@@ -117,52 +140,51 @@ mindmap
 
 ### Micro-Agent Composition Pattern
 
-```mermaid
-graph TB
-    subgraph "Orchestrator"
-        O[Request Router]
-    end
-    
-    subgraph "Micro-Agents"
-        MA1[Intent Classifier<br/>3-5 steps]
-        MA2[Data Retriever<br/>4-6 steps]
-        MA3[Action Executor<br/>5-8 steps]
-        MA4[Response Generator<br/>3-4 steps]
-    end
-    
-    subgraph "Deterministic Layer"
-        D1[Business Logic]
-        D2[Database Operations]
-        D3[External APIs]
-        D4[Validation Rules]
-    end
-    
-    subgraph "Human Layer"
-        H1[Approval Required]
-        H2[Expert Input]
-    end
-    
-    O --> MA1
-    MA1 --> MA2
-    MA1 --> MA3
-    MA2 --> MA4
-    MA3 --> MA4
-    
-    MA2 --> D1
-    MA2 --> D2
-    MA3 --> D3
-    MA3 --> D4
-    
-    MA3 -.->|When Needed| H1
-    MA2 -.->|Complex Cases| H2
-    
-    style MA1 fill:#f9f,stroke:#333,stroke-width:2px
-    style MA2 fill:#f9f,stroke:#333,stroke-width:2px
-    style MA3 fill:#f9f,stroke:#333,stroke-width:2px
-    style MA4 fill:#f9f,stroke:#333,stroke-width:2px
-    style H1 fill:#ff9,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
-    style H2 fill:#ff9,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
-```
+<Card>
+  <CardContent className="p-6">
+    <div className="space-y-6">
+      <div className="text-center">
+        <h4 className="font-semibold text-lg mb-4">🎯 Orchestrator</h4>
+        <p className="text-sm">Request Router - Directs incoming requests to appropriate micro-agents</p>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <h4 className="font-semibold mb-3">🤖 Micro-Agents (3-10 steps each)</h4>
+          <ul className="space-y-2 text-sm">
+            <li>• <strong>Intent Classifier</strong> (3-5 steps)</li>
+            <li>• <strong>Data Retriever</strong> (4-6 steps)</li>
+            <li>• <strong>Action Executor</strong> (5-8 steps)</li>
+            <li>• <strong>Response Generator</strong> (3-4 steps)</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 className="font-semibold mb-3">🔧 Deterministic Layer</h4>
+          <ul className="space-y-2 text-sm">
+            <li>• Business Logic</li>
+            <li>• Database Operations</li>
+            <li>• External APIs</li>
+            <li>• Validation Rules</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div>
+        <h4 className="font-semibold mb-3">👥 Human Layer (Optional)</h4>
+        <p className="text-sm mb-2">Dotted connections indicate on-demand human involvement:</p>
+        <ul className="space-y-1 text-sm">
+          <li>• <strong>Approval Required</strong> - When Action Executor needs authorization</li>
+          <li>• <strong>Expert Input</strong> - When Data Retriever encounters complex cases</li>
+        </ul>
+      </div>
+      
+      <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-900 rounded">
+        <p className="text-sm"><strong>Flow:</strong> Request Router → Intent Classifier → (Data Retriever and/or Action Executor) → Response Generator</p>
+      </div>
+    </div>
+  </CardContent>
+</Card>
 
 **Key Benefits:**
 - Bounded context windows
@@ -194,47 +216,81 @@ graph TB
 
 ### State Management Flow
 
-```mermaid
-stateDiagram-v2
-    [*] --> Initialized: Agent Start
-    
-    Initialized --> LoadingState: Load State
-    LoadingState --> ProcessingRequest: State Loaded
-    
-    ProcessingRequest --> ExecutingAction: Action Required
-    ExecutingAction --> UpdatingBusinessState: Action Complete
-    ExecutingAction --> WaitingForHuman: Human Input Needed
-    
-    WaitingForHuman --> Serialized: Save State
-    Serialized --> Paused: Agent Paused
-    Paused --> LoadingState: Resume (Hours/Days Later)
-    
-    UpdatingBusinessState --> ProcessingRequest: Continue Flow
-    ProcessingRequest --> Completed: All Steps Done
-    
-    ExecutingAction --> ErrorHandling: Error Occurred
-    ErrorHandling --> ProcessingRequest: Retry
-    ErrorHandling --> Failed: Max Retries
-    
-    Completed --> [*]
-    Failed --> [*]
-    
-    note right of Serialized
-        Execution State:
-        - Current step: 3
-        - Retry count: 1
-        - Context tokens: 4521
-        - Waiting for: approval
-    end note
-    
-    note left of UpdatingBusinessState
-        Business State:
-        - Order status: pending
-        - Customer data: updated
-        - Approval: received
-        - Actions taken: [...]
-    end note
-```
+<Card>
+  <CardContent className="p-6">
+    <div className="space-y-6">
+      <h4 className="font-semibold text-lg text-center mb-4">Agent State Lifecycle</h4>
+      
+      <div className="space-y-4">
+        <div className="flex items-center space-x-2">
+          <Badge variant="outline">Start</Badge>
+          <span>→</span>
+          <strong>Initialized</strong>
+          <span>→</span>
+          <strong>Load State</strong>
+          <span>→</span>
+          <strong>Processing Request</strong>
+        </div>
+        
+        <div className="pl-8 space-y-3">
+          <div className="border-l-2 border-gray-300 pl-4">
+            <p className="font-semibold mb-2">From Processing Request:</p>
+            <ul className="space-y-2 text-sm">
+              <li>→ <strong>Executing Action</strong> (when action required)</li>
+              <li className="ml-4">✓ Action Complete → <strong>Update Business State</strong> → Continue Flow</li>
+              <li className="ml-4">🤝 Human Input Needed → <strong>Waiting for Human</strong></li>
+              <li className="ml-4">❌ Error Occurred → <strong>Error Handling</strong></li>
+            </ul>
+          </div>
+          
+          <div className="border-l-2 border-blue-300 pl-4">
+            <p className="font-semibold mb-2">Pause/Resume Flow:</p>
+            <ul className="space-y-2 text-sm">
+              <li>Waiting for Human → <strong>Serialize State</strong> → <strong>Agent Paused</strong></li>
+              <li>Agent can be completely shut down</li>
+              <li>Hours/Days Later: <strong>Resume</strong> → Load State → Continue Processing</li>
+            </ul>
+          </div>
+          
+          <div className="border-l-2 border-red-300 pl-4">
+            <p className="font-semibold mb-2">Error Handling:</p>
+            <ul className="space-y-2 text-sm">
+              <li>Error → Retry (if under limit) → Back to Processing</li>
+              <li>Max Retries Exceeded → <strong>Failed State</strong></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4 mt-6">
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded">
+            <h5 className="font-semibold mb-2">📊 Execution State</h5>
+            <ul className="text-sm space-y-1">
+              <li>• Current step: 3</li>
+              <li>• Retry count: 1</li>
+              <li>• Context tokens: 4521</li>
+              <li>• Waiting for: approval</li>
+            </ul>
+          </div>
+          
+          <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded">
+            <h5 className="font-semibold mb-2">💼 Business State</h5>
+            <ul className="text-sm space-y-1">
+              <li>• Order status: pending</li>
+              <li>• Customer data: updated</li>
+              <li>• Approval: received</li>
+              <li>• Actions taken: [...]</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="flex justify-center space-x-4 mt-4">
+          <Badge variant="success">Completed</Badge>
+          <Badge variant="destructive">Failed</Badge>
+        </div>
+      </div>
+    </div>
+  </CardContent>
+</Card>
 
 ### Integration Architecture
 
