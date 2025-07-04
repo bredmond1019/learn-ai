@@ -147,4 +147,6 @@ In Part 3, we'll roll up our sleeves and set up our development environment. You
 
 The exciting part? Once you understand these building blocks, you can apply them to ANY business problem.
 
+Ready to dive deeper? Follow along with the complete tutorial at [learn-agentic-ai.com/learn/paths/ai-systems-intro](https://www.learn-agentic-ai.com/en/learn/paths/ai-systems-intro).
+
 What tools or services would you want to connect to an AI system? Drop a comment below - your idea might become our next example!

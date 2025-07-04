@@ -521,6 +521,8 @@ In our final part (Part 5), we'll:
 
 You've now built a functional AI system! How would you extend this for your business needs? What other workflows would be helpful?
 
+Ready to go deeper? Access the complete tutorial with additional examples at [learn-agentic-ai.com/learn/paths/ai-systems-intro](https://www.learn-agentic-ai.com/en/learn/paths/ai-systems-intro).
+
 ## Challenge: Extend Your System
 
 Try adding these features:

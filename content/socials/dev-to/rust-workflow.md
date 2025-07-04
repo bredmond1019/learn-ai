@@ -104,4 +104,6 @@ If you're building AI-powered systems that need to scale, maintain compliance, a
 
 Check out the full source code and documentation at [github.com/bredmond1019/workflow-engine-rs](https://github.com/bredmond1019/workflow-engine-rs).
 
+Want to explore more AI engineering projects and learn how to build production-ready AI systems? Visit my portfolio at [learn-agentic-ai.com](https://www.learn-agentic-ai.com) where I share comprehensive guides, learning paths, and real-world implementations.
+
 What complex AI workflows are you building? I'd love to hear about your use cases and challenges in the comments!
