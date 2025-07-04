@@ -9,7 +9,6 @@ author: "Brandon J. Redmond"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Callout } from '@/components/ui/callout'
 import { Badge } from '@/components/ui/badge'
-import { Diagram } from '@/components/ui/diagram'
 
 # Agent Architecture Patterns: A Production Guide for System Architects
 
@@ -87,7 +86,8 @@ This document distills the patterns that separate production-ready agents from i
 
 ## Visual Overview of the 12 Factors
 
-<Diagram type="mindmap" title="The 12-Factor Agent Framework">
+### The 12-Factor Agent Framework
+
 ```mermaid
 mindmap
   root((12-Factor Agents))
@@ -108,7 +108,6 @@ mindmap
       Factor 10: Error Handling
       Factor 12: Bleeding Edge
 ```
-</Diagram>
 
 ---
 
@@ -116,7 +115,8 @@ mindmap
 
 ### The Micro-Agent Architecture
 
-<Diagram type="flow" title="Micro-Agent Composition Pattern">
+### Micro-Agent Composition Pattern
+
 ```mermaid
 graph TB
     subgraph "Orchestrator"
@@ -163,7 +163,6 @@ graph TB
     style H1 fill:#ff9,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
     style H2 fill:#ff9,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
 ```
-</Diagram>
 
 **Key Benefits:**
 - Bounded context windows
@@ -193,7 +192,8 @@ graph TB
 
 **Keep them separate** for easier debugging, testing, and maintenance.
 
-<Diagram type="flow" title="State Management Flow">
+### State Management Flow
+
 ```mermaid
 stateDiagram-v2
     [*] --> Initialized: Agent Start
@@ -235,7 +235,6 @@ stateDiagram-v2
         - Actions taken: [...]
     end note
 ```
-</Diagram>
 
 ### Integration Architecture
 
