@@ -306,6 +306,65 @@ const learningPathsEn: LearningPath[] = [
         content: 'End-to-end production deployment'
       }
     ]
+  },
+  {
+    id: '12-factor-agent-development',
+    title: '12-Factor Agent Development',
+    description: 'Master the patterns and principles for building reliable, production-ready LLM applications based on Dex Horthy\'s 12-Factor Agent framework.',
+    level: 'Intermediate',
+    duration: '8-10 hours',
+    topics: ['Agent Architecture', 'Control Flow', 'Prompt Engineering', 'Human-in-the-Loop', 'Production Patterns'],
+    color: 'accent',
+    prerequisites: ['mcp-fundamentals'],
+    outcomes: [
+      'Understand agents as reliable software systems, not magical AI',
+      'Master JSON-based control flow and stateless agent design',
+      'Build micro-agents that do one thing well',
+      'Implement human-in-the-loop as first-class operations',
+      'Deploy production-ready agent systems with proper observability'
+    ],
+    modules: [
+      {
+        id: 'rethinking-agents-as-software',
+        title: 'Rethinking Agents as Software',
+        description: 'Move beyond autonomous AI myths to build reliable, deterministic agent systems',
+        duration: '1.5 hours',
+        type: 'theory',
+        content: 'Agents as stateless functions, JSON extraction fundamentals, and software engineering principles'
+      },
+      {
+        id: 'control-flow-and-state-management',
+        title: 'Control Flow and State Management',
+        description: 'Master the four pillars of agent control: Prompt, Switch, Context, and Loop',
+        duration: '2 hours',
+        type: 'hands-on',
+        content: 'Implementing structured outputs, conditional logic, and state management patterns'
+      },
+      {
+        id: 'prompt-and-context-engineering',
+        title: 'Prompt and Context Engineering',
+        description: 'Build reusable prompt templates and optimize context windows for reliability',
+        duration: '2 hours',
+        type: 'hands-on',
+        content: 'Advanced prompting techniques, context optimization, and template management'
+      },
+      {
+        id: 'human-agent-collaboration',
+        title: 'Human-Agent Collaboration',
+        description: 'Design systems where human oversight is a feature, not a limitation',
+        duration: '2 hours',
+        type: 'hands-on',
+        content: 'Approval workflows, graceful handoffs, and multi-channel agent support'
+      },
+      {
+        id: 'building-production-micro-agents',
+        title: 'Building Production Micro-Agents',
+        description: 'Create and compose small, focused agents for complex workflows',
+        duration: '2.5 hours',
+        type: 'project',
+        content: 'Build a complete micro-agent system with observability, testing, and deployment'
+      }
+    ]
   }
 ];
 
@@ -579,6 +638,65 @@ const learningPathsPtBR: LearningPath[] = [
         duration: '4 horas',
         type: 'project',
         content: 'Deploy de produção de ponta a ponta'
+      }
+    ]
+  },
+  {
+    id: '12-factor-agent-development',
+    title: 'Desenvolvimento de Agentes 12-Fatores',
+    description: 'Domine os padrões e princípios para construir aplicações LLM confiáveis e prontas para produção baseadas no framework 12-Factor Agent de Dex Horthy.',
+    level: 'Intermediate',
+    duration: '8-10 horas',
+    topics: ['Arquitetura de Agente', 'Fluxo de Controle', 'Engenharia de Prompt', 'Humano no Loop', 'Padrões de Produção'],
+    color: 'accent',
+    prerequisites: ['mcp-fundamentals'],
+    outcomes: [
+      'Entender agentes como sistemas de software confiáveis, não IA mágica',
+      'Dominar fluxo de controle baseado em JSON e design de agente sem estado',
+      'Construir micro-agentes que fazem uma coisa bem',
+      'Implementar humano no loop como operações de primeira classe',
+      'Implantar sistemas de agente prontos para produção com observabilidade adequada'
+    ],
+    modules: [
+      {
+        id: 'rethinking-agents-as-software',
+        title: 'Repensando Agentes como Software',
+        description: 'Vá além dos mitos de IA autônoma para construir sistemas de agente confiáveis e determinísticos',
+        duration: '1.5 horas',
+        type: 'theory',
+        content: 'Agentes como funções sem estado, fundamentos de extração JSON e princípios de engenharia de software'
+      },
+      {
+        id: 'control-flow-and-state-management',
+        title: 'Fluxo de Controle e Gerenciamento de Estado',
+        description: 'Domine os quatro pilares do controle de agente: Prompt, Switch, Context e Loop',
+        duration: '2 horas',
+        type: 'hands-on',
+        content: 'Implementando saídas estruturadas, lógica condicional e padrões de gerenciamento de estado'
+      },
+      {
+        id: 'prompt-and-context-engineering',
+        title: 'Engenharia de Prompt e Contexto',
+        description: 'Construa templates de prompt reutilizáveis e otimize janelas de contexto para confiabilidade',
+        duration: '2 horas',
+        type: 'hands-on',
+        content: 'Técnicas avançadas de prompting, otimização de contexto e gerenciamento de templates'
+      },
+      {
+        id: 'human-agent-collaboration',
+        title: 'Colaboração Humano-Agente',
+        description: 'Projete sistemas onde a supervisão humana é um recurso, não uma limitação',
+        duration: '2 horas',
+        type: 'hands-on',
+        content: 'Fluxos de trabalho de aprovação, transferências graciosas e suporte a agente multicanal'
+      },
+      {
+        id: 'building-production-micro-agents',
+        title: 'Construindo Micro-Agentes de Produção',
+        description: 'Crie e componha agentes pequenos e focados para fluxos de trabalho complexos',
+        duration: '2.5 horas',
+        type: 'project',
+        content: 'Construa um sistema completo de micro-agente com observabilidade, testes e deploy'
       }
     ]
   }
