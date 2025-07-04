@@ -115,15 +115,24 @@
       ]
     },
     {
-      "id": "quiz-micro-agents",
-      "title": "Knowledge Check: Micro-Agent Architecture",
-      "type": "quiz",
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "content",
       "order": 6,
       "estimatedDuration": "10 minutes",
       "content": {
-        "type": "quiz",
-        "source": "micro-agents-quiz"
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#knowledge-check"
       },
+      "description": "Interactive quiz on micro-agent architecture and production deployment patterns"
+    },
+    {
+      "id": "quiz-placeholder",
+      "title": "Quiz Questions",
+      "type": "metadata",
+      "order": 6.1,
+      "estimatedDuration": "0 minutes",
+      "visible": false,
       "quiz": {
         "questions": [
           {
@@ -172,35 +181,21 @@
       }
     },
     {
-      "id": "practical-exercise",
-      "title": "Build a Micro-Agent System",
-      "type": "exercise",
+      "id": "capstone-project",
+      "title": "Capstone Project: Build Your Production Micro-Agent System",
+      "type": "content",
       "order": 7,
       "estimatedDuration": "30 minutes",
       "content": {
-        "type": "exercise",
-        "source": "micro-agent-system-exercise"
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#capstone-project"
       },
+      "description": "Build a complete micro-agent system incorporating all 12 factors learned throughout the course",
       "exercise": {
         "title": "Customer Support Micro-Agent Network",
         "difficulty": "advanced",
         "estimatedTime": "30 minutes",
-        "description": "Build a system of micro-agents that handle different aspects of customer support",
-        "instructions": [
-          "Design 3-4 micro-agents for: intent classification, knowledge retrieval, response generation, and escalation",
-          "Implement clear interfaces between agents",
-          "Add observability to track request flow through the system",
-          "Build a coordinator that manages agent composition",
-          "Test with various customer scenarios"
-        ],
-        "hints": [
-          "Start by defining the exact responsibility of each agent",
-          "Use structured data (JSON) for inter-agent communication",
-          "Each agent should have its own prompt and context management",
-          "Consider failure modes: what if one agent fails?",
-          "Implement circuit breakers for resilience"
-        ],
-        "solutionUrl": "/learn/solutions/micro-agent-system-exercise"
+        "skills": ["Micro-agent design", "System composition", "Observability", "Production readiness"]
       }
     }
   ],

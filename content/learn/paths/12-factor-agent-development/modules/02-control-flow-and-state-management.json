@@ -100,90 +100,33 @@
       ]
     },
     {
-      "id": "quiz-control-flow",
-      "title": "Knowledge Check: Control Flow Mastery",
-      "type": "quiz",
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "content",
       "order": 5,
       "estimatedDuration": "10 minutes",
       "content": {
-        "type": "quiz",
-        "source": "control-flow-quiz"
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#knowledge-check"
       },
-      "quiz": {
-        "questions": [
-          {
-            "id": "q1",
-            "type": "multiple-choice",
-            "question": "What are the four fundamental components of any agent system?",
-            "options": [
-              "Framework, model, database, and API",
-              "Prompt, switch statement, context, and loop",
-              "Input, processing, output, and storage",
-              "Planning, execution, monitoring, and logging"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Every agent boils down to: a prompt (instructions), a switch statement (routing JSON to code), context (memory), and a loop (control flow). Everything else is built on top of these primitives."
-          },
-          {
-            "id": "q2",
-            "type": "multiple-choice",
-            "question": "Why should agents be designed to be stateless?",
-            "options": [
-              "To reduce memory usage",
-              "To enable pause/resume and failure recovery",
-              "To improve LLM response quality",
-              "To simplify the codebase"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Stateless agents can serialize their entire state to a database, enabling pause/resume functionality, failure recovery, and horizontal scaling. The agent doesn't hold state—it loads it when needed."
-          },
-          {
-            "id": "q3",
-            "type": "multiple-choice",
-            "question": "What's the key difference between business state and execution state?",
-            "options": [
-              "Business state is encrypted, execution state is not",
-              "Business state is user data, execution state is workflow metadata",
-              "Business state is permanent, execution state is temporary",
-              "Business state is in memory, execution state is in database"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Business state includes user messages, data, and application-specific information. Execution state includes step counters, retry attempts, and workflow position—the machinery of running the agent."
-          }
-        ],
-        "passingScore": 80,
-        "allowRetry": true,
-        "showExplanations": true
-      }
+      "description": "Interactive quiz to test your understanding of control flow and state management concepts"
     },
     {
       "id": "practical-exercise",
-      "title": "Build a Pausable Customer Service Agent",
-      "type": "exercise",
+      "title": "Exercise: Build a Pauseable Customer Service Agent",
+      "type": "content",
       "order": 6,
       "estimatedDuration": "30 minutes",
       "content": {
-        "type": "exercise",
-        "source": "pausable-agent-exercise"
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#exercise"
       },
+      "description": "Implement a stateless agent that can handle long-running customer requests with pause/resume functionality",
       "exercise": {
-        "title": "Pausable Customer Service Agent",
+        "title": "Pauseable Customer Service Agent",
         "difficulty": "intermediate",
         "estimatedTime": "30 minutes",
-        "description": "Implement an agent that can handle long-running customer requests with human approval steps",
-        "instructions": [
-          "Create a stateless agent class that processes customer requests",
-          "Implement state serialization for pause/resume functionality",
-          "Add proper separation between business and execution state",
-          "Build control flow that prevents infinite loops",
-          "Test with scenarios requiring human approval mid-workflow"
-        ],
-        "hints": [
-          "Use a state dictionary with clear sections for business vs execution data",
-          "Implement a maximum step counter to prevent runaway loops",
-          "Consider using UUIDs for state IDs to enable concurrent workflows"
-        ],
-        "solutionUrl": "/learn/solutions/pausable-agent-exercise"
+        "skills": ["State management", "Control flow", "Serialization", "Error handling"]
       }
     }
   ],

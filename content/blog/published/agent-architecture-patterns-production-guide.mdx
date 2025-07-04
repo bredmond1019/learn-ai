@@ -1,16 +1,17 @@
 ---
-title: "12-Factor Agents: Executive Summary for System Architects"
+title: "Agent Architecture Patterns: A Production Guide for System Architects"
 date: "2025-01-04"
-excerpt: "A concise guide to the 12 patterns that separate production-ready AI agents from impressive demos. Essential reading for technical leaders making architectural decisions."
-tags: ["AI Agents", "System Architecture", "Production AI", "Executive Summary", "12-Factor"]
+excerpt: "Discover the 12 architectural patterns that transform AI agents from impressive demos into reliable production systems. A comprehensive guide for technical leaders designing agent-based solutions."
+tags: ["Agent Architecture", "System Design", "Production AI", "Architecture Patterns", "12-Factor", "AI Systems"]
 author: "Brandon J. Redmond"
 ---
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Callout } from '@/components/ui/callout'
 import { Badge } from '@/components/ui/badge'
+import { Diagram } from '@/components/ui/diagram'
 
-# 12-Factor Agents: Executive Summary for System Architects
+# Agent Architecture Patterns: A Production Guide for System Architects
 
 ## Core Philosophy: Agents Are Software, Not Magic
 
@@ -84,22 +85,85 @@ This document distills the patterns that separate production-ready agents from i
 
 ---
 
+## Visual Overview of the 12 Factors
+
+<Diagram type="mindmap" title="The 12-Factor Agent Framework">
+```mermaid
+mindmap
+  root((12-Factor Agents))
+    Foundations
+      Factor 1: JSON Extraction
+      Factor 4: Tools Are Code
+      Factor 6: Own Control Flow
+    State & Context
+      Factor 3: Manage Context
+      Factor 7: Stateless Design
+      Factor 11: Separate States
+    Human Integration
+      Factor 8: Contact Humans
+      Factor 9: Multi-Channel
+    Production Excellence
+      Factor 2: Own Your Prompts
+      Factor 5: Micro-Agents
+      Factor 10: Error Handling
+      Factor 12: Bleeding Edge
+```
+</Diagram>
+
+---
+
 ## Implementation Patterns
 
 ### The Micro-Agent Architecture
 
+<Diagram type="flow" title="Micro-Agent Composition Pattern">
+```mermaid
+graph TB
+    subgraph "Orchestrator"
+        O[Request Router]
+    end
+    
+    subgraph "Micro-Agents"
+        MA1[Intent Classifier<br/>3-5 steps]
+        MA2[Data Retriever<br/>4-6 steps]
+        MA3[Action Executor<br/>5-8 steps]
+        MA4[Response Generator<br/>3-4 steps]
+    end
+    
+    subgraph "Deterministic Layer"
+        D1[Business Logic]
+        D2[Database Operations]
+        D3[External APIs]
+        D4[Validation Rules]
+    end
+    
+    subgraph "Human Layer"
+        H1[Approval Required]
+        H2[Expert Input]
+    end
+    
+    O --> MA1
+    MA1 --> MA2
+    MA1 --> MA3
+    MA2 --> MA4
+    MA3 --> MA4
+    
+    MA2 --> D1
+    MA2 --> D2
+    MA3 --> D3
+    MA3 --> D4
+    
+    MA3 -.->|When Needed| H1
+    MA2 -.->|Complex Cases| H2
+    
+    style MA1 fill:#f9f,stroke:#333,stroke-width:2px
+    style MA2 fill:#f9f,stroke:#333,stroke-width:2px
+    style MA3 fill:#f9f,stroke:#333,stroke-width:2px
+    style MA4 fill:#f9f,stroke:#333,stroke-width:2px
+    style H1 fill:#ff9,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
+    style H2 fill:#ff9,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Deterministic  │────▶│   Micro Agent   │────▶│  Deterministic  │
-│   Workflow      │     │  (3-10 steps)   │     │   Workflow      │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-                               │
-                               ▼
-                        ┌─────────────────┐
-                        │ Human Approval   │
-                        │ (when needed)    │
-                        └─────────────────┘
-```
+</Diagram>
 
 **Key Benefits:**
 - Bounded context windows
@@ -128,6 +192,50 @@ This document distills the patterns that separate production-ready agents from i
 ```
 
 **Keep them separate** for easier debugging, testing, and maintenance.
+
+<Diagram type="flow" title="State Management Flow">
+```mermaid
+stateDiagram-v2
+    [*] --> Initialized: Agent Start
+    
+    Initialized --> LoadingState: Load State
+    LoadingState --> ProcessingRequest: State Loaded
+    
+    ProcessingRequest --> ExecutingAction: Action Required
+    ExecutingAction --> UpdatingBusinessState: Action Complete
+    ExecutingAction --> WaitingForHuman: Human Input Needed
+    
+    WaitingForHuman --> Serialized: Save State
+    Serialized --> Paused: Agent Paused
+    Paused --> LoadingState: Resume (Hours/Days Later)
+    
+    UpdatingBusinessState --> ProcessingRequest: Continue Flow
+    ProcessingRequest --> Completed: All Steps Done
+    
+    ExecutingAction --> ErrorHandling: Error Occurred
+    ErrorHandling --> ProcessingRequest: Retry
+    ErrorHandling --> Failed: Max Retries
+    
+    Completed --> [*]
+    Failed --> [*]
+    
+    note right of Serialized
+        Execution State:
+        - Current step: 3
+        - Retry count: 1
+        - Context tokens: 4521
+        - Waiting for: approval
+    end note
+    
+    note left of UpdatingBusinessState
+        Business State:
+        - Order status: pending
+        - Customer data: updated
+        - Approval: received
+        - Actions taken: [...]
+    end note
+```
+</Diagram>
 
 ### Integration Architecture
 

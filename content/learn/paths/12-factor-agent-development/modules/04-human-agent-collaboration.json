@@ -101,91 +101,33 @@
       ]
     },
     {
-      "id": "quiz-collaboration",
-      "title": "Knowledge Check: Human-Agent Collaboration",
-      "type": "quiz",
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "content",
       "order": 5,
       "estimatedDuration": "10 minutes",
       "content": {
-        "type": "quiz",
-        "source": "human-agent-collaboration-quiz"
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#knowledge-check"
       },
-      "quiz": {
-        "questions": [
-          {
-            "id": "q1",
-            "type": "multiple-choice",
-            "question": "Why should human contact be treated as a 'tool' rather than a special case?",
-            "options": [
-              "It makes the code simpler",
-              "It allows the agent to pause execution and resume from the exact same state",
-              "Humans are just another API",
-              "It's required by the A2 protocol"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Treating human contact as a tool allows the agent to serialize its state, pause execution, and resume seamlessly when the human responds—even days later."
-          },
-          {
-            "id": "q2",
-            "type": "multiple-choice",
-            "question": "What's the main benefit of meeting users where they are (multi-channel)?",
-            "options": [
-              "It looks more impressive in demos",
-              "Users don't need to context-switch between their workflow and your agent",
-              "It's easier to implement",
-              "You can charge more for the service"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Users are most effective when they can interact with agents within their existing workflows—whether that's Slack, email, or Discord—without switching contexts."
-          },
-          {
-            "id": "q3",
-            "type": "multiple-choice",
-            "question": "In the deployment bot example, what happens when a human rejects a deployment step?",
-            "options": [
-              "The entire workflow fails and must restart",
-              "The agent ignores the rejection and continues",
-              "The agent adjusts its execution plan based on the human's feedback",
-              "An error is logged and the process halts"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Good agents treat human feedback as input that can modify their execution plan. They adapt based on human decisions rather than failing or ignoring them."
-          }
-        ],
-        "passingScore": 80,
-        "allowRetry": true,
-        "showExplanations": true
-      }
+      "description": "Interactive quiz on human-agent collaboration patterns and best practices"
     },
     {
       "id": "practical-exercise",
-      "title": "Build a Multi-Channel Approval Bot",
-      "type": "exercise",
+      "title": "Exercise: Build a Multi-Channel Approval Bot",
+      "type": "content",
       "order": 6,
       "estimatedDuration": "35 minutes",
       "content": {
-        "type": "exercise",
-        "source": "approval-bot-exercise"
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#exercise"
       },
+      "description": "Build an agent that manages deployment approvals across multiple channels, handling async human responses",
       "exercise": {
         "title": "Deployment Approval Agent",
         "difficulty": "advanced",
         "estimatedTime": "35 minutes",
-        "description": "Build an agent that manages deployment approvals across Slack and email, handling async human responses",
-        "instructions": [
-          "Create a state machine for deployment workflow with human approval points",
-          "Implement serializable state that can pause/resume across restarts",
-          "Build handlers for both Slack and email responses",
-          "Add timeout handling for approvals that take too long",
-          "Implement approval delegation when primary approver is unavailable"
-        ],
-        "hints": [
-          "Use a proper state persistence layer (Redis/PostgreSQL) not in-memory storage",
-          "Design your state schema to handle partial approvals and rejections",
-          "Consider using webhooks for Slack and email parsing for email responses",
-          "Human responses might come hours or days later—plan accordingly"
-        ],
-        "solutionUrl": "/learn/solutions/approval-bot-exercise"
+        "skills": ["State persistence", "Multi-channel integration", "Async handling", "Human-in-the-loop"]
       }
     }
   ],

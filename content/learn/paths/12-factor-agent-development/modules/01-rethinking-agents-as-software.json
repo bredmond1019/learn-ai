@@ -76,76 +76,33 @@
       ]
     },
     {
-      "id": "quiz-rethinking",
-      "title": "Knowledge Check: Agents as Software",
-      "type": "quiz",
+      "id": "quiz-section",
+      "title": "Interactive Quizzes",
+      "type": "content",
       "order": 4,
       "estimatedDuration": "10 minutes",
       "content": {
-        "type": "quiz",
-        "source": "rethinking-agents-quiz"
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#quiz-section"
       },
-      "quiz": {
-        "questions": [
-          {
-            "id": "q1",
-            "type": "multiple-choice",
-            "question": "What is the most fundamental capability that makes LLM-based agents possible?",
-            "options": [
-              "Complex reasoning chains",
-              "Tool orchestration frameworks",
-              "Converting natural language to structured JSON",
-              "Large context windows"
-            ],
-            "correctAnswer": 2,
-            "explanation": "JSON extraction—converting unstructured natural language into structured data—is the foundation of all agent capabilities. Everything else builds on this."
-          },
-          {
-            "id": "q2",
-            "type": "multiple-choice",
-            "question": "When an agent 'uses a tool', what's actually happening under the hood?",
-            "options": [
-              "The LLM directly executes code",
-              "The agent gains special capabilities",
-              "JSON output is routed to deterministic code",
-              "A framework handles everything automatically"
-            ],
-            "correctAnswer": 2,
-            "explanation": "'Tool use' is just the LLM outputting JSON that gets passed to regular code through a switch statement or router. There's no magic—just software."
-          }
-        ],
-        "passingScore": 80,
-        "allowRetry": true,
-        "showExplanations": true
-      }
+      "description": "Test your understanding with interactive quizzes embedded throughout the module"
     },
     {
       "id": "practical-exercise",
-      "title": "Build Your First JSON-Extraction Agent",
-      "type": "exercise",
+      "title": "Practical Exercise: Customer Intent Classifier",
+      "type": "content",
       "order": 5,
       "estimatedDuration": "30 minutes",
       "content": {
-        "type": "exercise",
-        "source": "json-extraction-exercise"
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#practical-exercise"
       },
+      "description": "Build a customer support agent that extracts intent from messages and routes them appropriately",
       "exercise": {
         "title": "Customer Intent Classifier",
-        "difficulty": "beginner",
+        "difficulty": "intermediate",
         "estimatedTime": "30 minutes",
-        "description": "Build a simple agent component that extracts customer intent from natural language messages",
-        "instructions": [
-          "Create a prompt that instructs an LLM to extract intent and entities from customer messages",
-          "Define a JSON schema for the expected output",
-          "Implement a router function that handles different intents",
-          "Test with various customer message examples"
-        ],
-        "hints": [
-          "Start with a clear schema definition before writing the prompt",
-          "Include examples in your prompt for better accuracy",
-          "Consider edge cases like ambiguous or multi-intent messages"
-        ],
-        "solutionUrl": "/learn/solutions/json-extraction-exercise"
+        "skills": ["JSON extraction", "Intent classification", "Error handling", "Routing logic"]
       }
     }
   ],

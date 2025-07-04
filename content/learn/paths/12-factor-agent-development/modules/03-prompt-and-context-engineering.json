@@ -105,15 +105,24 @@
       ]
     },
     {
-      "id": "quiz-prompt-engineering",
-      "title": "Knowledge Check: Prompt Engineering Mastery",
-      "type": "quiz",
+      "id": "knowledge-check",
+      "title": "Knowledge Check",
+      "type": "content",
       "order": 5,
       "estimatedDuration": "10 minutes",
       "content": {
-        "type": "quiz",
-        "source": "prompt-engineering-quiz"
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#knowledge-check"
       },
+      "description": "Interactive quiz testing your understanding of prompt and context engineering principles"
+    },
+    {
+      "id": "quiz-placeholder",
+      "title": "Quiz Questions",
+      "type": "metadata",
+      "order": 5.1,
+      "estimatedDuration": "0 minutes",
+      "visible": false,
       "quiz": {
         "questions": [
           {
@@ -163,32 +172,20 @@
     },
     {
       "id": "practical-exercise",
-      "title": "Build a Context-Optimized Support Agent",
-      "type": "exercise",
+      "title": "Exercise: Build a Context-Optimized Support Agent",
+      "type": "content",
       "order": 6,
       "estimatedDuration": "30 minutes",
       "content": {
-        "type": "exercise",
-        "source": "context-optimized-agent-exercise"
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#exercise"
       },
+      "description": "Create an agent that maintains conversation quality across long support sessions through intelligent context management",
       "exercise": {
         "title": "Context-Optimized Support Agent",
         "difficulty": "intermediate",
         "estimatedTime": "30 minutes",
-        "description": "Create an agent that maintains conversation quality across long support sessions through intelligent context management",
-        "instructions": [
-          "Implement a prompt system with token-level optimization",
-          "Build dynamic context compression for conversation history",
-          "Add intelligent error handling with learning capabilities",
-          "Create context window monitoring and alerts",
-          "Test with conversations exceeding 50 turns"
-        ],
-        "hints": [
-          "Track token usage for each component of your context",
-          "Implement different compression strategies for different content types",
-          "Consider using a sliding window with intelligent summarization"
-        ],
-        "solutionUrl": "/learn/solutions/context-optimized-agent-exercise"
+        "skills": ["Context management", "Token optimization", "Error handling", "Dynamic compression"]
       }
     }
   ],
