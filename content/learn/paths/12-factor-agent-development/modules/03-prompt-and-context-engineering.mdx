@@ -2005,3 +2005,218 @@ These patterns, combined with the control flow and state management from Module 
 Remember: The difference between 80% and 99% reliability isn't better models or fancier frameworks. It's engineering discipline applied to every token, every context update, and every error.
 
 In the next modules, we'll explore the remaining factors that complete the 12-Factor Agent framework. But the principles you've learned here—ownership, active management, and intelligent processing—will apply to everything that follows.
+
+## Quiz {#quiz}
+
+<Quiz>
+  <Question 
+    question="What is the fundamental reason why production prompts must be hand-crafted rather than generated?" 
+    options={[
+      "Hand-crafted prompts are cheaper to produce",
+      "LLMs are pure functions: consistent tokens in means predictable behavior out",
+      "Generated prompts are against most API terms of service",
+      "Hand-crafted prompts use fewer tokens"
+    ]}
+    correctAnswer={1}
+    explanation="LLMs are pure functions - the same input tokens will produce similar output tokens. This means the only way to improve reliability is to control exactly what tokens go into the model. Framework-generated prompts hide this control from you, making it impossible to achieve the precision needed for 99% reliability."
+  />
+  
+  <Question 
+    question="Which strategy for context window management is most effective when dealing with a long-running conversation that's approaching token limits?" 
+    options={[
+      "Simply increase the context window size to accommodate more tokens",
+      "Delete all messages older than 5 minutes",
+      "Use hierarchical compression: older items get compressed more aggressively",
+      "Always keep the full conversation history and let the model handle it"
+    ]}
+    correctAnswer={2}
+    explanation="Hierarchical compression is the most effective strategy because it preserves recent context (which is usually most relevant) while still maintaining important information from earlier in the conversation through progressive compression. Simply increasing context size leads to the 'context death spiral', while deleting old messages loses potentially important information."
+  />
+  
+  <Question 
+    question="When implementing error handling for production agents, what should you do with error information before adding it to the context?" 
+    options={[
+      "Include the full stack trace for maximum debugging information",
+      "Ignore errors to avoid confusing the LLM",
+      "Process errors into concise summaries with actionable suggestions",
+      "Only log errors externally and never show them to the LLM"
+    ]}
+    correctAnswer={2}
+    explanation="Raw error information (especially stack traces) confuses LLMs and wastes tokens. By processing errors into concise summaries with context hints and suggested actions, you turn failures into learning opportunities. The key is 'intelligent processing' - extracting the meaningful information while removing noise like memory addresses, UUIDs, and implementation details."
+  />
+</Quiz>
+
+## Exercise: Context Window Optimizer {#exercise}
+
+Build a context window optimizer that prevents the "context death spiral" by intelligently managing what information stays in the conversation:
+
+<CodeExample title="Context Window Optimizer Exercise" language="python">
+```python
+from typing import List, Dict, Any, Tuple
+from dataclasses import dataclass
+import time
+
+@dataclass
+class ContextItem:
+    """Represents an item in the context window"""
+    type: str  # "message", "tool_result", "error", "summary"
+    content: Any
+    timestamp: float
+    tokens: int
+    priority: int  # 1-10, higher = more important
+    compressible: bool = True
+
+class ContextOptimizer:
+    """
+    Your task: Implement a production-ready context optimizer
+    that prevents context overflow while maintaining conversation quality.
+    """
+    
+    def __init__(self, max_tokens: int = 4000):
+        self.max_tokens = max_tokens
+        self.items: List[ContextItem] = []
+        # TODO: Add any additional instance variables you need
+    
+    def add_message(self, role: str, content: str, priority: int = 5):
+        """
+        Add a conversation message to the context.
+        
+        Requirements:
+        - Track token count (estimate: len(content) / 4)
+        - Set appropriate priority based on role
+        - Trigger compression if approaching limits
+        """
+        # TODO: Implement this method
+        pass
+    
+    def add_tool_result(self, tool: str, result: Any, priority: int = 6):
+        """
+        Add tool execution result to the context.
+        
+        Requirements:
+        - Process large results (e.g., truncate lists, summarize data)
+        - Set priority based on tool importance
+        - Mark as compressible for future optimization
+        """
+        # TODO: Implement this method
+        pass
+    
+    def add_error(self, error: Exception, context: str):
+        """
+        Add error information to the context.
+        
+        Requirements:
+        - Extract only essential error information
+        - Remove stack traces and memory addresses
+        - Set high priority (errors are learning opportunities)
+        - Mark as non-compressible
+        """
+        # TODO: Implement this method
+        pass
+    
+    def get_optimized_context(self) -> List[Dict[str, str]]:
+        """
+        Get the optimized context for the LLM.
+        
+        Requirements:
+        - Stay within token budget
+        - Preserve high-priority items
+        - Compress older items intelligently
+        - Return in LLM-ready format
+        """
+        # TODO: Implement this method
+        pass
+    
+    def _compress_old_items(self):
+        """
+        Compress older items to free up token space.
+        
+        Requirements:
+        - Group similar items (e.g., multiple tool calls)
+        - Create concise summaries
+        - Preserve key information
+        - Update token counts
+        """
+        # TODO: Implement this method
+        pass
+    
+    def _estimate_tokens(self, content: str) -> int:
+        """Estimate token count for content"""
+        # Simple estimation: ~4 characters per token
+        return len(str(content)) // 4
+
+# Test your implementation
+def test_context_optimizer():
+    optimizer = ContextOptimizer(max_tokens=1000)
+    
+    # Simulate a conversation that will exceed token limits
+    
+    # Initial user message
+    optimizer.add_message("user", "I need help with my order #12345", priority=8)
+    
+    # Tool calls and results
+    optimizer.add_tool_result("search_order", {
+        "order_id": "12345",
+        "status": "shipped",
+        "tracking": "1Z999AA1234567890",
+        "items": ["Widget A", "Widget B", "Widget C"],
+        "history": [
+            {"date": "2024-01-01", "status": "ordered"},
+            {"date": "2024-01-02", "status": "processing"},
+            {"date": "2024-01-03", "status": "shipped"}
+        ]
+    })
+    
+    # Add multiple messages to approach token limit
+    for i in range(10):
+        optimizer.add_message("assistant", f"Checking information part {i}...")
+        optimizer.add_message("user", f"What about detail {i}?")
+    
+    # Add an error
+    try:
+        raise ConnectionError("Failed to connect to shipping API: timeout after 30s")
+    except Exception as e:
+        optimizer.add_error(e, "while checking shipping status")
+    
+    # Add more content to trigger compression
+    optimizer.add_tool_result("get_shipping_updates", {
+        "updates": [
+            {"timestamp": "2024-01-04 10:00", "location": "Origin Facility", "status": "Picked up"},
+            {"timestamp": "2024-01-04 14:00", "location": "Regional Hub", "status": "In transit"},
+            {"timestamp": "2024-01-05 08:00", "location": "Local Facility", "status": "Out for delivery"}
+        ] * 10  # Simulate large result
+    })
+    
+    # Get optimized context
+    context = optimizer.get_optimized_context()
+    
+    # Verify requirements
+    total_tokens = sum(len(str(item)) // 4 for item in context)
+    print(f"Total tokens in context: {total_tokens}")
+    print(f"Number of context items: {len(context)}")
+    print(f"Context stays within limit: {total_tokens <= 1000}")
+    
+    # Print context structure
+    for i, item in enumerate(context):
+        print(f"\nItem {i}: {item.get('role', 'system')} - {len(str(item.get('content', '')))} chars")
+        if item.get('role') == 'system':
+            print(f"  Content preview: {item['content'][:100]}...")
+
+# Bonus challenges:
+# 1. Implement semantic compression using similarity detection
+# 2. Add support for different compression strategies (recency, priority, hybrid)
+# 3. Create metrics to track compression effectiveness
+# 4. Implement "context budgets" for different types of content
+
+if __name__ == "__main__":
+    test_context_optimizer()
+```
+</CodeExample>
+
+This exercise challenges you to build one of the most critical components of a production agent system. A good implementation will:
+- Prevent context overflow before it happens
+- Preserve the most important information
+- Compress intelligently without losing meaning
+- Handle errors as first-class information
+
+Remember: The goal isn't to fit everything—it's to fit what matters.

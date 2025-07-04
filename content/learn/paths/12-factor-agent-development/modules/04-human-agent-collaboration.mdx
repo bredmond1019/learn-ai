@@ -1285,3 +1285,307 @@ In the next module, we'll explore how to build production micro-agents that comp
 
 Learn why small, focused agents beat monolithic systems and how to compose them into powerful agent networks.
 </Callout>
+
+## Quiz {#quiz}
+
+<Quiz>
+  <Question 
+    question="What is the key architectural insight behind treating human contact as a 'tool' in agent systems?" 
+    options={[
+      "It reduces the cost of human interactions",
+      "It enables state serialization, timeout handling, and proper async management",
+      "It makes humans respond faster to agent requests",
+      "It eliminates the need for human approvals"
+    ]}
+    correctAnswer={1}
+    explanation="When you model human interaction as just another tool call, you gain the ability to serialize the agent's entire execution state, set timeouts on responses, implement delegation chains, and create audit trails. This transforms human interaction from an exception case into a first-class, manageable operation."
+  />
+  
+  <Question 
+    question="Why is multi-channel support critical for production agent adoption?" 
+    options={[
+      "It allows agents to send more notifications",
+      "Different channels have different rate limits",
+      "Users shouldn't have to context-switch from their primary workflow to interact with agents",
+      "Multi-channel systems are easier to build"
+    ]}
+    correctAnswer={2}
+    explanation="Every time users have to switch from their primary workflow (Slack, email, etc.) to a dedicated agent interface, you impose a cognitive tax that reduces adoption and slows response times. By bringing agents to where users already work, you remove friction and improve the entire human-agent collaboration experience."
+  />
+  
+  <Question 
+    question="What is the primary benefit of implementing the A2 (Agent-to-Agent) Protocol for human interactions?" 
+    options={[
+      "It makes messages shorter and use fewer tokens",
+      "It provides a standard format that enables interoperability, consistency, and auditability",
+      "It forces all agents to use the same programming language",
+      "It eliminates the need for channel-specific adapters"
+    ]}
+    correctAnswer={1}
+    explanation="The A2 Protocol standardizes how agents communicate with both humans and other agents. This creates interoperability between agents from different vendors, ensures consistent interaction patterns for users, makes compliance and auditing easier, and allows the protocol to be extended without breaking existing implementations."
+  />
+</Quiz>
+
+## Exercise: Multi-Channel Notification System {#exercise}
+
+Build a multi-channel notification system that can intelligently route agent requests to humans across different communication platforms:
+
+<CodeExample title="Multi-Channel Notification System Exercise" language="python">
+```python
+from typing import Dict, Any, List, Optional, Tuple
+from dataclasses import dataclass
+from enum import Enum
+from datetime import datetime, timedelta
+import asyncio
+
+class Channel(Enum):
+    SLACK = "slack"
+    EMAIL = "email"
+    DISCORD = "discord"
+    SMS = "sms"
+
+@dataclass
+class NotificationRequest:
+    """Request to notify a human"""
+    recipient_id: str
+    message: str
+    priority: str  # "critical", "high", "normal", "low"
+    requires_response: bool
+    options: Optional[List[Dict[str, str]]] = None  # For interactive messages
+    timeout_minutes: Optional[int] = None
+    context: Dict[str, Any] = None
+
+@dataclass
+class UserPreferences:
+    """User channel preferences"""
+    primary_channel: Channel
+    backup_channel: Optional[Channel] = None
+    quiet_hours: Optional[Tuple[int, int]] = None  # (start_hour, end_hour)
+    escalation_delay_minutes: int = 30
+
+class MultiChannelNotifier:
+    """
+    Your task: Implement a production-ready multi-channel notification system
+    that intelligently routes messages based on user preferences, channel 
+    availability, and message priority.
+    """
+    
+    def __init__(self):
+        # TODO: Initialize channel adapters and user preference store
+        self.user_preferences: Dict[str, UserPreferences] = {}
+        self.pending_responses: Dict[str, NotificationRequest] = {}
+        pass
+    
+    async def send_notification(
+        self, 
+        request: NotificationRequest
+    ) -> str:
+        """
+        Send notification to user via appropriate channel(s).
+        
+        Requirements:
+        - Respect user preferences (primary/backup channels)
+        - Honor quiet hours for non-critical messages
+        - Use backup channel if primary fails
+        - Return a unique notification ID for tracking
+        """
+        # TODO: Implement multi-channel notification logic
+        pass
+    
+    async def send_to_channel(
+        self,
+        channel: Channel,
+        recipient: str,
+        request: NotificationRequest
+    ) -> bool:
+        """
+        Send notification to specific channel.
+        
+        Requirements:
+        - Format message appropriately for channel
+        - Handle interactive elements (buttons/options)
+        - Implement channel-specific features
+        - Return True if successful, False otherwise
+        """
+        # TODO: Implement channel-specific sending
+        pass
+    
+    async def handle_channel_response(
+        self,
+        channel: Channel,
+        notification_id: str,
+        response: Any
+    ) -> Dict[str, Any]:
+        """
+        Process response from any channel.
+        
+        Requirements:
+        - Normalize response format across channels
+        - Validate response matches expected type
+        - Clean up pending notifications
+        - Return normalized response data
+        """
+        # TODO: Implement response handling
+        pass
+    
+    def should_use_channel(
+        self,
+        channel: Channel,
+        priority: str,
+        user_prefs: UserPreferences
+    ) -> bool:
+        """
+        Determine if channel should be used based on context.
+        
+        Requirements:
+        - Check if within quiet hours
+        - Verify channel availability
+        - Consider message priority
+        - Return True if channel should be used
+        """
+        # TODO: Implement channel selection logic
+        pass
+    
+    async def escalate_notification(
+        self,
+        notification_id: str,
+        original_channel: Channel
+    ) -> bool:
+        """
+        Escalate to backup channel or next approver.
+        
+        Requirements:
+        - Try backup channel if configured
+        - Implement escalation delay
+        - Update notification tracking
+        - Return True if escalation successful
+        """
+        # TODO: Implement escalation logic
+        pass
+
+# Channel-specific formatters
+class ChannelFormatter:
+    """Format messages for different channels"""
+    
+    @staticmethod
+    def format_for_slack(request: NotificationRequest) -> Dict[str, Any]:
+        """
+        Format notification for Slack.
+        
+        Requirements:
+        - Use blocks for rich formatting
+        - Add buttons for interactive messages
+        - Include context in thread
+        """
+        # TODO: Implement Slack formatting
+        pass
+    
+    @staticmethod
+    def format_for_email(request: NotificationRequest) -> Dict[str, Any]:
+        """
+        Format notification for email.
+        
+        Requirements:
+        - Create HTML email with proper styling
+        - Convert buttons to links with tracking
+        - Include all context in email body
+        """
+        # TODO: Implement email formatting
+        pass
+    
+    @staticmethod
+    def format_for_discord(request: NotificationRequest) -> Dict[str, Any]:
+        """
+        Format notification for Discord.
+        
+        Requirements:
+        - Use embeds for rich content
+        - Add reaction options for choices
+        - Respect 2000 char limit
+        """
+        # TODO: Implement Discord formatting
+        pass
+
+# Test your implementation
+async def test_multi_channel_notifier():
+    notifier = MultiChannelNotifier()
+    
+    # Set up user preferences
+    notifier.user_preferences["user123"] = UserPreferences(
+        primary_channel=Channel.SLACK,
+        backup_channel=Channel.EMAIL,
+        quiet_hours=(22, 8),  # 10 PM to 8 AM
+        escalation_delay_minutes=15
+    )
+    
+    # Test 1: Normal priority message during business hours
+    notification_id1 = await notifier.send_notification(
+        NotificationRequest(
+            recipient_id="user123",
+            message="Please review the deployment plan for the API service",
+            priority="normal",
+            requires_response=True,
+            options=[
+                {"value": "approve", "label": "Approve"},
+                {"value": "reject", "label": "Request changes"}
+            ],
+            timeout_minutes=60,
+            context={"service": "api", "environment": "staging"}
+        )
+    )
+    print(f"Notification 1 sent: {notification_id1}")
+    
+    # Test 2: Critical message during quiet hours
+    notification_id2 = await notifier.send_notification(
+        NotificationRequest(
+            recipient_id="user123",
+            message="CRITICAL: Production database is down!",
+            priority="critical",
+            requires_response=True,
+            options=[
+                {"value": "acknowledge", "label": "Acknowledged"},
+                {"value": "escalate", "label": "Escalate to on-call"}
+            ],
+            timeout_minutes=5,
+            context={"severity": "P1", "service": "database"}
+        )
+    )
+    print(f"Notification 2 sent: {notification_id2}")
+    
+    # Simulate channel failure and escalation
+    await asyncio.sleep(2)
+    
+    # Test 3: Handle response
+    response = await notifier.handle_channel_response(
+        Channel.SLACK,
+        notification_id1,
+        {"value": "approve", "user": "user123", "timestamp": datetime.now()}
+    )
+    print(f"Response received: {response}")
+    
+    # Test 4: Test escalation after timeout
+    await asyncio.sleep(16 * 60)  # Wait past escalation delay
+    escalated = await notifier.escalate_notification(
+        notification_id2,
+        Channel.SLACK
+    )
+    print(f"Escalation successful: {escalated}")
+
+# Bonus challenges:
+# 1. Implement message batching to avoid notification fatigue
+# 2. Add support for scheduled notifications
+# 3. Create analytics on response times per channel
+# 4. Implement smart routing based on historical response patterns
+
+if __name__ == "__main__":
+    asyncio.run(test_multi_channel_notifier())
+```
+</CodeExample>
+
+This exercise challenges you to build a real-world notification system that handles the complexities of multi-channel communication. A good implementation will:
+- Route intelligently based on user preferences and availability
+- Handle failures gracefully with fallback channels
+- Format messages appropriately for each platform
+- Track and escalate unanswered notifications
+
+Remember: The goal is to meet users where they are, not force them to come to you.

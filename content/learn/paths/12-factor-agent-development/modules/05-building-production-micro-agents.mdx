@@ -1664,3 +1664,356 @@ You've completed the core modules on rethinking agents, human collaboration, and
 
 Keep building, keep experimenting, and remember: agents are just software.
 </Callout>
+
+## Quiz {#quiz}
+
+<Quiz>
+  <Question 
+    question="According to production data, what is the optimal number of steps for a micro-agent to maintain high reliability?" 
+    options={[
+      "20-50 steps for comprehensive coverage",
+      "3-10 steps for focused execution",
+      "50+ steps for handling complex scenarios",
+      "The number of steps doesn't impact reliability"
+    ]}
+    correctAnswer={1}
+    explanation="Data shows that agents with 3-10 steps have exponentially higher success rates (85-95%) compared to those with 20+ steps (30-60%). This is because smaller agents maintain manageable context, have clearer responsibilities, are easier to debug, can be optimized independently, and exhibit more predictable behavior with fewer compounding errors."
+  />
+  
+  <Question 
+    question="What is the 'bleeding edge' principle in Factor 12?" 
+    options={[
+      "Always use the latest, most powerful LLM models available",
+      "Push agents to handle as many tasks as possible",
+      "Find tasks LLMs can almost do reliably, then engineer systems to make them work every time",
+      "Avoid any task where LLMs show less than 99% accuracy"
+    ]}
+    correctAnswer={2}
+    explanation="The bleeding edge principle is about finding tasks that LLMs can perform at 70-90% reliability and then using engineering techniques (like smart chunking, ensemble methods, consensus mechanisms, and validation loops) to push that reliability to production levels. This creates competitive advantage by achieving reliable results at the boundary of LLM capabilities."
+  />
+  
+  <Question 
+    question="Which composition pattern is most effective when you need multiple micro-agents to work on the same input simultaneously?" 
+    options={[
+      "Sequential Pipeline with transformers between each agent",
+      "Conditional Router with fallback agents",
+      "Parallel Execution with an aggregator function",
+      "Circuit Breaker pattern with retry logic"
+    ]}
+    correctAnswer={2}
+    explanation="Parallel Execution with an aggregator function is ideal when multiple agents need to process the same input simultaneously. This pattern allows agents to work independently and then combines their results using an aggregation function. It's particularly useful for tasks like multi-perspective analysis, ensemble decision-making, or when you need results from multiple specialized agents quickly."
+  />
+</Quiz>
+
+## Exercise: Build Your Own Micro-Agent Composer {#exercise}
+
+Create a micro-agent composition system that can orchestrate multiple small agents to solve a complex task:
+
+<CodeExample title="Micro-Agent Composer Exercise" language="python">
+```python
+from typing import Dict, Any, List, Optional, Callable, Union
+from dataclasses import dataclass
+from enum import Enum
+import asyncio
+import json
+from abc import ABC, abstractmethod
+
+class AgentStatus(Enum):
+    READY = "ready"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+@dataclass
+class AgentResult:
+    status: AgentStatus
+    output: Any
+    error: Optional[str] = None
+    metadata: Dict[str, Any] = None
+
+class MicroAgent(ABC):
+    """Base class for micro-agents"""
+    
+    def __init__(self, name: str, max_steps: int = 10):
+        self.name = name
+        self.max_steps = max_steps
+        self.steps_executed = 0
+    
+    @abstractmethod
+    async def execute(self, input_data: Dict[str, Any]) -> AgentResult:
+        """Execute the agent's task"""
+        pass
+
+class MicroAgentComposer:
+    """
+    Your task: Build a composer that can orchestrate micro-agents
+    using different composition patterns.
+    """
+    
+    def __init__(self):
+        self.agents: Dict[str, MicroAgent] = {}
+        self.execution_log: List[Dict[str, Any]] = []
+        # TODO: Add any additional initialization
+    
+    def register_agent(self, agent: MicroAgent) -> None:
+        """
+        Register a micro-agent with the composer.
+        
+        Requirements:
+        - Store agent by name
+        - Validate agent doesn't already exist
+        - Log registration
+        """
+        # TODO: Implement agent registration
+        pass
+    
+    async def sequential_pipeline(
+        self,
+        agents: List[str],
+        initial_input: Dict[str, Any],
+        transformers: Optional[Dict[str, Callable]] = None
+    ) -> List[AgentResult]:
+        """
+        Execute agents in sequence, passing output to next agent.
+        
+        Requirements:
+        - Execute agents in order
+        - Pass output of agent N as input to agent N+1
+        - Apply optional transformers between agents
+        - Stop on first failure
+        - Return all results
+        """
+        # TODO: Implement sequential pipeline
+        pass
+    
+    async def parallel_execution(
+        self,
+        agents: List[str],
+        input_data: Dict[str, Any],
+        aggregator: Callable[[List[AgentResult]], Any],
+        fail_fast: bool = True
+    ) -> Any:
+        """
+        Execute agents in parallel and aggregate results.
+        
+        Requirements:
+        - Run all agents simultaneously
+        - Handle fail_fast vs best_effort modes
+        - Apply aggregator function to results
+        - Track execution timing
+        """
+        # TODO: Implement parallel execution
+        pass
+    
+    async def conditional_routing(
+        self,
+        input_data: Dict[str, Any],
+        router: Callable[[Dict[str, Any]], str],
+        routes: Dict[str, List[str]],
+        default_route: List[str]
+    ) -> List[AgentResult]:
+        """
+        Route to different agent pipelines based on conditions.
+        
+        Requirements:
+        - Use router function to determine route
+        - Execute appropriate pipeline
+        - Fall back to default if no match
+        - Support nested pipelines
+        """
+        # TODO: Implement conditional routing
+        pass
+    
+    async def retry_with_fallback(
+        self,
+        primary_agents: List[str],
+        fallback_agents: List[str],
+        input_data: Dict[str, Any],
+        max_retries: int = 3
+    ) -> AgentResult:
+        """
+        Try primary agents with retry, fall back if all fail.
+        
+        Requirements:
+        - Retry primary pipeline on failure
+        - Fall back to secondary pipeline after max retries
+        - Track retry attempts
+        - Return first successful result
+        """
+        # TODO: Implement retry with fallback
+        pass
+    
+    def get_execution_summary(self) -> Dict[str, Any]:
+        """
+        Get summary of all executions.
+        
+        Requirements:
+        - Total executions by agent
+        - Success/failure rates
+        - Average execution times
+        - Recent failures
+        """
+        # TODO: Implement execution summary
+        pass
+
+# Example micro-agents for testing
+class TextClassifierAgent(MicroAgent):
+    """Classifies text into categories"""
+    
+    async def execute(self, input_data: Dict[str, Any]) -> AgentResult:
+        # Simulate classification
+        text = input_data.get("text", "")
+        
+        # Simple rule-based classification for testing
+        if "urgent" in text.lower() or "critical" in text.lower():
+            category = "high_priority"
+        elif "question" in text.lower() or "?" in text:
+            category = "inquiry"
+        else:
+            category = "general"
+        
+        return AgentResult(
+            status=AgentStatus.COMPLETED,
+            output={"category": category, "confidence": 0.85},
+            metadata={"method": "rule_based"}
+        )
+
+class SentimentAnalyzerAgent(MicroAgent):
+    """Analyzes sentiment of text"""
+    
+    async def execute(self, input_data: Dict[str, Any]) -> AgentResult:
+        text = input_data.get("text", "")
+        
+        # Simple sentiment analysis
+        positive_words = ["great", "excellent", "good", "happy", "love"]
+        negative_words = ["bad", "terrible", "hate", "angry", "worst"]
+        
+        positive_count = sum(1 for word in positive_words if word in text.lower())
+        negative_count = sum(1 for word in negative_words if word in text.lower())
+        
+        if positive_count > negative_count:
+            sentiment = "positive"
+        elif negative_count > positive_count:
+            sentiment = "negative"
+        else:
+            sentiment = "neutral"
+        
+        return AgentResult(
+            status=AgentStatus.COMPLETED,
+            output={"sentiment": sentiment, "score": 0.7},
+            metadata={"positive_signals": positive_count, "negative_signals": negative_count}
+        )
+
+class EntityExtractorAgent(MicroAgent):
+    """Extracts entities from text"""
+    
+    async def execute(self, input_data: Dict[str, Any]) -> AgentResult:
+        text = input_data.get("text", "")
+        
+        # Simple entity extraction
+        entities = []
+        
+        # Extract email-like patterns
+        import re
+        emails = re.findall(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', text)
+        for email in emails:
+            entities.append({"type": "email", "value": email})
+        
+        # Extract phone-like patterns
+        phones = re.findall(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', text)
+        for phone in phones:
+            entities.append({"type": "phone", "value": phone})
+        
+        return AgentResult(
+            status=AgentStatus.COMPLETED,
+            output={"entities": entities},
+            metadata={"patterns_checked": ["email", "phone"]}
+        )
+
+# Test your implementation
+async def test_composer():
+    composer = MicroAgentComposer()
+    
+    # Register agents
+    composer.register_agent(TextClassifierAgent("classifier"))
+    composer.register_agent(SentimentAnalyzerAgent("sentiment"))
+    composer.register_agent(EntityExtractorAgent("entities"))
+    
+    # Test 1: Sequential pipeline
+    print("Test 1: Sequential Pipeline")
+    results = await composer.sequential_pipeline(
+        agents=["classifier", "sentiment"],
+        initial_input={"text": "This is an urgent question about my order!"},
+        transformers={
+            "classifier": lambda result: {"text": "This is an urgent question about my order!", 
+                                         "category": result["output"]["category"]}
+        }
+    )
+    print(f"Sequential results: {len(results)} agents executed")
+    
+    # Test 2: Parallel execution
+    print("\nTest 2: Parallel Execution")
+    
+    def aggregate_insights(results: List[AgentResult]) -> Dict[str, Any]:
+        insights = {}
+        for result in results:
+            if result.status == AgentStatus.COMPLETED:
+                insights.update(result.output)
+        return insights
+    
+    aggregated = await composer.parallel_execution(
+        agents=["classifier", "sentiment", "entities"],
+        input_data={"text": "Great service! Please contact me at john@example.com"},
+        aggregator=aggregate_insights,
+        fail_fast=False
+    )
+    print(f"Aggregated insights: {aggregated}")
+    
+    # Test 3: Conditional routing
+    print("\nTest 3: Conditional Routing")
+    
+    def route_by_length(input_data: Dict[str, Any]) -> str:
+        text_length = len(input_data.get("text", ""))
+        if text_length < 50:
+            return "short"
+        elif text_length < 200:
+            return "medium"
+        else:
+            return "long"
+    
+    routing_results = await composer.conditional_routing(
+        input_data={"text": "Quick test"},
+        router=route_by_length,
+        routes={
+            "short": ["classifier"],
+            "medium": ["classifier", "sentiment"],
+            "long": ["classifier", "sentiment", "entities"]
+        },
+        default_route=["classifier"]
+    )
+    print(f"Routing executed {len(routing_results)} agents")
+    
+    # Test 4: Get execution summary
+    print("\nExecution Summary:")
+    summary = composer.get_execution_summary()
+    print(json.dumps(summary, indent=2))
+
+# Bonus challenges:
+# 1. Implement a workflow DSL for defining complex agent compositions
+# 2. Add support for conditional branching within pipelines
+# 3. Implement backpressure handling for resource-intensive agents
+# 4. Create visualization of agent execution flow
+# 5. Add support for streaming results from long-running agents
+
+if __name__ == "__main__":
+    asyncio.run(test_composer())
+```
+</CodeExample>
+
+This exercise challenges you to build the core infrastructure for micro-agent composition. A good implementation will:
+- Support multiple composition patterns (sequential, parallel, conditional)
+- Handle failures gracefully with appropriate strategies
+- Track execution metrics for observability
+- Enable complex workflows through simple, composable primitives
+
+Remember: The power of micro-agents comes from composition, not complexity.
