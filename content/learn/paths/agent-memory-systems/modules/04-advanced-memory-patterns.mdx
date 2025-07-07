@@ -1,0 +1,1249 @@
+---
+title: "Advanced Memory Patterns"
+description: "Implement forgetting, memory signals, and neuroscience-inspired patterns"
+duration: "120 minutes"
+---
+
+# Advanced Memory Patterns
+
+In this module, we'll explore cutting-edge memory patterns inspired by neuroscience and recent research. As Richmond Alake mentioned in his talk, the collaboration between neuroscientists and engineers is pushing us toward more sophisticated memory systems.
+
+## The Neuroscience Connection
+
+Richmond's talk highlighted how researchers like Hubel and Wiesel's work on the visual cortex inspired convolutional neural networks. Similarly, we can look to neuroscience for memory system inspiration.
+
+<Callout type="insight" title="Nature as the Better Architect">
+"We are architects of intelligence, but there is a better architect of intelligence—it's nature. Nature has created our brains, the most effective form of intelligence that we have today." - Richmond Alake
+</Callout>
+
+## Memory Consolidation: From Short-term to Long-term
+
+Just as the human brain consolidates memories during sleep, our agents need similar mechanisms:
+
+<CodeExample language="typescript">
+interface ConsolidationSystem {
+  shortTermBuffer: ShortTermMemory;
+  consolidationEngine: ConsolidationEngine;
+  longTermStore: LongTermMemory;
+  scheduler: ConsolidationScheduler;
+}
+
+class NeuralConsolidation implements ConsolidationSystem {
+  private activeBuffer: Map<string, BufferedMemory> = new Map();
+  private consolidationQueue: PriorityQueue<Memory>;
+  
+  async bufferMemory(memory: Memory): Promise<void> {
+    // Initial storage in short-term buffer
+    const buffered: BufferedMemory = {
+      ...memory,
+      replayCount: 0,
+      consolidationScore: 0,
+      associations: [],
+      lastReplayed: new Date()
+    };
+    
+    this.activeBuffer.set(memory.id, buffered);
+    
+    // Schedule for consolidation review
+    await this.scheduleConsolidation(buffered);
+  }
+
+  async consolidate(): Promise<ConsolidationResult> {
+    // Mimics sleep consolidation cycles
+    const memories = Array.from(this.activeBuffer.values());
+    const selected = this.selectForConsolidation(memories);
+    
+    const results = {
+      consolidated: 0,
+      strengthened: 0,
+      associated: 0,
+      pruned: 0
+    };
+    
+    for (const memory of selected) {
+      // Replay and strengthen important memories
+      if (memory.signals.importance > 0.7) {
+        await this.replayMemory(memory);
+        results.strengthened++;
+      }
+      
+      // Find and strengthen associations
+      const associations = await this.findAssociations(memory);
+      if (associations.length > 0) {
+        await this.strengthenAssociations(memory, associations);
+        results.associated++;
+      }
+      
+      // Transfer to long-term storage
+      if (this.shouldConsolidate(memory)) {
+        await this.transferToLongTerm(memory);
+        results.consolidated++;
+        
+        // Remove from short-term buffer
+        this.activeBuffer.delete(memory.id);
+      }
+    }
+    
+    // Prune weak memories
+    const pruned = await this.pruneWeakMemories();
+    results.pruned = pruned.length;
+    
+    return results;
+  }
+
+  private async replayMemory(memory: BufferedMemory): Promise<void> {
+    // Simulate hippocampal replay
+    memory.replayCount++;
+    
+    // Strengthen neural pathways (increase signals)
+    memory.signals.frequency += 0.1;
+    memory.consolidationScore += 0.2;
+    
+    // Update associations based on concurrent activations
+    const concurrentMemories = this.findConcurrentMemories(memory);
+    
+    for (const concurrent of concurrentMemories) {
+      const association: Association = {
+        targetId: concurrent.id,
+        strength: this.calculateAssociationStrength(memory, concurrent),
+        type: 'temporal_proximity',
+        evidence: ['concurrent_activation']
+      };
+      
+      memory.associations.push(association);
+    }
+    
+    memory.lastReplayed = new Date();
+  }
+
+  private selectForConsolidation(memories: BufferedMemory[]): BufferedMemory[] {
+    // Prioritize based on biological principles
+    return memories
+      .map(memory => ({
+        memory,
+        priority: this.calculateConsolidationPriority(memory)
+      }))
+      .sort((a, b) => b.priority - a.priority)
+      .slice(0, Math.ceil(memories.length * 0.3)) // Consolidate top 30%
+      .map(item => item.memory);
+  }
+
+  private calculateConsolidationPriority(memory: BufferedMemory): number {
+    // Factors that influence consolidation in biological systems
+    const factors = {
+      emotionalSalience: memory.signals.emotionalWeight * 0.3,
+      recentUsage: memory.signals.recency * 0.2,
+      frequency: Math.min(memory.replayCount / 10, 1) * 0.2,
+      surprise: memory.signals.surprise * 0.15,
+      utility: memory.signals.utility * 0.15
+    };
+    
+    return Object.values(factors).reduce((sum, value) => sum + value, 0);
+  }
+
+  async performSynapticHomeostasis(): Promise<void> {
+    // Mimics the brain's synaptic homeostasis during sleep
+    // Weakens all connections slightly to prevent saturation
+    
+    const allMemories = Array.from(this.activeBuffer.values());
+    
+    for (const memory of allMemories) {
+      // Global synaptic downscaling
+      memory.signals.frequency *= 0.95;
+      memory.signals.emotionalWeight *= 0.98;
+      
+      // Weaken associations
+      memory.associations.forEach(assoc => {
+        assoc.strength *= 0.9;
+      });
+      
+      // Remove very weak associations
+      memory.associations = memory.associations.filter(
+        assoc => assoc.strength > 0.1
+      );
+    }
+  }
+}
+
+// Advanced consolidation patterns
+class MemoryReconsolidation {
+  async reconsolidate(
+    memory: Memory, 
+    newInformation: any
+  ): Promise<Memory> {
+    // When a memory is retrieved, it becomes labile and can be updated
+    // This mimics the biological process of reconsolidation
+    
+    const labileMemory = this.makeMemoryLabile(memory);
+    
+    // Integrate new information
+    const updated = await this.integrateNewInformation(
+      labileMemory, 
+      newInformation
+    );
+    
+    // Restabilize with updated content
+    const reconsolidated = await this.restabilizeMemory(updated);
+    
+    // Update signals to reflect reconsolidation
+    reconsolidated.signals.recency = 1.0; // Reset recency
+    reconsolidated.signals.frequency += 0.1;
+    reconsolidated.lifecycle.reconsolidationCount = 
+      (memory.lifecycle.reconsolidationCount || 0) + 1;
+    
+    return reconsolidated;
+  }
+
+  private makeMemoryLabile(memory: Memory): LabileMemory {
+    return {
+      ...memory,
+      state: 'labile',
+      modifiableUntil: new Date(Date.now() + 3600000), // 1 hour window
+      originalContent: structuredClone(memory.content)
+    };
+  }
+}
+</CodeExample>
+
+## Adaptive Forgetting Mechanisms
+
+Richmond emphasized that "you don't delete memories"—instead, we implement forgetting mechanisms:
+
+<CodeExample language="typescript">
+interface ForgettingMechanism {
+  calculateForgetting(memory: Memory): ForgettingScore;
+  applyForgetting(memory: Memory, score: ForgettingScore): Memory;
+  shouldArchive(memory: Memory): boolean;
+}
+
+class AdaptiveForgetting implements ForgettingMechanism {
+  private forgettingCurves: Map<MemoryType, ForgettingCurve> = new Map([
+    ['working', new ExponentialCurve(0.5)], // Rapid forgetting
+    ['conversational', new PowerCurve(0.3)], // Moderate forgetting
+    ['episodic', new LogarithmicCurve(0.1)], // Slow forgetting
+    ['semantic', new LinearCurve(0.05)], // Very slow forgetting
+    ['procedural', new StepCurve(0.01)] // Minimal forgetting
+  ]);
+
+  calculateForgetting(memory: Memory): ForgettingScore {
+    const curve = this.forgettingCurves.get(memory.type);
+    const ageInHours = (Date.now() - memory.lifecycle.lastAccessed.getTime()) / 3600000;
+    
+    // Base forgetting from curve
+    let forgetting = curve.calculate(ageInHours);
+    
+    // Modulate based on memory characteristics
+    forgetting = this.modulateForgetting(forgetting, memory);
+    
+    // Spaced repetition effect
+    if (memory.lifecycle.accessPattern) {
+      forgetting *= this.calculateSpacingEffect(memory.lifecycle.accessPattern);
+    }
+    
+    return {
+      score: forgetting,
+      factors: this.explainForgetting(memory, forgetting),
+      recommendation: this.recommendAction(forgetting)
+    };
+  }
+
+  private modulateForgetting(
+    baseForgetting: number, 
+    memory: Memory
+  ): number {
+    let modulated = baseForgetting;
+    
+    // Emotional memories are more persistent
+    if (memory.signals.emotionalWeight > 0.7) {
+      modulated *= 0.5; // Halve forgetting rate
+    }
+    
+    // Frequently accessed memories resist forgetting
+    if (memory.signals.frequency > 0.8) {
+      modulated *= 0.6;
+    }
+    
+    // Important memories are protected
+    if (memory.signals.importance > 0.8) {
+      modulated *= 0.4;
+    }
+    
+    // Surprising information is memorable
+    if (memory.signals.surprise > 0.7) {
+      modulated *= 0.7;
+    }
+    
+    // Useful memories persist
+    if (memory.signals.utility > 0.8) {
+      modulated *= 0.5;
+    }
+    
+    return Math.min(modulated, 0.95); // Never forget completely
+  }
+
+  private calculateSpacingEffect(accessPattern: AccessPattern): number {
+    // Implements spaced repetition principles
+    const intervals = this.calculateIntervals(accessPattern);
+    
+    if (intervals.length < 2) return 1.0;
+    
+    // Check if access follows spaced repetition
+    const isSpaced = this.isSpacedPattern(intervals);
+    
+    if (isSpaced) {
+      // Reduce forgetting for well-spaced access
+      return 0.3;
+    } else if (this.isMassedPattern(intervals)) {
+      // Increase forgetting for massed practice
+      return 1.5;
+    }
+    
+    return 1.0;
+  }
+
+  applyForgetting(memory: Memory, score: ForgettingScore): Memory {
+    const forgotten = structuredClone(memory);
+    
+    // Apply forgetting to signals
+    forgotten.signals.recency *= (1 - score.score);
+    
+    // Degrade content based on forgetting score
+    if (score.score > 0.7) {
+      forgotten.content = this.degradeContent(memory.content, score.score);
+    }
+    
+    // Update lifecycle
+    forgotten.lifecycle.forgettingScore = score.score;
+    forgotten.lifecycle.lastForgettingUpdate = new Date();
+    
+    return forgotten;
+  }
+
+  private degradeContent(content: any, forgettingScore: number): any {
+    // Implement content degradation
+    if (typeof content === 'string') {
+      // For text, we might summarize or extract key points
+      return this.summarizeContent(content, forgettingScore);
+    } else if (Array.isArray(content)) {
+      // For arrays, keep only most important items
+      const keepRatio = 1 - forgettingScore;
+      return content.slice(0, Math.ceil(content.length * keepRatio));
+    } else if (typeof content === 'object') {
+      // For objects, remove less important fields
+      return this.pruneObject(content, forgettingScore);
+    }
+    
+    return content;
+  }
+}
+
+// Advanced forgetting curves
+abstract class ForgettingCurve {
+  constructor(protected rate: number) {}
+  abstract calculate(timeElapsed: number): number;
+}
+
+class ExponentialCurve extends ForgettingCurve {
+  calculate(timeElapsed: number): number {
+    return 1 - Math.exp(-this.rate * timeElapsed);
+  }
+}
+
+class PowerCurve extends ForgettingCurve {
+  calculate(timeElapsed: number): number {
+    return Math.min(1, Math.pow(timeElapsed * this.rate, 0.5));
+  }
+}
+
+class LogarithmicCurve extends ForgettingCurve {
+  calculate(timeElapsed: number): number {
+    return Math.min(1, Math.log(1 + timeElapsed * this.rate) / Math.log(100));
+  }
+}
+
+// Interference-based forgetting
+class InterferenceForgetting {
+  async calculateInterference(
+    targetMemory: Memory,
+    context: MemoryContext
+  ): Promise<InterferenceScore> {
+    // Find potentially interfering memories
+    const similar = await this.findSimilarMemories(targetMemory, context);
+    
+    const interference = {
+      proactive: this.calculateProactiveInterference(targetMemory, similar.older),
+      retroactive: this.calculateRetroactiveInterference(targetMemory, similar.newer)
+    };
+    
+    return {
+      total: interference.proactive + interference.retroactive,
+      proactive: interference.proactive,
+      retroactive: interference.retroactive,
+      interferingMemories: similar.all.map(m => m.id)
+    };
+  }
+
+  private calculateProactiveInterference(
+    target: Memory,
+    olderMemories: Memory[]
+  ): number {
+    // Older memories interfere with newer ones
+    let interference = 0;
+    
+    for (const older of olderMemories) {
+      const similarity = this.calculateSimilarity(older, target);
+      const strength = older.signals.frequency * older.signals.importance;
+      
+      interference += similarity * strength * 0.3;
+    }
+    
+    return Math.min(interference, 0.8);
+  }
+
+  private calculateRetroactiveInterference(
+    target: Memory,
+    newerMemories: Memory[]
+  ): number {
+    // Newer memories interfere with older ones
+    let interference = 0;
+    
+    for (const newer of newerMemories) {
+      const similarity = this.calculateSimilarity(target, newer);
+      const recency = newer.signals.recency;
+      
+      interference += similarity * recency * 0.4;
+    }
+    
+    return Math.min(interference, 0.8);
+  }
+}
+</CodeExample>
+
+## Memory Signals: Advanced Implementation
+
+Let's dive deeper into Richmond's concept of memory signals with neuroscience-inspired implementations:
+
+<CodeExample language="typescript">
+interface AdvancedMemorySignals extends MemorySignals {
+  // Basic signals from before
+  recency: number;
+  frequency: number;
+  importance: number;
+  emotionalWeight: number;
+  surprise: number;
+  utility: number;
+  
+  // Advanced signals
+  distinctiveness: number;      // How unique is this memory?
+  coherence: number;           // How well does it fit with other memories?
+  predictiveValue: number;     // How well does it predict outcomes?
+  socialRelevance: number;     // Relevant to social interactions?
+  goalRelevance: number;       // Relevant to current goals?
+  interferenceLevel: number;   // Subject to interference?
+}
+
+class NeuroscienceInspiredSignals {
+  private hebbianLearning: HebbianProcessor;
+  private predictionEngine: PredictionEngine;
+  
+  async calculateSignals(
+    memory: Memory,
+    context: MemoryContext
+  ): Promise<AdvancedMemorySignals> {
+    // Calculate basic signals
+    const basic = await this.calculateBasicSignals(memory, context);
+    
+    // Calculate advanced signals
+    const advanced = {
+      distinctiveness: await this.calculateDistinctiveness(memory, context),
+      coherence: await this.calculateCoherence(memory, context),
+      predictiveValue: await this.calculatePredictiveValue(memory, context),
+      socialRelevance: await this.calculateSocialRelevance(memory),
+      goalRelevance: await this.calculateGoalRelevance(memory, context),
+      interferenceLevel: await this.calculateInterference(memory, context)
+    };
+    
+    return { ...basic, ...advanced };
+  }
+
+  private async calculateDistinctiveness(
+    memory: Memory,
+    context: MemoryContext
+  ): Promise<number> {
+    // Von Restorff effect: distinctive items are better remembered
+    const similarMemories = await this.findSimilarMemories(memory, context);
+    
+    if (similarMemories.length === 0) return 1.0; // Highly distinctive
+    
+    // Calculate average distance to similar memories
+    const distances = await Promise.all(
+      similarMemories.map(similar => 
+        this.calculateDistance(memory, similar)
+      )
+    );
+    
+    const avgDistance = distances.reduce((a, b) => a + b, 0) / distances.length;
+    
+    // Convert to distinctiveness score
+    return Math.tanh(avgDistance * 2); // Sigmoid scaling
+  }
+
+  private async calculateCoherence(
+    memory: Memory,
+    context: MemoryContext
+  ): Promise<number> {
+    // How well does this memory fit with existing knowledge?
+    const relatedMemories = await this.getRelatedMemories(memory, context);
+    
+    let coherence = 0.5; // Base coherence
+    
+    // Check consistency with related memories
+    for (const related of relatedMemories) {
+      const consistency = await this.checkConsistency(memory, related);
+      coherence += consistency * 0.1;
+    }
+    
+    // Check if it fills knowledge gaps
+    const gapsFilled = await this.identifyGapsFilled(memory, relatedMemories);
+    coherence += gapsFilled.length * 0.15;
+    
+    return Math.min(coherence, 1.0);
+  }
+
+  private async calculatePredictiveValue(
+    memory: Memory,
+    context: MemoryContext
+  ): Promise<number> {
+    // How well does this memory predict future events?
+    const predictions = await this.predictionEngine.getPredictions(memory);
+    
+    if (predictions.length === 0) return 0.5; // Neutral
+    
+    // Check accuracy of past predictions
+    const accuracy = predictions
+      .filter(p => p.resolved)
+      .reduce((acc, p) => acc + (p.accurate ? 1 : 0), 0) / 
+      predictions.filter(p => p.resolved).length;
+    
+    // Weight by confidence and recency
+    const weightedValue = predictions
+      .map(p => p.confidence * (p.resolved ? accuracy : 0.5))
+      .reduce((a, b) => a + b, 0) / predictions.length;
+    
+    return weightedValue;
+  }
+}
+
+// Hebbian learning: "Neurons that fire together, wire together"
+class HebbianProcessor {
+  async strengthenConnections(
+    memory1: Memory,
+    memory2: Memory,
+    context: ActivationContext
+  ): Promise<void> {
+    // Calculate co-activation strength
+    const coActivation = this.calculateCoActivation(
+      context.activation1,
+      context.activation2
+    );
+    
+    // Update connection strength
+    const connection = await this.getConnection(memory1.id, memory2.id);
+    
+    const newStrength = connection.strength + 
+      (coActivation * this.learningRate * (1 - connection.strength));
+    
+    await this.updateConnection(memory1.id, memory2.id, newStrength);
+    
+    // Apply to memory signals
+    memory1.signals.frequency += coActivation * 0.05;
+    memory2.signals.frequency += coActivation * 0.05;
+  }
+
+  async applyLongTermPotentiation(
+    memory: Memory,
+    stimulation: StimulationPattern
+  ): Promise<void> {
+    // LTP: Persistent strengthening of synapses
+    if (stimulation.isHighFrequency() || stimulation.isTheta()) {
+      memory.signals.importance *= 1.2;
+      memory.signals.utility *= 1.15;
+      
+      // Mark for consolidation
+      memory.lifecycle.ltpInduced = true;
+      memory.lifecycle.ltpTime = new Date();
+    }
+  }
+
+  async applyLongTermDepression(
+    memory: Memory,
+    stimulation: StimulationPattern
+  ): Promise<void> {
+    // LTD: Persistent weakening of synapses
+    if (stimulation.isLowFrequency()) {
+      memory.signals.importance *= 0.85;
+      memory.signals.utility *= 0.9;
+      
+      // Mark for potential forgetting
+      memory.lifecycle.ltdInduced = true;
+      memory.lifecycle.ltdTime = new Date();
+    }
+  }
+}
+</CodeExample>
+
+## Pattern Separation and Completion
+
+Inspired by hippocampal functions:
+
+<CodeExample language="typescript">
+class PatternSeparation {
+  // Separate similar memories to reduce interference
+  async separate(
+    memories: Memory[],
+    threshold: number = 0.8
+  ): Promise<SeparatedPatterns> {
+    const patterns: SeparatedPatterns = {
+      groups: [],
+      outliers: []
+    };
+    
+    // Cluster similar memories
+    const clusters = await this.clusterMemories(memories, threshold);
+    
+    for (const cluster of clusters) {
+      if (cluster.size === 1) {
+        patterns.outliers.push(cluster.memories[0]);
+        continue;
+      }
+      
+      // Orthogonalize similar patterns
+      const separated = await this.orthogonalize(cluster.memories);
+      
+      patterns.groups.push({
+        original: cluster.memories,
+        separated: separated,
+        separationQuality: this.measureSeparation(separated)
+      });
+    }
+    
+    return patterns;
+  }
+
+  private async orthogonalize(memories: Memory[]): Promise<Memory[]> {
+    // Create orthogonal representations
+    const embeddings = await this.getEmbeddings(memories);
+    const orthogonal = this.gramSchmidt(embeddings);
+    
+    // Update memories with new representations
+    return memories.map((memory, i) => ({
+      ...memory,
+      alternativeRepresentation: orthogonal[i],
+      metadata: {
+        ...memory.metadata,
+        separated: true,
+        separationMethod: 'gram-schmidt'
+      }
+    }));
+  }
+}
+
+class PatternCompletion {
+  // Complete partial patterns from cues
+  async complete(
+    partialPattern: PartialMemory,
+    context: MemoryContext
+  ): Promise<Memory[]> {
+    // Find memories that match the partial pattern
+    const candidates = await this.findCandidates(partialPattern, context);
+    
+    // Rank by completion probability
+    const completions = await Promise.all(
+      candidates.map(async candidate => ({
+        memory: candidate,
+        probability: await this.calculateCompletionProbability(
+          partialPattern,
+          candidate
+        ),
+        confidence: await this.calculateConfidence(partialPattern, candidate)
+      }))
+    );
+    
+    // Return top completions
+    return completions
+      .filter(c => c.probability > 0.6)
+      .sort((a, b) => b.probability - a.probability)
+      .slice(0, 5)
+      .map(c => this.mergeWithPartial(partialPattern, c.memory));
+  }
+
+  private async calculateCompletionProbability(
+    partial: PartialMemory,
+    candidate: Memory
+  ): Promise<number> {
+    // Calculate overlap
+    const overlap = this.calculateOverlap(partial, candidate);
+    
+    // Check coherence with context
+    const coherence = await this.checkCoherence(partial, candidate);
+    
+    // Historical co-occurrence
+    const coOccurrence = await this.getCoOccurrenceRate(
+      partial.features,
+      candidate
+    );
+    
+    return (overlap * 0.4 + coherence * 0.3 + coOccurrence * 0.3);
+  }
+}
+</CodeExample>
+
+## Attentional Mechanisms for Memory
+
+Implementing attention-based memory selection:
+
+<CodeExample language="typescript">
+interface AttentionalMemorySystem {
+  focus: AttentionalFocus;
+  workingMemory: WorkingMemoryWithAttention;
+  attentionController: AttentionController;
+}
+
+class AttentionController {
+  private attentionBudget: number = 1.0;
+  private focusedMemories: Map<string, number> = new Map();
+  
+  async allocateAttention(
+    memories: Memory[],
+    goal: Goal,
+    constraints: AttentionConstraints
+  ): Promise<AttentionAllocation> {
+    // Calculate attention scores
+    const scores = await Promise.all(
+      memories.map(async memory => ({
+        memory,
+        score: await this.calculateAttentionScore(memory, goal)
+      }))
+    );
+    
+    // Sort by score
+    scores.sort((a, b) => b.score - a.score);
+    
+    // Allocate attention budget
+    const allocation = new Map<string, number>();
+    let remainingBudget = this.attentionBudget;
+    
+    for (const { memory, score } of scores) {
+      if (remainingBudget <= 0) break;
+      
+      const allocated = Math.min(
+        score * constraints.maxPerMemory,
+        remainingBudget
+      );
+      
+      allocation.set(memory.id, allocated);
+      remainingBudget -= allocated;
+    }
+    
+    return {
+      allocation,
+      focused: Array.from(allocation.entries())
+        .filter(([_, attention]) => attention > constraints.focusThreshold)
+        .map(([id, _]) => id),
+      totalAllocated: this.attentionBudget - remainingBudget
+    };
+  }
+
+  private async calculateAttentionScore(
+    memory: Memory,
+    goal: Goal
+  ): Promise<number> {
+    // Bottom-up attention (salience)
+    const salience = this.calculateSalience(memory);
+    
+    // Top-down attention (goal relevance)
+    const relevance = await this.calculateGoalRelevance(memory, goal);
+    
+    // Inhibition of return (reduce attention to recently focused items)
+    const inhibition = this.getInhibition(memory.id);
+    
+    return (salience * 0.3 + relevance * 0.6) * (1 - inhibition * 0.1);
+  }
+
+  async implementAttentionalBlink(
+    stimuli: Memory[],
+    target1: Memory,
+    lag: number
+  ): Promise<AttentionalBlinkResult> {
+    // Simulate attentional blink phenomenon
+    const t1Position = stimuli.indexOf(target1);
+    
+    if (t1Position === -1) {
+      throw new Error('Target 1 not found in stimuli');
+    }
+    
+    // Items within the blink window have reduced attention
+    const blinkWindow = {
+      start: t1Position + 1,
+      end: t1Position + lag
+    };
+    
+    const processed = stimuli.map((stimulus, index) => {
+      let attentionLevel = 1.0;
+      
+      if (index >= blinkWindow.start && index <= blinkWindow.end) {
+        // Reduced attention during blink
+        attentionLevel = 0.3 + (index - blinkWindow.start) * 0.1;
+      }
+      
+      return {
+        memory: stimulus,
+        attended: attentionLevel > 0.5,
+        attentionLevel
+      };
+    });
+    
+    return {
+      processed,
+      blinkDuration: lag,
+      recoveryIndex: blinkWindow.end + 1
+    };
+  }
+}
+
+// Attention-modulated memory encoding
+class AttentionalEncoding {
+  async encode(
+    input: any,
+    attentionState: AttentionState
+  ): Promise<Memory> {
+    // Enhanced encoding for attended items
+    const baseMemory = await this.baseEncode(input);
+    
+    if (attentionState.isFocused) {
+      // Deeper processing
+      baseMemory.content = await this.deepProcess(input);
+      baseMemory.signals.importance *= 1.5;
+      baseMemory.signals.distinctiveness *= 1.3;
+      
+      // Enhanced associations
+      baseMemory.associations = await this.findRichAssociations(input);
+    } else if (attentionState.isDivided) {
+      // Shallow processing
+      baseMemory.content = await this.shallowProcess(input);
+      baseMemory.signals.importance *= 0.7;
+      
+      // Fewer associations
+      baseMemory.associations = await this.findBasicAssociations(input);
+    }
+    
+    // Add attention metadata
+    baseMemory.metadata.attentionLevel = attentionState.level;
+    baseMemory.metadata.encodingDepth = attentionState.isFocused ? 'deep' : 'shallow';
+    
+    return baseMemory;
+  }
+}
+</CodeExample>
+
+## Predictive Memory Systems
+
+Implementing predictive coding for memory:
+
+<CodeExample language="typescript">
+class PredictiveMemorySystem {
+  private predictor: MemoryPredictor;
+  private errorProcessor: PredictionErrorProcessor;
+  
+  async processSensoryInput(
+    input: SensoryInput,
+    context: PredictiveContext
+  ): Promise<PredictiveMemory> {
+    // Generate prediction based on prior memories
+    const prediction = await this.predictor.predict(input.type, context);
+    
+    // Compare with actual input
+    const predictionError = this.calculatePredictionError(prediction, input);
+    
+    // Update memory based on prediction error
+    const memory = await this.createMemoryFromError(
+      input,
+      prediction,
+      predictionError
+    );
+    
+    // Update predictive models
+    await this.updatePredictiveModels(predictionError);
+    
+    return memory;
+  }
+
+  private calculatePredictionError(
+    prediction: Prediction,
+    actual: SensoryInput
+  ): PredictionError {
+    return {
+      magnitude: this.calculateMagnitude(prediction.expected, actual.value),
+      direction: this.calculateDirection(prediction.expected, actual.value),
+      surprise: this.calculateSurprise(prediction.confidence, this.magnitude),
+      components: this.decomposeError(prediction, actual)
+    };
+  }
+
+  async createMemoryFromError(
+    input: SensoryInput,
+    prediction: Prediction,
+    error: PredictionError
+  ): Promise<PredictiveMemory> {
+    const memory: PredictiveMemory = {
+      id: generateId(),
+      type: 'predictive',
+      content: {
+        actual: input.value,
+        predicted: prediction.expected,
+        error: error.magnitude,
+        errorComponents: error.components
+      },
+      signals: {
+        ...this.calculateBaseSignals(input),
+        surprise: error.surprise,
+        predictiveValue: 1 / (1 + error.magnitude) // Inverse of error
+      },
+      prediction: {
+        modelId: prediction.modelId,
+        confidence: prediction.confidence,
+        priors: prediction.priors
+      }
+    };
+    
+    // High prediction errors create stronger memories
+    if (error.surprise > 0.7) {
+      memory.signals.importance *= 1.5;
+      memory.signals.distinctiveness *= 1.4;
+    }
+    
+    return memory;
+  }
+
+  async generatePredictiveContext(
+    currentState: State,
+    memories: Memory[]
+  ): Promise<PredictiveContext> {
+    // Build hierarchical predictions
+    const predictions = {
+      immediate: await this.predictImmediate(currentState, memories),
+      shortTerm: await this.predictShortTerm(currentState, memories),
+      longTerm: await this.predictLongTerm(currentState, memories)
+    };
+    
+    // Identify predictive memories
+    const predictiveMemories = memories.filter(m => 
+      m.signals.predictiveValue > 0.7
+    );
+    
+    return {
+      predictions,
+      predictiveMemories,
+      confidence: this.calculateOverallConfidence(predictions),
+      uncertainty: this.identifyUncertainAreas(predictions)
+    };
+  }
+}
+
+// Temporal prediction in memory
+class TemporalPrediction {
+  async predictNextMemory(
+    sequence: Memory[],
+    context: TemporalContext
+  ): Promise<MemoryPrediction> {
+    // Extract temporal patterns
+    const patterns = this.extractTemporalPatterns(sequence);
+    
+    // Find similar sequences in memory
+    const similarSequences = await this.findSimilarSequences(
+      patterns,
+      context
+    );
+    
+    // Generate prediction based on patterns
+    const candidates = this.extractCandidates(similarSequences);
+    
+    // Rank by probability
+    const ranked = await this.rankByProbability(
+      candidates,
+      sequence,
+      context
+    );
+    
+    return {
+      predicted: ranked[0],
+      alternatives: ranked.slice(1, 5),
+      confidence: this.calculateConfidence(ranked[0], sequence),
+      timeframe: this.estimateTimeframe(patterns)
+    };
+  }
+}
+</CodeExample>
+
+## Metacognitive Memory Systems
+
+Implementing "thinking about thinking" in memory:
+
+<CodeExample language="typescript">
+class MetacognitiveMemory {
+  private metamemory: Metamemory;
+  private monitoringSystem: MemoryMonitoring;
+  private controlSystem: MemoryControl;
+  
+  async assessMemoryConfidence(
+    memory: Memory,
+    context: QueryContext
+  ): Promise<ConfidenceAssessment> {
+    // Feeling of knowing (FOK)
+    const fok = await this.calculateFeelingOfKnowing(memory, context);
+    
+    // Judgment of learning (JOL)
+    const jol = this.calculateJudgmentOfLearning(memory);
+    
+    // Retrospective confidence
+    const retrospective = this.assessRetrospectiveConfidence(memory);
+    
+    return {
+      overall: (fok + jol + retrospective) / 3,
+      components: { fok, jol, retrospective },
+      recommendation: this.generateRecommendation(fok, jol, retrospective)
+    };
+  }
+
+  async implementMetacognitiveControl(
+    goal: MemoryGoal,
+    currentState: MemoryState
+  ): Promise<ControlStrategy> {
+    // Monitor current memory performance
+    const performance = await this.monitoringSystem.assess(currentState);
+    
+    // Identify gaps
+    const gaps = this.identifyPerformanceGaps(goal, performance);
+    
+    // Select control strategies
+    const strategies = [];
+    
+    if (gaps.encoding) {
+      strategies.push(this.selectEncodingStrategy(gaps.encoding));
+    }
+    
+    if (gaps.retrieval) {
+      strategies.push(this.selectRetrievalStrategy(gaps.retrieval));
+    }
+    
+    if (gaps.monitoring) {
+      strategies.push(this.enhanceMonitoring(gaps.monitoring));
+    }
+    
+    return {
+      strategies,
+      priority: this.prioritizeStrategies(strategies),
+      expectedImprovement: this.estimateImprovement(strategies)
+    };
+  }
+
+  private async calculateFeelingOfKnowing(
+    memory: Memory,
+    context: QueryContext
+  ): Promise<number> {
+    // Cue familiarity
+    const cueFamiliarity = await this.assessCueFamiliarity(
+      context.cues,
+      memory
+    );
+    
+    // Accessibility of related information
+    const accessibility = await this.assessAccessibility(memory);
+    
+    // Past retrieval success
+    const retrievalHistory = this.getRetrievalHistory(memory.id);
+    const successRate = this.calculateSuccessRate(retrievalHistory);
+    
+    return (cueFamiliarity * 0.4 + accessibility * 0.3 + successRate * 0.3);
+  }
+
+  async implementMetamemoryTraining(
+    trainingData: MemoryPerformanceData
+  ): Promise<MetamemoryModel> {
+    // Train metamemory accuracy
+    const model = {
+      calibration: await this.trainCalibration(trainingData),
+      discrimination: await this.trainDiscrimination(trainingData),
+      resolution: await this.trainResolution(trainingData)
+    };
+    
+    // Validate metamemory accuracy
+    const validation = await this.validateMetamemory(model, trainingData);
+    
+    return {
+      ...model,
+      accuracy: validation.accuracy,
+      bias: validation.bias,
+      improvement: validation.improvement
+    };
+  }
+}
+
+// Memory strategies based on metacognition
+class AdaptiveMemoryStrategies {
+  async selectStrategy(
+    task: MemoryTask,
+    assessment: MetacognitiveAssessment
+  ): Promise<MemoryStrategy> {
+    const strategies = {
+      elaboration: new ElaborationStrategy(),
+      organization: new OrganizationStrategy(),
+      imagery: new ImageryStrategy(),
+      retrieval_practice: new RetrievalPracticeStrategy(),
+      spacing: new SpacingStrategy(),
+      interleaving: new InterleavingStrategy()
+    };
+    
+    // Select based on task and metacognitive assessment
+    if (assessment.confidence < 0.3) {
+      // Low confidence: use elaboration
+      return strategies.elaboration;
+    } else if (task.complexity > 0.7) {
+      // Complex task: use organization
+      return strategies.organization;
+    } else if (task.type === 'procedural') {
+      // Procedural: use retrieval practice
+      return strategies.retrieval_practice;
+    }
+    
+    // Default to spacing
+    return strategies.spacing;
+  }
+}
+</CodeExample>
+
+## Key Takeaways
+
+1. **Consolidation is crucial**: Like sleep in humans, memory consolidation strengthens important memories
+2. **Forgetting is adaptive**: Strategic forgetting prevents information overload
+3. **Signals drive decisions**: Advanced signals enable sophisticated memory management
+4. **Attention modulates memory**: What we attend to becomes what we remember
+5. **Prediction improves efficiency**: Predictive systems reduce storage needs
+6. **Metacognition enables improvement**: Systems that monitor themselves can optimize
+
+<Quiz>
+  <Question>
+    <QuestionText>
+      What is the primary benefit of implementing memory consolidation in AI agents?
+    </QuestionText>
+    <Options>
+      <Option>It reduces storage costs</Option>
+      <Option correct>It strengthens important memories and builds associations between related information</Option>
+      <Option>It speeds up retrieval times</Option>
+      <Option>It prevents data corruption</Option>
+    </Options>
+    <Explanation>
+      Memory consolidation, inspired by sleep processes in the brain, helps identify and strengthen important memories while building associations. This creates a more robust and interconnected memory system.
+    </Explanation>
+  </Question>
+
+  <Question>
+    <QuestionText>
+      Why is adaptive forgetting important in memory systems?
+    </QuestionText>
+    <Options>
+      <Option>To comply with data privacy laws</Option>
+      <Option>To reduce computational load</Option>
+      <Option correct>To prevent interference and maintain relevant information in context</Option>
+      <Option>To save storage space</Option>
+    </Options>
+    <Explanation>
+      Adaptive forgetting prevents information overload and reduces interference between memories. By selectively forgetting less relevant information, the system can maintain focus on what's important for current tasks.
+    </Explanation>
+  </Question>
+
+  <Question>
+    <QuestionText>
+      What role does prediction error play in predictive memory systems?
+    </QuestionText>
+    <Options>
+      <Option>It indicates system failures</Option>
+      <Option correct>High prediction errors create stronger, more distinctive memories</Option>
+      <Option>It triggers memory deletion</Option>
+      <Option>It reduces memory confidence</Option>
+    </Options>
+    <Explanation>
+      In predictive coding, high prediction errors indicate surprising or novel information. These create stronger memories because unexpected information is often more important to remember for future predictions.
+    </Explanation>
+  </Question>
+</Quiz>
+
+## Practice Exercise: Design an Advanced Memory Pattern
+
+**Scenario**: You're building a personal AI tutor that needs to adapt to a student's learning patterns over time.
+
+Design an advanced memory system that includes:
+1. Consolidation mechanism for learned concepts
+2. Adaptive forgetting for outdated information
+3. Attention-based encoding for important topics
+4. Metacognitive assessment of learning progress
+
+<details>
+<summary>Reveal Solution Approach</summary>
+
+**Advanced Memory System for AI Tutor:**
+
+1. **Consolidation Mechanism**:
+```typescript
+class LearningConsolidation {
+  async consolidateDaily() {
+    // Identify today's learned concepts
+    const todayConcepts = await this.getTodaysConcepts();
+    
+    // Replay important concepts
+    for (const concept of todayConcepts) {
+      if (concept.difficulty > 0.7 || concept.mistakes > 2) {
+        await this.replayConcept(concept);
+        concept.consolidationCount++;
+      }
+    }
+    
+    // Build concept associations
+    await this.buildConceptMap(todayConcepts);
+    
+    // Transfer to long-term memory
+    const mastered = todayConcepts.filter(c => 
+      c.correctAttempts > 5 && c.confidence > 0.8
+    );
+    await this.transferToLongTerm(mastered);
+  }
+}
+```
+
+2. **Adaptive Forgetting**:
+- Forget specific problem solutions after concept is mastered
+- Retain concept understanding and patterns
+- Archive old curriculum content when advanced
+- Keep struggling areas longer
+
+3. **Attention-Based Encoding**:
+- Deep encoding for concepts student struggles with
+- Enhanced attention during error correction
+- Shallow encoding for review material
+- Focus on prerequisite gaps
+
+4. **Metacognitive Assessment**:
+- Track student's prediction of their performance
+- Monitor actual vs. predicted scores
+- Identify overconfidence/underconfidence patterns
+- Adjust teaching strategy based on metacognitive accuracy
+
+**Integration**:
+- Consolidate at end of each study session
+- Forget details but retain patterns
+- Focus attention on weak areas
+- Use metacognition to personalize instruction
+
+</details>
+
+Congratulations! You've learned advanced memory patterns that push the boundaries of what's possible in AI systems. Next, we'll explore how to build production-ready memory systems that scale.

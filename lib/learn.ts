@@ -365,6 +365,65 @@ const learningPathsEn: LearningPath[] = [
         content: 'Build a complete micro-agent system with observability, testing, and deployment'
       }
     ]
+  },
+  {
+    id: 'claude-code-mastery',
+    title: 'Mastering Claude Code: From Terminal to Custom Integrations',
+    description: 'Learn to leverage Claude Code\'s unopinionated approach to AI-assisted development. From understanding the evolution of programming tools to building custom integrations with the SDK.',
+    level: 'Intermediate',
+    duration: '10-12 hours',
+    topics: ['Claude Code', 'AI Development', 'Terminal Integration', 'SDK Development', 'Developer Productivity'],
+    color: 'primary',
+    prerequisites: ['Basic programming knowledge', 'Familiarity with command line'],
+    outcomes: [
+      'Understand the evolution of programming tools and where AI fits',
+      'Master Claude Code\'s terminal, IDE, and GitHub integrations',
+      'Implement advanced workflows like TDD and parallel sessions',
+      'Build custom integrations using the Claude Code SDK',
+      'Apply unopinionated AI assistance to real-world projects'
+    ],
+    modules: [
+      {
+        id: '01-evolution-of-programming-tools',
+        title: 'Evolution of Programming Tools',
+        description: 'Trace the journey from punch cards to AI assistants and understand why this history matters',
+        duration: '2 hours',
+        type: 'theory',
+        content: 'Historical context and the exponential model challenge'
+      },
+      {
+        id: '02-claude-code-philosophy',
+        title: 'Understanding Claude Code\'s Philosophy',
+        description: 'Learn why Claude Code takes an unopinionated approach and how this benefits developers',
+        duration: '2 hours',
+        type: 'theory',
+        content: 'Unopinionated design principles and practical implications'
+      },
+      {
+        id: '03-claude-code-integrations',
+        title: 'Claude Code Integrations',
+        description: 'Master terminal, IDE, and GitHub integrations to incorporate Claude Code into your workflow',
+        duration: '2.5 hours',
+        type: 'hands-on',
+        content: 'Comprehensive integration setup and best practices'
+      },
+      {
+        id: '04-advanced-workflows',
+        title: 'Advanced Workflows',
+        description: 'Implement powerful patterns like TDD, plan mode, and memory management',
+        duration: '2.5 hours',
+        type: 'hands-on',
+        content: 'TDD workflows, plan mode usage, and parallel sessions'
+      },
+      {
+        id: '05-building-with-sdk',
+        title: 'Building with Claude Code SDK',
+        description: 'Create custom integrations and Unix utilities using the Claude Code SDK',
+        duration: '3 hours',
+        type: 'project',
+        content: 'SDK architecture and building production-ready tools'
+      }
+    ]
   }
 ];
 
@@ -697,6 +756,65 @@ const learningPathsPtBR: LearningPath[] = [
         duration: '2.5 horas',
         type: 'project',
         content: 'Construa um sistema completo de micro-agente com observabilidade, testes e deploy'
+      }
+    ]
+  },
+  {
+    id: 'claude-code-mastery',
+    title: 'Dominando Claude Code: Do Terminal a Integrações Customizadas',
+    description: 'Aprenda a aproveitar a abordagem sem opinião do Claude Code para desenvolvimento assistido por IA. Desde entender a evolução das ferramentas de programação até construir integrações customizadas com o SDK.',
+    level: 'Intermediate',
+    duration: '10-12 horas',
+    topics: ['Claude Code', 'Desenvolvimento com IA', 'Integração Terminal', 'Desenvolvimento SDK', 'Produtividade do Desenvolvedor'],
+    color: 'primary',
+    prerequisites: ['Conhecimento básico de programação', 'Familiaridade com linha de comando'],
+    outcomes: [
+      'Entender a evolução das ferramentas de programação e onde a IA se encaixa',
+      'Dominar as integrações de terminal, IDE e GitHub do Claude Code',
+      'Implementar fluxos de trabalho avançados como TDD e sessões paralelas',
+      'Construir integrações customizadas usando o SDK do Claude Code',
+      'Aplicar assistência de IA sem opinião a projetos do mundo real'
+    ],
+    modules: [
+      {
+        id: '01-evolution-of-programming-tools',
+        title: 'Evolução das Ferramentas de Programação',
+        description: 'Trace a jornada dos cartões perfurados aos assistentes de IA e entenda por que essa história importa',
+        duration: '2 horas',
+        type: 'theory',
+        content: 'Contexto histórico e o desafio do modelo exponencial'
+      },
+      {
+        id: '02-claude-code-philosophy',
+        title: 'Entendendo a Filosofia do Claude Code',
+        description: 'Aprenda por que o Claude Code adota uma abordagem sem opinião e como isso beneficia os desenvolvedores',
+        duration: '2 horas',
+        type: 'theory',
+        content: 'Princípios de design sem opinião e implicações práticas'
+      },
+      {
+        id: '03-claude-code-integrations',
+        title: 'Integrações do Claude Code',
+        description: 'Domine as integrações de terminal, IDE e GitHub para incorporar o Claude Code ao seu fluxo de trabalho',
+        duration: '2.5 horas',
+        type: 'hands-on',
+        content: 'Configuração abrangente de integração e melhores práticas'
+      },
+      {
+        id: '04-advanced-workflows',
+        title: 'Fluxos de Trabalho Avançados',
+        description: 'Implemente padrões poderosos como TDD, modo de planejamento e gerenciamento de memória',
+        duration: '2.5 horas',
+        type: 'hands-on',
+        content: 'Fluxos de trabalho TDD, uso do modo de planejamento e sessões paralelas'
+      },
+      {
+        id: '05-building-with-sdk',
+        title: 'Construindo com o SDK do Claude Code',
+        description: 'Crie integrações customizadas e utilitários Unix usando o SDK do Claude Code',
+        duration: '3 horas',
+        type: 'project',
+        content: 'Arquitetura do SDK e construção de ferramentas prontas para produção'
       }
     ]
   }

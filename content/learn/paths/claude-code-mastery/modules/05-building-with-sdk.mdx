@@ -1,0 +1,1369 @@
+# Building with Claude Code SDK
+
+The Claude Code SDK empowers you to build custom integrations that extend Claude's capabilities for your specific needs. In this module, we'll explore the SDK architecture, build custom tools, create Unix utilities, and deploy your integrations.
+
+## Learning Objectives
+
+By the end of this module, you'll be able to:
+- Navigate and understand the Claude Code SDK architecture
+- Build custom integrations tailored to your workflow
+- Create powerful Unix utilities powered by Claude
+- Package and distribute your custom Claude tools
+
+## Understanding the Claude Code SDK
+
+The SDK provides a programmatic interface to Claude's capabilities, allowing you to build tools that integrate seamlessly with your development workflow.
+
+### SDK Architecture Overview
+
+<CodeExample language="typescript">
+// Core SDK structure
+import { ClaudeCode } from '@anthropic/claude-code-sdk';
+
+// Main components
+const claude = new ClaudeCode({
+  apiKey: process.env.CLAUDE_API_KEY,
+  model: 'claude-3-opus-20240229',
+  stream: true,
+  maxTokens: 4096
+});
+
+// Key interfaces
+interface ClaudeRequest {
+  prompt: string;
+  context?: FileContext[];
+  systemPrompt?: string;
+  temperature?: number;
+}
+
+interface FileContext {
+  path: string;
+  content: string;
+  language?: string;
+}
+
+interface ClaudeResponse {
+  text: string;
+  usage: TokenUsage;
+  model: string;
+  stopReason: 'stop' | 'max_tokens' | 'stop_sequence';
+}
+</CodeExample>
+
+### Core SDK Features
+
+<CodeExample language="typescript">
+// 1. Basic completion
+const response = await claude.complete({
+  prompt: "Explain this function",
+  context: [{
+    path: "src/utils.js",
+    content: readFileSync("src/utils.js", "utf-8")
+  }]
+});
+
+// 2. Streaming responses
+const stream = await claude.streamComplete({
+  prompt: "Refactor this code for better performance",
+  context: loadProjectFiles("src/**/*.js")
+});
+
+for await (const chunk of stream) {
+  process.stdout.write(chunk.text);
+}
+
+// 3. Conversation management
+const conversation = claude.createConversation();
+await conversation.add("user", "How do I optimize database queries?");
+const response = await conversation.complete();
+
+// 4. Tool integration
+const tools = claude.defineTools([
+  {
+    name: "search_codebase",
+    description: "Search for patterns in code",
+    parameters: {
+      pattern: "string",
+      fileTypes: "string[]"
+    }
+  }
+]);
+</CodeExample>
+
+### Environment Setup
+
+<CodeExample language="bash">
+# Initialize a new SDK project
+$ mkdir claude-custom-tool
+$ cd claude-custom-tool
+$ npm init -y
+
+# Install SDK
+$ npm install @anthropic/claude-code-sdk
+
+# Install development dependencies
+$ npm install -D typescript @types/node tsx
+
+# Create TypeScript config
+$ npx tsc --init
+
+# Project structure
+claude-custom-tool/
+├── src/
+│   ├── index.ts
+│   ├── commands/
+│   ├── utils/
+│   └── types/
+├── package.json
+├── tsconfig.json
+└── README.md
+</CodeExample>
+
+## Building Your First Custom Integration
+
+Let's build a custom code review tool that integrates with your Git workflow.
+
+### Project: Git-Aware Code Reviewer
+
+<CodeExample language="typescript">
+// src/index.ts
+import { ClaudeCode } from '@anthropic/claude-code-sdk';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+import { readFileSync } from 'fs';
+
+const execAsync = promisify(exec);
+
+class GitCodeReviewer {
+  private claude: ClaudeCode;
+
+  constructor(apiKey: string) {
+    this.claude = new ClaudeCode({
+      apiKey,
+      model: 'claude-3-opus-20240229'
+    });
+  }
+
+  async reviewChanges(branch: string = 'main'): Promise<void> {
+    // Get changed files
+    const { stdout: changedFiles } = await execAsync(
+      `git diff --name-only ${branch}...HEAD`
+    );
+    
+    const files = changedFiles.trim().split('\n').filter(Boolean);
+    
+    if (files.length === 0) {
+      console.log('No changes to review');
+      return;
+    }
+
+    // Review each file
+    for (const file of files) {
+      await this.reviewFile(file, branch);
+    }
+  }
+
+  private async reviewFile(file: string, baseBranch: string): Promise<void> {
+    console.log(`\n📋 Reviewing: ${file}`);
+    
+    // Get the diff
+    const { stdout: diff } = await execAsync(
+      `git diff ${baseBranch}...HEAD -- ${file}`
+    );
+
+    // Get file content
+    let content: string;
+    try {
+      content = readFileSync(file, 'utf-8');
+    } catch (error) {
+      console.log(`  ⚠️  File deleted or moved`);
+      return;
+    }
+
+    // Prepare review prompt
+    const prompt = `Review this code change and provide feedback on:
+1. Code quality and best practices
+2. Potential bugs or issues
+3. Performance considerations
+4. Security concerns
+5. Suggestions for improvement
+
+File: ${file}
+Diff:
+${diff}
+
+Current file content:
+${content}`;
+
+    // Get review from Claude
+    const response = await this.claude.complete({
+      prompt,
+      systemPrompt: "You are an expert code reviewer. Be constructive but thorough."
+    });
+
+    console.log('\n' + response.text);
+  }
+
+  async reviewPR(prNumber: number): Promise<void> {
+    console.log(`🔍 Reviewing PR #${prNumber}`);
+    
+    // Get PR information using GitHub CLI
+    const { stdout: prInfo } = await execAsync(
+      `gh pr view ${prNumber} --json files,title,body`
+    );
+    
+    const pr = JSON.parse(prInfo);
+    
+    console.log(`\nTitle: ${pr.title}`);
+    console.log(`Files changed: ${pr.files.length}`);
+    
+    // Review the PR description
+    const descriptionReview = await this.claude.complete({
+      prompt: `Review this PR description for clarity and completeness:\n\n${pr.body}`,
+      systemPrompt: "Suggest improvements to make the PR description more helpful."
+    });
+    
+    console.log('\n📝 PR Description Review:');
+    console.log(descriptionReview.text);
+    
+    // Review changed files
+    await this.reviewChanges();
+  }
+}
+
+// CLI interface
+async function main() {
+  const reviewer = new GitCodeReviewer(process.env.CLAUDE_API_KEY!);
+  const command = process.argv[2];
+  
+  switch (command) {
+    case 'review':
+      await reviewer.reviewChanges(process.argv[3] || 'main');
+      break;
+    case 'pr':
+      const prNumber = parseInt(process.argv[3]);
+      if (isNaN(prNumber)) {
+        console.error('Please provide a valid PR number');
+        process.exit(1);
+      }
+      await reviewer.reviewPR(prNumber);
+      break;
+    default:
+      console.log('Usage: claude-review review [branch] | pr <number>');
+  }
+}
+
+if (require.main === module) {
+  main().catch(console.error);
+}
+</CodeExample>
+
+### Adding Advanced Features
+
+<CodeExample language="typescript">
+// src/commands/security-scan.ts
+import { ClaudeCode } from '@anthropic/claude-code-sdk';
+import { glob } from 'glob';
+import { readFileSync } from 'fs';
+
+export class SecurityScanner {
+  constructor(private claude: ClaudeCode) {}
+
+  async scanProject(pattern: string = '**/*.{js,ts,py,go}'): Promise<void> {
+    const files = await glob(pattern, { ignore: ['node_modules/**'] });
+    
+    console.log(`🔐 Scanning ${files.length} files for security issues...`);
+    
+    const issues: SecurityIssue[] = [];
+    
+    for (const file of files) {
+      const content = readFileSync(file, 'utf-8');
+      const fileIssues = await this.scanFile(file, content);
+      issues.push(...fileIssues);
+    }
+    
+    this.generateReport(issues);
+  }
+
+  private async scanFile(
+    path: string, 
+    content: string
+  ): Promise<SecurityIssue[]> {
+    const prompt = `Analyze this code for security vulnerabilities:
+- SQL injection
+- XSS vulnerabilities  
+- Hardcoded credentials
+- Insecure dependencies
+- CORS misconfigurations
+- Authentication bypass
+- Path traversal
+- Command injection
+
+Return findings in JSON format:
+{
+  "issues": [
+    {
+      "type": "vulnerability type",
+      "severity": "high|medium|low",
+      "line": line_number,
+      "description": "detailed description",
+      "recommendation": "how to fix"
+    }
+  ]
+}
+
+File: ${path}
+Content:
+${content}`;
+
+    const response = await this.claude.complete({
+      prompt,
+      systemPrompt: "You are a security expert. Only report actual vulnerabilities, not style issues.",
+      temperature: 0.1 // Lower temperature for more consistent analysis
+    });
+
+    try {
+      const result = JSON.parse(response.text);
+      return result.issues.map((issue: any) => ({
+        ...issue,
+        file: path
+      }));
+    } catch (error) {
+      console.error(`Failed to parse response for ${path}`);
+      return [];
+    }
+  }
+
+  private generateReport(issues: SecurityIssue[]): void {
+    if (issues.length === 0) {
+      console.log('\n✅ No security issues found!');
+      return;
+    }
+
+    console.log(`\n⚠️  Found ${issues.length} security issues:\n`);
+    
+    // Group by severity
+    const grouped = issues.reduce((acc, issue) => {
+      acc[issue.severity] = acc[issue.severity] || [];
+      acc[issue.severity].push(issue);
+      return acc;
+    }, {} as Record<string, SecurityIssue[]>);
+
+    // Display by severity
+    ['high', 'medium', 'low'].forEach(severity => {
+      const severityIssues = grouped[severity] || [];
+      if (severityIssues.length > 0) {
+        console.log(`\n${severity.toUpperCase()} SEVERITY (${severityIssues.length}):`);
+        severityIssues.forEach(issue => {
+          console.log(`\n  📍 ${issue.file}:${issue.line}`);
+          console.log(`     Type: ${issue.type}`);
+          console.log(`     ${issue.description}`);
+          console.log(`     💡 ${issue.recommendation}`);
+        });
+      }
+    });
+  }
+}
+
+interface SecurityIssue {
+  file: string;
+  type: string;
+  severity: 'high' | 'medium' | 'low';
+  line: number;
+  description: string;
+  recommendation: string;
+}
+</CodeExample>
+
+## Creating Unix Utilities
+
+Transform Claude into powerful command-line utilities that follow Unix philosophy.
+
+### Unix Utility: Code Complexity Analyzer
+
+<CodeExample language="typescript">
+#!/usr/bin/env node
+// src/bin/claude-complexity.ts
+
+import { ClaudeCode } from '@anthropic/claude-code-sdk';
+import { readFileSync } from 'fs';
+import { program } from 'commander';
+
+const claude = new ClaudeCode({
+  apiKey: process.env.CLAUDE_API_KEY!
+});
+
+program
+  .name('claude-complexity')
+  .description('Analyze code complexity using Claude')
+  .version('1.0.0')
+  .argument('<files...>', 'files to analyze')
+  .option('-t, --threshold <number>', 'complexity threshold', '10')
+  .option('-f, --format <type>', 'output format (json|table|markdown)', 'table')
+  .option('-s, --sort <field>', 'sort by (complexity|file|functions)', 'complexity')
+  .action(async (files, options) => {
+    const results = [];
+
+    for (const file of files) {
+      try {
+        const content = readFileSync(file, 'utf-8');
+        const analysis = await analyzeComplexity(file, content);
+        results.push(...analysis);
+      } catch (error) {
+        console.error(`Error analyzing ${file}:`, error.message);
+      }
+    }
+
+    // Sort results
+    results.sort((a, b) => {
+      switch (options.sort) {
+        case 'complexity':
+          return b.complexity - a.complexity;
+        case 'file':
+          return a.file.localeCompare(b.file);
+        case 'functions':
+          return b.functionCount - a.functionCount;
+        default:
+          return 0;
+      }
+    });
+
+    // Filter by threshold
+    const filtered = results.filter(r => r.complexity >= parseInt(options.threshold));
+
+    // Output results
+    outputResults(filtered, options.format);
+  });
+
+async function analyzeComplexity(file: string, content: string) {
+  const prompt = `Analyze the cyclomatic complexity of this code.
+For each function/method, provide:
+1. Function name
+2. Cyclomatic complexity score
+3. Line number
+4. Brief explanation of complexity factors
+
+Return as JSON array with this structure:
+[
+  {
+    "function": "functionName",
+    "complexity": 15,
+    "line": 42,
+    "factors": ["nested loops", "multiple conditions"],
+    "recommendation": "consider breaking into smaller functions"
+  }
+]
+
+File: ${file}
+Content:
+${content}`;
+
+  const response = await claude.complete({
+    prompt,
+    temperature: 0.1
+  });
+
+  try {
+    const functions = JSON.parse(response.text);
+    return functions.map((fn: any) => ({
+      file,
+      ...fn,
+      functionCount: functions.length
+    }));
+  } catch (error) {
+    console.error(`Failed to parse complexity for ${file}`);
+    return [];
+  }
+}
+
+function outputResults(results: any[], format: string) {
+  switch (format) {
+    case 'json':
+      console.log(JSON.stringify(results, null, 2));
+      break;
+      
+    case 'markdown':
+      console.log('# Code Complexity Report\n');
+      console.log('| File | Function | Complexity | Line | Factors |');
+      console.log('|------|----------|------------|------|---------|');
+      results.forEach(r => {
+        console.log(
+          `| ${r.file} | ${r.function} | ${r.complexity} | ${r.line} | ${r.factors.join(', ')} |`
+        );
+      });
+      break;
+      
+    case 'table':
+    default:
+      console.table(
+        results.map(r => ({
+          File: r.file,
+          Function: r.function,
+          Complexity: r.complexity,
+          Line: r.line,
+          Recommendation: r.recommendation
+        }))
+      );
+  }
+}
+
+program.parse();
+</CodeExample>
+
+### Unix Utility: Smart Grep with Context
+
+<CodeExample language="typescript">
+#!/usr/bin/env node
+// src/bin/claude-grep.ts
+
+import { ClaudeCode } from '@anthropic/claude-code-sdk';
+import { readFileSync } from 'fs';
+import { glob } from 'glob';
+import chalk from 'chalk';
+
+const claude = new ClaudeCode({
+  apiKey: process.env.CLAUDE_API_KEY!
+});
+
+interface GrepOptions {
+  context: number;
+  explain: boolean;
+  related: boolean;
+  ignoreCase: boolean;
+}
+
+async function smartGrep(
+  pattern: string,
+  files: string[],
+  options: GrepOptions
+): Promise<void> {
+  console.log(chalk.blue(`🔍 Searching for: ${pattern}\n`));
+
+  for (const file of files) {
+    const content = readFileSync(file, 'utf-8');
+    const lines = content.split('\n');
+    
+    // Find matches
+    const matches: number[] = [];
+    lines.forEach((line, index) => {
+      const searchLine = options.ignoreCase ? line.toLowerCase() : line;
+      const searchPattern = options.ignoreCase ? pattern.toLowerCase() : pattern;
+      
+      if (searchLine.includes(searchPattern)) {
+        matches.push(index);
+      }
+    });
+
+    if (matches.length > 0) {
+      console.log(chalk.green(`\n${file}:`));
+      
+      for (const lineNum of matches) {
+        // Show context
+        const start = Math.max(0, lineNum - options.context);
+        const end = Math.min(lines.length - 1, lineNum + options.context);
+        
+        for (let i = start; i <= end; i++) {
+          const prefix = i === lineNum ? chalk.red('>') : ' ';
+          const lineNumber = chalk.gray(`${i + 1}:`);
+          const line = i === lineNum 
+            ? chalk.yellow(lines[i]) 
+            : chalk.dim(lines[i]);
+          
+          console.log(`${prefix} ${lineNumber} ${line}`);
+        }
+
+        // Explain if requested
+        if (options.explain) {
+          const explanation = await explainMatch(
+            pattern,
+            lines[lineNum],
+            lines.slice(start, end + 1).join('\n')
+          );
+          console.log(chalk.cyan(`\n  💡 ${explanation}\n`));
+        }
+      }
+
+      // Find related code if requested
+      if (options.related) {
+        const related = await findRelated(
+          pattern,
+          file,
+          content,
+          matches
+        );
+        if (related.length > 0) {
+          console.log(chalk.magenta('\n  🔗 Related code:'));
+          related.forEach(r => {
+            console.log(`     ${r.file}:${r.line} - ${r.description}`);
+          });
+        }
+      }
+    }
+  }
+}
+
+async function explainMatch(
+  pattern: string,
+  line: string,
+  context: string
+): Promise<string> {
+  const prompt = `Briefly explain why this line matches the search pattern "${pattern}":
+
+Line: ${line}
+
+Context:
+${context}
+
+Provide a one-line explanation.`;
+
+  const response = await claude.complete({
+    prompt,
+    maxTokens: 100,
+    temperature: 0.3
+  });
+
+  return response.text.trim();
+}
+
+async function findRelated(
+  pattern: string,
+  file: string,
+  content: string,
+  matchLines: number[]
+): Promise<Array<{file: string, line: number, description: string}>> {
+  const prompt = `Given these search matches for "${pattern}" in ${file}, 
+identify other related code sections that might be relevant:
+
+Matches at lines: ${matchLines.map(l => l + 1).join(', ')}
+
+File content:
+${content}
+
+Return a JSON array of related locations:
+[
+  {
+    "file": "same file or suggest other files",
+    "line": line_number,
+    "description": "why this is related"
+  }
+]
+
+Limit to 3 most relevant locations.`;
+
+  const response = await claude.complete({
+    prompt,
+    temperature: 0.3
+  });
+
+  try {
+    return JSON.parse(response.text);
+  } catch {
+    return [];
+  }
+}
+
+// CLI setup
+const args = process.argv.slice(2);
+const pattern = args[0];
+const filePatterns = args.slice(1);
+
+if (!pattern || filePatterns.length === 0) {
+  console.log('Usage: claude-grep <pattern> <files...>');
+  console.log('Options:');
+  console.log('  -c, --context <n>  Show n lines of context (default: 2)');
+  console.log('  -e, --explain      Explain why each match is relevant');
+  console.log('  -r, --related      Find related code sections');
+  console.log('  -i, --ignore-case  Case insensitive search');
+  process.exit(1);
+}
+
+// Parse options (simplified for example)
+const options: GrepOptions = {
+  context: 2,
+  explain: args.includes('-e') || args.includes('--explain'),
+  related: args.includes('-r') || args.includes('--related'),
+  ignoreCase: args.includes('-i') || args.includes('--ignore-case')
+};
+
+// Get files
+const files: string[] = [];
+for (const pattern of filePatterns) {
+  if (!pattern.startsWith('-')) {
+    const matched = await glob(pattern);
+    files.push(...matched);
+  }
+}
+
+smartGrep(pattern, files, options).catch(console.error);
+</CodeExample>
+
+## Advanced SDK Patterns
+
+### Pattern 1: Contextual Code Generation
+
+<CodeExample language="typescript">
+// src/generators/contextual-generator.ts
+export class ContextualGenerator {
+  constructor(private claude: ClaudeCode) {}
+
+  async generateWithContext(request: GenerationRequest): Promise<string> {
+    // Gather context from multiple sources
+    const context = await this.gatherContext(request);
+    
+    // Build intelligent prompt
+    const prompt = this.buildPrompt(request, context);
+    
+    // Generate with streaming
+    const stream = await this.claude.streamComplete({
+      prompt,
+      systemPrompt: this.getSystemPrompt(request.type),
+      temperature: request.creativity || 0.7
+    });
+
+    // Process and validate output
+    let generated = '';
+    for await (const chunk of stream) {
+      generated += chunk.text;
+      
+      // Real-time validation
+      if (request.validate) {
+        const errors = await this.validatePartial(generated, request.type);
+        if (errors.length > 0) {
+          console.warn('Validation issues:', errors);
+        }
+      }
+    }
+
+    return this.postProcess(generated, request);
+  }
+
+  private async gatherContext(request: GenerationRequest): Promise<Context> {
+    const context: Context = {
+      files: [],
+      dependencies: [],
+      patterns: [],
+      constraints: []
+    };
+
+    // Analyze project structure
+    if (request.analyzeProject) {
+      const projectFiles = await glob('**/*.{js,ts,json}', {
+        ignore: ['node_modules/**', 'dist/**']
+      });
+      
+      for (const file of projectFiles.slice(0, 10)) { // Limit for context size
+        context.files.push({
+          path: file,
+          content: readFileSync(file, 'utf-8'),
+          purpose: await this.analyzePurpose(file)
+        });
+      }
+    }
+
+    // Extract patterns
+    if (request.followPatterns) {
+      context.patterns = await this.extractPatterns(context.files);
+    }
+
+    // Identify constraints
+    if (request.enforceConstraints) {
+      context.constraints = await this.identifyConstraints();
+    }
+
+    return context;
+  }
+
+  private async extractPatterns(files: FileContext[]): Promise<Pattern[]> {
+    const prompt = `Analyze these files and extract coding patterns:
+${files.map(f => `File: ${f.path}\n${f.content.slice(0, 500)}...`).join('\n\n')}
+
+Identify:
+1. Naming conventions
+2. Code structure patterns
+3. Common imports/dependencies
+4. Error handling patterns
+5. Testing patterns
+
+Return as JSON.`;
+
+    const response = await this.claude.complete({ prompt });
+    return JSON.parse(response.text);
+  }
+}
+
+interface GenerationRequest {
+  type: 'component' | 'api' | 'test' | 'documentation';
+  description: string;
+  analyzeProject?: boolean;
+  followPatterns?: boolean;
+  enforceConstraints?: boolean;
+  validate?: boolean;
+  creativity?: number;
+}
+</CodeExample>
+
+### Pattern 2: Intelligent Refactoring Engine
+
+<CodeExample language="typescript">
+// src/refactoring/intelligent-refactorer.ts
+export class IntelligentRefactorer {
+  private refactoringHistory: RefactoringStep[] = [];
+
+  constructor(private claude: ClaudeCode) {}
+
+  async refactorCode(
+    code: string,
+    goals: RefactoringGoal[]
+  ): Promise<RefactoringResult> {
+    // Analyze current code
+    const analysis = await this.analyzeCode(code);
+    
+    // Plan refactoring steps
+    const plan = await this.planRefactoring(code, analysis, goals);
+    
+    // Execute refactoring incrementally
+    let currentCode = code;
+    const steps: RefactoringStep[] = [];
+    
+    for (const plannedStep of plan.steps) {
+      const step = await this.executeStep(currentCode, plannedStep);
+      steps.push(step);
+      
+      // Validate each step
+      const validation = await this.validateStep(step);
+      if (!validation.valid) {
+        return this.rollback(currentCode, steps, validation.errors);
+      }
+      
+      currentCode = step.result;
+      this.refactoringHistory.push(step);
+    }
+
+    // Final validation
+    const finalValidation = await this.validateFinal(currentCode, goals);
+    
+    return {
+      original: code,
+      refactored: currentCode,
+      steps,
+      improvements: finalValidation.improvements,
+      metrics: await this.calculateMetrics(code, currentCode)
+    };
+  }
+
+  private async planRefactoring(
+    code: string,
+    analysis: CodeAnalysis,
+    goals: RefactoringGoal[]
+  ): Promise<RefactoringPlan> {
+    const prompt = `Plan a refactoring for this code to achieve these goals:
+${goals.map(g => `- ${g.description}`).join('\n')}
+
+Current code analysis:
+- Complexity: ${analysis.complexity}
+- Issues: ${analysis.issues.join(', ')}
+- Dependencies: ${analysis.dependencies.length}
+
+Code:
+${code}
+
+Create a step-by-step refactoring plan that:
+1. Maintains functionality
+2. Improves gradually
+3. Can be validated at each step
+
+Return as JSON with structure:
+{
+  "steps": [
+    {
+      "name": "step name",
+      "description": "what this step does",
+      "targetImprovement": "specific improvement",
+      "riskLevel": "low|medium|high"
+    }
+  ]
+}`;
+
+    const response = await this.claude.complete({
+      prompt,
+      temperature: 0.3
+    });
+
+    return JSON.parse(response.text);
+  }
+
+  private async executeStep(
+    code: string,
+    step: PlannedStep
+  ): Promise<RefactoringStep> {
+    const prompt = `Execute this refactoring step:
+${step.description}
+
+Target improvement: ${step.targetImprovement}
+
+Current code:
+${code}
+
+Provide the refactored code that accomplishes this specific step.`;
+
+    const response = await this.claude.complete({
+      prompt,
+      temperature: 0.2
+    });
+
+    return {
+      name: step.name,
+      description: step.description,
+      original: code,
+      result: response.text,
+      timestamp: new Date(),
+      riskLevel: step.riskLevel
+    };
+  }
+}
+</CodeExample>
+
+<Quiz>
+  <QuizQuestion
+    question="What is the primary interface for interacting with Claude in the SDK?"
+    options={[
+      "ClaudeAPI class",
+      "ClaudeCode class", 
+      "ClaudeSDK class",
+      "Claude class"
+    ]}
+    correctAnswer={1}
+    explanation="The ClaudeCode class is the main interface for interacting with Claude through the SDK, providing methods like complete() and streamComplete()."
+  />
+  
+  <QuizQuestion
+    question="When building Unix utilities with Claude, what principle should you follow?"
+    options={[
+      "Make them as complex as possible",
+      "Include GUI interfaces",
+      "Follow Unix philosophy - do one thing well",
+      "Avoid command-line arguments"
+    ]}
+    correctAnswer={2}
+    explanation="Unix utilities should follow Unix philosophy: do one thing well, be composable, and work well with other tools through pipes and standard I/O."
+  />
+  
+  <QuizQuestion
+    question="What's the benefit of using streaming responses in the SDK?"
+    options={[
+      "It uses less memory",
+      "It provides real-time output as Claude generates",
+      "It's required for all SDK calls",
+      "It makes responses more accurate"
+    ]}
+    correctAnswer={1}
+    explanation="Streaming responses allow you to display output in real-time as Claude generates it, providing better user experience for long responses."
+  />
+  
+  <QuizQuestion
+    question="What should you consider when gathering context for code generation?"
+    options={[
+      "Include every file in the project",
+      "Only include the specific file being modified",
+      "Balance relevance with context window limits",
+      "Context doesn't matter for generation"
+    ]}
+    correctAnswer={2}
+    explanation="When gathering context, balance including relevant files and patterns while staying within context window limits to ensure effective generation."
+  />
+</Quiz>
+
+## Packaging and Distribution
+
+### Creating an NPM Package
+
+<CodeExample language="json">
+// package.json
+{
+  "name": "@yourusername/claude-dev-tools",
+  "version": "1.0.0",
+  "description": "Custom Claude Code development tools",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "claude-review": "./dist/bin/claude-review.js",
+    "claude-complexity": "./dist/bin/claude-complexity.js",
+    "claude-grep": "./dist/bin/claude-grep.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "jest"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": ["claude", "ai", "development-tools"],
+  "dependencies": {
+    "@anthropic/claude-code-sdk": "^1.0.0",
+    "commander": "^11.0.0",
+    "chalk": "^5.3.0",
+    "glob": "^10.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0"
+  }
+}
+</CodeExample>
+
+### Publishing Your Tools
+
+<CodeExample language="bash">
+# Build the package
+$ npm run build
+
+# Test locally
+$ npm link
+$ claude-review --help
+
+# Run tests
+$ npm test
+
+# Publish to npm
+$ npm login
+$ npm publish --access public
+
+# Users can now install globally
+$ npm install -g @yourusername/claude-dev-tools
+</CodeExample>
+
+### Creating a CLI Framework
+
+<CodeExample language="typescript">
+// src/framework/claude-cli-framework.ts
+export class ClaudeCliFramework {
+  private commands: Map<string, Command> = new Map();
+
+  constructor(
+    private config: FrameworkConfig
+  ) {
+    this.setupGlobalOptions();
+  }
+
+  command(
+    name: string,
+    description: string,
+    handler: CommandHandler
+  ): this {
+    this.commands.set(name, {
+      name,
+      description,
+      handler,
+      options: []
+    });
+    return this;
+  }
+
+  option(
+    commandName: string,
+    flags: string,
+    description: string,
+    defaultValue?: any
+  ): this {
+    const command = this.commands.get(commandName);
+    if (command) {
+      command.options.push({ flags, description, defaultValue });
+    }
+    return this;
+  }
+
+  async run(args: string[] = process.argv.slice(2)): Promise<void> {
+    const commandName = args[0];
+    const command = this.commands.get(commandName);
+
+    if (!command) {
+      this.showHelp();
+      return;
+    }
+
+    try {
+      // Parse options
+      const options = this.parseOptions(args.slice(1), command.options);
+      
+      // Create Claude instance with framework config
+      const claude = new ClaudeCode(this.config.claude);
+      
+      // Execute command
+      await command.handler({
+        claude,
+        options,
+        args: options._,
+        config: this.config
+      });
+    } catch (error) {
+      console.error(chalk.red(`Error: ${error.message}`));
+      process.exit(1);
+    }
+  }
+
+  private showHelp(): void {
+    console.log(`${this.config.name} - ${this.config.description}\n`);
+    console.log('Commands:');
+    
+    this.commands.forEach(cmd => {
+      console.log(`  ${cmd.name.padEnd(15)} ${cmd.description}`);
+    });
+    
+    console.log('\nUse "command --help" for more information');
+  }
+}
+
+// Usage example
+const cli = new ClaudeCliFramework({
+  name: 'my-claude-tools',
+  description: 'Custom Claude development tools',
+  claude: {
+    apiKey: process.env.CLAUDE_API_KEY!,
+    model: 'claude-3-opus-20240229'
+  }
+});
+
+cli
+  .command('analyze', 'Analyze code quality', async ({ claude, args }) => {
+    const file = args[0];
+    const content = readFileSync(file, 'utf-8');
+    
+    const analysis = await claude.complete({
+      prompt: `Analyze this code for quality issues: ${content}`
+    });
+    
+    console.log(analysis.text);
+  })
+  .option('analyze', '-d, --detailed', 'Show detailed analysis')
+  .option('analyze', '-f, --format <type>', 'Output format', 'text');
+
+cli.run();
+</CodeExample>
+
+## Practical Exercise: Build Your Own Claude Tool
+
+Let's build a complete documentation generator that creates beautiful, context-aware documentation.
+
+### Project: Smart Documentation Generator
+
+<CodeExample language="typescript">
+// Exercise: Complete this documentation generator
+
+import { ClaudeCode } from '@anthropic/claude-code-sdk';
+import { readFileSync, writeFileSync } from 'fs';
+import { glob } from 'glob';
+import { parse } from '@babel/parser';
+import traverse from '@babel/traverse';
+
+class SmartDocGenerator {
+  constructor(private claude: ClaudeCode) {}
+
+  async generateProjectDocs(projectPath: string): Promise<void> {
+    // Task 1: Analyze project structure
+    const structure = await this.analyzeStructure(projectPath);
+    
+    // Task 2: Generate overview documentation
+    const overview = await this.generateOverview(structure);
+    
+    // Task 3: Generate API documentation
+    const apiDocs = await this.generateApiDocs(structure.files);
+    
+    // Task 4: Generate usage examples
+    const examples = await this.generateExamples(structure);
+    
+    // Task 5: Compile into beautiful markdown
+    const documentation = this.compileDocumentation({
+      overview,
+      apiDocs,
+      examples,
+      structure
+    });
+    
+    writeFileSync('DOCUMENTATION.md', documentation);
+    console.log('📚 Documentation generated successfully!');
+  }
+
+  private async analyzeStructure(projectPath: string): Promise<ProjectStructure> {
+    // TODO: Implement project structure analysis
+    // Hint: Use glob to find files, analyze package.json, identify entry points
+    throw new Error('Implement analyzeStructure');
+  }
+
+  private async generateOverview(structure: ProjectStructure): Promise<string> {
+    // TODO: Use Claude to generate project overview
+    // Include: purpose, architecture, key features, getting started
+    throw new Error('Implement generateOverview');
+  }
+
+  private async generateApiDocs(files: FileInfo[]): Promise<ApiDocumentation> {
+    // TODO: Parse files and generate API documentation
+    // Extract functions, classes, types, and generate descriptions
+    throw new Error('Implement generateApiDocs');
+  }
+
+  private async generateExamples(structure: ProjectStructure): Promise<Example[]> {
+    // TODO: Generate usage examples based on API
+    // Create practical, runnable examples
+    throw new Error('Implement generateExamples');
+  }
+
+  private compileDocumentation(parts: DocumentationParts): string {
+    // TODO: Compile all parts into cohesive documentation
+    // Add table of contents, format nicely
+    throw new Error('Implement compileDocumentation');
+  }
+}
+
+// Bonus challenges:
+// 1. Add support for multiple output formats (Markdown, HTML, PDF)
+// 2. Generate interactive API documentation with runnable examples
+// 3. Auto-generate diagrams for architecture visualization
+// 4. Create language-specific documentation (JSDoc, Python docstrings, etc.)
+// 5. Add versioning support for documentation
+</CodeExample>
+
+### Exercise Tasks
+
+1. **Basic Implementation**: Complete all TODO methods in the SmartDocGenerator
+2. **Enhanced Analysis**: Add dependency graph generation
+3. **Interactive Docs**: Create an HTML version with syntax highlighting
+4. **Multi-language**: Support Python, Go, and Rust projects
+5. **CI Integration**: Create GitHub Action for automatic doc updates
+
+## Best Practices for SDK Development
+
+### Error Handling
+- Always handle API errors gracefully
+- Implement retry logic for transient failures
+- Provide meaningful error messages
+- Log errors for debugging
+
+### Performance Optimization
+- Use streaming for long responses
+- Implement caching for repeated queries
+- Batch related requests
+- Monitor token usage
+
+### Security Considerations
+- Never hardcode API keys
+- Validate all inputs
+- Sanitize code execution
+- Implement rate limiting
+
+### User Experience
+- Provide progress indicators
+- Support interruption/cancellation
+- Offer multiple output formats
+- Include helpful error messages
+
+## Deployment Strategies
+
+### Docker Packaging
+
+<CodeExample language="dockerfile">
+# Dockerfile for Claude tools
+FROM node:20-slim
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Copy built files
+COPY dist ./dist
+
+# Set up environment
+ENV NODE_ENV=production
+
+# Create non-root user
+RUN useradd -m -s /bin/bash claude
+USER claude
+
+# Expose health check
+HEALTHCHECK CMD node dist/health.js
+
+ENTRYPOINT ["node", "dist/bin/cli.js"]
+</CodeExample>
+
+### GitHub Actions Integration
+
+<CodeExample language="yaml">
+# .github/workflows/claude-tools.yml
+name: Claude Tools CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run tests
+        run: npm test
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          
+      - name: Build
+        run: npm run build
+        
+      - name: Publish to NPM
+        if: github.ref == 'refs/heads/main'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+</CodeExample>
+
+## Key Takeaways
+
+1. **SDK Power**: The Claude Code SDK enables building powerful custom tools
+2. **Unix Philosophy**: Create focused tools that do one thing well
+3. **Context Matters**: Intelligent context gathering improves results
+4. **User Experience**: Good CLI tools are intuitive and helpful
+5. **Distribution**: Package and share your tools with the community
+
+## Course Conclusion
+
+Congratulations! You've mastered Claude Code from its philosophical foundations to building custom integrations. You now have the knowledge to:
+
+- Understand why unopinionated AI tools matter
+- Use Claude Code effectively across all integration methods
+- Implement advanced workflows like TDD and parallel sessions
+- Build and distribute your own Claude-powered tools
+
+### Your Next Steps
+
+1. **Build Something**: Create a custom tool that solves a real problem in your workflow
+2. **Share Knowledge**: Write about your experience with Claude Code
+3. **Contribute**: Share your tools with the community
+4. **Stay Updated**: Follow Claude Code updates as AI capabilities evolve
+
+<Callout type="success">
+You're now equipped to leverage AI as a true development partner, not just a code generator. The future of programming is collaborative intelligence—and you're ready to shape it.
+</Callout>
+
+### Final Exercise: Your Custom Tool
+
+Build and publish your own Claude Code tool that:
+1. Solves a specific problem in your development workflow
+2. Follows Unix philosophy principles
+3. Provides excellent user experience
+4. Includes comprehensive documentation
+5. Is shared with the community (npm, GitHub, etc.)
+
+Remember: The best tools come from real needs. What will you build?

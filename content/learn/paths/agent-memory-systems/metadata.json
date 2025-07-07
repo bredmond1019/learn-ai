@@ -1,0 +1,59 @@
+{
+  "id": "agent-memory-systems",
+  "title": "Agent Memory Systems",
+  "description": "Master the design and implementation of memory systems for intelligent AI agents. Learn 10+ memory types, build production-ready memory management systems, and create agents that build relationships.",
+  "level": "Intermediate",
+  "duration": "10-12 hours",
+  "prerequisites": ["mcp-fundamentals"],
+  "topics": [
+    "Memory Architecture",
+    "Memory Types",
+    "Storage Patterns", 
+    "Retrieval Strategies",
+    "Production Systems"
+  ],
+  "outcomes": [
+    "Understand why memory is fundamental to agent intelligence",
+    "Implement 10+ different types of agent memory",
+    "Build comprehensive memory management systems",
+    "Design memory architectures that scale",
+    "Create agents that learn and build relationships"
+  ],
+  "modules": [
+    {
+      "id": "01-understanding-agent-memory",
+      "title": "Understanding Agent Memory",
+      "description": "Explore why memory transforms stateless AI into intelligent agents",
+      "duration": "90 minutes",
+      "type": "theory"
+    },
+    {
+      "id": "02-memory-types-architecture", 
+      "title": "Memory Types and Architecture",
+      "description": "Deep dive into 10+ memory types with implementation examples",
+      "duration": "150 minutes",
+      "type": "hands-on"
+    },
+    {
+      "id": "03-building-memory-management",
+      "title": "Building Memory Management Systems",
+      "description": "Create unified systems for storage, retrieval, and integration",
+      "duration": "150 minutes",
+      "type": "hands-on"
+    },
+    {
+      "id": "04-advanced-memory-patterns",
+      "title": "Advanced Memory Patterns",
+      "description": "Implement forgetting, memory signals, and neuroscience-inspired patterns",
+      "duration": "120 minutes",
+      "type": "hands-on"
+    },
+    {
+      "id": "05-production-memory-systems",
+      "title": "Production Memory Systems",
+      "description": "Scale, secure, and optimize memory systems for real-world use",
+      "duration": "180 minutes",
+      "type": "project"
+    }
+  ]
+}

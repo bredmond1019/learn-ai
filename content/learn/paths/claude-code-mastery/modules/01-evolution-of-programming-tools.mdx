@@ -1,0 +1,239 @@
+# Evolution of Programming Tools
+
+Welcome to your journey through the evolution of programming tools! Understanding where we've been helps us appreciate where we're going—and why Claude Code's approach is so revolutionary.
+
+## Learning Objectives
+
+By the end of this module, you'll be able to:
+- Trace the evolution of programming from physical punch cards to AI assistants
+- Identify key innovations in programming UX over the decades
+- Understand why the exponential growth of AI models outpaces traditional product development
+- Appreciate Claude Code's place in this historical context
+
+## The Physical Era of Programming (1930s-1950s)
+
+Programming wasn't always about typing on keyboards. In fact, it started as an entirely physical activity.
+
+### Switchboards and Wiring
+
+The earliest "programming" involved physically rewiring machines. The ENIAC (1945) required operators to manually connect cables and set switches—a single "program" change could take days.
+
+### The Punch Card Revolution
+
+<Callout type="history">
+Boris from Anthropic shares a touching story: his grandfather was one of the first programmers in the Soviet Union. His mother would draw with crayons on the punch cards he brought home from work. Programming was literally something you could hold in your hands.
+</Callout>
+
+Punch cards represented the first abstraction—instead of rewiring, you could feed cards into a machine. The IBM 029 keypunch machine became the "MacBook of its time" for programmers.
+
+<CodeExample language="text">
+// A FORTRAN punch card might look like this:
+      PROGRAM HELLO
+      PRINT *, 'HELLO WORLD'
+      END
+// Each line = one physical card with holes punched in specific positions
+</CodeExample>
+
+## The Software Revolution (1950s-1980s)
+
+### The First Text Editor: Ed (1969)
+
+Ken Thompson at Bell Labs created `ed`, the first software text editor. You can still run it today:
+
+<CodeExample language="bash">
+$ ed
+a
+Hello, World!
+This is ed, the standard text editor.
+.
+w hello.txt
+23
+q
+</CodeExample>
+
+No cursor. No scrollback. No syntax highlighting. Just pure text manipulation.
+
+### The GUI Revolution: Smalltalk-80
+
+<Callout type="innovation">
+Smalltalk-80 had live reload in 1980! While we struggle with hot module replacement in modern React apps, Smalltalk developers were changing code and seeing instant results 44 years ago.
+</Callout>
+
+### The IDE Era Begins
+
+- **1991**: Visual Basic brings graphical programming mainstream
+- **2001**: Eclipse introduces intelligent code completion using static analysis
+- **2003**: IntelliJ IDEA revolutionizes refactoring tools
+
+## The Modern Convergence (1990s-2020s)
+
+By the 1990s, programming languages began to converge:
+
+<CodeExample language="javascript">
+// JavaScript (1995)
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+// Python (1991)
+def greet(name):
+    return f"Hello, {name}!"
+
+// Go (2009)
+func greet(name string) string {
+    return fmt.Sprintf("Hello, %s!", name)
+}
+
+// Rust (2010)
+fn greet(name: &str) -> String {
+    format!("Hello, {}!", name)
+}
+</CodeExample>
+
+As Boris notes: "If you squint, all the languages sort of look the same."
+
+## The AI Era (2020s-Present)
+
+### From Syntax to Intent
+
+The fundamental shift: we're moving from writing **how** (syntax) to expressing **what** (intent).
+
+<CodeExample language="bash">
+# Traditional approach
+$ vim user_auth.py
+# Write 100 lines of authentication code
+
+# AI-assisted approach
+$ claude "implement JWT authentication with refresh tokens"
+# Claude generates complete, tested implementation
+</CodeExample>
+
+### The Exponential Model Problem
+
+<Callout type="key-insight">
+"The model is moving really fast. It's on an exponential, it's getting better at coding very, very quickly... and the product is kind of struggling to keep up." - Boris, Anthropic
+</Callout>
+
+This creates a fundamental challenge:
+- Models improve exponentially (doubling capabilities every few months)
+- Products improve linearly (feature by feature)
+- The gap widens constantly
+
+## Why This History Matters
+
+Understanding this evolution helps us see that:
+
+1. **Every major advance made programming more abstract** - from switches to cards to text to GUIs to natural language
+2. **The best tools were unopinionated** - Ed, Unix, Git succeeded by being general-purpose
+3. **Exponential changes require exponential thinking** - incremental improvements won't capture AI's potential
+
+## Claude Code's Place in History
+
+Claude Code represents a philosophical choice:
+- **Stay unopinionated** like Unix tools
+- **Provide low-level access** like early text editors
+- **Enable innovation** rather than prescribe it
+
+<CodeExample language="bash">
+# Claude Code follows Unix philosophy
+$ git log --oneline | claude -p "summarize this week's work" | mail -s "Weekly Update" team@company.com
+
+# Composable, scriptable, powerful
+</CodeExample>
+
+<Quiz>
+  <QuizQuestion
+    question="What was the first software text editor, and what key limitation did it have?"
+    options={[
+      "Vim - it required learning complex key combinations",
+      "Ed - it had no cursor or scrollback capability",
+      "Emacs - it was too resource intensive",
+      "Notepad - it only worked on Windows"
+    ]}
+    correctAnswer={1}
+    explanation="Ed, created by Ken Thompson in 1969, was the first text editor. It was designed for teletype machines that printed on paper, so concepts like cursors and scrollback didn't exist."
+  />
+  
+  <QuizQuestion
+    question="According to Boris, what is the fundamental challenge with AI model development?"
+    options={[
+      "Models are too expensive to train",
+      "Models improve exponentially while products improve linearly",
+      "Models don't understand code well enough",
+      "Models require too much computing power"
+    ]}
+    correctAnswer={1}
+    explanation="The key insight is that AI models improve exponentially (doubling in capability regularly) while products built around them improve linearly (feature by feature), creating an ever-widening gap."
+  />
+  
+  <QuizQuestion
+    question="What programming innovation did Smalltalk-80 introduce in 1980 that we still struggle with today?"
+    options={[
+      "Object-oriented programming",
+      "Graphical user interfaces",
+      "Live reload functionality",
+      "Mouse-driven development"
+    ]}
+    correctAnswer={2}
+    explanation="Smalltalk-80 had working live reload in 1980, allowing developers to change code and see results instantly. Modern developers still struggle to implement reliable hot module replacement."
+  />
+</Quiz>
+
+## Practical Exercise: Experiencing the Evolution
+
+Let's experience this evolution hands-on:
+
+<CodeExample language="bash">
+# Step 1: Try ed (if available on your system)
+$ ed
+a
+This is programming like it's 1969!
+No cursor, no convenience.
+.
+w oldschool.txt
+q
+
+# Step 2: Use a modern editor
+$ vim newschool.txt
+# or
+$ code newschool.txt
+
+# Step 3: Experience AI-assisted development
+$ claude "create a Python function that validates email addresses with proper error handling"
+
+# Step 4: Compare the experiences
+$ claude "read oldschool.txt and newschool.txt, then reflect on how programming UX has evolved"
+</CodeExample>
+
+### Exercise Tasks:
+
+1. **Historical Research**: Find and try one "vintage" programming tool (like ed, or an online punch card simulator)
+2. **Modern Comparison**: Solve the same problem (like FizzBuzz) using:
+   - A traditional text editor
+   - An IDE with autocomplete
+   - Claude Code
+3. **Reflection**: Write a brief comparison of the experiences
+
+<Callout type="exercise">
+**Bonus Challenge**: Ask Claude to simulate programming in different eras:
+```bash
+claude "show me how to write hello world as if I were using punch cards in 1960"
+claude "now show me the same program in Smalltalk-80 style"
+claude "finally, show me how you'd write it today"
+```
+</Callout>
+
+## Key Takeaways
+
+1. **Programming has always been about abstraction** - each era raised the level of what programmers could express
+2. **The exponential/linear gap is unprecedented** - AI capabilities are outpacing our ability to productize them
+3. **Unopinionated tools win** - from Unix to Git to Claude Code, general-purpose tools enable innovation
+4. **We're moving from syntax to intent** - natural language is becoming the new programming language
+
+## What's Next?
+
+In the next module, we'll dive deep into Claude Code's philosophy. Why does it stay unopinionated? How does this benefit you as a developer? And most importantly, how can you leverage this approach to stay ahead of the exponential curve?
+
+<Callout type="preview">
+**Coming Up**: Understanding why Claude Code provides "just enough" UI and how this positions you to leverage increasingly powerful AI models as they emerge.
+</Callout>

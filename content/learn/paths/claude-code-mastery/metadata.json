@@ -1,0 +1,46 @@
+{
+  "id": "claude-code-mastery",
+  "title": "Mastering Claude Code: From Terminal to Custom Integrations",
+  "description": "Learn to leverage Claude Code's unopinionated approach to AI-assisted development. From understanding the evolution of programming tools to building custom integrations with the SDK.",
+  "level": "intermediate",
+  "duration": "10-12 hours",
+  "prerequisites": ["Basic programming knowledge", "Familiarity with command line"],
+  "objectives": [
+    "Understand the evolution of programming tools and where AI fits",
+    "Master Claude Code's terminal, IDE, and GitHub integrations",
+    "Implement advanced workflows like TDD and parallel sessions",
+    "Build custom integrations using the Claude Code SDK",
+    "Apply unopinionated AI assistance to real-world projects"
+  ],
+  "modules": [
+    {
+      "id": "01-evolution-of-programming-tools",
+      "title": "Evolution of Programming Tools",
+      "description": "Trace the journey from punch cards to AI assistants and understand why this history matters for modern development"
+    },
+    {
+      "id": "02-claude-code-philosophy",
+      "title": "Understanding Claude Code's Philosophy",
+      "description": "Learn why Claude Code takes an unopinionated approach and how this benefits developers as AI models evolve"
+    },
+    {
+      "id": "03-claude-code-integrations",
+      "title": "Claude Code Integrations",
+      "description": "Master terminal, IDE, and GitHub integrations to seamlessly incorporate Claude Code into your workflow"
+    },
+    {
+      "id": "04-advanced-workflows",
+      "title": "Advanced Workflows",
+      "description": "Implement powerful patterns like TDD, plan mode, and memory management to maximize productivity"
+    },
+    {
+      "id": "05-building-with-sdk",
+      "title": "Building with Claude Code SDK",
+      "description": "Create custom integrations and Unix utilities using the Claude Code SDK"
+    }
+  ],
+  "tags": ["AI Development", "Claude Code", "Developer Tools", "Productivity"],
+  "author": "Brandon J. Redmond",
+  "createdAt": "2024-12-19",
+  "updatedAt": "2024-12-19"
+}

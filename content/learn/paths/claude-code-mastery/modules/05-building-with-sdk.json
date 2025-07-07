@@ -1,0 +1,23 @@
+{
+  "id": "05-building-with-sdk",
+  "title": "Building with Claude Code SDK",
+  "description": "Create custom integrations and Unix utilities using the Claude Code SDK",
+  "duration": "3 hours",
+  "objectives": [
+    "Understand the Claude Code SDK architecture",
+    "Build custom integrations for your workflow",
+    "Create Unix utilities powered by Claude",
+    "Deploy and distribute custom Claude tools"
+  ],
+  "prerequisites": [
+    "Completion of Advanced Workflows module",
+    "JavaScript/TypeScript programming experience",
+    "Basic understanding of npm packages"
+  ],
+  "skillsGained": [
+    "SDK architecture knowledge",
+    "Custom tool development",
+    "Unix utility creation",
+    "Integration deployment"
+  ]
+}
