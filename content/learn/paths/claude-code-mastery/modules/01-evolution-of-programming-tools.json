@@ -1,0 +1,15 @@
+{
+  "id": "01-evolution-of-programming-tools",
+  "title": "Evolution of Programming Tools",
+  "description": "Trace the journey from punch cards to AI assistants and understand why this history matters for modern development",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "content": {
+        "type": "lesson",
+        "source": "01-evolution-of-programming-tools.mdx"
+      }
+    }
+  ]
+}

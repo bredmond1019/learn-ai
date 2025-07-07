@@ -2,22 +2,14 @@
   "id": "04-advanced-workflows",
   "title": "Advanced Workflows",
   "description": "Implement powerful patterns like TDD, plan mode, and memory management to maximize productivity",
-  "duration": "2.5 hours",
-  "objectives": [
-    "Master Test-Driven Development (TDD) with Claude Code",
-    "Leverage Plan Mode for complex tasks",
-    "Implement effective memory management strategies",
-    "Run parallel Claude sessions for maximum efficiency"
-  ],
-  "prerequisites": [
-    "Completion of Claude Code Integrations module",
-    "Basic understanding of testing concepts",
-    "Familiarity with development workflows"
-  ],
-  "skillsGained": [
-    "TDD with AI assistance",
-    "Strategic planning with Plan Mode",
-    "Memory optimization techniques",
-    "Parallel session management"
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "content": {
+        "type": "lesson",
+        "source": "04-advanced-workflows.mdx"
+      }
+    }
   ]
 }

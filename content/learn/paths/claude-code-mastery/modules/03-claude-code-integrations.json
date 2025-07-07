@@ -1,0 +1,15 @@
+{
+  "id": "03-claude-code-integrations",
+  "title": "Claude Code Integrations",
+  "description": "Master terminal, IDE, and GitHub integrations to seamlessly incorporate Claude Code into your workflow",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction", 
+      "content": {
+        "type": "lesson",
+        "source": "03-claude-code-integrations.mdx"
+      }
+    }
+  ]
+}

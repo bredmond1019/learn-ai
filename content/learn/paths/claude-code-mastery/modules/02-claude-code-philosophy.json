@@ -1,0 +1,15 @@
+{
+  "id": "02-claude-code-philosophy",
+  "title": "Understanding Claude Code's Philosophy",
+  "description": "Learn why Claude Code takes an unopinionated approach and how this benefits developers as AI models evolve",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "content": {
+        "type": "lesson",
+        "source": "02-claude-code-philosophy.mdx"
+      }
+    }
+  ]
+}
