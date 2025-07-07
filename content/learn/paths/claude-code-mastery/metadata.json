@@ -14,27 +14,27 @@
   ],
   "modules": [
     {
-      "id": "01-evolution-of-programming-tools",
+      "id": "evolution-of-programming-tools",
       "title": "Evolution of Programming Tools",
       "description": "Trace the journey from punch cards to AI assistants and understand why this history matters for modern development"
     },
     {
-      "id": "02-claude-code-philosophy",
+      "id": "claude-code-philosophy",
       "title": "Understanding Claude Code's Philosophy",
       "description": "Learn why Claude Code takes an unopinionated approach and how this benefits developers as AI models evolve"
     },
     {
-      "id": "03-claude-code-integrations",
+      "id": "claude-code-integrations",
       "title": "Claude Code Integrations",
       "description": "Master terminal, IDE, and GitHub integrations to seamlessly incorporate Claude Code into your workflow"
     },
     {
-      "id": "04-advanced-workflows",
+      "id": "advanced-workflows",
       "title": "Advanced Workflows",
       "description": "Implement powerful patterns like TDD, plan mode, and memory management to maximize productivity"
     },
     {
-      "id": "05-building-with-sdk",
+      "id": "building-with-sdk",
       "title": "Building with Claude Code SDK",
       "description": "Create custom integrations and Unix utilities using the Claude Code SDK"
     }

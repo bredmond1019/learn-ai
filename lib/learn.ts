@@ -384,7 +384,7 @@ const learningPathsEn: LearningPath[] = [
     ],
     modules: [
       {
-        id: '01-evolution-of-programming-tools',
+        id: 'evolution-of-programming-tools',
         title: 'Evolution of Programming Tools',
         description: 'Trace the journey from punch cards to AI assistants and understand why this history matters',
         duration: '2 hours',
@@ -392,7 +392,7 @@ const learningPathsEn: LearningPath[] = [
         content: 'Historical context and the exponential model challenge'
       },
       {
-        id: '02-claude-code-philosophy',
+        id: 'claude-code-philosophy',
         title: 'Understanding Claude Code\'s Philosophy',
         description: 'Learn why Claude Code takes an unopinionated approach and how this benefits developers',
         duration: '2 hours',
@@ -400,7 +400,7 @@ const learningPathsEn: LearningPath[] = [
         content: 'Unopinionated design principles and practical implications'
       },
       {
-        id: '03-claude-code-integrations',
+        id: 'claude-code-integrations',
         title: 'Claude Code Integrations',
         description: 'Master terminal, IDE, and GitHub integrations to incorporate Claude Code into your workflow',
         duration: '2.5 hours',
@@ -408,7 +408,7 @@ const learningPathsEn: LearningPath[] = [
         content: 'Comprehensive integration setup and best practices'
       },
       {
-        id: '04-advanced-workflows',
+        id: 'advanced-workflows',
         title: 'Advanced Workflows',
         description: 'Implement powerful patterns like TDD, plan mode, and memory management',
         duration: '2.5 hours',
@@ -416,12 +416,71 @@ const learningPathsEn: LearningPath[] = [
         content: 'TDD workflows, plan mode usage, and parallel sessions'
       },
       {
-        id: '05-building-with-sdk',
+        id: 'building-with-sdk',
         title: 'Building with Claude Code SDK',
         description: 'Create custom integrations and Unix utilities using the Claude Code SDK',
         duration: '3 hours',
         type: 'project',
         content: 'SDK architecture and building production-ready tools'
+      }
+    ]
+  },
+  {
+    id: 'agent-memory-systems',
+    title: 'Building Intelligent AI Agents with Memory',
+    description: 'Master the architecture and implementation of memory systems for AI agents. Learn 10+ memory types, management patterns, and production deployment strategies inspired by neuroscience.',
+    level: 'Intermediate',
+    duration: '10-12 hours',
+    topics: ['Agent Memory', 'Memory Architecture', 'Neuroscience-Inspired AI', 'MongoDB', 'Production Systems'],
+    color: 'primary',
+    prerequisites: ['mcp-fundamentals'],
+    outcomes: [
+      'Understand 10+ types of agent memory and their use cases',
+      'Build comprehensive memory management systems',
+      'Implement neuroscience-inspired memory patterns',
+      'Deploy production-ready memory systems with MongoDB',
+      'Create agents that learn and improve over time'
+    ],
+    modules: [
+      {
+        id: '01-understanding-agent-memory',
+        title: 'Understanding Agent Memory',
+        description: 'Explore why memory transforms AI from stateless tools to intelligent partners',
+        duration: '90 minutes',
+        type: 'theory',
+        content: 'Memory fundamentals, stateless vs stateful AI, and business impact'
+      },
+      {
+        id: '02-memory-types-architecture',
+        title: 'Memory Types and Architecture',
+        description: 'Deep dive into 10+ memory types with practical implementations',
+        duration: '120 minutes',
+        type: 'hands-on',
+        content: 'Conversational, entity, episodic, procedural, semantic, and more'
+      },
+      {
+        id: '03-building-memory-management',
+        title: 'Building Memory Management Systems',
+        description: 'Create unified systems for storage, retrieval, and integration',
+        duration: '150 minutes',
+        type: 'hands-on',
+        content: 'Memory lifecycle, signals, validation, and access control'
+      },
+      {
+        id: '04-advanced-memory-patterns',
+        title: 'Advanced Memory Patterns',
+        description: 'Implement forgetting, memory signals, and neuroscience-inspired patterns',
+        duration: '120 minutes',
+        type: 'hands-on',
+        content: 'Consolidation, adaptive forgetting, attention mechanisms'
+      },
+      {
+        id: '05-production-memory-systems',
+        title: 'Production Memory Systems',
+        description: 'Scale, secure, and optimize memory systems for real-world use',
+        duration: '180 minutes',
+        type: 'project',
+        content: 'MongoDB integration, sharding, monitoring, and deployment'
       }
     ]
   }
@@ -777,7 +836,7 @@ const learningPathsPtBR: LearningPath[] = [
     ],
     modules: [
       {
-        id: '01-evolution-of-programming-tools',
+        id: 'evolution-of-programming-tools',
         title: 'Evolução das Ferramentas de Programação',
         description: 'Trace a jornada dos cartões perfurados aos assistentes de IA e entenda por que essa história importa',
         duration: '2 horas',
@@ -785,7 +844,7 @@ const learningPathsPtBR: LearningPath[] = [
         content: 'Contexto histórico e o desafio do modelo exponencial'
       },
       {
-        id: '02-claude-code-philosophy',
+        id: 'claude-code-philosophy',
         title: 'Entendendo a Filosofia do Claude Code',
         description: 'Aprenda por que o Claude Code adota uma abordagem sem opinião e como isso beneficia os desenvolvedores',
         duration: '2 horas',
@@ -793,7 +852,7 @@ const learningPathsPtBR: LearningPath[] = [
         content: 'Princípios de design sem opinião e implicações práticas'
       },
       {
-        id: '03-claude-code-integrations',
+        id: 'claude-code-integrations',
         title: 'Integrações do Claude Code',
         description: 'Domine as integrações de terminal, IDE e GitHub para incorporar o Claude Code ao seu fluxo de trabalho',
         duration: '2.5 horas',
@@ -801,7 +860,7 @@ const learningPathsPtBR: LearningPath[] = [
         content: 'Configuração abrangente de integração e melhores práticas'
       },
       {
-        id: '04-advanced-workflows',
+        id: 'advanced-workflows',
         title: 'Fluxos de Trabalho Avançados',
         description: 'Implemente padrões poderosos como TDD, modo de planejamento e gerenciamento de memória',
         duration: '2.5 horas',
@@ -809,12 +868,71 @@ const learningPathsPtBR: LearningPath[] = [
         content: 'Fluxos de trabalho TDD, uso do modo de planejamento e sessões paralelas'
       },
       {
-        id: '05-building-with-sdk',
+        id: 'building-with-sdk',
         title: 'Construindo com o SDK do Claude Code',
         description: 'Crie integrações customizadas e utilitários Unix usando o SDK do Claude Code',
         duration: '3 horas',
         type: 'project',
         content: 'Arquitetura do SDK e construção de ferramentas prontas para produção'
+      }
+    ]
+  },
+  {
+    id: 'agent-memory-systems',
+    title: 'Construindo Agentes de IA Inteligentes com Memória',
+    description: 'Domine a arquitetura e implementação de sistemas de memória para agentes de IA. Aprenda mais de 10 tipos de memória, padrões de gerenciamento e estratégias de implantação em produção inspiradas pela neurociência.',
+    level: 'Intermediate',
+    duration: '10-12 horas',
+    topics: ['Memória de Agentes', 'Arquitetura de Memória', 'IA Inspirada em Neurociência', 'MongoDB', 'Sistemas em Produção'],
+    color: 'primary',
+    prerequisites: ['mcp-fundamentals'],
+    outcomes: [
+      'Entender mais de 10 tipos de memória de agentes e seus casos de uso',
+      'Construir sistemas abrangentes de gerenciamento de memória',
+      'Implementar padrões de memória inspirados em neurociência',
+      'Implantar sistemas de memória prontos para produção com MongoDB',
+      'Criar agentes que aprendem e melhoram com o tempo'
+    ],
+    modules: [
+      {
+        id: '01-understanding-agent-memory',
+        title: 'Entendendo a Memória de Agentes',
+        description: 'Explore por que a memória transforma IA de ferramentas sem estado em parceiros inteligentes',
+        duration: '90 minutos',
+        type: 'theory',
+        content: 'Fundamentos de memória, IA sem estado vs com estado, e impacto nos negócios'
+      },
+      {
+        id: '02-memory-types-architecture',
+        title: 'Tipos de Memória e Arquitetura',
+        description: 'Mergulho profundo em mais de 10 tipos de memória com implementações práticas',
+        duration: '120 minutos',
+        type: 'hands-on',
+        content: 'Conversacional, entidade, episódica, procedural, semântica, e mais'
+      },
+      {
+        id: '03-building-memory-management',
+        title: 'Construindo Sistemas de Gerenciamento de Memória',
+        description: 'Crie sistemas unificados para armazenamento, recuperação e integração',
+        duration: '150 minutos',
+        type: 'hands-on',
+        content: 'Ciclo de vida da memória, sinais, validação e controle de acesso'
+      },
+      {
+        id: '04-advanced-memory-patterns',
+        title: 'Padrões Avançados de Memória',
+        description: 'Implemente esquecimento, sinais de memória e padrões inspirados em neurociência',
+        duration: '120 minutos',
+        type: 'hands-on',
+        content: 'Consolidação, esquecimento adaptativo, mecanismos de atenção'
+      },
+      {
+        id: '05-production-memory-systems',
+        title: 'Sistemas de Memória em Produção',
+        description: 'Escale, proteja e otimize sistemas de memória para uso no mundo real',
+        duration: '180 minutos',
+        type: 'project',
+        content: 'Integração MongoDB, sharding, monitoramento e implantação'
       }
     ]
   }
