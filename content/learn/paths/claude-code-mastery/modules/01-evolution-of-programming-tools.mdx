@@ -142,7 +142,7 @@ $ git log --oneline | claude -p "summarize this week's work" | mail -s "Weekly U
 </CodeExample>
 
 <Quiz>
-  <QuizQuestion
+  <Question
     question="What was the first software text editor, and what key limitation did it have?"
     options={[
       "Vim - it required learning complex key combinations",
@@ -150,11 +150,11 @@ $ git log --oneline | claude -p "summarize this week's work" | mail -s "Weekly U
       "Emacs - it was too resource intensive",
       "Notepad - it only worked on Windows"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="Ed, created by Ken Thompson in 1969, was the first text editor. It was designed for teletype machines that printed on paper, so concepts like cursors and scrollback didn't exist."
   />
   
-  <QuizQuestion
+  <Question
     question="According to Boris, what is the fundamental challenge with AI model development?"
     options={[
       "Models are too expensive to train",
@@ -162,11 +162,11 @@ $ git log --oneline | claude -p "summarize this week's work" | mail -s "Weekly U
       "Models don't understand code well enough",
       "Models require too much computing power"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="The key insight is that AI models improve exponentially (doubling in capability regularly) while products built around them improve linearly (feature by feature), creating an ever-widening gap."
   />
   
-  <QuizQuestion
+  <Question
     question="What programming innovation did Smalltalk-80 introduce in 1980 that we still struggle with today?"
     options={[
       "Object-oriented programming",
@@ -174,7 +174,7 @@ $ git log --oneline | claude -p "summarize this week's work" | mail -s "Weekly U
       "Live reload functionality",
       "Mouse-driven development"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="Smalltalk-80 had working live reload in 1980, allowing developers to change code and see results instantly. Modern developers still struggle to implement reliable hot module replacement."
   />
 </Quiz>

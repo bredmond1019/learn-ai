@@ -425,7 +425,7 @@ claude --merge-sessions backend,frontend,testing "integrate all components"
 </CodeExample>
 
 <Quiz>
-  <QuizQuestion
+  <Question
     question="In TDD with Claude, what should you always ask for before implementation?"
     options={[
       "Performance benchmarks",
@@ -433,11 +433,11 @@ claude --merge-sessions backend,frontend,testing "integrate all components"
       "Code style guidelines",
       "Database schemas"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="In TDD with Claude, always ask for comprehensive tests first. Claude excels at generating thorough test cases including edge cases you might miss."
   />
   
-  <QuizQuestion
+  <Question
     question="What command would you use to check Claude's context usage?"
     options={[
       "claude --memory",
@@ -445,11 +445,11 @@ claude --merge-sessions backend,frontend,testing "integrate all components"
       "claude --status",
       "claude --check-tokens"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="The --status flag shows current context usage, including tokens used, files in context, and active memory markers."
   />
   
-  <QuizQuestion
+  <Question
     question="What is the Checkpoint Pattern used for?"
     options={[
       "Creating database backups",
@@ -457,11 +457,11 @@ claude --merge-sessions backend,frontend,testing "integrate all components"
       "Version control commits",
       "Testing deployments"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="The Checkpoint Pattern involves regularly saving progress summaries and clearing context to maintain performance over long coding sessions."
   />
   
-  <QuizQuestion
+  <Question
     question="When running parallel Claude sessions, what's the benefit of using --session-name?"
     options={[
       "It makes Claude work faster",
@@ -469,7 +469,7 @@ claude --merge-sessions backend,frontend,testing "integrate all components"
       "It's required for Claude to work",
       "It automatically syncs code between sessions"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="Using --session-name creates isolated contexts for different tasks, allowing you to work on multiple aspects of a project simultaneously without context pollution."
   />
 </Quiz>

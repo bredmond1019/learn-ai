@@ -182,7 +182,7 @@ $ claude "look at recent git changes, identify potential bugs, and write tests f
 </CodeExample>
 
 <Quiz>
-  <QuizQuestion
+  <Question
     question="What is the fundamental principle behind Claude Code's design?"
     options={[
       "Provide the most features possible",
@@ -190,11 +190,11 @@ $ claude "look at recent git changes, identify potential bugs, and write tests f
       "Compete with existing IDEs",
       "Focus on beginner developers"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="Claude Code intentionally stays unopinionated and general-purpose, providing primitives that developers can use however they need, rather than prescribing specific workflows."
   />
   
-  <QuizQuestion
+  <Question
     question="Why does Boris say 'the more general model always wins'?"
     options={[
       "General models are easier to train",
@@ -202,11 +202,11 @@ $ claude "look at recent git changes, identify potential bugs, and write tests f
       "General models can adapt to any use case as they improve",
       "General models use less memory"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="General models win because they can be applied to any problem. As they improve exponentially, they become capable of handling increasingly complex and diverse tasks without needing specialization."
   />
   
-  <QuizQuestion
+  <Question
     question="How does Claude Code approach tool integration differently from traditional IDEs?"
     options={[
       "It requires plugins for each tool",
@@ -214,7 +214,7 @@ $ claude "look at recent git changes, identify potential bugs, and write tests f
       "It learns to use your existing tools",
       "It replaces all other tools"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="Instead of requiring plugins or extensions, Claude Code can learn to use your existing CLI tools by reading their help documentation and understanding their usage patterns."
   />
 </Quiz>

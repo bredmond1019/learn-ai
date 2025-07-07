@@ -924,7 +924,7 @@ Provide the refactored code that accomplishes this specific step.`;
 </CodeExample>
 
 <Quiz>
-  <QuizQuestion
+  <Question
     question="What is the primary interface for interacting with Claude in the SDK?"
     options={[
       "ClaudeAPI class",
@@ -932,11 +932,11 @@ Provide the refactored code that accomplishes this specific step.`;
       "ClaudeSDK class",
       "Claude class"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="The ClaudeCode class is the main interface for interacting with Claude through the SDK, providing methods like complete() and streamComplete()."
   />
   
-  <QuizQuestion
+  <Question
     question="When building Unix utilities with Claude, what principle should you follow?"
     options={[
       "Make them as complex as possible",
@@ -944,11 +944,11 @@ Provide the refactored code that accomplishes this specific step.`;
       "Follow Unix philosophy - do one thing well",
       "Avoid command-line arguments"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="Unix utilities should follow Unix philosophy: do one thing well, be composable, and work well with other tools through pipes and standard I/O."
   />
   
-  <QuizQuestion
+  <Question
     question="What's the benefit of using streaming responses in the SDK?"
     options={[
       "It uses less memory",
@@ -956,11 +956,11 @@ Provide the refactored code that accomplishes this specific step.`;
       "It's required for all SDK calls",
       "It makes responses more accurate"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="Streaming responses allow you to display output in real-time as Claude generates it, providing better user experience for long responses."
   />
   
-  <QuizQuestion
+  <Question
     question="What should you consider when gathering context for code generation?"
     options={[
       "Include every file in the project",
@@ -968,7 +968,7 @@ Provide the refactored code that accomplishes this specific step.`;
       "Balance relevance with context window limits",
       "Context doesn't matter for generation"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="When gathering context, balance including relevant files and patterns while staying within context window limits to ensure effective generation."
   />
 </Quiz>

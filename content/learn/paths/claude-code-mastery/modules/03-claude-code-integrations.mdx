@@ -243,7 +243,7 @@ $ claude "implement the user story JIRA-1234"
 </CodeExample>
 
 <Quiz>
-  <QuizQuestion
+  <Question
     question="What flag allows you to pipe input directly to Claude Code?"
     options={[
       "-i for input",
@@ -251,11 +251,11 @@ $ claude "implement the user story JIRA-1234"
       "--stdin for standard input",
       "-r for read"
     ]}
-    correctAnswer={1}
+    correct={1}
     explanation="The -p flag enables pipe mode, allowing you to pipe command output directly to Claude Code for processing."
   />
   
-  <QuizQuestion
+  <Question
     question="What happens when you run Claude Code inside VS Code's integrated terminal?"
     options={[
       "It fails to work",
@@ -263,11 +263,11 @@ $ claude "implement the user story JIRA-1234"
       "It provides enhanced features like diff views",
       "It requires a special plugin"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="Claude Code detects when it's running inside VS Code and provides enhanced features like beautiful diff views and automatic diagnostic integration."
   />
   
-  <QuizQuestion
+  <Question
     question="How does the GitHub integration handle your code privacy?"
     options={[
       "It uploads your code to Anthropic servers",
@@ -275,11 +275,11 @@ $ claude "implement the user story JIRA-1234"
       "Your code stays on your infrastructure",
       "It requires making repos public"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="The GitHub integration respects privacy - your code stays on your infrastructure. Claude only reads what you explicitly grant access to."
   />
   
-  <QuizQuestion
+  <Question
     question="Which integration is best for automated scripts and CI/CD pipelines?"
     options={[
       "IDE integration",
@@ -287,7 +287,7 @@ $ claude "implement the user story JIRA-1234"
       "Terminal integration",
       "Web interface"
     ]}
-    correctAnswer={2}
+    correct={2}
     explanation="Terminal integration is ideal for automation because it's scriptable, composable with Unix tools, and can be easily integrated into CI/CD pipelines."
   />
 </Quiz>
