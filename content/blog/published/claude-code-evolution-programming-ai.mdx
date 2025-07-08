@@ -70,7 +70,7 @@ Diferente de outras ferramentas de codificação IA que fornecem UIs polidas e f
 
 ### 1. Design Terminal-First
 
-<CodeExample language="bash">
+```bash
 # Instalar Claude Code
 npm install -g @anthropic/claude-code
 
@@ -78,7 +78,7 @@ npm install -g @anthropic/claude-code
 claude "explique esta base de código"
 claude "adicione tratamento de erro ao server.js"
 claude "o que eu entreguei esta semana?" # Lê seus commits do git!
-</CodeExample>
+```
 
 A integração do terminal funciona em qualquer lugar—iTerm2, WSL, sessões SSH, tmux, até mesmo dentro do terminal do VS Code.
 
@@ -91,24 +91,24 @@ Quando usado em uma IDE, o Claude Code aprimora em vez de substituir:
 
 ### 3. Integração GitHub em Minutos
 
-<CodeExample language="bash">
+```bash
 # No chat do Claude
 /install-github-app
 
 # Selecione seu repositório
 # Agora Claude pode trabalhar com qualquer repo GitHub
 # Seus dados permanecem em sua computação!
-</CodeExample>
+```
 
 ### 4. SDK para Integrações Customizadas
 
-<CodeExample language="bash">
+```bash
 # Use Claude como um utilitário Unix
 gcloud logs read --limit 50 | claude -p "encontrar erros" | jq '.errors'
 
 # Construa suas próprias integrações
 npm install @anthropic/claude-code-sdk
-</CodeExample>
+```
 
 ## Fluxos de Trabalho Práticos Que Transformam o Desenvolvimento
 
@@ -120,7 +120,7 @@ Boris compartilha vários fluxos de trabalho poderosos que demonstram as capacid
 Na Anthropic, ensinar Claude Code para cada engenheiro no primeiro dia encurtou os tempos de onboarding de 2-3 semanas para apenas 2 dias.
 </Callout>
 
-<CodeExample language="bash">
+```bash
 # Para novos membros da equipe
 claude "explique o fluxo de autenticação nesta base de código"
 claude "onde os dados do usuário são validados?"
@@ -128,23 +128,23 @@ claude "como adiciono um novo endpoint de API?"
 
 # Para você mesmo na segunda-feira de manhã
 claude "o que eu entreguei na semana passada?"
-</CodeExample>
+```
 
 ### 2. Ensinando Claude Suas Ferramentas
 
 Uma das características mais poderosas do Claude Code é sua capacidade de aprender suas ferramentas específicas sem plugins ou extensões:
 
-<CodeExample language="bash">
+```bash
 # Ensinar Claude uma nova ferramenta CLI
 claude "execute 'my-cli --help', aprenda como funciona, e adicione ao CLAUDE.md"
 
 # Agora Claude pode usar sua ferramenta
 claude "use my-cli para fazer deploy do ambiente de staging"
-</CodeExample>
+```
 
 ### 3. Fluxo de Trabalho Test-Driven Development (TDD)
 
-<CodeExample language="typescript">
+```typescript
 // Conte ao Claude seu plano TDD
 claude "Escreva testes para um serviço de autenticação de usuário. Os testes não vão passar ainda—isso é intencional. Escreva os testes primeiro, faça commit deles, então implemente o código para fazê-los passar."
 
@@ -170,13 +170,13 @@ class UserAuthService {
   }
   // ... implementação continua
 }
-</CodeExample>
+```
 
 ### 4. Modo Plano para Tarefas Complexas
 
 O novo Modo Plano do Claude Code (pressione Shift+Tab) permite revisar planos antes da execução:
 
-<CodeExample language="bash">
+```bash
 # Shift+Tab para entrar no modo plano
 claude "refatorar o sistema de processamento de pagamento para usar a nova API"
 
@@ -189,13 +189,13 @@ claude "refatorar o sistema de processamento de pagamento para usar a nova API"
 # 5. Atualizar testes para cobrir novos cenários
 # 
 # Aprovar este plano? [Y/n]
-</CodeExample>
+```
 
 ### 5. Sessões Claude Paralelas
 
 Usuários avançados frequentemente executam múltiplas sessões Claude para tarefas diferentes:
 
-<CodeExample language="bash">
+```bash
 # Terminal 1: Desenvolvimento de feature
 claude "implementar feature de perfil do usuário"
 
@@ -206,13 +206,13 @@ claude "debugar o vazamento de memória no processamento de imagem"
 claude "atualizar docs da API para os novos endpoints"
 
 # Cada sessão mantém seu próprio contexto
-</CodeExample>
+```
 
 ## Gerenciamento de Memória e Contexto
 
 O Claude Code introduz um novo conceito para IDEs: memória persistente entre sessões.
 
-<CodeExample language="markdown">
+```markdown
 # CLAUDE.md na raiz do seu projeto
 ## Visão Geral do Projeto
 Esta é uma plataforma de e-commerce usando Next.js e Stripe.
@@ -226,11 +226,11 @@ Esta é uma plataforma de e-commerce usando Next.js e Stripe.
 - Autenticação usa NextAuth com JWT
 - Processamento de pagamento através do Stripe Elements
 - Features em tempo real usam Pusher
-</CodeExample>
+```
 
 Você também pode usar o comando `#` para adicionar memórias interativamente:
 
-<CodeExample language="bash">
+```bash
 # Adicionar à memória
 claude "o banco de dados de staging está em staging.db.example.com #remember"
 
@@ -238,7 +238,7 @@ claude "o banco de dados de staging está em staging.db.example.com #remember"
 # A qual memória isso deve ser adicionado?
 # 1. Memória do projeto (CLAUDE.md)
 # 2. Memória global (~/.claude/memory)
-</CodeExample>
+```
 
 ## O Futuro da UX de Programação
 
@@ -294,24 +294,24 @@ Pronto para experimentar o Claude Code? Aqui está como começar:
 
 **Passo 1: Instalação**
 
-<CodeExample language="bash">
+```bash
 npm install -g @anthropic/claude-code
-</CodeExample>
+```
 
 **Passo 2: Primeiro Comando**
 
-<CodeExample language="bash">
+```bash
 # No diretório do seu projeto
 claude "explique esta base de código"
-</CodeExample>
+```
 
 **Passo 3: Configurar Memória**
 
-<CodeExample language="bash">
+```bash
 # Criar um arquivo CLAUDE.md
 echo "# Visão Geral do Projeto" > CLAUDE.md
 claude "analise a base de código e atualize CLAUDE.md com informações chave"
-</CodeExample>
+```
 
 ## Conclusão
 
