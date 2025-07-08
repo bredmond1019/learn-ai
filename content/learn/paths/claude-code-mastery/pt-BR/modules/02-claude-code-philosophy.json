@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "id": "claude-code-philosophy",
+    "pathId": "claude-code-mastery",
+    "title": "Compreendendo a Filosofia do Claude Code",
+    "description": "Aprenda por que o Claude Code adota uma abordagem sem opiniões e como isso beneficia os desenvolvedores à medida que os modelos de IA evoluem",
+    "duration": "2 horas",
+    "type": "theory",
+    "difficulty": "intermediate",
+    "order": 2,
+    "objectives": [
+      "Entender o conceito de ferramentas 'sem opinião' e por que elas importam",
+      "Compreender como melhorias exponenciais de modelos desafiam o desenvolvimento tradicional de produtos",
+      "Aprender os princípios de design do Claude Code e suas implicações práticas",
+      "Descobrir como aproveitar ferramentas de IA sem opinião para máxima flexibilidade"
+    ],
+    "tags": ["filosofia", "design", "IA", "Claude Code"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-19",
+    "author": "Brandon J. Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "02-claude-code-philosophy.mdx"
+      }
+    }
+  ]
+}

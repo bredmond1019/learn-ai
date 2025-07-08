@@ -1,0 +1,76 @@
+{
+  "id": "12-factor-agent-development",
+  "title": "Desenvolvimento de Agentes 12 Fatores",
+  "description": "Domine os 12 padrões principais para construir agentes de IA prontos para produção. Vá além das abstrações de frameworks para criar aplicações LLM confiáveis e mantíveis usando princípios comprovados de engenharia de software.",
+  "level": "intermediate",
+  "difficulty": "intermediate",
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "duration": "8-10 horas",
+  "totalDuration": "10 horas",
+  "estimatedHours": 10,
+  "topics": [
+    "Agentes de IA",
+    "Aplicações LLM", 
+    "Arquitetura de Software",
+    "IA em Produção",
+    "Padrões de Design de Agentes",
+    "Fluxo de Controle",
+    "Gerenciamento de Estado",
+    "Interação Humano-Agente"
+  ],
+  "tags": [
+    "agentes",
+    "llm",
+    "produção",
+    "arquitetura",
+    "12-fatores",
+    "confiabilidade",
+    "engenharia-de-software"
+  ],
+  "prerequisites": [
+    "ai-engineering-fundamentals"
+  ],
+  "learningOutcomes": [
+    "Entender por que a maioria dos agentes falha na marca de 70-80% de qualidade e como ir além disso",
+    "Dominar a extração JSON como o bloco fundamental de construção dos sistemas de agentes",
+    "Projetar e implementar arquiteturas de agentes sem estado e interrompíveis",
+    "Construir micro-agentes prontos para produção com limites e responsabilidades claras",
+    "Criar sistemas robustos de colaboração humano-agente",
+    "Aplicar princípios de engenharia de software ao desenvolvimento de aplicações LLM"
+  ],
+  "modules": [
+    "01-rethinking-agents-as-software",
+    "02-control-flow-and-state-management",
+    "03-prompt-and-context-engineering",
+    "04-human-agent-collaboration",
+    "05-building-production-micro-agents"
+  ],
+  "resources": [
+    {
+      "title": "Repositório GitHub de Agentes 12 Fatores",
+      "type": "repository",
+      "url": "https://github.com/12factor-agents/12factor-agents",
+      "required": true
+    },
+    {
+      "title": "Palestra Original sobre Agentes 12 Fatores por Dex Horthy",
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=8kMaTybvDUw",
+      "required": false
+    },
+    {
+      "title": "Documentação HumanLayer",
+      "type": "documentation",
+      "url": "https://docs.humanlayer.com",
+      "required": false
+    },
+    {
+      "title": "Estudos de Caso de Agentes em Produção",
+      "type": "article",
+      "url": "https://12factor-agents.com/case-studies",
+      "required": false
+    }
+  ]
+}

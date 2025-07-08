@@ -1,0 +1,380 @@
+# Integrações do Claude Code
+
+O Claude Code oferece três métodos principais de integração, cada um projetado para encontrá-lo onde você trabalha. Neste módulo, dominaremos a integração com terminal, aprimoramento de IDE e recursos de colaboração no GitHub.
+
+## Objetivos de Aprendizagem
+
+Ao final deste módulo, você será capaz de:
+- Configurar e usar o Claude Code em qualquer ambiente de terminal
+- Integrar o Claude Code com seu IDE favorito
+- Conectar o Claude Code a repositórios GitHub
+- Escolher o método de integração certo para diferentes tarefas
+
+## Integração com Terminal: A Fundação
+
+A integração com terminal é a oferta mais fundamental do Claude Code—funciona em qualquer lugar que você tenha uma linha de comando.
+
+### Instalação e Configuração
+
+<CodeExample language="bash">
+# Instalar globalmente via npm
+npm install -g @anthropic/claude-code
+
+# Ou usar outros gerenciadores de pacotes
+brew install claude-code  # macOS
+apt install claude-code   # Ubuntu (em breve)
+
+# Verificar instalação
+claude --version
+</CodeExample>
+
+### Compatibilidade Universal
+
+O Claude Code funciona em qualquer ambiente de terminal:
+
+<CodeExample language="bash">
+# Terminais nativos
+- Terminal.app (macOS)
+- iTerm2
+- Windows Terminal
+- GNOME Terminal
+
+# Multiplexadores de terminal
+$ tmux new -s coding
+$ claude "explique o gerenciamento de painéis do tmux"
+
+# Via SSH
+$ ssh servidor-dev
+$ claude "analise o desempenho do sistema"
+
+# Dentro de terminais de IDE
+# VS Code: Ctrl+` (crase)
+# IntelliJ: Alt+F12
+# Cursor: Mesmo que VS Code
+$ claude "refatore o código selecionado"
+</CodeExample>
+
+### Comandos Principais do Terminal
+
+<CodeExample language="bash">
+# Uso básico
+$ claude "sua solicitação aqui"
+
+# Modo pipe (flag -p)
+$ echo "function quebrada() { return null }" | claude -p "corrija esta função"
+
+# Contexto de arquivo
+$ claude "explique main.py"  # Claude lê automaticamente o arquivo
+
+# Múltiplos arquivos
+$ claude "como auth.py e database.py interagem?"
+
+# Contexto de diretório
+$ claude "resuma a estrutura do diretório src/"
+</CodeExample>
+
+### Recursos Avançados do Terminal
+
+<Callout type="power-tip">
+O Claude Code segue a filosofia Unix—é um cidadão bem-comportado no ecossistema de linha de comando.
+</Callout>
+
+<CodeExample language="bash">
+# Combine com ferramentas Unix
+$ find . -name "*.test.js" | claude -p "liste todos os arquivos de teste que precisam de atualizações"
+
+# Use em scripts
+#!/bin/bash
+LOG_ERRO=$(tail -100 /var/log/app.log | grep ERROR)
+echo "$LOG_ERRO" | claude -p "diagnostique esses erros e sugira correções"
+
+# Processamento em segundo plano
+$ claude "refatore todos os arquivos Python para conformidade PEP 8" &
+$ jobs  # Verificar progresso
+
+# Redirecionamento de saída
+$ claude "gere documentação da API" > api-docs.md
+$ claude "crie testes unitários para user.py" >> test_user.py
+</CodeExample>
+
+## Integração com IDE: Experiência Aprimorada
+
+Quando você executa o Claude Code dentro do terminal de uma IDE, ele detecta o ambiente e fornece recursos aprimorados.
+
+### IDEs Suportadas
+
+- **VS Code**: Integração completa com visualização de diff
+- **Cursor**: Funciona no terminal com recursos aprimorados
+- **IntelliJ IDEA**: Integração com terminal
+- **Sublime Text**: Integração com terminal
+- **Vim/Neovim**: Integração com terminal + plugins disponíveis
+
+### Recursos Específicos de IDE
+
+<CodeExample language="bash">
+# No terminal do VS Code
+$ claude "refatore esta função para melhor desempenho"
+# Resultado: Abre uma visualização de diff mostrando mudanças propostas
+
+# Detecção automática de contexto
+$ claude "corrija o erro na linha 42"
+# Claude lê o arquivo ativo e diagnósticos
+
+# Operações em múltiplos arquivos
+$ claude "atualize todos os imports após mover utils.py para lib/"
+# Mudanças aparecem no visualizador de diff da IDE
+</CodeExample>
+
+### Integração Profunda com VS Code
+
+<CodeExample language="javascript">
+// .vscode/settings.json
+{
+  "terminal.integrated.defaultProfile.osx": "bash",
+  "terminal.integrated.env.osx": {
+    "CLAUDE_EDITOR": "code"
+  },
+  "files.watcherExclude": {
+    "**/.claude-cache/**": true
+  }
+}
+</CodeExample>
+
+### Fluxos de Trabalho com IDE
+
+<CodeExample language="bash">
+# Assistente para standup matinal
+$ claude "verifique o git log e me diga no que trabalhei ontem"
+
+# Assistente de revisão de código
+$ claude "revise as mudanças neste PR e sugira melhorias"
+
+# Parceiro de depuração
+$ claude "tenho uma exceção de ponteiro nulo na linha 89, ajude-me a rastrear o problema"
+
+# Gerador de documentação
+$ claude "gere comentários JSDoc para todas as funções exportadas"
+</CodeExample>
+
+## Integração com GitHub: Inteligência em Todo o Repositório
+
+A integração com GitHub permite que o Claude trabalhe com qualquer repositório sem cloná-lo localmente.
+
+### Configurando a Integração com GitHub
+
+<CodeExample language="bash">
+# No chat do Claude (não no terminal)
+/install-github-app
+
+# Siga os prompts:
+# 1. Autentique com o GitHub
+# 2. Selecione repositórios para conceder acesso
+# 3. Claude agora pode ler esses repos
+
+# Nota de privacidade: Seu código permanece em SUA infraestrutura
+# Claude só lê o que você compartilha explicitamente
+</CodeExample>
+
+### Usando a Integração com GitHub
+
+Uma vez conectado, você pode referenciar repositórios naturalmente:
+
+<CodeExample language="text">
+# No chat do Claude
+"Veja github.com/meuorg/meurepo e explique o fluxo de autenticação"
+
+"Revise os PRs recentes em github.com/meuorg/meurepo para problemas de segurança"
+
+"Gere testes abrangentes para as rotas da API em github.com/meuorg/backend"
+</CodeExample>
+
+### Exemplos de Fluxo de Trabalho com GitHub
+
+<Callout type="workflow">
+A integração com GitHub é perfeita para:
+- Revisões de código sem configuração local
+- Análise de bases de código desconhecidas
+- Refatoração entre repositórios
+- Geração de documentação para repos da equipe
+</Callout>
+
+<CodeExample language="bash">
+# Análise de arquitetura
+"Analise a arquitetura de github.com/facebook/react e crie um diagrama"
+
+# Auditoria de segurança
+"Verifique github.com/minhaempresa/api por vulnerabilidades comuns de segurança"
+
+# Análise de dependências
+"Liste todas as dependências em github.com/meuprojeto/backend e sinalize as desatualizadas"
+
+# Refatoração entre repos
+"Mostre-me todos os repos que importam a API depreciada de github.com/minhaempresa/legado"
+</CodeExample>
+
+## Escolhendo a Integração Certa
+
+### Matriz de Decisão
+
+| Caso de Uso | Melhor Integração | Por quê |
+|----------|-----------------|-----|
+| Perguntas rápidas de código | Terminal | Rápido, sem mudança de contexto |
+| Desenvolvimento ativo | Terminal IDE | Diffs aprimorados, diagnósticos |
+| Revisão de código | GitHub | Sem necessidade de configuração local |
+| Automação/Scripts | Terminal | Componível, scriptável |
+| Aprender nova base de código | GitHub | Navegar sem clonar |
+| Programação em par | Terminal IDE | Tempo real, contextual |
+
+### Combinações de Integração
+
+Você pode usar múltiplas integrações juntas:
+
+<CodeExample language="bash">
+# Fluxo de trabalho matinal
+# 1. GitHub: Verificar PRs da noite
+"Revise PRs enviados para github.com/meutime/projeto durante a noite"
+
+# 2. Terminal: Atualizar ambiente local
+$ claude "verifique meu ambiente local e atualize dependências"
+
+# 3. IDE: Começar a codificar
+$ code .
+$ claude "implemente a história de usuário JIRA-1234"
+</CodeExample>
+
+<Quiz>
+  <Question
+    question="Qual flag permite que você envie entrada diretamente para o Claude Code via pipe?"
+    options={[
+      "-i para entrada",
+      "-p para pipe",
+      "--stdin para entrada padrão",
+      "-r para ler"
+    ]}
+    correct={1}
+    explanation="A flag -p habilita o modo pipe, permitindo que você envie a saída de comandos diretamente para o Claude Code para processamento."
+  />
+  
+  <Question
+    question="O que acontece quando você executa o Claude Code dentro do terminal integrado do VS Code?"
+    options={[
+      "Ele falha ao funcionar",
+      "Funciona igual a qualquer terminal",
+      "Fornece recursos aprimorados como visualizações de diff",
+      "Requer um plugin especial"
+    ]}
+    correct={2}
+    explanation="O Claude Code detecta quando está executando dentro do VS Code e fornece recursos aprimorados como belas visualizações de diff e integração automática de diagnósticos."
+  />
+  
+  <Question
+    question="Como a integração com GitHub lida com a privacidade do seu código?"
+    options={[
+      "Faz upload do seu código para servidores da Anthropic",
+      "Torna seus repos privados públicos",
+      "Seu código permanece em sua infraestrutura",
+      "Requer tornar repos públicos"
+    ]}
+    correct={2}
+    explanation="A integração com GitHub respeita a privacidade - seu código permanece em sua infraestrutura. Claude só lê o que você concede acesso explicitamente."
+  />
+  
+  <Question
+    question="Qual integração é melhor para scripts automatizados e pipelines CI/CD?"
+    options={[
+      "Integração com IDE",
+      "Integração com GitHub",
+      "Integração com terminal",
+      "Interface web"
+    ]}
+    correct={2}
+    explanation="A integração com terminal é ideal para automação porque é scriptável, componível com ferramentas Unix e pode ser facilmente integrada em pipelines CI/CD."
+  />
+</Quiz>
+
+## Exercício Prático: Fluxo de Trabalho Multi-Integração
+
+Vamos construir um fluxo de trabalho completo usando todas as três integrações:
+
+### Cenário: Desenvolvimento de Novo Recurso
+
+Você foi encarregado de adicionar uma camada de cache a uma API existente.
+
+<CodeExample language="bash">
+# Parte 1: Pesquisa (Integração GitHub)
+# No chat do Claude:
+"Analise github.com/meutime/api e sugira onde adicionar cache"
+
+# Parte 2: Configuração Local (Integração Terminal)
+$ git clone git@github.com:meutime/api.git
+$ cd api
+$ claude "verifique os requisitos de configuração deste projeto e ajude-me a instalar dependências"
+
+# Parte 3: Implementação (Integração IDE)
+$ code .  # Abrir no VS Code
+$ claude "implemente cache Redis para o endpoint /users"
+# Veja diffs no VS Code
+
+# Parte 4: Testes (Integração Terminal)
+$ claude "escreva testes abrangentes para a nova camada de cache"
+$ npm test
+
+# Parte 5: Documentação (Misto)
+$ claude "atualize README.md com instruções de configuração de cache"
+$ claude "gere documentação da API para os endpoints com cache" > docs/cache.md
+
+# Parte 6: Revisão (Integração GitHub)
+# Após fazer push:
+"Revise meu PR em github.com/meutime/api/pull/123 para melhores práticas"
+</CodeExample>
+
+### Tarefas do Exercício
+
+1. **Domínio do Terminal**: Crie um alias bash que usa Claude Code para analisar complexidade de código:
+   ```bash
+   alias complexidade='find . -name "*.js" | xargs wc -l | sort -nr | head -20 | claude -p "analise complexidade"'
+   ```
+
+2. **Aprimoramento de IDE**: Configure sua IDE para usar Claude Code para tarefas específicas (linting, formatação, etc.)
+
+3. **Fluxo de Trabalho GitHub**: Use a integração GitHub para analisar um projeto open-source popular e criar um documento de arquitetura
+
+4. **Cadeia de Integração**: Construa um script que:
+   - Use integração GitHub para verificar novos issues
+   - Use integração terminal para criar branch
+   - Use integração IDE para implementar correções
+
+## Melhores Práticas
+
+### Integração com Terminal
+- Use flag `-p` para piping mantendo a filosofia Unix
+- Crie aliases para operações comuns
+- Combine com ferramentas existentes (grep, find, awk)
+- Use em git hooks para verificações automatizadas
+
+### Integração com IDE
+- Mantenha terminal Claude aberto em painel dedicado
+- Use para revisão de código em tempo real enquanto digita
+- Aproveite integração de diagnósticos
+- Crie atalhos de teclado para comandos Claude comuns
+
+### Integração com GitHub
+- Perfeito para bases de código desconhecidas
+- Use para documentação de arquitetura
+- Ótimo para auditorias de segurança
+- Ideal para revisões de código entre equipes
+
+## Principais Conclusões
+
+1. **Terminal é Universal** - Funciona em todo lugar, scriptável, componível
+2. **IDE Aprimora Experiência** - Melhor visualização, consciência contextual
+3. **GitHub Habilita Escala** - Analise qualquer repo sem configuração local
+4. **Combine para Poder** - Use todos os três baseado na tarefa em mãos
+
+## Próximos Passos
+
+Você dominou as três integrações principais. No próximo módulo, exploraremos fluxos de trabalho avançados que aproveitam essas integrações para transformar como você desenvolve software.
+
+<Callout type="preview">
+**Próximo**: Aprenda TDD com Claude, domine o modo planejamento, implemente gerenciamento de memória e descubra o poder de sessões Claude paralelas.
+</Callout>

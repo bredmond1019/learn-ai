@@ -1,0 +1,239 @@
+# Evolução das Ferramentas de Programação
+
+Bem-vindo à sua jornada pela evolução das ferramentas de programação! Entender de onde viemos nos ajuda a apreciar para onde estamos indo—e por que a abordagem do Claude Code é tão revolucionária.
+
+## Objetivos de Aprendizagem
+
+Ao final deste módulo, você será capaz de:
+- Traçar a evolução da programação desde cartões perfurados físicos até assistentes de IA
+- Identificar inovações-chave na UX de programação ao longo das décadas
+- Entender por que o crescimento exponencial dos modelos de IA supera o desenvolvimento tradicional de produtos
+- Apreciar o lugar do Claude Code neste contexto histórico
+
+## A Era Física da Programação (1930-1950)
+
+Programar nem sempre foi sobre digitar em teclados. Na verdade, começou como uma atividade inteiramente física.
+
+### Quadros de Conexões e Fiação
+
+A "programação" mais antiga envolvia fisicamente reconectar máquinas. O ENIAC (1945) exigia que operadores conectassem cabos manualmente e configurassem interruptores—uma única mudança de "programa" poderia levar dias.
+
+### A Revolução dos Cartões Perfurados
+
+<Callout type="history">
+Boris da Anthropic compartilha uma história tocante: seu avô foi um dos primeiros programadores na União Soviética. Sua mãe desenhava com giz de cera nos cartões perfurados que ele trazia do trabalho para casa. Programação era literalmente algo que você podia segurar nas mãos.
+</Callout>
+
+Cartões perfurados representaram a primeira abstração—em vez de reconectar fios, você podia alimentar cartões em uma máquina. A máquina de perfuração IBM 029 se tornou o "MacBook de sua época" para programadores.
+
+<CodeExample language="text">
+// Um cartão perfurado FORTRAN poderia parecer assim:
+      PROGRAM HELLO
+      PRINT *, 'HELLO WORLD'
+      END
+// Cada linha = um cartão físico com furos perfurados em posições específicas
+</CodeExample>
+
+## A Revolução do Software (1950-1980)
+
+### O Primeiro Editor de Texto: Ed (1969)
+
+Ken Thompson nos Bell Labs criou o `ed`, o primeiro editor de texto por software. Você ainda pode executá-lo hoje:
+
+<CodeExample language="bash">
+$ ed
+a
+Olá, Mundo!
+Este é o ed, o editor de texto padrão.
+.
+w ola.txt
+23
+q
+</CodeExample>
+
+Sem cursor. Sem histórico. Sem destaque de sintaxe. Apenas manipulação pura de texto.
+
+### A Revolução GUI: Smalltalk-80
+
+<Callout type="innovation">
+Smalltalk-80 tinha recarga ao vivo em 1980! Enquanto lutamos com substituição de módulos a quente em aplicações React modernas, desenvolvedores Smalltalk estavam mudando código e vendo resultados instantâneos há 44 anos.
+</Callout>
+
+### O Início da Era IDE
+
+- **1991**: Visual Basic traz programação gráfica ao mainstream
+- **2001**: Eclipse introduz completamento inteligente de código usando análise estática
+- **2003**: IntelliJ IDEA revoluciona ferramentas de refatoração
+
+## A Convergência Moderna (1990-2020)
+
+Nos anos 1990, as linguagens de programação começaram a convergir:
+
+<CodeExample language="javascript">
+// JavaScript (1995)
+function greet(name) {
+  return `Olá, ${name}!`;
+}
+
+// Python (1991)
+def greet(name):
+    return f"Olá, {name}!"
+
+// Go (2009)
+func greet(name string) string {
+    return fmt.Sprintf("Olá, %s!", name)
+}
+
+// Rust (2010)
+fn greet(name: &str) -> String {
+    format!("Olá, {}!", name)
+}
+</CodeExample>
+
+Como Boris observa: "Se você olhar de longe, todas as linguagens parecem meio que iguais."
+
+## A Era da IA (2020-Presente)
+
+### De Sintaxe para Intenção
+
+A mudança fundamental: estamos passando de escrever **como** (sintaxe) para expressar **o quê** (intenção).
+
+<CodeExample language="bash">
+# Abordagem tradicional
+$ vim user_auth.py
+# Escrever 100 linhas de código de autenticação
+
+# Abordagem assistida por IA
+$ claude "implementar autenticação JWT com tokens de atualização"
+# Claude gera implementação completa e testada
+</CodeExample>
+
+### O Problema do Modelo Exponencial
+
+<Callout type="key-insight">
+"O modelo está se movendo muito rápido. Está em uma exponencial, está melhorando em codificação muito, muito rapidamente... e o produto está meio que lutando para acompanhar." - Boris, Anthropic
+</Callout>
+
+Isso cria um desafio fundamental:
+- Modelos melhoram exponencialmente (dobrando capacidades a cada poucos meses)
+- Produtos melhoram linearmente (recurso por recurso)
+- A lacuna se amplia constantemente
+
+## Por Que Esta História Importa
+
+Entender esta evolução nos ajuda a ver que:
+
+1. **Cada grande avanço tornou a programação mais abstrata** - de interruptores para cartões para texto para GUIs para linguagem natural
+2. **As melhores ferramentas eram sem opinião** - Ed, Unix, Git tiveram sucesso sendo de propósito geral
+3. **Mudanças exponenciais requerem pensamento exponencial** - melhorias incrementais não capturarão o potencial da IA
+
+## O Lugar do Claude Code na História
+
+Claude Code representa uma escolha filosófica:
+- **Permanecer sem opinião** como ferramentas Unix
+- **Fornecer acesso de baixo nível** como editores de texto antigos
+- **Habilitar inovação** em vez de prescrevê-la
+
+<CodeExample language="bash">
+# Claude Code segue a filosofia Unix
+$ git log --oneline | claude -p "resumir o trabalho desta semana" | mail -s "Atualização Semanal" equipe@empresa.com
+
+# Componível, scriptável, poderoso
+</CodeExample>
+
+<Quiz>
+  <Question
+    question="Qual foi o primeiro editor de texto por software, e qual limitação-chave ele tinha?"
+    options={[
+      "Vim - exigia aprender combinações complexas de teclas",
+      "Ed - não tinha cursor ou capacidade de histórico",
+      "Emacs - era muito intensivo em recursos",
+      "Notepad - só funcionava no Windows"
+    ]}
+    correct={1}
+    explanation="Ed, criado por Ken Thompson em 1969, foi o primeiro editor de texto. Foi projetado para máquinas de teletipo que imprimiam em papel, então conceitos como cursores e histórico não existiam."
+  />
+  
+  <Question
+    question="De acordo com Boris, qual é o desafio fundamental com o desenvolvimento de modelos de IA?"
+    options={[
+      "Modelos são muito caros para treinar",
+      "Modelos melhoram exponencialmente enquanto produtos melhoram linearmente",
+      "Modelos não entendem código bem o suficiente",
+      "Modelos requerem muito poder computacional"
+    ]}
+    correct={1}
+    explanation="A percepção-chave é que modelos de IA melhoram exponencialmente (dobrando em capacidade regularmente) enquanto produtos construídos ao redor deles melhoram linearmente (recurso por recurso), criando uma lacuna sempre crescente."
+  />
+  
+  <Question
+    question="Que inovação de programação o Smalltalk-80 introduziu em 1980 com a qual ainda lutamos hoje?"
+    options={[
+      "Programação orientada a objetos",
+      "Interfaces gráficas de usuário",
+      "Funcionalidade de recarga ao vivo",
+      "Desenvolvimento orientado por mouse"
+    ]}
+    correct={2}
+    explanation="Smalltalk-80 tinha recarga ao vivo funcionando em 1980, permitindo que desenvolvedores mudassem código e vissem resultados instantaneamente. Desenvolvedores modernos ainda lutam para implementar substituição confiável de módulos a quente."
+  />
+</Quiz>
+
+## Exercício Prático: Experimentando a Evolução
+
+Vamos experimentar esta evolução na prática:
+
+<CodeExample language="bash">
+# Passo 1: Tente o ed (se disponível em seu sistema)
+$ ed
+a
+Isto é programação como em 1969!
+Sem cursor, sem conveniência.
+.
+w estilo_antigo.txt
+q
+
+# Passo 2: Use um editor moderno
+$ vim estilo_novo.txt
+# ou
+$ code estilo_novo.txt
+
+# Passo 3: Experimente desenvolvimento assistido por IA
+$ claude "criar uma função Python que valida endereços de email com tratamento apropriado de erros"
+
+# Passo 4: Compare as experiências
+$ claude "ler estilo_antigo.txt e estilo_novo.txt, então refletir sobre como a UX de programação evoluiu"
+</CodeExample>
+
+### Tarefas do Exercício:
+
+1. **Pesquisa Histórica**: Encontre e experimente uma ferramenta de programação "vintage" (como ed, ou um simulador online de cartão perfurado)
+2. **Comparação Moderna**: Resolva o mesmo problema (como FizzBuzz) usando:
+   - Um editor de texto tradicional
+   - Uma IDE com autocompletar
+   - Claude Code
+3. **Reflexão**: Escreva uma breve comparação das experiências
+
+<Callout type="exercise">
+**Desafio Bônus**: Peça ao Claude para simular programação em diferentes eras:
+```bash
+claude "mostre-me como escrever olá mundo como se eu estivesse usando cartões perfurados em 1960"
+claude "agora mostre-me o mesmo programa no estilo Smalltalk-80"
+claude "finalmente, mostre-me como você escreveria hoje"
+```
+</Callout>
+
+## Principais Conclusões
+
+1. **Programação sempre foi sobre abstração** - cada era elevou o nível do que os programadores podiam expressar
+2. **A lacuna exponencial/linear é sem precedentes** - capacidades de IA estão superando nossa habilidade de transformá-las em produtos
+3. **Ferramentas sem opinião vencem** - do Unix ao Git ao Claude Code, ferramentas de propósito geral habilitam inovação
+4. **Estamos passando de sintaxe para intenção** - linguagem natural está se tornando a nova linguagem de programação
+
+## O Que Vem a Seguir?
+
+No próximo módulo, mergulharemos profundamente na filosofia do Claude Code. Por que ele permanece sem opinião? Como isso beneficia você como desenvolvedor? E mais importante, como você pode aproveitar esta abordagem para se manter à frente da curva exponencial?
+
+<Callout type="preview">
+**Próximo**: Entendendo por que o Claude Code fornece "apenas o suficiente" de UI e como isso o posiciona para aproveitar modelos de IA cada vez mais poderosos à medida que surgem.
+</Callout>

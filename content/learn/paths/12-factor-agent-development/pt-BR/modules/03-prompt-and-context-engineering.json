@@ -1,0 +1,224 @@
+{
+  "id": "03-prompt-and-context-engineering",
+  "pathId": "12-factor-agent-development",
+  "title": "Engenharia de Prompt e Contexto",
+  "description": "Aprenda por que prompts de produção exigem precisão artesanal, não templates genéricos. Domine o gerenciamento de janela de contexto, padrões de tratamento de erros e a disciplina de engenharia que transforma 80% de confiabilidade em 99%.",
+  "duration": "120 minutos",
+  "estimatedCompletionTime": "120 minutos",
+  "type": "module",
+  "difficulty": "intermediate",
+  "order": 3,
+  "objectives": [
+    "Entender por que cada token de produção deve ser criado artesanalmente",
+    "Dominar estratégias explícitas de gerenciamento de janela de contexto",
+    "Implementar tratamento inteligente de erros que melhora o comportamento do agente",
+    "Aprender padrões de engenharia de prompt que garantem confiabilidade em escala",
+    "Construir técnicas de otimização de contexto para workflows complexos"
+  ],
+  "prerequisites": [
+    "Conclusão dos Módulos 1-2",
+    "Experiência com básicos de prompting de LLM",
+    "Compreensão de limites de tokens e janelas de contexto"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "O Problema da Última Milha",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#introduction"
+      }
+    },
+    {
+      "id": "own-your-prompts",
+      "title": "Fator 2: Assuma o Controle dos Seus Prompts",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "30 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#own-your-prompts"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "De Prompts Genéricos para Produção",
+          "description": "A evolução de um prompt do protótipo à produção"
+        },
+        {
+          "language": "python",
+          "title": "Otimização em Nível de Token",
+          "description": "Engenharia de prompts para máxima precisão e eficiência"
+        }
+      ]
+    },
+    {
+      "id": "context-window-management",
+      "title": "Fator 3: Gerencie Janelas de Contexto Explicitamente",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "35 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#context-window-management"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Gerenciamento Dinâmico de Contexto",
+          "description": "Construindo janelas de contexto que se adaptam às necessidades do agente"
+        },
+        {
+          "language": "python",
+          "title": "Estratégias de Compressão de Contexto",
+          "description": "Técnicas para caber mais informação em menos espaço"
+        }
+      ]
+    },
+    {
+      "id": "error-handling",
+      "title": "Fator 10: Tratamento Explícito de Erros",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "25 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#error-handling"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Processamento Inteligente de Erros",
+          "description": "Transformando erros em oportunidades de aprendizado para seu agente"
+        },
+        {
+          "language": "python",
+          "title": "Padrões de Recuperação de Erros",
+          "description": "Construindo agentes que lidam graciosamente e se recuperam de falhas"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Verificação de Conhecimento",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#knowledge-check"
+      },
+      "description": "Quiz interativo testando sua compreensão dos princípios de engenharia de prompt e contexto"
+    },
+    {
+      "id": "quiz-placeholder",
+      "title": "Perguntas do Quiz",
+      "type": "metadata",
+      "order": 5.1,
+      "estimatedDuration": "0 minutos",
+      "visible": false,
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "Por que agentes de produção exigem prompts criados artesanalmente em vez de templates genéricos?",
+            "options": [
+              "Prompts artesanais são mais curtos e economizam tokens",
+              "LLMs são funções puras - precisão de tokens determina qualidade de saída",
+              "Templates têm direitos autorais e não podem ser usados comercialmente",
+              "Prompts artesanais são mais fáceis de manter"
+            ],
+            "correctAnswer": 1,
+            "explanation": "LLMs são funções puras: os mesmos tokens de entrada sempre produzem saídas similares. A única maneira de melhorar a confiabilidade além de um certo ponto é controlar cuidadosamente cada token que entra."
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "Qual é a estratégia mais eficaz para gerenciar janelas de contexto grandes?",
+            "options": [
+              "Sempre usar o tamanho máximo de contexto disponível",
+              "Comprimir e resumir informações antigas dinamicamente",
+              "Incluir apenas as interações mais recentes",
+              "Deixar o LLM decidir o que lembrar"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Compressão e sumarização dinâmica permite manter histórico relevante enquanto permanece dentro dos limites de tokens. Isso dá melhores resultados do que truncar cegamente ou maximizar o contexto."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "Quando um agente encontra um erro, o que deve ir na janela de contexto?",
+            "options": [
+              "O stack trace completo do erro para depuração",
+              "Nada - erros devem ser escondidos do LLM",
+              "Um resumo processado do que falhou e por quê",
+              "Apenas o código do erro"
+            ],
+            "correctAnswer": 2,
+            "explanation": "Não anexe cegamente traces de erro completos. Processe erros em resumos claros e acionáveis que ajudem o LLM a entender o que deu errado e como proceder diferentemente."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetry": true,
+        "showExplanations": true
+      }
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Exercício: Construa um Agente de Suporte Otimizado para Contexto",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "30 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "03-prompt-and-context-engineering.mdx#exercise"
+      },
+      "description": "Crie um agente que mantém a qualidade da conversa em sessões longas de suporte através do gerenciamento inteligente de contexto",
+      "exercise": {
+        "title": "Agente de Suporte Otimizado para Contexto",
+        "difficulty": "intermediate",
+        "estimatedTime": "30 minutos",
+        "skills": ["Gerenciamento de contexto", "Otimização de tokens", "Tratamento de erros", "Compressão dinâmica"]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "O Manual de Engenharia de Tokens",
+      "type": "guide",
+      "url": "https://12factor-agents.com/guides/token-engineering",
+      "description": "Técnicas avançadas para otimização de prompt"
+    },
+    {
+      "title": "Padrões de Gerenciamento de Janela de Contexto",
+      "type": "article",
+      "url": "https://12factor-agents.com/blog/context-patterns",
+      "description": "Padrões de produção para gerenciar memória de agente"
+    },
+    {
+      "title": "Tratamento de Erros em Sistemas LLM",
+      "type": "video",
+      "url": "https://12factor-agents.com/videos/error-handling",
+      "description": "Construindo agentes resilientes através do processamento inteligente de erros"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "own-your-prompts", "context-window-management", "error-handling"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 100 minutos",
+      "bonusChallenges": ["multi-model-context-challenge"]
+    }
+  }
+}

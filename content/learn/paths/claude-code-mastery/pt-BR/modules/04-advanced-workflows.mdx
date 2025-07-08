@@ -1,0 +1,591 @@
+# Fluxos de Trabalho Avançados
+
+O verdadeiro poder do Claude Code emerge quando você adota fluxos de trabalho avançados que aproveitam suas capacidades de IA estrategicamente. Neste módulo, exploraremos Desenvolvimento Orientado a Testes com Claude, dominaremos o Modo Planejamento, otimizaremos o gerenciamento de memória e aproveitaremos sessões paralelas.
+
+## Objetivos de Aprendizagem
+
+Ao final deste módulo, você será capaz de:
+- Implementar Desenvolvimento Orientado a Testes (TDD) com Claude como seu programador em par
+- Usar o Modo Planejamento para decompor tarefas complexas sistematicamente
+- Gerenciar a memória do Claude efetivamente para sessões longas
+- Executar sessões Claude paralelas para tarefas de desenvolvimento concorrentes
+
+## Desenvolvimento Orientado a Testes com Claude
+
+TDD com Claude transforma o ciclo vermelho-verde-refatorar em um processo colaborativo onde Claude ajuda a escrever tanto testes quanto implementações.
+
+### O Ciclo TDD Aprimorado por Claude
+
+<CodeExample language="bash">
+# TDD Tradicional
+# 1. Escrever teste que falha
+# 2. Escrever código mínimo para passar
+# 3. Refatorar
+
+# TDD Aprimorado por Claude
+# 1. Descreva o recurso para Claude
+$ claude "Preciso de uma função que valida endereços de email conforme RFC 5322"
+
+# 2. Claude escreve testes abrangentes
+$ claude "escreva testes abrangentes para o validador de email, incluindo casos extremos"
+
+# 3. Execute testes (eles falham)
+$ npm test -- email.test.js
+
+# 4. Claude implementa a solução
+$ claude "implemente o validador de email para passar todos os testes"
+
+# 5. Refatore juntos
+$ claude "refatore esta implementação para melhor desempenho mantendo a cobertura de testes"
+</CodeExample>
+
+### Exemplo TDD do Mundo Real
+
+Vamos construir um limitador de taxa usando TDD com Claude:
+
+<CodeExample language="bash">
+# Passo 1: Descrever requisitos
+$ claude "Preciso de um limitador de taxa que permite 10 requisições por minuto por IP, com suporte Redis"
+
+# Claude responde com estrutura de teste
+$ claude "escreva testes abrangentes para este limitador de taxa" > test/rateLimiter.test.js
+</CodeExample>
+
+<CodeExample language="javascript">
+// test/rateLimiter.test.js (gerado por Claude)
+describe('RateLimiter', () => {
+  let rateLimiter;
+  let redisClient;
+
+  beforeEach(() => {
+    redisClient = createMockRedis();
+    rateLimiter = new RateLimiter(redisClient, {
+      windowMs: 60000, // 1 minuto
+      max: 10
+    });
+  });
+
+  describe('allow()', () => {
+    it('deve permitir primeira requisição', async () => {
+      const result = await rateLimiter.allow('192.168.1.1');
+      expect(result.allowed).toBe(true);
+      expect(result.remaining).toBe(9);
+    });
+
+    it('deve bloquear após limite excedido', async () => {
+      const ip = '192.168.1.1';
+      
+      // Fazer 10 requisições
+      for (let i = 0; i < 10; i++) {
+        await rateLimiter.allow(ip);
+      }
+      
+      // 11ª requisição deve ser bloqueada
+      const result = await rateLimiter.allow(ip);
+      expect(result.allowed).toBe(false);
+      expect(result.retryAfter).toBeGreaterThan(0);
+    });
+
+    it('deve resetar após janela de tempo', async () => {
+      const ip = '192.168.1.1';
+      
+      // Esgotar limite
+      for (let i = 0; i < 10; i++) {
+        await rateLimiter.allow(ip);
+      }
+      
+      // Avançar tempo
+      jest.advanceTimersByTime(61000);
+      
+      // Deve permitir novamente
+      const result = await rateLimiter.allow(ip);
+      expect(result.allowed).toBe(true);
+    });
+  });
+});
+</CodeExample>
+
+<CodeExample language="bash">
+# Passo 2: Executar testes (eles falham)
+$ npm test -- rateLimiter.test.js
+# FALHA: RateLimiter não está definido
+
+# Passo 3: Pedir ao Claude para implementar
+$ claude "implemente a classe RateLimiter para passar todos os testes" > src/rateLimiter.js
+
+# Passo 4: Testes passam!
+$ npm test -- rateLimiter.test.js
+# SUCESSO: Todos os testes passando
+
+# Passo 5: Aprimorar com Claude
+$ claude "adicione suporte para limitação de taxa distribuída para lidar com múltiplas instâncias de servidor"
+</CodeExample>
+
+### Melhores Práticas de TDD com Claude
+
+<Callout type="best-practice">
+Claude se destaca em gerar casos de teste abrangentes, incluindo casos extremos que você pode perder. Sempre revise e aprimore os testes gerados.
+</Callout>
+
+1. **Teste Primeiro, Sempre**: Peça ao Claude por testes antes da implementação
+2. **Descoberta de Casos Extremos**: "Quais casos extremos devo testar para esta função?"
+3. **Refatoração de Testes**: "Como posso tornar estes testes mais mantíveis?"
+4. **Análise de Cobertura**: "Quais casos de teste estou perdendo para cobertura completa?"
+
+## Modo Planejamento: Decomposição Estratégica de Tarefas
+
+O Modo Planejamento transforma Claude de um assistente de codificação em um parceiro de planejamento estratégico. É perfeito para tarefas complexas de múltiplas etapas.
+
+### Ativando o Modo Planejamento
+
+<CodeExample language="bash">
+# No terminal
+$ claude --plan "migrar nossa API monolítica para microsserviços"
+
+# No chat
+"Preciso refatorar nosso sistema de autenticação. Vamos planejar isso primeiro."
+# Claude automaticamente entra em modo planejamento para tarefas complexas
+</CodeExample>
+
+### Modo Planejamento em Ação
+
+Veja como Claude decompõe uma migração complexa:
+
+<CodeExample language="markdown">
+## Plano de Migração: Monólito para Microsserviços
+
+### Fase 1: Análise (Semana 1)
+- [ ] Identificar contextos delimitados no monólito atual
+- [ ] Mapear dependências de dados entre módulos
+- [ ] Documentar contratos de API entre componentes
+- [ ] Analisar pontos de acoplamento de banco de dados
+
+### Fase 2: Preparação (Semana 2)
+- [ ] Configurar infraestrutura de descoberta de serviços
+- [ ] Implementar rastreamento distribuído
+- [ ] Criar camada de comunicação entre serviços
+- [ ] Configurar pipelines CI/CD para serviços
+
+### Fase 3: Extração (Semanas 3-6)
+#### Serviço 1: Autenticação de Usuário
+- [ ] Extrair lógica de auth para serviço standalone
+- [ ] Implementar gerenciamento de token JWT
+- [ ] Criar API do serviço de auth
+- [ ] Atualizar monólito para usar serviço de auth
+
+#### Serviço 2: Processamento de Pagamento
+- [ ] Isolar lógica de pagamento
+- [ ] Implementar serviço de pagamento com Stripe/PayPal
+- [ ] Lidar com transações distribuídas
+- [ ] Implementar padrão saga para falhas
+
+### Fase 4: Migração de Dados (Semana 7)
+- [ ] Dividir banco de dados compartilhado
+- [ ] Implementar event sourcing para sincronização
+- [ ] Configurar padrão banco-por-serviço
+- [ ] Implementar CQRS onde necessário
+
+### Fase 5: Transição (Semana 8)
+- [ ] Lançamento progressivo com feature flags
+- [ ] Monitorar métricas de saúde dos serviços
+- [ ] Implementar circuit breakers
+- [ ] Transição completa e descomissionamento do monólito
+</CodeExample>
+
+### Técnicas Avançadas do Modo Planejamento
+
+<CodeExample language="bash">
+# Planejamento Hierárquico
+$ claude --plan "construir recurso de colaboração em tempo real"
+# Claude cria plano principal
+
+$ claude --plan "elabore a Fase 2: implementação WebSocket"
+# Claude expande fase específica
+
+# Planejamento Consciente de Riscos
+$ claude --plan "migrar para novo provedor de pagamento" --consider-risks
+# Claude inclui estratégias de mitigação de riscos
+
+# Planejamento com Prazo
+$ claude --plan "otimizar desempenho do banco de dados" --timeline="2 semanas"
+# Claude cria cronograma realista
+
+# Planejamento Consciente de Dependências
+$ claude --plan "atualizar para React 18" --show-dependencies
+# Claude mapeia todas as dependências e ordem de operações
+</CodeExample>
+
+### Validação de Plano
+
+<CodeExample language="bash">
+# Peça ao Claude para revisar seu próprio plano
+$ claude "revise este plano de migração para possíveis problemas ou etapas faltantes"
+
+# Obter abordagens alternativas
+$ claude "sugira abordagens alternativas para este plano"
+
+# Estimar esforço
+$ claude "estime horas-desenvolvedor para cada fase deste plano"
+</CodeExample>
+
+## Estratégias de Gerenciamento de Memória
+
+A janela de contexto do Claude é poderosa mas finita. O gerenciamento efetivo de memória garante sessões longas produtivas.
+
+### Entendendo Janelas de Contexto
+
+<CodeExample language="bash">
+# Verificar uso de contexto
+$ claude --status
+# Contexto: 45.000 / 200.000 tokens usados
+# Arquivos em contexto: 12
+# Marcadores de memória ativos: 3
+
+# Limpar contexto
+$ claude --clear-context
+# Contexto limpo. Pronto para nova sessão.
+
+# Contexto seletivo
+$ claude --only "src/api/*" "refatore a camada API"
+# Carrega apenas arquivos relacionados à API
+</CodeExample>
+
+### Técnicas de Otimização de Memória
+
+#### 1. Dividindo Tarefas Grandes
+
+<CodeExample language="bash">
+# Em vez de:
+$ claude "refatore a aplicação inteira para melhor desempenho"
+
+# Faça isso:
+$ claude "vamos refatorar em fases. Primeiro, analise os gargalos de desempenho atuais"
+# Complete fase 1
+
+$ claude --clear-context
+$ claude "baseado em nossa análise, vamos otimizar as consultas de banco em src/db/"
+# Complete fase 2
+
+$ claude --clear-context  
+$ claude "agora vamos otimizar o cache de resposta da API"
+# Complete fase 3
+</CodeExample>
+
+#### 2. Marcadores de Memória
+
+<CodeExample language="bash">
+# Marcar contexto importante
+$ claude --mark "Lembre-se: estamos usando PostgreSQL 14 com estas extensões: pgvector, pg_stat_statements"
+
+# Referenciar marcadores depois
+$ claude "otimize esta consulta (verifique nossos marcadores de memória para detalhes do BD)"
+
+# Listar marcadores
+$ claude --list-markers
+# 1. Configuração do banco de dados
+# 2. Limites de taxa da API
+# 3. Restrições de implantação
+</CodeExample>
+
+#### 3. Sumarização de Contexto
+
+<CodeExample language="bash">
+# Antes de limpar contexto
+$ claude "resuma o que realizamos e o que vem a seguir"
+
+# Salvar resumo
+$ claude --save-summary progresso-migracao.md
+
+# Depois, restaurar contexto
+$ claude --from-summary progresso-migracao.md "continue com a próxima fase"
+</CodeExample>
+
+### Padrões de Gerenciamento de Memória
+
+<Callout type="pattern">
+O "Padrão Checkpoint": Regularmente salve resumos de progresso e limpe contexto para manter desempenho em sessões longas.
+</Callout>
+
+<CodeExample language="bash">
+# Implementação do Padrão Checkpoint
+#!/bin/bash
+
+# Função para criar checkpoint
+checkpoint() {
+  local nome=$1
+  claude "resuma nosso progresso e estado atual" > "checkpoints/${nome}.md"
+  claude --clear-context
+  echo "Checkpoint salvo: ${nome}"
+}
+
+# Uso em sessão longa
+claude "comece implementando o recurso de carrinho de compras"
+# ... trabalhe por 30 minutos ...
+checkpoint "carrinho-implementacao-basica"
+
+claude --from-summary "checkpoints/carrinho-implementacao-basica.md" "adicione cálculo de desconto"
+# ... trabalhe por 30 minutos ...
+checkpoint "carrinho-com-descontos"
+</CodeExample>
+
+## Sessões Claude Paralelas
+
+Maximize a produtividade executando múltiplas sessões Claude para diferentes aspectos do seu projeto.
+
+### Configurando Sessões Paralelas
+
+<CodeExample language="bash">
+# Terminal 1: Desenvolvimento Backend
+$ cd backend
+$ claude --session-name backend "implemente os novos endpoints da API"
+
+# Terminal 2: Desenvolvimento Frontend  
+$ cd frontend
+$ claude --session-name frontend "crie componentes React para os novos recursos"
+
+# Terminal 3: Testes
+$ cd tests
+$ claude --session-name testing "escreva testes de integração para os novos recursos"
+
+# Terminal 4: Documentação
+$ cd docs
+$ claude --session-name docs "atualize a documentação da API"
+</CodeExample>
+
+### Estratégias de Sessão Paralela
+
+#### 1. Padrão de Desenvolvimento de Recurso
+
+<CodeExample language="bash">
+# Sessão principal: Arquitetura e planejamento
+$ claude --session-name arquiteto "projete a arquitetura do sistema de notificações"
+
+# Sessão paralela 1: Implementação backend
+$ claude --session-name backend "implemente o serviço de notificação baseado em nossa arquitetura"
+
+# Sessão paralela 2: Implementação frontend  
+$ claude --session-name frontend "construa os componentes UI de notificação"
+
+# Sessão paralela 3: Testes em tempo real
+$ claude --session-name test "teste o sistema de notificação enquanto construímos"
+</CodeExample>
+
+#### 2. Padrão de Refatoração
+
+<CodeExample language="bash">
+# Sessão 1: Identificar alvos de refatoração
+$ find . -name "*.js" -exec wc -l {} + | sort -rn | head -20 > arquivos-grandes.txt
+$ claude --session-name analisador "analise estes arquivos grandes para oportunidades de refatoração"
+
+# Sessão 2: Refatorar backend
+$ claude --session-name backend-refactor "refatore os arquivos backend identificados"
+
+# Sessão 3: Refatorar frontend
+$ claude --session-name frontend-refactor "refatore os arquivos frontend identificados"
+
+# Sessão 4: Atualizar testes
+$ claude --session-name test-update "atualize testes afetados pela refatoração"
+</CodeExample>
+
+#### 3. Padrão Multi-Linguagem
+
+<CodeExample language="bash">
+# Quando trabalhando com projetos políglotas
+# Sessão 1: Serviço ML Python
+$ cd ml-service
+$ claude --session-name python "otimize o algoritmo de recomendação"
+
+# Sessão 2: API Gateway Go
+$ cd api-gateway  
+$ claude --session-name go "implemente limitação de taxa no gateway"
+
+# Sessão 3: Frontend React
+$ cd web-app
+$ claude --session-name react "integre com os novos endpoints ML"
+</CodeExample>
+
+### Coordenação de Sessão
+
+<CodeExample language="bash">
+# Criar script de coordenação
+#!/bin/bash
+# coordenar-sessoes.sh
+
+# Compartilhar contexto entre sessões
+claude --session-name backend --export-context > backend-context.json
+claude --session-name frontend --import-context backend-context.json
+
+# Sincronizar checkpoints
+for sessao in backend frontend testing docs; do
+  claude --session-name $sessao "crie checkpoint do progresso atual"
+done
+
+# Mesclar saídas de sessão
+claude --merge-sessions backend,frontend,testing "integre todos os componentes"
+</CodeExample>
+
+<Quiz>
+  <Question
+    question="No TDD com Claude, o que você sempre deve pedir antes da implementação?"
+    options={[
+      "Benchmarks de desempenho",
+      "Testes abrangentes incluindo casos extremos",
+      "Diretrizes de estilo de código",
+      "Esquemas de banco de dados"
+    ]}
+    correct={1}
+    explanation="No TDD com Claude, sempre peça por testes abrangentes primeiro. Claude se destaca em gerar casos de teste completos incluindo casos extremos que você pode perder."
+  />
+  
+  <Question
+    question="Qual comando você usaria para verificar o uso de contexto do Claude?"
+    options={[
+      "claude --memory",
+      "claude --context-info",
+      "claude --status",
+      "claude --check-tokens"
+    ]}
+    correct={2}
+    explanation="A flag --status mostra o uso atual do contexto, incluindo tokens usados, arquivos em contexto e marcadores de memória ativos."
+  />
+  
+  <Question
+    question="Para que é usado o Padrão Checkpoint?"
+    options={[
+      "Criar backups de banco de dados",
+      "Salvar progresso e limpar contexto em sessões longas",
+      "Commits de controle de versão",
+      "Testar implantações"
+    ]}
+    correct={1}
+    explanation="O Padrão Checkpoint envolve regularmente salvar resumos de progresso e limpar contexto para manter desempenho em sessões longas de codificação."
+  />
+  
+  <Question
+    question="Ao executar sessões Claude paralelas, qual é o benefício de usar --session-name?"
+    options={[
+      "Faz o Claude trabalhar mais rápido",
+      "Permite isolamento de contexto entre diferentes tarefas",
+      "É obrigatório para o Claude funcionar",
+      "Sincroniza automaticamente código entre sessões"
+    ]}
+    correct={1}
+    explanation="Usar --session-name cria contextos isolados para diferentes tarefas, permitindo que você trabalhe em múltiplos aspectos de um projeto simultaneamente sem poluição de contexto."
+  />
+</Quiz>
+
+## Exercício Prático: Construindo um Recurso com Fluxos de Trabalho Avançados
+
+Vamos construir um recurso completo usando todos os fluxos de trabalho avançados que aprendemos.
+
+### Cenário: Sistema de Comentários em Tempo Real
+
+Construa um sistema de comentários em tempo real com respostas aninhadas, reações e atualizações ao vivo.
+
+<CodeExample language="bash">
+# Passo 1: Modo Planejamento
+$ claude --plan "construir sistema de comentários em tempo real com respostas aninhadas e reações"
+
+# Passo 2: Configuração TDD (Sessão 1)
+$ claude --session-name tests "crie suíte de testes abrangente para sistema de comentários incluindo:
+- Operações CRUD de comentários
+- Manipulação de respostas aninhadas  
+- Eventos WebSocket em tempo real
+- Gerenciamento de reações
+- Verificação de permissões"
+
+# Passo 3: Implementação Backend (Sessão 2)
+$ cd backend
+$ claude --session-name backend "implemente o serviço de comentários para passar todos os testes"
+
+# Passo 4: Implementação Frontend (Sessão 3)
+$ cd frontend
+$ claude --session-name frontend "construa componentes React para UI de comentários com atualizações otimistas"
+
+# Passo 5: Integração (Sessão Principal)
+$ claude "integre os componentes backend e frontend, garantindo que atualizações em tempo real funcionem"
+
+# Passo 6: Checkpoint de Memória
+$ claude "resuma a implementação do sistema de comentários e tarefas restantes" > checkpoints/comentarios-v1.md
+$ claude --clear-context
+
+# Passo 7: Otimização de Desempenho (Contexto Limpo)
+$ claude --from-summary checkpoints/comentarios-v1.md "otimize o sistema de comentários para 10k+ comentários por post"
+</CodeExample>
+
+### Tarefas do Exercício
+
+1. **Desafio TDD**: Use Claude para construir um limitador de taxa com algoritmo de janela deslizante usando TDD puro
+2. **Projeto Modo Planejamento**: Planeje uma migração de API REST para GraphQL usando capacidades de planejamento do Claude  
+3. **Gerenciamento de Memória**: Construa um recurso grande usando o padrão checkpoint, nunca excedendo 50% de uso do contexto
+4. **Desenvolvimento Paralelo**: Use 4 sessões paralelas para construir um recurso full-stack com coordenação automática de sessão
+
+## Combinações de Fluxo de Trabalho Avançado
+
+### O Padrão "Prototipar e Estabilizar"
+
+<CodeExample language="bash">
+# Sessão 1: Protótipo rápido
+$ claude --session-name spike "prototipe rapidamente um motor de recomendação"
+
+# Sessão 2: Escrever testes para o protótipo
+$ claude --session-name test "escreva testes para o motor de recomendação prototipado"
+
+# Sessão 3: Refatorar para qualidade de produção
+$ claude --session-name refactor "refatore o protótipo para passar todos os testes e atender padrões de produção"
+</CodeExample>
+
+### O Padrão "Desenvolvimento Orientado por Documentação"
+
+<CodeExample language="bash">
+# Comece com documentação
+$ claude "escreva documentação de API abrangente para um sistema de gerenciamento de tarefas"
+
+# Gere testes da documentação
+$ claude "gere testes baseados na documentação da API"
+
+# Implemente para corresponder à documentação
+$ claude "implemente a API para corresponder à documentação e passar nos testes"
+</CodeExample>
+
+## Melhores Práticas para Fluxos de Trabalho Avançados
+
+### TDD com Claude
+- Sempre revise testes gerados para completude
+- Peça por casos extremos explicitamente
+- Use Claude para refatorar testes para manutenibilidade
+- Solicite testes de desempenho quando relevante
+
+### Modo Planejamento
+- Divida planos grandes em fases
+- Peça por abordagens alternativas
+- Solicite análise de risco para caminhos críticos
+- Use planejamento hierárquico para projetos complexos
+
+### Gerenciamento de Memória
+- Monitore uso de contexto regularmente
+- Crie checkpoints antes de transições maiores
+- Use carregamento seletivo de contexto
+- Resuma antes de limpar
+
+### Sessões Paralelas
+- Nomeie sessões claramente por função
+- Coordene através de checkpoints compartilhados
+- Use exportação/importação de sessão para compartilhar contexto
+- Mescle sessões para trabalho de integração
+
+## Principais Conclusões
+
+1. **Transformação TDD**: Claude torna TDD mais rápido e mais completo
+2. **Planejamento Estratégico**: Modo Planejamento transforma tarefas complexas em fases gerenciáveis
+3. **Domínio de Memória**: Gerenciamento efetivo de contexto habilita sessões longas produtivas
+4. **Poder Paralelo**: Múltiplas sessões multiplicam produtividade
+5. **Aplicação de Padrões**: Combine fluxos de trabalho para máxima efetividade
+
+## Próximos Passos
+
+Você dominou fluxos de trabalho avançados que transformam como você desenvolve com Claude Code. Em nosso módulo final, exploraremos a construção de integrações personalizadas com o SDK do Claude Code.
+
+<Callout type="preview">
+**Próximo**: Construa ferramentas personalizadas, crie utilitários Unix e estenda o Claude Code com suas próprias integrações usando o SDK.
+</Callout>

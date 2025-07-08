@@ -1,0 +1,165 @@
+{
+  "id": "02-control-flow-and-state-management",
+  "pathId": "12-factor-agent-development",
+  "title": "Fluxo de Controle e Gerenciamento de Estado",
+  "description": "Domine a arte de construir agentes sem estado e pausáveis. Aprenda por que controlar seu fluxo é a chave para confiabilidade, e como separar estado de negócio do estado de execução para sistemas de agentes prontos para produção.",
+  "duration": "120 minutos",
+  "estimatedCompletionTime": "120 minutos",
+  "type": "module",
+  "difficulty": "intermediate",
+  "order": 2,
+  "objectives": [
+    "Entender por que agentes são apenas prompts + instruções switch + contexto + loops",
+    "Construir agentes sem estado que podem pausar, retomar e se recuperar de falhas",
+    "Aprender a separar efetivamente estado de negócio do estado de execução",
+    "Dominar padrões de fluxo de controle que evitam loops infinitos e explosão de contexto",
+    "Implementar estratégias de serialização de estado prontas para produção"
+  ],
+  "prerequisites": [
+    "Conclusão do Módulo 1: Repensando Agentes como Software",
+    "Compreensão de conceitos básicos de gerenciamento de estado",
+    "Experiência com programação assíncrona e APIs REST"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "O Problema do Fluxo de Controle",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#introduction"
+      }
+    },
+    {
+      "id": "own-your-control-flow",
+      "title": "Fator 6: Controle Seu Fluxo",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "25 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#own-your-control-flow"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "O Loop de Agente Ingênuo",
+          "description": "Entendendo por que loops simples falham em escala"
+        },
+        {
+          "language": "python",
+          "title": "Fluxo de Controle de Produção",
+          "description": "Construindo agentes com loops determinísticos e gerenciáveis"
+        }
+      ]
+    },
+    {
+      "id": "stateless-design",
+      "title": "Fator 7: Design de Agente Sem Estado",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "30 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#stateless-design"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Implementação de Agente Pausável",
+          "description": "Construindo agentes que podem suspender e retomar execução"
+        },
+        {
+          "language": "python",
+          "title": "Padrões de Serialização de Estado",
+          "description": "Estratégias eficientes para persistir estado de agente"
+        }
+      ]
+    },
+    {
+      "id": "state-separation",
+      "title": "Fator 11: Separe Estado de Negócio do Estado de Execução",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#state-separation"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Arquitetura de Estado",
+          "description": "Projetando limites claros entre tipos de estado"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Verificação de Conhecimento",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#knowledge-check"
+      },
+      "description": "Quiz interativo para testar sua compreensão de conceitos de fluxo de controle e gerenciamento de estado"
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Exercício: Construa um Agente de Atendimento ao Cliente Pausável",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "30 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "02-control-flow-and-state-management.mdx#exercise"
+      },
+      "description": "Implemente um agente sem estado que pode lidar com solicitações longas de clientes com funcionalidade de pausar/retomar",
+      "exercise": {
+        "title": "Agente de Atendimento ao Cliente Pausável",
+        "difficulty": "intermediate",
+        "estimatedTime": "30 minutos",
+        "skills": ["Gerenciamento de estado", "Fluxo de controle", "Serialização", "Tratamento de erros"]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "Agentes Sem Estado: Por Que Seu Agente Não Deve Lembrar de Nada",
+      "type": "article",
+      "url": "https://12factor-agents.com/blog/stateless-design",
+      "description": "Análise profunda de padrões de arquitetura de agentes sem estado"
+    },
+    {
+      "title": "Padrões de Fluxo de Controle para Agentes em Produção",
+      "type": "guide",
+      "url": "https://12factor-agents.com/guides/control-flow",
+      "description": "Padrões comuns para gerenciar fluxo de execução de agentes"
+    },
+    {
+      "title": "Melhores Práticas de Gerenciamento de Estado",
+      "type": "video",
+      "url": "https://12factor-agents.com/videos/state-management",
+      "description": "Vídeo explicativo sobre técnicas de separação de estado"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "own-your-control-flow", "stateless-design", "state-separation"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 100 minutos",
+      "bonusChallenges": ["distributed-state-challenge"]
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "agent-memory-systems",
+  "title": "Sistemas de Memória para Agentes",
+  "description": "Domine o design e implementação de sistemas de memória para agentes de IA inteligentes. Aprenda mais de 10 tipos de memória, construa sistemas de gerenciamento de memória prontos para produção e crie agentes que constroem relacionamentos.",
+  "icon": "🧠",
+  "color": "#8B5CF6",
+  "difficulty": "intermediate",
+  "level": "intermediate",
+  "duration": "10-12 horas",
+  "totalDuration": "10-12 horas",
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-07",
+  "author": "Brandon Redmond",
+  "topics": [
+    "Arquitetura de Memória",
+    "Tipos de Memória",
+    "Padrões de Armazenamento",
+    "Estratégias de Recuperação",
+    "Sistemas de Produção"
+  ],
+  "prerequisites": ["mcp-fundamentals"],
+  "outcomes": [
+    "Entender por que a memória é fundamental para a inteligência dos agentes",
+    "Implementar mais de 10 tipos diferentes de memória para agentes",
+    "Construir sistemas abrangentes de gerenciamento de memória",
+    "Projetar arquiteturas de memória que escalam",
+    "Criar agentes que aprendem e constroem relacionamentos"
+  ],
+  "modules": [
+    "understanding-agent-memory",
+    "memory-types-architecture", 
+    "building-memory-management",
+    "advanced-memory-patterns",
+    "production-memory-systems"
+  ],
+  "resources": [
+    {
+      "title": "Arquitetando Memória de Agentes - Richmond Alake",
+      "type": "video",
+      "url": "https://youtu.be/W2HVdB4Jbjs?si=067GvWARrqtKRHdg",
+      "required": true
+    },
+    {
+      "title": "Documentação do Provedor de Memória MongoDB",
+      "type": "reference",
+      "url": "https://mongodb.com/docs/agents",
+      "required": false
+    }
+  ],
+  "tags": [
+    "memória-de-agente",
+    "sistemas-de-memória",
+    "agentes-com-estado",
+    "ia-de-produção"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "id": "production-memory-systems",
+    "pathId": "agent-memory-systems",
+    "title": "Sistemas de Memória em Produção",
+    "description": "Escale sistemas de memória de agentes para produção com integração MongoDB, otimização de desempenho e implantação no mundo real",
+    "duration": "3 horas",
+    "type": "project",
+    "difficulty": "advanced",
+    "order": 5,
+    "prerequisites": ["advanced-memory-patterns"],
+    "objectives": [
+      "Integrar MongoDB como backend de memória escalável",
+      "Otimizar sistemas de memória para desempenho em produção",
+      "Implementar monitoramento e observabilidade",
+      "Implantar agentes com memória em produção"
+    ],
+    "tags": ["produção", "mongodb", "implantação", "escalonamento", "monitoramento"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-07",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "05-production-memory-systems.mdx"
+      }
+    }
+  ]
+}

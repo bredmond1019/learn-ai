@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "id": "advanced-memory-patterns",
+    "pathId": "agent-memory-systems",
+    "title": "Padrões Avançados de Memória",
+    "description": "Explore padrões sofisticados de memória incluindo memórias hierárquicas, redes de memória e arquiteturas cognitivas",
+    "duration": "2.5 horas",
+    "type": "practice",
+    "difficulty": "advanced",
+    "order": 4,
+    "prerequisites": ["building-memory-management"],
+    "objectives": [
+      "Implementar sistemas de memória hierárquicos e em rede",
+      "Construir mecanismos de consolidação e esquecimento de memória",
+      "Criar sistemas de memória adaptativos que aprendem",
+      "Projetar arquiteturas de memória para agentes complexos"
+    ],
+    "tags": ["avançado", "padrões", "arquitetura-cognitiva", "redes-de-memória"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-07",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "04-advanced-memory-patterns.mdx"
+      }
+    }
+  ]
+}

@@ -105,6 +105,12 @@ featured: true  # Only for pillar content
 ---
 ```
 
+### Date Requirements
+- **Always use dates within the last 2 weeks** when creating new articles
+- This keeps the blog fresh and relevant
+- For very new technologies (like Claude Code), use dates within the last week
+- Maintain chronological logic for series or related posts
+
 ### Title Conventions
 - 50-70 characters ideal
 - Use power words (Master, Build, Transform, Discover)
@@ -286,6 +292,42 @@ Many blog posts are part of series or have logical progressions. When dating the
 - Portuguese translations must have the same date as their English counterparts
 - This maintains consistency across languages
 - Update both versions when adjusting dates
+
+### Portuguese Translation Guidelines
+
+#### File Naming Requirements
+**CRITICAL**: Portuguese translations MUST use the exact same filename as their English counterparts for proper locale switching.
+
+**Correct Example**:
+- English: `/content/blog/published/building-intelligent-ai-agents-with-memory.mdx`
+- Portuguese: `/content/blog/published/pt-BR/building-intelligent-ai-agents-with-memory.mdx`
+
+**Incorrect Example** (will break locale switching):
+- English: `/content/blog/published/building-intelligent-ai-agents-with-memory.mdx`
+- Portuguese: `/content/blog/published/pt-BR/construindo-agentes-ia-inteligentes-com-memoria.mdx` ❌
+
+#### Translation Status (As of July 2025)
+**Total Posts**: 24 English, 19 Portuguese (with correct filenames)
+
+**Missing Portuguese Translations**:
+1. `12-factor-agents-building-reliable-llm-applications.mdx`
+2. `agent-architecture-patterns-production-guide.mdx`
+3. `ai-integration-business-guide.mdx`
+4. `ai-ux-dark-patterns-evolution-backwards.mdx`
+5. `why-your-ai-assistant-needs-memory.mdx`
+
+#### How Blog Posts Are Loaded
+1. The system reads from `/content/blog/published/` for English posts
+2. For Portuguese, it reads from `/content/blog/published/pt-BR/`
+3. Posts are validated for required frontmatter: `title`, `date`, `excerpt`
+4. If a Portuguese translation is missing, the system falls back to English
+
+#### Troubleshooting Missing Posts
+If Portuguese posts exist but don't appear on `/pt-BR/blog`:
+1. **Check frontmatter**: Ensure `title`, `date`, and `excerpt` are present
+2. **Clear cache**: Delete `.next` folder and rebuild
+3. **Check filename**: Must match English filename exactly
+4. **Verify no syntax errors**: Run `npm run build` to catch MDX parsing errors
 
 ### Example Dating Pattern
 For a 2-month publication window (e.g., May 8 - July 7):

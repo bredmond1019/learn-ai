@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "id": "evolution-of-programming-tools",
+    "pathId": "claude-code-mastery",
+    "title": "Evolução das Ferramentas de Programação",
+    "description": "Trace a jornada dos cartões perfurados aos assistentes de IA e entenda por que essa história importa para o desenvolvimento moderno",
+    "duration": "2 horas",
+    "type": "theory",
+    "difficulty": "intermediate",
+    "order": 1,
+    "objectives": [
+      "Traçar a evolução da programação desde cartões perfurados físicos até assistentes de IA",
+      "Identificar inovações-chave na UX de programação ao longo das décadas",
+      "Entender por que o crescimento exponencial dos modelos de IA supera o desenvolvimento tradicional de produtos",
+      "Apreciar o lugar do Claude Code neste contexto histórico"
+    ],
+    "tags": ["história", "programação", "IA", "Claude Code"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-19",
+    "author": "Brandon J. Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "01-evolution-of-programming-tools.mdx"
+      }
+    }
+  ]
+}

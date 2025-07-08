@@ -1,0 +1,2197 @@
+---
+title: "Projeto Final: Construir uma Plataforma de IA em Produção"
+description: "Aplique todos os conceitos de IA em produção em um projeto abrangente: construir, implantar, monitorar, escalonar e proteger uma plataforma de IA completa com requisitos e restrições do mundo real"
+duration: "480 minutos"
+difficulty: "avançado"
+objectives:
+  - "Projetar e implementar uma arquitetura de plataforma de IA pronta para produção"
+  - "Implantar serviços de IA usando estratégias avançadas de implantação"
+  - "Implementar monitoramento e observabilidade abrangentes"
+  - "Configurar auto-escalonamento e gerenciamento de carga"
+  - "Aplicar melhores práticas de segurança e modelagem de ameaças"
+  - "Criar pipelines de CI/CD para implantação automatizada"
+  - "Implementar estratégias de otimização de custos"
+  - "Documentar e apresentar a solução completa"
+tags:
+  - "projeto-final"
+  - "implantacao-producao"
+  - "engenharia-plataforma"
+  - "ia-full-stack"
+  - "arquitetura-empresarial"
+  - "projeto-pratico"
+lastUpdated: "2025-06-28"
+author: "Equipe de Engenharia de IA"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Diagram } from '@/components/claude-sdk/Diagram'
+import { Exercise } from '@/components/claude-sdk/Exercise'
+
+# Projeto Final: Construir uma Plataforma de IA em Produção
+
+## Visão Geral do Projeto e Requisitos {#project-overview}
+
+Bem-vindo ao desafio mais abrangente da sua jornada de engenharia de IA! Neste projeto final, você vai arquitetar e construir uma plataforma de IA completa que demonstra práticas de engenharia de nível empresarial.
+
+### O Desafio: Plataforma de Inteligência Documental com IA
+
+Você construirá o **DocuMind** - uma plataforma pronta para produção que processa, analisa e extrai insights de documentos usando múltiplos modelos de IA. Esta plataforma servirá como uma demonstração real de todos os conceitos de IA em produção que você aprendeu.
+
+### Funcionalidades Principais da Plataforma
+
+🧠 **Processamento Multi-Modelo**: Integrar LLMs, modelos de visão e extratores especializados
+📊 **Análise em Tempo Real**: Processar documentos com tempos de resposta sub-segundo
+🔄 **Alta Disponibilidade**: 99.9% de uptime com implantações sem tempo de inatividade
+📈 **Auto-Escalonamento**: Lidar com picos de tráfego 10x automaticamente
+🔒 **Segurança Empresarial**: Controles de segurança compatíveis com SOC2
+💰 **Otimização de Custos**: Utilização eficiente de recursos e cache de modelo
+
+### Requisitos de Negócio
+
+Sua plataforma deve atender a estes requisitos críticos de negócio:
+
+1. **Desempenho**: Processar mais de 1000 documentos por minuto em pico de carga
+2. **Confiabilidade**: SLA de 99.9% de uptime com failover automático
+3. **Segurança**: Criptografia ponta a ponta e log de auditoria
+4. **Escalabilidade**: Suportar crescimento 10x sem mudanças na arquitetura
+5. **Custo**: Otimizar para $0.10 por documento processado
+6. **Conformidade**: Manipulação de dados compatível com GDPR
+
+<Callout type="info">
+  **Cenário do Mundo Real**: Este projeto simula a construção de uma plataforma para uma empresa SaaS em crescimento com clientes empresariais. Cada decisão deve equilibrar excelência técnica com restrições de negócio.
+</Callout>
+
+### Stack Tecnológico
+
+Você trabalhará com este stack cloud-native moderno:
+
+- **Orquestração de Contêineres**: Kubernetes (EKS/GKE/AKS)
+- **Service Mesh**: Istio para gerenciamento de tráfego
+- **Monitoramento**: Prometheus + Grafana + Jaeger
+- **CI/CD**: GitLab CI ou GitHub Actions + ArgoCD
+- **Infraestrutura**: Terraform para IaC
+- **Segurança**: Vault para segredos, OPA para políticas
+- **IA/ML**: Múltiplos provedores de modelo (OpenAI, Anthropic, modelos locais)
+
+## Design da Arquitetura {#architecture-design}
+
+Vamos projetar uma arquitetura escalável e resiliente que pode crescer com suas necessidades de negócio.
+
+<Exercise
+  id="architecture-design"
+  title="Projete Sua Arquitetura de Plataforma"
+/>
+
+### Arquitetura de Alto Nível
+
+<Diagram
+  id="platform-architecture"
+  title="Arquitetura da Plataforma DocuMind"
+  type="mermaid"
+  code={`graph TB
+    subgraph "Camada Externa"
+        Users[Usuários]
+        API[API Gateway]
+        CDN[CDN]
+    end
+    
+    subgraph "Camada de Aplicação"
+        WEB[Frontend Web]
+        PROC[Processador de Documentos]
+        ANALYTICS[Serviço de Analytics]
+        AUTH[Serviço de Auth]
+    end
+    
+    subgraph "Camada de IA"
+        ROUTER[Roteador de Modelos]
+        LLM1[Serviço LLM 1]
+        LLM2[Serviço LLM 2]
+        VISION[Modelo de Visão]
+        EXTRACT[Modelo de Extração]
+    end
+    
+    subgraph "Camada de Dados"
+        CACHE[Cache Redis]
+        DB[(PostgreSQL)]
+        S3[Object Storage]
+        QUEUE[Fila de Mensagens]
+    end
+    
+    subgraph "Camada de Infraestrutura"
+        K8S[Kubernetes]
+        ISTIO[Istio Mesh]
+        VAULT[HashiCorp Vault]
+    end
+    
+    subgraph "Observabilidade"
+        PROM[Prometheus]
+        GRAF[Grafana]
+        JAEGER[Jaeger]
+        ELK[ELK Stack]
+    end
+    
+    Users --> CDN
+    CDN --> API
+    API --> AUTH
+    API --> WEB
+    API --> PROC
+    
+    PROC --> QUEUE
+    QUEUE --> ROUTER
+    ROUTER --> LLM1
+    ROUTER --> LLM2
+    ROUTER --> VISION
+    ROUTER --> EXTRACT
+    
+    PROC --> S3
+    PROC --> DB
+    ROUTER --> CACHE
+    
+    ANALYTICS --> DB
+    ANALYTICS --> CACHE
+    
+    K8S --> "Camada de Aplicação"
+    K8S --> "Camada de IA"
+    ISTIO --> K8S
+    VAULT --> K8S
+    
+    PROM --> K8S
+    GRAF --> PROM
+    JAEGER --> ISTIO
+    ELK --> K8S`}
+/>
+
+### Arquitetura de Fluxo de Dados
+
+<Diagram
+  id="data-flow"
+  title="Pipeline de Processamento de Documentos"
+  type="mermaid"
+  code={`sequenceDiagram
+    participant User as Usuário
+    participant API
+    participant Auth
+    participant Processor as Processador
+    participant Queue as Fila
+    participant Router as Roteador
+    participant Models as Modelos
+    participant Storage as Armazenamento
+    participant Cache
+    
+    User->>API: Enviar Documento
+    API->>Auth: Validar Token
+    Auth-->>API: Token Válido
+    API->>Storage: Armazenar Documento
+    API->>Queue: Enfileirar Job de Processamento
+    API-->>User: ID do Job
+    
+    Queue->>Processor: Desenfileirar Job
+    Processor->>Storage: Recuperar Documento
+    Processor->>Router: Rotear para Modelos
+    
+    Router->>Cache: Verificar Cache
+    alt Cache Hit
+        Cache-->>Router: Resultado em Cache
+    else Cache Miss
+        Router->>Models: Processar Documento
+        Models-->>Router: Resultados
+        Router->>Cache: Armazenar Resultado
+    end
+    
+    Router-->>Processor: Processamento Completo
+    Processor->>Storage: Armazenar Resultados
+    Processor->>Queue: Atualizar Status do Job
+    
+    User->>API: Verificar Status
+    API->>Queue: Obter Status do Job
+    Queue-->>API: Job Completo
+    API->>Storage: Obter Resultados
+    API-->>User: Retornar Resultados`}
+/>
+
+### Princípios de Design de Microsserviços
+
+Sua plataforma deve seguir estes princípios arquiteturais:
+
+<CodeExample
+  title="Template de Arquitetura de Serviços"
+  language="yaml"
+  code={`# service-template.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: document-processor
+  namespace: documind
+  labels:
+    app: document-processor
+    version: v1
+spec:
+  ports:
+    - port: 8080
+      name: http
+    - port: 9090
+      name: metrics
+  selector:
+    app: document-processor
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-processor
+  namespace: documind
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: document-processor
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: document-processor
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: document-processor
+      containers:
+      - name: processor
+        image: documind/processor:1.0.0
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: LOG_LEVEL
+          value: "info"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: config
+          mountPath: /etc/config
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: processor-config`}
+/>
+
+## Fase 1: Infraestrutura Central de Implantação {#phase1-deployment}
+
+Vamos construir a infraestrutura fundamental que suportará sua plataforma de IA.
+
+<Exercise
+  id="phase1-deployment"
+  title="Configurar Infraestrutura Central de Implantação"
+/>
+
+### Configuração do Cluster Kubernetes
+
+Primeiro, provisione seu cluster Kubernetes com configurações adequadas:
+
+<CodeExample
+  title="Cluster Kubernetes Terraform"
+  language="hcl"
+  code={`# kubernetes-cluster.tf
+resource "google_container_cluster" "documind" {
+  name     = "documind-cluster"
+  location = var.region
+  
+  # Usar canal de release para atualizações automáticas
+  release_channel {
+    channel = "REGULAR"
+  }
+  
+  # Configurar autoscaling do cluster
+  cluster_autoscaling {
+    enabled = true
+    resource_limits {
+      resource_type = "cpu"
+      minimum       = 10
+      maximum       = 100
+    }
+    resource_limits {
+      resource_type = "memory"
+      minimum       = 40
+      maximum       = 400
+    }
+    auto_provisioning_defaults {
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+      service_account = google_service_account.cluster_nodes.email
+    }
+  }
+  
+  # Configuração de rede
+  network    = google_compute_network.documind.name
+  subnetwork = google_compute_subnetwork.documind.name
+  
+  ip_allocation_policy {
+    cluster_secondary_range_name  = "pods"
+    services_secondary_range_name = "services"
+  }
+  
+  # Habilitar workload identity
+  workload_identity_config {
+    workload_pool = "\${var.project_id}.svc.id.goog"
+  }
+  
+  # Configuração do pool de nós
+  node_pool {
+    name = "default-pool"
+    
+    initial_node_count = 3
+    
+    autoscaling {
+      min_node_count = 3
+      max_node_count = 10
+    }
+    
+    management {
+      auto_repair  = true
+      auto_upgrade = true
+    }
+    
+    node_config {
+      machine_type = "n2-standard-4"
+      disk_size_gb = 100
+      disk_type    = "pd-ssd"
+      
+      metadata = {
+        disable-legacy-endpoints = "true"
+      }
+      
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+      
+      labels = {
+        environment = "production"
+        team        = "platform"
+      }
+      
+      taint {
+        key    = "workload-type"
+        value  = "general"
+        effect = "NO_SCHEDULE"
+      }
+    }
+  }
+  
+  # Pool de nós GPU para cargas de trabalho de IA
+  node_pool {
+    name = "gpu-pool"
+    
+    initial_node_count = 0
+    
+    autoscaling {
+      min_node_count = 0
+      max_node_count = 5
+    }
+    
+    node_config {
+      machine_type = "n1-standard-4"
+      
+      guest_accelerator {
+        type  = "nvidia-tesla-t4"
+        count = 1
+      }
+      
+      taint {
+        key    = "workload-type"
+        value  = "gpu"
+        effect = "NO_SCHEDULE"
+      }
+    }
+  }
+}`}
+/>
+
+### Estratégia de Implantação Blue-Green
+
+Implemente implantações sem tempo de inatividade com estratégia blue-green:
+
+<CodeExample
+  title="Configuração de Implantação Blue-Green"
+  language="yaml"
+  code={`# blue-green-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: document-processor
+  namespace: documind
+spec:
+  selector:
+    app: document-processor
+    version: active  # Este seletor será atualizado durante a implantação
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+# Implantação Blue
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-processor-blue
+  namespace: documind
+  labels:
+    app: document-processor
+    version: blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: document-processor
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: document-processor
+        version: blue
+    spec:
+      containers:
+      - name: processor
+        image: documind/processor:1.0.0
+        # ... configuração do contêiner
+---
+# Implantação Green
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-processor-green
+  namespace: documind
+  labels:
+    app: document-processor
+    version: green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: document-processor
+      version: green
+  template:
+    metadata:
+      labels:
+        app: document-processor
+        version: green
+    spec:
+      containers:
+      - name: processor
+        image: documind/processor:1.1.0  # Nova versão
+        # ... configuração do contêiner`}
+/>
+
+## Fase 2: Monitoramento e Observabilidade {#phase2-monitoring}
+
+Configure observabilidade completa para monitorar sua plataforma de IA em produção.
+
+<Exercise
+  id="phase2-monitoring"
+  title="Implementar Monitoramento Abrangente"
+/>
+
+### Configuração do Prometheus
+
+<CodeExample
+  title="Configuração do Prometheus"
+  language="yaml"
+  code={`# prometheus-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    
+    rule_files:
+      - "ai_platform_rules.yml"
+    
+    scrape_configs:
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+        - role: pod
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+          action: keep
+          regex: true
+        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+          action: replace
+          target_label: __metrics_path__
+          regex: (.+)
+        - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+          action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          target_label: __address__
+      
+      - job_name: 'ai-models'
+        static_configs:
+        - targets: ['model-service:9090']
+        metrics_path: /metrics
+        scrape_interval: 30s
+        
+      - job_name: 'document-processor'
+        static_configs:
+        - targets: ['document-processor:9090']
+        metrics_path: /metrics
+        scrape_interval: 15s
+        
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets: ['alertmanager:9093']
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-platform-rules
+  namespace: monitoring
+data:
+  ai_platform_rules.yml: |
+    groups:
+    - name: ai_platform_alerts
+      rules:
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 0.5
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alta latência detectada"
+          description: "Latência do percentil 95 é {{ $value }}s"
+      
+      - alert: ModelMemoryUsage
+        expr: container_memory_usage_bytes{container="model-server"} / container_spec_memory_limit_bytes > 0.85
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Uso de memória do modelo alto"
+          description: "Uso de memória do modelo em {{ $labels.instance }} é {{ $value | humanizePercentage }}"
+      
+      - alert: GPUUtilization
+        expr: nvidia_gpu_utilization > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alta utilização de GPU"
+          description: "Utilização de GPU em {{ $labels.instance }} é {{ $value }}%"`}
+/>
+
+### Dashboards Grafana
+
+<CodeExample
+  title="Dashboard de Métricas de IA"
+  language="json"
+  code={`{
+  "dashboard": {
+    "title": "Plataforma de IA - Métricas de Produção",
+    "panels": [
+      {
+        "title": "Throughput de Inferência",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(inference_requests_total[5m])",
+            "legendFormat": "Requisições por segundo - {{ instance }}"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Req/s",
+            "min": 0
+          }
+        ]
+      },
+      {
+        "title": "Latência de Inferência",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, rate(inference_duration_seconds_bucket[5m]))",
+            "legendFormat": "P50"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(inference_duration_seconds_bucket[5m]))",
+            "legendFormat": "P95"
+          },
+          {
+            "expr": "histogram_quantile(0.99, rate(inference_duration_seconds_bucket[5m]))",
+            "legendFormat": "P99"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Segundos",
+            "min": 0
+          }
+        ]
+      },
+      {
+        "title": "Utilização de GPU",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "nvidia_gpu_utilization",
+            "legendFormat": "GPU {{ gpu }}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 70},
+                {"color": "red", "value": 90}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "title": "Uso de Memória do Modelo",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "container_memory_usage_bytes{container='model-server'} / 1024 / 1024 / 1024",
+            "legendFormat": "{{ pod }} - Memória Usada (GB)"
+          }
+        ]
+      },
+      {
+        "title": "Taxa de Erro",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(inference_errors_total[5m]) / rate(inference_requests_total[5m]) * 100",
+            "legendFormat": "Taxa de Erro %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 5}
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s"
+  }
+}`}
+/>
+
+## Fase 3: Auto-Escalonamento e Gerenciamento de Carga {#phase3-scaling}
+
+Implemente escalonamento automático inteligente para lidar com cargas de trabalho variáveis.
+
+<Exercise
+  id="phase3-scaling"
+  title="Configurar Auto-Escalonamento Inteligente"
+/>
+
+### Horizontal Pod Autoscaler (HPA)
+
+<CodeExample
+  title="Configuração HPA para Serviços de IA"
+  language="yaml"
+  code={`# hpa-ai-services.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: document-processor-hpa
+  namespace: documind
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: document-processor
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Pods
+    pods:
+      metric:
+        name: inference_queue_length
+      target:
+        type: AverageValue
+        averageValue: "10"
+  - type: Pods
+    pods:
+      metric:
+        name: inference_latency_p95
+      target:
+        type: AverageValue
+        averageValue: "0.5"
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15
+      - type: Pods
+        value: 4
+        periodSeconds: 15
+      selectPolicy: Max
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+      selectPolicy: Min
+---
+# HPA para modelos GPU
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gpu-model-hpa
+  namespace: documind
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gpu-model-server
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: nvidia.com/gpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Pods
+    pods:
+      metric:
+        name: gpu_inference_queue_length
+      target:
+        type: AverageValue
+        averageValue: "5"
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 120  # Mais lento para GPUs
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 600  # Conservador para GPUs caras
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 300`}
+/>
+
+### Escalonamento Baseado em Filas
+
+<CodeExample
+  title="Sistema de Fila Inteligente"
+  language="python"
+  code={`import asyncio
+import aioredis
+from dataclasses import dataclass
+from typing import Dict, List, Optional
+from enum import Enum
+import time
+import json
+
+class JobPriority(Enum):
+    LOW = 1
+    NORMAL = 2
+    HIGH = 3
+    CRITICAL = 4
+
+@dataclass
+class ProcessingJob:
+    id: str
+    document_id: str
+    user_id: str
+    priority: JobPriority
+    model_type: str
+    created_at: float
+    estimated_duration: float
+    retry_count: int = 0
+    max_retries: int = 3
+
+class IntelligentQueueManager:
+    def __init__(self, redis_url: str):
+        self.redis = None
+        self.redis_url = redis_url
+        self.queue_names = {
+            JobPriority.CRITICAL: "queue:critical",
+            JobPriority.HIGH: "queue:high", 
+            JobPriority.NORMAL: "queue:normal",
+            JobPriority.LOW: "queue:low"
+        }
+        self.processing_queues = {
+            "llm": "processing:llm",
+            "vision": "processing:vision",
+            "extraction": "processing:extraction"
+        }
+        
+    async def connect(self):
+        """Conectar ao Redis"""
+        self.redis = await aioredis.from_url(self.redis_url)
+        
+    async def enqueue_job(self, job: ProcessingJob) -> bool:
+        """Enfileirar job com prioridade inteligente"""
+        queue_name = self.queue_names[job.priority]
+        
+        # Serializar job
+        job_data = {
+            "id": job.id,
+            "document_id": job.document_id,
+            "user_id": job.user_id,
+            "priority": job.priority.value,
+            "model_type": job.model_type,
+            "created_at": job.created_at,
+            "estimated_duration": job.estimated_duration,
+            "retry_count": job.retry_count
+        }
+        
+        # Adicionar à fila com score baseado na prioridade e timestamp
+        score = job.priority.value * 1000000 + (time.time() - job.created_at)
+        
+        await self.redis.zadd(queue_name, {json.dumps(job_data): score})
+        
+        # Atualizar métricas
+        await self.redis.incr(f"metrics:enqueued:{job.model_type}")
+        await self.redis.incr("metrics:total_enqueued")
+        
+        return True
+        
+    async def dequeue_job(self, model_type: str) -> Optional[ProcessingJob]:
+        """Desenfileirar próximo job com balanceamento inteligente"""
+        # Verificar filas por prioridade
+        for priority in [JobPriority.CRITICAL, JobPriority.HIGH, 
+                        JobPriority.NORMAL, JobPriority.LOW]:
+            queue_name = self.queue_names[priority]
+            
+            # Obter jobs que correspondem ao tipo de modelo
+            jobs = await self.redis.zrange(queue_name, 0, 10, withscores=True)
+            
+            for job_data, score in jobs:
+                job_dict = json.loads(job_data)
+                
+                if job_dict["model_type"] == model_type:
+                    # Remover da fila
+                    await self.redis.zrem(queue_name, job_data)
+                    
+                    # Mover para fila de processamento
+                    processing_queue = self.processing_queues[model_type]
+                    await self.redis.lpush(processing_queue, job_data)
+                    
+                    # Atualizar métricas
+                    await self.redis.incr(f"metrics:dequeued:{model_type}")
+                    
+                    return ProcessingJob(
+                        id=job_dict["id"],
+                        document_id=job_dict["document_id"],
+                        user_id=job_dict["user_id"],
+                        priority=JobPriority(job_dict["priority"]),
+                        model_type=job_dict["model_type"],
+                        created_at=job_dict["created_at"],
+                        estimated_duration=job_dict["estimated_duration"],
+                        retry_count=job_dict["retry_count"]
+                    )
+        
+        return None
+        
+    async def get_queue_metrics(self) -> Dict:
+        """Obter métricas detalhadas da fila"""
+        metrics = {}
+        
+        # Tamanho das filas por prioridade
+        for priority, queue_name in self.queue_names.items():
+            size = await self.redis.zcard(queue_name)
+            metrics[f"queue_size_{priority.name.lower()}"] = size
+            
+        # Filas de processamento
+        for model_type, queue_name in self.processing_queues.items():
+            size = await self.redis.llen(queue_name)
+            metrics[f"processing_size_{model_type}"] = size
+            
+        # Métricas de throughput
+        for model_type in ["llm", "vision", "extraction"]:
+            enqueued = await self.redis.get(f"metrics:enqueued:{model_type}") or 0
+            dequeued = await self.redis.get(f"metrics:dequeued:{model_type}") or 0
+            metrics[f"throughput_{model_type}"] = {
+                "enqueued": int(enqueued),
+                "dequeued": int(dequeued),
+                "pending": int(enqueued) - int(dequeued)
+            }
+            
+        return metrics
+        
+    async def estimate_wait_time(self, job: ProcessingJob) -> float:
+        """Estimar tempo de espera para job"""
+        queue_name = self.queue_names[job.priority]
+        
+        # Contar jobs com prioridade maior ou igual
+        higher_priority_count = 0
+        for priority in [JobPriority.CRITICAL, JobPriority.HIGH, 
+                        JobPriority.NORMAL, JobPriority.LOW]:
+            if priority.value >= job.priority.value:
+                count = await self.redis.zcard(self.queue_names[priority])
+                higher_priority_count += count
+                
+        # Estimar baseado em throughput histórico
+        avg_processing_time = await self._get_avg_processing_time(job.model_type)
+        
+        return higher_priority_count * avg_processing_time
+        
+    async def _get_avg_processing_time(self, model_type: str) -> float:
+        """Obter tempo médio de processamento para tipo de modelo"""
+        # Implementar baseado em métricas históricas
+        # Por enquanto, retornar estimativas
+        avg_times = {
+            "llm": 30.0,      # 30 segundos
+            "vision": 15.0,   # 15 segundos  
+            "extraction": 10.0 # 10 segundos
+        }
+        return avg_times.get(model_type, 20.0)
+
+# Controlador de Escalonamento Baseado em Fila
+class QueueBasedScaler:
+    def __init__(self, queue_manager: IntelligentQueueManager):
+        self.queue_manager = queue_manager
+        self.scaling_thresholds = {
+            "scale_up": {
+                "queue_length": 50,
+                "wait_time": 60,  # segundos
+                "utilization": 0.8
+            },
+            "scale_down": {
+                "queue_length": 10,
+                "wait_time": 15,
+                "utilization": 0.3
+            }
+        }
+        
+    async def evaluate_scaling_decision(self, model_type: str) -> Dict:
+        """Avaliar se escalonamento é necessário"""
+        metrics = await self.queue_manager.get_queue_metrics()
+        
+        # Cálculos de escalonamento
+        total_queue_length = sum([
+            metrics.get(f"queue_size_{p}", 0) 
+            for p in ["critical", "high", "normal", "low"]
+        ])
+        
+        processing_length = metrics.get(f"processing_size_{model_type}", 0)
+        
+        # Estimar tempo de espera
+        avg_processing_time = await self.queue_manager._get_avg_processing_time(model_type)
+        estimated_wait_time = total_queue_length * avg_processing_time
+        
+        decision = {
+            "model_type": model_type,
+            "queue_length": total_queue_length,
+            "processing_length": processing_length,
+            "estimated_wait_time": estimated_wait_time,
+            "recommendation": "maintain"
+        }
+        
+        # Decisão de scale up
+        if (total_queue_length > self.scaling_thresholds["scale_up"]["queue_length"] or
+            estimated_wait_time > self.scaling_thresholds["scale_up"]["wait_time"]):
+            decision["recommendation"] = "scale_up"
+            decision["target_replicas"] = min(
+                processing_length + 2,  # Adicionar 2 réplicas
+                10  # Máximo 10 réplicas
+            )
+            
+        # Decisão de scale down
+        elif (total_queue_length < self.scaling_thresholds["scale_down"]["queue_length"] and
+              estimated_wait_time < self.scaling_thresholds["scale_down"]["wait_time"]):
+            decision["recommendation"] = "scale_down"
+            decision["target_replicas"] = max(
+                processing_length - 1,  # Remover 1 réplica
+                1  # Mínimo 1 réplica
+            )
+            
+        return decision`}
+/>
+
+## Fase 4: Implementação de Segurança {#phase4-security}
+
+Implemente segurança robusta para proteger sua plataforma de IA.
+
+<Exercise
+  id="phase4-security"
+  title="Implementar Segurança Empresarial"
+/>
+
+### Autenticação e Autorização
+
+<CodeExample
+  title="Sistema de Autenticação OAuth2 + JWT"
+  language="python"
+  code={`import jwt
+import hashlib
+import secrets
+from datetime import datetime, timedelta
+from typing import Dict, Optional, List
+from dataclasses import dataclass
+from fastapi import HTTPException, Depends, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+import redis
+import bcrypt
+
+@dataclass
+class User:
+    id: str
+    email: str
+    role: str
+    permissions: List[str]
+    organization_id: str
+    is_active: bool = True
+
+@dataclass
+class TokenData:
+    user_id: str
+    email: str
+    role: str
+    permissions: List[str]
+    organization_id: str
+    expires_at: datetime
+
+class AuthenticationService:
+    def __init__(self, secret_key: str, redis_client: redis.Redis):
+        self.secret_key = secret_key
+        self.redis = redis_client
+        self.algorithm = "HS256"
+        self.access_token_expire = timedelta(hours=1)
+        self.refresh_token_expire = timedelta(days=30)
+        
+        # Definir permissões por papel
+        self.role_permissions = {
+            "admin": [
+                "document:read", "document:write", "document:delete",
+                "user:read", "user:write", "system:admin"
+            ],
+            "analyst": [
+                "document:read", "document:write", "analytics:read"
+            ],
+            "viewer": [
+                "document:read"
+            ]
+        }
+        
+    async def authenticate_user(self, email: str, password: str) -> Optional[User]:
+        """Autenticar usuário com email e senha"""
+        user_key = f"user:{email}"
+        user_data = await self.redis.hgetall(user_key)
+        
+        if not user_data:
+            return None
+            
+        # Verificar senha
+        stored_password = user_data.get("password_hash")
+        if not bcrypt.checkpw(password.encode(), stored_password):
+            return None
+            
+        # Verificar se usuário está ativo
+        if not user_data.get("is_active", "true").lower() == "true":
+            return None
+            
+        return User(
+            id=user_data["id"],
+            email=user_data["email"],
+            role=user_data["role"],
+            permissions=self.role_permissions.get(user_data["role"], []),
+            organization_id=user_data["organization_id"],
+            is_active=True
+        )
+        
+    def create_access_token(self, user: User) -> str:
+        """Criar token de acesso JWT"""
+        expires_at = datetime.utcnow() + self.access_token_expire
+        
+        payload = {
+            "user_id": user.id,
+            "email": user.email,
+            "role": user.role,
+            "permissions": user.permissions,
+            "organization_id": user.organization_id,
+            "exp": expires_at,
+            "iat": datetime.utcnow(),
+            "type": "access"
+        }
+        
+        return jwt.encode(payload, self.secret_key, algorithm=self.algorithm)
+        
+    def create_refresh_token(self, user: User) -> str:
+        """Criar token de refresh"""
+        expires_at = datetime.utcnow() + self.refresh_token_expire
+        token_id = secrets.token_urlsafe(32)
+        
+        payload = {
+            "user_id": user.id,
+            "token_id": token_id,
+            "exp": expires_at,
+            "type": "refresh"
+        }
+        
+        # Armazenar token no Redis
+        self.redis.setex(
+            f"refresh_token:{token_id}",
+            self.refresh_token_expire,
+            user.id
+        )
+        
+        return jwt.encode(payload, self.secret_key, algorithm=self.algorithm)
+        
+    async def verify_token(self, token: str) -> Optional[TokenData]:
+        """Verificar e decodificar token"""
+        try:
+            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
+            
+            # Verificar se token está na blacklist
+            token_hash = hashlib.sha256(token.encode()).hexdigest()
+            if await self.redis.exists(f"blacklist:{token_hash}"):
+                return None
+                
+            return TokenData(
+                user_id=payload["user_id"],
+                email=payload["email"],
+                role=payload["role"],
+                permissions=payload["permissions"],
+                organization_id=payload["organization_id"],
+                expires_at=datetime.fromtimestamp(payload["exp"])
+            )
+            
+        except jwt.ExpiredSignatureError:
+            return None
+        except jwt.InvalidTokenError:
+            return None
+            
+    async def revoke_token(self, token: str) -> bool:
+        """Revogar token adicionando à blacklist"""
+        token_hash = hashlib.sha256(token.encode()).hexdigest()
+        
+        try:
+            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
+            expires_at = datetime.fromtimestamp(payload["exp"])
+            ttl = int((expires_at - datetime.utcnow()).total_seconds())
+            
+            if ttl > 0:
+                await self.redis.setex(f"blacklist:{token_hash}", ttl, "revoked")
+                return True
+                
+        except jwt.InvalidTokenError:
+            pass
+            
+        return False
+        
+    def require_permissions(self, required_permissions: List[str]):
+        """Decorator para verificar permissões"""
+        def decorator(func):
+            async def wrapper(*args, **kwargs):
+                # Obter token do contexto da requisição
+                token_data = kwargs.get("current_user")
+                
+                if not token_data:
+                    raise HTTPException(
+                        status_code=401,
+                        detail="Token de autenticação requerido"
+                    )
+                    
+                # Verificar permissões
+                user_permissions = set(token_data.permissions)
+                required_permissions_set = set(required_permissions)
+                
+                if not required_permissions_set.issubset(user_permissions):
+                    raise HTTPException(
+                        status_code=403,
+                        detail="Permissões insuficientes"
+                    )
+                    
+                return await func(*args, **kwargs)
+            return wrapper
+        return decorator
+
+# Middleware de Autenticação FastAPI
+security = HTTPBearer()
+
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Security(security),
+    auth_service: AuthenticationService = Depends()
+) -> TokenData:
+    """Obter usuário atual do token"""
+    token = credentials.credentials
+    user_data = await auth_service.verify_token(token)
+    
+    if not user_data:
+        raise HTTPException(
+            status_code=401,
+            detail="Token inválido ou expirado"
+        )
+        
+    return user_data
+
+# Exemplo de uso em endpoint
+@app.post("/documents/analyze")
+@auth_service.require_permissions(["document:write"])
+async def analyze_document(
+    document_id: str,
+    current_user: TokenData = Depends(get_current_user)
+):
+    """Analisar documento - requer permissão de escrita"""
+    # Verificar se documento pertence à organização do usuário
+    if not await verify_document_access(document_id, current_user.organization_id):
+        raise HTTPException(
+            status_code=403,
+            detail="Acesso negado ao documento"
+        )
+        
+    # Processar documento
+    result = await process_document(document_id)
+    
+    # Registrar auditoria
+    await log_audit_event(
+        user_id=current_user.user_id,
+        action="document_analyze",
+        resource_id=document_id,
+        organization_id=current_user.organization_id
+    )
+    
+    return result`}
+/>
+
+### Políticas de Rede e Segurança
+
+<CodeExample
+  title="Políticas de Rede Kubernetes"
+  language="yaml"
+  code={`# network-policies.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-default
+  namespace: documind
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+# Política para API Gateway
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-gateway-policy
+  namespace: documind
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: istio-system
+    - podSelector:
+        matchLabels:
+          app: istio-proxy
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: document-processor
+    ports:
+    - protocol: TCP
+      port: 8080
+  - to:
+    - podSelector:
+        matchLabels:
+          app: auth-service
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Política para serviços de IA
+apiVersion: networking.k8s.io/v1  
+kind: NetworkPolicy
+metadata:
+  name: ai-services-policy
+  namespace: documind
+spec:
+  podSelector:
+    matchLabels:
+      tier: ai-service
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: document-processor
+    ports:
+    - protocol: TCP
+      port: 8080
+  - from:
+    - podSelector:
+        matchLabels:
+          app: model-router
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis-cache
+    ports:
+    - protocol: TCP
+      port: 6379
+  - to:
+    - podSelector:
+        matchLabels:
+          app: model-registry
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Política para banco de dados
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: database-policy
+  namespace: documind
+spec:
+  podSelector:
+    matchLabels:
+      app: postgresql
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: document-processor
+    - podSelector:
+        matchLabels:
+          app: analytics-service
+    ports:
+    - protocol: TCP
+      port: 5432`}
+/>
+
+## Fase 5: Pipeline de CI/CD {#phase5-cicd}
+
+Configure pipelines automatizados para implantação contínua.
+
+<Exercise
+  id="phase5-cicd"
+  title="Criar Pipeline de CI/CD"
+/>
+
+### Pipeline GitLab CI/CD
+
+<CodeExample
+  title="Pipeline GitLab CI/CD"
+  language="yaml"
+  code={`.gitlab-ci.yml
+stages:
+  - test
+  - security-scan
+  - build
+  - deploy-staging
+  - integration-test
+  - deploy-production
+
+variables:
+  DOCKER_REGISTRY: registry.gitlab.com/company/documind
+  KUBERNETES_NAMESPACE_STAGING: documind-staging
+  KUBERNETES_NAMESPACE_PRODUCTION: documind-production
+
+# Testes unitários e de integração
+test:
+  stage: test
+  image: python:3.9
+  services:
+    - redis:latest
+    - postgres:13
+  variables:
+    DATABASE_URL: postgresql://postgres:postgres@postgres:5432/test_db
+    REDIS_URL: redis://redis:6379
+  script:
+    - pip install -r requirements.txt
+    - pip install pytest pytest-cov pytest-asyncio
+    - pytest tests/ --cov=src --cov-report=xml
+    - python -m pytest tests/integration/ -v
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# Verificação de segurança
+security-scan:
+  stage: security-scan
+  image: 
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+  script:
+    - trivy fs --security-checks vuln,secret,config .
+    - trivy image --exit-code 0 --severity HIGH,CRITICAL $DOCKER_REGISTRY/app:$CI_COMMIT_SHA
+  artifacts:
+    reports:
+      sast: trivy-results.json
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# Build e push de imagens Docker
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+  script:
+    # Build da aplicação principal
+    - docker build -t $DOCKER_REGISTRY/app:$CI_COMMIT_SHA -f Dockerfile .
+    - docker tag $DOCKER_REGISTRY/app:$CI_COMMIT_SHA $DOCKER_REGISTRY/app:latest
+    - docker push $DOCKER_REGISTRY/app:$CI_COMMIT_SHA
+    - docker push $DOCKER_REGISTRY/app:latest
+    
+    # Build dos serviços de IA
+    - docker build -t $DOCKER_REGISTRY/model-server:$CI_COMMIT_SHA -f dockerfiles/Dockerfile.model-server .
+    - docker push $DOCKER_REGISTRY/model-server:$CI_COMMIT_SHA
+    
+    # Build do processador de documentos
+    - docker build -t $DOCKER_REGISTRY/document-processor:$CI_COMMIT_SHA -f dockerfiles/Dockerfile.processor .
+    - docker push $DOCKER_REGISTRY/document-processor:$CI_COMMIT_SHA
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# Deploy para staging
+deploy-staging:
+  stage: deploy-staging
+  image: bitnami/kubectl:latest
+  environment:
+    name: staging
+    url: https://documind-staging.company.com
+  script:
+    - kubectl config use-context $KUBE_CONTEXT_STAGING
+    - kubectl create namespace $KUBERNETES_NAMESPACE_STAGING --dry-run=client -o yaml | kubectl apply -f -
+    
+    # Aplicar manifestos Kubernetes
+    - envsubst < k8s/staging/kustomization.yaml | kubectl apply -k -
+    
+    # Aguardar deployment
+    - kubectl rollout status deployment/document-processor -n $KUBERNETES_NAMESPACE_STAGING
+    - kubectl rollout status deployment/model-server -n $KUBERNETES_NAMESPACE_STAGING
+    - kubectl rollout status deployment/api-gateway -n $KUBERNETES_NAMESPACE_STAGING
+    
+    # Verificar saúde dos serviços
+    - kubectl get pods -n $KUBERNETES_NAMESPACE_STAGING
+    - kubectl get services -n $KUBERNETES_NAMESPACE_STAGING
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# Testes de integração em staging
+integration-test:
+  stage: integration-test
+  image: python:3.9
+  variables:
+    STAGING_API_URL: https://documind-staging.company.com
+  script:
+    - pip install requests pytest
+    - python -m pytest tests/integration/staging/ -v --api-url=$STAGING_API_URL
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# Deploy para produção
+deploy-production:
+  stage: deploy-production
+  image: bitnami/kubectl:latest
+  environment:
+    name: production
+    url: https://documind.company.com
+  script:
+    - kubectl config use-context $KUBE_CONTEXT_PRODUCTION
+    
+    # Backup antes do deploy
+    - kubectl create backup production-backup-$(date +%Y%m%d%H%M%S) -n $KUBERNETES_NAMESPACE_PRODUCTION
+    
+    # Deploy blue-green
+    - ./scripts/blue-green-deploy.sh $DOCKER_REGISTRY/app:$CI_COMMIT_SHA
+    
+    # Verificar saúde
+    - ./scripts/health-check.sh $KUBERNETES_NAMESPACE_PRODUCTION
+    
+    # Notificar equipe
+    - ./scripts/notify-deployment.sh "Produção" "Sucesso" $CI_COMMIT_SHA
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+  allow_failure: false
+
+# Rollback automático em caso de falha
+rollback-production:
+  stage: deploy-production
+  image: bitnami/kubectl:latest
+  environment:
+    name: production
+  script:
+    - kubectl config use-context $KUBE_CONTEXT_PRODUCTION
+    - ./scripts/rollback-deployment.sh $KUBERNETES_NAMESPACE_PRODUCTION
+    - ./scripts/notify-deployment.sh "Produção" "Rollback" $CI_COMMIT_SHA
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+  when: on_failure`}
+/>
+
+### Configuração ArgoCD para GitOps
+
+<CodeExample
+  title="ArgoCD Application"
+  language="yaml"
+  code={`# argocd-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: documind-production
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://gitlab.com/company/documind-k8s-manifests
+    targetRevision: HEAD
+    path: production
+    kustomize:
+      images:
+        - documind/app:latest
+        - documind/model-server:latest
+        - documind/document-processor:latest
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: documind-production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  revisionHistoryLimit: 10
+---
+# Política de sincronização
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: documind-project
+  namespace: argocd
+spec:
+  description: Projeto DocuMind AI Platform
+  sourceRepos:
+  - 'https://gitlab.com/company/documind-k8s-manifests'
+  destinations:
+  - namespace: documind-production
+    server: https://kubernetes.default.svc
+  - namespace: documind-staging
+    server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRole
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+  namespaceResourceWhitelist:
+  - group: ''
+    kind: ConfigMap
+  - group: ''
+    kind: Secret
+  - group: ''
+    kind: Service
+  - group: apps
+    kind: Deployment
+  - group: networking.k8s.io
+    kind: NetworkPolicy
+  - group: autoscaling
+    kind: HorizontalPodAutoscaler
+  roles:
+  - name: admin
+    description: Administrador do projeto
+    policies:
+    - p, proj:documind-project:admin, applications, *, documind-project/*, allow
+    - p, proj:documind-project:admin, repositories, *, *, allow
+    groups:
+    - company:platform-team
+  - name: developer
+    description: Desenvolvedor
+    policies:
+    - p, proj:documind-project:developer, applications, get, documind-project/*, allow
+    - p, proj:documind-project:developer, applications, sync, documind-project/*, allow
+    groups:
+    - company:development-team`}
+/>
+
+## Testes e Validação {#testing-validation}
+
+Realize testes abrangentes para validar sua plataforma.
+
+<Exercise
+  id="testing-validation"
+  title="Executar Testes Abrangentes"
+/>
+
+### Testes de Carga com Locust
+
+<CodeExample
+  title="Testes de Carga para APIs de IA"
+  language="python"
+  code={`from locust import HttpUser, task, between
+import json
+import random
+import base64
+from io import BytesIO
+from PIL import Image
+import time
+
+class DocumentProcessingUser(HttpUser):
+    wait_time = between(1, 3)
+    
+    def on_start(self):
+        """Configuração inicial - fazer login"""
+        self.login()
+        self.test_documents = self.prepare_test_documents()
+        
+    def login(self):
+        """Fazer login e obter token"""
+        response = self.client.post("/auth/login", json={
+            "email": "test@example.com",
+            "password": "test123"
+        })
+        
+        if response.status_code == 200:
+            self.token = response.json()["access_token"]
+            self.client.headers.update({
+                "Authorization": f"Bearer {self.token}"
+            })
+        else:
+            self.token = None
+            
+    def prepare_test_documents(self):
+        """Preparar documentos de teste"""
+        documents = []
+        
+        # Documento de texto
+        text_doc = {
+            "type": "text",
+            "content": "Este é um documento de teste para análise de IA. " * 50,
+            "filename": "test_document.txt"
+        }
+        documents.append(text_doc)
+        
+        # Documento de imagem
+        img = Image.new('RGB', (800, 600), color='white')
+        img_buffer = BytesIO()
+        img.save(img_buffer, format='PNG')
+        img_buffer.seek(0)
+        
+        image_doc = {
+            "type": "image",
+            "content": base64.b64encode(img_buffer.read()).decode(),
+            "filename": "test_image.png"
+        }
+        documents.append(image_doc)
+        
+        return documents
+        
+    @task(3)
+    def upload_document(self):
+        """Teste de upload de documento"""
+        doc = random.choice(self.test_documents)
+        
+        with self.client.post("/documents/upload", 
+                             json=doc,
+                             catch_response=True) as response:
+            if response.status_code == 200:
+                response.success()
+                # Armazenar ID do documento para testes posteriores
+                doc_id = response.json().get("document_id")
+                if doc_id:
+                    self.environment.shared_data = getattr(self.environment, 'shared_data', {})
+                    self.environment.shared_data['document_ids'] = \
+                        self.environment.shared_data.get('document_ids', [])
+                    self.environment.shared_data['document_ids'].append(doc_id)
+            else:
+                response.failure(f"Upload failed: {response.text}")
+                
+    @task(5)
+    def process_document(self):
+        """Teste de processamento de documento"""
+        # Obter ID de documento existente
+        doc_ids = getattr(self.environment, 'shared_data', {}).get('document_ids', [])
+        if not doc_ids:
+            return
+            
+        doc_id = random.choice(doc_ids)
+        
+        processing_request = {
+            "document_id": doc_id,
+            "analysis_type": random.choice(["summary", "extraction", "classification"]),
+            "priority": random.choice(["normal", "high"]),
+            "model_preference": random.choice(["fast", "accurate"])
+        }
+        
+        with self.client.post("/documents/process",
+                             json=processing_request,
+                             catch_response=True) as response:
+            if response.status_code == 200:
+                job_id = response.json().get("job_id")
+                response.success()
+                
+                # Monitorar progresso do job
+                self.monitor_job_progress(job_id)
+            else:
+                response.failure(f"Processing failed: {response.text}")
+                
+    def monitor_job_progress(self, job_id: str):
+        """Monitorar progresso do job de processamento"""
+        start_time = time.time()
+        timeout = 30  # 30 segundos timeout
+        
+        while time.time() - start_time < timeout:
+            with self.client.get(f"/jobs/{job_id}/status",
+                               catch_response=True) as response:
+                if response.status_code == 200:
+                    status = response.json().get("status")
+                    if status == "completed":
+                        response.success()
+                        return
+                    elif status == "failed":
+                        response.failure(f"Job failed: {response.json()}")
+                        return
+                    elif status in ["pending", "processing"]:
+                        time.sleep(1)  # Aguardar 1 segundo
+                        continue
+                else:
+                    response.failure(f"Status check failed: {response.text}")
+                    return
+                    
+        # Timeout
+        with self.client.get(f"/jobs/{job_id}/status", catch_response=True) as response:
+            response.failure(f"Job timeout after {timeout} seconds")
+            
+    @task(2)
+    def get_document_results(self):
+        """Obter resultados de documentos processados"""
+        with self.client.get("/documents/results",
+                           params={"limit": 10, "status": "completed"},
+                           catch_response=True) as response:
+            if response.status_code == 200:
+                results = response.json()
+                if results.get("documents"):
+                    response.success()
+                else:
+                    response.failure("No results found")
+            else:
+                response.failure(f"Results fetch failed: {response.text}")
+                
+    @task(1)
+    def get_analytics(self):
+        """Obter analytics da plataforma"""
+        with self.client.get("/analytics/dashboard",
+                           catch_response=True) as response:
+            if response.status_code == 200:
+                response.success()
+            else:
+                response.failure(f"Analytics failed: {response.text}")
+
+class StressTestUser(HttpUser):
+    """Usuário para teste de stress - requisições mais intensivas"""
+    wait_time = between(0.1, 0.5)
+    
+    @task
+    def rapid_status_checks(self):
+        """Verificações rápidas de status"""
+        with self.client.get("/health", catch_response=True) as response:
+            if response.status_code == 200:
+                response.success()
+            else:
+                response.failure(f"Health check failed: {response.text}")
+                
+    @task
+    def rapid_auth_checks(self):
+        """Verificações rápidas de autenticação"""
+        with self.client.get("/auth/verify", 
+                           headers={"Authorization": "Bearer invalid_token"},
+                           catch_response=True) as response:
+            if response.status_code == 401:
+                response.success()  # Esperado para token inválido
+            else:
+                response.failure(f"Auth check unexpected: {response.status_code}")
+
+# Configurações de teste
+class LoadTestScenario:
+    """Cenários de teste de carga"""
+    
+    @staticmethod
+    def normal_load():
+        """Carga normal - 100 usuários"""
+        return {
+            "users": 100,
+            "spawn_rate": 10,
+            "duration": "10m",
+            "user_classes": [DocumentProcessingUser]
+        }
+        
+    @staticmethod
+    def peak_load():
+        """Carga de pico - 500 usuários"""
+        return {
+            "users": 500,
+            "spawn_rate": 50,
+            "duration": "15m",
+            "user_classes": [DocumentProcessingUser]
+        }
+        
+    @staticmethod
+    def stress_test():
+        """Teste de stress - 1000 usuários"""
+        return {
+            "users": 1000,
+            "spawn_rate": 100,
+            "duration": "20m",
+            "user_classes": [DocumentProcessingUser, StressTestUser]
+        }
+
+# Executar testes
+if __name__ == "__main__":
+    import subprocess
+    import sys
+    
+    # Teste normal
+    print("Executando teste de carga normal...")
+    subprocess.run([
+        "locust", "-f", __file__, 
+        "--users", "100", 
+        "--spawn-rate", "10",
+        "--run-time", "10m",
+        "--host", "https://documind-staging.company.com"
+    ])
+    
+    # Teste de pico
+    print("Executando teste de carga de pico...")
+    subprocess.run([
+        "locust", "-f", __file__,
+        "--users", "500",
+        "--spawn-rate", "50", 
+        "--run-time", "15m",
+        "--host", "https://documind-staging.company.com"
+    ])`}
+/>
+
+### Chaos Engineering
+
+<CodeExample
+  title="Experimentos de Chaos Engineering"
+  language="yaml"
+  code={`# chaos-experiments.yaml
+apiVersion: chaos-mesh.org/v1alpha1
+kind: Schedule
+metadata:
+  name: documind-chaos-schedule
+  namespace: documind
+spec:
+  schedule: "0 14 * * 1-5"  # Segunda a sexta às 14h
+  concurrencyPolicy: Forbid
+  type: PodChaos
+  podChaos:
+    selector:
+      namespaces:
+        - documind
+      labelSelectors:
+        app: document-processor
+    mode: one
+    action: pod-kill
+    duration: "30s"
+---
+# Experimento de falha de rede
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay-experiment
+  namespace: documind
+spec:
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: model-server
+  mode: all
+  action: delay
+  delay:
+    latency: "100ms"
+    correlation: "100"
+    jitter: "0ms"
+  duration: "5m"
+  scheduler:
+    cron: "0 */2 * * *"  # A cada 2 horas
+---
+# Experimento de falha de CPU
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: cpu-stress-experiment
+  namespace: documind
+spec:
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: document-processor
+  mode: one
+  stressors:
+    cpu:
+      workers: 2
+      load: 80
+  duration: "10m"
+---
+# Experimento de falha de memória
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: memory-stress-experiment
+  namespace: documind
+spec:
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: model-server
+  mode: one
+  stressors:
+    memory:
+      workers: 1
+      size: "1GB"
+  duration: "5m"
+---
+# Experimento de falha de disco
+apiVersion: chaos-mesh.org/v1alpha1
+kind: IOChaos
+metadata:
+  name: disk-io-experiment
+  namespace: documind
+spec:
+  selector:
+    namespaces:
+      - documind
+    labelSelectors:
+      app: postgresql
+  mode: one
+  action: latency
+  path: "/var/lib/postgresql/data"
+  delay: "500ms"
+  duration: "3m"
+---
+# Workflow de experimentos
+apiVersion: chaos-mesh.org/v1alpha1
+kind: Workflow
+metadata:
+  name: documind-resilience-test
+  namespace: documind
+spec:
+  entry: normal-operation
+  templates:
+  - name: normal-operation
+    steps:
+    - - name: baseline-metrics
+        template: collect-metrics
+    - - name: pod-failure-test
+        template: pod-chaos
+    - - name: network-failure-test
+        template: network-chaos
+    - - name: resource-stress-test
+        template: stress-chaos
+    - - name: final-metrics
+        template: collect-metrics
+        
+  - name: collect-metrics
+    container:
+      image: appropriate/curl
+      command: [sh, -c]
+      args: ["curl -s http://prometheus:9090/api/v1/query?query=up | jq ."]
+      
+  - name: pod-chaos
+    podChaos:
+      selector:
+        namespaces:
+          - documind
+        labelSelectors:
+          app: document-processor
+      mode: one
+      action: pod-kill
+      duration: "30s"
+      
+  - name: network-chaos
+    networkChaos:
+      selector:
+        namespaces:
+          - documind
+        labelSelectors:
+          app: model-server
+      mode: all
+      action: delay
+      delay:
+        latency: "200ms"
+        correlation: "100"
+      duration: "2m"
+      
+  - name: stress-chaos
+    stressChaos:
+      selector:
+        namespaces:
+          - documind
+        labelSelectors:
+          app: document-processor
+      mode: one
+      stressors:
+        cpu:
+          workers: 1
+          load: 70
+      duration: "3m"`}
+/>
+
+## Documentação e Apresentação {#documentation-presentation}
+
+Complete seu projeto com documentação técnica abrangente.
+
+<Exercise
+  id="documentation-presentation"
+  title="Criar Documentação Técnica"
+/>
+
+### Estrutura de Documentação
+
+Sua documentação deve incluir:
+
+1. **Visão Geral da Arquitetura**
+   - Diagramas de arquitetura de alto nível
+   - Decisões de design e justificativas
+   - Fluxos de dados e comunicação entre serviços
+
+2. **Guia de Implantação**
+   - Pré-requisitos e configuração de ambiente
+   - Instruções passo a passo para implantação
+   - Configuração de variáveis de ambiente
+
+3. **Runbooks Operacionais**
+   - Procedimentos de monitoramento
+   - Guias de troubleshooting
+   - Procedimentos de backup e recuperação
+
+4. **Documentação de Segurança**
+   - Modelo de ameaças
+   - Controles de segurança implementados
+   - Procedimentos de resposta a incidentes
+
+5. **Análise de Desempenho**
+   - Resultados de testes de carga
+   - Métricas de baseline
+   - Recomendações de otimização
+
+### Apresentação Final
+
+Prepare uma apresentação de 30 minutos cobrindo:
+
+- **Visão Geral do Projeto** (5 minutos)
+- **Arquitetura e Design** (10 minutos)
+- **Implementação e Desafios** (10 minutos)
+- **Resultados e Lições Aprendidas** (5 minutos)
+
+<Callout type="success">
+  **Parabéns!** Você construiu uma plataforma de IA completa pronta para produção. Este projeto demonstra sua capacidade de arquitetar, implementar e operar sistemas de IA complexos em ambientes empresariais.
+</Callout>
+
+### Próximos Passos
+
+1. **Otimização Contínua**: Monitore métricas e otimize desempenho
+2. **Expansão de Funcionalidades**: Adicione novos tipos de modelos e capacidades
+3. **Certificações**: Busque certificações relevantes (CKA, AWS, Azure)
+4. **Compartilhamento**: Compartilhe sua experiência com a comunidade
+
+Este projeto representa o culminar de sua jornada em engenharia de IA em produção. Use-o como base para construir sistemas ainda mais ambiciosos e inovadores!

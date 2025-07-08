@@ -69,6 +69,10 @@ export const ptBR = {
     publishedOn: "Publicado em",
     tags: "Tags",
     noResults: "Nenhum post encontrado.",
+    featuredArticles: "Artigos em Destaque",
+    browseByCategory: "Navegar por Categoria",
+    articlesCount: "artigos",
+    categoriesCount: "categorias",
   },
   
   // Learning

@@ -61,6 +61,9 @@ Are you building the next Clippy, or the next breakthrough?
 
 What's your take on the current state of AI integration? Have you experienced AI overload in your daily tools?
 
+🔗 Read the full analysis with code examples and design frameworks:
+https://www.learn-agentic-ai.com/en/blog/ai-ux-dark-patterns-evolution-backwards
+
 #ProductManagement #UserExperience #ArtificialIntelligence #DigitalTransformation #TechLeadership #Innovation #UXDesign #EnterpriseAI #ProductStrategy #FutureOfWork
 
 ---

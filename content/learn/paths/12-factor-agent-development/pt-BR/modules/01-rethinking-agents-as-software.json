@@ -1,0 +1,135 @@
+{
+  "id": "01-rethinking-agents-as-software",
+  "pathId": "12-factor-agent-development",
+  "title": "Repensando Agentes como Software",
+  "description": "Descubra por que a capacidade mais poderosa dos LLMs não é orquestração complexa—é a simples extração JSON. Aprenda a ver além da 'mágica' e entenda agentes como componentes de software determinísticos.",
+  "duration": "90 minutos",
+  "estimatedCompletionTime": "90 minutos",
+  "type": "module",
+  "difficulty": "intermediate",
+  "order": 1,
+  "objectives": [
+    "Entender por que a extração JSON é o bloco fundamental de construção dos sistemas de agentes",
+    "Reconhecer que 'uso de ferramentas' é apenas roteamento JSON para código determinístico",
+    "Aprender a decompor comportamentos de agentes em padrões de software",
+    "Construir seu primeiro componente de agente baseado em extração JSON"
+  ],
+  "prerequisites": [
+    "Compreensão básica de LLMs e chamadas de API",
+    "Familiaridade com JSON e conceitos básicos de programação",
+    "Experiência com pelo menos uma linguagem de programação"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "O Problema dos 70-80%",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#introduction"
+      }
+    },
+    {
+      "id": "json-extraction-magic",
+      "title": "Fator 1: Extração JSON é Seu Superpoder",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#json-extraction"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Extração JSON Básica",
+          "description": "Convertendo linguagem natural em dados estruturados"
+        },
+        {
+          "language": "python",
+          "title": "Extração Avançada com Validação",
+          "description": "Garantindo que o JSON extraído atenda aos requisitos do seu esquema"
+        }
+      ]
+    },
+    {
+      "id": "tools-are-code",
+      "title": "Fator 4: 'Uso de Ferramentas' é Apenas JSON e Código",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#tools-are-code"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "De 'Uso de Ferramentas' para Instruções Switch",
+          "description": "Desmistificando como agentes interagem com o mundo"
+        }
+      ]
+    },
+    {
+      "id": "quiz-section",
+      "title": "Quizzes Interativos",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#quiz-section"
+      },
+      "description": "Teste seu entendimento com quizzes interativos incorporados ao longo do módulo"
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Exercício Prático: Classificador de Intenção do Cliente",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "30 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "01-rethinking-agents-as-software.mdx#practical-exercise"
+      },
+      "description": "Construa um agente de suporte ao cliente que extrai intenção de mensagens e as roteia apropriadamente",
+      "exercise": {
+        "title": "Classificador de Intenção do Cliente",
+        "difficulty": "intermediate",
+        "estimatedTime": "30 minutos",
+        "skills": ["Extração JSON", "Classificação de intenção", "Tratamento de erros", "Lógica de roteamento"]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "Por Que a Maioria dos Agentes em Produção Não São Agênticos",
+      "type": "article",
+      "url": "https://12factor-agents.com/blog/production-reality",
+      "description": "Análise profunda de como os agentes em produção realmente se parecem"
+    },
+    {
+      "title": "Melhores Práticas de JSON Schema para LLMs",
+      "type": "guide",
+      "url": "https://12factor-agents.com/guides/json-schema",
+      "description": "Como projetar esquemas que LLMs podem produzir de forma confiável"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "json-extraction-magic", "tools-are-code"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 75 minutos",
+      "bonusChallenges": ["advanced-extraction-challenge"]
+    }
+  }
+}

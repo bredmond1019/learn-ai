@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "id": "building-memory-management",
+    "pathId": "agent-memory-systems",
+    "title": "Construindo Gerenciamento de Memória",
+    "description": "Construa um sistema de gerenciamento de memória pronto para produção com armazenamento, recuperação e gerenciamento de ciclo de vida",
+    "duration": "3 horas",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "order": 3,
+    "prerequisites": ["memory-types-architecture"],
+    "objectives": [
+      "Implementar um sistema abrangente de gerenciamento de memória",
+      "Construir mecanismos eficientes de armazenamento e recuperação",
+      "Criar gerenciamento de ciclo de vida de memória",
+      "Integrar múltiplos tipos de memória de forma coesa"
+    ],
+    "tags": ["implementação", "gerenciamento-de-memória", "produção", "prático"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-07",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "03-building-memory-management.mdx"
+      }
+    }
+  ]
+}

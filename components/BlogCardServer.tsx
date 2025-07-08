@@ -10,9 +10,9 @@ export function BlogCardServer({ post }: BlogCardServerProps) {
   const href = `/blog/${post.slug}`;
   
   return (
-    <Link href={href} className="block group">
-      <Card variant="interactive" className="h-full">
-        <article className="p-2">
+    <Link href={href} className="block group h-full">
+      <Card variant="interactive" className="h-full flex flex-col">
+        <article className="p-2 flex flex-col h-full">
           <div className="flex items-center justify-between text-sm text-gray-400 mb-3">
             <time dateTime={post.date}>{formatDate(post.date)}</time>
             <span>{post.readingTime} min read</span>
@@ -22,12 +22,12 @@ export function BlogCardServer({ post }: BlogCardServerProps) {
             {post.title}
           </h2>
           
-          <p className="text-gray-300 mb-4 text-base leading-relaxed">
+          <p className="text-gray-300 mb-4 text-base leading-relaxed flex-grow">
             {post.excerpt}
           </p>
           
           {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mt-auto">
               {post.tags.map((tag) => (
                 <span
                   key={tag}

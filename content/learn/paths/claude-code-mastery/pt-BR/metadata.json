@@ -1,0 +1,46 @@
+{
+  "id": "claude-code-mastery",
+  "title": "Dominando o Claude Code: Do Terminal às Integrações Personalizadas",
+  "description": "Aprenda a aproveitar a abordagem sem opiniões do Claude Code para desenvolvimento assistido por IA. Desde compreender a evolução das ferramentas de programação até construir integrações personalizadas com o SDK.",
+  "level": "intermediate",
+  "duration": "10-12 horas",
+  "prerequisites": ["Conhecimento básico de programação", "Familiaridade com linha de comando"],
+  "objectives": [
+    "Compreender a evolução das ferramentas de programação e onde a IA se encaixa",
+    "Dominar as integrações do Claude Code com terminal, IDE e GitHub",
+    "Implementar fluxos de trabalho avançados como TDD e sessões paralelas",
+    "Construir integrações personalizadas usando o SDK do Claude Code",
+    "Aplicar assistência de IA sem opiniões a projetos do mundo real"
+  ],
+  "modules": [
+    {
+      "id": "evolution-of-programming-tools",
+      "title": "Evolução das Ferramentas de Programação",
+      "description": "Trace a jornada dos cartões perfurados aos assistentes de IA e entenda por que essa história importa para o desenvolvimento moderno"
+    },
+    {
+      "id": "claude-code-philosophy",
+      "title": "Compreendendo a Filosofia do Claude Code",
+      "description": "Aprenda por que o Claude Code adota uma abordagem sem opiniões e como isso beneficia os desenvolvedores à medida que os modelos de IA evoluem"
+    },
+    {
+      "id": "claude-code-integrations",
+      "title": "Integrações do Claude Code",
+      "description": "Domine as integrações com terminal, IDE e GitHub para incorporar perfeitamente o Claude Code ao seu fluxo de trabalho"
+    },
+    {
+      "id": "advanced-workflows",
+      "title": "Fluxos de Trabalho Avançados",
+      "description": "Implemente padrões poderosos como TDD, modo planejamento e gerenciamento de memória para maximizar a produtividade"
+    },
+    {
+      "id": "building-with-sdk",
+      "title": "Construindo com o SDK do Claude Code",
+      "description": "Crie integrações personalizadas e utilitários Unix usando o SDK do Claude Code"
+    }
+  ],
+  "tags": ["Desenvolvimento com IA", "Claude Code", "Ferramentas de Desenvolvimento", "Produtividade"],
+  "author": "Brandon J. Redmond",
+  "createdAt": "2024-12-19",
+  "updatedAt": "2024-12-19"
+}

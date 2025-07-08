@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "id": "advanced-workflows",
+    "pathId": "claude-code-mastery",
+    "title": "Fluxos de Trabalho Avançados",
+    "description": "Implemente padrões poderosos como TDD, modo planejamento e gerenciamento de memória para maximizar a produtividade",
+    "duration": "3 horas",
+    "type": "practice",
+    "difficulty": "advanced",
+    "order": 4,
+    "objectives": [
+      "Dominar fluxos de trabalho de Desenvolvimento Orientado a Testes (TDD) com Claude Code",
+      "Usar efetivamente o Modo Planejamento para projetos complexos de múltiplas etapas",
+      "Entender o gerenciamento de memória e arquivos CLAUDE.md",
+      "Implementar padrões avançados para máxima produtividade"
+    ],
+    "tags": ["TDD", "fluxos de trabalho", "produtividade", "modo planejamento", "Claude Code"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-19",
+    "author": "Brandon J. Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "04-advanced-workflows.mdx"
+      }
+    }
+  ]
+}

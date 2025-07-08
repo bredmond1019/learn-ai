@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "id": "memory-types-architecture",
+    "pathId": "agent-memory-systems",
+    "title": "Tipos de Memória e Arquitetura",
+    "description": "Domine mais de 10 tipos diferentes de memória de agentes e aprenda a arquitetar sistemas de memória abrangentes",
+    "duration": "2.5 horas",
+    "type": "theory",
+    "difficulty": "intermediate",
+    "order": 2,
+    "prerequisites": ["understanding-agent-memory"],
+    "objectives": [
+      "Entender mais de 10 tipos diferentes de memória de agentes",
+      "Aprender quando e como usar cada tipo de memória",
+      "Projetar arquiteturas de memória para diferentes casos de uso",
+      "Implementar tipos básicos de memória em código"
+    ],
+    "tags": ["tipos-de-memória", "arquitetura", "padrões-de-design", "implementação"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-07",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "02-memory-types-architecture.mdx"
+      }
+    }
+  ]
+}

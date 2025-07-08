@@ -1,0 +1,234 @@
+{
+  "id": "05-building-production-micro-agents",
+  "pathId": "12-factor-agent-development",
+  "title": "Construindo Micro-Agentes de Produção",
+  "description": "Domine a arte de construir agentes pequenos e focados que fazem uma coisa excepcionalmente bem. Aprenda a compor micro-agentes em sistemas robustos e encontre a vanguarda do que é possível com LLMs atuais.",
+  "duration": "120 minutos",
+  "estimatedCompletionTime": "120 minutos",
+  "type": "module",
+  "difficulty": "advanced",
+  "order": 5,
+  "objectives": [
+    "Entender por que agentes pequenos com 3-10 passos superam orquestrações complexas",
+    "Aprender a identificar e extrair limites de micro-agentes de workflows monolíticos",
+    "Dominar os padrões de composição para conectar micro-agentes",
+    "Implementar monitoramento e observabilidade de nível de produção para sistemas de agentes",
+    "Encontrar e empurrar a vanguarda das capacidades de LLM"
+  ],
+  "prerequisites": [
+    "Conclusão do Módulo 1: Repensando Agentes como Software",
+    "Conclusão do Módulo 4: Colaboração Humano-Agente",
+    "Experiência com conceitos de arquitetura de microsserviços",
+    "Compreensão de básicos de sistemas distribuídos",
+    "Familiaridade com ferramentas de observabilidade (logs, métricas, traces)"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "A Revolução dos Micro-Agentes",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#introduction"
+      }
+    },
+    {
+      "id": "small-focused-agents",
+      "title": "Fator 5: Agentes Pequenos e Focados Vencem Monólitos",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "25 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#small-focused-agents"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Arquitetura de Micro-Agente",
+          "description": "Construindo agentes com limites claros e escopo limitado"
+        },
+        {
+          "language": "typescript",
+          "title": "Padrões de Composição de Agentes",
+          "description": "Conectando micro-agentes em workflows"
+        }
+      ]
+    },
+    {
+      "id": "deployment-bot-case-study",
+      "title": "Estudo de Caso: Bot de Deploy de Produção",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#deployment-bot-case-study"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Implementação de Micro-Agente de Deploy",
+          "description": "Exemplo do mundo real de produção"
+        }
+      ]
+    },
+    {
+      "id": "finding-the-bleeding-edge",
+      "title": "Fator 12: Encontre a Vanguarda",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#finding-the-bleeding-edge"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Empurrando os Limites do LLM",
+          "description": "Técnicas para alcançar resultados confiáveis na margem das capacidades"
+        }
+      ]
+    },
+    {
+      "id": "observability-monitoring",
+      "title": "Observabilidade de Produção para Micro-Agentes",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#observability-monitoring"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Sistema de Telemetria de Agente",
+          "description": "Monitoramento abrangente para sistemas de agentes"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Verificação de Conhecimento",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#knowledge-check"
+      },
+      "description": "Quiz interativo sobre arquitetura de micro-agentes e padrões de deploy de produção"
+    },
+    {
+      "id": "quiz-placeholder",
+      "title": "Perguntas do Quiz",
+      "type": "metadata",
+      "order": 6.1,
+      "estimatedDuration": "0 minutos",
+      "visible": false,
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "type": "multiple-choice",
+            "question": "Qual é o número ideal de passos para um micro-agente?",
+            "options": [
+              "1-2 passos para máxima simplicidade",
+              "3-10 passos para funcionalidade focada",
+              "20-50 passos para cobertura abrangente",
+              "100+ passos para autonomia completa"
+            ],
+            "correctAnswer": 1,
+            "explanation": "3-10 passos atinge o ponto ideal: complexo o suficiente para ser útil, simples o suficiente para ser confiável e mantível."
+          },
+          {
+            "id": "q2",
+            "type": "multiple-choice",
+            "question": "Por que micro-agentes superam agentes monolíticos em produção?",
+            "options": [
+              "Eles usam menos memória",
+              "Eles são mais fáceis de depurar, testar e manter",
+              "Eles executam mais rápido",
+              "Eles requerem menos chamadas de API"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Micro-agentes se destacam porque cada um pode ser depurado, testado e otimizado independentemente. Quando algo dá errado, você sabe exatamente qual agente e qual passo falhou."
+          },
+          {
+            "id": "q3",
+            "type": "multiple-choice",
+            "question": "O que significa 'encontrar a vanguarda' no desenvolvimento de agentes?",
+            "options": [
+              "Usar os modelos LLM mais recentes",
+              "Implementar frameworks de ponta",
+              "Encontrar tarefas além da confiabilidade atual e engenhá-las para funcionar",
+              "Empurrar agentes até seus limites"
+            ],
+            "correctAnswer": 2,
+            "explanation": "A vanguarda é onde você pega algo que LLMs quase conseguem fazer confiavelmente e projeta seu sistema para fazê-lo funcionar consistentemente—criando capacidades que outros não conseguem alcançar."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetry": true,
+        "showExplanations": true
+      }
+    },
+    {
+      "id": "capstone-project",
+      "title": "Projeto Final: Construa Seu Sistema de Micro-Agente de Produção",
+      "type": "content",
+      "order": 7,
+      "estimatedDuration": "30 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "05-building-production-micro-agents.mdx#capstone-project"
+      },
+      "description": "Construa um sistema completo de micro-agentes incorporando todos os 12 fatores aprendidos ao longo do curso",
+      "exercise": {
+        "title": "Rede de Micro-Agentes de Suporte ao Cliente",
+        "difficulty": "advanced",
+        "estimatedTime": "30 minutos",
+        "skills": ["Design de micro-agentes", "Composição de sistema", "Observabilidade", "Prontidão para produção"]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "Padrões de Design de Micro-Agentes",
+      "type": "guide",
+      "url": "https://12factor-agents.com/patterns/micro-agents",
+      "description": "Padrões comuns para projetar e compor micro-agentes"
+    },
+    {
+      "title": "Melhores Práticas de Observabilidade de Agentes",
+      "type": "article",
+      "url": "https://12factor-agents.com/guides/observability",
+      "description": "Como monitorar e depurar sistemas de agentes em produção"
+    },
+    {
+      "title": "A Arquitetura do Bot de Deploy",
+      "type": "case-study",
+      "url": "https://12factor-agents.com/case-studies/deployment-bot",
+      "description": "Análise profunda de um sistema de micro-agente de produção"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "small-focused-agents", "deployment-bot-case-study", "finding-the-bleeding-edge"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 100 minutos",
+      "bonusChallenges": ["build-production-ready-system"]
+    }
+  }
+}

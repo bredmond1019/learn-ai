@@ -1,0 +1,166 @@
+{
+  "id": "04-human-agent-collaboration",
+  "pathId": "12-factor-agent-development",
+  "title": "Colaboração Humano-Agente",
+  "description": "Domine a arte de construir agentes que trabalham COM humanos, não apesar deles. Aprenda a implementar fluxos de aprovação, interações multicanal e o protocolo A2 para sistemas confiáveis de humano no loop.",
+  "duration": "120 minutos",
+  "estimatedCompletionTime": "120 minutos",
+  "type": "module",
+  "difficulty": "advanced",
+  "order": 4,
+  "objectives": [
+    "Entender por que humano no loop é uma operação de primeira classe, não um caso extremo",
+    "Implementar fluxos de aprovação que não quebram o estado de execução do agente",
+    "Construir agentes multicanal que encontram usuários onde eles estão (Slack, email, Discord)",
+    "Dominar o protocolo A2 para comunicação padronizada humano-agente",
+    "Projetar agentes que lidam graciosamente com atrasos humanos e troca de contexto"
+  ],
+  "prerequisites": [
+    "Conclusão do Módulo 1: Repensando Agentes como Software",
+    "Compreensão de programação assíncrona e gerenciamento de estado",
+    "Conhecimento básico de WebSockets ou sistemas de filas de mensagens",
+    "Familiaridade com pelo menos uma API de plataforma de mensagens (Slack, Discord, etc.)"
+  ],
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-04T00:00:00.000Z",
+  "author": "Brandon J. Redmond",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "O Paradoxo Humano",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#introduction"
+      }
+    },
+    {
+      "id": "contact-humans-as-tools",
+      "title": "Fator 8: Contatar Humanos como Operações de Primeira Classe",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "25 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#contact-humans-as-tools"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Contato Humano como Chamada de Ferramenta",
+          "description": "Implementando interação humana como operação pausável e retomável"
+        },
+        {
+          "language": "typescript",
+          "title": "Gerenciamento de Estado para Atrasos Humanos",
+          "description": "Lidando com respostas humanas assíncronas sem perder contexto"
+        }
+      ]
+    },
+    {
+      "id": "meet-users-where-they-are",
+      "title": "Fator 9: Encontre Usuários Onde Eles Estão",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "25 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#meet-users-where-they-are"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Roteador de Agente Multicanal",
+          "description": "Construindo agentes que funcionam através de Slack, email e Discord"
+        },
+        {
+          "language": "typescript",
+          "title": "Manipulador de Mensagem Agnóstico a Canal",
+          "description": "Abstraindo canais de comunicação para comportamento consistente do agente"
+        }
+      ]
+    },
+    {
+      "id": "a2-protocol",
+      "title": "O Protocolo A2: Padronizando Comunicação Humano-Agente",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#a2-protocol"
+      },
+      "codeExamples": [
+        {
+          "language": "python",
+          "title": "Implementação do Protocolo A2",
+          "description": "Construindo manipuladores de interação humano-agente compatíveis"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-check",
+      "title": "Verificação de Conhecimento",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "10 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#knowledge-check"
+      },
+      "description": "Quiz interativo sobre padrões e melhores práticas de colaboração humano-agente"
+    },
+    {
+      "id": "practical-exercise",
+      "title": "Exercício: Construa um Bot de Aprovação Multicanal",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "35 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "04-human-agent-collaboration.mdx#exercise"
+      },
+      "description": "Construa um agente que gerencia aprovações de deploy através de múltiplos canais, lidando com respostas humanas assíncronas",
+      "exercise": {
+        "title": "Agente de Aprovação de Deploy",
+        "difficulty": "advanced",
+        "estimatedTime": "35 minutos",
+        "skills": ["Persistência de estado", "Integração multicanal", "Manuseio assíncrono", "Humano no loop"]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "A Especificação do Protocolo A2",
+      "type": "specification",
+      "url": "https://github.com/a2-protocol/spec",
+      "description": "Especificação completa para comunicação padronizada agente-para-agente e agente-para-humano"
+    },
+    {
+      "title": "Construindo Bots Slack que Não São Ruins",
+      "type": "guide",
+      "url": "https://12factor-agents.com/guides/slack-bots",
+      "description": "Guia prático para construir bots Slack que usuários realmente querem usar"
+    },
+    {
+      "title": "Email como Interface de Agente",
+      "type": "article",
+      "url": "https://12factor-agents.com/blog/email-agents",
+      "description": "Por que email pode ser a melhor UI para seu agente"
+    }
+  ],
+  "assessmentCriteria": {
+    "completion": {
+      "minQuizScore": 80,
+      "requiredSections": ["introduction", "contact-humans-as-tools", "meet-users-where-they-are", "a2-protocol"],
+      "requiredExercises": ["practical-exercise"]
+    },
+    "mastery": {
+      "minQuizScore": 100,
+      "completionTime": "< 100 minutos",
+      "bonusChallenges": ["multi-tenant-approval-system"]
+    }
+  }
+}
