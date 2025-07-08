@@ -35,7 +35,13 @@
     "translate:priority": "tsx scripts/translate-content.ts priority --confirm",
     "translate:all": "tsx scripts/translate-content.ts translate --confirm",
     "translate:blog": "tsx scripts/translate-content.ts translate --type blog --confirm",
-    "translate:learning": "tsx scripts/translate-content.ts translate --type learning-module --confirm"
+    "translate:learning": "tsx scripts/translate-content.ts translate --type learning-module --confirm",
+    "youtube:fetch": "tsx scripts/youtube-transcript.ts fetch",
+    "youtube:update": "tsx scripts/youtube-transcript.ts update",
+    "youtube:list": "tsx scripts/youtube-transcript.ts list",
+    "youtube:export": "tsx scripts/youtube-transcript.ts export",
+    "youtube:search": "tsx scripts/youtube-transcript.ts search",
+    "youtube:remove": "tsx scripts/youtube-transcript.ts remove"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.54.0",
@@ -68,6 +74,7 @@
     "shiki": "^3.7.0",
     "tailwind-merge": "^3.3.1",
     "tsx": "^4.20.3",
+    "youtubei.js": "^14.0.0",
     "zod": "^3.25.67"
   },
   "devDependencies": {

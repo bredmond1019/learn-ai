@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "id": "advanced-memory-patterns",
+    "pathId": "agent-memory-systems",
+    "title": "Advanced Memory Patterns",
+    "description": "Explore sophisticated memory patterns including hierarchical memories, memory networks, and cognitive architectures",
+    "duration": "2.5 hours",
+    "type": "practice",
+    "difficulty": "advanced",
+    "order": 4,
+    "prerequisites": ["building-memory-management"],
+    "objectives": [
+      "Implement hierarchical and networked memory systems",
+      "Build memory consolidation and forgetting mechanisms",
+      "Create adaptive memory systems that learn",
+      "Design memory architectures for complex agents"
+    ],
+    "tags": ["advanced", "patterns", "cognitive-architecture", "memory-networks"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-07",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "04-advanced-memory-patterns.mdx"
+      }
+    }
+  ]
+}

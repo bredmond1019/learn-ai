@@ -81,7 +81,8 @@ const getPostBySlugUncached = (slug: string, locale?: string): BlogPost | null =
       content,
       readingTime,
       tags: data.tags || [],
-      author: data.author || 'Brandon'
+      author: data.author || 'Brandon',
+      featured: data.featured || false
     }
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error)
@@ -142,7 +143,8 @@ export function getAllPostsMeta(locale?: string): BlogPostMeta[] {
     excerpt: post.excerpt,
     readingTime: post.readingTime,
     tags: post.tags,
-    author: post.author
+    author: post.author,
+    featured: post.featured
   }));
   
   blogCache.set(cacheKey, meta);

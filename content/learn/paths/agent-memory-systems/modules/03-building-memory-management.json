@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "id": "building-memory-management",
+    "pathId": "agent-memory-systems",
+    "title": "Building Memory Management",
+    "description": "Build a production-ready memory management system with storage, retrieval, and lifecycle management",
+    "duration": "3 hours",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "order": 3,
+    "prerequisites": ["memory-types-architecture"],
+    "objectives": [
+      "Implement a comprehensive memory management system",
+      "Build efficient storage and retrieval mechanisms",
+      "Create memory lifecycle management",
+      "Integrate multiple memory types cohesively"
+    ],
+    "tags": ["implementation", "memory-management", "production", "hands-on"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-07",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "03-building-memory-management.mdx"
+      }
+    }
+  ]
+}

@@ -1,0 +1,2082 @@
+{
+  "videoId": "oXtvAQ-e0iE",
+  "language": "en",
+  "segments": [
+    {
+      "text": "the other day I opened Microsoft Excel",
+      "start": 0.56,
+      "duration": 2.079
+    },
+    {
+      "text": "and found this a little copilot button",
+      "start": 2.639,
+      "duration": 2.321
+    },
+    {
+      "text": "that hovers over any cell that I",
+      "start": 4.96,
+      "duration": 1.6
+    },
+    {
+      "text": "highlight and I immediately hated it not",
+      "start": 6.56,
+      "duration": 2.959
+    },
+    {
+      "text": "only does it cover up whatever is",
+      "start": 9.519,
+      "duration": 1.361
+    },
+    {
+      "text": "underneath it it also kind of fades in",
+      "start": 10.88,
+      "duration": 2.08
+    },
+    {
+      "text": "and out depending on where I move the",
+      "start": 12.96,
+      "duration": 1.839
+    },
+    {
+      "text": "cursor and as you can see here in this",
+      "start": 14.799,
+      "duration": 2.001
+    },
+    {
+      "text": "slow motion shot there's also a clearer",
+      "start": 16.8,
+      "duration": 1.92
+    },
+    {
+      "text": "lag between me clicking on something and",
+      "start": 18.72,
+      "duration": 1.92
+    },
+    {
+      "text": "the co-pilot button actually moving the",
+      "start": 20.64,
+      "duration": 2.24
+    },
+    {
+      "text": "delay is even different between each",
+      "start": 22.88,
+      "duration": 1.44
+    },
+    {
+      "text": "click just to make things extra annoying",
+      "start": 24.32,
+      "duration": 2.08
+    },
+    {
+      "text": "so this button is wildly distracting and",
+      "start": 26.4,
+      "duration": 2.24
+    },
+    {
+      "text": "it's also of course completely redundant",
+      "start": 28.64,
+      "duration": 2.32
+    },
+    {
+      "text": "because there already is a giant",
+      "start": 30.96,
+      "duration": 2
+    },
+    {
+      "text": "co-pilot button in the ribbon if you",
+      "start": 32.96,
+      "duration": 2
+    },
+    {
+      "text": "wanted to invoke the AI assistant in a",
+      "start": 34.96,
+      "duration": 2.32
+    },
+    {
+      "text": "general and if you wanted to do",
+      "start": 37.28,
+      "duration": 1.52
+    },
+    {
+      "text": "something specific to a cell it's also",
+      "start": 38.8,
+      "duration": 1.84
+    },
+    {
+      "text": "already in the context menu when you",
+      "start": 40.64,
+      "duration": 1.52
+    },
+    {
+      "text": "right click on a cell and of course the",
+      "start": 42.16,
+      "duration": 1.76
+    },
+    {
+      "text": "Copilot app was pinned to the taskbar by",
+      "start": 43.92,
+      "duration": 2.56
+    },
+    {
+      "text": "default too and since I have a C-pilot",
+      "start": 46.48,
+      "duration": 1.84
+    },
+    {
+      "text": "Plus PC I also have a feature called",
+      "start": 48.32,
+      "duration": 2
+    },
+    {
+      "text": "click to-do which opens C-pilot to",
+      "start": 50.32,
+      "duration": 2
+    },
+    {
+      "text": "analyze what is on my screen and to",
+      "start": 52.32,
+      "duration": 1.68
+    },
+    {
+      "text": "perform actions on it plus if all of",
+      "start": 54,
+      "duration": 2.32
+    },
+    {
+      "text": "that was somehow not enough I also got a",
+      "start": 56.32,
+      "duration": 2.64
+    },
+    {
+      "text": "physical co-pilot button on my keyboard",
+      "start": 58.96,
+      "duration": 2.56
+    },
+    {
+      "text": "so this new floating button that just",
+      "start": 61.52,
+      "duration": 1.679
+    },
+    {
+      "text": "appeared in Excel for me was the sixth",
+      "start": 63.199,
+      "duration": 2.24
+    },
+    {
+      "text": "and perhaps the most distracting way",
+      "start": 65.439,
+      "duration": 1.68
+    },
+    {
+      "text": "that Microsoft has found to push copilot",
+      "start": 67.119,
+      "duration": 2.241
+    },
+    {
+      "text": "into my workflow but I bet it won't be",
+      "start": 69.36,
+      "duration": 2.56
+    },
+    {
+      "text": "the last one now as a tech YouTuber I",
+      "start": 71.92,
+      "duration": 2.08
+    },
+    {
+      "text": "don't want to become the old man yelling",
+      "start": 74,
+      "duration": 1.439
+    },
+    {
+      "text": "at cloud whenever a new technology",
+      "start": 75.439,
+      "duration": 1.601
+    },
+    {
+      "text": "appears so I was ready to move on but",
+      "start": 77.04,
+      "duration": 2
+    },
+    {
+      "text": "then that same day I opened Notion in my",
+      "start": 79.04,
+      "duration": 2.32
+    },
+    {
+      "text": "browser and I saw this four different",
+      "start": 81.36,
+      "duration": 2.799
+    },
+    {
+      "text": "floating AI buttons on my screen at the",
+      "start": 84.159,
+      "duration": 2.561
+    },
+    {
+      "text": "same time including both above and below",
+      "start": 86.72,
+      "duration": 2.32
+    },
+    {
+      "text": "my cursor making it very hard for me to",
+      "start": 89.04,
+      "duration": 2
+    },
+    {
+      "text": "actually see what I was doing and",
+      "start": 91.04,
+      "duration": 1.84
+    },
+    {
+      "text": "ridiculously easy to accidentally",
+      "start": 92.88,
+      "duration": 1.84
+    },
+    {
+      "text": "trigger one now three of these I've",
+      "start": 94.72,
+      "duration": 1.84
+    },
+    {
+      "text": "known for a while because they're from",
+      "start": 96.56,
+      "duration": 1.199
+    },
+    {
+      "text": "Notion itself and I find them only",
+      "start": 97.759,
+      "duration": 1.601
+    },
+    {
+      "text": "mildly annoying but then this fourth",
+      "start": 99.36,
+      "duration": 2.079
+    },
+    {
+      "text": "button was actually new and somehow even",
+      "start": 101.439,
+      "duration": 2
+    },
+    {
+      "text": "more disruptive as it's literally one",
+      "start": 103.439,
+      "duration": 1.841
+    },
+    {
+      "text": "pixel away from where I'm pointing my",
+      "start": 105.28,
+      "duration": 1.6
+    },
+    {
+      "text": "cursor at and it took me a while to",
+      "start": 106.88,
+      "duration": 1.36
+    },
+    {
+      "text": "realize that it was actually Firefox my",
+      "start": 108.24,
+      "duration": 1.919
+    },
+    {
+      "text": "web browser that placed it here if I add",
+      "start": 110.159,
+      "duration": 2
+    },
+    {
+      "text": "the usual C-pilot things on top of that",
+      "start": 112.159,
+      "duration": 1.761
+    },
+    {
+      "text": "too then now Notion Firefox and Windows",
+      "start": 113.92,
+      "duration": 2.479
+    },
+    {
+      "text": "have collectively added uh I think seven",
+      "start": 116.399,
+      "duration": 2.72
+    },
+    {
+      "text": "ways of invoking three different AI",
+      "start": 119.119,
+      "duration": 2
+    },
+    {
+      "text": "assistants onto my workflow i think you",
+      "start": 121.119,
+      "duration": 1.761
+    },
+    {
+      "text": "don't even have to be a grand AI hater",
+      "start": 122.88,
+      "duration": 1.839
+    },
+    {
+      "text": "to think that something is fundamentally",
+      "start": 124.719,
+      "duration": 1.76
+    },
+    {
+      "text": "wrong here and in fact it reminds me",
+      "start": 126.479,
+      "duration": 1.441
+    },
+    {
+      "text": "very much of two things from my",
+      "start": 127.92,
+      "duration": 1.52
+    },
+    {
+      "text": "childhood first there's Clippy of course",
+      "start": 129.44,
+      "duration": 2.08
+    },
+    {
+      "text": "much of this is obviously way too",
+      "start": 131.52,
+      "duration": 1.359
+    },
+    {
+      "text": "prominent then notion even has an",
+      "start": 132.879,
+      "duration": 1.44
+    },
+    {
+      "text": "animated face that I bet is customd",
+      "start": 134.319,
+      "duration": 1.841
+    },
+    {
+      "text": "designed to distract me just like Clippy",
+      "start": 136.16,
+      "duration": 2.24
+    },
+    {
+      "text": "was but then second I'm also reminded of",
+      "start": 138.4,
+      "duration": 2.4
+    },
+    {
+      "text": "browser bars do you remember those for",
+      "start": 140.8,
+      "duration": 2
+    },
+    {
+      "text": "those of you who are perhaps too young",
+      "start": 142.8,
+      "duration": 1.439
+    },
+    {
+      "text": "or too old to remember these companies",
+      "start": 144.239,
+      "duration": 1.921
+    },
+    {
+      "text": "used to sneakily extol extensions that",
+      "start": 146.16,
+      "duration": 2.32
+    },
+    {
+      "text": "supposedly added extra functionality to",
+      "start": 148.48,
+      "duration": 2.32
+    },
+    {
+      "text": "your web browser but in reality just",
+      "start": 150.8,
+      "duration": 2
+    },
+    {
+      "text": "acted as promotional vehicles for their",
+      "start": 152.8,
+      "duration": 1.84
+    },
+    {
+      "text": "services even though you didn't really",
+      "start": 154.64,
+      "duration": 1.679
+    },
+    {
+      "text": "ask for them and the way that now every",
+      "start": 156.319,
+      "duration": 2
+    },
+    {
+      "text": "month or so a new AI button appears in",
+      "start": 158.319,
+      "duration": 2.161
+    },
+    {
+      "text": "my workflow feels exactly like that",
+      "start": 160.48,
+      "duration": 2.32
+    },
+    {
+      "text": "especially since Microsoft and Notion",
+      "start": 162.8,
+      "duration": 1.84
+    },
+    {
+      "text": "both charge money for their services",
+      "start": 164.64,
+      "duration": 2.08
+    },
+    {
+      "text": "while Mozilla presumably wants to make",
+      "start": 166.72,
+      "duration": 1.599
+    },
+    {
+      "text": "money through eventually having a",
+      "start": 168.319,
+      "duration": 1.441
+    },
+    {
+      "text": "revenue sharing agreement with their AI",
+      "start": 169.76,
+      "duration": 1.92
+    },
+    {
+      "text": "provider just like they have with Google",
+      "start": 171.68,
+      "duration": 2.32
+    },
+    {
+      "text": "most of these buttons are added to my",
+      "start": 174,
+      "duration": 1.44
+    },
+    {
+      "text": "workflow not because I asked for them",
+      "start": 175.44,
+      "duration": 1.519
+    },
+    {
+      "text": "but because the company wants to sell me",
+      "start": 176.959,
+      "duration": 1.681
+    },
+    {
+      "text": "a product and now I have to find a way",
+      "start": 178.64,
+      "duration": 1.84
+    },
+    {
+      "text": "to turn most of them off if I don't want",
+      "start": 180.48,
+      "duration": 1.759
+    },
+    {
+      "text": "them now Firefox at least makes theirs",
+      "start": 182.239,
+      "duration": 2.241
+    },
+    {
+      "text": "pretty easy right here but with notion",
+      "start": 184.48,
+      "duration": 2
+    },
+    {
+      "text": "for example I would have to contact",
+      "start": 186.48,
+      "duration": 1.6
+    },
+    {
+      "text": "their support team and ask them to turn",
+      "start": 188.08,
+      "duration": 2.079
+    },
+    {
+      "text": "it off manually which is absolutely",
+      "start": 190.159,
+      "duration": 1.841
+    },
+    {
+      "text": "bonkers while Microsoft at least",
+      "start": 192,
+      "duration": 1.519
+    },
+    {
+      "text": "partially lets you turn co-pilot off but",
+      "start": 193.519,
+      "duration": 1.921
+    },
+    {
+      "text": "then they also have a very long history",
+      "start": 195.44,
+      "duration": 2.079
+    },
+    {
+      "text": "of just turning features back on later",
+      "start": 197.519,
+      "duration": 2.08
+    },
+    {
+      "text": "at a random time i find all of this",
+      "start": 199.599,
+      "duration": 2.161
+    },
+    {
+      "text": "pretty infuriating and by the looks of",
+      "start": 201.76,
+      "duration": 1.6
+    },
+    {
+      "text": "it I'm not alone",
+      "start": 203.36,
+      "duration": 2.7
+    },
+    {
+      "text": "[Music]",
+      "start": 206.06,
+      "duration": 3.7
+    },
+    {
+      "text": "now I have plenty more infuriating",
+      "start": 209.76,
+      "duration": 1.759
+    },
+    {
+      "text": "examples that I want to show you but",
+      "start": 211.519,
+      "duration": 1.28
+    },
+    {
+      "text": "before that I want to make clear that",
+      "start": 212.799,
+      "duration": 1.201
+    },
+    {
+      "text": "I'm not inherently an AI hater for",
+      "start": 214,
+      "duration": 2.56
+    },
+    {
+      "text": "example multiple times now I recorded",
+      "start": 216.56,
+      "duration": 1.679
+    },
+    {
+      "text": "audio with the wrong microphone like in",
+      "start": 218.239,
+      "duration": 1.681
+    },
+    {
+      "text": "this case my smartphone and then Adobe's",
+      "start": 219.92,
+      "duration": 2.16
+    },
+    {
+      "text": "voice AI magically fixed that audio and",
+      "start": 222.08,
+      "duration": 2.64
+    },
+    {
+      "text": "made it completely usable for a YouTube",
+      "start": 224.72,
+      "duration": 2
+    },
+    {
+      "text": "video that's great or I also love the AI",
+      "start": 226.72,
+      "duration": 2.48
+    },
+    {
+      "text": "features of my video editing software Da",
+      "start": 229.2,
+      "duration": 1.599
+    },
+    {
+      "text": "Vinci Resolve which allows me to make",
+      "start": 230.799,
+      "duration": 1.44
+    },
+    {
+      "text": "for example magic mask cutouts that I",
+      "start": 232.239,
+      "duration": 2.161
+    },
+    {
+      "text": "literally would not be able to do in any",
+      "start": 234.4,
+      "duration": 1.68
+    },
+    {
+      "text": "other way i also recently messed up my",
+      "start": 236.08,
+      "duration": 2
+    },
+    {
+      "text": "finger pretty badly and so for this very",
+      "start": 238.08,
+      "duration": 1.76
+    },
+    {
+      "text": "video I used Samsung's voice recorder",
+      "start": 239.84,
+      "duration": 2
+    },
+    {
+      "text": "app to do my usual ideiation in instead",
+      "start": 241.84,
+      "duration": 2.08
+    },
+    {
+      "text": "of typing things out and the app did",
+      "start": 243.92,
+      "duration": 1.84
+    },
+    {
+      "text": "transcriptions and some reason and it",
+      "start": 245.76,
+      "duration": 1.6
+    },
+    {
+      "text": "even found a pretty funny title for one",
+      "start": 247.36,
+      "duration": 1.519
+    },
+    {
+      "text": "of my recordings ubiquitous AI",
+      "start": 248.879,
+      "duration": 1.841
+    },
+    {
+      "text": "integration a digital plague that's good",
+      "start": 250.72,
+      "duration": 2.879
+    },
+    {
+      "text": "some of AI is very good and I even pay",
+      "start": 253.599,
+      "duration": 2
+    },
+    {
+      "text": "for some of these solutions but all of",
+      "start": 255.599,
+      "duration": 1.76
+    },
+    {
+      "text": "these were a actually useful features",
+      "start": 257.359,
+      "duration": 2.081
+    },
+    {
+      "text": "and b also things that I told the",
+      "start": 259.44,
+      "duration": 2
+    },
+    {
+      "text": "machine to do not things that the",
+      "start": 261.44,
+      "duration": 1.44
+    },
+    {
+      "text": "machine injected into my workflow being",
+      "start": 262.88,
+      "duration": 2.48
+    },
+    {
+      "text": "interrupted with useless recommendations",
+      "start": 265.36,
+      "duration": 1.76
+    },
+    {
+      "text": "is the thing that I want to complain",
+      "start": 267.12,
+      "duration": 1.359
+    },
+    {
+      "text": "about in this video and it's something",
+      "start": 268.479,
+      "duration": 1.121
+    },
+    {
+      "text": "that seems to be really annoying many of",
+      "start": 269.6,
+      "duration": 1.599
+    },
+    {
+      "text": "you as well i posted on my social media",
+      "start": 271.199,
+      "duration": 1.921
+    },
+    {
+      "text": "channels to see if all of you had",
+      "start": 273.12,
+      "duration": 1.28
+    },
+    {
+      "text": "similarly annoying experiences as well",
+      "start": 274.4,
+      "duration": 1.84
+    },
+    {
+      "text": "and yeah you gave loads of really",
+      "start": 276.24,
+      "duration": 1.92
+    },
+    {
+      "text": "horrible examples the most consistent",
+      "start": 278.16,
+      "duration": 2.08
+    },
+    {
+      "text": "complaints that I got by far were for",
+      "start": 280.24,
+      "duration": 1.679
+    },
+    {
+      "text": "Microsoft Office and I could definitely",
+      "start": 281.919,
+      "duration": 1.921
+    },
+    {
+      "text": "see why i opened Word for the first time",
+      "start": 283.84,
+      "duration": 2.079
+    },
+    {
+      "text": "in a while on my laptop and the default",
+      "start": 285.919,
+      "duration": 1.921
+    },
+    {
+      "text": "experience was immediately insane",
+      "start": 287.84,
+      "duration": 2.4
+    },
+    {
+      "text": "without even doing anything the app",
+      "start": 290.24,
+      "duration": 1.519
+    },
+    {
+      "text": "launches on a distracting animation that",
+      "start": 291.759,
+      "duration": 1.921
+    },
+    {
+      "text": "pushes the page down and adds four",
+      "start": 293.68,
+      "duration": 2
+    },
+    {
+      "text": "different text boxes on top on my laptop",
+      "start": 295.68,
+      "duration": 2.48
+    },
+    {
+      "text": "these boxes together with the ribbon and",
+      "start": 298.16,
+      "duration": 1.92
+    },
+    {
+      "text": "all the other taskbars typically leave",
+      "start": 300.08,
+      "duration": 1.839
+    },
+    {
+      "text": "me with something like 30 maybe 40% of",
+      "start": 301.919,
+      "duration": 2.641
+    },
+    {
+      "text": "the screen being used for my actual",
+      "start": 304.56,
+      "duration": 1.76
+    },
+    {
+      "text": "document at most oh and of course these",
+      "start": 306.32,
+      "duration": 2.08
+    },
+    {
+      "text": "are also on top of a giant co-pilot",
+      "start": 308.4,
+      "duration": 2
+    },
+    {
+      "text": "button in the ribbon and once I start",
+      "start": 310.4,
+      "duration": 2.16
+    },
+    {
+      "text": "writing there's also a co-pilot button",
+      "start": 312.56,
+      "duration": 1.84
+    },
+    {
+      "text": "hovering on the side just for good",
+      "start": 314.4,
+      "duration": 1.68
+    },
+    {
+      "text": "measure it is also of course in the",
+      "start": 316.08,
+      "duration": 2.16
+    },
+    {
+      "text": "context menu and when I delete that Word",
+      "start": 318.24,
+      "duration": 2.399
+    },
+    {
+      "text": "also helpfully points out that I can",
+      "start": 320.639,
+      "duration": 1.521
+    },
+    {
+      "text": "press Alt + I to draft with Copilot i",
+      "start": 322.16,
+      "duration": 3.12
+    },
+    {
+      "text": "mean what the hell but if you thought",
+      "start": 325.28,
+      "duration": 1.759
+    },
+    {
+      "text": "that is bad somehow Outlook is even",
+      "start": 327.039,
+      "duration": 2.241
+    },
+    {
+      "text": "worse opening the app on my phone",
+      "start": 329.28,
+      "duration": 1.759
+    },
+    {
+      "text": "immediately greeted me with a full",
+      "start": 331.039,
+      "duration": 1.921
+    },
+    {
+      "text": "screen Copilot pop-up and I got the same",
+      "start": 332.96,
+      "duration": 1.92
+    },
+    {
+      "text": "on my desktop too because Outlook for",
+      "start": 334.88,
+      "duration": 1.84
+    },
+    {
+      "text": "some reason really needed to tell me",
+      "start": 336.72,
+      "duration": 1.6
+    },
+    {
+      "text": "that Copilot can generate themes for my",
+      "start": 338.32,
+      "duration": 2.8
+    },
+    {
+      "text": "email client to add Zing to my mailbox",
+      "start": 341.12,
+      "duration": 3.28
+    },
+    {
+      "text": "full screen pop-ups are about the most",
+      "start": 344.4,
+      "duration": 2.16
+    },
+    {
+      "text": "disruptive things an app can do to a",
+      "start": 346.56,
+      "duration": 1.919
+    },
+    {
+      "text": "user and they decided that co-pilot",
+      "start": 348.479,
+      "duration": 2.241
+    },
+    {
+      "text": "generated themes would be worth that how",
+      "start": 350.72,
+      "duration": 2.64
+    },
+    {
+      "text": "anyway once I'm past that pop-up I open",
+      "start": 353.36,
+      "duration": 2.08
+    },
+    {
+      "text": "the first email in my inbox and I get a",
+      "start": 355.44,
+      "duration": 2
+    },
+    {
+      "text": "co-pilot button that lets me reply to or",
+      "start": 357.44,
+      "duration": 2.56
+    },
+    {
+      "text": "summarize the email and like uh the",
+      "start": 360,
+      "duration": 2.16
+    },
+    {
+      "text": "first email I opened was an automatic",
+      "start": 362.16,
+      "duration": 1.92
+    },
+    {
+      "text": "email from one drive telling me about a",
+      "start": 364.08,
+      "duration": 2.48
+    },
+    {
+      "text": "file that was shared with me and I",
+      "start": 366.56,
+      "duration": 1.759
+    },
+    {
+      "text": "really don't know what you'd reply to",
+      "start": 368.319,
+      "duration": 1.681
+    },
+    {
+      "text": "that or what there's to be summarized",
+      "start": 370,
+      "duration": 1.84
+    },
+    {
+      "text": "but hey Microsoft also put a whole bar",
+      "start": 371.84,
+      "duration": 2.4
+    },
+    {
+      "text": "on top which says summary by copilot",
+      "start": 374.24,
+      "duration": 2.48
+    },
+    {
+      "text": "let's see what this does well after a",
+      "start": 376.72,
+      "duration": 2
+    },
+    {
+      "text": "solid 19 seconds of waiting which I've",
+      "start": 378.72,
+      "duration": 2.4
+    },
+    {
+      "text": "sped up the summary says Maya shared a",
+      "start": 381.12,
+      "duration": 2.56
+    },
+    {
+      "text": "document titled document with you via a",
+      "start": 383.68,
+      "duration": 2.72
+    },
+    {
+      "text": "link that works for everyone it's all so",
+      "start": 386.4,
+      "duration": 2.16
+    },
+    {
+      "text": "dumb like why does Microsoft feel the",
+      "start": 388.56,
+      "duration": 2
+    },
+    {
+      "text": "need to summarize an email that it",
+      "start": 390.56,
+      "duration": 2
+    },
+    {
+      "text": "itself sent which it should know it",
+      "start": 392.56,
+      "duration": 1.68
+    },
+    {
+      "text": "doesn't need a summary like at least of",
+      "start": 394.24,
+      "duration": 2.079
+    },
+    {
+      "text": "your own things why are there two",
+      "start": 396.319,
+      "duration": 2.081
+    },
+    {
+      "text": "buttons for summarizing this thing it's",
+      "start": 398.4,
+      "duration": 2.56
+    },
+    {
+      "text": "also bad now people have complained",
+      "start": 400.96,
+      "duration": 1.679
+    },
+    {
+      "text": "about the Gemini doing weird things in",
+      "start": 402.639,
+      "duration": 1.601
+    },
+    {
+      "text": "Google Workspace as well i don't",
+      "start": 404.24,
+      "duration": 1.519
+    },
+    {
+      "text": "actually pay for Gemini myself but",
+      "start": 405.759,
+      "duration": 1.681
+    },
+    {
+      "text": "Tristan does and he found a solid nine",
+      "start": 407.44,
+      "duration": 2.08
+    },
+    {
+      "text": "Gemini buttons on screen on his Google",
+      "start": 409.52,
+      "duration": 2.08
+    },
+    {
+      "text": "Drive which he then clicked on just to",
+      "start": 411.6,
+      "duration": 1.84
+    },
+    {
+      "text": "consistently be told the Gemini is still",
+      "start": 413.44,
+      "duration": 2.24
+    },
+    {
+      "text": "learning and can't help him with that",
+      "start": 415.68,
+      "duration": 2.239
+    },
+    {
+      "text": "okay it's a good thing Google put I",
+      "start": 417.919,
+      "duration": 1.84
+    },
+    {
+      "text": "repeat nine buttons on the page for that",
+      "start": 419.759,
+      "duration": 2.801
+    },
+    {
+      "text": "i mean I guess this is probably just",
+      "start": 422.56,
+      "duration": 1.359
+    },
+    {
+      "text": "some short-term bug will get ironed out",
+      "start": 423.919,
+      "duration": 1.761
+    },
+    {
+      "text": "in a day or two but this is so",
+      "start": 425.68,
+      "duration": 1.68
+    },
+    {
+      "text": "indicative of how all of these rollouts",
+      "start": 427.36,
+      "duration": 1.92
+    },
+    {
+      "text": "seem to me to a user the first priority",
+      "start": 429.28,
+      "duration": 2.639
+    },
+    {
+      "text": "is just to disrupt me by putting all of",
+      "start": 431.919,
+      "duration": 2.241
+    },
+    {
+      "text": "the buttons everywhere and then actually",
+      "start": 434.16,
+      "duration": 2
+    },
+    {
+      "text": "making any of this work can become",
+      "start": 436.16,
+      "duration": 1.52
+    },
+    {
+      "text": "useful well that's like priority number",
+      "start": 437.68,
+      "duration": 1.919
+    },
+    {
+      "text": "40 and actually AI wanting to summarize",
+      "start": 439.599,
+      "duration": 2.641
+    },
+    {
+      "text": "everything even things that don't make",
+      "start": 442.24,
+      "duration": 1.6
+    },
+    {
+      "text": "sense to summarize is one of the core",
+      "start": 443.84,
+      "duration": 1.6
+    },
+    {
+      "text": "frustrations that I've heard from many",
+      "start": 445.44,
+      "duration": 1.44
+    },
+    {
+      "text": "of my viewers my viewer Kate says that",
+      "start": 446.88,
+      "duration": 2.319
+    },
+    {
+      "text": "she uses an app called ProQuest",
+      "start": 449.199,
+      "duration": 1.84
+    },
+    {
+      "text": "Dissertations and Thesis Global and that",
+      "start": 451.039,
+      "duration": 2.481
+    },
+    {
+      "text": "program wants to summarize everything",
+      "start": 453.52,
+      "duration": 1.76
+    },
+    {
+      "text": "including the titles of documents so",
+      "start": 455.28,
+      "duration": 2.16
+    },
+    {
+      "text": "from the title evaluating knowledge and",
+      "start": 457.44,
+      "duration": 1.92
+    },
+    {
+      "text": "attitudes towards deni fever and its",
+      "start": 459.36,
+      "duration": 1.839
+    },
+    {
+      "text": "vaccination among medical staff in China",
+      "start": 461.199,
+      "duration": 2.321
+    },
+    {
+      "text": "a questionnaire-based study the program",
+      "start": 463.52,
+      "duration": 1.92
+    },
+    {
+      "text": "decided to summarize that and say this",
+      "start": 465.44,
+      "duration": 2
+    },
+    {
+      "text": "document provides valuable insights into",
+      "start": 467.44,
+      "duration": 1.92
+    },
+    {
+      "text": "the current state of knowledge and",
+      "start": 469.36,
+      "duration": 1.52
+    },
+    {
+      "text": "aptitudes towards deni fever and",
+      "start": 470.88,
+      "duration": 1.92
+    },
+    {
+      "text": "vaccination among medical staff in China",
+      "start": 472.8,
+      "duration": 2.399
+    },
+    {
+      "text": "that is obviously just rewarding things",
+      "start": 475.199,
+      "duration": 1.68
+    },
+    {
+      "text": "and taking out random details and who",
+      "start": 476.879,
+      "duration": 2.241
+    },
+    {
+      "text": "the hell thought that summarizing titles",
+      "start": 479.12,
+      "duration": 2
+    },
+    {
+      "text": "made sense in the first place better yet",
+      "start": 481.12,
+      "duration": 1.919
+    },
+    {
+      "text": "Kate says that this feature can't be",
+      "start": 483.039,
+      "duration": 1.6
+    },
+    {
+      "text": "turned off until a software update is",
+      "start": 484.639,
+      "duration": 2.161
+    },
+    {
+      "text": "released now perhaps an even more",
+      "start": 486.8,
+      "duration": 1.92
+    },
+    {
+      "text": "outrageous complaint I got was from",
+      "start": 488.72,
+      "duration": 1.68
+    },
+    {
+      "text": "Xiaomi users who claimed that when you",
+      "start": 490.4,
+      "duration": 1.68
+    },
+    {
+      "text": "highlight text on a Xiaomi phone now an",
+      "start": 492.08,
+      "duration": 1.92
+    },
+    {
+      "text": "AI button has taken the place of the",
+      "start": 494,
+      "duration": 1.919
+    },
+    {
+      "text": "copy button which was instead moved to",
+      "start": 495.919,
+      "duration": 2.161
+    },
+    {
+      "text": "be under the three dot menu i'm not a",
+      "start": 498.08,
+      "duration": 2.399
+    },
+    {
+      "text": "Xiaomi user myself so I fired up a",
+      "start": 500.479,
+      "duration": 1.681
+    },
+    {
+      "text": "Xiaomi phone to do some quick testing",
+      "start": 502.16,
+      "duration": 1.36
+    },
+    {
+      "text": "and indeed this does seem to be the case",
+      "start": 503.52,
+      "duration": 1.84
+    },
+    {
+      "text": "at least sometimes depending on the",
+      "start": 505.36,
+      "duration": 1.92
+    },
+    {
+      "text": "context and which app you're in",
+      "start": 507.28,
+      "duration": 1.44
+    },
+    {
+      "text": "sometimes the highlights have the copy",
+      "start": 508.72,
+      "duration": 1.759
+    },
+    {
+      "text": "buttons and sometimes they do not in",
+      "start": 510.479,
+      "duration": 2.161
+    },
+    {
+      "text": "fact a lot of the useful options get put",
+      "start": 512.64,
+      "duration": 1.68
+    },
+    {
+      "text": "in the overflow menu but the AI option",
+      "start": 514.32,
+      "duration": 2.399
+    },
+    {
+      "text": "never does and I think this actually",
+      "start": 516.719,
+      "duration": 1.601
+    },
+    {
+      "text": "highlights part of the problem with all",
+      "start": 518.32,
+      "duration": 1.599
+    },
+    {
+      "text": "of these AI features every time you",
+      "start": 519.919,
+      "duration": 2.24
+    },
+    {
+      "text": "prominently place a new AI feature into",
+      "start": 522.159,
+      "duration": 2.24
+    },
+    {
+      "text": "a UI it has to come at the expense of",
+      "start": 524.399,
+      "duration": 2.081
+    },
+    {
+      "text": "something that was already there and was",
+      "start": 526.48,
+      "duration": 1.76
+    },
+    {
+      "text": "presumably useful already like for",
+      "start": 528.24,
+      "duration": 1.599
+    },
+    {
+      "text": "example the copy button in this case",
+      "start": 529.839,
+      "duration": 1.601
+    },
+    {
+      "text": "anyway and the last example that I",
+      "start": 531.44,
+      "duration": 1.68
+    },
+    {
+      "text": "wanted to highlight from all of my",
+      "start": 533.12,
+      "duration": 1.2
+    },
+    {
+      "text": "viewer comments are all the AI buttons",
+      "start": 534.32,
+      "duration": 2.079
+    },
+    {
+      "text": "from Meta no matter if in WhatsApp",
+      "start": 536.399,
+      "duration": 2.321
+    },
+    {
+      "text": "Instagram or on Facebook i got tons of",
+      "start": 538.72,
+      "duration": 2.08
+    },
+    {
+      "text": "comments about these being really",
+      "start": 540.8,
+      "duration": 1.28
+    },
+    {
+      "text": "annoying and just really in the way fun",
+      "start": 542.08,
+      "duration": 2.319
+    },
+    {
+      "text": "fact I randomly opened my WhatsApp to",
+      "start": 544.399,
+      "duration": 1.841
+    },
+    {
+      "text": "try it out and I apparently have a chat",
+      "start": 546.24,
+      "duration": 2.32
+    },
+    {
+      "text": "history with Meta AI about uh Sya Uno",
+      "start": 548.56,
+      "duration": 3.68
+    },
+    {
+      "text": "lottery results today from April earlier",
+      "start": 552.24,
+      "duration": 2.8
+    },
+    {
+      "text": "this year i have zero idea what this is",
+      "start": 555.04,
+      "duration": 2.56
+    },
+    {
+      "text": "i have no memory of having ever asked",
+      "start": 557.6,
+      "duration": 1.76
+    },
+    {
+      "text": "Meta about what appeared to be blotty",
+      "start": 559.36,
+      "duration": 2.08
+    },
+    {
+      "text": "results from Colombia and from what I",
+      "start": 561.44,
+      "duration": 2
+    },
+    {
+      "text": "can tell this perfectly sums up Meta AI",
+      "start": 563.44,
+      "duration": 2.8
+    },
+    {
+      "text": "just a box you can't disable that you",
+      "start": 566.24,
+      "duration": 2
+    },
+    {
+      "text": "apparently click on by accident plenty",
+      "start": 568.24,
+      "duration": 2.4
+    },
+    {
+      "text": "of people have pointed out in their",
+      "start": 570.64,
+      "duration": 1.12
+    },
+    {
+      "text": "comments that this kind of clippy 2.0",
+      "start": 571.76,
+      "duration": 2.079
+    },
+    {
+      "text": "user experience is one of the things",
+      "start": 573.839,
+      "duration": 1.521
+    },
+    {
+      "text": "that is actually pushing more people",
+      "start": 575.36,
+      "duration": 1.599
+    },
+    {
+      "text": "towards Linux and Libra Office and",
+      "start": 576.959,
+      "duration": 2.081
+    },
+    {
+      "text": "whatever and while I think change is",
+      "start": 579.04,
+      "duration": 2.16
+    },
+    {
+      "text": "slow it definitely might be a breaking",
+      "start": 581.2,
+      "duration": 1.84
+    },
+    {
+      "text": "point for some still I have two leading",
+      "start": 583.04,
+      "duration": 2.08
+    },
+    {
+      "text": "theories for why all these tech",
+      "start": 585.12,
+      "duration": 1.279
+    },
+    {
+      "text": "companies seem to be so hellbent on in",
+      "start": 586.399,
+      "duration": 1.841
+    },
+    {
+      "text": "shitifying their products right now even",
+      "start": 588.24,
+      "duration": 1.68
+    },
+    {
+      "text": "if it might cost them some users first I",
+      "start": 589.92,
+      "duration": 2.72
+    },
+    {
+      "text": "don't work in a tech company anymore but",
+      "start": 592.64,
+      "duration": 1.36
+    },
+    {
+      "text": "I've heard the exact same thing from all",
+      "start": 594,
+      "duration": 1.6
+    },
+    {
+      "text": "of my friends who still do a bunch of",
+      "start": 595.6,
+      "duration": 2
+    },
+    {
+      "text": "the shareholders in their companies",
+      "start": 597.6,
+      "duration": 1.28
+    },
+    {
+      "text": "heard about AI being a big deal they",
+      "start": 598.88,
+      "duration": 2.16
+    },
+    {
+      "text": "panicked that they might be missing out",
+      "start": 601.04,
+      "duration": 1.359
+    },
+    {
+      "text": "on something so they told their",
+      "start": 602.399,
+      "duration": 1.601
+    },
+    {
+      "text": "company's board that they must go big on",
+      "start": 604,
+      "duration": 1.839
+    },
+    {
+      "text": "it the board told the management the",
+      "start": 605.839,
+      "duration": 1.921
+    },
+    {
+      "text": "management told the product people and",
+      "start": 607.76,
+      "duration": 1.44
+    },
+    {
+      "text": "congratulations it's now everyone's",
+      "start": 609.2,
+      "duration": 1.68
+    },
+    {
+      "text": "primary job in the organization to build",
+      "start": 610.88,
+      "duration": 2.079
+    },
+    {
+      "text": "AI features now normally the product",
+      "start": 612.959,
+      "duration": 2.241
+    },
+    {
+      "text": "people would first identify either a",
+      "start": 615.2,
+      "duration": 1.759
+    },
+    {
+      "text": "user need or a business goal and then",
+      "start": 616.959,
+      "duration": 1.921
+    },
+    {
+      "text": "decide on the appropriate technology to",
+      "start": 618.88,
+      "duration": 2.079
+    },
+    {
+      "text": "meet that need but here everything is",
+      "start": 620.959,
+      "duration": 1.841
+    },
+    {
+      "text": "working the other way around a",
+      "start": 622.8,
+      "duration": 1.599
+    },
+    {
+      "text": "technology was selected first and then",
+      "start": 624.399,
+      "duration": 1.601
+    },
+    {
+      "text": "the product people are tasked to find",
+      "start": 626,
+      "duration": 1.68
+    },
+    {
+      "text": "user problems that they could",
+      "start": 627.68,
+      "duration": 1.2
+    },
+    {
+      "text": "potentially solve with it now this of",
+      "start": 628.88,
+      "duration": 2
+    },
+    {
+      "text": "course is basically insane but there's",
+      "start": 630.88,
+      "duration": 1.36
+    },
+    {
+      "text": "so much pressure from above and from",
+      "start": 632.24,
+      "duration": 1.599
+    },
+    {
+      "text": "outside and everywhere that a lot of my",
+      "start": 633.839,
+      "duration": 1.44
+    },
+    {
+      "text": "friends at work now get essentially",
+      "start": 635.279,
+      "duration": 1.601
+    },
+    {
+      "text": "measured at work by how much AI they can",
+      "start": 636.88,
+      "duration": 2.24
+    },
+    {
+      "text": "cram into everything whether it makes",
+      "start": 639.12,
+      "duration": 1.839
+    },
+    {
+      "text": "sense or not and second many companies",
+      "start": 640.959,
+      "duration": 2
+    },
+    {
+      "text": "seem to think that there is a genuine AI",
+      "start": 642.959,
+      "duration": 2
+    },
+    {
+      "text": "race right now and they have to compete",
+      "start": 644.959,
+      "duration": 1.841
+    },
+    {
+      "text": "and be fast before your habits and",
+      "start": 646.8,
+      "duration": 1.84
+    },
+    {
+      "text": "workflows get formed and this is more",
+      "start": 648.64,
+      "duration": 1.68
+    },
+    {
+      "text": "important being fast it is than being",
+      "start": 650.32,
+      "duration": 2.079
+    },
+    {
+      "text": "perfect see in my example of notion if I",
+      "start": 652.399,
+      "duration": 2.721
+    },
+    {
+      "text": "wanted to use AI for whatever reason",
+      "start": 655.12,
+      "duration": 2.08
+    },
+    {
+      "text": "where in the software stack would that",
+      "start": 657.2,
+      "duration": 1.52
+    },
+    {
+      "text": "AI live on the application level like",
+      "start": 658.72,
+      "duration": 2.48
+    },
+    {
+      "text": "with notion where it can be very",
+      "start": 661.2,
+      "duration": 1.6
+    },
+    {
+      "text": "specific to my task and also know the",
+      "start": 662.8,
+      "duration": 1.84
+    },
+    {
+      "text": "context of all my other notion documents",
+      "start": 664.64,
+      "duration": 2.08
+    },
+    {
+      "text": "or perhaps in my browser like Firefox",
+      "start": 666.72,
+      "duration": 1.76
+    },
+    {
+      "text": "where it would be a bit more generic but",
+      "start": 668.48,
+      "duration": 1.599
+    },
+    {
+      "text": "maybe it would have context from the",
+      "start": 670.079,
+      "duration": 1.361
+    },
+    {
+      "text": "rest of the web and from other things",
+      "start": 671.44,
+      "duration": 1.44
+    },
+    {
+      "text": "that I do in the browser too or maybe it",
+      "start": 672.88,
+      "duration": 1.84
+    },
+    {
+      "text": "should live on the operating system",
+      "start": 674.72,
+      "duration": 1.119
+    },
+    {
+      "text": "level like on Windows so it can support",
+      "start": 675.839,
+      "duration": 1.601
+    },
+    {
+      "text": "all the apps that I use on my computer",
+      "start": 677.44,
+      "duration": 1.839
+    },
+    {
+      "text": "i'll most likely not need AI on all",
+      "start": 679.279,
+      "duration": 1.841
+    },
+    {
+      "text": "three levels simultaneously but I might",
+      "start": 681.12,
+      "duration": 2
+    },
+    {
+      "text": "also not be stuck in my ways yet and so",
+      "start": 683.12,
+      "duration": 2.08
+    },
+    {
+      "text": "the companies are right now racing to",
+      "start": 685.2,
+      "duration": 1.52
+    },
+    {
+      "text": "establish themselves as the default",
+      "start": 686.72,
+      "duration": 1.84
+    },
+    {
+      "text": "which they hope the users will actually",
+      "start": 688.56,
+      "duration": 1.6
+    },
+    {
+      "text": "stick with long term if there really is",
+      "start": 690.16,
+      "duration": 2.08
+    },
+    {
+      "text": "such a race then all of these pop-ups",
+      "start": 692.24,
+      "duration": 1.44
+    },
+    {
+      "text": "and buttons they're not accidents",
+      "start": 693.68,
+      "duration": 1.36
+    },
+    {
+      "text": "they're signs of a war these companies",
+      "start": 695.04,
+      "duration": 1.6
+    },
+    {
+      "text": "are trying to elbow each other out of",
+      "start": 696.64,
+      "duration": 1.52
+    },
+    {
+      "text": "the way so they can be the one that",
+      "start": 698.16,
+      "duration": 1.76
+    },
+    {
+      "text": "actually survives now in this video I",
+      "start": 699.92,
+      "duration": 2.08
+    },
+    {
+      "text": "specifically only focused on how AI",
+      "start": 702,
+      "duration": 1.839
+    },
+    {
+      "text": "breaks the user experience not also",
+      "start": 703.839,
+      "duration": 2.24
+    },
+    {
+      "text": "other things but of course AI could also",
+      "start": 706.079,
+      "duration": 2.081
+    },
+    {
+      "text": "break things like copyright trust in",
+      "start": 708.16,
+      "duration": 1.76
+    },
+    {
+      "text": "news work society in general etc those",
+      "start": 709.92,
+      "duration": 2.72
+    },
+    {
+      "text": "are topics that long-term are probably",
+      "start": 712.64,
+      "duration": 1.52
+    },
+    {
+      "text": "going to be even bigger issues and",
+      "start": 714.16,
+      "duration": 1.6
+    },
+    {
+      "text": "today's sponsor 80,000 hours has",
+      "start": 715.76,
+      "duration": 2
+    },
+    {
+      "text": "actually been researching and writing",
+      "start": 717.76,
+      "duration": 1.36
+    },
+    {
+      "text": "about these kinds of issues for nearly a",
+      "start": 719.12,
+      "duration": 1.76
+    },
+    {
+      "text": "decade and they have tons of in-depth",
+      "start": 720.88,
+      "duration": 1.6
+    },
+    {
+      "text": "material on their site that you can read",
+      "start": 722.48,
+      "duration": 1.76
+    },
+    {
+      "text": "like what an AI caused existential",
+      "start": 724.24,
+      "duration": 1.92
+    },
+    {
+      "text": "catastrophe could actually look like and",
+      "start": 726.16,
+      "duration": 2.08
+    },
+    {
+      "text": "if just reading about this isn't enough",
+      "start": 728.24,
+      "duration": 1.599
+    },
+    {
+      "text": "for you then they've also found fields",
+      "start": 729.839,
+      "duration": 1.521
+    },
+    {
+      "text": "that you could actually work on to",
+      "start": 731.36,
+      "duration": 1.599
+    },
+    {
+      "text": "contribute to make sure that things go",
+      "start": 732.959,
+      "duration": 1.761
+    },
+    {
+      "text": "well like AI safety technical research",
+      "start": 734.72,
+      "duration": 2.239
+    },
+    {
+      "text": "or AI governance and policy these are",
+      "start": 736.959,
+      "duration": 2.56
+    },
+    {
+      "text": "both areas that 80,000 hours has",
+      "start": 739.519,
+      "duration": 1.76
+    },
+    {
+      "text": "identified as being particularly",
+      "start": 741.279,
+      "duration": 1.441
+    },
+    {
+      "text": "impactful they are a nonprofit that says",
+      "start": 742.72,
+      "duration": 2.08
+    },
+    {
+      "text": "the 80,000 hours the average person will",
+      "start": 744.8,
+      "duration": 2.32
+    },
+    {
+      "text": "spend working is probably the most",
+      "start": 747.12,
+      "duration": 1.68
+    },
+    {
+      "text": "meaningful resource for making the world",
+      "start": 748.8,
+      "duration": 1.599
+    },
+    {
+      "text": "a better place and so choosing to work",
+      "start": 750.399,
+      "duration": 1.921
+    },
+    {
+      "text": "on important problems at work is",
+      "start": 752.32,
+      "duration": 2.16
+    },
+    {
+      "text": "extremely meaningful they could help you",
+      "start": 754.48,
+      "duration": 1.919
+    },
+    {
+      "text": "find career paths that would do good and",
+      "start": 756.399,
+      "duration": 1.601
+    },
+    {
+      "text": "they found that the ones that I've",
+      "start": 758,
+      "duration": 1.12
+    },
+    {
+      "text": "already mentioned to be particularly",
+      "start": 759.12,
+      "duration": 1.2
+    },
+    {
+      "text": "impactful 80,000 hours covers many areas",
+      "start": 760.32,
+      "duration": 2.639
+    },
+    {
+      "text": "beyond AI2 of course from pandemic",
+      "start": 762.959,
+      "duration": 2.081
+    },
+    {
+      "text": "preparedness to nuclear war animal",
+      "start": 765.04,
+      "duration": 1.919
+    },
+    {
+      "text": "welfare climate change and more and they",
+      "start": 766.959,
+      "duration": 1.841
+    },
+    {
+      "text": "make all of their advice and research",
+      "start": 768.8,
+      "duration": 1.279
+    },
+    {
+      "text": "available on their site for free they",
+      "start": 770.079,
+      "duration": 1.921
+    },
+    {
+      "text": "even have a podcast where they have",
+      "start": 772,
+      "duration": 1.279
+    },
+    {
+      "text": "conversations with experts in these",
+      "start": 773.279,
+      "duration": 1.441
+    },
+    {
+      "text": "fields across nearly 150 episodes if",
+      "start": 774.72,
+      "duration": 2.799
+    },
+    {
+      "text": "that sounds interesting you can get a",
+      "start": 777.519,
+      "duration": 1.281
+    },
+    {
+      "text": "copy of 80,000 hours's career guide",
+      "start": 778.8,
+      "duration": 2.32
+    },
+    {
+      "text": "which distills their most important",
+      "start": 781.12,
+      "duration": 1.36
+    },
+    {
+      "text": "research into one volume for free at",
+      "start": 782.48,
+      "duration": 2.24
+    },
+    {
+      "text": "80,000 hours.org/techalar",
+      "start": 784.72,
+      "duration": 2.96
+    },
+    {
+      "text": "that link is also down in the",
+      "start": 787.68,
+      "duration": 1.36
+    },
+    {
+      "text": "description that's a great place to",
+      "start": 789.04,
+      "duration": 1.359
+    },
+    {
+      "text": "start and if you're wondering everything",
+      "start": 790.399,
+      "duration": 1.361
+    },
+    {
+      "text": "that they offer is for free because they",
+      "start": 791.76,
+      "duration": 1.68
+    },
+    {
+      "text": "are nonprofit so check them out at",
+      "start": 793.44,
+      "duration": 1.76
+    },
+    {
+      "text": "80,000our.org/techalar",
+      "start": 795.2,
+      "duration": 2
+    },
+    {
+      "text": "to get started and I'll see you next",
+      "start": 797.2,
+      "duration": 1.68
+    },
+    {
+      "text": "Friday",
+      "start": 798.88,
+      "duration": 3
+    }
+  ],
+  "fullText": "the other day I opened Microsoft Excel and found this a little copilot button that hovers over any cell that I highlight and I immediately hated it not only does it cover up whatever is underneath it it also kind of fades in and out depending on where I move the cursor and as you can see here in this slow motion shot there's also a clearer lag between me clicking on something and the co-pilot button actually moving the delay is even different between each click just to make things extra annoying so this button is wildly distracting and it's also of course completely redundant because there already is a giant co-pilot button in the ribbon if you wanted to invoke the AI assistant in a general and if you wanted to do something specific to a cell it's also already in the context menu when you right click on a cell and of course the Copilot app was pinned to the taskbar by default too and since I have a C-pilot Plus PC I also have a feature called click to-do which opens C-pilot to analyze what is on my screen and to perform actions on it plus if all of that was somehow not enough I also got a physical co-pilot button on my keyboard so this new floating button that just appeared in Excel for me was the sixth and perhaps the most distracting way that Microsoft has found to push copilot into my workflow but I bet it won't be the last one now as a tech YouTuber I don't want to become the old man yelling at cloud whenever a new technology appears so I was ready to move on but then that same day I opened Notion in my browser and I saw this four different floating AI buttons on my screen at the same time including both above and below my cursor making it very hard for me to actually see what I was doing and ridiculously easy to accidentally trigger one now three of these I've known for a while because they're from Notion itself and I find them only mildly annoying but then this fourth button was actually new and somehow even more disruptive as it's literally one pixel away from where I'm pointing my cursor at and it took me a while to realize that it was actually Firefox my web browser that placed it here if I add the usual C-pilot things on top of that too then now Notion Firefox and Windows have collectively added uh I think seven ways of invoking three different AI assistants onto my workflow i think you don't even have to be a grand AI hater to think that something is fundamentally wrong here and in fact it reminds me very much of two things from my childhood first there's Clippy of course much of this is obviously way too prominent then notion even has an animated face that I bet is customd designed to distract me just like Clippy was but then second I'm also reminded of browser bars do you remember those for those of you who are perhaps too young or too old to remember these companies used to sneakily extol extensions that supposedly added extra functionality to your web browser but in reality just acted as promotional vehicles for their services even though you didn't really ask for them and the way that now every month or so a new AI button appears in my workflow feels exactly like that especially since Microsoft and Notion both charge money for their services while Mozilla presumably wants to make money through eventually having a revenue sharing agreement with their AI provider just like they have with Google most of these buttons are added to my workflow not because I asked for them but because the company wants to sell me a product and now I have to find a way to turn most of them off if I don't want them now Firefox at least makes theirs pretty easy right here but with notion for example I would have to contact their support team and ask them to turn it off manually which is absolutely bonkers while Microsoft at least partially lets you turn co-pilot off but then they also have a very long history of just turning features back on later at a random time i find all of this pretty infuriating and by the looks of it I'm not alone [Music] now I have plenty more infuriating examples that I want to show you but before that I want to make clear that I'm not inherently an AI hater for example multiple times now I recorded audio with the wrong microphone like in this case my smartphone and then Adobe's voice AI magically fixed that audio and made it completely usable for a YouTube video that's great or I also love the AI features of my video editing software Da Vinci Resolve which allows me to make for example magic mask cutouts that I literally would not be able to do in any other way i also recently messed up my finger pretty badly and so for this very video I used Samsung's voice recorder app to do my usual ideiation in instead of typing things out and the app did transcriptions and some reason and it even found a pretty funny title for one of my recordings ubiquitous AI integration a digital plague that's good some of AI is very good and I even pay for some of these solutions but all of these were a actually useful features and b also things that I told the machine to do not things that the machine injected into my workflow being interrupted with useless recommendations is the thing that I want to complain about in this video and it's something that seems to be really annoying many of you as well i posted on my social media channels to see if all of you had similarly annoying experiences as well and yeah you gave loads of really horrible examples the most consistent complaints that I got by far were for Microsoft Office and I could definitely see why i opened Word for the first time in a while on my laptop and the default experience was immediately insane without even doing anything the app launches on a distracting animation that pushes the page down and adds four different text boxes on top on my laptop these boxes together with the ribbon and all the other taskbars typically leave me with something like 30 maybe 40% of the screen being used for my actual document at most oh and of course these are also on top of a giant co-pilot button in the ribbon and once I start writing there's also a co-pilot button hovering on the side just for good measure it is also of course in the context menu and when I delete that Word also helpfully points out that I can press Alt + I to draft with Copilot i mean what the hell but if you thought that is bad somehow Outlook is even worse opening the app on my phone immediately greeted me with a full screen Copilot pop-up and I got the same on my desktop too because Outlook for some reason really needed to tell me that Copilot can generate themes for my email client to add Zing to my mailbox full screen pop-ups are about the most disruptive things an app can do to a user and they decided that co-pilot generated themes would be worth that how anyway once I'm past that pop-up I open the first email in my inbox and I get a co-pilot button that lets me reply to or summarize the email and like uh the first email I opened was an automatic email from one drive telling me about a file that was shared with me and I really don't know what you'd reply to that or what there's to be summarized but hey Microsoft also put a whole bar on top which says summary by copilot let's see what this does well after a solid 19 seconds of waiting which I've sped up the summary says Maya shared a document titled document with you via a link that works for everyone it's all so dumb like why does Microsoft feel the need to summarize an email that it itself sent which it should know it doesn't need a summary like at least of your own things why are there two buttons for summarizing this thing it's also bad now people have complained about the Gemini doing weird things in Google Workspace as well i don't actually pay for Gemini myself but Tristan does and he found a solid nine Gemini buttons on screen on his Google Drive which he then clicked on just to consistently be told the Gemini is still learning and can't help him with that okay it's a good thing Google put I repeat nine buttons on the page for that i mean I guess this is probably just some short-term bug will get ironed out in a day or two but this is so indicative of how all of these rollouts seem to me to a user the first priority is just to disrupt me by putting all of the buttons everywhere and then actually making any of this work can become useful well that's like priority number 40 and actually AI wanting to summarize everything even things that don't make sense to summarize is one of the core frustrations that I've heard from many of my viewers my viewer Kate says that she uses an app called ProQuest Dissertations and Thesis Global and that program wants to summarize everything including the titles of documents so from the title evaluating knowledge and attitudes towards deni fever and its vaccination among medical staff in China a questionnaire-based study the program decided to summarize that and say this document provides valuable insights into the current state of knowledge and aptitudes towards deni fever and vaccination among medical staff in China that is obviously just rewarding things and taking out random details and who the hell thought that summarizing titles made sense in the first place better yet Kate says that this feature can't be turned off until a software update is released now perhaps an even more outrageous complaint I got was from Xiaomi users who claimed that when you highlight text on a Xiaomi phone now an AI button has taken the place of the copy button which was instead moved to be under the three dot menu i'm not a Xiaomi user myself so I fired up a Xiaomi phone to do some quick testing and indeed this does seem to be the case at least sometimes depending on the context and which app you're in sometimes the highlights have the copy buttons and sometimes they do not in fact a lot of the useful options get put in the overflow menu but the AI option never does and I think this actually highlights part of the problem with all of these AI features every time you prominently place a new AI feature into a UI it has to come at the expense of something that was already there and was presumably useful already like for example the copy button in this case anyway and the last example that I wanted to highlight from all of my viewer comments are all the AI buttons from Meta no matter if in WhatsApp Instagram or on Facebook i got tons of comments about these being really annoying and just really in the way fun fact I randomly opened my WhatsApp to try it out and I apparently have a chat history with Meta AI about uh Sya Uno lottery results today from April earlier this year i have zero idea what this is i have no memory of having ever asked Meta about what appeared to be blotty results from Colombia and from what I can tell this perfectly sums up Meta AI just a box you can't disable that you apparently click on by accident plenty of people have pointed out in their comments that this kind of clippy 2.0 user experience is one of the things that is actually pushing more people towards Linux and Libra Office and whatever and while I think change is slow it definitely might be a breaking point for some still I have two leading theories for why all these tech companies seem to be so hellbent on in shitifying their products right now even if it might cost them some users first I don't work in a tech company anymore but I've heard the exact same thing from all of my friends who still do a bunch of the shareholders in their companies heard about AI being a big deal they panicked that they might be missing out on something so they told their company's board that they must go big on it the board told the management the management told the product people and congratulations it's now everyone's primary job in the organization to build AI features now normally the product people would first identify either a user need or a business goal and then decide on the appropriate technology to meet that need but here everything is working the other way around a technology was selected first and then the product people are tasked to find user problems that they could potentially solve with it now this of course is basically insane but there's so much pressure from above and from outside and everywhere that a lot of my friends at work now get essentially measured at work by how much AI they can cram into everything whether it makes sense or not and second many companies seem to think that there is a genuine AI race right now and they have to compete and be fast before your habits and workflows get formed and this is more important being fast it is than being perfect see in my example of notion if I wanted to use AI for whatever reason where in the software stack would that AI live on the application level like with notion where it can be very specific to my task and also know the context of all my other notion documents or perhaps in my browser like Firefox where it would be a bit more generic but maybe it would have context from the rest of the web and from other things that I do in the browser too or maybe it should live on the operating system level like on Windows so it can support all the apps that I use on my computer i'll most likely not need AI on all three levels simultaneously but I might also not be stuck in my ways yet and so the companies are right now racing to establish themselves as the default which they hope the users will actually stick with long term if there really is such a race then all of these pop-ups and buttons they're not accidents they're signs of a war these companies are trying to elbow each other out of the way so they can be the one that actually survives now in this video I specifically only focused on how AI breaks the user experience not also other things but of course AI could also break things like copyright trust in news work society in general etc those are topics that long-term are probably going to be even bigger issues and today's sponsor 80,000 hours has actually been researching and writing about these kinds of issues for nearly a decade and they have tons of in-depth material on their site that you can read like what an AI caused existential catastrophe could actually look like and if just reading about this isn't enough for you then they've also found fields that you could actually work on to contribute to make sure that things go well like AI safety technical research or AI governance and policy these are both areas that 80,000 hours has identified as being particularly impactful they are a nonprofit that says the 80,000 hours the average person will spend working is probably the most meaningful resource for making the world a better place and so choosing to work on important problems at work is extremely meaningful they could help you find career paths that would do good and they found that the ones that I've already mentioned to be particularly impactful 80,000 hours covers many areas beyond AI2 of course from pandemic preparedness to nuclear war animal welfare climate change and more and they make all of their advice and research available on their site for free they even have a podcast where they have conversations with experts in these fields across nearly 150 episodes if that sounds interesting you can get a copy of 80,000 hours's career guide which distills their most important research into one volume for free at 80,000 hours.org/techalar that link is also down in the description that's a great place to start and if you're wondering everything that they offer is for free because they are nonprofit so check them out at 80,000our.org/techalar to get started and I'll see you next Friday"
+}

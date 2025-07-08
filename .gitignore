@@ -45,3 +45,7 @@ docs/misc/
 
 # Dev.to mapping file
 .devto-mapping.json
+
+# YouTube transcript mapping file
+.youtube-mapping.json
+content/youtube-transcripts/.youtube-mapping.json

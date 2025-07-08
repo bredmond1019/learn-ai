@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "id": "understanding-agent-memory",
+    "pathId": "agent-memory-systems",
+    "title": "Understanding Agent Memory",
+    "description": "Discover why memory is fundamental to agent intelligence and explore the evolution from stateless to stateful AI systems",
+    "duration": "2 hours",
+    "type": "concept",
+    "difficulty": "intermediate",
+    "order": 1,
+    "objectives": [
+      "Understand why memory is crucial for intelligent agents",
+      "Identify the limitations of stateless AI systems",
+      "Explore the evolution of agent memory systems",
+      "Learn the fundamental components of agent memory"
+    ],
+    "tags": ["agent-memory", "foundations", "stateful-ai", "memory-systems"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-07",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "01-understanding-agent-memory.mdx"
+      }
+    }
+  ]
+}

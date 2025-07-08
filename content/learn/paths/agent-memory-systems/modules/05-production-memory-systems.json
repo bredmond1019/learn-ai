@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "id": "production-memory-systems",
+    "pathId": "agent-memory-systems",
+    "title": "Production Memory Systems",
+    "description": "Scale agent memory systems for production with MongoDB integration, performance optimization, and real-world deployment",
+    "duration": "3 hours",
+    "type": "project",
+    "difficulty": "advanced",
+    "order": 5,
+    "prerequisites": ["advanced-memory-patterns"],
+    "objectives": [
+      "Integrate MongoDB as a scalable memory backend",
+      "Optimize memory systems for production performance",
+      "Implement monitoring and observability",
+      "Deploy memory-enabled agents to production"
+    ],
+    "tags": ["production", "mongodb", "deployment", "scaling", "monitoring"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-07",
+    "author": "Brandon Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "type": "content",
+      "order": 1,
+      "content": {
+        "type": "mdx",
+        "source": "05-production-memory-systems.mdx"
+      }
+    }
+  ]
+}

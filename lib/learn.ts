@@ -443,7 +443,7 @@ const learningPathsEn: LearningPath[] = [
     ],
     modules: [
       {
-        id: '01-understanding-agent-memory',
+        id: 'understanding-agent-memory',
         title: 'Understanding Agent Memory',
         description: 'Explore why memory transforms AI from stateless tools to intelligent partners',
         duration: '90 minutes',
@@ -451,7 +451,7 @@ const learningPathsEn: LearningPath[] = [
         content: 'Memory fundamentals, stateless vs stateful AI, and business impact'
       },
       {
-        id: '02-memory-types-architecture',
+        id: 'memory-types-architecture',
         title: 'Memory Types and Architecture',
         description: 'Deep dive into 10+ memory types with practical implementations',
         duration: '120 minutes',
@@ -459,7 +459,7 @@ const learningPathsEn: LearningPath[] = [
         content: 'Conversational, entity, episodic, procedural, semantic, and more'
       },
       {
-        id: '03-building-memory-management',
+        id: 'building-memory-management',
         title: 'Building Memory Management Systems',
         description: 'Create unified systems for storage, retrieval, and integration',
         duration: '150 minutes',
@@ -467,7 +467,7 @@ const learningPathsEn: LearningPath[] = [
         content: 'Memory lifecycle, signals, validation, and access control'
       },
       {
-        id: '04-advanced-memory-patterns',
+        id: 'advanced-memory-patterns',
         title: 'Advanced Memory Patterns',
         description: 'Implement forgetting, memory signals, and neuroscience-inspired patterns',
         duration: '120 minutes',
@@ -475,7 +475,7 @@ const learningPathsEn: LearningPath[] = [
         content: 'Consolidation, adaptive forgetting, attention mechanisms'
       },
       {
-        id: '05-production-memory-systems',
+        id: 'production-memory-systems',
         title: 'Production Memory Systems',
         description: 'Scale, secure, and optimize memory systems for real-world use',
         duration: '180 minutes',
@@ -895,7 +895,7 @@ const learningPathsPtBR: LearningPath[] = [
     ],
     modules: [
       {
-        id: '01-understanding-agent-memory',
+        id: 'understanding-agent-memory',
         title: 'Entendendo a Memória de Agentes',
         description: 'Explore por que a memória transforma IA de ferramentas sem estado em parceiros inteligentes',
         duration: '90 minutos',
@@ -903,7 +903,7 @@ const learningPathsPtBR: LearningPath[] = [
         content: 'Fundamentos de memória, IA sem estado vs com estado, e impacto nos negócios'
       },
       {
-        id: '02-memory-types-architecture',
+        id: 'memory-types-architecture',
         title: 'Tipos de Memória e Arquitetura',
         description: 'Mergulho profundo em mais de 10 tipos de memória com implementações práticas',
         duration: '120 minutos',
@@ -911,7 +911,7 @@ const learningPathsPtBR: LearningPath[] = [
         content: 'Conversacional, entidade, episódica, procedural, semântica, e mais'
       },
       {
-        id: '03-building-memory-management',
+        id: 'building-memory-management',
         title: 'Construindo Sistemas de Gerenciamento de Memória',
         description: 'Crie sistemas unificados para armazenamento, recuperação e integração',
         duration: '150 minutos',
@@ -919,7 +919,7 @@ const learningPathsPtBR: LearningPath[] = [
         content: 'Ciclo de vida da memória, sinais, validação e controle de acesso'
       },
       {
-        id: '04-advanced-memory-patterns',
+        id: 'advanced-memory-patterns',
         title: 'Padrões Avançados de Memória',
         description: 'Implemente esquecimento, sinais de memória e padrões inspirados em neurociência',
         duration: '120 minutos',
@@ -927,7 +927,7 @@ const learningPathsPtBR: LearningPath[] = [
         content: 'Consolidação, esquecimento adaptativo, mecanismos de atenção'
       },
       {
-        id: '05-production-memory-systems',
+        id: 'production-memory-systems',
         title: 'Sistemas de Memória em Produção',
         description: 'Escale, proteja e otimize sistemas de memória para uso no mundo real',
         duration: '180 minutos',

@@ -1,13 +1,32 @@
 {
-  "id": "01-evolution-of-programming-tools",
-  "title": "Evolution of Programming Tools",
-  "description": "Trace the journey from punch cards to AI assistants and understand why this history matters for modern development",
+  "metadata": {
+    "id": "evolution-of-programming-tools",
+    "pathId": "claude-code-mastery",
+    "title": "Evolution of Programming Tools",
+    "description": "Trace the journey from punch cards to AI assistants and understand why this history matters for modern development",
+    "duration": "2 hours",
+    "type": "theory",
+    "difficulty": "intermediate",
+    "order": 1,
+    "objectives": [
+      "Trace the evolution of programming from physical punch cards to AI assistants",
+      "Identify key innovations in programming UX over the decades",
+      "Understand why the exponential growth of AI models outpaces traditional product development",
+      "Appreciate Claude Code's place in this historical context"
+    ],
+    "tags": ["history", "programming", "AI", "Claude Code"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-19",
+    "author": "Brandon J. Redmond"
+  },
   "sections": [
     {
       "id": "introduction",
       "title": "Introduction",
+      "type": "content",
+      "order": 1,
       "content": {
-        "type": "lesson",
+        "type": "mdx",
         "source": "01-evolution-of-programming-tools.mdx"
       }
     }

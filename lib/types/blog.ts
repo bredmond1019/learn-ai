@@ -7,6 +7,7 @@ export interface BlogPost {
   readingTime: number
   tags?: string[]
   author?: string
+  featured?: boolean
 }
 
 export interface BlogPostMeta {
@@ -17,4 +18,5 @@ export interface BlogPostMeta {
   readingTime: number
   tags?: string[]
   author?: string
+  featured?: boolean
 }

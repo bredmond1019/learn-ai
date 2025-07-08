@@ -4,7 +4,29 @@ import { Module } from '@/types/module';
 import { CodeBlock } from '@/components/ui/code-block';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
+
+// Declare mermaid global
+declare global {
+  interface Window {
+    mermaid: any;
+  }
+}
+
+// Import mermaid for client-side rendering
+let mermaidAPI: any = null;
+if (typeof window !== 'undefined') {
+  import('mermaid').then((m) => {
+    mermaidAPI = m.default;
+    mermaidAPI.initialize({ 
+      startOnLoad: false,
+      theme: 'default',
+      themeVariables: {
+        darkMode: document.documentElement.classList.contains('dark')
+      }
+    });
+  });
+}
 
 // Import components that are used in MDX content
 const Quiz = ({ questions }: { questions: any[] }) => {
@@ -50,26 +72,37 @@ const Quiz = ({ questions }: { questions: any[] }) => {
   );
 };
 
-const Callout = ({ type, children }: { type: 'info' | 'warning' | 'success' | 'error'; children: React.ReactNode }) => {
-  const typeStyles = {
+const Callout = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
+  const typeStyles: Record<string, string> = {
     info: 'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/20',
     warning: 'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/20',
     success: 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/20',
-    error: 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20'
+    error: 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20',
+    history: 'border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-900/20',
+    tip: 'border-indigo-200 bg-indigo-50 dark:border-indigo-800 dark:bg-indigo-900/20',
+    insight: 'border-cyan-200 bg-cyan-50 dark:border-cyan-800 dark:bg-cyan-900/20'
   };
 
-  const iconStyles = {
+  const iconStyles: Record<string, string> = {
     info: '💡',
     warning: '⚠️',
     success: '✅',
-    error: '❌'
+    error: '❌',
+    history: '📚',
+    tip: '💡',
+    insight: '🔍'
   };
 
   return (
-    <div className={`border-l-4 p-4 my-4 rounded-r-lg ${typeStyles[type]}`}>
+    <div className={`border-l-4 p-4 my-4 rounded-r-lg ${typeStyles[type] || typeStyles.info}`}>
       <div className="flex items-start">
-        <span className="mr-2 text-lg">{iconStyles[type]}</span>
-        <div className="text-gray-700 dark:text-gray-300">{children}</div>
+        <span className="mr-2 text-lg">{iconStyles[type] || iconStyles.info}</span>
+        <div className="flex-1">
+          {title && (
+            <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">{title}</h4>
+          )}
+          <div className="text-gray-700 dark:text-gray-300">{children}</div>
+        </div>
       </div>
     </div>
   );
@@ -81,6 +114,37 @@ interface ModuleRendererProps {
 }
 
 export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
+  // Initialize mermaid diagrams after render
+  useEffect(() => {
+    const renderMermaidDiagrams = async () => {
+      if (typeof window !== 'undefined' && (window.mermaid || mermaidAPI)) {
+        const mermaid = window.mermaid || mermaidAPI;
+        
+        // Find all mermaid elements that haven't been processed
+        const mermaidElements = document.querySelectorAll('.mermaid:not([data-processed="true"])');
+        
+        for (const element of Array.from(mermaidElements)) {
+          try {
+            const graphDefinition = element.textContent || '';
+            const graphId = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
+            
+            // Render the diagram
+            const { svg } = await mermaid.render(graphId, graphDefinition);
+            
+            // Replace the element content with the rendered SVG
+            element.innerHTML = svg;
+            element.setAttribute('data-processed', 'true');
+          } catch (error) {
+            console.error('Failed to render mermaid diagram:', error);
+            element.innerHTML = '<p class="text-red-600">Failed to render diagram</p>';
+          }
+        }
+      }
+    };
+    
+    // Delay to ensure DOM is ready
+    setTimeout(renderMermaidDiagrams, 100);
+  }, [module]); // Re-run when module changes
   const parseAndRenderContent = (content: string) => {
     if (!content) return null;
     
@@ -97,12 +161,48 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
     // Then remove any remaining h2 headers (like Knowledge Check)
     processedContent = processedContent.replace(/^## [^\n]*$/gm, '');
     
-    // Process Quiz components
+    // Process Quiz components with nested Question components
     processedContent = processedContent.replace(
-      /<Quiz\s+questions=\{(\[[\s\S]*?\])\}\s*\/>/g,
-      (match, questionsStr) => {
+      /<Quiz>([\s\S]*?)<\/Quiz>/g,
+      (match, quizContent) => {
         try {
-          const questions = eval(`(${questionsStr})`);
+          // Extract Question components from within Quiz
+          const questions = [];
+          const questionRegex = /<Question\s+([\s\S]*?)\/>/g;
+          let questionMatch;
+          
+          while ((questionMatch = questionRegex.exec(quizContent)) !== null) {
+            const questionProps = questionMatch[1];
+            const question: any = {};
+            
+            // Extract question text
+            const questionTextMatch = questionProps.match(/question="([^"]*?)"/);
+            if (questionTextMatch) question.question = questionTextMatch[1];
+            
+            // Extract options array - handle multiline
+            const optionsMatch = questionProps.match(/options=\{(\[[\s\S]*?\])\}/);
+            if (optionsMatch) {
+              try {
+                question.options = eval(optionsMatch[1]);
+              } catch (e) {
+                console.error('Error parsing options:', e);
+                question.options = [];
+              }
+            }
+            
+            // Extract correct answer
+            const correctMatch = questionProps.match(/correct=\{(\d+)\}/);
+            if (correctMatch) {
+              question.correctAnswer = parseInt(correctMatch[1]);
+            }
+            
+            // Extract explanation
+            const explanationMatch = questionProps.match(/explanation="([^"]*?)"/);
+            if (explanationMatch) question.explanation = explanationMatch[1];
+            
+            questions.push(question);
+          }
+          
           return `<!-- QUIZ_PLACEHOLDER:${JSON.stringify(questions)} -->`;
         } catch (e) {
           console.error('Error parsing Quiz:', e);
@@ -111,11 +211,13 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
       }
     );
     
-    // Process Callout components
+    // Process Callout components (with optional title attribute)
     processedContent = processedContent.replace(
-      /<Callout\s+type="([^"]+)"\s*>([\s\S]*?)<\/Callout>/g,
-      (match, type, calloutContent) => {
-        return `<!-- CALLOUT_PLACEHOLDER:${type}:${calloutContent.trim()} -->`;
+      /<Callout\s+type="([^"]+)"(?:\s+title="([^"]+)")?\s*>([\s\S]*?)<\/Callout>/g,
+      (match, type, title, calloutContent) => {
+        const data = { type, content: calloutContent.trim() };
+        if (title) data.title = title;
+        return `<!-- CALLOUT_PLACEHOLDER:${JSON.stringify(data)} -->`;
       }
     );
     
@@ -145,72 +247,32 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
       }
     );
     
-    // Process CodeExample components - handle the complete component including multiline code
-    let codeExampleIndex = 0;
-    while (true) {
-      const codeExampleStart = processedContent.indexOf('<CodeExample', codeExampleIndex);
-      if (codeExampleStart === -1) break;
-      
-      // Find the end of the component />
-      const codeExampleEnd = processedContent.indexOf('/>', codeExampleStart);
-      if (codeExampleEnd === -1) break;
-      
-      const fullComponent = processedContent.substring(codeExampleStart, codeExampleEnd + 2);
-      
-      try {
-        const props: any = {};
-        
-        // Extract title
-        const titleMatch = fullComponent.match(/title="([^"]*?)"/);
-        if (titleMatch) props.title = titleMatch[1];
-        
-        // Extract language
-        const languageMatch = fullComponent.match(/language="([^"]*?)"/);
-        if (languageMatch) props.language = languageMatch[1];
-        
-        // Extract fileName
-        const fileNameMatch = fullComponent.match(/fileName="([^"]*?)"/);
-        if (fileNameMatch) props.fileName = fileNameMatch[1];
-        
-        // Extract code - find code={` and matching `}
-        const codeStartPattern = 'code={`';
-        const codeStartIdx = fullComponent.indexOf(codeStartPattern);
-        if (codeStartIdx !== -1) {
-          const codeContentStart = codeStartIdx + codeStartPattern.length;
-          // Find the closing `}
-          const codeEndPattern = '`}';
-          const codeEndIdx = fullComponent.indexOf(codeEndPattern, codeContentStart);
-          if (codeEndIdx !== -1) {
-            props.code = fullComponent.substring(codeContentStart, codeEndIdx);
-          }
-        }
-        
-        // Extract highlightLines
-        const highlightLinesMatch = fullComponent.match(/highlightLines=\{(\[[^\}]*?\])\}/);
-        if (highlightLinesMatch) {
-          try {
-            props.highlightLines = eval(highlightLinesMatch[1]);
-          } catch (e) {
-            console.warn('Error parsing highlightLines:', e);
-          }
-        }
-        
-        const placeholder = `<!-- CODEEXAMPLE_PLACEHOLDER:${JSON.stringify(props)} -->`;
-        processedContent = processedContent.substring(0, codeExampleStart) + 
-                          placeholder + 
-                          processedContent.substring(codeExampleEnd + 2);
-        
-        // Update index for next search
-        codeExampleIndex = codeExampleStart + placeholder.length;
-      } catch (e) {
-        console.error('Error parsing CodeExample:', e);
-        const errorPlaceholder = '<!-- CODEEXAMPLE_ERROR -->';
-        processedContent = processedContent.substring(0, codeExampleStart) + 
-                          errorPlaceholder + 
-                          processedContent.substring(codeExampleEnd + 2);
-        codeExampleIndex = codeExampleStart + errorPlaceholder.length;
+    // Process CodeExample components - handle format with children content
+    processedContent = processedContent.replace(
+      /<CodeExample\s+language="([^"]+)"(?:\s+title="([^"]+)")?\s*>([\s\S]*?)<\/CodeExample>/g,
+      (match, language, title, code) => {
+        const props: any = { language, code: code.trim() };
+        if (title) props.title = title;
+        return `<!-- CODEEXAMPLE_PLACEHOLDER:${JSON.stringify(props)} -->`;
       }
-    }
+    );
+    
+    // Process Diagram components with mermaid content
+    processedContent = processedContent.replace(
+      /<Diagram>([\s\S]*?)<\/Diagram>/g,
+      (match, diagramContent) => {
+        // Extract mermaid code block content
+        const mermaidMatch = diagramContent.match(/```mermaid\s*([\s\S]*?)```/);
+        if (mermaidMatch) {
+          // Use base64 encoding to avoid JSON escaping issues
+          const mermaidCode = mermaidMatch[1].trim();
+          // Client-side only - we're in a browser context
+          const base64Code = btoa(unescape(encodeURIComponent(mermaidCode)));
+          return `<!-- DIAGRAM_PLACEHOLDER:${base64Code} -->`;
+        }
+        return '<!-- DIAGRAM_ERROR -->';
+      }
+    );
     
     // Process content by finding and replacing placeholders
     const renderParts = () => {
@@ -224,8 +286,10 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
           { type: 'QUIZ_PLACEHOLDER', start: processedContent.indexOf('<!-- QUIZ_PLACEHOLDER:', currentIndex) },
           { type: 'CALLOUT_PLACEHOLDER', start: processedContent.indexOf('<!-- CALLOUT_PLACEHOLDER:', currentIndex) },
           { type: 'CODEEXAMPLE_PLACEHOLDER', start: processedContent.indexOf('<!-- CODEEXAMPLE_PLACEHOLDER:', currentIndex) },
+          { type: 'DIAGRAM_PLACEHOLDER', start: processedContent.indexOf('<!-- DIAGRAM_PLACEHOLDER:', currentIndex) },
           { type: 'QUIZ_ERROR', start: processedContent.indexOf('<!-- QUIZ_ERROR -->', currentIndex) },
-          { type: 'CODEEXAMPLE_ERROR', start: processedContent.indexOf('<!-- CODEEXAMPLE_ERROR -->', currentIndex) }
+          { type: 'CODEEXAMPLE_ERROR', start: processedContent.indexOf('<!-- CODEEXAMPLE_ERROR -->', currentIndex) },
+          { type: 'DIAGRAM_ERROR', start: processedContent.indexOf('<!-- DIAGRAM_ERROR -->', currentIndex) }
         ].filter(match => match.start !== -1).sort((a, b) => a.start - b.start);
         
         if (placeholderMatches.length === 0) {
@@ -255,8 +319,10 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                   ul: ({ children }) => (
                     <ul className="mb-4 list-disc pl-6 space-y-2">{children}</ul>
                   ),
-                  ol: ({ children }) => (
-                    <ol className="mb-4 list-decimal pl-6 space-y-2">{children}</ol>
+                  ol: ({ children, start }) => (
+                    <ol className="mb-4 list-decimal pl-6 space-y-2" start={start}>
+                      {children}
+                    </ol>
                   ),
                   li: ({ children }) => (
                     <li className="text-gray-700 dark:text-gray-300">{children}</li>
@@ -270,6 +336,17 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                       const codeContent = codeElement.children;
                       
                       if (typeof codeContent === 'string') {
+                        // Special handling for mermaid
+                        if (language === 'mermaid') {
+                          return (
+                            <div className="mb-4 bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
+                              <pre className="mermaid">
+                                {codeContent}
+                              </pre>
+                            </div>
+                          );
+                        }
+                        
                         return (
                           <div className="mb-4">
                             <CodeBlock
@@ -302,6 +379,16 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                   ),
                   em: ({ children }) => (
                     <em className="italic">{children}</em>
+                  ),
+                  details: ({ children }) => (
+                    <details className="my-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                      {children}
+                    </details>
+                  ),
+                  summary: ({ children }) => (
+                    <summary className="cursor-pointer font-semibold text-gray-900 dark:text-gray-100 hover:text-primary">
+                      {children}
+                    </summary>
                   ),
                 }}
               >
@@ -341,8 +428,10 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                   ul: ({ children }) => (
                     <ul className="mb-4 list-disc pl-6 space-y-2">{children}</ul>
                   ),
-                  ol: ({ children }) => (
-                    <ol className="mb-4 list-decimal pl-6 space-y-2">{children}</ol>
+                  ol: ({ children, start }) => (
+                    <ol className="mb-4 list-decimal pl-6 space-y-2" start={start}>
+                      {children}
+                    </ol>
                   ),
                   li: ({ children }) => (
                     <li className="text-gray-700 dark:text-gray-300">{children}</li>
@@ -356,6 +445,17 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                       const codeContent = codeElement.children;
                       
                       if (typeof codeContent === 'string') {
+                        // Special handling for mermaid
+                        if (language === 'mermaid') {
+                          return (
+                            <div className="mb-4 bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
+                              <pre className="mermaid">
+                                {codeContent}
+                              </pre>
+                            </div>
+                          );
+                        }
+                        
                         return (
                           <div className="mb-4">
                             <CodeBlock
@@ -389,6 +489,16 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
                   em: ({ children }) => (
                     <em className="italic">{children}</em>
                   ),
+                  details: ({ children }) => (
+                    <details className="my-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                      {children}
+                    </details>
+                  ),
+                  summary: ({ children }) => (
+                    <summary className="cursor-pointer font-semibold text-gray-900 dark:text-gray-100 hover:text-primary">
+                      {children}
+                    </summary>
+                  ),
                 }}
               >
                 {beforeContent}
@@ -418,14 +528,18 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
             }
           }
         } else if (nextPlaceholder.type === 'CALLOUT_PLACEHOLDER') {
-          const match = fullPlaceholder.match(/<!-- CALLOUT_PLACEHOLDER:([^:]+):(.*?) -->/);
-          if (match) {
-            const [, type, calloutContent] = match;
-            parts.push(
-              <Callout key={partKey++} type={type as any}>
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{calloutContent}</ReactMarkdown>
-              </Callout>
-            );
+          const jsonMatch = fullPlaceholder.match(/<!-- CALLOUT_PLACEHOLDER:(.*?) -->/);
+          if (jsonMatch) {
+            try {
+              const data = JSON.parse(jsonMatch[1]);
+              parts.push(
+                <Callout key={partKey++} type={data.type} title={data.title}>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.content}</ReactMarkdown>
+                </Callout>
+              );
+            } catch (e) {
+              parts.push(<p key={partKey++} className="mb-4 text-red-600">Error rendering callout</p>);
+            }
           }
         } else if (nextPlaceholder.type === 'CODEEXAMPLE_PLACEHOLDER') {
           const propsMatch = fullPlaceholder.match(/<!-- CODEEXAMPLE_PLACEHOLDER:([\s\S]*?) -->/);
@@ -446,10 +560,34 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
               parts.push(<p key={partKey++} className="mb-4 text-red-600">Error rendering code example</p>);
             }
           }
+        } else if (nextPlaceholder.type === 'DIAGRAM_PLACEHOLDER') {
+          const diagramMatch = fullPlaceholder.match(/<!-- DIAGRAM_PLACEHOLDER:(.*?) -->/);
+          if (diagramMatch) {
+            try {
+              // Decode from base64
+              const base64Code = diagramMatch[1];
+              const decodedCode = decodeURIComponent(escape(atob(base64Code)));
+              
+              parts.push(
+                <div key={partKey++} className="my-6">
+                  <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
+                    <pre className="mermaid">
+                      {decodedCode}
+                    </pre>
+                  </div>
+                </div>
+              );
+            } catch (e) {
+              console.error('Error parsing diagram:', e);
+              parts.push(<p key={partKey++} className="mb-4 text-red-600">Error rendering diagram</p>);
+            }
+          }
         } else if (nextPlaceholder.type === 'QUIZ_ERROR') {
           parts.push(<p key={partKey++} className="mb-4 text-red-600">Error parsing quiz component</p>);
         } else if (nextPlaceholder.type === 'CODEEXAMPLE_ERROR') {
           parts.push(<p key={partKey++} className="mb-4 text-red-600">Error parsing code example component</p>);
+        } else if (nextPlaceholder.type === 'DIAGRAM_ERROR') {
+          parts.push(<p key={partKey++} className="mb-4 text-red-600">Error parsing diagram component</p>);
         }
         
         currentIndex = placeholderEndIndex + 4;

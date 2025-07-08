@@ -2,16 +2,23 @@
   "id": "agent-memory-systems",
   "title": "Agent Memory Systems",
   "description": "Master the design and implementation of memory systems for intelligent AI agents. Learn 10+ memory types, build production-ready memory management systems, and create agents that build relationships.",
-  "level": "Intermediate",
+  "icon": "🧠",
+  "color": "#8B5CF6",
+  "difficulty": "intermediate",
+  "level": "intermediate",
   "duration": "10-12 hours",
-  "prerequisites": ["mcp-fundamentals"],
+  "totalDuration": "10-12 hours",
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-07",
+  "author": "Brandon Redmond",
   "topics": [
     "Memory Architecture",
     "Memory Types",
-    "Storage Patterns", 
+    "Storage Patterns",
     "Retrieval Strategies",
     "Production Systems"
   ],
+  "prerequisites": ["mcp-fundamentals"],
   "outcomes": [
     "Understand why memory is fundamental to agent intelligence",
     "Implement 10+ different types of agent memory",
@@ -20,40 +27,30 @@
     "Create agents that learn and build relationships"
   ],
   "modules": [
+    "understanding-agent-memory",
+    "memory-types-architecture", 
+    "building-memory-management",
+    "advanced-memory-patterns",
+    "production-memory-systems"
+  ],
+  "resources": [
     {
-      "id": "01-understanding-agent-memory",
-      "title": "Understanding Agent Memory",
-      "description": "Explore why memory transforms stateless AI into intelligent agents",
-      "duration": "90 minutes",
-      "type": "theory"
+      "title": "Architecting Agent Memory - Richmond Alake",
+      "type": "video",
+      "url": "https://youtu.be/W2HVdB4Jbjs?si=067GvWARrqtKRHdg",
+      "required": true
     },
     {
-      "id": "02-memory-types-architecture", 
-      "title": "Memory Types and Architecture",
-      "description": "Deep dive into 10+ memory types with implementation examples",
-      "duration": "150 minutes",
-      "type": "hands-on"
-    },
-    {
-      "id": "03-building-memory-management",
-      "title": "Building Memory Management Systems",
-      "description": "Create unified systems for storage, retrieval, and integration",
-      "duration": "150 minutes",
-      "type": "hands-on"
-    },
-    {
-      "id": "04-advanced-memory-patterns",
-      "title": "Advanced Memory Patterns",
-      "description": "Implement forgetting, memory signals, and neuroscience-inspired patterns",
-      "duration": "120 minutes",
-      "type": "hands-on"
-    },
-    {
-      "id": "05-production-memory-systems",
-      "title": "Production Memory Systems",
-      "description": "Scale, secure, and optimize memory systems for real-world use",
-      "duration": "180 minutes",
-      "type": "project"
+      "title": "MongoDB Memory Provider Documentation",
+      "type": "reference",
+      "url": "https://mongodb.com/docs/agents",
+      "required": false
     }
+  ],
+  "tags": [
+    "agent-memory",
+    "memory-systems",
+    "stateful-agents",
+    "production-ai"
   ]
 }

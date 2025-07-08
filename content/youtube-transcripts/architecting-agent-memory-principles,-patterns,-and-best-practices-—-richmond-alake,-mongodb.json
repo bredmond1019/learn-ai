@@ -1,0 +1,2127 @@
+{
+  "videoId": "W2HVdB4Jbjs",
+  "language": "en",
+  "segments": [
+    {
+      "text": "[Music]",
+      "start": 1.23,
+      "duration": 6.63
+    },
+    {
+      "text": "[Music]",
+      "start": 10.95,
+      "duration": 3.099
+    },
+    {
+      "text": "in the next 10 to 15 minutes here's uh I",
+      "start": 15.2,
+      "duration": 2.8
+    },
+    {
+      "text": "guess my promise to you i'm going to",
+      "start": 18,
+      "duration": 2.72
+    },
+    {
+      "text": "give you some information",
+      "start": 20.72,
+      "duration": 2.319
+    },
+    {
+      "text": "that will be high level there will be",
+      "start": 23.039,
+      "duration": 3.041
+    },
+    {
+      "text": "some practical component to it but this",
+      "start": 26.08,
+      "duration": 3.439
+    },
+    {
+      "text": "information I'll give you within the",
+      "start": 29.519,
+      "duration": 2.08
+    },
+    {
+      "text": "next 6 months will be very relevant and",
+      "start": 31.599,
+      "duration": 2.561
+    },
+    {
+      "text": "it will put you in the best position to",
+      "start": 34.16,
+      "duration": 2.399
+    },
+    {
+      "text": "build the best AI applications to build",
+      "start": 36.559,
+      "duration": 2.801
+    },
+    {
+      "text": "the best agents that are believable",
+      "start": 39.36,
+      "duration": 1.92
+    },
+    {
+      "text": "capable and reliable",
+      "start": 41.28,
+      "duration": 2.4
+    },
+    {
+      "text": "i know we we going to get there",
+      "start": 43.68,
+      "duration": 4.32
+    },
+    {
+      "text": "you know what just for you there we go",
+      "start": 48,
+      "duration": 3.12
+    },
+    {
+      "text": "you're welcome so we're going to be",
+      "start": 51.12,
+      "duration": 1.68
+    },
+    {
+      "text": "talking about a memory um",
+      "start": 52.8,
+      "duration": 3.279
+    },
+    {
+      "text": "we're going to be talking",
+      "start": 56.079,
+      "duration": 1.601
+    },
+    {
+      "text": "about the stateless applications that",
+      "start": 57.68,
+      "duration": 2.64
+    },
+    {
+      "text": "we're bu building today and how we can",
+      "start": 60.32,
+      "duration": 2.239
+    },
+    {
+      "text": "make them stateful we're going to be",
+      "start": 62.559,
+      "duration": 2
+    },
+    {
+      "text": "talking about the prompt engineering",
+      "start": 64.559,
+      "duration": 1.441
+    },
+    {
+      "text": "that we're doing today and how we can",
+      "start": 66,
+      "duration": 1.92
+    },
+    {
+      "text": "reduce that by focusing on persistence",
+      "start": 67.92,
+      "duration": 3.76
+    },
+    {
+      "text": "we're going to be turning the responses",
+      "start": 71.68,
+      "duration": 1.92
+    },
+    {
+      "text": "in our AI application and making our",
+      "start": 73.6,
+      "duration": 2.559
+    },
+    {
+      "text": "agents build relationship with our",
+      "start": 76.159,
+      "duration": 1.921
+    },
+    {
+      "text": "customers and all of it is going to be",
+      "start": 78.08,
+      "duration": 3.44
+    },
+    {
+      "text": "centered around memory",
+      "start": 81.52,
+      "duration": 2.959
+    },
+    {
+      "text": "so I'm going to do a very quick",
+      "start": 84.479,
+      "duration": 3.761
+    },
+    {
+      "text": "evolution of what we've been seeing for",
+      "start": 88.24,
+      "duration": 1.6
+    },
+    {
+      "text": "the past two to three years",
+      "start": 89.84,
+      "duration": 3.2
+    },
+    {
+      "text": "we started off with chat bots lmn power",
+      "start": 93.04,
+      "duration": 2.16
+    },
+    {
+      "text": "chatbots they were great chat GPT came",
+      "start": 95.2,
+      "duration": 2
+    },
+    {
+      "text": "out November 2022 and yeah exploded then",
+      "start": 97.2,
+      "duration": 5.599
+    },
+    {
+      "text": "we went into rag we gave this chat bots",
+      "start": 102.799,
+      "duration": 2.241
+    },
+    {
+      "text": "more domain specific relevant knowledge",
+      "start": 105.04,
+      "duration": 1.92
+    },
+    {
+      "text": "and it gave us more personalized",
+      "start": 106.96,
+      "duration": 1.519
+    },
+    {
+      "text": "responses then we begin to scale the",
+      "start": 108.479,
+      "duration": 3.361
+    },
+    {
+      "text": "compute the data we're giving to the",
+      "start": 111.84,
+      "duration": 2.4
+    },
+    {
+      "text": "LLMs and they gave us emerging",
+      "start": 114.24,
+      "duration": 1.6
+    },
+    {
+      "text": "capabilities right reasoning uh tool use",
+      "start": 115.84,
+      "duration": 4.08
+    },
+    {
+      "text": "now we're in the world of AI agents and",
+      "start": 119.92,
+      "duration": 1.92
+    },
+    {
+      "text": "agentic systems",
+      "start": 121.84,
+      "duration": 2.72
+    },
+    {
+      "text": "and the big debate is what is an agent",
+      "start": 124.56,
+      "duration": 2.96
+    },
+    {
+      "text": "right what is an AI agent i don't like",
+      "start": 127.52,
+      "duration": 1.84
+    },
+    {
+      "text": "to go into that debate because that's",
+      "start": 129.36,
+      "duration": 2.4
+    },
+    {
+      "text": "like asking what is consciousness",
+      "start": 131.76,
+      "duration": 2.88
+    },
+    {
+      "text": "um is a spectrum the agenticity and",
+      "start": 134.64,
+      "duration": 3.679
+    },
+    {
+      "text": "that's a word now agenticity",
+      "start": 138.319,
+      "duration": 3.601
+    },
+    {
+      "text": "of uh of an agent is is a spectrum so",
+      "start": 141.92,
+      "duration": 3.679
+    },
+    {
+      "text": "they're different levels",
+      "start": 145.599,
+      "duration": 2.241
+    },
+    {
+      "text": "I came here and I saw Whimo and to me",
+      "start": 147.84,
+      "duration": 2.399
+    },
+    {
+      "text": "was pure sorcery we don't have that in",
+      "start": 150.239,
+      "duration": 2.64
+    },
+    {
+      "text": "the UK and they're different levels of",
+      "start": 152.879,
+      "duration": 1.921
+    },
+    {
+      "text": "um self-driving so you can look at the",
+      "start": 154.8,
+      "duration": 1.76
+    },
+    {
+      "text": "genetic spectrum in that respect we have",
+      "start": 156.56,
+      "duration": 2.48
+    },
+    {
+      "text": "a minimal agent whereas an LLM running",
+      "start": 159.04,
+      "duration": 2.08
+    },
+    {
+      "text": "the loop great then you have a level",
+      "start": 161.12,
+      "duration": 3.119
+    },
+    {
+      "text": "four is autonomous agent a bunch of",
+      "start": 164.239,
+      "duration": 2.401
+    },
+    {
+      "text": "agents that have access to tools you",
+      "start": 166.64,
+      "duration": 2.239
+    },
+    {
+      "text": "they can do whatever they want they're",
+      "start": 168.879,
+      "duration": 1.521
+    },
+    {
+      "text": "not prompted in any way or a minimal way",
+      "start": 170.4,
+      "duration": 3.36
+    },
+    {
+      "text": "but this is how I see things is a",
+      "start": 173.76,
+      "duration": 1.92
+    },
+    {
+      "text": "spectrum so what is an AI agent it's a",
+      "start": 175.68,
+      "duration": 3.36
+    },
+    {
+      "text": "computational entity with awareness of",
+      "start": 179.04,
+      "duration": 2.24
+    },
+    {
+      "text": "his environment through perception",
+      "start": 181.28,
+      "duration": 1.84
+    },
+    {
+      "text": "cognitive abilities through an LLM and",
+      "start": 183.12,
+      "duration": 3.28
+    },
+    {
+      "text": "also can take action through tool use",
+      "start": 186.4,
+      "duration": 2.32
+    },
+    {
+      "text": "but the most important bit is there is",
+      "start": 188.72,
+      "duration": 2.159
+    },
+    {
+      "text": "some form of memory short-term or",
+      "start": 190.879,
+      "duration": 2.961
+    },
+    {
+      "text": "long-term",
+      "start": 193.84,
+      "duration": 1.84
+    },
+    {
+      "text": "memory is important it's important",
+      "start": 195.68,
+      "duration": 1.44
+    },
+    {
+      "text": "because we're trying to make our agents",
+      "start": 197.12,
+      "duration": 1.6
+    },
+    {
+      "text": "reflective interactive proactive and",
+      "start": 198.72,
+      "duration": 3.04
+    },
+    {
+      "text": "reactive and autonomous and every most",
+      "start": 201.76,
+      "duration": 2.88
+    },
+    {
+      "text": "of this if not all can be solved with",
+      "start": 204.64,
+      "duration": 3.84
+    },
+    {
+      "text": "memory",
+      "start": 208.48,
+      "duration": 1.759
+    },
+    {
+      "text": "um I work at MongoDB and we're going to",
+      "start": 210.239,
+      "duration": 2.08
+    },
+    {
+      "text": "make we're going to connect the dots",
+      "start": 212.319,
+      "duration": 1.761
+    },
+    {
+      "text": "don't worry so this is all nice and good",
+      "start": 214.08,
+      "duration": 3.12
+    },
+    {
+      "text": "this is what what you look at if you um",
+      "start": 217.2,
+      "duration": 2.399
+    },
+    {
+      "text": "double click into one AI agent is but",
+      "start": 219.599,
+      "duration": 2
+    },
+    {
+      "text": "the most important bit to me is I'll go",
+      "start": 221.599,
+      "duration": 2.401
+    },
+    {
+      "text": "slide people are taking pictures sorry",
+      "start": 224,
+      "duration": 3.92
+    },
+    {
+      "text": "all right let's go the most important",
+      "start": 227.92,
+      "duration": 1.36
+    },
+    {
+      "text": "bit is memory and when we talk about",
+      "start": 229.28,
+      "duration": 1.519
+    },
+    {
+      "text": "memory the easy way you can think about",
+      "start": 230.799,
+      "duration": 1.681
+    },
+    {
+      "text": "it is short-term long-term but there al",
+      "start": 232.48,
+      "duration": 2.64
+    },
+    {
+      "text": "other distinct forms right um",
+      "start": 235.12,
+      "duration": 2.16
+    },
+    {
+      "text": "conversational entity memory knowledge",
+      "start": 237.28,
+      "duration": 2.4
+    },
+    {
+      "text": "data store cache working memory we're",
+      "start": 239.68,
+      "duration": 2.16
+    },
+    {
+      "text": "going to be talking about all of that",
+      "start": 241.84,
+      "duration": 1.039
+    },
+    {
+      "text": "today so these are the high level",
+      "start": 242.879,
+      "duration": 1.28
+    },
+    {
+      "text": "concepts",
+      "start": 244.159,
+      "duration": 1.841
+    },
+    {
+      "text": "but let me go a little bit metal",
+      "start": 246,
+      "duration": 2.959
+    },
+    {
+      "text": "why we're all here um today in this",
+      "start": 248.959,
+      "duration": 3.36
+    },
+    {
+      "text": "conference is because of AI right we're",
+      "start": 252.319,
+      "duration": 2.721
+    },
+    {
+      "text": "all architects of intelligence the whole",
+      "start": 255.04,
+      "duration": 2.08
+    },
+    {
+      "text": "point of AI is to build some form of",
+      "start": 257.12,
+      "duration": 1.76
+    },
+    {
+      "text": "computational entity that surpasses",
+      "start": 258.88,
+      "duration": 1.919
+    },
+    {
+      "text": "human intelligence or mimics it then AGI",
+      "start": 260.799,
+      "duration": 4.561
+    },
+    {
+      "text": "we're focused on making that",
+      "start": 265.36,
+      "duration": 1.76
+    },
+    {
+      "text": "intelligence surpass humans in all tasks",
+      "start": 267.12,
+      "duration": 3.76
+    },
+    {
+      "text": "we can think of and if you think about",
+      "start": 270.88,
+      "duration": 2.56
+    },
+    {
+      "text": "the most intelligent humans you know",
+      "start": 273.44,
+      "duration": 2.8
+    },
+    {
+      "text": "what determines the intelligence is",
+      "start": 276.24,
+      "duration": 1.519
+    },
+    {
+      "text": "their ability to recall it's their",
+      "start": 277.759,
+      "duration": 2.081
+    },
+    {
+      "text": "memory so if we if AI or AGI is meant to",
+      "start": 279.84,
+      "duration": 2.96
+    },
+    {
+      "text": "mimic human intelligence is a no-brainer",
+      "start": 282.8,
+      "duration": 2.48
+    },
+    {
+      "text": "no pun intended that we need memory",
+      "start": 285.28,
+      "duration": 3.12
+    },
+    {
+      "text": "within the agents that we're building",
+      "start": 288.4,
+      "duration": 1.68
+    },
+    {
+      "text": "today does anyone disagree",
+      "start": 290.08,
+      "duration": 3.6
+    },
+    {
+      "text": "good i would have kicked you out um okay",
+      "start": 293.68,
+      "duration": 3.2
+    },
+    {
+      "text": "let's go so humans you in your brain",
+      "start": 296.88,
+      "duration": 2.08
+    },
+    {
+      "text": "right now you have these you have this",
+      "start": 298.96,
+      "duration": 1.84
+    },
+    {
+      "text": "this is not what it looks like but it's",
+      "start": 300.8,
+      "duration": 2.16
+    },
+    {
+      "text": "close enough you have different forms of",
+      "start": 302.96,
+      "duration": 2
+    },
+    {
+      "text": "memory and that's what makes you",
+      "start": 304.96,
+      "duration": 1.519
+    },
+    {
+      "text": "intelligent that's what makes you retain",
+      "start": 306.479,
+      "duration": 1.761
+    },
+    {
+      "text": "some of the information I'm going to be",
+      "start": 308.24,
+      "duration": 1.28
+    },
+    {
+      "text": "giving you today there is short-term",
+      "start": 309.52,
+      "duration": 2.239
+    },
+    {
+      "text": "long-term working memory semantic",
+      "start": 311.759,
+      "duration": 1.841
+    },
+    {
+      "text": "episodic procedural memory um in your",
+      "start": 313.6,
+      "duration": 3.36
+    },
+    {
+      "text": "brain right now there is something",
+      "start": 316.96,
+      "duration": 1.28
+    },
+    {
+      "text": "called a cerebellum i always get the",
+      "start": 318.24,
+      "duration": 1.76
+    },
+    {
+      "text": "word wrong but that's where you store",
+      "start": 320,
+      "duration": 2.32
+    },
+    {
+      "text": "most of the routines and skills you can",
+      "start": 322.32,
+      "duration": 1.68
+    },
+    {
+      "text": "do can anyone here do a backflip",
+      "start": 324,
+      "duration": 3.68
+    },
+    {
+      "text": "really wow you just see my excitement um",
+      "start": 327.68,
+      "duration": 4.64
+    },
+    {
+      "text": "your the information or the knowledge of",
+      "start": 332.32,
+      "duration": 2.56
+    },
+    {
+      "text": "that bat flip is actually stored in that",
+      "start": 334.88,
+      "duration": 1.599
+    },
+    {
+      "text": "part of your brain so I heard it's 90%",
+      "start": 336.479,
+      "duration": 2.881
+    },
+    {
+      "text": "confidence by the way",
+      "start": 339.36,
+      "duration": 2.48
+    },
+    {
+      "text": "that is actually it is right i'm not",
+      "start": 341.84,
+      "duration": 2.4
+    },
+    {
+      "text": "going to do one but but it's stored in",
+      "start": 344.24,
+      "duration": 2.16
+    },
+    {
+      "text": "that part of your brain now you can",
+      "start": 346.4,
+      "duration": 2.079
+    },
+    {
+      "text": "actually mimic this in agents and I'm",
+      "start": 348.479,
+      "duration": 2.881
+    },
+    {
+      "text": "going to show you how but now we're",
+      "start": 351.36,
+      "duration": 2.559
+    },
+    {
+      "text": "talking about agent memory",
+      "start": 353.919,
+      "duration": 2.72
+    },
+    {
+      "text": "agent memory is the mechanisms that we",
+      "start": 356.639,
+      "duration": 3.361
+    },
+    {
+      "text": "are implementing to actually make sure",
+      "start": 360,
+      "duration": 3.44
+    },
+    {
+      "text": "that states persist in our AI",
+      "start": 363.44,
+      "duration": 2.72
+    },
+    {
+      "text": "application",
+      "start": 366.16,
+      "duration": 1.92
+    },
+    {
+      "text": "our agents are able to accumulate",
+      "start": 368.08,
+      "duration": 2
+    },
+    {
+      "text": "information turn data into memory and",
+      "start": 370.08,
+      "duration": 2.399
+    },
+    {
+      "text": "have it inform the next ex execution",
+      "start": 372.479,
+      "duration": 2.641
+    },
+    {
+      "text": "step but the goal is to make them more",
+      "start": 375.12,
+      "duration": 3.68
+    },
+    {
+      "text": "reliable believable and capable",
+      "start": 378.8,
+      "duration": 4
+    },
+    {
+      "text": "those are the key things",
+      "start": 382.8,
+      "duration": 2.32
+    },
+    {
+      "text": "and the core topic that we are going to",
+      "start": 385.12,
+      "duration": 2.48
+    },
+    {
+      "text": "be working on as AI memory engineers is",
+      "start": 387.6,
+      "duration": 4.56
+    },
+    {
+      "text": "on memory management we're going to be",
+      "start": 392.16,
+      "duration": 2.479
+    },
+    {
+      "text": "building memory management systems and",
+      "start": 394.639,
+      "duration": 2.801
+    },
+    {
+      "text": "memory management is a systematic",
+      "start": 397.44,
+      "duration": 1.759
+    },
+    {
+      "text": "process of organizing all the",
+      "start": 399.199,
+      "duration": 1.921
+    },
+    {
+      "text": "information that you're putting into the",
+      "start": 401.12,
+      "duration": 1.76
+    },
+    {
+      "text": "context window yes we have like large",
+      "start": 402.88,
+      "duration": 2.319
+    },
+    {
+      "text": "context window but that's not for you to",
+      "start": 405.199,
+      "duration": 1.761
+    },
+    {
+      "text": "stuff all your data in that's for you to",
+      "start": 406.96,
+      "duration": 3.12
+    },
+    {
+      "text": "pull in the relevant memory and",
+      "start": 410.08,
+      "duration": 2.16
+    },
+    {
+      "text": "structure them in a way that is",
+      "start": 412.24,
+      "duration": 1.44
+    },
+    {
+      "text": "effective that allows for the response",
+      "start": 413.68,
+      "duration": 2.959
+    },
+    {
+      "text": "um to be relevant",
+      "start": 416.639,
+      "duration": 2.241
+    },
+    {
+      "text": "so these are the core components of",
+      "start": 418.88,
+      "duration": 1.68
+    },
+    {
+      "text": "memory management generation storage",
+      "start": 420.56,
+      "duration": 2.4
+    },
+    {
+      "text": "retrieval integration updating deletion",
+      "start": 422.96,
+      "duration": 3.2
+    },
+    {
+      "text": "there's a lie here because you you don't",
+      "start": 426.16,
+      "duration": 2.96
+    },
+    {
+      "text": "delete memories humans don't delete",
+      "start": 429.12,
+      "duration": 1.6
+    },
+    {
+      "text": "their memories except traumatic one and",
+      "start": 430.72,
+      "duration": 2.16
+    },
+    {
+      "text": "you want to forget but we really should",
+      "start": 432.88,
+      "duration": 2.56
+    },
+    {
+      "text": "be looking at implementing forgetting",
+      "start": 435.44,
+      "duration": 2.08
+    },
+    {
+      "text": "mechanisms within the memory management",
+      "start": 437.52,
+      "duration": 2.72
+    },
+    {
+      "text": "systems that we're building you don't",
+      "start": 440.24,
+      "duration": 1.6
+    },
+    {
+      "text": "want to delete memories and a different",
+      "start": 441.84,
+      "duration": 1.6
+    },
+    {
+      "text": "research papers are looking at how to",
+      "start": 443.44,
+      "duration": 2.24
+    },
+    {
+      "text": "implement some form of forgetting within",
+      "start": 445.68,
+      "duration": 1.84
+    },
+    {
+      "text": "agents",
+      "start": 447.52,
+      "duration": 1.6
+    },
+    {
+      "text": "but the most important bit is retrieval",
+      "start": 449.12,
+      "duration": 3.199
+    },
+    {
+      "text": "and I'm getting to the MongoDB part",
+      "start": 452.319,
+      "duration": 3.44
+    },
+    {
+      "text": "this moving around um this is rag it's",
+      "start": 455.759,
+      "duration": 4.081
+    },
+    {
+      "text": "very simple right because we've been",
+      "start": 459.84,
+      "duration": 2.079
+    },
+    {
+      "text": "doing it as AI engineers um MongoDB",
+      "start": 461.919,
+      "duration": 4.081
+    },
+    {
+      "text": "is that one database that is core to rag",
+      "start": 466,
+      "duration": 3.28
+    },
+    {
+      "text": "pipelines because it gives you all the",
+      "start": 469.28,
+      "duration": 1.6
+    },
+    {
+      "text": "retrieval mechanisms rag is not just",
+      "start": 470.88,
+      "duration": 1.759
+    },
+    {
+      "text": "vector vector search is not all you need",
+      "start": 472.639,
+      "duration": 2.56
+    },
+    {
+      "text": "you need other type of search and we",
+      "start": 475.199,
+      "duration": 2.321
+    },
+    {
+      "text": "have that with MongoDB anything you can",
+      "start": 477.52,
+      "duration": 1.76
+    },
+    {
+      "text": "think of you're going to be hearing a",
+      "start": 479.28,
+      "duration": 1.44
+    },
+    {
+      "text": "lot about MongoDB in this um in this",
+      "start": 480.72,
+      "duration": 2.4
+    },
+    {
+      "text": "conference today but this is what rag is",
+      "start": 483.12,
+      "duration": 2.72
+    },
+    {
+      "text": "and you level up you go into the world",
+      "start": 485.84,
+      "duration": 2.4
+    },
+    {
+      "text": "of agentic rag right you give the",
+      "start": 488.24,
+      "duration": 2.88
+    },
+    {
+      "text": "retrieval capability to the agent as a",
+      "start": 491.12,
+      "duration": 3.12
+    },
+    {
+      "text": "tool and now we can choose when to call",
+      "start": 494.24,
+      "duration": 2.959
+    },
+    {
+      "text": "on information",
+      "start": 497.199,
+      "duration": 2.241
+    },
+    {
+      "text": "there's a lot going on i I'll send this",
+      "start": 499.44,
+      "duration": 1.84
+    },
+    {
+      "text": "somehow to you guys or you can come to",
+      "start": 501.28,
+      "duration": 2.4
+    },
+    {
+      "text": "me and I'll um LinkedIn it to you add me",
+      "start": 503.68,
+      "duration": 3.12
+    },
+    {
+      "text": "on LinkedIn",
+      "start": 506.8,
+      "duration": 1.92
+    },
+    {
+      "text": "and just ask for the slice and I'll send",
+      "start": 508.72,
+      "duration": 1.759
+    },
+    {
+      "text": "it to you richmond on LinkedIn um this",
+      "start": 510.479,
+      "duration": 4.321
+    },
+    {
+      "text": "is memory",
+      "start": 514.8,
+      "duration": 2.159
+    },
+    {
+      "text": "mongodb",
+      "start": 516.959,
+      "duration": 1.601
+    },
+    {
+      "text": "is the memory provider for Aentic",
+      "start": 518.56,
+      "duration": 2
+    },
+    {
+      "text": "systems and when you understand that we",
+      "start": 520.56,
+      "duration": 2.958
+    },
+    {
+      "text": "provide the developer the AI memory",
+      "start": 523.519,
+      "duration": 2.961
+    },
+    {
+      "text": "engineer the AI engineer all the",
+      "start": 526.48,
+      "duration": 2.32
+    },
+    {
+      "text": "features that they need to turn data",
+      "start": 528.8,
+      "duration": 3.28
+    },
+    {
+      "text": "into memory to make the agents",
+      "start": 532.08,
+      "duration": 1.84
+    },
+    {
+      "text": "believable capable and reliable you",
+      "start": 533.92,
+      "duration": 2.08
+    },
+    {
+      "text": "begin to understand the importance of",
+      "start": 536,
+      "duration": 1.68
+    },
+    {
+      "text": "having a technology partner like MongoDB",
+      "start": 537.68,
+      "duration": 3.44
+    },
+    {
+      "text": "on your AI stack",
+      "start": 541.12,
+      "duration": 2.56
+    },
+    {
+      "text": "so these are this is the same um image",
+      "start": 543.68,
+      "duration": 3.76
+    },
+    {
+      "text": "but just a bit more focused and not a",
+      "start": 547.44,
+      "duration": 1.839
+    },
+    {
+      "text": "different memory so I'm going to skip",
+      "start": 549.279,
+      "duration": 1.201
+    },
+    {
+      "text": "through this slide because I go into a",
+      "start": 550.48,
+      "duration": 1.2
+    },
+    {
+      "text": "bit of detail um I'm also going to give",
+      "start": 551.68,
+      "duration": 3.2
+    },
+    {
+      "text": "you a library i'm working on an open",
+      "start": 554.88,
+      "duration": 2.24
+    },
+    {
+      "text": "source library i'm ashamed of the name i",
+      "start": 557.12,
+      "duration": 2.88
+    },
+    {
+      "text": "was trying to be cool when I came up",
+      "start": 560,
+      "duration": 1.12
+    },
+    {
+      "text": "with it it's called Memoriz",
+      "start": 561.12,
+      "duration": 2.24
+    },
+    {
+      "text": "um",
+      "start": 563.36,
+      "duration": 1.599
+    },
+    {
+      "text": "you can type that on Google you'll find",
+      "start": 564.959,
+      "duration": 1.761
+    },
+    {
+      "text": "it but it has all the design patterns of",
+      "start": 566.72,
+      "duration": 2.96
+    },
+    {
+      "text": "all of this memory that I'm showing you",
+      "start": 569.68,
+      "duration": 1.839
+    },
+    {
+      "text": "for this memory types and that I will",
+      "start": 571.519,
+      "duration": 1.681
+    },
+    {
+      "text": "show you as well but there are different",
+      "start": 573.2,
+      "duration": 2.079
+    },
+    {
+      "text": "forms of memory and AI agents and how we",
+      "start": 575.279,
+      "duration": 2
+    },
+    {
+      "text": "make them work so let's start with",
+      "start": 577.279,
+      "duration": 1.201
+    },
+    {
+      "text": "persona who's is anyone here from open",
+      "start": 578.48,
+      "duration": 2.799
+    },
+    {
+      "text": "AI",
+      "start": 581.279,
+      "duration": 2.56
+    },
+    {
+      "text": "leave i'm joking um well a couple a",
+      "start": 583.839,
+      "duration": 3.921
+    },
+    {
+      "text": "couple months ago right so they they",
+      "start": 587.76,
+      "duration": 2
+    },
+    {
+      "text": "gave chat GBT a bit of personality right",
+      "start": 589.76,
+      "duration": 3.28
+    },
+    {
+      "text": "um and they didn't do a good job but",
+      "start": 593.04,
+      "duration": 4.239
+    },
+    {
+      "text": "they are going in the right direction",
+      "start": 597.279,
+      "duration": 1.761
+    },
+    {
+      "text": "which is we are trying to make our",
+      "start": 599.04,
+      "duration": 2.479
+    },
+    {
+      "text": "systems more believable right we're",
+      "start": 601.519,
+      "duration": 2.081
+    },
+    {
+      "text": "trying to make them more human we're",
+      "start": 603.6,
+      "duration": 1.359
+    },
+    {
+      "text": "trying to make them create relationship",
+      "start": 604.959,
+      "duration": 1.601
+    },
+    {
+      "text": "with the consumer with the users of our",
+      "start": 606.56,
+      "duration": 2.48
+    },
+    {
+      "text": "systems persona memory helps with that",
+      "start": 609.04,
+      "duration": 3.919
+    },
+    {
+      "text": "and you can model that in MongoD DB",
+      "start": 612.959,
+      "duration": 2.961
+    },
+    {
+      "text": "right this is memories you if you spin",
+      "start": 615.92,
+      "duration": 2.72
+    },
+    {
+      "text": "up the library it helps you um spin up",
+      "start": 618.64,
+      "duration": 3.04
+    },
+    {
+      "text": "all of this um different type of memory",
+      "start": 621.68,
+      "duration": 1.839
+    },
+    {
+      "text": "types so this is persona um I have a",
+      "start": 623.519,
+      "duration": 2.161
+    },
+    {
+      "text": "little demo if we have time um",
+      "start": 625.68,
+      "duration": 3.44
+    },
+    {
+      "text": "but this is persona memory this is what",
+      "start": 629.12,
+      "duration": 1.68
+    },
+    {
+      "text": "it will look like in MongoDB then",
+      "start": 630.8,
+      "duration": 2.159
+    },
+    {
+      "text": "there's toolbox",
+      "start": 632.959,
+      "duration": 1.921
+    },
+    {
+      "text": "um the guidance from OpenAI is you",
+      "start": 634.88,
+      "duration": 3.28
+    },
+    {
+      "text": "should only put uh the schema of maybe",
+      "start": 638.16,
+      "duration": 3.2
+    },
+    {
+      "text": "10 to 21 tools in the context window but",
+      "start": 641.36,
+      "duration": 4
+    },
+    {
+      "text": "when you use your database as a toolbox",
+      "start": 645.36,
+      "duration": 3.12
+    },
+    {
+      "text": "where you're storing the JSON schema of",
+      "start": 648.48,
+      "duration": 2.08
+    },
+    {
+      "text": "your tools in MongoDB you can scale",
+      "start": 650.56,
+      "duration": 3.279
+    },
+    {
+      "text": "because just before you hit the LLM you",
+      "start": 653.839,
+      "duration": 4
+    },
+    {
+      "text": "can just get the relevant tool using any",
+      "start": 657.839,
+      "duration": 2.081
+    },
+    {
+      "text": "form of search so that's toolbox that's",
+      "start": 659.92,
+      "duration": 3.28
+    },
+    {
+      "text": "me that's a toolbox memory and that's",
+      "start": 663.2,
+      "duration": 2.319
+    },
+    {
+      "text": "what it would look like right you would",
+      "start": 665.519,
+      "duration": 1.281
+    },
+    {
+      "text": "store all this is how you model it in uh",
+      "start": 666.8,
+      "duration": 3.12
+    },
+    {
+      "text": "MongoDB you store all the information of",
+      "start": 669.92,
+      "duration": 1.76
+    },
+    {
+      "text": "your JSON schema now you'll begin to",
+      "start": 671.68,
+      "duration": 2.24
+    },
+    {
+      "text": "understand that MongoDB gives you that",
+      "start": 673.92,
+      "duration": 2.4
+    },
+    {
+      "text": "flexible data model the document data",
+      "start": 676.32,
+      "duration": 2.959
+    },
+    {
+      "text": "model is very flexible it can adapt to",
+      "start": 679.279,
+      "duration": 2.081
+    },
+    {
+      "text": "wherever data wherever model you want",
+      "start": 681.36,
+      "duration": 2
+    },
+    {
+      "text": "your data to take wherever structure and",
+      "start": 683.36,
+      "duration": 2.32
+    },
+    {
+      "text": "you have all of the retrieval",
+      "start": 685.68,
+      "duration": 1.279
+    },
+    {
+      "text": "capabilities graph vector text",
+      "start": 686.959,
+      "duration": 2.88
+    },
+    {
+      "text": "geospatial query",
+      "start": 689.839,
+      "duration": 1.841
+    },
+    {
+      "text": "in one database",
+      "start": 691.68,
+      "duration": 2.08
+    },
+    {
+      "text": "conversation memory is a bit obvious",
+      "start": 693.76,
+      "duration": 1.68
+    },
+    {
+      "text": "right back and forth conversation with",
+      "start": 695.44,
+      "duration": 1.839
+    },
+    {
+      "text": "uh chat GPT with Claude you can store",
+      "start": 697.279,
+      "duration": 2.641
+    },
+    {
+      "text": "that in your database as well in MongoDB",
+      "start": 699.92,
+      "duration": 3.28
+    },
+    {
+      "text": "as conversational memory and this is",
+      "start": 703.2,
+      "duration": 1.6
+    },
+    {
+      "text": "what that would look like time stamp",
+      "start": 704.8,
+      "duration": 1.76
+    },
+    {
+      "text": "time stamp and you have a conversation",
+      "start": 706.56,
+      "duration": 2.24
+    },
+    {
+      "text": "ID and you can see something there",
+      "start": 708.8,
+      "duration": 2.24
+    },
+    {
+      "text": "called recall recency and associate",
+      "start": 711.04,
+      "duration": 2.08
+    },
+    {
+      "text": "conversation ID and that's my attempt at",
+      "start": 713.12,
+      "duration": 2.24
+    },
+    {
+      "text": "implementing some memory signals um but",
+      "start": 715.36,
+      "duration": 3.44
+    },
+    {
+      "text": "and that's goes into the forgetting",
+      "start": 718.8,
+      "duration": 2
+    },
+    {
+      "text": "mechanism that I'm trying to implement",
+      "start": 720.8,
+      "duration": 1.599
+    },
+    {
+      "text": "in my very famous library memories um",
+      "start": 722.399,
+      "duration": 4.401
+    },
+    {
+      "text": "I'm going to go through the next slides",
+      "start": 726.8,
+      "duration": 1.36
+    },
+    {
+      "text": "a bit quicker because I want to get to",
+      "start": 728.16,
+      "duration": 1.52
+    },
+    {
+      "text": "the end of this",
+      "start": 729.68,
+      "duration": 2.64
+    },
+    {
+      "text": "workflow memory is very important you",
+      "start": 732.32,
+      "duration": 1.759
+    },
+    {
+      "text": "build your agentic system they execute a",
+      "start": 734.079,
+      "duration": 1.921
+    },
+    {
+      "text": "certain step step one step two step",
+      "start": 736,
+      "duration": 1.76
+    },
+    {
+      "text": "three it fails but one thing you could",
+      "start": 737.76,
+      "duration": 2.24
+    },
+    {
+      "text": "do is the failure is experience it's",
+      "start": 740,
+      "duration": 2.399
+    },
+    {
+      "text": "learning experience you can store that",
+      "start": 742.399,
+      "duration": 1.761
+    },
+    {
+      "text": "in your database i see you nodding",
+      "start": 744.16,
+      "duration": 1.52
+    },
+    {
+      "text": "you're like \"Yeah.\" um you can store",
+      "start": 745.68,
+      "duration": 2.159
+    },
+    {
+      "text": "that in your database and you can then",
+      "start": 747.839,
+      "duration": 1.521
+    },
+    {
+      "text": "pull that in in the next execution to",
+      "start": 749.36,
+      "duration": 2.88
+    },
+    {
+      "text": "inform the LLM to not take this step or",
+      "start": 752.24,
+      "duration": 3.039
+    },
+    {
+      "text": "explore other paths you can store that",
+      "start": 755.279,
+      "duration": 1.841
+    },
+    {
+      "text": "in MongoDB as well you can model that",
+      "start": 757.12,
+      "duration": 3.36
+    },
+    {
+      "text": "because what you have with MongoDB is",
+      "start": 760.48,
+      "duration": 1.68
+    },
+    {
+      "text": "that memory provider for your agentic",
+      "start": 762.16,
+      "duration": 1.52
+    },
+    {
+      "text": "system and that's what this is what that",
+      "start": 763.68,
+      "duration": 1.599
+    },
+    {
+      "text": "looks like when you model it an example",
+      "start": 765.279,
+      "duration": 2.161
+    },
+    {
+      "text": "of it anyway so we have episodic memory",
+      "start": 767.44,
+      "duration": 2.72
+    },
+    {
+      "text": "we have long-term memory we have an",
+      "start": 770.16,
+      "duration": 1.76
+    },
+    {
+      "text": "agent registry you can store the",
+      "start": 771.92,
+      "duration": 1.44
+    },
+    {
+      "text": "information of your agent as well um and",
+      "start": 773.36,
+      "duration": 3.039
+    },
+    {
+      "text": "this is how I do it uh you can see the",
+      "start": 776.399,
+      "duration": 1.761
+    },
+    {
+      "text": "agent has tools persona all the good",
+      "start": 778.16,
+      "duration": 2.239
+    },
+    {
+      "text": "stuff there's entity memory as well so",
+      "start": 780.399,
+      "duration": 2.721
+    },
+    {
+      "text": "there's different forms of memory and",
+      "start": 783.12,
+      "duration": 3.12
+    },
+    {
+      "text": "the memory the memoriz library is very",
+      "start": 786.24,
+      "duration": 2.32
+    },
+    {
+      "text": "experimental and educational but it it",
+      "start": 788.56,
+      "duration": 2.16
+    },
+    {
+      "text": "encapsulates some of the memory and",
+      "start": 790.72,
+      "duration": 2
+    },
+    {
+      "text": "implementation and design patterns that",
+      "start": 792.72,
+      "duration": 2.559
+    },
+    {
+      "text": "I'm thinking of on an everyday basis",
+      "start": 795.279,
+      "duration": 2.721
+    },
+    {
+      "text": "that we're thinking of in MongoDB so",
+      "start": 798,
+      "duration": 2.48
+    },
+    {
+      "text": "MongoDB you probably get the point now",
+      "start": 800.48,
+      "duration": 2.72
+    },
+    {
+      "text": "the memory provider for Agent Tech",
+      "start": 803.2,
+      "duration": 1.92
+    },
+    {
+      "text": "systems there are tools out there that",
+      "start": 805.12,
+      "duration": 2.24
+    },
+    {
+      "text": "focus on memory management um MEGPT ME",
+      "start": 807.36,
+      "duration": 3.2
+    },
+    {
+      "text": "Zero Zep they're great tools but after",
+      "start": 810.56,
+      "duration": 4.56
+    },
+    {
+      "text": "speaking to some of you folks and some",
+      "start": 815.12,
+      "duration": 2.159
+    },
+    {
+      "text": "of our partners and customers here there",
+      "start": 817.279,
+      "duration": 2.641
+    },
+    {
+      "text": "is not there is there is not one way to",
+      "start": 819.92,
+      "duration": 2.64
+    },
+    {
+      "text": "solve memory and you need a memory",
+      "start": 822.56,
+      "duration": 3.36
+    },
+    {
+      "text": "provider to build your custom solution",
+      "start": 825.92,
+      "duration": 2.479
+    },
+    {
+      "text": "to make sure the memory management",
+      "start": 828.399,
+      "duration": 1.921
+    },
+    {
+      "text": "systems that you're able to implement",
+      "start": 830.32,
+      "duration": 1.519
+    },
+    {
+      "text": "are effective so we really understand",
+      "start": 831.839,
+      "duration": 4.161
+    },
+    {
+      "text": "the importance of managing data and",
+      "start": 836,
+      "duration": 2.56
+    },
+    {
+      "text": "managing memory and that's why earlier",
+      "start": 838.56,
+      "duration": 2.48
+    },
+    {
+      "text": "this year we acquired Voyage AI now they",
+      "start": 841.04,
+      "duration": 3.039
+    },
+    {
+      "text": "create the best",
+      "start": 844.079,
+      "duration": 2.161
+    },
+    {
+      "text": "no offense open AI embedding models in",
+      "start": 846.24,
+      "duration": 2.959
+    },
+    {
+      "text": "the market today voyage AI embedded",
+      "start": 849.199,
+      "duration": 2.32
+    },
+    {
+      "text": "models are we have a text multimodel we",
+      "start": 851.519,
+      "duration": 4.641
+    },
+    {
+      "text": "have re-rankers and this allows you to",
+      "start": 856.16,
+      "duration": 3.039
+    },
+    {
+      "text": "really solve the problem or at least",
+      "start": 859.199,
+      "duration": 2
+    },
+    {
+      "text": "reduce AI hall elucination within your",
+      "start": 861.199,
+      "duration": 2.161
+    },
+    {
+      "text": "rag and aentic systems and what we're",
+      "start": 863.36,
+      "duration": 2.8
+    },
+    {
+      "text": "doing and what we're focused on the",
+      "start": 866.16,
+      "duration": 1.679
+    },
+    {
+      "text": "mission for MongoDB is to make the",
+      "start": 867.839,
+      "duration": 2.721
+    },
+    {
+      "text": "developer more productive by taking away",
+      "start": 870.56,
+      "duration": 2.32
+    },
+    {
+      "text": "the considerations and all the concerns",
+      "start": 872.88,
+      "duration": 2.639
+    },
+    {
+      "text": "around managing different data and all",
+      "start": 875.519,
+      "duration": 3.041
+    },
+    {
+      "text": "the process of chunking in retrieval",
+      "start": 878.56,
+      "duration": 2.48
+    },
+    {
+      "text": "strategies we we pull that into the",
+      "start": 881.04,
+      "duration": 2.239
+    },
+    {
+      "text": "database we are redefining the database",
+      "start": 883.279,
+      "duration": 2.881
+    },
+    {
+      "text": "and that's why in a few months we're",
+      "start": 886.16,
+      "duration": 2.4
+    },
+    {
+      "text": "going to be pulling in Voyage AI the",
+      "start": 888.56,
+      "duration": 1.519
+    },
+    {
+      "text": "embedded models and the rerankers into",
+      "start": 890.079,
+      "duration": 2.641
+    },
+    {
+      "text": "MongoDB Atlas and you will not have to",
+      "start": 892.72,
+      "duration": 2.72
+    },
+    {
+      "text": "be writing chunking strategies for your",
+      "start": 895.44,
+      "duration": 3.759
+    },
+    {
+      "text": "um for your data i see a lot of people",
+      "start": 899.199,
+      "duration": 1.841
+    },
+    {
+      "text": "nodding yeah that's good so MongoDB is a",
+      "start": 901.04,
+      "duration": 3.68
+    },
+    {
+      "text": "is a household name to be honest with um",
+      "start": 904.72,
+      "duration": 2.479
+    },
+    {
+      "text": "I watched MongoDB IPO back when back",
+      "start": 907.199,
+      "duration": 2.32
+    },
+    {
+      "text": "when I was in university i bought the",
+      "start": 909.519,
+      "duration": 2.241
+    },
+    {
+      "text": "stocks when I was in university um free",
+      "start": 911.76,
+      "duration": 3.04
+    },
+    {
+      "text": "just free i already had about £100 um I",
+      "start": 914.8,
+      "duration": 3.2
+    },
+    {
+      "text": "was broke but",
+      "start": 918,
+      "duration": 2.959
+    },
+    {
+      "text": "we are very focused and we take it very",
+      "start": 920.959,
+      "duration": 2.24
+    },
+    {
+      "text": "seriously making sure that you guys can",
+      "start": 923.199,
+      "duration": 2.481
+    },
+    {
+      "text": "build the best AI products AI features",
+      "start": 925.68,
+      "duration": 2.8
+    },
+    {
+      "text": "very quickly in a secure way so MongoDB",
+      "start": 928.48,
+      "duration": 2.64
+    },
+    {
+      "text": "is built for the change that we are",
+      "start": 931.12,
+      "duration": 1.44
+    },
+    {
+      "text": "going to experience now tomorrow in the",
+      "start": 932.56,
+      "duration": 3.279
+    },
+    {
+      "text": "next couple years i want to end with",
+      "start": 935.839,
+      "duration": 1.921
+    },
+    {
+      "text": "this you know who these two guys are",
+      "start": 937.76,
+      "duration": 3.6
+    },
+    {
+      "text": "damn okay this is Hob and Wiso they won",
+      "start": 941.36,
+      "duration": 3.2
+    },
+    {
+      "text": "a Nobel Prize um in the late 90s but",
+      "start": 944.56,
+      "duration": 2.959
+    },
+    {
+      "text": "they did some research on the visual",
+      "start": 947.519,
+      "duration": 1.841
+    },
+    {
+      "text": "cortex of cats um they experimented with",
+      "start": 949.36,
+      "duration": 3.52
+    },
+    {
+      "text": "cats that this probably wouldn't fly now",
+      "start": 952.88,
+      "duration": 1.84
+    },
+    {
+      "text": "but back in the 50s and 60s things were",
+      "start": 954.72,
+      "duration": 2.479
+    },
+    {
+      "text": "a bit more relaxed but they found out",
+      "start": 957.199,
+      "duration": 2.32
+    },
+    {
+      "text": "that the visual cortex of the brains",
+      "start": 959.519,
+      "duration": 2.56
+    },
+    {
+      "text": "between cats and humans actually worked",
+      "start": 962.079,
+      "duration": 2.801
+    },
+    {
+      "text": "by learning different hierarchies of",
+      "start": 964.88,
+      "duration": 2.639
+    },
+    {
+      "text": "representation so edges contours and",
+      "start": 967.519,
+      "duration": 2.641
+    },
+    {
+      "text": "abstract shapes now people that are in",
+      "start": 970.16,
+      "duration": 2.56
+    },
+    {
+      "text": "deep learning would know that this is",
+      "start": 972.72,
+      "duration": 1.28
+    },
+    {
+      "text": "how convol convolutional neural network",
+      "start": 974,
+      "duration": 1.839
+    },
+    {
+      "text": "works and the research that these guy",
+      "start": 975.839,
+      "duration": 3.521
+    },
+    {
+      "text": "these guys did inspired and informed",
+      "start": 979.36,
+      "duration": 3.44
+    },
+    {
+      "text": "convolutional neural networks that's",
+      "start": 982.8,
+      "duration": 1.92
+    },
+    {
+      "text": "face detection object detection it's it",
+      "start": 984.72,
+      "duration": 3.039
+    },
+    {
+      "text": "all comes from neuroscience so we are",
+      "start": 987.759,
+      "duration": 2.88
+    },
+    {
+      "text": "architects of intelligence but there is",
+      "start": 990.639,
+      "duration": 1.681
+    },
+    {
+      "text": "a better architect of intelligence it's",
+      "start": 992.32,
+      "duration": 2
+    },
+    {
+      "text": "nature nature's created our brains it's",
+      "start": 994.32,
+      "duration": 3.68
+    },
+    {
+      "text": "the most effective form of intelligence",
+      "start": 998,
+      "duration": 1.759
+    },
+    {
+      "text": "and well some humans that I meet but",
+      "start": 999.759,
+      "duration": 2.161
+    },
+    {
+      "text": "it's the most effective form of",
+      "start": 1001.92,
+      "duration": 1.359
+    },
+    {
+      "text": "intelligence that we have today and we",
+      "start": 1003.279,
+      "duration": 2.161
+    },
+    {
+      "text": "could look inwards to build this agentic",
+      "start": 1005.44,
+      "duration": 2.079
+    },
+    {
+      "text": "system so last week Saturday myself and",
+      "start": 1007.519,
+      "duration": 3.76
+    },
+    {
+      "text": "Tenu is the chief AI scientist at",
+      "start": 1011.279,
+      "duration": 1.841
+    },
+    {
+      "text": "MongoDB also the founder of Voyage AI we",
+      "start": 1013.12,
+      "duration": 3.04
+    },
+    {
+      "text": "sat with this three guys in the middle",
+      "start": 1016.16,
+      "duration": 1.919
+    },
+    {
+      "text": "are neuroscientists kenneth has been",
+      "start": 1018.079,
+      "duration": 2.161
+    },
+    {
+      "text": "exploring human brain and memory for",
+      "start": 1020.24,
+      "duration": 3.039
+    },
+    {
+      "text": "over 20 years and and over here is",
+      "start": 1023.279,
+      "duration": 2.721
+    },
+    {
+      "text": "Charles Parker he's the creator of MEGPT",
+      "start": 1026,
+      "duration": 2.319
+    },
+    {
+      "text": "your letter and we are having these",
+      "start": 1028.319,
+      "duration": 2.321
+    },
+    {
+      "text": "conversation and once again we're",
+      "start": 1030.64,
+      "duration": 2.08
+    },
+    {
+      "text": "mirroring how we're bringing",
+      "start": 1032.72,
+      "duration": 1.68
+    },
+    {
+      "text": "neuroscientists and application",
+      "start": 1034.4,
+      "duration": 2.96
+    },
+    {
+      "text": "developers together to solve and push us",
+      "start": 1037.36,
+      "duration": 3.678
+    },
+    {
+      "text": "on the path of AGI so that's my talk",
+      "start": 1041.039,
+      "duration": 2.639
+    },
+    {
+      "text": "done check out memories and you can come",
+      "start": 1043.679,
+      "duration": 1.999
+    },
+    {
+      "text": "talk to me about memory add me on",
+      "start": 1045.679,
+      "duration": 2.16
+    },
+    {
+      "text": "LinkedIn if you want this presentation",
+      "start": 1047.839,
+      "duration": 1.761
+    },
+    {
+      "text": "thank you for your time",
+      "start": 1049.6,
+      "duration": 3.64
+    },
+    {
+      "text": "[Music]",
+      "start": 1055.21,
+      "duration": 2.879
+    }
+  ],
+  "fullText": "[Music] [Music] in the next 10 to 15 minutes here's uh I guess my promise to you i'm going to give you some information that will be high level there will be some practical component to it but this information I'll give you within the next 6 months will be very relevant and it will put you in the best position to build the best AI applications to build the best agents that are believable capable and reliable i know we we going to get there you know what just for you there we go you're welcome so we're going to be talking about a memory um we're going to be talking about the stateless applications that we're bu building today and how we can make them stateful we're going to be talking about the prompt engineering that we're doing today and how we can reduce that by focusing on persistence we're going to be turning the responses in our AI application and making our agents build relationship with our customers and all of it is going to be centered around memory so I'm going to do a very quick evolution of what we've been seeing for the past two to three years we started off with chat bots lmn power chatbots they were great chat GPT came out November 2022 and yeah exploded then we went into rag we gave this chat bots more domain specific relevant knowledge and it gave us more personalized responses then we begin to scale the compute the data we're giving to the LLMs and they gave us emerging capabilities right reasoning uh tool use now we're in the world of AI agents and agentic systems and the big debate is what is an agent right what is an AI agent i don't like to go into that debate because that's like asking what is consciousness um is a spectrum the agenticity and that's a word now agenticity of uh of an agent is is a spectrum so they're different levels I came here and I saw Whimo and to me was pure sorcery we don't have that in the UK and they're different levels of um self-driving so you can look at the genetic spectrum in that respect we have a minimal agent whereas an LLM running the loop great then you have a level four is autonomous agent a bunch of agents that have access to tools you they can do whatever they want they're not prompted in any way or a minimal way but this is how I see things is a spectrum so what is an AI agent it's a computational entity with awareness of his environment through perception cognitive abilities through an LLM and also can take action through tool use but the most important bit is there is some form of memory short-term or long-term memory is important it's important because we're trying to make our agents reflective interactive proactive and reactive and autonomous and every most of this if not all can be solved with memory um I work at MongoDB and we're going to make we're going to connect the dots don't worry so this is all nice and good this is what what you look at if you um double click into one AI agent is but the most important bit to me is I'll go slide people are taking pictures sorry all right let's go the most important bit is memory and when we talk about memory the easy way you can think about it is short-term long-term but there al other distinct forms right um conversational entity memory knowledge data store cache working memory we're going to be talking about all of that today so these are the high level concepts but let me go a little bit metal why we're all here um today in this conference is because of AI right we're all architects of intelligence the whole point of AI is to build some form of computational entity that surpasses human intelligence or mimics it then AGI we're focused on making that intelligence surpass humans in all tasks we can think of and if you think about the most intelligent humans you know what determines the intelligence is their ability to recall it's their memory so if we if AI or AGI is meant to mimic human intelligence is a no-brainer no pun intended that we need memory within the agents that we're building today does anyone disagree good i would have kicked you out um okay let's go so humans you in your brain right now you have these you have this this is not what it looks like but it's close enough you have different forms of memory and that's what makes you intelligent that's what makes you retain some of the information I'm going to be giving you today there is short-term long-term working memory semantic episodic procedural memory um in your brain right now there is something called a cerebellum i always get the word wrong but that's where you store most of the routines and skills you can do can anyone here do a backflip really wow you just see my excitement um your the information or the knowledge of that bat flip is actually stored in that part of your brain so I heard it's 90% confidence by the way that is actually it is right i'm not going to do one but but it's stored in that part of your brain now you can actually mimic this in agents and I'm going to show you how but now we're talking about agent memory agent memory is the mechanisms that we are implementing to actually make sure that states persist in our AI application our agents are able to accumulate information turn data into memory and have it inform the next ex execution step but the goal is to make them more reliable believable and capable those are the key things and the core topic that we are going to be working on as AI memory engineers is on memory management we're going to be building memory management systems and memory management is a systematic process of organizing all the information that you're putting into the context window yes we have like large context window but that's not for you to stuff all your data in that's for you to pull in the relevant memory and structure them in a way that is effective that allows for the response um to be relevant so these are the core components of memory management generation storage retrieval integration updating deletion there's a lie here because you you don't delete memories humans don't delete their memories except traumatic one and you want to forget but we really should be looking at implementing forgetting mechanisms within the memory management systems that we're building you don't want to delete memories and a different research papers are looking at how to implement some form of forgetting within agents but the most important bit is retrieval and I'm getting to the MongoDB part this moving around um this is rag it's very simple right because we've been doing it as AI engineers um MongoDB is that one database that is core to rag pipelines because it gives you all the retrieval mechanisms rag is not just vector vector search is not all you need you need other type of search and we have that with MongoDB anything you can think of you're going to be hearing a lot about MongoDB in this um in this conference today but this is what rag is and you level up you go into the world of agentic rag right you give the retrieval capability to the agent as a tool and now we can choose when to call on information there's a lot going on i I'll send this somehow to you guys or you can come to me and I'll um LinkedIn it to you add me on LinkedIn and just ask for the slice and I'll send it to you richmond on LinkedIn um this is memory mongodb is the memory provider for Aentic systems and when you understand that we provide the developer the AI memory engineer the AI engineer all the features that they need to turn data into memory to make the agents believable capable and reliable you begin to understand the importance of having a technology partner like MongoDB on your AI stack so these are this is the same um image but just a bit more focused and not a different memory so I'm going to skip through this slide because I go into a bit of detail um I'm also going to give you a library i'm working on an open source library i'm ashamed of the name i was trying to be cool when I came up with it it's called Memoriz um you can type that on Google you'll find it but it has all the design patterns of all of this memory that I'm showing you for this memory types and that I will show you as well but there are different forms of memory and AI agents and how we make them work so let's start with persona who's is anyone here from open AI leave i'm joking um well a couple a couple months ago right so they they gave chat GBT a bit of personality right um and they didn't do a good job but they are going in the right direction which is we are trying to make our systems more believable right we're trying to make them more human we're trying to make them create relationship with the consumer with the users of our systems persona memory helps with that and you can model that in MongoD DB right this is memories you if you spin up the library it helps you um spin up all of this um different type of memory types so this is persona um I have a little demo if we have time um but this is persona memory this is what it will look like in MongoDB then there's toolbox um the guidance from OpenAI is you should only put uh the schema of maybe 10 to 21 tools in the context window but when you use your database as a toolbox where you're storing the JSON schema of your tools in MongoDB you can scale because just before you hit the LLM you can just get the relevant tool using any form of search so that's toolbox that's me that's a toolbox memory and that's what it would look like right you would store all this is how you model it in uh MongoDB you store all the information of your JSON schema now you'll begin to understand that MongoDB gives you that flexible data model the document data model is very flexible it can adapt to wherever data wherever model you want your data to take wherever structure and you have all of the retrieval capabilities graph vector text geospatial query in one database conversation memory is a bit obvious right back and forth conversation with uh chat GPT with Claude you can store that in your database as well in MongoDB as conversational memory and this is what that would look like time stamp time stamp and you have a conversation ID and you can see something there called recall recency and associate conversation ID and that's my attempt at implementing some memory signals um but and that's goes into the forgetting mechanism that I'm trying to implement in my very famous library memories um I'm going to go through the next slides a bit quicker because I want to get to the end of this workflow memory is very important you build your agentic system they execute a certain step step one step two step three it fails but one thing you could do is the failure is experience it's learning experience you can store that in your database i see you nodding you're like \"Yeah.\" um you can store that in your database and you can then pull that in in the next execution to inform the LLM to not take this step or explore other paths you can store that in MongoDB as well you can model that because what you have with MongoDB is that memory provider for your agentic system and that's what this is what that looks like when you model it an example of it anyway so we have episodic memory we have long-term memory we have an agent registry you can store the information of your agent as well um and this is how I do it uh you can see the agent has tools persona all the good stuff there's entity memory as well so there's different forms of memory and the memory the memoriz library is very experimental and educational but it it encapsulates some of the memory and implementation and design patterns that I'm thinking of on an everyday basis that we're thinking of in MongoDB so MongoDB you probably get the point now the memory provider for Agent Tech systems there are tools out there that focus on memory management um MEGPT ME Zero Zep they're great tools but after speaking to some of you folks and some of our partners and customers here there is not there is there is not one way to solve memory and you need a memory provider to build your custom solution to make sure the memory management systems that you're able to implement are effective so we really understand the importance of managing data and managing memory and that's why earlier this year we acquired Voyage AI now they create the best no offense open AI embedding models in the market today voyage AI embedded models are we have a text multimodel we have re-rankers and this allows you to really solve the problem or at least reduce AI hall elucination within your rag and aentic systems and what we're doing and what we're focused on the mission for MongoDB is to make the developer more productive by taking away the considerations and all the concerns around managing different data and all the process of chunking in retrieval strategies we we pull that into the database we are redefining the database and that's why in a few months we're going to be pulling in Voyage AI the embedded models and the rerankers into MongoDB Atlas and you will not have to be writing chunking strategies for your um for your data i see a lot of people nodding yeah that's good so MongoDB is a is a household name to be honest with um I watched MongoDB IPO back when back when I was in university i bought the stocks when I was in university um free just free i already had about £100 um I was broke but we are very focused and we take it very seriously making sure that you guys can build the best AI products AI features very quickly in a secure way so MongoDB is built for the change that we are going to experience now tomorrow in the next couple years i want to end with this you know who these two guys are damn okay this is Hob and Wiso they won a Nobel Prize um in the late 90s but they did some research on the visual cortex of cats um they experimented with cats that this probably wouldn't fly now but back in the 50s and 60s things were a bit more relaxed but they found out that the visual cortex of the brains between cats and humans actually worked by learning different hierarchies of representation so edges contours and abstract shapes now people that are in deep learning would know that this is how convol convolutional neural network works and the research that these guy these guys did inspired and informed convolutional neural networks that's face detection object detection it's it all comes from neuroscience so we are architects of intelligence but there is a better architect of intelligence it's nature nature's created our brains it's the most effective form of intelligence and well some humans that I meet but it's the most effective form of intelligence that we have today and we could look inwards to build this agentic system so last week Saturday myself and Tenu is the chief AI scientist at MongoDB also the founder of Voyage AI we sat with this three guys in the middle are neuroscientists kenneth has been exploring human brain and memory for over 20 years and and over here is Charles Parker he's the creator of MEGPT your letter and we are having these conversation and once again we're mirroring how we're bringing neuroscientists and application developers together to solve and push us on the path of AGI so that's my talk done check out memories and you can come talk to me about memory add me on LinkedIn if you want this presentation thank you for your time [Music]"
+}

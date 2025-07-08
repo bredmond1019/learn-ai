@@ -1,13 +1,32 @@
 {
-  "id": "04-advanced-workflows",
-  "title": "Advanced Workflows",
-  "description": "Implement powerful patterns like TDD, plan mode, and memory management to maximize productivity",
+  "metadata": {
+    "id": "advanced-workflows",
+    "pathId": "claude-code-mastery",
+    "title": "Advanced Workflows",
+    "description": "Implement powerful patterns like TDD, plan mode, and memory management to maximize productivity",
+    "duration": "3 hours",
+    "type": "practice",
+    "difficulty": "advanced",
+    "order": 4,
+    "objectives": [
+      "Master Test-Driven Development (TDD) workflows with Claude Code",
+      "Effectively use Plan Mode for complex multi-step projects",
+      "Understand memory management and CLAUDE.md files",
+      "Implement advanced patterns for maximum productivity"
+    ],
+    "tags": ["TDD", "workflows", "productivity", "plan mode", "Claude Code"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-19",
+    "author": "Brandon J. Redmond"
+  },
   "sections": [
     {
       "id": "introduction",
       "title": "Introduction",
+      "type": "content",
+      "order": 1,
       "content": {
-        "type": "lesson",
+        "type": "mdx",
         "source": "04-advanced-workflows.mdx"
       }
     }

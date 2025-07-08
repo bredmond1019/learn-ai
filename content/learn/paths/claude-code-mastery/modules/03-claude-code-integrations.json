@@ -1,13 +1,32 @@
 {
-  "id": "03-claude-code-integrations",
-  "title": "Claude Code Integrations",
-  "description": "Master terminal, IDE, and GitHub integrations to seamlessly incorporate Claude Code into your workflow",
+  "metadata": {
+    "id": "claude-code-integrations",
+    "pathId": "claude-code-mastery",
+    "title": "Claude Code Integrations",
+    "description": "Master terminal, IDE, and GitHub integrations to seamlessly incorporate Claude Code into your workflow",
+    "duration": "2.5 hours",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "order": 3,
+    "objectives": [
+      "Configure and use Claude Code from the terminal effectively",
+      "Set up IDE integrations for VS Code and other editors",
+      "Master GitHub integration for pull requests and code reviews",
+      "Optimize your workflow with context management and aliases"
+    ],
+    "tags": ["integrations", "IDE", "terminal", "GitHub", "Claude Code"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-19",
+    "author": "Brandon J. Redmond"
+  },
   "sections": [
     {
       "id": "introduction",
-      "title": "Introduction", 
+      "title": "Introduction",
+      "type": "content",
+      "order": 1,
       "content": {
-        "type": "lesson",
+        "type": "mdx",
         "source": "03-claude-code-integrations.mdx"
       }
     }

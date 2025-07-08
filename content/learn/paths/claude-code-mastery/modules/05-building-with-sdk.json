@@ -1,13 +1,32 @@
 {
-  "id": "05-building-with-sdk",
-  "title": "Building with Claude Code SDK",
-  "description": "Create custom integrations and Unix utilities using the Claude Code SDK",
+  "metadata": {
+    "id": "building-with-sdk",
+    "pathId": "claude-code-mastery",
+    "title": "Building with Claude Code SDK",
+    "description": "Create custom integrations and Unix utilities using the Claude Code SDK",
+    "duration": "3 hours",
+    "type": "project",
+    "difficulty": "advanced",
+    "order": 5,
+    "objectives": [
+      "Understand the Claude Code SDK architecture and capabilities",
+      "Build custom Unix utilities powered by Claude Code",
+      "Create specialized development tools for your workflow",
+      "Deploy and share Claude Code-powered applications"
+    ],
+    "tags": ["SDK", "development", "Unix", "tooling", "Claude Code"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-19",
+    "author": "Brandon J. Redmond"
+  },
   "sections": [
     {
       "id": "introduction",
       "title": "Introduction",
+      "type": "content",
+      "order": 1,
       "content": {
-        "type": "lesson",
+        "type": "mdx",
         "source": "05-building-with-sdk.mdx"
       }
     }

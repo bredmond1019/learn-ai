@@ -1,13 +1,32 @@
 {
-  "id": "02-claude-code-philosophy",
-  "title": "Understanding Claude Code's Philosophy",
-  "description": "Learn why Claude Code takes an unopinionated approach and how this benefits developers as AI models evolve",
+  "metadata": {
+    "id": "claude-code-philosophy",
+    "pathId": "claude-code-mastery",
+    "title": "Understanding Claude Code's Philosophy",
+    "description": "Learn why Claude Code takes an unopinionated approach and how this benefits developers as AI models evolve",
+    "duration": "2 hours",
+    "type": "theory",
+    "difficulty": "intermediate",
+    "order": 2,
+    "objectives": [
+      "Understand the concept of 'unopinionated' tools and why they matter",
+      "Grasp how exponential model improvements challenge traditional product development",
+      "Learn Claude Code's design principles and their practical implications",
+      "Discover how to leverage unopinionated AI tools for maximum flexibility"
+    ],
+    "tags": ["philosophy", "design", "AI", "Claude Code"],
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-19",
+    "author": "Brandon J. Redmond"
+  },
   "sections": [
     {
       "id": "introduction",
       "title": "Introduction",
+      "type": "content",
+      "order": 1,
       "content": {
-        "type": "lesson",
+        "type": "mdx",
         "source": "02-claude-code-philosophy.mdx"
       }
     }
