@@ -9,6 +9,7 @@ import { Callout } from '@/components/ui/callout'
 import { TabsWrapper } from '@/components/mdx/TabsWrapper'
 import { TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { CodeBlockWrapper } from '@/components/mdx/CodeBlockWrapper'
+import { CodeExample } from '@/components/blog/CodeExample'
 
 interface PageProps {
   params: Promise<{
@@ -64,15 +65,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     CardHeader,
     CardTitle,
     Callout,
-    // CodeExample as a wrapper around pre/code blocks
-    CodeExample: ({ children, title, language, ...props }: any) => (
-      <div className="mb-6">
-        {title && <div className="text-sm text-gray-400 mb-2">{title}</div>}
-        <pre className={`language-${language || 'text'}`} {...props}>
-          <code>{children}</code>
-        </pre>
-      </div>
-    ),
+    CodeExample,
     Tabs: TabsWrapper,
     TabsContent,
     TabsList,
