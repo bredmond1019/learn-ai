@@ -126,7 +126,7 @@ export default async function BlogPage({ params }: Props) {
   const featuredSlugs = ['ai-for-everyday-person', 'ai-for-small-medium-business', 'why-ai-engineers-matter']
   const featuredPosts = featuredSlugs
     .map(slug => posts.find(post => post.slug === slug))
-    .filter(Boolean) // Remove any undefined results if posts don't exist
+    .filter((post): post is NonNullable<typeof post> => post !== undefined) // Type guard to ensure no undefined values
 
   return (
     <div>

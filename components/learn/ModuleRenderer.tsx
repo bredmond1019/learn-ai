@@ -215,7 +215,10 @@ export function ModuleRenderer({ module, locale }: ModuleRendererProps) {
     processedContent = processedContent.replace(
       /<Callout\s+type="([^"]+)"(?:\s+title="([^"]+)")?\s*>([\s\S]*?)<\/Callout>/g,
       (match, type, title, calloutContent) => {
-        const data = { type, content: calloutContent.trim() };
+        const data: { type: string; content: string; title?: string } = { 
+          type, 
+          content: calloutContent.trim() 
+        };
         if (title) data.title = title;
         return `<!-- CALLOUT_PLACEHOLDER:${JSON.stringify(data)} -->`;
       }

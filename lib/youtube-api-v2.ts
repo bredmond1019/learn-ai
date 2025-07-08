@@ -89,8 +89,8 @@ export class YouTubeAPIv2 {
         for (const cue of cues) {
           if (cue.start_ms && cue.end_ms && cue.snippet) {
             const text = cue.snippet.text || '';
-            const start = cue.start_ms / 1000; // Convert to seconds
-            const duration = (cue.end_ms - cue.start_ms) / 1000;
+            const start = Number(cue.start_ms) / 1000; // Convert to seconds
+            const duration = (Number(cue.end_ms) - Number(cue.start_ms)) / 1000;
             
             segments.push({
               text,

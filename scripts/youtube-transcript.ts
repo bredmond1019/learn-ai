@@ -89,7 +89,7 @@ program
 
       // Save to mapping
       spinner.text = 'Saving transcript...';
-      const transcriptMapping = await mapping.add(videoId, transcript, metadata);
+      const transcriptMapping = await mapping.add(videoId, transcript, metadata || undefined);
 
       // Format and save transcript
       const exportOptions: TranscriptExportOptions = {
@@ -162,7 +162,7 @@ program
       const metadata = await api.getVideoMetadata(videoId);
 
       // Check if update needed
-      const needsUpdate = await mapping.needsUpdate(videoId, metadata);
+      const needsUpdate = await mapping.needsUpdate(videoId, metadata || undefined);
       if (!needsUpdate) {
         spinner.info('Transcript is up to date');
         return;
@@ -175,7 +175,7 @@ program
       });
 
       // Update mapping
-      await mapping.add(videoId, transcript, metadata);
+      await mapping.add(videoId, transcript, metadata || undefined);
       await mapping.updateTimestamp(videoId);
 
       // Save updated transcript

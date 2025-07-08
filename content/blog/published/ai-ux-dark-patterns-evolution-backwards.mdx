@@ -7,8 +7,6 @@ tags: ["AI Engineering", "UX Design", "Software Architecture", "AI Ethics", "Pro
 featured: true
 ---
 
-import { Callout } from '@/components/mdx/Callout';
-import { CodeExample } from '@/components/learn/CodeExample';
 
 ## The Sixth Button That Broke My Workflow
 
@@ -48,7 +46,9 @@ Let's examine how major tech companies are breaking fundamental design principle
 
 ### Microsoft Office: The Poster Child of AI Overreach
 
-<CodeExample language="text" title="Microsoft Office AI Integration Count">
+```text
+Microsoft Office AI Integration Count
+
 Word:
 - Ribbon button
 - Floating side button
@@ -66,7 +66,7 @@ Excel:
 - Floating cell button (with lag and fade effects)
 - Ribbon integration
 - Context menu
-</CodeExample>
+```
 
 The Outlook example is particularly egregious. It summarized an automated OneDrive email about a shared file as: "Maya shared a document titled document with you via a link that works for everyone." After 19 seconds of processing. For an email it sent itself.
 
@@ -133,7 +133,9 @@ What makes these good?
 
 ### Design Principles for AI Features
 
-<CodeExample language="typescript" title="AI Integration Decision Framework">
+```typescript
+// AI Integration Decision Framework
+
 interface AIFeatureDecision {
   // Ask these questions before adding any AI feature
   
@@ -169,7 +171,7 @@ function shouldImplementAIFeature(decision: AIFeatureDecision): boolean {
     decision.ethicalConsiderations.respectsUserAutonomy
   );
 }
-</CodeExample>
+```
 
 ## The Path Forward: Reclaiming User-Centered Design
 
