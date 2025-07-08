@@ -56,6 +56,15 @@ export default async function BlogPostPage({ params }: PageProps) {
     CardHeader,
     CardTitle,
     Callout,
+    // CodeExample as a wrapper around pre/code blocks
+    CodeExample: ({ children, title, language, ...props }: any) => (
+      <div className="mb-6">
+        {title && <div className="text-sm text-gray-400 mb-2">{title}</div>}
+        <pre className={`language-${language || 'text'}`} {...props}>
+          <code>{children}</code>
+        </pre>
+      </div>
+    ),
     Tabs: TabsWrapper,
     TabsContent,
     TabsList,

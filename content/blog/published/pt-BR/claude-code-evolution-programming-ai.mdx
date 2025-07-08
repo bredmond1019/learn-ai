@@ -44,34 +44,25 @@ Agora estamos entrando em uma nova fase onde linguagem natural se torna código,
 
 A experiência do usuário da programação passou por mudanças igualmente dramáticas:
 
-<Card variant="secondary">
-<div className="space-y-4">
-  <div>
-    <h4 className="font-semibold">Ed (1969)</h4>
-    <p className="text-sm text-foreground/80">O primeiro editor de texto—sem cursor, sem histórico, construído para máquinas de teletipo</p>
-  </div>
-  <div>
-    <h4 className="font-semibold">Smalltalk-80 (1980)</h4>
-    <p className="text-sm text-foreground/80">Primeira interface gráfica de programação com reload ao vivo (sim, em 1980!)</p>
-  </div>
-  <div>
-    <h4 className="font-semibold">Visual Basic (1991)</h4>
-    <p className="text-sm text-foreground/80">Trouxe programação gráfica para o mainstream</p>
-  </div>
-  <div>
-    <h4 className="font-semibold">Eclipse (2001)</h4>
-    <p className="text-sm text-foreground/80">Introduziu type-ahead inteligente usando análise estática</p>
-  </div>
-  <div>
-    <h4 className="font-semibold">GitHub Copilot (2021)</h4>
-    <p className="text-sm text-foreground/80">Completações single e multi-linha alimentadas por IA</p>
-  </div>
-  <div>
-    <h4 className="font-semibold">Devin & Claude Code (2024)</h4>
-    <p className="text-sm text-foreground/80">Linguagem natural se torna código—escreva intenção, não sintaxe</p>
-  </div>
-</div>
-</Card>
+### A Evolução do Desenvolvimento
+
+**Ed (1969)**  
+O primeiro editor de texto—sem cursor, sem histórico, construído para máquinas de teletipo
+
+**Smalltalk-80 (1980)**  
+Primeira interface gráfica de programação com reload ao vivo (sim, em 1980!)
+
+**Visual Basic (1991)**  
+Trouxe programação gráfica para o mainstream
+
+**Eclipse (2001)**  
+Introduziu type-ahead inteligente usando análise estática
+
+**GitHub Copilot (2021)**  
+Completações single e multi-linha alimentadas por IA
+
+**Devin & Claude Code (2024)**  
+Linguagem natural se torna código—escreva intenção, não sintaxe
 
 ## A Abordagem Sem Opinião do Claude Code
 
@@ -253,27 +244,19 @@ claude "o banco de dados de staging está em staging.db.example.com #remember"
 
 O Claude Code representa uma mudança fundamental em como pensamos sobre ferramentas de programação:
 
-<div className="grid md:grid-cols-2 gap-6 my-8">
-  <Card>
-    <h3 className="font-semibold mb-2">IDEs Tradicionais</h3>
-    <ul className="space-y-2 text-sm">
-      <li>• Fluxos de trabalho opinativos</li>
-      <li>• Ecossistemas de plugins</li>
-      <li>• Focados em features</li>
-      <li>• Centrados na sintaxe</li>
-    </ul>
-  </Card>
-  
-  <Card>
-    <h3 className="font-semibold mb-2">Ferramentas AI-Native</h3>
-    <ul className="space-y-2 text-sm">
-      <li>• Integração flexível</li>
-      <li>• Controle em linguagem natural</li>
-      <li>• Focados na intenção</li>
-      <li>• Conscientes do contexto</li>
-    </ul>
-  </Card>
-</div>
+### IDEs Tradicionais vs Ferramentas AI-Native
+
+**IDEs Tradicionais**
+- Fluxos de trabalho opinativos
+- Ecossistemas de plugins
+- Focados em features
+- Centrados na sintaxe
+
+**Ferramentas AI-Native**
+- Integração flexível
+- Controle em linguagem natural
+- Focados na intenção
+- Conscientes do contexto
 
 ## Princípios Chave para o Sucesso
 
@@ -303,35 +286,32 @@ Use múltiplas sessões Claude para diferentes aspectos do seu trabalho—é com
 
 Pronto para experimentar o Claude Code? Aqui está como começar:
 
-<div className="bg-background-secondary/50 rounded-lg p-6 mt-8">
-  <h3 className="text-lg font-semibold mb-4">Guia de Início Rápido</h3>
-  
-  <div className="space-y-4">
-    <div>
-      <Badge variant="secondary" className="mb-2">Passo 1</Badge>
-      <CodeExample language="bash">
+## Começando
+
+Pronto para experimentar o Claude Code? Aqui está como começar:
+
+### Guia de Início Rápido
+
+**Passo 1: Instalação**
+
+<CodeExample language="bash">
 npm install -g @anthropic/claude-code
-      </CodeExample>
-    </div>
-    
-    <div>
-      <Badge variant="secondary" className="mb-2">Passo 2</Badge>
-      <CodeExample language="bash">
+</CodeExample>
+
+**Passo 2: Primeiro Comando**
+
+<CodeExample language="bash">
 # No diretório do seu projeto
 claude "explique esta base de código"
-      </CodeExample>
-    </div>
-    
-    <div>
-      <Badge variant="secondary" className="mb-2">Passo 3</Badge>
-      <CodeExample language="bash">
+</CodeExample>
+
+**Passo 3: Configurar Memória**
+
+<CodeExample language="bash">
 # Criar um arquivo CLAUDE.md
 echo "# Visão Geral do Projeto" > CLAUDE.md
 claude "analise a base de código e atualize CLAUDE.md com informações chave"
-      </CodeExample>
-    </div>
-  </div>
-</div>
+</CodeExample>
 
 ## Conclusão
 
@@ -345,16 +325,7 @@ Como Boris nos lembra: "O modelo mais geral sempre vence." O Claude Code não es
 
 Este post é baseado na apresentação de Boris sobre Claude Code e a evolução das ferramentas de programação. Assista à palestra completa para insights adicionais e demonstrações ao vivo:
 
-<div className="mt-8 p-6 bg-background-secondary/50 rounded-lg">
-  <p className="text-sm text-foreground/80 mb-4">
-    <strong>"Claude Code: Agentic Coding"</strong> por Boris da Anthropic
-  </p>
-  <a 
-    href="https://www.youtube.com/watch?v=Lue8K2jqfKk" 
-    target="_blank" 
-    rel="noopener noreferrer"
-    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-  >
-    <span>Assistir no YouTube →</span>
-  </a>
-</div>
+<Callout type="info">
+**"Claude Code: Agentic Coding"** por Boris da Anthropic
+
+[Assistir no YouTube →](https://www.youtube.com/watch?v=Lue8K2jqfKk)
