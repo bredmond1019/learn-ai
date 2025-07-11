@@ -1,7 +1,7 @@
 ---
 title: "Claude Hooks: Automate Your AI Development Workflow"
 published: false
-description: "Discover how Claude hooks transform your AI coding assistant into a proactive development partner that automatically runs tests, formats code, and maintains quality standards without constant reminders."
+description: "Transform your AI coding assistant with voice notifications, comprehensive observability, and automatic safety controls. Learn how Claude hooks prevent disasters and give you unprecedented visibility into agent behavior."
 tags: ai, productivity, automation, webdev
 cover_image: 
 canonical_url: https://brandonjamesredmond.com/blog/claude-hooks-automate-your-ai-development-workflow
@@ -50,24 +50,24 @@ When Claude updates my blog posts or learning modules, my content validation scr
 ### 4. Test Coverage
 After significant changes, my test suite runs automatically. I know immediately if something broke, without having to remember to run tests manually.
 
-## The Five Core Hook Patterns
+## The Five Hook Events Available
 
-Through extensive use, I've identified five patterns that cover most development workflows:
+Claude Code offers five powerful hook events:
 
-### 1. The Safety Net Pattern 🛡️
-This is your first line of defense. These hooks run quality checks after code changes, catching issues before they become problems. It's like having a safety net that's always there.
+### 1. **PreToolUse** - Your Safety Guardian
+Fires before any tool runs. This is where you can block dangerous operations like `rm -rf` before they happen.
 
-### 2. The Notification Pattern 📢
-Keep yourself and your team informed. These hooks send alerts when builds complete, tests pass, or when Claude finishes major tasks. Perfect for long-running operations or collaborative projects.
+### 2. **PostToolUse** - The Observer
+Runs after tool execution. Perfect for logging, monitoring, and building observability into your workflows.
 
-### 3. The Environment Setup Pattern 🔧
-Some operations need preparation. These hooks ensure your environment is ready - installing dependencies before tests, setting up database connections before migrations, or loading environment variables before deployments.
+### 3. **Notification** - Interactive Moments
+Triggers when Claude needs your input. Create custom notifications or even voice alerts.
 
-### 4. The Cleanup Pattern 🧹
-Keep your workspace tidy. These hooks delete temporary files, close connections, and archive logs after operations complete. A clean workspace is a productive workspace.
+### 4. **Stop** - Session Complete
+Executes when Claude finishes responding. Ideal for saving complete chat logs or notifications.
 
-### 5. The Validation Pattern ✅
-Ensure everything meets your standards. These hooks validate code style, check security vulnerabilities, verify API contracts, and ensure documentation is up to date.
+### 5. **SubagentStop** - Parallel Processing
+Fires when sub-agents complete their tasks, enabling sophisticated parallel workflows.
 
 ## Getting Started: Your First Hook
 
@@ -97,24 +97,54 @@ This single configuration eliminates the need to manually run your formatter aft
 
 As you become comfortable with hooks, you can build more sophisticated automations:
 
-### Conditional Logic
-Use shell scripting to make smart decisions:
-```bash
-if [[ "$TOOL_FILE_PATH" == *"test"* ]]; then 
-    npm test -- --findRelatedTests "$TOOL_FILE_PATH"
-fi
+### Preventing Disasters 
+Imagine your AI agent decides "the best code is no code" and starts deleting everything:
+
+```json
+{
+  "PreToolUse": [{
+    "matcher": ".*",
+    "hooks": [{
+      "type": "command",
+      "command": "python scripts/block_dangerous_commands.py"
+    }]
+  }]
+}
 ```
 
-### Multi-Step Pipelines
-Chain multiple commands for comprehensive checks:
-```bash
-npm run lint && npm run test && npm run build
+### Building Observability
+As we push into the age of agents, observability is everything:
+
+```python
+# Log every tool execution
+log_entry = {
+    "timestamp": datetime.now().isoformat(),
+    "tool": os.environ.get("TOOL_NAME"),
+    "file_path": os.environ.get("TOOL_FILE_PATH")
+}
 ```
 
-### External Integrations
-Connect with your existing tools and services:
+### Voice Notifications
+Give Claude a voice for long-running tasks:
+
 ```bash
-curl -X POST https://api.slack.com/webhook -d "Build completed successfully"
+# In your Stop hook
+echo "All set and ready for your next step" | say
+```
+
+### Capturing Chat Context
+Save complete conversations for analysis:
+
+```json
+{
+  "Stop": [{
+    "matcher": ".*",
+    "hooks": [{
+      "type": "command", 
+      "command": "python save_chat_log.py"
+    }]
+  }]
+}
 ```
 
 ## The Impact on Developer Experience

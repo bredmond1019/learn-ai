@@ -1,0 +1,300 @@
+{
+  "metadata": {
+    "id": "reliable-ai-agent-architectures",
+    "pathId": "agentic-workflows",
+    "title": "Building Reliable AI Agent Architectures",
+    "description": "Master the principles of building production-ready AI agents that work reliably. Learn why multi-agent systems often fail and discover the architectural patterns that actually work in production.",
+    "duration": "120 minutes",
+    "difficulty": "intermediate",
+    "order": 6,
+    "type": "concept",
+    "objectives": [
+      "Understand why parallel multi-agent systems fail in production",
+      "Master the two core principles: Share Context and Actions Carry Implicit Decisions",
+      "Implement reliable linear agent architectures",
+      "Design context engineering solutions for complex tasks",
+      "Evaluate when to use simple vs advanced architectures"
+    ],
+    "prerequisites": [
+      "Basic understanding of AI agents",
+      "Python programming experience",
+      "Familiarity with async programming concepts"
+    ],
+    "tags": [
+      "agent-architecture",
+      "context-engineering",
+      "linear-agents",
+      "production-systems",
+      "reliability",
+      "devon",
+      "claude-code"
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-10",
+    "author": "Brandon J. Redmond",
+    "estimatedCompletionTime": 120
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "The Multi-Agent Trap",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-reliable-ai-agent-architectures.mdx#introduction",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "principles",
+      "title": "Two Principles That Change Everything",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "25 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-reliable-ai-agent-architectures.mdx#principles",
+        "codeExamples": [
+          {
+            "id": "unreliable-parallel-agents",
+            "title": "Unreliable Parallel Agent System",
+            "description": "Example of what NOT to do - parallel agents without context sharing",
+            "language": "python",
+            "code": "# Code populated from MDX",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "architectures",
+      "title": "Agent Architectures: Bad vs Good",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "35 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-reliable-ai-agent-architectures.mdx#architectures",
+        "codeExamples": [
+          {
+            "id": "linear-agent-simple",
+            "title": "Simple Linear Agent Architecture",
+            "description": "Reliable sequential execution with full context propagation",
+            "language": "python",
+            "code": "# Code populated from MDX",
+            "runnable": true
+          },
+          {
+            "id": "linear-agent-compression",
+            "title": "Advanced Linear Agent with Context Compression",
+            "description": "For long-running tasks that need context management",
+            "language": "python",
+            "code": "# Code populated from MDX",
+            "runnable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "context-engineering",
+      "title": "Context Engineering: The Real Game Changer",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-reliable-ai-agent-architectures.mdx#context-engineering",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "case-studies",
+      "title": "Learning from Devon and Claude Code",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "06-reliable-ai-agent-architectures.mdx#case-studies",
+        "codeExamples": []
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Agent Architecture Reliability Quiz",
+      "type": "quiz",
+      "order": 6,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "quiz",
+        "title": "Test Your Understanding",
+        "description": "Validate your knowledge of reliable agent architectures",
+        "questions": [
+          {
+            "id": "parallel-vs-linear",
+            "type": "multiple-choice",
+            "question": "Why do parallel multi-agent systems often fail in production?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "They are too slow to execute"
+              },
+              {
+                "id": "b",
+                "text": "Agents make conflicting decisions due to lack of shared context"
+              },
+              {
+                "id": "c",
+                "text": "They require too much memory"
+              },
+              {
+                "id": "d",
+                "text": "They are too complex to debug"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "Parallel agents working without seeing each other's decisions make conflicting assumptions, leading to incompatible outputs and system failures."
+          },
+          {
+            "id": "context-principle",
+            "type": "multiple-choice",
+            "question": "What does the 'Share Context' principle mean for agent architectures?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Agents should share memory addresses"
+              },
+              {
+                "id": "b",
+                "text": "Every agent needs the full context of all previous decisions and actions"
+              },
+              {
+                "id": "c",
+                "text": "Agents should use the same programming language"
+              },
+              {
+                "id": "d",
+                "text": "Context should be summarized to save space"
+              }
+            ],
+            "correctAnswer": "b",
+            "explanation": "The Share Context principle requires that every agent has complete visibility into all previous work, decisions, and reasoning - not summaries or filtered views."
+          },
+          {
+            "id": "when-compression",
+            "type": "multiple-choice",
+            "question": "When should you add context compression to your agent architecture?",
+            "points": 10,
+            "options": [
+              {
+                "id": "a",
+                "text": "Always, to save memory"
+              },
+              {
+                "id": "b",
+                "text": "Never, it's too complex"
+              },
+              {
+                "id": "c",
+                "text": "Only for long-running tasks where context window limits become an issue"
+              },
+              {
+                "id": "d",
+                "text": "Only for multi-agent systems"
+              }
+            ],
+            "correctAnswer": "c",
+            "explanation": "Context compression adds complexity and should only be used when necessary for long-running tasks that would otherwise exceed context window limits."
+          }
+        ],
+        "passingScore": 80,
+        "allowRetries": true,
+        "showCorrectAnswers": true,
+        "randomizeQuestions": false
+      }
+    },
+    {
+      "id": "exercise",
+      "title": "Build Your Own Linear Agent System",
+      "type": "exercise",
+      "order": 7,
+      "estimatedDuration": "45 minutes",
+      "content": {
+        "type": "exercise",
+        "title": "Implementing a Reliable Agent Architecture",
+        "description": "Put theory into practice by building a linear agent system for a real-world task",
+        "exerciseType": "coding",
+        "difficulty": "medium",
+        "instructions": [
+          "Design a linear agent architecture for a content creation task",
+          "Implement proper context propagation between agents",
+          "Compare it with a parallel implementation to see the difference",
+          "Add basic context compression for a bonus challenge"
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "content": "Start with a simple task decomposition agent that creates a plan",
+            "revealDelay": 300
+          },
+          {
+            "level": 2,
+            "content": "Make sure each agent appends its work to a shared context dictionary",
+            "revealDelay": 600
+          },
+          {
+            "level": 3,
+            "content": "For context compression, focus on extracting key decisions and outcomes",
+            "revealDelay": 900
+          }
+        ],
+        "starterCode": "class LinearAgentSystem:\n    def __init__(self):\n        self.context = {\"history\": []}\n    \n    def execute_task(self, task: str):\n        # TODO: Implement linear agent execution\n        pass",
+        "solution": "# Solution provided in the MDX file"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "cognition-article",
+      "title": "Don't Build Multi-Agents - Cognition AI",
+      "type": "article",
+      "url": "https://www.cognition.ai/blog/dont-build-multi-agents",
+      "description": "The original article from Cognition AI explaining why multi-agent systems fail",
+      "required": true
+    },
+    {
+      "id": "linear-agents-repo",
+      "title": "Linear Agents GitHub Repository",
+      "type": "repository",
+      "url": "https://github.com/linear-agents/examples",
+      "description": "Production-ready agent architectures with MIT license",
+      "required": false
+    },
+    {
+      "id": "anthropic-agents",
+      "title": "Building Effective Agents - Anthropic",
+      "type": "guide",
+      "url": "https://docs.anthropic.com/claude/docs/building-effective-agents",
+      "description": "Anthropic's guide to building simple, effective agents",
+      "required": true
+    },
+    {
+      "id": "openai-agents",
+      "title": "OpenAI Agent Best Practices",
+      "type": "documentation",
+      "url": "https://platform.openai.com/docs/guides/agents",
+      "description": "OpenAI's recommendations for agent development",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "principles", "architectures", "quiz"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}

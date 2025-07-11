@@ -1,0 +1,502 @@
+---
+title: "Dominando Claude Hooks"
+description: "Transforme o Claude Code em um parceiro de desenvolvimento proativo"
+duration: "2 horas"
+difficulty: "intermediate"
+objectives:
+  - "Entender os cinco eventos de hook do Claude e quando usar cada um"
+  - "Implementar controles de segurança para prevenir operações perigosas"
+  - "Construir observabilidade abrangente com logging e monitoramento"
+  - "Criar notificações por voz para tarefas de longa duração"
+  - "Desenvolver padrões avançados de hooks para agentes paralelos e fluxos de trabalho complexos"
+tags:
+  - "hooks"
+  - "automação"
+  - "observabilidade"
+  - "Claude Code"
+lastUpdated: "2025-01-11"
+author: "Brandon J. Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Quiz } from '@/components/claude-sdk/Quiz'
+import { Diagram } from '@/components/claude-sdk/Diagram'
+
+# Dominando Claude Hooks
+
+## Introdução {#introduction}
+
+Imagine isso: São 6 da manhã, você está no fluxo com o Claude Code, e de repente seu assistente de IA decide que "o melhor código é nenhum código" e começa a deletar toda sua base de código com comandos `rm -rf`. Soa aterrorizante? Esse cenário exato é o que os hooks do Claude foram projetados para prevenir.
+
+Os hooks do Claude transformam seu assistente de codificação IA de uma ferramenta reativa em um parceiro de desenvolvimento proativo que:
+- Executa automaticamente testes e formatadores
+- Bloqueia operações perigosas antes que sejam executadas
+- Fornece notificações por voz para tarefas de longa duração
+- Gera logs abrangentes para depuração
+- Coordena fluxos de trabalho de agentes paralelos
+
+<Callout type="info">
+  **Insight Chave**: Como IndyDevDan coloca: "À medida que avançamos para a era dos agentes, precisamos de observabilidade para escalar nosso impacto." Os hooks fornecem a observabilidade e controle necessários para engenharia verdadeiramente agêntica.
+</Callout>
+
+### Por Que Hooks Importam
+
+Assistentes de IA tradicionais escrevem código, mas então deixam você lidar com toda a manutenção:
+- Executar linters e formatadores
+- Executar suítes de teste
+- Verificar erros de tipo
+- Monitorar o que a IA realmente fez
+- Prevenir operações perigosas
+
+Os hooks automatizam tudo isso e mais, deixando você focar em resolver problemas em vez de cuidar da sua IA.
+
+## Entendendo Eventos de Hook {#hook-events}
+
+O Claude Code fornece cinco eventos de hook poderosos que disparam em pontos específicos no ciclo de vida da IA:
+
+### 1. PreToolUse - Seu Guardião de Segurança
+
+Este hook dispara **antes** de qualquer ferramenta ser executada, dando-lhe o poder de inspecionar e potencialmente bloquear operações.
+
+<CodeExample
+  title="Hook PreToolUse Básico"
+  language="json"
+  code={`{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": ".*",
+      "hooks": [{
+        "type": "command",
+        "command": "python scripts/check_safety.py"
+      }]
+    }]
+  }
+}`}
+/>
+
+**Casos de Uso Comuns:**
+- Bloquear comandos perigosos (`rm -rf`, `sudo`, etc.)
+- Requerer aprovação para operações sensíveis
+- Validar entradas antes da execução
+- Configurar pré-requisitos do ambiente
+
+### 2. PostToolUse - O Observador
+
+Dispara **após** uma ferramenta ser concluída, perfeito para logging e monitoramento.
+
+<CodeExample
+  title="Logging com PostToolUse"
+  language="json"
+  code={`{
+  "PostToolUse": [{
+    "matcher": "Edit|Write",
+    "hooks": [{
+      "type": "command",
+      "command": "uv run scripts/log_changes.py"
+    }]
+  }]
+}`}
+/>
+
+**Casos de Uso Comuns:**
+- Registrar todas as modificações de arquivo
+- Rastrear tempos de execução de ferramentas
+- Gerar trilhas de auditoria
+- Acionar ações de acompanhamento
+
+### 3. Notification - Momentos Interativos
+
+Dispara quando Claude precisa de sua entrada ou quer notificá-lo de algo importante.
+
+<CodeExample
+  title="Hook de Notificação por Voz"
+  language="json"
+  code={`{
+  "Notification": [{
+    "matcher": ".*",
+    "hooks": [{
+      "type": "command",
+      "command": "echo 'Claude precisa da sua atenção' | say"
+    }]
+  }]
+}`}
+/>
+
+### 4. Stop - Sessão Completa
+
+Executa quando Claude termina de responder, ideal para limpeza e ações finais.
+
+<CodeExample
+  title="Salvar Log do Chat ao Parar"
+  language="json"
+  code={`{
+  "Stop": [{
+    "matcher": ".*",
+    "hooks": [{
+      "type": "command",
+      "command": "python scripts/save_chat.py --format json"
+    }]
+  }]
+}`}
+/>
+
+### 5. SubagentStop - Processamento Paralelo
+
+Dispara quando sub-agentes completam suas tarefas em fluxos de trabalho paralelos.
+
+<Callout type="success">
+  **Dica Pro**: Use hooks SubagentStop para obter notificações individuais conforme tarefas paralelas são concluídas, perfeito para operações de longa duração onde você quer atualizações de progresso.
+</Callout>
+
+## Implementando Controles de Segurança {#safety-controls}
+
+Um dos usos mais críticos dos hooks é prevenir desastres antes que aconteçam. Vamos construir um sistema de segurança abrangente.
+
+### Bloqueio Básico de Comandos
+
+Comece com um script Python simples que verifica comandos perigosos:
+
+<CodeExample
+  title="scripts/safety_check.py"
+  language="python"
+  code={`#!/usr/bin/env python3
+import os
+import sys
+import json
+
+COMANDOS_PERIGOSOS = [
+    'rm -rf',
+    'sudo rm',
+    'format',
+    'dd if=',
+    ':(){:|:&};:',  # Fork bomb
+]
+
+def verificar_seguranca_comando():
+    nome_ferramenta = os.environ.get('TOOL_NAME', '')
+    comando = os.environ.get('TOOL_COMMAND', '')
+    
+    if nome_ferramenta != 'Bash':
+        return True
+    
+    for perigo in COMANDOS_PERIGOSOS:
+        if perigo in comando:
+            print(f"BLOQUEADO: Comando perigoso detectado: {perigo}")
+            sys.exit(1)
+    
+    return True
+
+if __name__ == "__main__":
+    verificar_seguranca_comando()`}
+/>
+
+### Segurança Avançada com Listas de Permissão
+
+Para ambientes de produção, use uma abordagem de lista de permissão:
+
+<CodeExample
+  title="Configuração Avançada de Segurança"
+  language="python"
+  code={`PADROES_PERMITIDOS = {
+    'npm': ['install', 'run', 'test', 'build'],
+    'git': ['status', 'diff', 'log', 'add', 'commit'],
+    'python': ['*.py', '-m pytest'],
+    'cargo': ['build', 'test', 'run', 'fmt'],
+}
+
+def validar_contra_lista_permissao(comando):
+    partes = comando.split()
+    if not partes:
+        return False
+    
+    cmd_base = partes[0]
+    if cmd_base not in PADROES_PERMITIDOS:
+        return precisa_aprovacao(comando)
+    
+    # Verificar se comando corresponde aos padrões permitidos
+    permitidos = PADROES_PERMITIDOS[cmd_base]
+    return any(padrao_corresponde(comando, padrao) 
+               for padrao in permitidos)`}
+/>
+
+## Construindo Observabilidade {#observability}
+
+Observabilidade é crucial para entender e melhorar o comportamento do seu agente. Vamos construir um sistema de logging abrangente.
+
+### Logging Estruturado
+
+Crie logs detalhados e estruturados que capturam tudo que seu agente faz:
+
+<CodeExample
+  title="Sistema de Logging Abrangente"
+  language="python"
+  code={`import json
+import time
+from datetime import datetime
+from pathlib import Path
+
+class HookLogger:
+    def __init__(self, log_dir="logs"):
+        self.log_dir = Path(log_dir)
+        self.log_dir.mkdir(exist_ok=True)
+        
+    def log_uso_ferramenta(self):
+        entrada = {
+            "timestamp": datetime.now().isoformat(),
+            "evento": "uso_ferramenta",
+            "ferramenta": os.environ.get("TOOL_NAME"),
+            "caminho_arquivo": os.environ.get("TOOL_FILE_PATH"),
+            "padrao": os.environ.get("TOOL_PATTERN"),
+            "comando": os.environ.get("TOOL_COMMAND"),
+            "duracao_ms": None,
+        }
+        
+        arquivo_log = self.log_dir / "post-tool-use.json"
+        self._adicionar_log(arquivo_log, entrada)
+    
+    def log_chat_completo(self):
+        # Capturar conversa inteira
+        dados_chat = self._obter_contexto_chat()
+        
+        arquivo_log = self.log_dir / "chat.json"
+        with open(arquivo_log, 'w') as f:
+            json.dump(dados_chat, f, indent=2)`}
+/>
+
+### Analisando Comportamento do Agente
+
+Use os logs para entender padrões e otimizar fluxos de trabalho:
+
+<CodeExample
+  title="Script de Análise de Log"
+  language="python"
+  code={`def analisar_uso_ferramenta(arquivo_log):
+    with open(arquivo_log) as f:
+        logs = [json.loads(linha) for linha in f]
+    
+    # Encontrar ferramentas mais usadas
+    contagem_ferramentas = {}
+    for entrada in logs:
+        ferramenta = entrada.get('ferramenta', 'desconhecida')
+        contagem_ferramentas[ferramenta] = contagem_ferramentas.get(ferramenta, 0) + 1
+    
+    # Calcular tempos médios de execução
+    # Identificar padrões de erro
+    # Rastrear frequência de modificação de arquivos
+    
+    return {
+        'operacoes_totais': len(logs),
+        'uso_ferramentas': contagem_ferramentas,
+        'arquivos_modificados': len(set(e['caminho_arquivo'] for e in logs if e.get('caminho_arquivo')))
+    }`}
+/>
+
+## Padrões Avançados de Hook {#advanced-patterns}
+
+### Desenvolvimento Habilitado por Voz
+
+Transforme sua experiência de desenvolvimento com feedback de áudio:
+
+<CodeExample
+  title="Integração Completa de Voz"
+  language="python"
+  code={`# scripts/assistente_voz.py
+import pyttsx3
+import os
+
+class AssistenteVoz:
+    def __init__(self):
+        self.engine = pyttsx3.init()
+        self.engine.setProperty('rate', 180)
+        
+    def notificar_conclusao(self):
+        tipo_tarefa = os.environ.get('TASK_TYPE', 'Tarefa')
+        self.falar(f"{tipo_tarefa} concluída. Pronto para próximo passo.")
+    
+    def alertar_erro(self, msg_erro):
+        self.falar(f"Erro detectado: {msg_erro}")
+    
+    def atualizar_progresso(self, atual, total):
+        self.falar(f"Progresso: {atual} de {total} concluído")`}
+/>
+
+### Coordenação de Agentes Paralelos
+
+Gerencie múltiplos agentes trabalhando simultaneamente:
+
+<CodeExample
+  title="Monitoramento de Agentes Paralelos"
+  language="json"
+  code={`{
+  "SubagentStop": [{
+    "matcher": ".*",
+    "hooks": [
+      {
+        "type": "command",
+        "command": "python scripts/rastrear_agente.py --notificar"
+      },
+      {
+        "type": "command", 
+        "command": "python scripts/atualizar_dashboard.py"
+      }
+    ]
+  }]
+}`}
+/>
+
+### Integração com Ferramentas Externas
+
+Conecte Claude ao seu ecossistema de desenvolvimento existente:
+
+<CodeExample
+  title="Integração com Slack"
+  language="python"
+  code={`import requests
+
+def notificar_slack(mensagem, canal="#dev-notificacoes"):
+    webhook_url = os.environ.get('SLACK_WEBHOOK_URL')
+    
+    payload = {
+        "channel": canal,
+        "text": mensagem,
+        "username": "Claude Code",
+        "icon_emoji": ":robot_face:"
+    }
+    
+    requests.post(webhook_url, json=payload)`}
+/>
+
+<Callout type="warning">
+  **Nota de Segurança**: Nunca codifique URLs de webhook ou chaves de API diretamente. Sempre use variáveis de ambiente e mantenha dados sensíveis fora de seus scripts de hook.
+</Callout>
+
+## Exercício Prático {#practice-exercise}
+
+Vamos juntar tudo construindo uma configuração completa de hook para um ambiente de produção.
+
+### Exercício: Construa Sua Rede de Segurança
+
+Crie uma configuração abrangente de hook que:
+
+1. **Previna desastres** com verificações de segurança PreToolUse
+2. **Registre tudo** com monitoramento PostToolUse
+3. **Notifique ao concluir** com alertas de voz
+4. **Salve contexto do chat** para análise
+5. **Gerencie agentes paralelos** graciosamente
+
+<CodeExample
+  title="Configuração Completa de Hook"
+  language="json"
+  code={`{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": ".*",
+      "hooks": [{
+        "type": "command",
+        "command": "uv run scripts/guardiao_seguranca.py"
+      }]
+    }],
+    "PostToolUse": [{
+      "matcher": ".*",
+      "hooks": [{
+        "type": "command",
+        "command": "uv run scripts/logger.py --evento post-tool"
+      }]
+    }],
+    "Notification": [{
+      "matcher": ".*", 
+      "hooks": [{
+        "type": "command",
+        "command": "uv run scripts/voz.py --notificar"
+      }]
+    }],
+    "Stop": [{
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "uv run scripts/logger.py --salvar-chat"
+        },
+        {
+          "type": "command",
+          "command": "echo 'Sessão completa' | say"
+        }
+      ]
+    }],
+    "SubagentStop": [{
+      "matcher": ".*",
+      "hooks": [{
+        "type": "command",
+        "command": "uv run scripts/rastreador_agente.py"
+      }]
+    }]
+  }
+}`}
+/>
+
+### Tarefas Desafio
+
+1. **Adicione Matchers Personalizados**: Em vez de `".*"`, crie matchers específicos para diferentes tipos de arquivo
+2. **Construa um Dashboard**: Crie um dashboard em tempo real que visualize a atividade do seu agente
+3. **Implemente Rollback**: Adicione um hook que pode reverter automaticamente mudanças se testes falharem
+4. **Crie Notificações de Equipe**: Construa hooks que notifiquem seu canal de equipe quando marcos importantes forem alcançados
+
+## Resumo
+
+Os hooks do Claude representam uma mudança fundamental em como trabalhamos com assistentes de codificação IA. Ao implementar hooks adequados, você ganha:
+
+- **Segurança**: Previna desastres antes que aconteçam
+- **Observabilidade**: Entenda exatamente o que seu agente está fazendo
+- **Automação**: Elimine tarefas manuais repetitivas
+- **Consciência**: Mantenha-se informado com notificações visuais e de voz
+- **Controle**: Controle refinado sobre o comportamento do agente
+
+Lembre-se: O objetivo não é restringir seu assistente de IA, mas aprimorá-lo com o contexto e as proteções que o tornam um parceiro de desenvolvimento verdadeiramente eficaz.
+
+<Quiz>
+  <Question
+    question="Qual evento de hook você deve usar para prevenir comandos perigosos de serem executados?"
+    options={[
+      "PostToolUse",
+      "PreToolUse",
+      "Notification",
+      "Stop"
+    ]}
+    correct={1}
+    explanation="PreToolUse dispara antes de qualquer ferramenta ser executada, dando-lhe a oportunidade de inspecionar e bloquear operações perigosas antes que sejam executadas."
+  />
+  <Question
+    question="Qual é o principal benefício de usar hooks PostToolUse?"
+    options={[
+      "Bloquear comandos perigosos",
+      "Obter entrada do usuário",
+      "Logging e observabilidade",
+      "Limpar recursos"
+    ]}
+    correct={2}
+    explanation="Hooks PostToolUse são perfeitos para registrar execuções de ferramentas, construir observabilidade e rastrear o que seu agente fez."
+  />
+  <Question
+    question="Ao trabalhar com sub-agentes paralelos, qual hook ajuda você a rastrear conclusões individuais?"
+    options={[
+      "Stop",
+      "SubagentStop",
+      "Notification",
+      "PreToolUse"
+    ]}
+    correct={1}
+    explanation="SubagentStop dispara quando sub-agentes individuais completam suas tarefas, permitindo que você rastreie o progresso em fluxos de trabalho paralelos."
+  />
+</Quiz>
+
+## Próximos Passos
+
+Agora que você entende os hooks do Claude, considere:
+
+1. **Comece Simples**: Implemente um hook básico e expanda gradualmente
+2. **Compartilhe Seus Hooks**: Junte-se à comunidade Claude para compartilhar configurações
+3. **Construa Ferramentas**: Crie scripts de hook reutilizáveis para padrões comuns
+4. **Meça o Impacto**: Use seus logs para quantificar melhorias de produtividade
+
+O futuro do desenvolvimento assistido por IA está aqui, e com hooks, você está no controle total.

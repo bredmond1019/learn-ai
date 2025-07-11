@@ -1,11 +1,11 @@
 ---
 title: "Claude Hooks: Automate Your AI Development Workflow"
 date: "2025-01-11"
-excerpt: "Discover how Claude hooks transform your AI coding assistant into a proactive development partner that automatically runs tests, formats code, and maintains quality standards without constant reminders."
+excerpt: "Discover how Claude hooks transform your AI coding assistant into a proactive development partner with voice notifications, comprehensive observability, and automatic safety controls that prevent disasters before they happen."
 author: "Brandon J. Redmond"
-tags: ["AI Development", "Claude Code", "Developer Tools", "Automation", "Productivity"]
+tags: ["AI Development", "Claude Code", "Developer Tools", "Automation", "Productivity", "Observability"]
 featured: true
-readTime: "8 min"
+readTime: "10 min"
 ---
 
 As developers, we've all been there. You're in the flow with Claude Code, your AI assistant is writing perfect functions, but then you realize you need to manually run the linter, check for type errors, run tests, and format the code. It's like having a brilliant assistant who needs constant reminders about the little things.
@@ -35,6 +35,8 @@ For example:
 - When Claude modifies a React component → Automatically format with Prettier
 - When Claude completes a task → Send a notification to your team
 
+But here's where it gets really interesting. As IndyDevDan discovered, hooks can do much more than just run tests and formatters. Imagine your AI assistant having a voice that tells you when tasks complete, or automatically blocking dangerous commands before they execute. That's the power we're talking about.
+
 ## Real-World Example: My Portfolio Project
 
 Let me share how hooks transformed my development workflow on my Next.js portfolio site. Before hooks, I was constantly context-switching between coding and maintenance tasks. After setting up hooks, here's what happens automatically:
@@ -50,6 +52,37 @@ When Claude updates my blog posts or learning modules, my content validation scr
 
 ### 4. Test Coverage
 After significant changes, my test suite runs automatically. I know immediately if something broke, without having to remember to run tests manually.
+
+## The Five Hook Events You Need to Know
+
+At the time of writing, Claude Code offers five powerful hook events:
+
+### 1. **PreToolUse** - Your Safety Guardian
+Fires before any tool runs, giving you the power to block dangerous operations. This is your first line of defense against accidental disasters.
+
+```json
+{
+  "PreToolUse": [{
+    "matcher": ".*",
+    "hooks": [{
+      "type": "command",
+      "command": "python check_command_safety.py"
+    }]
+  }]
+}
+```
+
+### 2. **PostToolUse** - The Observer
+Runs after tool execution, perfect for logging, monitoring, and building observability into your agent workflows.
+
+### 3. **Notification** - Interactive Moments
+Triggers when Claude needs your input, allowing you to create custom notifications or even voice alerts.
+
+### 4. **Stop** - Session Complete
+Executes when Claude finishes responding, ideal for dumping complete chat logs or sending completion notifications.
+
+### 5. **SubagentStop** - Parallel Processing
+Fires when sub-agents complete their tasks, enabling sophisticated parallel agent workflows.
 
 ## The Five Core Hook Patterns
 
@@ -98,25 +131,102 @@ This single configuration eliminates the need to manually run your formatter aft
 
 As you become comfortable with hooks, you can build more sophisticated automations:
 
-### Conditional Logic
-Use shell scripting to make smart decisions:
-```bash
-if [[ "$TOOL_FILE_PATH" == *"test"* ]]; then 
-    npm test -- --findRelatedTests "$TOOL_FILE_PATH"
-fi
+### Preventing Disasters with PreToolUse
+Remember that scenario where your AI agent decides "the best code is no code" and starts deleting everything? Here's how to prevent it:
+
+```json
+{
+  "PreToolUse": [{
+    "matcher": ".*",
+    "hooks": [{
+      "type": "command",
+      "command": "uv run scripts/safety_check.py --block-rm-rf"
+    }]
+  }]
+}
 ```
 
-### Multi-Step Pipelines
-Chain multiple commands for comprehensive checks:
-```bash
-npm run lint && npm run test && npm run build
+### Building Observability with JSON Logging
+One of the most powerful patterns is using PostToolUse to generate detailed logs:
+
+```python
+# scripts/log_tool_use.py
+import json
+import sys
+from datetime import datetime
+
+log_entry = {
+    "timestamp": datetime.now().isoformat(),
+    "tool": os.environ.get("TOOL_NAME"),
+    "file_path": os.environ.get("TOOL_FILE_PATH"),
+    "pattern": os.environ.get("TOOL_PATTERN"),
+    "command": os.environ.get("TOOL_COMMAND")
+}
+
+with open("logs/post-tool-use.json", "a") as f:
+    json.dump(log_entry, f)
+    f.write("\n")
 ```
 
-### External Integrations
-Connect with your existing tools and services:
-```bash
-curl -X POST https://api.slack.com/webhook -d "Build completed successfully"
+### Giving Claude a Voice
+Transform your development experience with audio notifications:
+
+```python
+# scripts/voice_notify.py
+import pyttsx3
+
+engine = pyttsx3.init()
+engine.say("All set and ready for your next step")
+engine.runAndWait()
 ```
+
+### Capturing Complete Chat Context
+The Stop hook is perfect for capturing entire conversations:
+
+```json
+{
+  "Stop": [{
+    "matcher": ".*",
+    "hooks": [{
+      "type": "command",
+      "command": "uv run scripts/save_chat.py --output logs/chat.json"
+    }]
+  }]
+}
+```
+
+### Parallel Agent Coordination
+When running multiple sub-agents, get notified as each completes:
+
+```json
+{
+  "SubagentStop": [{
+    "matcher": ".*",
+    "hooks": [{
+      "type": "command",
+      "command": "echo 'Sub-agent complete' | say"
+    }]
+  }]
+}
+```
+
+## The Observability Revolution
+
+As IndyDevDan puts it: "As we push into the age of agents, we need observability to scale our impact." Hooks provide unprecedented visibility into what your AI agent is doing:
+
+### Comprehensive Logging Structure
+With proper hooks, you can generate detailed logs that capture:
+- Every tool execution with timestamps
+- File paths and patterns being searched
+- Commands being run
+- Complete chat transcripts
+- Sub-agent task completion
+
+This observability is crucial for:
+- Debugging agent behavior
+- Optimizing workflows
+- Building trust in autonomous systems
+- Creating audit trails for compliance
 
 ## The Impact on Developer Experience
 
@@ -136,6 +246,9 @@ My code quality is more consistent because formatting and linting happen automat
 
 ### 5. **Learning Acceleration**
 Immediate feedback from tests and type checking helps me catch and learn from mistakes faster.
+
+### 6. **Enhanced Awareness**
+With voice notifications and comprehensive logging, I always know what my agent is doing, even when running long async jobs.
 
 ## Security and Performance Considerations
 

@@ -1,0 +1,3332 @@
+{
+  "videoId": "YwUD3l7--V8",
+  "language": "en",
+  "segments": [
+    {
+      "text": "do not build multi- aent systems and",
+      "start": 0.24,
+      "duration": 2.56
+    },
+    {
+      "text": "here's why so the multi- aent team is",
+      "start": 2.8,
+      "duration": 2.24
+    },
+    {
+      "text": "actually a trap openai and microsoft",
+      "start": 5.04,
+      "duration": 2.319
+    },
+    {
+      "text": "want you to use their frameworks like",
+      "start": 7.359,
+      "duration": 1.521
+    },
+    {
+      "text": "openai swarm or microsoft autogen to",
+      "start": 8.88,
+      "duration": 2.32
+    },
+    {
+      "text": "build teams of agents however cognition",
+      "start": 11.2,
+      "duration": 3.04
+    },
+    {
+      "text": "ai just released an article that",
+      "start": 14.24,
+      "duration": 1.76
+    },
+    {
+      "text": "explains why building multi- aent",
+      "start": 16,
+      "duration": 2.4
+    },
+    {
+      "text": "systems is a trap and why you shouldn't",
+      "start": 18.4,
+      "duration": 2.4
+    },
+    {
+      "text": "do it in this video i'll reveal how",
+      "start": 20.8,
+      "duration": 2.16
+    },
+    {
+      "text": "agents like devon are structured behind",
+      "start": 22.96,
+      "duration": 2
+    },
+    {
+      "text": "the scenes plus what actually is the",
+      "start": 24.96,
+      "duration": 2.319
+    },
+    {
+      "text": "best and the most reliable way to build",
+      "start": 27.279,
+      "duration": 2.32
+    },
+    {
+      "text": "ai agents in 2025 so watch until the end",
+      "start": 29.599,
+      "duration": 2.959
+    },
+    {
+      "text": "now here's the article from cognition",
+      "start": 32.559,
+      "duration": 1.68
+    },
+    {
+      "text": "which i've sent to all of my friends who",
+      "start": 34.239,
+      "duration": 1.681
+    },
+    {
+      "text": "are building ai agents called don't",
+      "start": 35.92,
+      "duration": 1.92
+    },
+    {
+      "text": "build multi- aents and basically the",
+      "start": 37.84,
+      "duration": 1.76
+    },
+    {
+      "text": "article was written because the",
+      "start": 39.6,
+      "duration": 1.36
+    },
+    {
+      "text": "frameworks for llm agents have been",
+      "start": 40.96,
+      "duration": 2.56
+    },
+    {
+      "text": "surprisingly disappointing a year ago",
+      "start": 43.52,
+      "duration": 1.68
+    },
+    {
+      "text": "we've all seen the hype around crew aai",
+      "start": 45.2,
+      "duration": 2.32
+    },
+    {
+      "text": "openai swarm autogen all the other",
+      "start": 47.52,
+      "duration": 2.4
+    },
+    {
+      "text": "frameworks but how many of you are",
+      "start": 49.92,
+      "duration": 1.92
+    },
+    {
+      "text": "actually using software that's using",
+      "start": 51.84,
+      "duration": 1.44
+    },
+    {
+      "text": "these behind the scenes almost nobody",
+      "start": 53.28,
+      "duration": 1.919
+    },
+    {
+      "text": "this perfectly matches my own experience",
+      "start": 55.199,
+      "duration": 2.961
+    },
+    {
+      "text": "of building vectal which is my ai",
+      "start": 58.16,
+      "duration": 1.919
+    },
+    {
+      "text": "startup where we spend hundreds of hours",
+      "start": 60.079,
+      "duration": 1.921
+    },
+    {
+      "text": "making the agents more reliable and what",
+      "start": 62,
+      "duration": 2.08
+    },
+    {
+      "text": "we found is that the more complexity you",
+      "start": 64.08,
+      "duration": 2
+    },
+    {
+      "text": "introduce the more multi-agent systems",
+      "start": 66.08,
+      "duration": 2.32
+    },
+    {
+      "text": "you add the lower the reliability is and",
+      "start": 68.4,
+      "duration": 2.8
+    },
+    {
+      "text": "that's exactly what walden one of the",
+      "start": 71.2,
+      "duration": 1.84
+    },
+    {
+      "text": "co-founders of cognition ai the company",
+      "start": 73.04,
+      "duration": 2.32
+    },
+    {
+      "text": "behind devon explains in this article",
+      "start": 75.36,
+      "duration": 2.399
+    },
+    {
+      "text": "why most multi-agent systems do not work",
+      "start": 77.759,
+      "duration": 2.801
+    },
+    {
+      "text": "and he gives two concrete examples of",
+      "start": 80.56,
+      "duration": 1.84
+    },
+    {
+      "text": "agentic systems that do work all right",
+      "start": 82.4,
+      "duration": 2.16
+    },
+    {
+      "text": "so this is the article don't build",
+      "start": 84.56,
+      "duration": 1.599
+    },
+    {
+      "text": "multi- aents and the goal is to explain",
+      "start": 86.159,
+      "duration": 1.921
+    },
+    {
+      "text": "why some tempting ideas like having you",
+      "start": 88.08,
+      "duration": 2.32
+    },
+    {
+      "text": "know hundreds of ai agents working",
+      "start": 90.4,
+      "duration": 1.759
+    },
+    {
+      "text": "underneath you are actually quite bad in",
+      "start": 92.159,
+      "duration": 2.64
+    },
+    {
+      "text": "practice now unlike many other articles",
+      "start": 94.799,
+      "duration": 2.241
+    },
+    {
+      "text": "in the ai space this one is actually",
+      "start": 97.04,
+      "duration": 2.24
+    },
+    {
+      "text": "quite easy to understand and there are",
+      "start": 99.28,
+      "duration": 1.76
+    },
+    {
+      "text": "two main principles that it concludes",
+      "start": 101.04,
+      "duration": 2.24
+    },
+    {
+      "text": "with number one share context number two",
+      "start": 103.28,
+      "duration": 3.36
+    },
+    {
+      "text": "actions carry implicit decisions and by",
+      "start": 106.64,
+      "duration": 2.08
+    },
+    {
+      "text": "the end of this video you will",
+      "start": 108.72,
+      "duration": 1.28
+    },
+    {
+      "text": "understand why these two principles are",
+      "start": 110,
+      "duration": 1.84
+    },
+    {
+      "text": "absolutely essential if you want to",
+      "start": 111.84,
+      "duration": 1.36
+    },
+    {
+      "text": "build any serious ai agents so why",
+      "start": 113.2,
+      "duration": 2.239
+    },
+    {
+      "text": "should we even think about principles",
+      "start": 115.439,
+      "duration": 1.68
+    },
+    {
+      "text": "well this story of html is really good",
+      "start": 117.119,
+      "duration": 2
+    },
+    {
+      "text": "so it was created in 1993 20 years later",
+      "start": 119.119,
+      "duration": 2.401
+    },
+    {
+      "text": "in 2013 facebook released react and",
+      "start": 121.52,
+      "duration": 2.72
+    },
+    {
+      "text": "nowadays everything is built on top of",
+      "start": 124.24,
+      "duration": 1.76
+    },
+    {
+      "text": "react and other react frameworks like",
+      "start": 126,
+      "duration": 2.08
+    },
+    {
+      "text": "nex.js so why is react such a dominant",
+      "start": 128.08,
+      "duration": 3.12
+    },
+    {
+      "text": "force well because it's not just a",
+      "start": 131.2,
+      "duration": 1.44
+    },
+    {
+      "text": "scaffold for writing code it's a",
+      "start": 132.64,
+      "duration": 1.599
+    },
+    {
+      "text": "philosophy of how you should build front",
+      "start": 134.239,
+      "duration": 2.401
+    },
+    {
+      "text": "end but this is the key this was not",
+      "start": 136.64,
+      "duration": 2.56
+    },
+    {
+      "text": "always obvious to early web developers",
+      "start": 139.2,
+      "duration": 1.84
+    },
+    {
+      "text": "and basically in the age of llms we are",
+      "start": 141.04,
+      "duration": 2.48
+    },
+    {
+      "text": "still playing with html and css we are",
+      "start": 143.52,
+      "duration": 2.56
+    },
+    {
+      "text": "still at the very early steps of",
+      "start": 146.08,
+      "duration": 1.76
+    },
+    {
+      "text": "figuring out how to build these ai",
+      "start": 147.84,
+      "duration": 2.16
+    },
+    {
+      "text": "agents let alone how to build multi-",
+      "start": 150,
+      "duration": 2
+    },
+    {
+      "text": "aent systems that are reliable no single",
+      "start": 152,
+      "duration": 2.48
+    },
+    {
+      "text": "approach to building agents has become",
+      "start": 154.48,
+      "duration": 2.16
+    },
+    {
+      "text": "the standard yet now here is the",
+      "start": 156.64,
+      "duration": 1.599
+    },
+    {
+      "text": "dangerous trap libraries such as openai",
+      "start": 158.239,
+      "duration": 2.64
+    },
+    {
+      "text": "swarm or microsoft origin actively push",
+      "start": 160.879,
+      "duration": 2.64
+    },
+    {
+      "text": "people to build with multiple agentic",
+      "start": 163.519,
+      "duration": 2.561
+    },
+    {
+      "text": "systems right i mean we can even click",
+      "start": 166.08,
+      "duration": 1.439
+    },
+    {
+      "text": "into some of these github repos right",
+      "start": 167.519,
+      "duration": 1.521
+    },
+    {
+      "text": "the examples they will show you will be",
+      "start": 169.04,
+      "duration": 1.52
+    },
+    {
+      "text": "the simplest examples possible but they",
+      "start": 170.56,
+      "duration": 1.759
+    },
+    {
+      "text": "will use like five different agents this",
+      "start": 172.319,
+      "duration": 1.841
+    },
+    {
+      "text": "is exactly what i mean right simplest",
+      "start": 174.16,
+      "duration": 1.52
+    },
+    {
+      "text": "example possible but it's already",
+      "start": 175.68,
+      "duration": 1.6
+    },
+    {
+      "text": "encouraging people to build with",
+      "start": 177.28,
+      "duration": 1.679
+    },
+    {
+      "text": "multiple agents even when the task is",
+      "start": 178.959,
+      "duration": 2
+    },
+    {
+      "text": "simple which is a huge mistake so as",
+      "start": 180.959,
+      "duration": 2.321
+    },
+    {
+      "text": "this article from cognition ai says this",
+      "start": 183.28,
+      "duration": 2.239
+    },
+    {
+      "text": "is the wrong way of building agents",
+      "start": 185.519,
+      "duration": 1.601
+    },
+    {
+      "text": "namely that using multi- aent",
+      "start": 187.12,
+      "duration": 1.839
+    },
+    {
+      "text": "architectures is very very risky unless",
+      "start": 188.959,
+      "duration": 2.56
+    },
+    {
+      "text": "you know what you're doing by the way if",
+      "start": 191.519,
+      "duration": 1.521
+    },
+    {
+      "text": "you're new to building ai agents this",
+      "start": 193.04,
+      "duration": 2.08
+    },
+    {
+      "text": "article links two amazing resources",
+      "start": 195.12,
+      "duration": 2.16
+    },
+    {
+      "text": "which i'm going to quickly go over right",
+      "start": 197.28,
+      "duration": 1.44
+    },
+    {
+      "text": "now resource number one comes from",
+      "start": 198.72,
+      "duration": 2
+    },
+    {
+      "text": "enthropic so before we dive into code",
+      "start": 200.72,
+      "duration": 2.159
+    },
+    {
+      "text": "before i show you two bad approaches and",
+      "start": 202.879,
+      "duration": 2.161
+    },
+    {
+      "text": "two good approaches for building multi-",
+      "start": 205.04,
+      "duration": 1.919
+    },
+    {
+      "text": "aent systems let's quickly look at these",
+      "start": 206.959,
+      "duration": 1.92
+    },
+    {
+      "text": "essential resources first is the",
+      "start": 208.879,
+      "duration": 1.841
+    },
+    {
+      "text": "building effective agents article from",
+      "start": 210.72,
+      "duration": 2.079
+    },
+    {
+      "text": "enthropic that goes over the",
+      "start": 212.799,
+      "duration": 1.36
+    },
+    {
+      "text": "fundamentals basically this article",
+      "start": 214.159,
+      "duration": 1.921
+    },
+    {
+      "text": "discourages against building complex ai",
+      "start": 216.08,
+      "duration": 2.64
+    },
+    {
+      "text": "agents so it tries to make you build as",
+      "start": 218.72,
+      "duration": 2.72
+    },
+    {
+      "text": "simple and clear agents as possible and",
+      "start": 221.44,
+      "duration": 1.68
+    },
+    {
+      "text": "it also warns against using frameworks",
+      "start": 223.12,
+      "duration": 2.399
+    },
+    {
+      "text": "but more on that later the second",
+      "start": 225.519,
+      "duration": 1.601
+    },
+    {
+      "text": "resource is from openai this article or",
+      "start": 227.12,
+      "duration": 3.199
+    },
+    {
+      "text": "pdf is a bit longer it's like 20 to 30",
+      "start": 230.319,
+      "duration": 2.081
+    },
+    {
+      "text": "pages and it goes into tool calling",
+      "start": 232.4,
+      "duration": 1.839
+    },
+    {
+      "text": "reasoning models and guardrails by the",
+      "start": 234.239,
+      "duration": 1.92
+    },
+    {
+      "text": "way if you want to dive deeper into this",
+      "start": 236.159,
+      "duration": 1.601
+    },
+    {
+      "text": "openai course which takes like 7 hours",
+      "start": 237.76,
+      "duration": 2.479
+    },
+    {
+      "text": "to go through i condensed it into a",
+      "start": 240.239,
+      "duration": 2
+    },
+    {
+      "text": "single 15-minute video which you should",
+      "start": 242.239,
+      "duration": 2.241
+    },
+    {
+      "text": "watch after this video real quick",
+      "start": 244.48,
+      "duration": 1.759
+    },
+    {
+      "text": "everyone who joins the new society",
+      "start": 246.239,
+      "duration": 2.161
+    },
+    {
+      "text": "during july will get a month of veal pro",
+      "start": 248.4,
+      "duration": 2.96
+    },
+    {
+      "text": "for free plus you'll get access to all",
+      "start": 251.36,
+      "duration": 1.92
+    },
+    {
+      "text": "the exclusive content we have inside",
+      "start": 253.28,
+      "duration": 2
+    },
+    {
+      "text": "such as my startup journey where i",
+      "start": 255.28,
+      "duration": 1.84
+    },
+    {
+      "text": "documented going from zero to over",
+      "start": 257.12,
+      "duration": 2.399
+    },
+    {
+      "text": "$10,000 a month and you can see all of",
+      "start": 259.519,
+      "duration": 1.921
+    },
+    {
+      "text": "it but again this offer is only",
+      "start": 261.44,
+      "duration": 2.08
+    },
+    {
+      "text": "available in july so make sure to join",
+      "start": 263.52,
+      "duration": 2
+    },
+    {
+      "text": "the new society today it's the first",
+      "start": 265.52,
+      "duration": 1.52
+    },
+    {
+      "text": "link below the video now back to the",
+      "start": 267.04,
+      "duration": 1.68
+    },
+    {
+      "text": "article so here's the theory of building",
+      "start": 268.72,
+      "duration": 2.32
+    },
+    {
+      "text": "longunning ai agents let's start with",
+      "start": 271.04,
+      "duration": 2
+    },
+    {
+      "text": "reliability when agents have to be",
+      "start": 273.04,
+      "duration": 1.68
+    },
+    {
+      "text": "actually reliable while running for long",
+      "start": 274.72,
+      "duration": 2.08
+    },
+    {
+      "text": "periods of time there are certain things",
+      "start": 276.8,
+      "duration": 1.839
+    },
+    {
+      "text": "you must do to contain the potential for",
+      "start": 278.639,
+      "duration": 2.481
+    },
+    {
+      "text": "compounding errors at the core of",
+      "start": 281.12,
+      "duration": 2.32
+    },
+    {
+      "text": "reliability is context engineering so in",
+      "start": 283.44,
+      "duration": 2.8
+    },
+    {
+      "text": "2025 the ai models are already extremely",
+      "start": 286.24,
+      "duration": 2.56
+    },
+    {
+      "text": "intelligent but just like with the",
+      "start": 288.8,
+      "duration": 1.44
+    },
+    {
+      "text": "smartest person they cannot do their job",
+      "start": 290.24,
+      "duration": 1.92
+    },
+    {
+      "text": "effectively if you don't give them",
+      "start": 292.16,
+      "duration": 1.92
+    },
+    {
+      "text": "enough context now hopefully you already",
+      "start": 294.08,
+      "duration": 2.08
+    },
+    {
+      "text": "know what prompt engineering is it's the",
+      "start": 296.16,
+      "duration": 2.319
+    },
+    {
+      "text": "art of writing a task in the ideal",
+      "start": 298.479,
+      "duration": 2.321
+    },
+    {
+      "text": "format for an llm context engineering is",
+      "start": 300.8,
+      "duration": 2.8
+    },
+    {
+      "text": "the next level of this and it's",
+      "start": 303.6,
+      "duration": 1.52
+    },
+    {
+      "text": "effectively the number one job of us",
+      "start": 305.12,
+      "duration": 2.24
+    },
+    {
+      "text": "people building ai agents to master and",
+      "start": 307.36,
+      "duration": 1.92
+    },
+    {
+      "text": "to really nail down so here is an",
+      "start": 309.28,
+      "duration": 1.84
+    },
+    {
+      "text": "example of an ai agent that's almost",
+      "start": 311.12,
+      "duration": 2.24
+    },
+    {
+      "text": "surely going to be unreliable and this",
+      "start": 313.36,
+      "duration": 1.679
+    },
+    {
+      "text": "is very common right so there's a task",
+      "start": 315.039,
+      "duration": 1.921
+    },
+    {
+      "text": "coming in the main agent breaks it down",
+      "start": 316.96,
+      "duration": 2
+    },
+    {
+      "text": "into subtasks delegates it into sub",
+      "start": 318.96,
+      "duration": 3.04
+    },
+    {
+      "text": "agents and then they send the results to",
+      "start": 322,
+      "duration": 2.479
+    },
+    {
+      "text": "the main agent again and it tries to",
+      "start": 324.479,
+      "duration": 1.841
+    },
+    {
+      "text": "combine the results this is a tempting",
+      "start": 326.32,
+      "duration": 2.48
+    },
+    {
+      "text": "architecture however in production this",
+      "start": 328.8,
+      "duration": 2.16
+    },
+    {
+      "text": "almost never works because it is very",
+      "start": 330.96,
+      "duration": 2.239
+    },
+    {
+      "text": "fragile i think it's best if i just show",
+      "start": 333.199,
+      "duration": 1.761
+    },
+    {
+      "text": "you so let me switch to cursor right",
+      "start": 334.96,
+      "duration": 2.4
+    },
+    {
+      "text": "here and let me show you the first",
+      "start": 337.36,
+      "duration": 1.279
+    },
+    {
+      "text": "example of the unreliable multi- aent",
+      "start": 338.639,
+      "duration": 2.801
+    },
+    {
+      "text": "system and by the way all of this is",
+      "start": 341.44,
+      "duration": 2.08
+    },
+    {
+      "text": "available in the free github repository",
+      "start": 343.52,
+      "duration": 1.84
+    },
+    {
+      "text": "which i'm going to link below you can",
+      "start": 345.36,
+      "duration": 1.6
+    },
+    {
+      "text": "take all of this code you know you can",
+      "start": 346.96,
+      "duration": 1.6
+    },
+    {
+      "text": "look at it what's wrong with these and",
+      "start": 348.56,
+      "duration": 1.68
+    },
+    {
+      "text": "you can take the good ones and build",
+      "start": 350.24,
+      "duration": 1.519
+    },
+    {
+      "text": "your apps on top of them i gave it mit",
+      "start": 351.759,
+      "duration": 2.241
+    },
+    {
+      "text": "license so you can literally do anything",
+      "start": 354,
+      "duration": 1.52
+    },
+    {
+      "text": "with it and i also included a super",
+      "start": 355.52,
+      "duration": 2
+    },
+    {
+      "text": "simple setup guide how to get it running",
+      "start": 357.52,
+      "duration": 1.92
+    },
+    {
+      "text": "on your own machine so first some",
+      "start": 359.44,
+      "duration": 2.479
+    },
+    {
+      "text": "essential imports we set the model as",
+      "start": 361.919,
+      "duration": 1.84
+    },
+    {
+      "text": "gb4.1 mini doesn't really matter and",
+      "start": 363.759,
+      "duration": 2.56
+    },
+    {
+      "text": "then we load the api key create the",
+      "start": 366.319,
+      "duration": 2.081
+    },
+    {
+      "text": "openai client some helper function it's",
+      "start": 368.4,
+      "duration": 2.32
+    },
+    {
+      "text": "not really necessary but here is the",
+      "start": 370.72,
+      "duration": 1.919
+    },
+    {
+      "text": "main ai agent right the task generation",
+      "start": 372.639,
+      "duration": 1.921
+    },
+    {
+      "text": "agent so it generates the subtasks the",
+      "start": 374.56,
+      "duration": 2.079
+    },
+    {
+      "text": "system prompt is return exactly two",
+      "start": 376.639,
+      "duration": 1.921
+    },
+    {
+      "text": "subtasks as json again the prompt could",
+      "start": 378.56,
+      "duration": 2.32
+    },
+    {
+      "text": "be better but the point is to",
+      "start": 380.88,
+      "duration": 1.439
+    },
+    {
+      "text": "demonstrate how the sub aents work and i",
+      "start": 382.319,
+      "duration": 2.16
+    },
+    {
+      "text": "think it's best if we just run this so",
+      "start": 384.479,
+      "duration": 1.921
+    },
+    {
+      "text": "main task design a new concept for a",
+      "start": 386.4,
+      "duration": 3.44
+    },
+    {
+      "text": "unique mobile game right so what does",
+      "start": 389.84,
+      "duration": 2.72
+    },
+    {
+      "text": "the main agent do creates two subtasks",
+      "start": 392.56,
+      "duration": 2.24
+    },
+    {
+      "text": "first off develop a story line for the",
+      "start": 394.8,
+      "duration": 1.6
+    },
+    {
+      "text": "first agent second create a visual style",
+      "start": 396.4,
+      "duration": 1.919
+    },
+    {
+      "text": "we can already see where this might go",
+      "start": 398.319,
+      "duration": 1.361
+    },
+    {
+      "text": "wrong okay so this is actually perfect",
+      "start": 399.68,
+      "duration": 1.76
+    },
+    {
+      "text": "example the first sub agent says that",
+      "start": 401.44,
+      "duration": 2.4
+    },
+    {
+      "text": "it's in a vibrant futuristic city blah",
+      "start": 403.84,
+      "duration": 1.84
+    },
+    {
+      "text": "blah blah second sub agent because they",
+      "start": 405.68,
+      "duration": 1.76
+    },
+    {
+      "text": "run in parallel right the main agent",
+      "start": 407.44,
+      "duration": 1.92
+    },
+    {
+      "text": "breaks it down and these two run in",
+      "start": 409.36,
+      "duration": 1.44
+    },
+    {
+      "text": "parallel they don't communicate between",
+      "start": 410.8,
+      "duration": 1.6
+    },
+    {
+      "text": "each other so the second sub agent is",
+      "start": 412.4,
+      "duration": 2.72
+    },
+    {
+      "text": "already talking about a dark gritty",
+      "start": 415.12,
+      "duration": 1.6
+    },
+    {
+      "text": "tones for a horror game completely",
+      "start": 416.72,
+      "duration": 2.16
+    },
+    {
+      "text": "different than the first one and then",
+      "start": 418.88,
+      "duration": 1.84
+    },
+    {
+      "text": "we're leaving it to the third agent to",
+      "start": 420.72,
+      "duration": 2.319
+    },
+    {
+      "text": "somehow combine these results so as this",
+      "start": 423.039,
+      "duration": 2.081
+    },
+    {
+      "text": "article says if your task is build a",
+      "start": 425.12,
+      "duration": 2.4
+    },
+    {
+      "text": "flappy bird clone right and you try to",
+      "start": 427.52,
+      "duration": 1.679
+    },
+    {
+      "text": "divide it into multiple agents here's",
+      "start": 429.199,
+      "duration": 1.921
+    },
+    {
+      "text": "what might happen subtask number one",
+      "start": 431.12,
+      "duration": 1.84
+    },
+    {
+      "text": "would be build a moving game background",
+      "start": 432.96,
+      "duration": 2.48
+    },
+    {
+      "text": "with green pipes and hit boxes second",
+      "start": 435.44,
+      "duration": 1.759
+    },
+    {
+      "text": "subtask going to the second sub aent",
+      "start": 437.199,
+      "duration": 2.241
+    },
+    {
+      "text": "right here would be build a bird that",
+      "start": 439.44,
+      "duration": 2.08
+    },
+    {
+      "text": "you can move up and down the issue is",
+      "start": 441.52,
+      "duration": 1.679
+    },
+    {
+      "text": "that one agent might do a different",
+      "start": 443.199,
+      "duration": 2
+    },
+    {
+      "text": "visual style build the environment in a",
+      "start": 445.199,
+      "duration": 1.84
+    },
+    {
+      "text": "way that is completely misaligned with",
+      "start": 447.039,
+      "duration": 2.16
+    },
+    {
+      "text": "the character and with the movements and",
+      "start": 449.199,
+      "duration": 1.601
+    },
+    {
+      "text": "then the final agent can somehow put",
+      "start": 450.8,
+      "duration": 1.679
+    },
+    {
+      "text": "these together and this can easily",
+      "start": 452.479,
+      "duration": 2.401
+    },
+    {
+      "text": "become a complete mess so principle one",
+      "start": 454.88,
+      "duration": 3.12
+    },
+    {
+      "text": "of building effective multi- aent",
+      "start": 458,
+      "duration": 2.56
+    },
+    {
+      "text": "systems is share context and share the",
+      "start": 460.56,
+      "duration": 2.96
+    },
+    {
+      "text": "full context full agent traces including",
+      "start": 463.52,
+      "duration": 2.56
+    },
+    {
+      "text": "what goes into them what they do with it",
+      "start": 466.08,
+      "duration": 2
+    },
+    {
+      "text": "and what goes out of them not just the",
+      "start": 468.08,
+      "duration": 2.08
+    },
+    {
+      "text": "individual messages between the user and",
+      "start": 470.16,
+      "duration": 2
+    },
+    {
+      "text": "the assistant so let's take a look at",
+      "start": 472.16,
+      "duration": 1.599
+    },
+    {
+      "text": "the second type of a multi- aent system",
+      "start": 473.759,
+      "duration": 2.321
+    },
+    {
+      "text": "this time making sure each agent has the",
+      "start": 476.08,
+      "duration": 2.08
+    },
+    {
+      "text": "context of the previous agents so this",
+      "start": 478.16,
+      "duration": 1.599
+    },
+    {
+      "text": "is a slight improvement however it is",
+      "start": 479.759,
+      "duration": 2.56
+    },
+    {
+      "text": "still not very reliable so you have the",
+      "start": 482.319,
+      "duration": 2.72
+    },
+    {
+      "text": "main agent which breaks down the task",
+      "start": 485.039,
+      "duration": 2.56
+    },
+    {
+      "text": "now really try to pay attention to these",
+      "start": 487.599,
+      "duration": 1.841
+    },
+    {
+      "text": "boxes because these represent the",
+      "start": 489.44,
+      "duration": 1.92
+    },
+    {
+      "text": "context in the conversation right so the",
+      "start": 491.36,
+      "duration": 2.64
+    },
+    {
+      "text": "main agent receives the conversation and",
+      "start": 494,
+      "duration": 1.759
+    },
+    {
+      "text": "actions so far that happened before this",
+      "start": 495.759,
+      "duration": 2.481
+    },
+    {
+      "text": "point then it goes into two different",
+      "start": 498.24,
+      "duration": 1.84
+    },
+    {
+      "text": "sub aents right both of them have this",
+      "start": 500.08,
+      "duration": 2.16
+    },
+    {
+      "text": "context so this is already a huge",
+      "start": 502.24,
+      "duration": 1.519
+    },
+    {
+      "text": "improvement from the previous workflow",
+      "start": 503.759,
+      "duration": 1.84
+    },
+    {
+      "text": "but still they run in parallel so they",
+      "start": 505.599,
+      "duration": 2.32
+    },
+    {
+      "text": "don't see what the other agent is doing",
+      "start": 507.919,
+      "duration": 1.68
+    },
+    {
+      "text": "they don't see how it thinks how it",
+      "start": 509.599,
+      "duration": 1.361
+    },
+    {
+      "text": "reasons stuff like that and then the",
+      "start": 510.96,
+      "duration": 1.92
+    },
+    {
+      "text": "third agent once again is left with",
+      "start": 512.88,
+      "duration": 1.92
+    },
+    {
+      "text": "combining this work even when it has all",
+      "start": 514.8,
+      "duration": 2.239
+    },
+    {
+      "text": "of the reasoning this is still not a",
+      "start": 517.039,
+      "duration": 2.161
+    },
+    {
+      "text": "good solution and here's why when you",
+      "start": 519.2,
+      "duration": 1.759
+    },
+    {
+      "text": "give your agent the same flappy bird",
+      "start": 520.959,
+      "duration": 1.841
+    },
+    {
+      "text": "cloning task this time you might end up",
+      "start": 522.8,
+      "duration": 2.32
+    },
+    {
+      "text": "with a bird and background with",
+      "start": 525.12,
+      "duration": 1.92
+    },
+    {
+      "text": "completely different visual styles sub",
+      "start": 527.04,
+      "duration": 2
+    },
+    {
+      "text": "agent one and sub aent two cannot see",
+      "start": 529.04,
+      "duration": 2.88
+    },
+    {
+      "text": "what the other was doing and so their",
+      "start": 531.92,
+      "duration": 2.32
+    },
+    {
+      "text": "work ends up being inconsistent with",
+      "start": 534.24,
+      "duration": 2.159
+    },
+    {
+      "text": "each other the actions sub agent one",
+      "start": 536.399,
+      "duration": 2.161
+    },
+    {
+      "text": "took and the actions sub agent two took",
+      "start": 538.56,
+      "duration": 2.399
+    },
+    {
+      "text": "were based on conflicting assumptions",
+      "start": 540.959,
+      "duration": 2.481
+    },
+    {
+      "text": "not predescribed up front and here comes",
+      "start": 543.44,
+      "duration": 2.48
+    },
+    {
+      "text": "the second principle from this article",
+      "start": 545.92,
+      "duration": 2.479
+    },
+    {
+      "text": "actions carry implicit decisions and",
+      "start": 548.399,
+      "duration": 2.801
+    },
+    {
+      "text": "conflicting decisions carry bad results",
+      "start": 551.2,
+      "duration": 2.24
+    },
+    {
+      "text": "that's why walden the co-founder of",
+      "start": 553.44,
+      "duration": 1.839
+    },
+    {
+      "text": "cognition and the author of this article",
+      "start": 555.279,
+      "duration": 2.081
+    },
+    {
+      "text": "argues that principle one and two are so",
+      "start": 557.36,
+      "duration": 2.56
+    },
+    {
+      "text": "critical and so rarely worth violating",
+      "start": 559.92,
+      "duration": 3.52
+    },
+    {
+      "text": "that you should by default roll out any",
+      "start": 563.44,
+      "duration": 2.399
+    },
+    {
+      "text": "agent architectures that don't abide by",
+      "start": 565.839,
+      "duration": 2.721
+    },
+    {
+      "text": "them you might think this is",
+      "start": 568.56,
+      "duration": 1.2
+    },
+    {
+      "text": "constraining but there is actually a",
+      "start": 569.76,
+      "duration": 1.84
+    },
+    {
+      "text": "wide space of different architectures",
+      "start": 571.6,
+      "duration": 1.84
+    },
+    {
+      "text": "you could still explore for your agent",
+      "start": 573.44,
+      "duration": 2.32
+    },
+    {
+      "text": "these ones are just some of the most",
+      "start": 575.76,
+      "duration": 1.68
+    },
+    {
+      "text": "popular ones but unfortunately they do",
+      "start": 577.44,
+      "duration": 2.959
+    },
+    {
+      "text": "not really work in production so what is",
+      "start": 580.399,
+      "duration": 2.321
+    },
+    {
+      "text": "an architecture that actually does work",
+      "start": 582.72,
+      "duration": 2.799
+    },
+    {
+      "text": "well the simplest way to follow these",
+      "start": 585.519,
+      "duration": 1.281
+    },
+    {
+      "text": "principles is to just use a single",
+      "start": 586.8,
+      "duration": 2
+    },
+    {
+      "text": "threaded linear agent that's why i named",
+      "start": 588.8,
+      "duration": 3.12
+    },
+    {
+      "text": "this repo linear agents by the way if",
+      "start": 591.92,
+      "duration": 2.8
+    },
+    {
+      "text": "you're finding this video valuable",
+      "start": 594.72,
+      "duration": 1.52
+    },
+    {
+      "text": "please make sure to start this",
+      "start": 596.24,
+      "duration": 1.039
+    },
+    {
+      "text": "repository right here on github just",
+      "start": 597.279,
+      "duration": 1.601
+    },
+    {
+      "text": "give it a star that way more and more",
+      "start": 598.88,
+      "duration": 1.92
+    },
+    {
+      "text": "people can see it okay so let's look at",
+      "start": 600.8,
+      "duration": 1.92
+    },
+    {
+      "text": "an example of a single threaded linear",
+      "start": 602.72,
+      "duration": 2
+    },
+    {
+      "text": "agent that is simple and reliable so a",
+      "start": 604.72,
+      "duration": 3.04
+    },
+    {
+      "text": "task comes in goes to the main agent you",
+      "start": 607.76,
+      "duration": 2.16
+    },
+    {
+      "text": "know you can call it manager ceo doesn't",
+      "start": 609.92,
+      "duration": 1.84
+    },
+    {
+      "text": "really matter again pay attention to the",
+      "start": 611.76,
+      "duration": 1.92
+    },
+    {
+      "text": "context squares it has all the",
+      "start": 613.68,
+      "duration": 1.52
+    },
+    {
+      "text": "conversation action so far same as last",
+      "start": 615.2,
+      "duration": 2.24
+    },
+    {
+      "text": "time but instead of splitting it into",
+      "start": 617.44,
+      "duration": 3.28
+    },
+    {
+      "text": "parallel agents running at the same time",
+      "start": 620.72,
+      "duration": 2
+    },
+    {
+      "text": "it first calls the first sub agent with",
+      "start": 622.72,
+      "duration": 2.72
+    },
+    {
+      "text": "the full context the first sub aent does",
+      "start": 625.44,
+      "duration": 2
+    },
+    {
+      "text": "its work adds this context then the",
+      "start": 627.44,
+      "duration": 2.959
+    },
+    {
+      "text": "second sub aent is called with the",
+      "start": 630.399,
+      "duration": 1.921
+    },
+    {
+      "text": "original context the first sub aent",
+      "start": 632.32,
+      "duration": 2.48
+    },
+    {
+      "text": "works so this is key it knows what the",
+      "start": 634.8,
+      "duration": 2.56
+    },
+    {
+      "text": "conversation was before that it knows",
+      "start": 637.36,
+      "duration": 2.32
+    },
+    {
+      "text": "what the first sub agent did and then it",
+      "start": 639.68,
+      "duration": 2.64
+    },
+    {
+      "text": "has complete awareness of the situation",
+      "start": 642.32,
+      "duration": 2.48
+    },
+    {
+      "text": "and only then it begins it its own task",
+      "start": 644.8,
+      "duration": 2.32
+    },
+    {
+      "text": "and once it does its own task it goes",
+      "start": 647.12,
+      "duration": 1.76
+    },
+    {
+      "text": "back to the main agent which knows",
+      "start": 648.88,
+      "duration": 1.519
+    },
+    {
+      "text": "everything conversation sub agent one",
+      "start": 650.399,
+      "duration": 2.321
+    },
+    {
+      "text": "sub agent two and it combines everything",
+      "start": 652.72,
+      "duration": 2
+    },
+    {
+      "text": "into a result so let me show you what",
+      "start": 654.72,
+      "duration": 1.84
+    },
+    {
+      "text": "this might look like in code this",
+      "start": 656.56,
+      "duration": 2.399
+    },
+    {
+      "text": "example is right here simple and",
+      "start": 658.959,
+      "duration": 2.961
+    },
+    {
+      "text": "reliable so again we have the main task",
+      "start": 661.92,
+      "duration": 2.56
+    },
+    {
+      "text": "generation agent creates two subtasks as",
+      "start": 664.48,
+      "duration": 2.88
+    },
+    {
+      "text": "last time but instead of it being",
+      "start": 667.36,
+      "duration": 2.719
+    },
+    {
+      "text": "executed in parallel right we had",
+      "start": 670.079,
+      "duration": 2.401
+    },
+    {
+      "text": "async.io so running these agents right",
+      "start": 672.48,
+      "duration": 2.56
+    },
+    {
+      "text": "here running these agents in parallel at",
+      "start": 675.04,
+      "duration": 2.08
+    },
+    {
+      "text": "the same time in number three we do not",
+      "start": 677.12,
+      "duration": 2.08
+    },
+    {
+      "text": "do that we first run the first sub agent",
+      "start": 679.2,
+      "duration": 2.8
+    },
+    {
+      "text": "and then we run the second sub agent",
+      "start": 682,
+      "duration": 2.32
+    },
+    {
+      "text": "which now has the context from the first",
+      "start": 684.32,
+      "duration": 2.639
+    },
+    {
+      "text": "one so it knows the task it knows the",
+      "start": 686.959,
+      "duration": 2
+    },
+    {
+      "text": "user input and it knows what the first",
+      "start": 688.959,
+      "duration": 2
+    },
+    {
+      "text": "agent did and this is going to be much",
+      "start": 690.959,
+      "duration": 1.521
+    },
+    {
+      "text": "more reliable so let me use the same",
+      "start": 692.48,
+      "duration": 1.44
+    },
+    {
+      "text": "prompt design a new concept for a unique",
+      "start": 693.92,
+      "duration": 1.84
+    },
+    {
+      "text": "mobile game let me kill the terminal",
+      "start": 695.76,
+      "duration": 2.56
+    },
+    {
+      "text": "let's do fresh boom main task same exact",
+      "start": 698.32,
+      "duration": 2.959
+    },
+    {
+      "text": "prompt let's see okay so we have this",
+      "start": 701.279,
+      "duration": 2.321
+    },
+    {
+      "text": "two subtasks first sub agent and then it",
+      "start": 703.6,
+      "duration": 2.479
+    },
+    {
+      "text": "waited second sub aent and boom let's",
+      "start": 706.079,
+      "duration": 2.081
+    },
+    {
+      "text": "see time canvas right where players can",
+      "start": 708.16,
+      "duration": 2.48
+    },
+    {
+      "text": "rewind pause or fast forward specific",
+      "start": 710.64,
+      "duration": 2
+    },
+    {
+      "text": "objects independently layering multiple",
+      "start": 712.64,
+      "duration": 1.92
+    },
+    {
+      "text": "timelines to solve puzzles so the second",
+      "start": 714.56,
+      "duration": 2.399
+    },
+    {
+      "text": "sub agent which again should create a",
+      "start": 716.959,
+      "duration": 2
+    },
+    {
+      "text": "visual art style has created something",
+      "start": 718.959,
+      "duration": 2.481
+    },
+    {
+      "text": "that actually matches this idea why",
+      "start": 721.44,
+      "duration": 3.839
+    },
+    {
+      "text": "because it sees the response from the",
+      "start": 725.279,
+      "duration": 2.081
+    },
+    {
+      "text": "first sub agent and again this is a very",
+      "start": 727.36,
+      "duration": 1.599
+    },
+    {
+      "text": "simple example but no matter what you're",
+      "start": 728.959,
+      "duration": 2.481
+    },
+    {
+      "text": "building choosing the right agent",
+      "start": 731.44,
+      "duration": 1.519
+    },
+    {
+      "text": "architecture is perhaps the most",
+      "start": 732.959,
+      "duration": 1.12
+    },
+    {
+      "text": "important decision because if you mess",
+      "start": 734.079,
+      "duration": 1.76
+    },
+    {
+      "text": "this up trust me and i'm saying this",
+      "start": 735.839,
+      "duration": 2.081
+    },
+    {
+      "text": "from",
+      "start": 737.92,
+      "duration": 1.599
+    },
+    {
+      "text": "lots of wasted hours on refactoring",
+      "start": 739.519,
+      "duration": 2.88
+    },
+    {
+      "text": "backend python files for vectal you do",
+      "start": 742.399,
+      "duration": 2.721
+    },
+    {
+      "text": "not want to rush this decision at the",
+      "start": 745.12,
+      "duration": 1.6
+    },
+    {
+      "text": "start choosing the correct agent",
+      "start": 746.72,
+      "duration": 1.919
+    },
+    {
+      "text": "architecture and the correct layout of",
+      "start": 748.639,
+      "duration": 2.161
+    },
+    {
+      "text": "ai agents is perhaps the biggest",
+      "start": 750.8,
+      "duration": 2.24
+    },
+    {
+      "text": "decision you're going to make when",
+      "start": 753.04,
+      "duration": 1.12
+    },
+    {
+      "text": "building a multi- aent system but again",
+      "start": 754.16,
+      "duration": 2.64
+    },
+    {
+      "text": "don't listen to me even though i've",
+      "start": 756.8,
+      "duration": 1.52
+    },
+    {
+      "text": "built hundreds of ai agents and vectal",
+      "start": 758.32,
+      "duration": 2.079
+    },
+    {
+      "text": "was used more than 50,000 people i still",
+      "start": 760.399,
+      "duration": 2.24
+    },
+    {
+      "text": "have zero experience compared to the",
+      "start": 762.639,
+      "duration": 1.841
+    },
+    {
+      "text": "guys at cognition the team at cognition",
+      "start": 764.48,
+      "duration": 2
+    },
+    {
+      "text": "is elite it's multiple math olympiads",
+      "start": 766.48,
+      "duration": 2.4
+    },
+    {
+      "text": "gold medalists informatics olympiads",
+      "start": 768.88,
+      "duration": 2.399
+    },
+    {
+      "text": "gold medalists they have like",
+      "start": 771.279,
+      "duration": 2.321
+    },
+    {
+      "text": "multi-billion dollar valuation they have",
+      "start": 773.6,
+      "duration": 1.919
+    },
+    {
+      "text": "some of the best ai agent builders in",
+      "start": 775.519,
+      "duration": 1.76
+    },
+    {
+      "text": "the world they're the creators of devon",
+      "start": 777.279,
+      "duration": 2.081
+    },
+    {
+      "text": "which might be the most advanced and",
+      "start": 779.36,
+      "duration": 1.599
+    },
+    {
+      "text": "powerful agent in the world right so",
+      "start": 780.959,
+      "duration": 1.841
+    },
+    {
+      "text": "don't listen to me listen to this",
+      "start": 782.8,
+      "duration": 1.44
+    },
+    {
+      "text": "article and if you're going to do",
+      "start": 784.24,
+      "duration": 1.599
+    },
+    {
+      "text": "something stick with this simple and",
+      "start": 785.839,
+      "duration": 2.081
+    },
+    {
+      "text": "reliable architecture however this is",
+      "start": 787.92,
+      "duration": 2.24
+    },
+    {
+      "text": "still not perfect because you might run",
+      "start": 790.16,
+      "duration": 1.919
+    },
+    {
+      "text": "into issues for very large tasks with",
+      "start": 792.079,
+      "duration": 2.801
+    },
+    {
+      "text": "many subp parts where the context window",
+      "start": 794.88,
+      "duration": 2.72
+    },
+    {
+      "text": "starts to overflow so this is how you",
+      "start": 797.6,
+      "duration": 2.88
+    },
+    {
+      "text": "know the simple workflow might struggle",
+      "start": 800.48,
+      "duration": 1.84
+    },
+    {
+      "text": "with context overflow because each agent",
+      "start": 802.32,
+      "duration": 2.72
+    },
+    {
+      "text": "needs to know what the previous agents",
+      "start": 805.04,
+      "duration": 1.84
+    },
+    {
+      "text": "did and that can add up especially if",
+      "start": 806.88,
+      "duration": 2.079
+    },
+    {
+      "text": "you're not using like gbd 4.1 like in",
+      "start": 808.959,
+      "duration": 2.801
+    },
+    {
+      "text": "this example i think uh we have 4.1 at",
+      "start": 811.76,
+      "duration": 3.04
+    },
+    {
+      "text": "the start even 4.1 a minute they have 1",
+      "start": 814.8,
+      "duration": 1.76
+    },
+    {
+      "text": "million context so you're probably going",
+      "start": 816.56,
+      "duration": 1.12
+    },
+    {
+      "text": "to be fine but you know cloud models",
+      "start": 817.68,
+      "duration": 1.839
+    },
+    {
+      "text": "have 200k that still lasts a long time",
+      "start": 819.519,
+      "duration": 2.88
+    },
+    {
+      "text": "but you're going to overflow five times",
+      "start": 822.399,
+      "duration": 1.921
+    },
+    {
+      "text": "sooner than if you use like gemini or",
+      "start": 824.32,
+      "duration": 1.92
+    },
+    {
+      "text": "gpd4.1 but as the article says to be",
+      "start": 826.24,
+      "duration": 2.399
+    },
+    {
+      "text": "honest this simple architecture will get",
+      "start": 828.639,
+      "duration": 2.081
+    },
+    {
+      "text": "you very far but for those of you who",
+      "start": 830.72,
+      "duration": 2.72
+    },
+    {
+      "text": "have truly long duration tasks and are",
+      "start": 833.44,
+      "duration": 3.12
+    },
+    {
+      "text": "willing to put in the effort you can do",
+      "start": 836.56,
+      "duration": 1.92
+    },
+    {
+      "text": "even better so here is an example of an",
+      "start": 838.48,
+      "duration": 1.76
+    },
+    {
+      "text": "ai agent architecture that is reliable",
+      "start": 840.24,
+      "duration": 2.48
+    },
+    {
+      "text": "on longer tasks but it's a lot harder to",
+      "start": 842.72,
+      "duration": 2.72
+    },
+    {
+      "text": "get it right so a task comes in again",
+      "start": 845.44,
+      "duration": 2.079
+    },
+    {
+      "text": "main agent breaks it down but the key is",
+      "start": 847.519,
+      "duration": 2.401
+    },
+    {
+      "text": "that the conversation gets summarized so",
+      "start": 849.92,
+      "duration": 2.719
+    },
+    {
+      "text": "you have context compression llm running",
+      "start": 852.639,
+      "duration": 2.481
+    },
+    {
+      "text": "on the side that's compressing the",
+      "start": 855.12,
+      "duration": 2.159
+    },
+    {
+      "text": "context in real time so the first agent",
+      "start": 857.279,
+      "duration": 2.161
+    },
+    {
+      "text": "doesn't get like a whole conversation it",
+      "start": 859.44,
+      "duration": 2.48
+    },
+    {
+      "text": "gets compressed maybe by 50% maybe by",
+      "start": 861.92,
+      "duration": 2.32
+    },
+    {
+      "text": "70% then the second agent gets the",
+      "start": 864.24,
+      "duration": 3.76
+    },
+    {
+      "text": "compressed conversation but also",
+      "start": 868,
+      "duration": 2
+    },
+    {
+      "text": "compressed actions of the first agent so",
+      "start": 870,
+      "duration": 2.16
+    },
+    {
+      "text": "only the key moments and decisions",
+      "start": 872.16,
+      "duration": 1.679
+    },
+    {
+      "text": "nothing else and same for the third",
+      "start": 873.839,
+      "duration": 1.521
+    },
+    {
+      "text": "agent stuff like that that way you can",
+      "start": 875.36,
+      "duration": 1.76
+    },
+    {
+      "text": "take let's say 100,000 tokens of context",
+      "start": 877.12,
+      "duration": 3.04
+    },
+    {
+      "text": "and narrow it down to the most essential",
+      "start": 880.16,
+      "duration": 1.84
+    },
+    {
+      "text": "20,000 right that way you can have much",
+      "start": 882,
+      "duration": 2.56
+    },
+    {
+      "text": "more longer running tasks much more",
+      "start": 884.56,
+      "duration": 2.079
+    },
+    {
+      "text": "complex tasks and your team of agents",
+      "start": 886.639,
+      "duration": 2
+    },
+    {
+      "text": "can run for way longer before you hit",
+      "start": 888.639,
+      "duration": 2.64
+    },
+    {
+      "text": "this limit of the context overflow that",
+      "start": 891.279,
+      "duration": 2.56
+    },
+    {
+      "text": "you might reach here faster if you're",
+      "start": 893.839,
+      "duration": 2.481
+    },
+    {
+      "text": "not compressing the context as you're",
+      "start": 896.32,
+      "duration": 2.079
+    },
+    {
+      "text": "delegating to more and more agents so",
+      "start": 898.399,
+      "duration": 1.841
+    },
+    {
+      "text": "here's what that looks like in code we",
+      "start": 900.24,
+      "duration": 1.599
+    },
+    {
+      "text": "have the example right here it's this",
+      "start": 901.839,
+      "duration": 1.521
+    },
+    {
+      "text": "file right here 04 reliable or longer",
+      "start": 903.36,
+      "duration": 2.24
+    },
+    {
+      "text": "tasks so again if you want to build an",
+      "start": 905.6,
+      "duration": 2
+    },
+    {
+      "text": "app with ai agents feel free to just",
+      "start": 907.6,
+      "duration": 2.08
+    },
+    {
+      "text": "steal one of these either number three",
+      "start": 909.68,
+      "duration": 1.92
+    },
+    {
+      "text": "which i would recommend for most of you",
+      "start": 911.6,
+      "duration": 1.599
+    },
+    {
+      "text": "or number four if you really have",
+      "start": 913.199,
+      "duration": 1.681
+    },
+    {
+      "text": "advanced longunning workflows but just",
+      "start": 914.88,
+      "duration": 2.56
+    },
+    {
+      "text": "take these and build on top of them this",
+      "start": 917.44,
+      "duration": 1.759
+    },
+    {
+      "text": "is built on top of open router so you",
+      "start": 919.199,
+      "duration": 1.521
+    },
+    {
+      "text": "can use any model you can just swap out",
+      "start": 920.72,
+      "duration": 1.679
+    },
+    {
+      "text": "these models for gemini cloth doesn't",
+      "start": 922.399,
+      "duration": 2.401
+    },
+    {
+      "text": "matter with open router super easy",
+      "start": 924.8,
+      "duration": 1.92
+    },
+    {
+      "text": "literally as trivial as changing the",
+      "start": 926.72,
+      "duration": 1.76
+    },
+    {
+      "text": "name like we can literally do it like",
+      "start": 928.48,
+      "duration": 1.76
+    },
+    {
+      "text": "that you can do enthropic slash",
+      "start": 930.24,
+      "duration": 3.36
+    },
+    {
+      "text": "uh cloth 4 set i think it's actually",
+      "start": 933.6,
+      "duration": 2.96
+    },
+    {
+      "text": "cloth set 4 yeah it's cloth set 4 this",
+      "start": 936.56,
+      "duration": 3.36
+    },
+    {
+      "text": "is the naming for entropic models so you",
+      "start": 939.92,
+      "duration": 1.919
+    },
+    {
+      "text": "can literally swap this out super easy",
+      "start": 941.839,
+      "duration": 1.521
+    },
+    {
+      "text": "with open router it's uh couldn't be any",
+      "start": 943.36,
+      "duration": 2.719
+    },
+    {
+      "text": "easier so we have the task generation",
+      "start": 946.079,
+      "duration": 2.081
+    },
+    {
+      "text": "agent and again all the same stuff but",
+      "start": 948.16,
+      "duration": 2.479
+    },
+    {
+      "text": "the context gets compressed this is the",
+      "start": 950.639,
+      "duration": 2.56
+    },
+    {
+      "text": "key difference that the other three",
+      "start": 953.199,
+      "duration": 1.76
+    },
+    {
+      "text": "agent architectures didn't have we have",
+      "start": 954.959,
+      "duration": 2.24
+    },
+    {
+      "text": "this compressor agent that actively",
+      "start": 957.199,
+      "duration": 2
+    },
+    {
+      "text": "summarizes the conversation to less than",
+      "start": 959.199,
+      "duration": 1.521
+    },
+    {
+      "text": "200 words that way it takes a lot longer",
+      "start": 960.72,
+      "duration": 3.2
+    },
+    {
+      "text": "until we run into any context issues but",
+      "start": 963.92,
+      "duration": 2.4
+    },
+    {
+      "text": "there's a caveat this is hard to get",
+      "start": 966.32,
+      "duration": 2.959
+    },
+    {
+      "text": "right don't think that you can just vibe",
+      "start": 969.279,
+      "duration": 2.161
+    },
+    {
+      "text": "a solution to this this problem like",
+      "start": 971.44,
+      "duration": 3.36
+    },
+    {
+      "text": "multi-billion dollar companies are",
+      "start": 974.8,
+      "duration": 1.52
+    },
+    {
+      "text": "struggling with this problem and again",
+      "start": 976.32,
+      "duration": 1.759
+    },
+    {
+      "text": "we're literally watching this invent in",
+      "start": 978.079,
+      "duration": 2.081
+    },
+    {
+      "text": "real time i don't have the answer",
+      "start": 980.16,
+      "duration": 1.359
+    },
+    {
+      "text": "cognition doesn't have all the answers",
+      "start": 981.519,
+      "duration": 2
+    },
+    {
+      "text": "enthropic openai doesn't have the answer",
+      "start": 983.519,
+      "duration": 1.921
+    },
+    {
+      "text": "people are trying to figure out what is",
+      "start": 985.44,
+      "duration": 1.759
+    },
+    {
+      "text": "the best way to do this so don't think",
+      "start": 987.199,
+      "duration": 1.76
+    },
+    {
+      "text": "like you're just going to vibe code it",
+      "start": 988.959,
+      "duration": 1.44
+    },
+    {
+      "text": "you know like this meme on twitter oh",
+      "start": 990.399,
+      "duration": 1.521
+    },
+    {
+      "text": "just vibe code a size to 50k mr and you",
+      "start": 991.92,
+      "duration": 2.719
+    },
+    {
+      "text": "know now you're a valuation of 3 million",
+      "start": 994.639,
+      "duration": 2.32
+    },
+    {
+      "text": "ridiculous these people are complete",
+      "start": 996.959,
+      "duration": 1.44
+    },
+    {
+      "text": "clowns it takes a lot of effort a lot of",
+      "start": 998.399,
+      "duration": 2.961
+    },
+    {
+      "text": "thought to build an advanced multi- aent",
+      "start": 1001.36,
+      "duration": 3.279
+    },
+    {
+      "text": "system that is reliable on complex tasks",
+      "start": 1004.639,
+      "duration": 2.481
+    },
+    {
+      "text": "that's why this article advocated for",
+      "start": 1007.12,
+      "duration": 1.68
+    },
+    {
+      "text": "most people to stick with this simple",
+      "start": 1008.8,
+      "duration": 2.479
+    },
+    {
+      "text": "and reliable architecture which again",
+      "start": 1011.279,
+      "duration": 1.841
+    },
+    {
+      "text": "works just as well as this more advanced",
+      "start": 1013.12,
+      "duration": 2.399
+    },
+    {
+      "text": "one if you don't have that much context",
+      "start": 1015.519,
+      "duration": 2.081
+    },
+    {
+      "text": "like if your ai agent doesn't need to go",
+      "start": 1017.6,
+      "duration": 2.08
+    },
+    {
+      "text": "through a large codebase you know",
+      "start": 1019.68,
+      "duration": 1.44
+    },
+    {
+      "text": "analyze dozens of files like 15 20",
+      "start": 1021.12,
+      "duration": 2.959
+    },
+    {
+      "text": "different files with hundreds of lines",
+      "start": 1024.079,
+      "duration": 1.921
+    },
+    {
+      "text": "of code you will probably never run into",
+      "start": 1026,
+      "duration": 1.918
+    },
+    {
+      "text": "these issues for most of the ai agents",
+      "start": 1027.919,
+      "duration": 2.081
+    },
+    {
+      "text": "me and you guys are going to be building",
+      "start": 1030,
+      "duration": 2.16
+    },
+    {
+      "text": "we are going to be completely fine with",
+      "start": 1032.16,
+      "duration": 1.6
+    },
+    {
+      "text": "this reliable and simple architecture",
+      "start": 1033.76,
+      "duration": 2.158
+    },
+    {
+      "text": "that doesn't do any compression on the",
+      "start": 1035.919,
+      "duration": 1.681
+    },
+    {
+      "text": "side because the moment you introduce",
+      "start": 1037.6,
+      "duration": 1.599
+    },
+    {
+      "text": "this compression agent again it's",
+      "start": 1039.199,
+      "duration": 2.081
+    },
+    {
+      "text": "complexity sometimes for advanced agents",
+      "start": 1041.28,
+      "duration": 2.24
+    },
+    {
+      "text": "like devon this complexity is worth it",
+      "start": 1043.52,
+      "duration": 2.24
+    },
+    {
+      "text": "because it needs to compress all that",
+      "start": 1045.76,
+      "duration": 2.48
+    },
+    {
+      "text": "context but if you don't need to do it",
+      "start": 1048.24,
+      "duration": 2.16
+    },
+    {
+      "text": "then go with the simple architecture",
+      "start": 1050.4,
+      "duration": 1.92
+    },
+    {
+      "text": "this is like a key business decision",
+      "start": 1052.32,
+      "duration": 1.52
+    },
+    {
+      "text": "that no matter if you're in ai or you",
+      "start": 1053.84,
+      "duration": 1.76
+    },
+    {
+      "text": "know in selling gardening keep the",
+      "start": 1055.6,
+      "duration": 2.16
+    },
+    {
+      "text": "business simple anything you any part of",
+      "start": 1057.76,
+      "duration": 2.32
+    },
+    {
+      "text": "the business that is complex try to",
+      "start": 1060.08,
+      "duration": 1.839
+    },
+    {
+      "text": "simplify it this is like essential",
+      "start": 1061.919,
+      "duration": 2
+    },
+    {
+      "text": "principle that's going to save you tons",
+      "start": 1063.919,
+      "duration": 1.281
+    },
+    {
+      "text": "of time it's going to allow you to scale",
+      "start": 1065.2,
+      "duration": 1.68
+    },
+    {
+      "text": "faster and hopefully save you a bunch of",
+      "start": 1066.88,
+      "duration": 2.24
+    },
+    {
+      "text": "headache so how do we apply these",
+      "start": 1069.12,
+      "duration": 1.679
+    },
+    {
+      "text": "principles first off we need to ensure",
+      "start": 1070.799,
+      "duration": 1.601
+    },
+    {
+      "text": "that your agents every action is",
+      "start": 1072.4,
+      "duration": 2
+    },
+    {
+      "text": "informed by the context of all relevant",
+      "start": 1074.4,
+      "duration": 3.12
+    },
+    {
+      "text": "decisions made by other parts of the",
+      "start": 1077.52,
+      "duration": 1.92
+    },
+    {
+      "text": "system so don't try to hide any",
+      "start": 1079.44,
+      "duration": 1.92
+    },
+    {
+      "text": "information this is a terrible thing you",
+      "start": 1081.36,
+      "duration": 1.439
+    },
+    {
+      "text": "can do make sure to give ai agents all",
+      "start": 1082.799,
+      "duration": 2.481
+    },
+    {
+      "text": "context on what happened before and if",
+      "start": 1085.28,
+      "duration": 2.24
+    },
+    {
+      "text": "you need to summarize it then compress",
+      "start": 1087.52,
+      "duration": 1.76
+    },
+    {
+      "text": "it but do not leave out any crucial info",
+      "start": 1089.28,
+      "duration": 2.08
+    },
+    {
+      "text": "as the article says ideally every action",
+      "start": 1091.36,
+      "duration": 3.04
+    },
+    {
+      "text": "would just see everything else so as you",
+      "start": 1094.4,
+      "duration": 2.48
+    },
+    {
+      "text": "think about architecting your agents to",
+      "start": 1096.88,
+      "duration": 2.32
+    },
+    {
+      "text": "avoid conflicting decision-making here",
+      "start": 1099.2,
+      "duration": 2.08
+    },
+    {
+      "text": "are some other examples to think about",
+      "start": 1101.28,
+      "duration": 2.56
+    },
+    {
+      "text": "clothe code sub agents so as of june",
+      "start": 1103.84,
+      "duration": 2.32
+    },
+    {
+      "text": "2025 clo is an example of an agent that",
+      "start": 1106.16,
+      "duration": 2.24
+    },
+    {
+      "text": "spawns subtask cloth code right now is",
+      "start": 1108.4,
+      "duration": 2.24
+    },
+    {
+      "text": "perhaps the agent that i spent the most",
+      "start": 1110.64,
+      "duration": 2.399
+    },
+    {
+      "text": "time with it's absolutely amazing i made",
+      "start": 1113.039,
+      "duration": 1.921
+    },
+    {
+      "text": "multiple videos on it feel free to watch",
+      "start": 1114.96,
+      "duration": 1.92
+    },
+    {
+      "text": "them again after you finish watching",
+      "start": 1116.88,
+      "duration": 1.36
+    },
+    {
+      "text": "this one however it never does work in",
+      "start": 1118.24,
+      "duration": 2
+    },
+    {
+      "text": "parallel this is key it never does work",
+      "start": 1120.24,
+      "duration": 2.799
+    },
+    {
+      "text": "in parallel with the subtask agent and",
+      "start": 1123.039,
+      "duration": 2.401
+    },
+    {
+      "text": "the subtask agent is usually only tasked",
+      "start": 1125.44,
+      "duration": 2.4
+    },
+    {
+      "text": "with answering a question not writing",
+      "start": 1127.84,
+      "duration": 2.32
+    },
+    {
+      "text": "any code why the subtask agent lacks",
+      "start": 1130.16,
+      "duration": 3.2
+    },
+    {
+      "text": "context from the main agent that would",
+      "start": 1133.36,
+      "duration": 2.16
+    },
+    {
+      "text": "otherwise be needed to do anything",
+      "start": 1135.52,
+      "duration": 1.68
+    },
+    {
+      "text": "beyond answering a well-defined question",
+      "start": 1137.2,
+      "duration": 2.4
+    },
+    {
+      "text": "so this is enthropic themselves right",
+      "start": 1139.6,
+      "duration": 2.24
+    },
+    {
+      "text": "like it doesn't get more advanced than",
+      "start": 1141.84,
+      "duration": 1.839
+    },
+    {
+      "text": "companies like enthropic or openai",
+      "start": 1143.679,
+      "duration": 1.841
+    },
+    {
+      "text": "they're literally creating these models",
+      "start": 1145.52,
+      "duration": 2.56
+    },
+    {
+      "text": "and they themselves do not do these",
+      "start": 1148.08,
+      "duration": 2
+    },
+    {
+      "text": "advanced parallel asynchronous multi-",
+      "start": 1150.08,
+      "duration": 2.479
+    },
+    {
+      "text": "aent architectures they keep it simple",
+      "start": 1152.559,
+      "duration": 2.081
+    },
+    {
+      "text": "if they have a sub agent they just tell",
+      "start": 1154.64,
+      "duration": 2.08
+    },
+    {
+      "text": "it answer a specific question right",
+      "start": 1156.72,
+      "duration": 1.839
+    },
+    {
+      "text": "analyze the codebase and give back",
+      "start": 1158.559,
+      "duration": 1.921
+    },
+    {
+      "text": "answer to the main agent and only the",
+      "start": 1160.48,
+      "duration": 2.48
+    },
+    {
+      "text": "main agent writes the code the main",
+      "start": 1162.96,
+      "duration": 2.24
+    },
+    {
+      "text": "benefit of having a sub agent in this",
+      "start": 1165.2,
+      "duration": 1.839
+    },
+    {
+      "text": "case is that all the sub agents",
+      "start": 1167.039,
+      "duration": 1.681
+    },
+    {
+      "text": "investigative work does not need to",
+      "start": 1168.72,
+      "duration": 2
+    },
+    {
+      "text": "remain in the history of the main agent",
+      "start": 1170.72,
+      "duration": 1.68
+    },
+    {
+      "text": "so let's say you send a sub agent to",
+      "start": 1172.4,
+      "duration": 2.159
+    },
+    {
+      "text": "answer a very specific question like",
+      "start": 1174.559,
+      "duration": 1.921
+    },
+    {
+      "text": "what package is the backend api using",
+      "start": 1176.48,
+      "duration": 2.72
+    },
+    {
+      "text": "right it might analyze five different",
+      "start": 1179.2,
+      "duration": 2
+    },
+    {
+      "text": "files and then come back with the answer",
+      "start": 1181.2,
+      "duration": 2.32
+    },
+    {
+      "text": "all of that analysis of those five",
+      "start": 1183.52,
+      "duration": 1.44
+    },
+    {
+      "text": "different files would just be adding a",
+      "start": 1184.96,
+      "duration": 1.44
+    },
+    {
+      "text": "bunch of noise to the main conversation",
+      "start": 1186.4,
+      "duration": 2.159
+    },
+    {
+      "text": "history so you would not append this you",
+      "start": 1188.559,
+      "duration": 2.561
+    },
+    {
+      "text": "would only get the answer for a very",
+      "start": 1191.12,
+      "duration": 2
+    },
+    {
+      "text": "specific question for the sub agent",
+      "start": 1193.12,
+      "duration": 2.08
+    },
+    {
+      "text": "which is returned to the main agent and",
+      "start": 1195.2,
+      "duration": 2.08
+    },
+    {
+      "text": "only the main agent does any actions",
+      "start": 1197.28,
+      "duration": 2.32
+    },
+    {
+      "text": "clue calling or writes any code the",
+      "start": 1199.6,
+      "duration": 2
+    },
+    {
+      "text": "designers of cloth code took a",
+      "start": 1201.6,
+      "duration": 2
+    },
+    {
+      "text": "purposefully simple approach and again",
+      "start": 1203.6,
+      "duration": 2.319
+    },
+    {
+      "text": "this is one of the best ai agents in the",
+      "start": 1205.919,
+      "duration": 2.64
+    },
+    {
+      "text": "world right now cloth code is super",
+      "start": 1208.559,
+      "duration": 1.921
+    },
+    {
+      "text": "powerful people like myself are addicted",
+      "start": 1210.48,
+      "duration": 2.8
+    },
+    {
+      "text": "to it and it is a simple agent",
+      "start": 1213.28,
+      "duration": 2.72
+    },
+    {
+      "text": "architecture it doesn't do anything",
+      "start": 1216,
+      "duration": 1.679
+    },
+    {
+      "text": "crazy and it's a super powerful ai agent",
+      "start": 1217.679,
+      "duration": 2.561
+    },
+    {
+      "text": "now here is one more powerful thought",
+      "start": 1220.24,
+      "duration": 1.679
+    },
+    {
+      "text": "about multi- aents that's worth getting",
+      "start": 1221.919,
+      "duration": 2.321
+    },
+    {
+      "text": "into if we really want to get",
+      "start": 1224.24,
+      "duration": 1.52
+    },
+    {
+      "text": "parallelism aka you know running",
+      "start": 1225.76,
+      "duration": 2
+    },
+    {
+      "text": "multiple agents at the same time out of",
+      "start": 1227.76,
+      "duration": 2.32
+    },
+    {
+      "text": "our system you might think okay so let's",
+      "start": 1230.08,
+      "duration": 2.8
+    },
+    {
+      "text": "have them talk to each other and work",
+      "start": 1232.88,
+      "duration": 1.36
+    },
+    {
+      "text": "things out right why don't we just do",
+      "start": 1234.24,
+      "duration": 2.559
+    },
+    {
+      "text": "that well this is what humans do when we",
+      "start": 1236.799,
+      "duration": 2.721
+    },
+    {
+      "text": "disagree right in an ideal world",
+      "start": 1239.52,
+      "duration": 2.32
+    },
+    {
+      "text": "sometimes it doesn't happen but in ideal",
+      "start": 1241.84,
+      "duration": 1.839
+    },
+    {
+      "text": "world if there's a disagreement humans",
+      "start": 1243.679,
+      "duration": 1.681
+    },
+    {
+      "text": "go back and forth giving each other",
+      "start": 1245.36,
+      "duration": 2
+    },
+    {
+      "text": "context trying to figure it out right if",
+      "start": 1247.36,
+      "duration": 2.88
+    },
+    {
+      "text": "engineers a code causes a merge conflict",
+      "start": 1250.24,
+      "duration": 2.799
+    },
+    {
+      "text": "with engineer b the correct protocol is",
+      "start": 1253.039,
+      "duration": 1.921
+    },
+    {
+      "text": "to talk between each other to reach a",
+      "start": 1254.96,
+      "duration": 2.32
+    },
+    {
+      "text": "consensus to reach a mutual",
+      "start": 1257.28,
+      "duration": 2
+    },
+    {
+      "text": "understanding however this is a big",
+      "start": 1259.28,
+      "duration": 2.56
+    },
+    {
+      "text": "difference this is why you shouldn't",
+      "start": 1261.84,
+      "duration": 1.52
+    },
+    {
+      "text": "anthropomorphize agents they are not",
+      "start": 1263.36,
+      "duration": 2.24
+    },
+    {
+      "text": "humans they are good at completely",
+      "start": 1265.6,
+      "duration": 1.52
+    },
+    {
+      "text": "different things than people agents",
+      "start": 1267.12,
+      "duration": 2.24
+    },
+    {
+      "text": "today are not quite able to engage in",
+      "start": 1269.36,
+      "duration": 2.559
+    },
+    {
+      "text": "the style of long context proactive",
+      "start": 1271.919,
+      "duration": 2.481
+    },
+    {
+      "text": "discourse with much more reliability",
+      "start": 1274.4,
+      "duration": 2.159
+    },
+    {
+      "text": "than you would get with a single agent",
+      "start": 1276.559,
+      "duration": 1.921
+    },
+    {
+      "text": "humans are quite efficient at",
+      "start": 1278.48,
+      "duration": 1.76
+    },
+    {
+      "text": "communicating our most important",
+      "start": 1280.24,
+      "duration": 2
+    },
+    {
+      "text": "knowledge to one another but this",
+      "start": 1282.24,
+      "duration": 2
+    },
+    {
+      "text": "efficiency takes non-trivial",
+      "start": 1284.24,
+      "duration": 1.84
+    },
+    {
+      "text": "intelligence you have to know what to",
+      "start": 1286.08,
+      "duration": 1.92
+    },
+    {
+      "text": "say what the other person is thinking",
+      "start": 1288,
+      "duration": 1.76
+    },
+    {
+      "text": "stuff like that current llms do not have",
+      "start": 1289.76,
+      "duration": 2.159
+    },
+    {
+      "text": "this skill it is evident that in 2025",
+      "start": 1291.919,
+      "duration": 2.561
+    },
+    {
+      "text": "running multiple agents in collaboration",
+      "start": 1294.48,
+      "duration": 2.24
+    },
+    {
+      "text": "only results in fragile systems the",
+      "start": 1296.72,
+      "duration": 2.4
+    },
+    {
+      "text": "decision-m ends up being too dispersed",
+      "start": 1299.12,
+      "duration": 2.64
+    },
+    {
+      "text": "and context isn't able to be shared for",
+      "start": 1301.76,
+      "duration": 2.48
+    },
+    {
+      "text": "enough between the agents so yeah i was",
+      "start": 1304.24,
+      "duration": 2.08
+    },
+    {
+      "text": "wrong previously i also thought that",
+      "start": 1306.32,
+      "duration": 2.32
+    },
+    {
+      "text": "multi- aent systems would work and i",
+      "start": 1308.64,
+      "duration": 2.48
+    },
+    {
+      "text": "showed it in a bunch of my videos the",
+      "start": 1311.12,
+      "duration": 2
+    },
+    {
+      "text": "potential of these right however after",
+      "start": 1313.12,
+      "duration": 2.64
+    },
+    {
+      "text": "months of building the agents in vectal",
+      "start": 1315.76,
+      "duration": 2.399
+    },
+    {
+      "text": "i realized that multi- aent approach",
+      "start": 1318.159,
+      "duration": 2.481
+    },
+    {
+      "text": "while it looks tempting on paper it's",
+      "start": 1320.64,
+      "duration": 2.64
+    },
+    {
+      "text": "bad in practice in theory it sounds good",
+      "start": 1323.28,
+      "duration": 2.32
+    },
+    {
+      "text": "it sounds great having these agents",
+      "start": 1325.6,
+      "duration": 1.76
+    },
+    {
+      "text": "running at the same time doing stuff",
+      "start": 1327.36,
+      "duration": 1.6
+    },
+    {
+      "text": "however in practice this breaks so fast",
+      "start": 1328.96,
+      "duration": 2.719
+    },
+    {
+      "text": "especially as you get into more complex",
+      "start": 1331.679,
+      "duration": 1.761
+    },
+    {
+      "text": "tasks and you run into so many issues",
+      "start": 1333.44,
+      "duration": 1.92
+    },
+    {
+      "text": "that you wish you stuck with the simpler",
+      "start": 1335.36,
+      "duration": 2.559
+    },
+    {
+      "text": "architecture now if you have any ideas",
+      "start": 1337.919,
+      "duration": 2.64
+    },
+    {
+      "text": "how to improve agent building principles",
+      "start": 1340.559,
+      "duration": 2.321
+    },
+    {
+      "text": "or like novel ways to structure multi-",
+      "start": 1342.88,
+      "duration": 2.32
+    },
+    {
+      "text": "aent systems reach out to walden the",
+      "start": 1345.2,
+      "duration": 2.16
+    },
+    {
+      "text": "author of this article at this email and",
+      "start": 1347.36,
+      "duration": 2.24
+    },
+    {
+      "text": "who knows maybe your idea will be used",
+      "start": 1349.6,
+      "duration": 2
+    },
+    {
+      "text": "to make devon even more powerful now",
+      "start": 1351.6,
+      "duration": 2.4
+    },
+    {
+      "text": "another thing that cognition and vector",
+      "start": 1354,
+      "duration": 1.6
+    },
+    {
+      "text": "have in common is that we're both trying",
+      "start": 1355.6,
+      "duration": 1.92
+    },
+    {
+      "text": "to build an ai startup which i do",
+      "start": 1357.52,
+      "duration": 2.399
+    },
+    {
+      "text": "believe is the biggest opportunity in",
+      "start": 1359.919,
+      "duration": 1.921
+    },
+    {
+      "text": "all of ai after thousands of hours",
+      "start": 1361.84,
+      "duration": 2.4
+    },
+    {
+      "text": "thinking about different ai",
+      "start": 1364.24,
+      "duration": 1.36
+    },
+    {
+      "text": "opportunities business models what is",
+      "start": 1365.6,
+      "duration": 2.319
+    },
+    {
+      "text": "the biggest opportunity i came to the",
+      "start": 1367.919,
+      "duration": 1.841
+    },
+    {
+      "text": "conclusion that building an ai startup",
+      "start": 1369.76,
+      "duration": 2.56
+    },
+    {
+      "text": "is the best decision all of us can make",
+      "start": 1372.32,
+      "duration": 2.4
+    },
+    {
+      "text": "and the time to do that is right now",
+      "start": 1374.72,
+      "duration": 1.92
+    },
+    {
+      "text": "thanks to tools like devon cloud code",
+      "start": 1376.64,
+      "duration": 2.399
+    },
+    {
+      "text": "cursor codeex anyone can build a $10,000",
+      "start": 1379.039,
+      "duration": 3.681
+    },
+    {
+      "text": "a month startup some people do it faster",
+      "start": 1382.72,
+      "duration": 2.079
+    },
+    {
+      "text": "some people will do it slower but if you",
+      "start": 1384.799,
+      "duration": 1.681
+    },
+    {
+      "text": "commit 40 minutes a day you can do it",
+      "start": 1386.48,
+      "duration": 2.8
+    },
+    {
+      "text": "and i'm speaking from experience before",
+      "start": 1389.28,
+      "duration": 1.92
+    },
+    {
+      "text": "veal i've never built a startup before",
+      "start": 1391.2,
+      "duration": 1.68
+    },
+    {
+      "text": "and i certainly wasn't a professional",
+      "start": 1392.88,
+      "duration": 1.679
+    },
+    {
+      "text": "developer yet i managed to use ai to go",
+      "start": 1394.559,
+      "duration": 2.721
+    },
+    {
+      "text": "from zero to over $12,000 in monthly",
+      "start": 1397.28,
+      "duration": 2.96
+    },
+    {
+      "text": "recurring revenue and i documented all",
+      "start": 1400.24,
+      "duration": 2.24
+    },
+    {
+      "text": "of that in the classroom of the new",
+      "start": 1402.48,
+      "duration": 2
+    },
+    {
+      "text": "society and again if you join the new",
+      "start": 1404.48,
+      "duration": 2.079
+    },
+    {
+      "text": "society during the month of july you",
+      "start": 1406.559,
+      "duration": 2.321
+    },
+    {
+      "text": "will get a month of vectal pro",
+      "start": 1408.88,
+      "duration": 2.159
+    },
+    {
+      "text": "completely for free so make sure to join",
+      "start": 1411.039,
+      "duration": 2.081
+    },
+    {
+      "text": "it's the first link below the video with",
+      "start": 1413.12,
+      "duration": 1.679
+    },
+    {
+      "text": "that being said thank you guys for",
+      "start": 1414.799,
+      "duration": 1.36
+    },
+    {
+      "text": "watching and have a wonderful productive",
+      "start": 1416.159,
+      "duration": 1.601
+    },
+    {
+      "text": "week see you",
+      "start": 1417.76,
+      "duration": 2.72
+    }
+  ],
+  "fullText": "do not build multi- aent systems and here's why so the multi- aent team is actually a trap openai and microsoft want you to use their frameworks like openai swarm or microsoft autogen to build teams of agents however cognition ai just released an article that explains why building multi- aent systems is a trap and why you shouldn't do it in this video i'll reveal how agents like devon are structured behind the scenes plus what actually is the best and the most reliable way to build ai agents in 2025 so watch until the end now here's the article from cognition which i've sent to all of my friends who are building ai agents called don't build multi- aents and basically the article was written because the frameworks for llm agents have been surprisingly disappointing a year ago we've all seen the hype around crew aai openai swarm autogen all the other frameworks but how many of you are actually using software that's using these behind the scenes almost nobody this perfectly matches my own experience of building vectal which is my ai startup where we spend hundreds of hours making the agents more reliable and what we found is that the more complexity you introduce the more multi-agent systems you add the lower the reliability is and that's exactly what walden one of the co-founders of cognition ai the company behind devon explains in this article why most multi-agent systems do not work and he gives two concrete examples of agentic systems that do work all right so this is the article don't build multi- aents and the goal is to explain why some tempting ideas like having you know hundreds of ai agents working underneath you are actually quite bad in practice now unlike many other articles in the ai space this one is actually quite easy to understand and there are two main principles that it concludes with number one share context number two actions carry implicit decisions and by the end of this video you will understand why these two principles are absolutely essential if you want to build any serious ai agents so why should we even think about principles well this story of html is really good so it was created in 1993 20 years later in 2013 facebook released react and nowadays everything is built on top of react and other react frameworks like nex.js so why is react such a dominant force well because it's not just a scaffold for writing code it's a philosophy of how you should build front end but this is the key this was not always obvious to early web developers and basically in the age of llms we are still playing with html and css we are still at the very early steps of figuring out how to build these ai agents let alone how to build multi- aent systems that are reliable no single approach to building agents has become the standard yet now here is the dangerous trap libraries such as openai swarm or microsoft origin actively push people to build with multiple agentic systems right i mean we can even click into some of these github repos right the examples they will show you will be the simplest examples possible but they will use like five different agents this is exactly what i mean right simplest example possible but it's already encouraging people to build with multiple agents even when the task is simple which is a huge mistake so as this article from cognition ai says this is the wrong way of building agents namely that using multi- aent architectures is very very risky unless you know what you're doing by the way if you're new to building ai agents this article links two amazing resources which i'm going to quickly go over right now resource number one comes from enthropic so before we dive into code before i show you two bad approaches and two good approaches for building multi- aent systems let's quickly look at these essential resources first is the building effective agents article from enthropic that goes over the fundamentals basically this article discourages against building complex ai agents so it tries to make you build as simple and clear agents as possible and it also warns against using frameworks but more on that later the second resource is from openai this article or pdf is a bit longer it's like 20 to 30 pages and it goes into tool calling reasoning models and guardrails by the way if you want to dive deeper into this openai course which takes like 7 hours to go through i condensed it into a single 15-minute video which you should watch after this video real quick everyone who joins the new society during july will get a month of veal pro for free plus you'll get access to all the exclusive content we have inside such as my startup journey where i documented going from zero to over $10,000 a month and you can see all of it but again this offer is only available in july so make sure to join the new society today it's the first link below the video now back to the article so here's the theory of building longunning ai agents let's start with reliability when agents have to be actually reliable while running for long periods of time there are certain things you must do to contain the potential for compounding errors at the core of reliability is context engineering so in 2025 the ai models are already extremely intelligent but just like with the smartest person they cannot do their job effectively if you don't give them enough context now hopefully you already know what prompt engineering is it's the art of writing a task in the ideal format for an llm context engineering is the next level of this and it's effectively the number one job of us people building ai agents to master and to really nail down so here is an example of an ai agent that's almost surely going to be unreliable and this is very common right so there's a task coming in the main agent breaks it down into subtasks delegates it into sub agents and then they send the results to the main agent again and it tries to combine the results this is a tempting architecture however in production this almost never works because it is very fragile i think it's best if i just show you so let me switch to cursor right here and let me show you the first example of the unreliable multi- aent system and by the way all of this is available in the free github repository which i'm going to link below you can take all of this code you know you can look at it what's wrong with these and you can take the good ones and build your apps on top of them i gave it mit license so you can literally do anything with it and i also included a super simple setup guide how to get it running on your own machine so first some essential imports we set the model as gb4.1 mini doesn't really matter and then we load the api key create the openai client some helper function it's not really necessary but here is the main ai agent right the task generation agent so it generates the subtasks the system prompt is return exactly two subtasks as json again the prompt could be better but the point is to demonstrate how the sub aents work and i think it's best if we just run this so main task design a new concept for a unique mobile game right so what does the main agent do creates two subtasks first off develop a story line for the first agent second create a visual style we can already see where this might go wrong okay so this is actually perfect example the first sub agent says that it's in a vibrant futuristic city blah blah blah second sub agent because they run in parallel right the main agent breaks it down and these two run in parallel they don't communicate between each other so the second sub agent is already talking about a dark gritty tones for a horror game completely different than the first one and then we're leaving it to the third agent to somehow combine these results so as this article says if your task is build a flappy bird clone right and you try to divide it into multiple agents here's what might happen subtask number one would be build a moving game background with green pipes and hit boxes second subtask going to the second sub aent right here would be build a bird that you can move up and down the issue is that one agent might do a different visual style build the environment in a way that is completely misaligned with the character and with the movements and then the final agent can somehow put these together and this can easily become a complete mess so principle one of building effective multi- aent systems is share context and share the full context full agent traces including what goes into them what they do with it and what goes out of them not just the individual messages between the user and the assistant so let's take a look at the second type of a multi- aent system this time making sure each agent has the context of the previous agents so this is a slight improvement however it is still not very reliable so you have the main agent which breaks down the task now really try to pay attention to these boxes because these represent the context in the conversation right so the main agent receives the conversation and actions so far that happened before this point then it goes into two different sub aents right both of them have this context so this is already a huge improvement from the previous workflow but still they run in parallel so they don't see what the other agent is doing they don't see how it thinks how it reasons stuff like that and then the third agent once again is left with combining this work even when it has all of the reasoning this is still not a good solution and here's why when you give your agent the same flappy bird cloning task this time you might end up with a bird and background with completely different visual styles sub agent one and sub aent two cannot see what the other was doing and so their work ends up being inconsistent with each other the actions sub agent one took and the actions sub agent two took were based on conflicting assumptions not predescribed up front and here comes the second principle from this article actions carry implicit decisions and conflicting decisions carry bad results that's why walden the co-founder of cognition and the author of this article argues that principle one and two are so critical and so rarely worth violating that you should by default roll out any agent architectures that don't abide by them you might think this is constraining but there is actually a wide space of different architectures you could still explore for your agent these ones are just some of the most popular ones but unfortunately they do not really work in production so what is an architecture that actually does work well the simplest way to follow these principles is to just use a single threaded linear agent that's why i named this repo linear agents by the way if you're finding this video valuable please make sure to start this repository right here on github just give it a star that way more and more people can see it okay so let's look at an example of a single threaded linear agent that is simple and reliable so a task comes in goes to the main agent you know you can call it manager ceo doesn't really matter again pay attention to the context squares it has all the conversation action so far same as last time but instead of splitting it into parallel agents running at the same time it first calls the first sub agent with the full context the first sub aent does its work adds this context then the second sub aent is called with the original context the first sub aent works so this is key it knows what the conversation was before that it knows what the first sub agent did and then it has complete awareness of the situation and only then it begins it its own task and once it does its own task it goes back to the main agent which knows everything conversation sub agent one sub agent two and it combines everything into a result so let me show you what this might look like in code this example is right here simple and reliable so again we have the main task generation agent creates two subtasks as last time but instead of it being executed in parallel right we had async.io so running these agents right here running these agents in parallel at the same time in number three we do not do that we first run the first sub agent and then we run the second sub agent which now has the context from the first one so it knows the task it knows the user input and it knows what the first agent did and this is going to be much more reliable so let me use the same prompt design a new concept for a unique mobile game let me kill the terminal let's do fresh boom main task same exact prompt let's see okay so we have this two subtasks first sub agent and then it waited second sub aent and boom let's see time canvas right where players can rewind pause or fast forward specific objects independently layering multiple timelines to solve puzzles so the second sub agent which again should create a visual art style has created something that actually matches this idea why because it sees the response from the first sub agent and again this is a very simple example but no matter what you're building choosing the right agent architecture is perhaps the most important decision because if you mess this up trust me and i'm saying this from lots of wasted hours on refactoring backend python files for vectal you do not want to rush this decision at the start choosing the correct agent architecture and the correct layout of ai agents is perhaps the biggest decision you're going to make when building a multi- aent system but again don't listen to me even though i've built hundreds of ai agents and vectal was used more than 50,000 people i still have zero experience compared to the guys at cognition the team at cognition is elite it's multiple math olympiads gold medalists informatics olympiads gold medalists they have like multi-billion dollar valuation they have some of the best ai agent builders in the world they're the creators of devon which might be the most advanced and powerful agent in the world right so don't listen to me listen to this article and if you're going to do something stick with this simple and reliable architecture however this is still not perfect because you might run into issues for very large tasks with many subp parts where the context window starts to overflow so this is how you know the simple workflow might struggle with context overflow because each agent needs to know what the previous agents did and that can add up especially if you're not using like gbd 4.1 like in this example i think uh we have 4.1 at the start even 4.1 a minute they have 1 million context so you're probably going to be fine but you know cloud models have 200k that still lasts a long time but you're going to overflow five times sooner than if you use like gemini or gpd4.1 but as the article says to be honest this simple architecture will get you very far but for those of you who have truly long duration tasks and are willing to put in the effort you can do even better so here is an example of an ai agent architecture that is reliable on longer tasks but it's a lot harder to get it right so a task comes in again main agent breaks it down but the key is that the conversation gets summarized so you have context compression llm running on the side that's compressing the context in real time so the first agent doesn't get like a whole conversation it gets compressed maybe by 50% maybe by 70% then the second agent gets the compressed conversation but also compressed actions of the first agent so only the key moments and decisions nothing else and same for the third agent stuff like that that way you can take let's say 100,000 tokens of context and narrow it down to the most essential 20,000 right that way you can have much more longer running tasks much more complex tasks and your team of agents can run for way longer before you hit this limit of the context overflow that you might reach here faster if you're not compressing the context as you're delegating to more and more agents so here's what that looks like in code we have the example right here it's this file right here 04 reliable or longer tasks so again if you want to build an app with ai agents feel free to just steal one of these either number three which i would recommend for most of you or number four if you really have advanced longunning workflows but just take these and build on top of them this is built on top of open router so you can use any model you can just swap out these models for gemini cloth doesn't matter with open router super easy literally as trivial as changing the name like we can literally do it like that you can do enthropic slash uh cloth 4 set i think it's actually cloth set 4 yeah it's cloth set 4 this is the naming for entropic models so you can literally swap this out super easy with open router it's uh couldn't be any easier so we have the task generation agent and again all the same stuff but the context gets compressed this is the key difference that the other three agent architectures didn't have we have this compressor agent that actively summarizes the conversation to less than 200 words that way it takes a lot longer until we run into any context issues but there's a caveat this is hard to get right don't think that you can just vibe a solution to this this problem like multi-billion dollar companies are struggling with this problem and again we're literally watching this invent in real time i don't have the answer cognition doesn't have all the answers enthropic openai doesn't have the answer people are trying to figure out what is the best way to do this so don't think like you're just going to vibe code it you know like this meme on twitter oh just vibe code a size to 50k mr and you know now you're a valuation of 3 million ridiculous these people are complete clowns it takes a lot of effort a lot of thought to build an advanced multi- aent system that is reliable on complex tasks that's why this article advocated for most people to stick with this simple and reliable architecture which again works just as well as this more advanced one if you don't have that much context like if your ai agent doesn't need to go through a large codebase you know analyze dozens of files like 15 20 different files with hundreds of lines of code you will probably never run into these issues for most of the ai agents me and you guys are going to be building we are going to be completely fine with this reliable and simple architecture that doesn't do any compression on the side because the moment you introduce this compression agent again it's complexity sometimes for advanced agents like devon this complexity is worth it because it needs to compress all that context but if you don't need to do it then go with the simple architecture this is like a key business decision that no matter if you're in ai or you know in selling gardening keep the business simple anything you any part of the business that is complex try to simplify it this is like essential principle that's going to save you tons of time it's going to allow you to scale faster and hopefully save you a bunch of headache so how do we apply these principles first off we need to ensure that your agents every action is informed by the context of all relevant decisions made by other parts of the system so don't try to hide any information this is a terrible thing you can do make sure to give ai agents all context on what happened before and if you need to summarize it then compress it but do not leave out any crucial info as the article says ideally every action would just see everything else so as you think about architecting your agents to avoid conflicting decision-making here are some other examples to think about clothe code sub agents so as of june 2025 clo is an example of an agent that spawns subtask cloth code right now is perhaps the agent that i spent the most time with it's absolutely amazing i made multiple videos on it feel free to watch them again after you finish watching this one however it never does work in parallel this is key it never does work in parallel with the subtask agent and the subtask agent is usually only tasked with answering a question not writing any code why the subtask agent lacks context from the main agent that would otherwise be needed to do anything beyond answering a well-defined question so this is enthropic themselves right like it doesn't get more advanced than companies like enthropic or openai they're literally creating these models and they themselves do not do these advanced parallel asynchronous multi- aent architectures they keep it simple if they have a sub agent they just tell it answer a specific question right analyze the codebase and give back answer to the main agent and only the main agent writes the code the main benefit of having a sub agent in this case is that all the sub agents investigative work does not need to remain in the history of the main agent so let's say you send a sub agent to answer a very specific question like what package is the backend api using right it might analyze five different files and then come back with the answer all of that analysis of those five different files would just be adding a bunch of noise to the main conversation history so you would not append this you would only get the answer for a very specific question for the sub agent which is returned to the main agent and only the main agent does any actions clue calling or writes any code the designers of cloth code took a purposefully simple approach and again this is one of the best ai agents in the world right now cloth code is super powerful people like myself are addicted to it and it is a simple agent architecture it doesn't do anything crazy and it's a super powerful ai agent now here is one more powerful thought about multi- aents that's worth getting into if we really want to get parallelism aka you know running multiple agents at the same time out of our system you might think okay so let's have them talk to each other and work things out right why don't we just do that well this is what humans do when we disagree right in an ideal world sometimes it doesn't happen but in ideal world if there's a disagreement humans go back and forth giving each other context trying to figure it out right if engineers a code causes a merge conflict with engineer b the correct protocol is to talk between each other to reach a consensus to reach a mutual understanding however this is a big difference this is why you shouldn't anthropomorphize agents they are not humans they are good at completely different things than people agents today are not quite able to engage in the style of long context proactive discourse with much more reliability than you would get with a single agent humans are quite efficient at communicating our most important knowledge to one another but this efficiency takes non-trivial intelligence you have to know what to say what the other person is thinking stuff like that current llms do not have this skill it is evident that in 2025 running multiple agents in collaboration only results in fragile systems the decision-m ends up being too dispersed and context isn't able to be shared for enough between the agents so yeah i was wrong previously i also thought that multi- aent systems would work and i showed it in a bunch of my videos the potential of these right however after months of building the agents in vectal i realized that multi- aent approach while it looks tempting on paper it's bad in practice in theory it sounds good it sounds great having these agents running at the same time doing stuff however in practice this breaks so fast especially as you get into more complex tasks and you run into so many issues that you wish you stuck with the simpler architecture now if you have any ideas how to improve agent building principles or like novel ways to structure multi- aent systems reach out to walden the author of this article at this email and who knows maybe your idea will be used to make devon even more powerful now another thing that cognition and vector have in common is that we're both trying to build an ai startup which i do believe is the biggest opportunity in all of ai after thousands of hours thinking about different ai opportunities business models what is the biggest opportunity i came to the conclusion that building an ai startup is the best decision all of us can make and the time to do that is right now thanks to tools like devon cloud code cursor codeex anyone can build a $10,000 a month startup some people do it faster some people will do it slower but if you commit 40 minutes a day you can do it and i'm speaking from experience before veal i've never built a startup before and i certainly wasn't a professional developer yet i managed to use ai to go from zero to over $12,000 in monthly recurring revenue and i documented all of that in the classroom of the new society and again if you join the new society during the month of july you will get a month of vectal pro completely for free so make sure to join it's the first link below the video with that being said thank you guys for watching and have a wonderful productive week see you"
+}

@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "id": "mastering-claude-hooks",
+    "pathId": "claude-code-mastery",
+    "title": "Dominando Claude Hooks",
+    "description": "Aprenda como transformar o Claude Code em um parceiro de desenvolvimento proativo com hooks para automação, observabilidade e controles de segurança",
+    "duration": "2 horas",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "order": 6,
+    "objectives": [
+      "Entender os cinco eventos de hook do Claude e quando usar cada um",
+      "Implementar controles de segurança para prevenir operações perigosas",
+      "Construir observabilidade abrangente com logging e monitoramento",
+      "Criar notificações por voz para tarefas de longa duração",
+      "Desenvolver padrões avançados de hooks para agentes paralelos e fluxos de trabalho complexos"
+    ],
+    "tags": ["hooks", "automação", "observabilidade", "Claude Code", "produtividade"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-11",
+    "author": "Brandon J. Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introdução aos Claude Hooks",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "06-mastering-claude-hooks.mdx#introduction"
+      }
+    },
+    {
+      "id": "hook-events",
+      "title": "Entendendo Eventos de Hook",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "06-mastering-claude-hooks.mdx#hook-events"
+      }
+    },
+    {
+      "id": "safety-controls",
+      "title": "Implementando Controles de Segurança",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "20 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "06-mastering-claude-hooks.mdx#safety-controls"
+      }
+    },
+    {
+      "id": "observability",
+      "title": "Construindo Observabilidade",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "25 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "06-mastering-claude-hooks.mdx#observability"
+      }
+    },
+    {
+      "id": "advanced-patterns",
+      "title": "Padrões Avançados de Hook",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "25 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "06-mastering-claude-hooks.mdx#advanced-patterns"
+      }
+    },
+    {
+      "id": "practice-exercise",
+      "title": "Prática Hands-On",
+      "type": "exercise",
+      "order": 6,
+      "estimatedDuration": "15 minutos",
+      "content": {
+        "type": "mdx",
+        "source": "06-mastering-claude-hooks.mdx#practice-exercise"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "Documentação de Claude Code Hooks",
+      "type": "documentation",
+      "url": "https://docs.anthropic.com/claude-code/hooks",
+      "required": true
+    },
+    {
+      "title": "Vídeo de Claude Hooks do IndyDevDan",
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=J5B9UGTuNoM",
+      "required": false
+    },
+    {
+      "title": "Gerenciador Python Astral UV",
+      "type": "tool",
+      "url": "https://github.com/astral-sh/uv",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["introduction", "hook-events", "safety-controls"],
+    "timeTracking": true,
+    "completionCertificate": false
+  }
+}
