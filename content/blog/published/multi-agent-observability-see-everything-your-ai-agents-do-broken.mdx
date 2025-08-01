@@ -1,0 +1,616 @@
+---
+title: "Multi-Agent Observability: See Everything Your AI Agents Do"
+date: "2025-07-26"
+excerpt: "Build a real-time observability system for your Claude Code agents. Learn how to monitor multiple agents simultaneously, track their activities, and scale your AI engineering impact with complete visibility."
+tags: ["Multi-Agent Systems", "Observability", "Claude Code", "Real-Time Monitoring", "AI Engineering"]
+author: "Brandon"
+---
+
+What you're about to see is simple and powerful.
+
+Running a single Claude Code agent is just the beginning. Once you realize this and start scaling up the number of agents you have shipping for you, you quickly run into a massive problem.
+
+There's too much to keep track of.
+
+When it comes to multi-agent systems, observability is everything. With Claude Code hooks sending events to a minimal client-server architecture, you can see everything.
+
+Let's break down a concrete approach to Claude Code multi-agent observability that lets you scale up what you can do with not just one Claude Code instance, but 3, 5, 10, and beyond.
+
+## The Problem: Too Many Agents, Too Little Visibility 👀
+
+Imagine this scenario: You have multiple agents running simultaneously:
+- One agent refactoring your authentication system
+- Another generating API documentation
+- A third running integration tests
+- Two more doing deep research on different parts of your codebase
+
+Without observability, you're flying blind. Which agent needs your input? What are they actually doing? When something goes wrong, how do you trace it back?
+
+## The Solution: Real-Time Multi-Agent Observability 🎯
+
+Here's what we're building:
+
+```text
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  Claude Agent 1 │     │  Claude Agent 2 │     │  Claude Agent 3 │
+│   (App: CRM)    │     │ (App: API Docs) │     │ (App: Testing)  │
+└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
+         │                       │                       │
+         │    Claude Hooks       │    Claude Hooks       │
+         └───────────┬───────────┴───────────┬──────────┘
+                     │                       │
+                     ▼                       ▼
+              ┌─────────────────────────────────┐
+              │        BUN SERVER               │
+              │   • Store to SQLite             │
+              │   • Broadcast via WebSocket     │
+              └──────────────┬──────────────────┘
+                             │
+                             ▼
+              ┌─────────────────────────────────┐
+              │     REAL-TIME DASHBOARD         │
+              │   • Live Activity Pulse         │
+              │   • Event Stream                │
+              │   • AI Summaries               │
+              └─────────────────────────────────┘
+```
+
+### Key Features:
+- **Live Activity Pulse**: Visual representation of all agent activities
+- **Event Stream**: Every tool call, hook, and decision
+- **AI-Powered Summaries**: Understand at a glance what each agent is doing
+- **Session Tracking**: Color-coded agents for easy identification
+
+## Building the Observability System 🛠️
+
+### Step 1: Enhanced Hook Configuration
+
+First, we upgrade our hooks to send comprehensive event data:
+
+### Universal Event Sender Hook
+
+```python
+#!/usr/bin/env python3
+# ~/.claude/hooks/send-event.py
+
+import sys
+import json
+import requests
+import os
+from datetime import datetime
+
+def summarize_with_ai(event_data, event_type):
+    """Use a small, fast model to summarize the event"""
+    if event_type not in ['pre-tool-use', 'post-tool-use']:
+        return None
+    
+    try:
+        # Use Haiku for ultra-fast summaries
+        import anthropic
+        client = anthropic.Client()
+        
+        prompt = f"Summarize in 10 words what this {event_type} event does: {json.dumps(event_data)}"
+        
+        response = client.messages.create(
+            model="claude-3-haiku",
+            max_tokens=30,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        
+        return response.content[0].text
+    except:
+        return None
+
+def send_event(app_name, event_type, summarize=True):
+    """Send event to observability server"""
+    event = json.loads(sys.stdin.read())
+    
+    # Add metadata
+    event['app_name'] = app_name
+    event['event_type'] = event_type
+    event['timestamp'] = datetime.now().isoformat()
+    event['session_id'] = os.environ.get('CLAUDE_SESSION_ID', 'unknown')
+    
+    # Add AI summary if requested
+    if summarize:
+        event['summary'] = summarize_with_ai(event, event_type)
+    
+    # Send to server
+    try:
+        requests.post('http://localhost:3000/events', 
+                     json=event, 
+                     timeout=1)
+    except:
+        pass  # Don't block on failures
+    
+    sys.exit(0)
+
+# Usage: send-event.py <app-name> <event-type> [--summarize]
+if __name__ == "__main__":
+    app_name = sys.argv[1]
+    event_type = sys.argv[2]
+    summarize = '--summarize' in sys.argv
+    send_event(app_name, event_type, summarize)
+```
+
+### Step 2: Configure Hooks for All Events
+
+```yaml
+# ~/.claude/settings.yaml
+hooks:
+  pre-prompt:
+    - ~/.claude/hooks/send-event.py "my-app" "pre-prompt"
+  
+  pre-tool-use:
+    - ~/.claude/hooks/security-check.py
+    - ~/.claude/hooks/send-event.py "my-app" "pre-tool-use" --summarize
+  
+  post-tool-use:
+    - ~/.claude/hooks/send-event.py "my-app" "post-tool-use" --summarize
+  
+  notification:
+    - ~/.claude/hooks/send-event.py "my-app" "notification"
+    - ~/.claude/hooks/play-sound.py
+  
+  stop:
+    - ~/.claude/hooks/send-event.py "my-app" "stop"
+    - ~/.claude/hooks/voice-summary.py
+  
+  pre-compact:
+    - ~/.claude/hooks/send-event.py "my-app" "pre-compact"
+```
+
+### Step 3: Build the Event Server
+
+<CodeExample
+  title="Bun Server with WebSocket Broadcasting"
+  language="typescript"
+  code={`// server.ts
+import {{ serve }} from 'bun';
+import {{ Database }} from 'bun:sqlite';
+
+const db = new Database('events.db');
+db.run(`
+  CREATE TABLE IF NOT EXISTS events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp TEXT,
+    app_name TEXT,
+    session_id TEXT,
+    event_type TEXT,
+    data TEXT
+  )
+`);
+
+const clients = new Set<WebSocket>();
+
+serve({{
+  port: 3000,
+  
+  async fetch(req, server) {{
+    const url = new URL(req.url);
+    
+    // Handle event ingestion
+    if (url.pathname === '/events' && req.method === 'POST') {{
+      const event = await req.json();
+      
+      // Store in database
+      db.run(
+        'INSERT INTO events (timestamp, app_name, session_id, event_type, data) VALUES (?, ?, ?, ?, ?)',
+        event.timestamp,
+        event.app_name,
+        event.session_id,
+        event.event_type,
+        JSON.stringify(event)
+      );
+      
+      // Broadcast to all connected clients
+      const message = JSON.stringify({{
+        type: 'event',
+        data: event
+      }});
+      
+      clients.forEach(client => {{
+        if (client.readyState === WebSocket.OPEN) {{
+          client.send(message);
+        }}
+      }});
+      
+      return new Response('OK');
+    }}
+    
+    // Upgrade to WebSocket for real-time updates
+    if (url.pathname === '/ws') {{
+      if (server.upgrade(req)) {{
+        return;
+      }}
+    }
+    
+    return new Response('Not found', {{ status: 404 }});
+  }},
+  
+  websocket: {{
+    open(ws) {{
+      clients.add(ws);
+      console.log('Client connected');
+    }},
+    
+    close(ws) {{
+      clients.delete(ws);
+      console.log('Client disconnected');
+    }},
+    
+    message(ws, message) {{
+      // Handle client messages if needed
+    }}
+  }}
+}});
+
+console.log('Observability server running on http://localhost:3000');`}
+/>
+
+### Step 4: Create the Real-Time Dashboard
+
+<CodeExample
+  title="Vue.js WebSocket Hook"
+  language="typescript"
+  code={`// useWebSocketEvents.ts
+import {{ ref, onMounted, onUnmounted }} from 'vue';
+
+export interface AgentEvent {
+  timestamp: string;
+  app_name: string;
+  session_id: string;
+  event_type: string;
+  summary?: string;
+  data: any;
+}
+
+export function useWebSocketEvents() {{
+  const events = ref<AgentEvent[]>([]);
+  const isConnected = ref(false);
+  let ws: WebSocket | null = null;
+  
+  const connect = () => {{
+    ws = new WebSocket('ws://localhost:3000/ws');
+    
+    ws.onopen = () => {{
+      isConnected.value = true;
+      console.log('Connected to observability server');
+    }};
+    
+    ws.onmessage = (event) => {{
+      const message = JSON.parse(event.data);
+      if (message.type === 'event') {{
+        // Add to events array (limit to last 1000)
+        events.value = [message.data, ...events.value].slice(0, 1000);
+      }}
+    }};
+    
+    ws.onclose = () => {{
+      isConnected.value = false;
+      // Reconnect after 1 second
+      setTimeout(connect, 1000);
+    }};
+  }};
+  
+  onMounted(connect);
+  
+  onUnmounted(() => {{
+    ws?.close();
+  }});
+  
+  return {{
+    events,
+    isConnected
+  }};
+}}`}
+/>
+
+## Advanced Observability Features 🚀
+
+### 1. Live Activity Pulse
+
+Visualize agent activity over time:
+
+<CodeExample
+  title="Activity Pulse Visualization"
+  language="vue"
+  code={`<template>
+  <div class="activity-pulse">
+    <h3>Activity Pulse (\{\{ timeWindow \}\})</h3>
+    <div class="pulse-chart">
+      <div 
+        v-for="(bar, i) in activityBars" 
+        :key="i"
+        class="pulse-bar"
+        :style="{{
+          height: bar.height + '%',
+          backgroundColor: bar.color
+        }}"
+      />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import {{ computed }} from 'vue';
+
+const props = defineProps(['events', 'timeWindow']);
+
+const activityBars = computed(() => {{
+  // Group events by time buckets
+  const buckets = createTimeBuckets(props.events, props.timeWindow);
+  
+  // Convert to visual bars with session-based colors
+  return buckets.map(bucket => ({{
+    height: Math.min(100, bucket.count * 10),
+    color: hashToColor(bucket.dominantSession)
+  }}));
+}});
+</script>`}
+/>
+
+### 2. Smart Event Filtering
+
+<CodeExample
+  title="Multi-Dimensional Filtering"
+  language="typescript"
+  code={`interface FilterOptions {
+  apps: string[];
+  eventTypes: string[];
+  sessions: string[];
+  timeRange: { start: Date; end: Date };
+  searchQuery: string;
+}
+
+function filterEvents(events: AgentEvent[], filters: FilterOptions) {{
+  return events.filter(event => {{
+    // App filter
+    if (filters.apps.length && !filters.apps.includes(event.app_name)) {{
+      return false;
+    }
+    
+    // Event type filter
+    if (filters.eventTypes.length && !filters.eventTypes.includes(event.event_type)) {{
+      return false;
+    }
+    
+    // Time range filter
+    const eventTime = new Date(event.timestamp);
+    if (eventTime < filters.timeRange.start || eventTime > filters.timeRange.end) {{
+      return false;
+    }
+    
+    // Search query (searches summaries and raw data)
+    if (filters.searchQuery) {{
+      const searchLower = filters.searchQuery.toLowerCase();
+      const matchesSummary = event.summary?.toLowerCase().includes(searchLower);
+      const matchesData = JSON.stringify(event.data).toLowerCase().includes(searchLower);
+      
+      if (!matchesSummary && !matchesData) {{
+        return false;
+      }}
+    }}
+    
+    return true;
+  }});
+}}`}
+/>
+
+### 3. Session-Based Color Coding
+
+<CodeExample
+  title="Consistent Session Colors"
+  language="typescript"
+  code={`function hashToColor(str: string): string {{
+  // Generate consistent color from session ID
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {{
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }}
+  
+  const hue = hash % 360;
+  const saturation = 70 + (hash % 20);
+  const lightness = 45 + (hash % 10);
+  
+  return \`hsl(\$\{hue\}, \$\{saturation\}%, \$\{lightness\}%)\`;
+}}`}
+/>
+
+## Practical Patterns 💡
+
+### Pattern 1: Agent Health Monitoring
+
+<CodeExample
+  title="Detecting Stuck Agents"
+  language="typescript"
+  code={`function checkAgentHealth(events: AgentEvent[]) {
+  const agentLastSeen = new Map<string, Date>();
+  
+  // Group events by session
+  events.forEach(event => {
+    const lastSeen = agentLastSeen.get(event.session_id) || new Date(0);
+    const eventTime = new Date(event.timestamp);
+    
+    if (eventTime > lastSeen) {
+      agentLastSeen.set(event.session_id, eventTime);
+    }
+  });
+  
+  // Check for inactive agents
+  const now = new Date();
+  const stuckAgents = [];
+  
+  agentLastSeen.forEach((lastSeen, sessionId) => {
+    const minutesSinceLastEvent = (now.getTime() - lastSeen.getTime()) / 60000;
+    
+    if (minutesSinceLastEvent > 5) {
+      stuckAgents.push({
+        sessionId,
+        lastSeen,
+        minutesInactive: Math.floor(minutesSinceLastEvent)
+      });
+    }
+  });
+  
+  return stuckAgents;
+}`}
+/>
+
+### Pattern 2: Cross-Agent Coordination
+
+Track when agents are working on related tasks:
+
+<CodeExample
+  title="Detecting Agent Conflicts"
+  language="typescript"
+  code={`function detectPotentialConflicts(events: AgentEvent[]) {
+  // Group by file paths being modified
+  const fileActivity = new Map<string, Set<string>>();
+  
+  events
+    .filter(e => e.event_type === 'pre-tool-use')
+    .filter(e => ['write_file', 'edit_file'].includes(e.data.tool_name))
+    .forEach(event => {
+      const filePath = event.data.arguments?.path;
+      if (filePath) {
+        const sessions = fileActivity.get(filePath) || new Set();
+        sessions.add(event.session_id);
+        fileActivity.set(filePath, sessions);
+      }
+    });
+  
+  // Find files being modified by multiple agents
+  const conflicts = [];
+  fileActivity.forEach((sessions, filePath) => {
+    if (sessions.size > 1) {
+      conflicts.push({
+        filePath,
+        agents: Array.from(sessions),
+        risk: 'Multiple agents modifying same file'
+      });
+    }
+  });
+  
+  return conflicts;
+}`}
+/>
+
+### Pattern 3: Performance Analytics
+
+<CodeExample
+  title="Agent Performance Metrics"
+  language="typescript"
+  code={`interface AgentMetrics {
+  sessionId: string;
+  totalEvents: number;
+  toolsUsed: Set<string>;
+  averageResponseTime: number;
+  errorRate: number;
+  summaries: string[];
+}
+
+function calculateAgentMetrics(events: AgentEvent[]): Map<string, AgentMetrics> {
+  const metrics = new Map<string, AgentMetrics>();
+  
+  // Group events by session
+  const sessionEvents = new Map<string, AgentEvent[]>();
+  events.forEach(event => {
+    const list = sessionEvents.get(event.session_id) || [];
+    list.push(event);
+    sessionEvents.set(event.session_id, list);
+  });
+  
+  // Calculate metrics for each session
+  sessionEvents.forEach((events, sessionId) => {
+    const toolsUsed = new Set<string>();
+    const summaries: string[] = [];
+    let errorCount = 0;
+    
+    events.forEach(event => {
+      if (event.data.tool_name) {
+        toolsUsed.add(event.data.tool_name);
+      }
+      if (event.summary) {
+        summaries.push(event.summary);
+      }
+      if (event.data.error) {
+        errorCount++;
+      }
+    });
+    
+    metrics.set(sessionId, {
+      sessionId,
+      totalEvents: events.length,
+      toolsUsed,
+      averageResponseTime: calculateAvgResponseTime(events),
+      errorRate: errorCount / events.length,
+      summaries
+    });
+  });
+  
+  return metrics;
+}`}
+/>
+
+<Callout type="info">
+**Pro Tip**: Use small, fast models like Claude Haiku for event summarization. Thousands of summaries cost less than $0.20 and provide instant context.
+</Callout>
+
+## Scaling Considerations 📈
+
+As you scale from 3 agents to 30:
+
+### 1. **Event Sampling**
+For high-frequency events, sample rather than log everything:
+```typescript
+if (Math.random() < 0.1) {{ // 10% sampling
+  sendEvent(data);
+}}
+```
+
+### 2. **Batch Processing**
+Send events in batches to reduce network overhead:
+```typescript
+const eventBatch = [];
+const flushBatch = () => {{
+  if (eventBatch.length > 0) {{
+    sendBatch(eventBatch);
+    eventBatch.length = 0;
+  }}
+}};
+setInterval(flushBatch, 1000); // Flush every second
+```
+
+### 3. **Data Retention**
+Implement automatic cleanup:
+```sql
+DELETE FROM events WHERE timestamp < datetime('now', '-7 days');
+```
+
+## The Power of Visibility 🎯
+
+With multi-agent observability in place, you can:
+
+1. **Scale Confidently**: Run 10+ agents without losing track
+2. **Debug Quickly**: Trace issues back to specific agents and actions
+3. **Optimize Workflows**: Identify bottlenecks and inefficiencies
+4. **Prevent Conflicts**: Detect when agents step on each other's toes
+5. **Measure Impact**: Quantify what your agents actually accomplish
+
+<Callout type="success">
+**Real Impact**: Engineers using multi-agent observability report 3-5x productivity gains because they can trust their agents to work autonomously while maintaining full visibility.
+</Callout>
+
+## Getting Started 🚀
+
+1. **Start Simple**: Begin with basic event logging to a file
+2. **Add Real-Time**: Implement WebSocket broadcasting
+3. **Build the Dashboard**: Start with a simple event list, add visualizations
+4. **Scale Gradually**: Add more agents as your observability improves
+
+Remember: If you don't measure it, you can't improve it. If you don't monitor it, how will you know what's actually happening?
+
+The future of engineering is multi-agent systems. The key to multi-agent systems is observability. Build it once, scale it forever.
+
+Your agents are working hard. It's time you could see everything they do.
