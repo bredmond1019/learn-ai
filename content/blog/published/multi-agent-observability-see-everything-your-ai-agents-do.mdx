@@ -30,10 +30,8 @@ Without observability, you're flying blind. Which agent needs your input? What a
 
 Here's what we're building:
 
-<CodeExample
-  title="Multi-Agent Observability Architecture"
-  language="text"
-  code={`┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+```text
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │  Claude Agent 1 │     │  Claude Agent 2 │     │  Claude Agent 3 │
 │   (App: CRM)    │     │ (App: API Docs) │     │ (App: Testing)  │
 └────────┬────────┘     └────────┬────────┘     └────────┬────────┘
@@ -54,8 +52,8 @@ Here's what we're building:
               │   • Live Activity Pulse         │
               │   • Event Stream                │
               │   • AI Summaries               │
-              └─────────────────────────────────┘`}
-/>
+              └─────────────────────────────────┘
+```
 
 ### Key Features:
 - **Live Activity Pulse**: Visual representation of all agent activities
@@ -69,10 +67,10 @@ Here's what we're building:
 
 First, we upgrade our hooks to send comprehensive event data:
 
-<CodeExample
-  title="Universal Event Sender Hook"
-  language="python"
-  code={`#!/usr/bin/env python3
+### Universal Event Sender Hook
+
+```python
+#!/usr/bin/env python3
 # ~/.claude/hooks/send-event.py
 
 import sys
@@ -91,12 +89,12 @@ def summarize_with_ai(event_data, event_type):
         import anthropic
         client = anthropic.Client()
         
-        prompt = f"Summarize in 10 words what this \{event_type\} event does: \{json.dumps(event_data)\}"
+        prompt = f"Summarize in 10 words what this {event_type} event does: {json.dumps(event_data)}"
         
         response = client.messages.create(
             model="claude-3-haiku",
             max_tokens=30,
-            messages=[{{"role": "user", "content": prompt}}]
+            messages=[{"role": "user", "content": prompt}]
         )
         
         return response.content[0].text
@@ -132,15 +130,13 @@ if __name__ == "__main__":
     app_name = sys.argv[1]
     event_type = sys.argv[2]
     summarize = '--summarize' in sys.argv
-    send_event(app_name, event_type, summarize)`}
-/>
+    send_event(app_name, event_type, summarize)
+```
 
 ### Step 2: Configure Hooks for All Events
 
-<CodeExample
-  title="Comprehensive Hook Setup"
-  language="yaml"
-  code={`# ~/.claude/settings.yaml
+```yaml
+# ~/.claude/settings.yaml
 hooks:
   pre-prompt:
     - ~/.claude/hooks/send-event.py "my-app" "pre-prompt"
@@ -161,8 +157,8 @@ hooks:
     - ~/.claude/hooks/voice-summary.py
   
   pre-compact:
-    - ~/.claude/hooks/send-event.py "my-app" "pre-compact"`}
-/>
+    - ~/.claude/hooks/send-event.py "my-app" "pre-compact"
+```
 
 ### Step 3: Build the Event Server
 
@@ -568,21 +564,21 @@ As you scale from 3 agents to 30:
 ### 1. **Event Sampling**
 For high-frequency events, sample rather than log everything:
 ```typescript
-if (Math.random() < 0.1) { // 10% sampling
+if (Math.random() < 0.1) {{ // 10% sampling
   sendEvent(data);
-}
+}}
 ```
 
 ### 2. **Batch Processing**
 Send events in batches to reduce network overhead:
 ```typescript
 const eventBatch = [];
-const flushBatch = () => {
-  if (eventBatch.length > 0) {
+const flushBatch = () => {{
+  if (eventBatch.length > 0) {{
     sendBatch(eventBatch);
     eventBatch.length = 0;
-  }
-};
+  }}
+}};
 setInterval(flushBatch, 1000); // Flush every second
 ```
 
