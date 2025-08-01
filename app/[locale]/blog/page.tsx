@@ -146,6 +146,8 @@ export default async function BlogPage({ params }: Props) {
               'blog.noResults': t('blog.noResults'),
               'blog.featuredArticles': t('blog.featuredArticles'),
               'blog.browseByCategory': t('blog.browseByCategory'),
+              'blog.loadMore': t('blog.loadMore'),
+              'blog.showingAll': t('blog.showingAll'),
             }}
           />
         </Container>

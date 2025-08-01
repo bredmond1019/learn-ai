@@ -76,6 +76,8 @@ export const ptBR = {
     filterByCategory: "Por Categoria",
     filterByDate: "Por Data (Mais Recentes)",
     viewFilter: "Visualizar",
+    loadMore: "Carregar Mais Artigos",
+    showingAll: "Mostrando todos os {{count}} artigos",
   },
   
   // Learning

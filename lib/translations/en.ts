@@ -76,6 +76,8 @@ export const en = {
     filterByCategory: "By Category",
     filterByDate: "By Date (Newest First)",
     viewFilter: "View",
+    loadMore: "Load More Articles",
+    showingAll: "Showing all {{count}} articles",
   },
   
   // Learning

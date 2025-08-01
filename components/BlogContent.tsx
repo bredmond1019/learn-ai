@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BlogCardServer } from './BlogCardServer'
 import { BlogPostMeta, formatDate } from '@/lib/mdx'
+import { useBlogPagination } from '@/hooks/useBlogPagination'
 
 type FilterType = 'category' | 'date'
 
@@ -93,7 +94,21 @@ export function BlogContent({ posts, categories, featuredPosts, locale, translat
   const [filterType, setFilterType] = useState<FilterType>('category')
   const t = (key: string) => translations[key] || key
 
-  // Categorize posts
+  // Use pagination hook for date view
+  const {
+    posts: paginatedPosts,
+    monthGroups,
+    isLoading,
+    hasMore,
+    hasPrevious,
+    currentPage,
+    totalCount,
+    loadMore,
+    reset,
+    error
+  } = useBlogPagination(locale, posts)
+
+  // Categorize posts for category view
   const categorizedPosts: Record<string, BlogPostMeta[]> = {
     'agent-architecture': [],
     'mcp-advanced': [],
@@ -108,8 +123,11 @@ export function BlogContent({ posts, categories, featuredPosts, locale, translat
     categorizedPosts[category].push(post)
   })
 
-  // Group posts by month for date view
-  const postsByMonth = groupPostsByMonth(posts)
+  // Use paginated posts for date view, all posts for category view
+  const displayPosts = filterType === 'date' ? paginatedPosts : posts
+  
+  // Group posts by month for date view (non-paginated fallback)
+  const postsByMonth = groupPostsByMonth(displayPosts)
   const sortedMonths = Object.keys(postsByMonth).sort((a, b) => {
     return new Date(b).getTime() - new Date(a).getTime()
   })
@@ -244,18 +262,55 @@ export function BlogContent({ posts, categories, featuredPosts, locale, translat
           {/* Date View */}
           {filterType === 'date' && (
             <div className="space-y-12">
-              {sortedMonths.map(monthYear => (
-                <section key={monthYear}>
+              {/* Use monthGroups from pagination if available, otherwise fallback */}
+              {(monthGroups.length > 0 ? monthGroups : sortedMonths.map(monthYear => ({
+                monthYear,
+                posts: postsByMonth[monthYear]
+              }))).map(group => (
+                <section key={group.monthYear}>
                   <h2 className="text-2xl font-bold text-gray-100 mb-6 pb-2 border-b border-gray-700">
-                    {monthYear}
+                    {group.monthYear}
                   </h2>
                   <div className="flex flex-col gap-6">
-                    {postsByMonth[monthYear].map((post) => (
+                    {group.posts.map((post) => (
                       <BlogCardServer key={post.slug} post={post} />
                     ))}
                   </div>
                 </section>
               ))}
+
+              {/* Loading indicator */}
+              {isLoading && (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                </div>
+              )}
+
+              {/* Error message */}
+              {error && (
+                <div className="text-center py-4 text-red-500">
+                  {error}
+                </div>
+              )}
+
+              {/* Load More button */}
+              {hasMore && !isLoading && (
+                <div className="flex justify-center pt-8">
+                  <button
+                    onClick={loadMore}
+                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    {t('blog.loadMore') || 'Load More Articles'}
+                  </button>
+                </div>
+              )}
+
+              {/* Show total count */}
+              {!hasMore && displayPosts.length > 0 && (
+                <div className="text-center py-4 text-gray-400">
+                  {(t('blog.showingAll') || 'Showing all {{count}} articles').replace('{{count}}', totalCount.toString())}
+                </div>
+              )}
             </div>
           )}
         </>
