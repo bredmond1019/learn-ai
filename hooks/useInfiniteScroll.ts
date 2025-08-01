@@ -25,18 +25,8 @@ export function useInfiniteScroll({
     (entries: IntersectionObserverEntry[]) => {
       const [entry] = entries
       
-      // Debug logging
-      console.log('Intersection observed:', {
-        isIntersecting: entry.isIntersecting,
-        hasMore,
-        isLoading,
-        boundingClientRect: entry.boundingClientRect,
-        intersectionRatio: entry.intersectionRatio
-      })
-      
       // If sentinel is visible, has more items, and not currently loading
       if (entry.isIntersecting && hasMore && !isLoading) {
-        console.log('Triggering loadMore from infinite scroll')
         onLoadMore()
       }
     },
@@ -71,18 +61,14 @@ export function useInfiniteScroll({
 
   // Re-observe when sentinel ref changes
   const setSentinelRef = useCallback((node: HTMLDivElement | null) => {
-    console.log('setSentinelRef called with:', node)
-    
     if (node !== sentinelRef.current) {
       if (observerRef.current && sentinelRef.current) {
-        console.log('Unobserving old sentinel')
         observerRef.current.unobserve(sentinelRef.current)
       }
       
       sentinelRef.current = node
       
       if (observerRef.current && node) {
-        console.log('Observing new sentinel')
         observerRef.current.observe(node)
       }
     }

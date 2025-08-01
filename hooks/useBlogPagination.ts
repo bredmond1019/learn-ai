@@ -112,9 +112,19 @@ export function useBlogPagination(locale: string, initialPosts: BlogPostMeta[] =
         // Otherwise, merge posts and month groups
         const allPosts = [...prev.posts, ...data.posts]
         
-        // Rebuild month groups from all posts
+        // Deduplicate posts by slug to avoid React key warnings
+        const uniquePostsMap = new Map<string, BlogPostMeta>()
+        allPosts.forEach(post => {
+          uniquePostsMap.set(post.slug, post)
+        })
+        const uniquePosts = Array.from(uniquePostsMap.values())
+        
+        // Sort by date descending to maintain order
+        uniquePosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        
+        // Rebuild month groups from unique posts
         const groups: Record<string, { posts: BlogPostMeta[], startsAt: number, endsAt: number }> = {}
-        allPosts.forEach((post, index) => {
+        uniquePosts.forEach((post, index) => {
           const date = new Date(post.date)
           const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
           
@@ -134,7 +144,7 @@ export function useBlogPagination(locale: string, initialPosts: BlogPostMeta[] =
 
         return {
           ...prev,
-          posts: allPosts,
+          posts: uniquePosts,
           monthGroups: mergedMonthGroups,
           hasMore: data.pagination.hasMore,
           hasPrevious: data.pagination.hasPrevious,

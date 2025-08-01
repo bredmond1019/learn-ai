@@ -49,18 +49,13 @@ export function BlogContentDate({ posts, locale, translations }: BlogContentDate
         </section>
       ))}
 
-      {/* Infinite scroll sentinel - placed before loading indicator to ensure visibility */}
+      {/* Infinite scroll sentinel - invisible div that triggers loading */}
       {hasMore && (
         <div 
           ref={sentinelRef} 
-          className="h-20 flex items-center justify-center"
+          className="h-1"
           aria-hidden="true"
-        >
-          {/* Visual indicator for debugging - remove in production */}
-          <span className="text-xs text-gray-500">
-            {isLoading ? 'Loading more posts...' : 'Scroll here to load more'}
-          </span>
-        </div>
+        />
       )}
 
       {/* Loading indicator */}
