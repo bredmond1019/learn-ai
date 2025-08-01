@@ -127,8 +127,10 @@ export function useBlogPagination(locale: string, initialPosts: BlogPostMeta[] =
         // Rebuild month groups from unique posts
         const groups: Record<string, { posts: BlogPostMeta[], startsAt: number, endsAt: number }> = {}
         uniquePosts.forEach((post, index) => {
-          const date = new Date(post.date)
-          const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+          // Handle date-only strings by adding UTC time to prevent timezone shifts
+          const dateString = post.date.includes('T') ? post.date : post.date + 'T00:00:00.000Z'
+          const date = new Date(dateString)
+          const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
           
           if (!groups[monthYear]) {
             groups[monthYear] = { posts: [], startsAt: index, endsAt: index }
