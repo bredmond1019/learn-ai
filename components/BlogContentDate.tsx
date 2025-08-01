@@ -43,7 +43,7 @@ export function BlogContentDate({ posts, locale, translations }: BlogContentDate
           </h2>
           <div className="flex flex-col gap-6">
             {group.posts.map((post) => (
-              <BlogCardServer key={post.slug} post={post} />
+              <BlogCardServer key={post.slug} post={post} locale={locale} filter="date" />
             ))}
           </div>
         </section>

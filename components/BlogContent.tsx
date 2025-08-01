@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { BlogCardServer } from './BlogCardServer'
 import { BlogContentDate } from './BlogContentDate'
 import { BlogPostMeta } from '@/lib/mdx'
@@ -75,8 +76,31 @@ function categorizePost(post: BlogPostMeta, categories: Record<string, any>) {
 }
 
 export function BlogContent({ posts, categories, featuredPosts, locale, translations }: BlogContentProps) {
-  const [filterType, setFilterType] = useState<FilterType>('category')
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  
+  // Get filter type from URL, default to 'category'
+  const filterFromUrl = searchParams.get('filter') as FilterType | null
+  const [filterType, setFilterType] = useState<FilterType>(filterFromUrl || 'category')
+  
   const t = (key: string) => translations[key] || key
+  
+  // Update URL when filter changes
+  const updateFilter = (newFilter: FilterType) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('filter', newFilter)
+    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+    setFilterType(newFilter)
+  }
+  
+  // Sync state with URL changes
+  useEffect(() => {
+    const urlFilter = searchParams.get('filter') as FilterType | null
+    if (urlFilter && (urlFilter === 'category' || urlFilter === 'date')) {
+      setFilterType(urlFilter)
+    }
+  }, [searchParams])
 
   // Categorize posts for category view
   const categorizedPosts: Record<string, BlogPostMeta[]> = {
@@ -100,7 +124,7 @@ export function BlogContent({ posts, categories, featuredPosts, locale, translat
         <span className="text-sm font-medium text-gray-400">{t('blog.viewFilter')}:</span>
         <div className="flex gap-2">
           <button
-            onClick={() => setFilterType('category')}
+            onClick={() => updateFilter('category')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               filterType === 'category'
                 ? 'bg-blue-600 text-white'
@@ -110,7 +134,7 @@ export function BlogContent({ posts, categories, featuredPosts, locale, translat
             {t('blog.filterByCategory')}
           </button>
           <button
-            onClick={() => setFilterType('date')}
+            onClick={() => updateFilter('date')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               filterType === 'date'
                 ? 'bg-blue-600 text-white'
@@ -139,7 +163,7 @@ export function BlogContent({ posts, categories, featuredPosts, locale, translat
                   <div key={post.slug} className="relative h-full">
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-30 h-full"></div>
                     <div className="relative h-full">
-                      <BlogCardServer post={post} />
+                      <BlogCardServer post={post} locale={locale} filter={filterType} />
                     </div>
                   </div>
                 ))}
@@ -210,7 +234,7 @@ export function BlogContent({ posts, categories, featuredPosts, locale, translat
                       
                       <div className="flex flex-col gap-6">
                         {postsInCategory.map((post) => (
-                          <BlogCardServer key={post.slug} post={post} />
+                          <BlogCardServer key={post.slug} post={post} locale={locale} filter={filterType} />
                         ))}
                       </div>
                     </section>

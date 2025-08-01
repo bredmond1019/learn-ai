@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { MDXProvider } from '@mdx-js/react'
+import { useSearchParams, useParams } from 'next/navigation'
 import { CodeBlock } from './ui/code-block'
 import { Container } from './Container'
 import { Section } from './Section'
@@ -51,12 +52,22 @@ const components = {
 }
 
 export function BlogPost({ post, children }: BlogPostProps) {
+  const searchParams = useSearchParams()
+  const params = useParams()
+  
+  // Get locale from params
+  const locale = params.locale || 'en'
+  
+  // Preserve filter state when going back to blog list
+  const filter = searchParams.get('filter') || 'category'
+  const backUrl = `/${locale}/blog?filter=${filter}`
+  
   return (
     <main className="min-h-screen pt-24">
       <Section spacing="lg">
         <Container size="md">
           <Link 
-            href="/blog"
+            href={backUrl}
             className="inline-flex items-center gap-2 text-foreground/60 hover:text-primary transition-colors mb-6"
           >
             <svg

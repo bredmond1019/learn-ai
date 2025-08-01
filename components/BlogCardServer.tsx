@@ -4,10 +4,12 @@ import { formatDate, BlogPostMeta } from '@/lib/mdx';
 
 interface BlogCardServerProps {
   post: BlogPostMeta;
+  locale?: string;
+  filter?: string;
 }
 
-export function BlogCardServer({ post }: BlogCardServerProps) {
-  const href = `/blog/${post.slug}`;
+export function BlogCardServer({ post, locale = 'en', filter = 'category' }: BlogCardServerProps) {
+  const href = `/${locale}/blog/${post.slug}?filter=${filter}`;
   
   return (
     <Link href={href} className="block group h-full">
