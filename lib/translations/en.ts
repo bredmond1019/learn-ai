@@ -69,6 +69,13 @@ export const en = {
     publishedOn: "Published on",
     tags: "Tags",
     noResults: "No blog posts found.",
+    articlesCount: "articles",
+    categoriesCount: "categories",
+    featuredArticles: "Featured Articles",
+    browseByCategory: "Browse by Category",
+    filterByCategory: "By Category",
+    filterByDate: "By Date (Newest First)",
+    viewFilter: "View",
   },
   
   // Learning

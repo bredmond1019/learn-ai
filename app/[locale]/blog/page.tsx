@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { Container } from '@/components/Container'
 import { Section } from '@/components/Section'
-import { BlogCardServer } from '@/components/BlogCardServer'
+import { BlogContent } from '@/components/BlogContent'
 import { getAllPostsMeta } from '@/lib/mdx.server'
 import { createTranslator } from '@/lib/translations'
 
@@ -101,82 +101,11 @@ const categories = {
   }
 }
 
-function categorizePost(post: any) {
-  const title = post.title.toLowerCase()
-  const tags = post.tags?.map((t: string) => t.toLowerCase()) || []
-  const allText = `${title} ${tags.join(' ')}`
-
-  // Check each category and calculate match scores
-  const scores: Record<string, number> = {}
-  
-  Object.entries(categories).forEach(([key, category]) => {
-    let score = 0
-    category.keywords.forEach(keyword => {
-      if (allText.includes(keyword)) {
-        score += keyword.length // Longer keywords get higher weight
-      }
-    })
-    scores[key] = score
-  })
-
-  // Special case adjustments for better categorization (including Portuguese)
-  if ((allText.includes('agent') || allText.includes('agente')) && 
-      (allText.includes('memory') || allText.includes('memória') || 
-       allText.includes('architecture') || allText.includes('arquitetura') || 
-       allText.includes('12-factor') || allText.includes('12-fatores'))) {
-    scores['agent-architecture'] += 20
-  }
-  
-  if (allText.includes('mcp') || allText.includes('model context protocol') || 
-      allText.includes('protocolo de contexto de modelo')) {
-    scores['mcp-advanced'] += 30
-  }
-  
-  if (allText.includes('business') || allText.includes('negócio') || allText.includes('negócios') ||
-      allText.includes('roi') || allText.includes('executive') || allText.includes('executivo') ||
-      allText.includes('enterprise') || allText.includes('empresarial') || allText.includes('empresa')) {
-    scores['business-strategy'] += 25
-  }
-  
-  if (allText.includes('ethics') || allText.includes('ética') || 
-      allText.includes('ux') || allText.includes('dark pattern') || allText.includes('padrões escuros') ||
-      allText.includes('everyday') || allText.includes('dia a dia') || allText.includes('dia')) {
-    scores['ethics-ux'] += 25
-  }
-
-  // Find category with highest score
-  let bestCategory = 'ai-fundamentals'
-  let highestScore = 0
-  
-  Object.entries(scores).forEach(([key, score]) => {
-    if (score > highestScore) {
-      highestScore = score
-      bestCategory = key
-    }
-  })
-  
-  return bestCategory
-}
 
 export default async function BlogPage({ params }: Props) {
   const { locale } = await params;
   const posts = getAllPostsMeta(locale)
   const t = createTranslator(locale as any)
-  
-  // Categorize posts
-  const categorizedPosts: Record<string, any[]> = {
-    'agent-architecture': [],
-    'mcp-advanced': [],
-    'business-strategy': [],
-    'ai-fundamentals': [],
-    'production-ops': [],
-    'ethics-ux': []
-  }
-  
-  posts.forEach(post => {
-    const category = categorizePost(post)
-    categorizedPosts[category].push(post)
-  })
 
   // Find featured posts (same articles featured on home page)
   const featuredSlugs = ['ai-for-everyday-person', 'ai-for-small-medium-business', 'why-ai-engineers-matter']
@@ -197,108 +126,28 @@ export default async function BlogPage({ params }: Props) {
             </p>
             <div className="mt-6 flex items-center gap-6 text-sm text-gray-400">
               <span className="flex items-center gap-2">
-                📝 <strong className="text-gray-300">{posts.length}</strong> {locale === 'pt-BR' ? t('blog.articlesCount') : 'articles'}
+                📝 <strong className="text-gray-300">{posts.length}</strong> {t('blog.articlesCount')}
               </span>
               <span className="flex items-center gap-2">
-                📚 <strong className="text-gray-300">{Object.keys(categories).length}</strong> {locale === 'pt-BR' ? t('blog.categoriesCount') : 'categories'}
+                📚 <strong className="text-gray-300">{Object.keys(categories).length}</strong> {t('blog.categoriesCount')}
               </span>
             </div>
           </div>
 
-          {posts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-400">{t('blog.noResults')}</p>
-            </div>
-          ) : (
-            <>
-              {/* Featured Posts */}
-              {featuredPosts.length > 0 && (
-                <section className="mb-12">
-                  <h2 className="text-2xl font-bold text-gray-100 mb-6 flex items-center gap-2">
-                    ⭐ {locale === 'pt-BR' ? t('blog.featuredArticles') : 'Featured Articles'}
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {featuredPosts.map((post) => (
-                      <div key={post.slug} className="relative h-full">
-                        <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-30 h-full"></div>
-                        <div className="relative h-full">
-                          <BlogCardServer post={post} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {/* Quick Navigation */}
-              <nav className="mb-12 p-6 bg-gray-800/50 rounded-lg border border-gray-700">
-                <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                  {locale === 'pt-BR' ? t('blog.browseByCategory') : 'Browse by Category'}
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {Object.entries(categories).map(([key, category]) => {
-                    const postCount = categorizedPosts[key].length
-                    if (postCount === 0) return null
-                    
-                    return (
-                      <a
-                        key={key}
-                        href={`#${key}`}
-                        className="group flex flex-col gap-1 p-4 bg-gray-700/30 hover:bg-gray-700/50 rounded-lg transition-all hover:scale-[1.02]"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-lg font-medium text-gray-100 group-hover:text-white">
-                            {locale === 'pt-BR' && category.nameTranslations?.['pt-BR'] 
-                              ? category.nameTranslations['pt-BR'] 
-                              : category.name}
-                          </span>
-                          <span className="text-sm font-semibold text-gray-400 bg-gray-800/50 px-2 py-0.5 rounded">
-                            {postCount}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-400 group-hover:text-gray-300">
-                          {locale === 'pt-BR' && category.descriptionTranslations?.['pt-BR'] 
-                            ? category.descriptionTranslations['pt-BR'] 
-                            : category.description}
-                        </p>
-                      </a>
-                    )
-                  })}
-                </div>
-              </nav>
-
-              {/* Blog Post Sections */}
-              <div className="space-y-16">
-                {Object.entries(categories).map(([key, category]) => {
-                  const postsInCategory = categorizedPosts[key]
-                  if (postsInCategory.length === 0) return null
-
-                  return (
-                    <section key={key} id={key} className="scroll-mt-20">
-                      <div className="mb-8">
-                        <h2 className="text-3xl font-bold text-gray-100 mb-3">
-                          {locale === 'pt-BR' && category.nameTranslations?.['pt-BR'] 
-                            ? category.nameTranslations['pt-BR'] 
-                            : category.name}
-                        </h2>
-                        <p className="text-lg text-gray-400">
-                          {locale === 'pt-BR' && category.descriptionTranslations?.['pt-BR'] 
-                            ? category.descriptionTranslations['pt-BR'] 
-                            : category.description}
-                        </p>
-                      </div>
-                      
-                      <div className="flex flex-col gap-6">
-                        {postsInCategory.map((post) => (
-                          <BlogCardServer key={post.slug} post={post} />
-                        ))}
-                      </div>
-                    </section>
-                  )
-                })}
-              </div>
-            </>
-          )}
+          <BlogContent 
+            posts={posts}
+            categories={categories}
+            featuredPosts={featuredPosts}
+            locale={locale}
+            translations={{
+              'blog.viewFilter': t('blog.viewFilter'),
+              'blog.filterByCategory': t('blog.filterByCategory'),
+              'blog.filterByDate': t('blog.filterByDate'),
+              'blog.noResults': t('blog.noResults'),
+              'blog.featuredArticles': t('blog.featuredArticles'),
+              'blog.browseByCategory': t('blog.browseByCategory'),
+            }}
+          />
         </Container>
       </Section>
     </div>

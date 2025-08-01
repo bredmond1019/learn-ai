@@ -73,6 +73,9 @@ export const ptBR = {
     browseByCategory: "Navegar por Categoria",
     articlesCount: "artigos",
     categoriesCount: "categorias",
+    filterByCategory: "Por Categoria",
+    filterByDate: "Por Data (Mais Recentes)",
+    viewFilter: "Visualizar",
   },
   
   // Learning
