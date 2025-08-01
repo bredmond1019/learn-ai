@@ -91,12 +91,12 @@ def summarize_with_ai(event_data, event_type):
         import anthropic
         client = anthropic.Client()
         
-        prompt = f"Summarize in 10 words what this {event_type} event does: {json.dumps(event_data)}"
+        prompt = f"Summarize in 10 words what this \{event_type\} event does: \{json.dumps(event_data)\}"
         
         response = client.messages.create(
             model="claude-3-haiku",
             max_tokens=30,
-            messages=[{"role": "user", "content": prompt}]
+            messages=[{{"role": "user", "content": prompt}}]
         )
         
         return response.content[0].text
@@ -417,7 +417,7 @@ function filterEvents(events: AgentEvent[], filters: FilterOptions) {
   const saturation = 70 + (hash % 20);
   const lightness = 45 + (hash % 10);
   
-  return \`hsl(\${hue}, \${saturation}%, \${lightness}%)\`;
+  return \`hsl(\$\{hue\}, \$\{saturation\}%, \$\{lightness\}%)\`;
 }`}
 />
 
