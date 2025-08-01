@@ -199,6 +199,7 @@ npm run k8s:status      # Check Kubernetes pod status
 ## Service-Specific Documentation
 
 - **YouTube Transcript API**: See `lib/CLAUDE.md` for detailed documentation on the YouTube transcript fetching and management system, including API architecture, usage patterns, and integration points.
+- **Blog Writing Guide**: See `content/blog/CLAUDE.md` for comprehensive blog writing guidelines, style guide, MDX troubleshooting, and content management patterns.
 
 ## Common Development Patterns
 
@@ -221,6 +222,7 @@ npm run k8s:status      # Check Kubernetes pod status
    - Create in `/content/blog/published/` for immediate visibility
    - Use required frontmatter: `title`, `date`, `excerpt`
    - Validate with `npm run validate:content`
+   - See `content/blog/CLAUDE.md` for style guide and MDX troubleshooting
 2. **Learning Modules**:
    - JSON metadata + MDX content pairs
    - Follow naming convention: `{order}-{module-id}.{json|mdx}`

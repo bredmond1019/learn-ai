@@ -329,6 +329,58 @@ If Portuguese posts exist but don't appear on `/pt-BR/blog`:
 3. **Check filename**: Must match English filename exactly
 4. **Verify no syntax errors**: Run `npm run build` to catch MDX parsing errors
 
+## MDX Parsing Troubleshooting
+
+### Common MDX Parsing Errors
+
+#### "Could not parse expression with acorn" Error
+This error occurs when MDX tries to parse JavaScript expressions in your content. Common causes and solutions:
+
+**Problem**: Using `<CodeExample>` components with complex code in the `code` prop
+```mdx
+<!-- This can cause parsing errors -->
+<CodeExample
+  title="Example"
+  language="typescript"
+  code={`function example() {
+    return { key: "value" };
+  }`}
+/>
+```
+
+**Solution**: Use standard markdown code blocks instead
+```mdx
+### Example
+
+\`\`\`typescript
+function example() {
+  return { key: "value" };
+}
+\`\`\`
+```
+
+**Why this happens**: 
+- MDX uses next-mdx-remote/rsc which parses JSX expressions
+- Complex code with curly braces, template literals, and nested syntax can confuse the parser
+- The parser tries to evaluate the content of template literals as JavaScript expressions
+
+**Best Practices**:
+1. **Prefer markdown code blocks** over custom code components for complex examples
+2. **Keep JSX simple** in MDX files - avoid complex expressions in component props
+3. **Test incrementally** - add content gradually to identify problematic sections
+4. **Use the simplified approach** shown in the multi-agent observability post as a template
+
+**If you must use CodeExample components**:
+- Keep code examples simple
+- Avoid nested curly braces and complex syntax
+- Consider moving complex code to separate files and importing them
+
+**Debugging Steps**:
+1. Create a minimal version of your post with just frontmatter and basic content
+2. Gradually add sections back to identify which part causes the error
+3. Replace problematic `<CodeExample>` components with markdown code blocks
+4. Check for unescaped curly braces or template literals outside of code blocks
+
 ### Example Dating Pattern
 For a 2-month publication window (e.g., May 8 - July 7):
 
