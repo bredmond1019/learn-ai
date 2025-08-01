@@ -91,19 +91,61 @@ export function useBlogPagination(locale: string, initialPosts: BlogPostMeta[] =
 
       const data = await response.json()
 
-      setState(prev => ({
-        ...prev,
-        posts: replace ? data.posts : [...prev.posts, ...data.posts],
-        monthGroups: data.monthGroups,
-        hasMore: data.pagination.hasMore,
-        hasPrevious: data.pagination.hasPrevious,
-        nextCursor: data.pagination.nextCursor,
-        prevCursor: data.pagination.prevCursor,
-        currentPage: data.pagination.currentPage,
-        totalPages: data.pagination.totalPages,
-        totalCount: data.pagination.totalCount,
-        isLoading: false,
-      }))
+      setState(prev => {
+        // If replacing, use new data directly
+        if (replace) {
+          return {
+            ...prev,
+            posts: data.posts,
+            monthGroups: data.monthGroups,
+            hasMore: data.pagination.hasMore,
+            hasPrevious: data.pagination.hasPrevious,
+            nextCursor: data.pagination.nextCursor,
+            prevCursor: data.pagination.prevCursor,
+            currentPage: data.pagination.currentPage,
+            totalPages: data.pagination.totalPages,
+            totalCount: data.pagination.totalCount,
+            isLoading: false,
+          }
+        }
+
+        // Otherwise, merge posts and month groups
+        const allPosts = [...prev.posts, ...data.posts]
+        
+        // Rebuild month groups from all posts
+        const groups: Record<string, { posts: BlogPostMeta[], startsAt: number, endsAt: number }> = {}
+        allPosts.forEach((post, index) => {
+          const date = new Date(post.date)
+          const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+          
+          if (!groups[monthYear]) {
+            groups[monthYear] = { posts: [], startsAt: index, endsAt: index }
+          }
+          groups[monthYear].posts.push(post)
+          groups[monthYear].endsAt = index
+        })
+        
+        const mergedMonthGroups = Object.entries(groups).map(([monthYear, data]) => ({
+          monthYear,
+          posts: data.posts,
+          startsAt: data.startsAt,
+          endsAt: data.endsAt
+        }))
+
+        return {
+          ...prev,
+          posts: allPosts,
+          monthGroups: mergedMonthGroups,
+          hasMore: data.pagination.hasMore,
+          hasPrevious: data.pagination.hasPrevious,
+          nextCursor: data.pagination.nextCursor,
+          prevCursor: data.pagination.prevCursor,
+          currentPage: data.pagination.currentPage,
+          totalPages: data.pagination.totalPages,
+          totalCount: data.pagination.totalCount,
+          isLoading: false,
+        }
+      })
 
       // Update URL with new cursor
       const newParams = new URLSearchParams(searchParams.toString())

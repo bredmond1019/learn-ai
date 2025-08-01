@@ -3,6 +3,7 @@
 import { BlogCardServer } from './BlogCardServer'
 import { BlogPostMeta } from '@/lib/mdx'
 import { useBlogPagination } from '@/hooks/useBlogPagination'
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 
 interface BlogContentDateProps {
   posts: BlogPostMeta[]
@@ -23,6 +24,14 @@ export function BlogContentDate({ posts, locale, translations }: BlogContentDate
     loadMore,
     error
   } = useBlogPagination(locale, posts)
+
+  // Use infinite scroll hook
+  const { sentinelRef } = useInfiniteScroll({
+    onLoadMore: loadMore,
+    hasMore,
+    isLoading,
+    rootMargin: '400px', // Start loading 400px before reaching the sentinel
+  })
 
   return (
     <div className="space-y-12">
@@ -54,12 +63,17 @@ export function BlogContentDate({ posts, locale, translations }: BlogContentDate
         </div>
       )}
 
-      {/* Load More button */}
+      {/* Infinite scroll sentinel - invisible div that triggers loading */}
+      {hasMore && (
+        <div ref={sentinelRef} className="h-1" aria-hidden="true" />
+      )}
+
+      {/* Load More button - kept as fallback for users who prefer manual control */}
       {hasMore && !isLoading && (
         <div className="flex justify-center pt-8">
           <button
             onClick={loadMore}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors"
           >
             {t('blog.loadMore') || 'Load More Articles'}
           </button>
