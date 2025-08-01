@@ -49,6 +49,20 @@ export function BlogContentDate({ posts, locale, translations }: BlogContentDate
         </section>
       ))}
 
+      {/* Infinite scroll sentinel - placed before loading indicator to ensure visibility */}
+      {hasMore && (
+        <div 
+          ref={sentinelRef} 
+          className="h-20 flex items-center justify-center"
+          aria-hidden="true"
+        >
+          {/* Visual indicator for debugging - remove in production */}
+          <span className="text-xs text-gray-500">
+            {isLoading ? 'Loading more posts...' : 'Scroll here to load more'}
+          </span>
+        </div>
+      )}
+
       {/* Loading indicator */}
       {isLoading && (
         <div className="flex justify-center py-8">
@@ -61,11 +75,6 @@ export function BlogContentDate({ posts, locale, translations }: BlogContentDate
         <div className="text-center py-4 text-red-500">
           {error}
         </div>
-      )}
-
-      {/* Infinite scroll sentinel - invisible div that triggers loading */}
-      {hasMore && (
-        <div ref={sentinelRef} className="h-1" aria-hidden="true" />
       )}
 
       {/* Load More button - kept as fallback for users who prefer manual control */}
