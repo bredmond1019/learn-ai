@@ -170,8 +170,8 @@ hooks:
   title="Bun Server with WebSocket Broadcasting"
   language="typescript"
   code={`// server.ts
-import { serve } from 'bun';
-import { Database } from 'bun:sqlite';
+import {{ serve }} from 'bun';
+import {{ Database }} from 'bun:sqlite';
 
 const db = new Database('events.db');
 db.run(`
@@ -187,14 +187,14 @@ db.run(`
 
 const clients = new Set<WebSocket>();
 
-serve({
+serve({{
   port: 3000,
   
-  async fetch(req, server) {
+  async fetch(req, server) {{
     const url = new URL(req.url);
     
     // Handle event ingestion
-    if (url.pathname === '/events' && req.method === 'POST') {
+    if (url.pathname === '/events' && req.method === 'POST') {{
       const event = await req.json();
       
       // Store in database
@@ -208,46 +208,46 @@ serve({
       );
       
       // Broadcast to all connected clients
-      const message = JSON.stringify({
+      const message = JSON.stringify({{
         type: 'event',
         data: event
-      });
+      }});
       
-      clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
+      clients.forEach(client => {{
+        if (client.readyState === WebSocket.OPEN) {{
           client.send(message);
-        }
-      });
+        }}
+      }});
       
       return new Response('OK');
-    }
+    }}
     
     // Upgrade to WebSocket for real-time updates
-    if (url.pathname === '/ws') {
-      if (server.upgrade(req)) {
+    if (url.pathname === '/ws') {{
+      if (server.upgrade(req)) {{
         return;
-      }
+      }}
     }
     
-    return new Response('Not found', { status: 404 });
-  },
+    return new Response('Not found', {{ status: 404 }});
+  }},
   
-  websocket: {
-    open(ws) {
+  websocket: {{
+    open(ws) {{
       clients.add(ws);
       console.log('Client connected');
-    },
+    }},
     
-    close(ws) {
+    close(ws) {{
       clients.delete(ws);
       console.log('Client disconnected');
-    },
+    }},
     
-    message(ws, message) {
+    message(ws, message) {{
       // Handle client messages if needed
-    }
-  }
-});
+    }}
+  }}
+}});
 
 console.log('Observability server running on http://localhost:3000');`}
 />
@@ -258,7 +258,7 @@ console.log('Observability server running on http://localhost:3000');`}
   title="Vue.js WebSocket Hook"
   language="typescript"
   code={`// useWebSocketEvents.ts
-import { ref, onMounted, onUnmounted } from 'vue';
+import {{ ref, onMounted, onUnmounted }} from 'vue';
 
 export interface AgentEvent {
   timestamp: string;
@@ -269,45 +269,45 @@ export interface AgentEvent {
   data: any;
 }
 
-export function useWebSocketEvents() {
+export function useWebSocketEvents() {{
   const events = ref<AgentEvent[]>([]);
   const isConnected = ref(false);
   let ws: WebSocket | null = null;
   
-  const connect = () => {
+  const connect = () => {{
     ws = new WebSocket('ws://localhost:3000/ws');
     
-    ws.onopen = () => {
+    ws.onopen = () => {{
       isConnected.value = true;
       console.log('Connected to observability server');
-    };
+    }};
     
-    ws.onmessage = (event) => {
+    ws.onmessage = (event) => {{
       const message = JSON.parse(event.data);
-      if (message.type === 'event') {
+      if (message.type === 'event') {{
         // Add to events array (limit to last 1000)
         events.value = [message.data, ...events.value].slice(0, 1000);
-      }
-    };
+      }}
+    }};
     
-    ws.onclose = () => {
+    ws.onclose = () => {{
       isConnected.value = false;
       // Reconnect after 1 second
       setTimeout(connect, 1000);
-    };
-  };
+    }};
+  }};
   
   onMounted(connect);
   
-  onUnmounted(() => {
+  onUnmounted(() => {{
     ws?.close();
-  });
+  }});
   
-  return {
+  return {{
     events,
     isConnected
-  };
-}`}
+  }};
+}}`}
 />
 
 ## Advanced Observability Features 🚀
@@ -321,36 +321,36 @@ Visualize agent activity over time:
   language="vue"
   code={`<template>
   <div class="activity-pulse">
-    <h3>Activity Pulse ({{ timeWindow }})</h3>
+    <h3>Activity Pulse (\{\{ timeWindow \}\})</h3>
     <div class="pulse-chart">
       <div 
         v-for="(bar, i) in activityBars" 
         :key="i"
         class="pulse-bar"
-        :style="{
+        :style="{{
           height: bar.height + '%',
           backgroundColor: bar.color
-        }"
+        }}"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import {{ computed }} from 'vue';
 
 const props = defineProps(['events', 'timeWindow']);
 
-const activityBars = computed(() => {
+const activityBars = computed(() => {{
   // Group events by time buckets
   const buckets = createTimeBuckets(props.events, props.timeWindow);
   
   // Convert to visual bars with session-based colors
-  return buckets.map(bucket => ({
+  return buckets.map(bucket => ({{
     height: Math.min(100, bucket.count * 10),
     color: hashToColor(bucket.dominantSession)
-  }));
-});
+  }}));
+}});
 </script>`}
 />
 
@@ -367,38 +367,38 @@ const activityBars = computed(() => {
   searchQuery: string;
 }
 
-function filterEvents(events: AgentEvent[], filters: FilterOptions) {
-  return events.filter(event => {
+function filterEvents(events: AgentEvent[], filters: FilterOptions) {{
+  return events.filter(event => {{
     // App filter
-    if (filters.apps.length && !filters.apps.includes(event.app_name)) {
+    if (filters.apps.length && !filters.apps.includes(event.app_name)) {{
       return false;
     }
     
     // Event type filter
-    if (filters.eventTypes.length && !filters.eventTypes.includes(event.event_type)) {
+    if (filters.eventTypes.length && !filters.eventTypes.includes(event.event_type)) {{
       return false;
     }
     
     // Time range filter
     const eventTime = new Date(event.timestamp);
-    if (eventTime < filters.timeRange.start || eventTime > filters.timeRange.end) {
+    if (eventTime < filters.timeRange.start || eventTime > filters.timeRange.end) {{
       return false;
     }
     
     // Search query (searches summaries and raw data)
-    if (filters.searchQuery) {
+    if (filters.searchQuery) {{
       const searchLower = filters.searchQuery.toLowerCase();
       const matchesSummary = event.summary?.toLowerCase().includes(searchLower);
       const matchesData = JSON.stringify(event.data).toLowerCase().includes(searchLower);
       
-      if (!matchesSummary && !matchesData) {
+      if (!matchesSummary && !matchesData) {{
         return false;
-      }
-    }
+      }}
+    }}
     
     return true;
-  });
-}`}
+  }});
+}}`}
 />
 
 ### 3. Session-Based Color Coding
@@ -406,19 +406,19 @@ function filterEvents(events: AgentEvent[], filters: FilterOptions) {
 <CodeExample
   title="Consistent Session Colors"
   language="typescript"
-  code={`function hashToColor(str: string): string {
+  code={`function hashToColor(str: string): string {{
   // Generate consistent color from session ID
   let hash = 0;
-  for (let i = 0; i < str.length; i++) {
+  for (let i = 0; i < str.length; i++) {{
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
+  }}
   
   const hue = hash % 360;
   const saturation = 70 + (hash % 20);
   const lightness = 45 + (hash % 10);
   
   return \`hsl(\$\{hue\}, \$\{saturation\}%, \$\{lightness\}%)\`;
-}`}
+}}`}
 />
 
 ## Practical Patterns 💡
