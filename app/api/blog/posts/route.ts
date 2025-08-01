@@ -34,8 +34,10 @@ function groupPostsByMonth(posts: BlogPostMeta[]): MonthGroup[] {
   const groups: Record<string, { posts: BlogPostMeta[], startsAt: number, endsAt: number }> = {}
   
   posts.forEach((post, index) => {
-    const date = new Date(post.date)
-    const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+    // Handle date-only strings by adding UTC time to prevent timezone shifts
+    const dateString = post.date.includes('T') ? post.date : post.date + 'T00:00:00.000Z'
+    const date = new Date(dateString)
+    const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
     
     if (!groups[monthYear]) {
       groups[monthYear] = { posts: [], startsAt: index, endsAt: index }
@@ -92,13 +94,16 @@ export async function GET(request: NextRequest) {
       const nextPost = allPosts[endIndex]
       
       if (lastPostInPage && nextPost) {
-        const lastPostMonth = new Date(lastPostInPage.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-        const nextPostMonth = new Date(nextPost.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+        const lastPostDateString = lastPostInPage.date.includes('T') ? lastPostInPage.date : lastPostInPage.date + 'T00:00:00.000Z'
+        const nextPostDateString = nextPost.date.includes('T') ? nextPost.date : nextPost.date + 'T00:00:00.000Z'
+        const lastPostMonth = new Date(lastPostDateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
+        const nextPostMonth = new Date(nextPostDateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
         
         // If we're splitting a month, include all posts from that month
         if (lastPostMonth === nextPostMonth) {
           while (endIndex < totalCount) {
-            const currentPostMonth = new Date(allPosts[endIndex].date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+            const currentPostDateString = allPosts[endIndex].date.includes('T') ? allPosts[endIndex].date : allPosts[endIndex].date + 'T00:00:00.000Z'
+            const currentPostMonth = new Date(currentPostDateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
             if (currentPostMonth !== lastPostMonth) break
             endIndex++
           }
@@ -112,13 +117,16 @@ export async function GET(request: NextRequest) {
       const prevPost = allPosts[adjustedStartIndex - 1]
       
       if (firstPostInPage && prevPost) {
-        const firstPostMonth = new Date(firstPostInPage.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-        const prevPostMonth = new Date(prevPost.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+        const firstPostDateString = firstPostInPage.date.includes('T') ? firstPostInPage.date : firstPostInPage.date + 'T00:00:00.000Z'
+        const prevPostDateString = prevPost.date.includes('T') ? prevPost.date : prevPost.date + 'T00:00:00.000Z'
+        const firstPostMonth = new Date(firstPostDateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
+        const prevPostMonth = new Date(prevPostDateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
         
         // If we're splitting a month, include all posts from that month
         if (firstPostMonth === prevPostMonth) {
           while (adjustedStartIndex > 0) {
-            const currentPostMonth = new Date(allPosts[adjustedStartIndex - 1].date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+            const currentPostDateString = allPosts[adjustedStartIndex - 1].date.includes('T') ? allPosts[adjustedStartIndex - 1].date : allPosts[adjustedStartIndex - 1].date + 'T00:00:00.000Z'
+            const currentPostMonth = new Date(currentPostDateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
             if (currentPostMonth !== firstPostMonth) break
             adjustedStartIndex--
           }
