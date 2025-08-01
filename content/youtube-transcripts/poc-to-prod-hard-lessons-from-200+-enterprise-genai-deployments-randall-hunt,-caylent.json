@@ -1,0 +1,2667 @@
+{
+  "videoId": "vW8wLsb3Nnc",
+  "language": "en",
+  "segments": [
+    {
+      "text": "[Music]",
+      "start": 3.54,
+      "duration": 5.11
+    },
+    {
+      "text": "Everybody excited? So, uh, what does",
+      "start": 14.08,
+      "duration": 2.56
+    },
+    {
+      "text": "Kalin do? We build stuff for people. So,",
+      "start": 16.64,
+      "duration": 1.84
+    },
+    {
+      "text": "people come to us with ideas and they're",
+      "start": 18.48,
+      "duration": 1.52
+    },
+    {
+      "text": "like, I want to make an app or like, oh,",
+      "start": 20,
+      "duration": 1.52
+    },
+    {
+      "text": "I want to move off of Oracle onto",
+      "start": 21.52,
+      "duration": 1.599
+    },
+    {
+      "text": "Postgress, you know. And we just do that",
+      "start": 23.119,
+      "duration": 1.761
+    },
+    {
+      "text": "stuff. We are builders. We uh created a",
+      "start": 24.88,
+      "duration": 3.76
+    },
+    {
+      "text": "company by hiring a bunch of passionate",
+      "start": 28.64,
+      "duration": 1.52
+    },
+    {
+      "text": "autodidacts with a little bit of product",
+      "start": 30.16,
+      "duration": 1.76
+    },
+    {
+      "text": "ADHD. And we jump around to all these",
+      "start": 31.92,
+      "duration": 2.479
+    },
+    {
+      "text": "different things and build cool things",
+      "start": 34.399,
+      "duration": 1.281
+    },
+    {
+      "text": "for our customers. And we have hundreds",
+      "start": 35.68,
+      "duration": 1.6
+    },
+    {
+      "text": "of customers at any given time. Everyone",
+      "start": 37.28,
+      "duration": 1.68
+    },
+    {
+      "text": "from like the Fortune 500 to startups.",
+      "start": 38.96,
+      "duration": 2.4
+    },
+    {
+      "text": "And it's a very fun gig. It's really",
+      "start": 41.36,
+      "duration": 3.039
+    },
+    {
+      "text": "cool. You get exposed to a lot of",
+      "start": 44.399,
+      "duration": 1.601
+    },
+    {
+      "text": "technology. And what we've learned is",
+      "start": 46,
+      "duration": 2.32
+    },
+    {
+      "text": "that uh generative AI is not the the",
+      "start": 48.32,
+      "duration": 4.399
+    },
+    {
+      "text": "magical pill that solves everything that",
+      "start": 52.719,
+      "duration": 2
+    },
+    {
+      "text": "a lot of people seem to think it is. Uh",
+      "start": 54.719,
+      "duration": 1.84
+    },
+    {
+      "text": "and then what your CTO read in the Wall",
+      "start": 56.559,
+      "duration": 2.48
+    },
+    {
+      "text": "Street Journal is not necessarily the",
+      "start": 59.039,
+      "duration": 1.601
+    },
+    {
+      "text": "latest and greatest thing. And we'll",
+      "start": 60.64,
+      "duration": 1.84
+    },
+    {
+      "text": "share some concrete components of that.",
+      "start": 62.48,
+      "duration": 2.16
+    },
+    {
+      "text": "Uh but I'll just point out a couple of",
+      "start": 64.64,
+      "duration": 1.92
+    },
+    {
+      "text": "different customers here. One of the",
+      "start": 66.56,
+      "duration": 1.36
+    },
+    {
+      "text": "ones is Brainbox AI. So they are a uh",
+      "start": 67.92,
+      "duration": 4.96
+    },
+    {
+      "text": "building operating system. They help",
+      "start": 72.88,
+      "duration": 2.239
+    },
+    {
+      "text": "decarbonize the built environment. So",
+      "start": 75.119,
+      "duration": 2
+    },
+    {
+      "text": "they manage uh tens of thousands of",
+      "start": 77.119,
+      "duration": 2.561
+    },
+    {
+      "text": "buildings across the United States and",
+      "start": 79.68,
+      "duration": 1.92
+    },
+    {
+      "text": "Canada or North America and they manage",
+      "start": 81.6,
+      "duration": 2.32
+    },
+    {
+      "text": "the HVAC systems. And we built an agent",
+      "start": 83.92,
+      "duration": 2.4
+    },
+    {
+      "text": "for them for helping uh with that uh",
+      "start": 86.32,
+      "duration": 4.159
+    },
+    {
+      "text": "decarbonization of the built environment",
+      "start": 90.479,
+      "duration": 1.68
+    },
+    {
+      "text": "and managing those things. And that was",
+      "start": 92.159,
+      "duration": 2.64
+    },
+    {
+      "text": "uh I think in the Times 100 best",
+      "start": 94.799,
+      "duration": 2.481
+    },
+    {
+      "text": "inventions of the year or something",
+      "start": 97.28,
+      "duration": 1.28
+    },
+    {
+      "text": "because it helps drastically reduce",
+      "start": 98.56,
+      "duration": 1.68
+    },
+    {
+      "text": "greenhouse emissions. Uh and then",
+      "start": 100.24,
+      "duration": 1.68
+    },
+    {
+      "text": "Simmons is uh water management",
+      "start": 101.92,
+      "duration": 2
+    },
+    {
+      "text": "conservation which we also implemented",
+      "start": 103.92,
+      "duration": 1.44
+    },
+    {
+      "text": "with AI. Uh and with that, you know,",
+      "start": 105.36,
+      "duration": 2.48
+    },
+    {
+      "text": "there's a couple other customers here.",
+      "start": 107.84,
+      "duration": 1.36
+    },
+    {
+      "text": "Pipes AI, virtual moving technologies,",
+      "start": 109.2,
+      "duration": 2.16
+    },
+    {
+      "text": "Z5 inventory. Uh but I thought it'd be",
+      "start": 111.36,
+      "duration": 2.399
+    },
+    {
+      "text": "cool to just show a demo. And one of the",
+      "start": 113.759,
+      "duration": 1.841
+    },
+    {
+      "text": "things that I'm most interested in right",
+      "start": 115.6,
+      "duration": 1.68
+    },
+    {
+      "text": "now is multimodal search and uh semantic",
+      "start": 117.28,
+      "duration": 3.36
+    },
+    {
+      "text": "understanding of videos. So this is one",
+      "start": 120.64,
+      "duration": 2.4
+    },
+    {
+      "text": "of our customers, Nature Footage. They",
+      "start": 123.04,
+      "duration": 2.079
+    },
+    {
+      "text": "have uh a ton of stock footage of, you",
+      "start": 125.119,
+      "duration": 2.721
+    },
+    {
+      "text": "know, lions and tigers and bears. Oh my.",
+      "start": 127.84,
+      "duration": 2.24
+    },
+    {
+      "text": "and crocodiles I suppose and we needed",
+      "start": 130.08,
+      "duration": 2.56
+    },
+    {
+      "text": "to index all of that and make it",
+      "start": 132.64,
+      "duration": 1.36
+    },
+    {
+      "text": "searchable over uh not just a vector",
+      "start": 134,
+      "duration": 2.56
+    },
+    {
+      "text": "index but also like a caption. So we",
+      "start": 136.56,
+      "duration": 2.48
+    },
+    {
+      "text": "leverage the Nova Pro models to generate",
+      "start": 139.04,
+      "duration": 3.279
+    },
+    {
+      "text": "understandings and timestamps and",
+      "start": 142.319,
+      "duration": 1.761
+    },
+    {
+      "text": "features of these videos store all of",
+      "start": 144.08,
+      "duration": 2
+    },
+    {
+      "text": "those in elastic search and then we are",
+      "start": 146.08,
+      "duration": 2.4
+    },
+    {
+      "text": "able to search on them and one of the",
+      "start": 148.48,
+      "duration": 2
+    },
+    {
+      "text": "most important things there is that we",
+      "start": 150.48,
+      "duration": 1.28
+    },
+    {
+      "text": "were able to build uh a pooling",
+      "start": 151.76,
+      "duration": 1.92
+    },
+    {
+      "text": "embedding. So by taking frame samples",
+      "start": 153.68,
+      "duration": 2.32
+    },
+    {
+      "text": "and pulling the embeddings uh of those",
+      "start": 156,
+      "duration": 2.16
+    },
+    {
+      "text": "frames, we can do a multimodal embedding",
+      "start": 158.16,
+      "duration": 2.079
+    },
+    {
+      "text": "and search with text for the images. And",
+      "start": 160.239,
+      "duration": 2.561
+    },
+    {
+      "text": "that's provided through the Titan v2",
+      "start": 162.8,
+      "duration": 1.76
+    },
+    {
+      "text": "multimodal embeddings.",
+      "start": 164.56,
+      "duration": 2.16
+    },
+    {
+      "text": "So uh I thought we'd take a look at a",
+      "start": 166.72,
+      "duration": 2.96
+    },
+    {
+      "text": "different architecture.",
+      "start": 169.68,
+      "duration": 2
+    },
+    {
+      "text": "I hope no one here is from Michigan",
+      "start": 171.68,
+      "duration": 1.36
+    },
+    {
+      "text": "because that's a terrible team. I hate",
+      "start": 173.04,
+      "duration": 1.36
+    },
+    {
+      "text": "them. Anyway, anyone remember March",
+      "start": 174.4,
+      "duration": 1.76
+    },
+    {
+      "text": "Madness? So, this is another customer of",
+      "start": 176.16,
+      "duration": 3.52
+    },
+    {
+      "text": "ours that uh I'm not going to reveal",
+      "start": 179.68,
+      "duration": 1.52
+    },
+    {
+      "text": "their name, but essentially we have a",
+      "start": 181.2,
+      "duration": 1.6
+    },
+    {
+      "text": "ton of sports footage that we're",
+      "start": 182.8,
+      "duration": 1.28
+    },
+    {
+      "text": "processing both in real time and in",
+      "start": 184.08,
+      "duration": 1.439
+    },
+    {
+      "text": "batch, archival and in real time. And",
+      "start": 185.519,
+      "duration": 2.481
+    },
+    {
+      "text": "what we'll do is we'll split that data",
+      "start": 188,
+      "duration": 1.76
+    },
+    {
+      "text": "into the audio. We'll generate the",
+      "start": 189.76,
+      "duration": 1.52
+    },
+    {
+      "text": "transcription. Fun fact, if you're",
+      "start": 191.28,
+      "duration": 1.52
+    },
+    {
+      "text": "looking for highlights, the easiest",
+      "start": 192.8,
+      "duration": 1.359
+    },
+    {
+      "text": "thing to do is just ffmpeg get an",
+      "start": 194.159,
+      "duration": 1.761
+    },
+    {
+      "text": "amplitude spectrograph of the audio and",
+      "start": 195.92,
+      "duration": 1.84
+    },
+    {
+      "text": "look for the audience cheering and lo",
+      "start": 197.76,
+      "duration": 1.44
+    },
+    {
+      "text": "and behold, you have your highlight",
+      "start": 199.2,
+      "duration": 1.119
+    },
+    {
+      "text": "reel. Um, very simple hack right there.",
+      "start": 200.319,
+      "duration": 3.041
+    },
+    {
+      "text": "And we'll take that and we'll generate",
+      "start": 203.36,
+      "duration": 1.519
+    },
+    {
+      "text": "embeddings from both the text and from",
+      "start": 204.879,
+      "duration": 2
+    },
+    {
+      "text": "the video itself. And we'll be able to",
+      "start": 206.879,
+      "duration": 2.321
+    },
+    {
+      "text": "uh identify certain behaviors with a",
+      "start": 209.2,
+      "duration": 2.48
+    },
+    {
+      "text": "certain vector and a certain confidence.",
+      "start": 211.68,
+      "duration": 1.919
+    },
+    {
+      "text": "And we'll store those then into a",
+      "start": 213.599,
+      "duration": 2.961
+    },
+    {
+      "text": "database. Oh, I think I paused the video",
+      "start": 216.56,
+      "duration": 2.239
+    },
+    {
+      "text": "by accident. My apologies. No, I didn't.",
+      "start": 218.799,
+      "duration": 3.761
+    },
+    {
+      "text": "And then we'll use something like Amazon",
+      "start": 222.56,
+      "duration": 1.759
+    },
+    {
+      "text": "end user messaging or SNS or whatever.",
+      "start": 224.319,
+      "duration": 2
+    },
+    {
+      "text": "we'll send a push notification to our",
+      "start": 226.319,
+      "duration": 1.681
+    },
+    {
+      "text": "end users and say, \"Look, we found uh a",
+      "start": 228,
+      "duration": 2.879
+    },
+    {
+      "text": "three-pointer or uh we found this other",
+      "start": 230.879,
+      "duration": 2.161
+    },
+    {
+      "text": "thing.\" And what we found is um you",
+      "start": 233.04,
+      "duration": 2.4
+    },
+    {
+      "text": "don't even have to take the the raw",
+      "start": 235.44,
+      "duration": 2.079
+    },
+    {
+      "text": "video. A a tiny little bit of annotation",
+      "start": 237.519,
+      "duration": 3.121
+    },
+    {
+      "text": "can do wonders um for the video",
+      "start": 240.64,
+      "duration": 3.04
+    },
+    {
+      "text": "understanding models at the as they",
+      "start": 243.68,
+      "duration": 1.759
+    },
+    {
+      "text": "exist right now. The soda models still",
+      "start": 245.439,
+      "duration": 2.08
+    },
+    {
+      "text": "just with a little tiny bit of uh",
+      "start": 247.519,
+      "duration": 2.161
+    },
+    {
+      "text": "augmentation on the video will",
+      "start": 249.68,
+      "duration": 1.52
+    },
+    {
+      "text": "outperform um what you can get with an",
+      "start": 251.2,
+      "duration": 3.2
+    },
+    {
+      "text": "unmodified video. And what I mean by",
+      "start": 254.4,
+      "duration": 2.239
+    },
+    {
+      "text": "that is if you have static camera angles",
+      "start": 256.639,
+      "duration": 2.801
+    },
+    {
+      "text": "and you annotate on the court where the",
+      "start": 259.44,
+      "duration": 1.84
+    },
+    {
+      "text": "three-pointer line is with a big blue",
+      "start": 261.28,
+      "duration": 1.52
+    },
+    {
+      "text": "line and then you just ask the model",
+      "start": 262.8,
+      "duration": 1.36
+    },
+    {
+      "text": "questions like did the player cross the",
+      "start": 264.16,
+      "duration": 2.08
+    },
+    {
+      "text": "big blue line. Lo and behold you get way",
+      "start": 266.24,
+      "duration": 1.92
+    },
+    {
+      "text": "better results and it takes you know",
+      "start": 268.16,
+      "duration": 1.36
+    },
+    {
+      "text": "seconds and you can even have something",
+      "start": 269.52,
+      "duration": 1.52
+    },
+    {
+      "text": "like SAM 2 which is another model from",
+      "start": 271.04,
+      "duration": 1.76
+    },
+    {
+      "text": "meta go and do some of those annotations",
+      "start": 272.8,
+      "duration": 2
+    },
+    {
+      "text": "for you. So that's an architecture.",
+      "start": 274.8,
+      "duration": 2.64
+    },
+    {
+      "text": "You'll notice that I've put up a couple",
+      "start": 277.44,
+      "duration": 1.6
+    },
+    {
+      "text": "of different databases there. We had uh",
+      "start": 279.04,
+      "duration": 2.56
+    },
+    {
+      "text": "Postgress PG vector uh which is my",
+      "start": 281.6,
+      "duration": 2.4
+    },
+    {
+      "text": "favorite right now. We had open search.",
+      "start": 284,
+      "duration": 2.08
+    },
+    {
+      "text": "That's another implementation of vector",
+      "start": 286.08,
+      "duration": 1.839
+    },
+    {
+      "text": "search there. Um, but anyway, why should",
+      "start": 287.919,
+      "duration": 2.881
+    },
+    {
+      "text": "you listen to me? Hi, I'm Randall. Um, I",
+      "start": 290.8,
+      "duration": 3.44
+    },
+    {
+      "text": "got started out hacking and building",
+      "start": 294.24,
+      "duration": 2.08
+    },
+    {
+      "text": "stuff and uh playing video games and",
+      "start": 296.32,
+      "duration": 2.319
+    },
+    {
+      "text": "hacking into video games. It turns out",
+      "start": 298.639,
+      "duration": 1.441
+    },
+    {
+      "text": "that's super illegal. Did not know that.",
+      "start": 300.08,
+      "duration": 2
+    },
+    {
+      "text": "Um, and then I went on to do some",
+      "start": 302.08,
+      "duration": 2.32
+    },
+    {
+      "text": "physics stuff at NASA. Uh, I joined a",
+      "start": 304.4,
+      "duration": 1.92
+    },
+    {
+      "text": "small company called Tenen, which became",
+      "start": 306.32,
+      "duration": 1.68
+    },
+    {
+      "text": "MongoDB. They IPOed. Um, I was an idiot",
+      "start": 308,
+      "duration": 3.28
+    },
+    {
+      "text": "and sold all my stock before the IPO.",
+      "start": 311.28,
+      "duration": 2.16
+    },
+    {
+      "text": "Uh, and then I worked at SpaceX where I",
+      "start": 313.44,
+      "duration": 2.16
+    },
+    {
+      "text": "led the CI/CD team. Fun fact, we never",
+      "start": 315.6,
+      "duration": 2.24
+    },
+    {
+      "text": "blew up a rocket while I was in charge",
+      "start": 317.84,
+      "duration": 1.44
+    },
+    {
+      "text": "of that team. Before and after my",
+      "start": 319.28,
+      "duration": 1.6
+    },
+    {
+      "text": "tenure, we blew up rockets. Um, I I",
+      "start": 320.88,
+      "duration": 3.12
+    },
+    {
+      "text": "don't know what else I can say there.",
+      "start": 324,
+      "duration": 1.28
+    },
+    {
+      "text": "Uh, and then I spent a long time at AWS",
+      "start": 325.28,
+      "duration": 1.919
+    },
+    {
+      "text": "and I had a great time building a ton of",
+      "start": 327.199,
+      "duration": 1.601
+    },
+    {
+      "text": "technology for a lot of customers. I",
+      "start": 328.8,
+      "duration": 1.76
+    },
+    {
+      "text": "even made a video about the transformer",
+      "start": 330.56,
+      "duration": 1.919
+    },
+    {
+      "text": "paper in July of 2017, not realizing",
+      "start": 332.479,
+      "duration": 4.401
+    },
+    {
+      "text": "what it was going to lead to. And the",
+      "start": 336.88,
+      "duration": 2.24
+    },
+    {
+      "text": "fact that we're all even here today is",
+      "start": 339.12,
+      "duration": 1.519
+    },
+    {
+      "text": "is still attention is all you need. Uh",
+      "start": 340.639,
+      "duration": 2.56
+    },
+    {
+      "text": "you can follow me on Twitter at JR Hunt.",
+      "start": 343.199,
+      "duration": 1.84
+    },
+    {
+      "text": "Uh it's still called Twitter. It will",
+      "start": 345.039,
+      "duration": 1.281
+    },
+    {
+      "text": "never be called X in my mind. And uh",
+      "start": 346.32,
+      "duration": 2.48
+    },
+    {
+      "text": "this is Kalin. You know, we've won",
+      "start": 348.8,
+      "duration": 1.76
+    },
+    {
+      "text": "partner of the year for AWS for a long",
+      "start": 350.56,
+      "duration": 1.6
+    },
+    {
+      "text": "time. We build stuff. Like I said, I I I",
+      "start": 352.16,
+      "duration": 2.56
+    },
+    {
+      "text": "like to say our motto is we build cool",
+      "start": 354.72,
+      "duration": 1.759
+    },
+    {
+      "text": "stuff. Um marketing doesn't like it when",
+      "start": 356.479,
+      "duration": 2.081
+    },
+    {
+      "text": "I say that. Uh because I don't always",
+      "start": 358.56,
+      "duration": 1.44
+    },
+    {
+      "text": "say the word stuff. Sometimes I'll sub",
+      "start": 360,
+      "duration": 1.44
+    },
+    {
+      "text": "in a different word. And what we build,",
+      "start": 361.44,
+      "duration": 2.8
+    },
+    {
+      "text": "you know, everything from chat bots to",
+      "start": 364.24,
+      "duration": 1.44
+    },
+    {
+      "text": "co-pilots to AI agents. And I'm going to",
+      "start": 365.68,
+      "duration": 2.16
+    },
+    {
+      "text": "share all the lessons that we've learned",
+      "start": 367.84,
+      "duration": 1.6
+    },
+    {
+      "text": "from building all of these things. You",
+      "start": 369.44,
+      "duration": 2.24
+    },
+    {
+      "text": "know, this sort of stuff on the top",
+      "start": 371.68,
+      "duration": 2.239
+    },
+    {
+      "text": "here, these self-service productivity",
+      "start": 373.919,
+      "duration": 2
+    },
+    {
+      "text": "tools. Um, these are things that you can",
+      "start": 375.919,
+      "duration": 2.481
+    },
+    {
+      "text": "typically buy. Uh, but certain",
+      "start": 378.4,
+      "duration": 2
+    },
+    {
+      "text": "institutions may need a fine tune. They",
+      "start": 380.4,
+      "duration": 2.4
+    },
+    {
+      "text": "may need a a particular application on",
+      "start": 382.8,
+      "duration": 2
+    },
+    {
+      "text": "top of that self-service productivity",
+      "start": 384.8,
+      "duration": 1.44
+    },
+    {
+      "text": "tool and we will often build things for",
+      "start": 386.24,
+      "duration": 2
+    },
+    {
+      "text": "them. Uh, one of the issues that we see",
+      "start": 388.24,
+      "duration": 2.239
+    },
+    {
+      "text": "organizations facing is how do they",
+      "start": 390.479,
+      "duration": 1.84
+    },
+    {
+      "text": "administer and track the usage of these",
+      "start": 392.319,
+      "duration": 3.121
+    },
+    {
+      "text": "third-party tools and APIs. Uh, and some",
+      "start": 395.44,
+      "duration": 2.56
+    },
+    {
+      "text": "people have an on-prem network and a VPN",
+      "start": 398,
+      "duration": 1.84
+    },
+    {
+      "text": "where they can just measure all the",
+      "start": 399.84,
+      "duration": 0.96
+    },
+    {
+      "text": "traffic. They can intercept things. They",
+      "start": 400.8,
+      "duration": 1.36
+    },
+    {
+      "text": "can look for PII or PHI and they can do",
+      "start": 402.16,
+      "duration": 1.92
+    },
+    {
+      "text": "all the fun stuff that we're supposed to",
+      "start": 404.08,
+      "duration": 1.2
+    },
+    {
+      "text": "do with network interception. There's a",
+      "start": 405.28,
+      "duration": 1.759
+    },
+    {
+      "text": "great tool called Shure Path. Uh, we use",
+      "start": 407.039,
+      "duration": 2
+    },
+    {
+      "text": "it at Kalin. I recommend them. Uh, it",
+      "start": 409.039,
+      "duration": 2.16
+    },
+    {
+      "text": "does all of that for you and it can",
+      "start": 411.199,
+      "duration": 1.521
+    },
+    {
+      "text": "integrate with Zcal or whatever else you",
+      "start": 412.72,
+      "duration": 1.599
+    },
+    {
+      "text": "might need. Um in terms of automating",
+      "start": 414.319,
+      "duration": 2.641
+    },
+    {
+      "text": "business functions, you know, this is",
+      "start": 416.96,
+      "duration": 2.079
+    },
+    {
+      "text": "typically trying to get a a percentage",
+      "start": 419.039,
+      "duration": 3.761
+    },
+    {
+      "text": "of time or dollars back uh end to end in",
+      "start": 422.8,
+      "duration": 3.119
+    },
+    {
+      "text": "a particular business process. Uh we",
+      "start": 425.919,
+      "duration": 2.081
+    },
+    {
+      "text": "work with a large logistics management",
+      "start": 428,
+      "duration": 1.68
+    },
+    {
+      "text": "customer that does a tremendous amount",
+      "start": 429.68,
+      "duration": 2.079
+    },
+    {
+      "text": "of processing of uh of receipts and",
+      "start": 431.759,
+      "duration": 2.641
+    },
+    {
+      "text": "bills of laden and things like that. And",
+      "start": 434.4,
+      "duration": 2.32
+    },
+    {
+      "text": "this is a typical intelligent document",
+      "start": 436.72,
+      "duration": 1.84
+    },
+    {
+      "text": "processing use case leveraging",
+      "start": 438.56,
+      "duration": 1.68
+    },
+    {
+      "text": "generative AI and a custom classifier",
+      "start": 440.24,
+      "duration": 2.079
+    },
+    {
+      "text": "before we send it into the generative AI",
+      "start": 442.319,
+      "duration": 2.16
+    },
+    {
+      "text": "models. Uh we can get far faster better",
+      "start": 444.479,
+      "duration": 2.321
+    },
+    {
+      "text": "results than even their human annotators",
+      "start": 446.8,
+      "duration": 2
+    },
+    {
+      "text": "can. Um and then there's monetization",
+      "start": 448.8,
+      "duration": 2.88
+    },
+    {
+      "text": "which is adding a new skew to an",
+      "start": 451.68,
+      "duration": 1.6
+    },
+    {
+      "text": "existing product. It's an existing SAS",
+      "start": 453.28,
+      "duration": 1.84
+    },
+    {
+      "text": "platform. It's an existing utility and",
+      "start": 455.12,
+      "duration": 2.799
+    },
+    {
+      "text": "the customer is like oh I want to add a",
+      "start": 457.919,
+      "duration": 2.161
+    },
+    {
+      "text": "new skew so I can charge my users for",
+      "start": 460.08,
+      "duration": 1.92
+    },
+    {
+      "text": "fancy AI because the Wall Street Journal",
+      "start": 462,
+      "duration": 1.759
+    },
+    {
+      "text": "told me to. And that is a very fun area",
+      "start": 463.759,
+      "duration": 3.761
+    },
+    {
+      "text": "to work in. But if you just build a",
+      "start": 467.52,
+      "duration": 2.32
+    },
+    {
+      "text": "chatbot, you know, sayanara, like good",
+      "start": 469.84,
+      "duration": 3.12
+    },
+    {
+      "text": "luck. I'll, you know, you're the",
+      "start": 472.96,
+      "duration": 1.44
+    },
+    {
+      "text": "Polaroid. Um, do people still use",
+      "start": 474.4,
+      "duration": 2.56
+    },
+    {
+      "text": "Polaroid? Are they doing okay? I don't",
+      "start": 476.96,
+      "duration": 1.359
+    },
+    {
+      "text": "know. Anyway, I used to say Kodak. Um,",
+      "start": 478.319,
+      "duration": 2.801
+    },
+    {
+      "text": "this is how we build these things and",
+      "start": 481.12,
+      "duration": 1.519
+    },
+    {
+      "text": "these are the lessons that we've",
+      "start": 482.639,
+      "duration": 1.041
+    },
+    {
+      "text": "learned. Um, I stole this slide. This is",
+      "start": 483.68,
+      "duration": 2
+    },
+    {
+      "text": "not my slide. I cannot remember where it",
+      "start": 485.68,
+      "duration": 2.32
+    },
+    {
+      "text": "is from. It's from Twitter somewhere. It",
+      "start": 488,
+      "duration": 2
+    },
+    {
+      "text": "might have been Jason Louu. It might",
+      "start": 490,
+      "duration": 1.28
+    },
+    {
+      "text": "have been from DSPY. But this is a great",
+      "start": 491.28,
+      "duration": 2.24
+    },
+    {
+      "text": "slide that I think very strategically",
+      "start": 493.52,
+      "duration": 2.32
+    },
+    {
+      "text": "identifies what the uh specifications",
+      "start": 495.84,
+      "duration": 3.759
+    },
+    {
+      "text": "are to build a moat in your business and",
+      "start": 499.599,
+      "duration": 3.121
+    },
+    {
+      "text": "the inputs to your system and what your",
+      "start": 502.72,
+      "duration": 2.879
+    },
+    {
+      "text": "system is going to do with them. That is",
+      "start": 505.599,
+      "duration": 2
+    },
+    {
+      "text": "the most fundamental part your inputs",
+      "start": 507.599,
+      "duration": 2
+    },
+    {
+      "text": "and your outputs. Um, does everyone",
+      "start": 509.599,
+      "duration": 2
+    },
+    {
+      "text": "remember Steve Balmer, uh, the former",
+      "start": 511.599,
+      "duration": 2.401
+    },
+    {
+      "text": "CEO of Microsoft and how he, uh,",
+      "start": 514,
+      "duration": 2.08
+    },
+    {
+      "text": "famously went on stage, uh, on a",
+      "start": 516.08,
+      "duration": 1.839
+    },
+    {
+      "text": "tremendous amount of cocaine and just",
+      "start": 517.919,
+      "duration": 1.36
+    },
+    {
+      "text": "started screaming, um, developers,",
+      "start": 519.279,
+      "duration": 1.921
+    },
+    {
+      "text": "developers, developers, developers. If I",
+      "start": 521.2,
+      "duration": 2
+    },
+    {
+      "text": "were to channel my inner balmer, what I",
+      "start": 523.2,
+      "duration": 1.68
+    },
+    {
+      "text": "would say is eval.",
+      "start": 524.88,
+      "duration": 2.48
+    },
+    {
+      "text": "So when we do this eval layer, this is",
+      "start": 527.36,
+      "duration": 3.52
+    },
+    {
+      "text": "where we prove that the system is robust",
+      "start": 530.88,
+      "duration": 3.2
+    },
+    {
+      "text": "and not just a vibe check and we're",
+      "start": 534.08,
+      "duration": 2.4
+    },
+    {
+      "text": "getting a one-off on a particularly",
+      "start": 536.48,
+      "duration": 2.16
+    },
+    {
+      "text": "unique uh prompt. Then we have the",
+      "start": 538.64,
+      "duration": 2.879
+    },
+    {
+      "text": "system architecture and then we have the",
+      "start": 541.519,
+      "duration": 1.921
+    },
+    {
+      "text": "different LLMs and tools and things we",
+      "start": 543.44,
+      "duration": 1.68
+    },
+    {
+      "text": "may use. And these are all incidental to",
+      "start": 545.12,
+      "duration": 2.159
+    },
+    {
+      "text": "your AI system and you should expect",
+      "start": 547.279,
+      "duration": 1.441
+    },
+    {
+      "text": "them to evolve and change. What will not",
+      "start": 548.72,
+      "duration": 2.32
+    },
+    {
+      "text": "evolve and change is your fundamental",
+      "start": 551.04,
+      "duration": 2.4
+    },
+    {
+      "text": "definition and specification of what are",
+      "start": 553.44,
+      "duration": 2.079
+    },
+    {
+      "text": "your inputs and what are your outputs.",
+      "start": 555.519,
+      "duration": 2.081
+    },
+    {
+      "text": "Uh and as you know the models get better",
+      "start": 557.6,
+      "duration": 2.4
+    },
+    {
+      "text": "and they improve and you can get other",
+      "start": 560,
+      "duration": 1.76
+    },
+    {
+      "text": "like modalities of output that may",
+      "start": 561.76,
+      "duration": 1.84
+    },
+    {
+      "text": "evolve. But you're always going to",
+      "start": 563.6,
+      "duration": 1.919
+    },
+    {
+      "text": "figure out why am I doing this? What is",
+      "start": 565.519,
+      "duration": 2.241
+    },
+    {
+      "text": "my ROI? What do I expect?",
+      "start": 567.76,
+      "duration": 2.96
+    },
+    {
+      "text": "This is how we build these things in",
+      "start": 570.72,
+      "duration": 1.679
+    },
+    {
+      "text": "AWS. On the bottom layer we have two",
+      "start": 572.399,
+      "duration": 1.921
+    },
+    {
+      "text": "services. We have Bedrock and we have",
+      "start": 574.32,
+      "duration": 1.36
+    },
+    {
+      "text": "SageMaker. Uh these are uh useful",
+      "start": 575.68,
+      "duration": 3.76
+    },
+    {
+      "text": "services. SageMaker comes at a",
+      "start": 579.44,
+      "duration": 1.839
+    },
+    {
+      "text": "particular compute premium. You can also",
+      "start": 581.279,
+      "duration": 1.841
+    },
+    {
+      "text": "just run on EKS or EC2 if you want. Um",
+      "start": 583.12,
+      "duration": 3.2
+    },
+    {
+      "text": "there's two different pieces of custom",
+      "start": 586.32,
+      "duration": 1.519
+    },
+    {
+      "text": "silicon that exist within AWS. One is",
+      "start": 587.839,
+      "duration": 2.161
+    },
+    {
+      "text": "trrenium, one is inferentia. Uh these",
+      "start": 590,
+      "duration": 2
+    },
+    {
+      "text": "come at about a 60% price performance",
+      "start": 592,
+      "duration": 2.399
+    },
+    {
+      "text": "improvement over using Nvidia GPUs. Now",
+      "start": 594.399,
+      "duration": 2.481
+    },
+    {
+      "text": "the downside is the amount of HP RAM is",
+      "start": 596.88,
+      "duration": 2.399
+    },
+    {
+      "text": "not as big as like an H200. I don't know",
+      "start": 599.279,
+      "duration": 2
+    },
+    {
+      "text": "if anyone saw today, but it was great",
+      "start": 601.279,
+      "duration": 1.601
+    },
+    {
+      "text": "news. Amazon announced that they were",
+      "start": 602.88,
+      "duration": 1.44
+    },
+    {
+      "text": "reducing the prices of the P4 and P5",
+      "start": 604.32,
+      "duration": 2
+    },
+    {
+      "text": "instances by up to 40%. So we all get",
+      "start": 606.32,
+      "duration": 2.32
+    },
+    {
+      "text": "more GPUs cheaper. Very happy about",
+      "start": 608.64,
+      "duration": 2.16
+    },
+    {
+      "text": "that. Um the interesting thing with",
+      "start": 610.8,
+      "duration": 2.8
+    },
+    {
+      "text": "tranium and inferentia is that you must",
+      "start": 613.6,
+      "duration": 2.16
+    },
+    {
+      "text": "uh use something called the neuron SDK",
+      "start": 615.76,
+      "duration": 2.48
+    },
+    {
+      "text": "to write these. So if anyone has ever",
+      "start": 618.24,
+      "duration": 1.839
+    },
+    {
+      "text": "written XLA for like TensorFlow and the",
+      "start": 620.079,
+      "duration": 2.241
+    },
+    {
+      "text": "good old um what were they called the",
+      "start": 622.32,
+      "duration": 2
+    },
+    {
+      "text": "TPUs and now the new TPU7 and all that",
+      "start": 624.32,
+      "duration": 2.24
+    },
+    {
+      "text": "great stuff. Uh the the neuron kernel",
+      "start": 626.56,
+      "duration": 2.16
+    },
+    {
+      "text": "interface for tranium and infinia is",
+      "start": 628.72,
+      "duration": 2.239
+    },
+    {
+      "text": "very similar. One level up from that we",
+      "start": 630.959,
+      "duration": 1.681
+    },
+    {
+      "text": "get to pick our various models. So we",
+      "start": 632.64,
+      "duration": 1.52
+    },
+    {
+      "text": "have everything from uh claude and nova",
+      "start": 634.16,
+      "duration": 2.32
+    },
+    {
+      "text": "to llama and deepseeek uh and then open",
+      "start": 636.48,
+      "duration": 2.16
+    },
+    {
+      "text": "source models that we can deploy. I",
+      "start": 638.64,
+      "duration": 1.6
+    },
+    {
+      "text": "don't know if mistrol is ever going to",
+      "start": 640.24,
+      "duration": 1.12
+    },
+    {
+      "text": "release another open source model but",
+      "start": 641.36,
+      "duration": 1.599
+    },
+    {
+      "text": "who knows. Uh and then we have our",
+      "start": 642.959,
+      "duration": 1.841
+    },
+    {
+      "text": "embeddings and our vector stores. So",
+      "start": 644.8,
+      "duration": 1.84
+    },
+    {
+      "text": "like I said uh I do prefer Postgress",
+      "start": 646.64,
+      "duration": 2.879
+    },
+    {
+      "text": "right now. If you need um persistence in",
+      "start": 649.519,
+      "duration": 3.121
+    },
+    {
+      "text": "Reddus uh there's a great thing called",
+      "start": 652.64,
+      "duration": 1.759
+    },
+    {
+      "text": "memory DB on AWS that also supports",
+      "start": 654.399,
+      "duration": 2.241
+    },
+    {
+      "text": "vector search. Um the good news about",
+      "start": 656.64,
+      "duration": 1.84
+    },
+    {
+      "text": "the reddis vector search is that it is",
+      "start": 658.48,
+      "duration": 1.84
+    },
+    {
+      "text": "extremely fast. The bad news is that it",
+      "start": 660.32,
+      "duration": 2
+    },
+    {
+      "text": "is extremely expensive because it has to",
+      "start": 662.32,
+      "duration": 1.68
+    },
+    {
+      "text": "sit in RAM. Um so if you think about how",
+      "start": 664,
+      "duration": 3.04
+    },
+    {
+      "text": "you're going to construct your indexes",
+      "start": 667.04,
+      "duration": 1.44
+    },
+    {
+      "text": "and like do IVV flat or something uh be",
+      "start": 668.48,
+      "duration": 2.4
+    },
+    {
+      "text": "prepared to blow up your RAM in order to",
+      "start": 670.88,
+      "duration": 1.68
+    },
+    {
+      "text": "store all of that stuff. Now um within",
+      "start": 672.56,
+      "duration": 2.24
+    },
+    {
+      "text": "Postgress and open search you can go to",
+      "start": 674.8,
+      "duration": 1.52
+    },
+    {
+      "text": "disk and you can use things like HNSW",
+      "start": 676.32,
+      "duration": 1.759
+    },
+    {
+      "text": "indexes so that you can have uh a better",
+      "start": 678.079,
+      "duration": 2.561
+    },
+    {
+      "text": "allocation and search mechanism. Then we",
+      "start": 680.64,
+      "duration": 2.4
+    },
+    {
+      "text": "have the prompt versioning and prompt",
+      "start": 683.04,
+      "duration": 1.28
+    },
+    {
+      "text": "management. Uh all of these things are",
+      "start": 684.32,
+      "duration": 2
+    },
+    {
+      "text": "incidental and and kind of uh you you",
+      "start": 686.32,
+      "duration": 2.88
+    },
+    {
+      "text": "know not unique anymore. But this one",
+      "start": 689.2,
+      "duration": 2.72
+    },
+    {
+      "text": "context management is incredibly",
+      "start": 691.92,
+      "duration": 2.32
+    },
+    {
+      "text": "important. And if you are looking to",
+      "start": 694.24,
+      "duration": 2.88
+    },
+    {
+      "text": "differentiate your application from",
+      "start": 697.12,
+      "duration": 2.32
+    },
+    {
+      "text": "someone else's application, context is",
+      "start": 699.44,
+      "duration": 2.16
+    },
+    {
+      "text": "key. So if your competitor doesn't have",
+      "start": 701.6,
+      "duration": 3.28
+    },
+    {
+      "text": "the context of the user and additional",
+      "start": 704.88,
+      "duration": 2.32
+    },
+    {
+      "text": "information uh but you're able to inject",
+      "start": 707.2,
+      "duration": 2.72
+    },
+    {
+      "text": "oh the the user is on this page they",
+      "start": 709.92,
+      "duration": 1.68
+    },
+    {
+      "text": "have a history of this browsing you know",
+      "start": 711.6,
+      "duration": 1.76
+    },
+    {
+      "text": "these are the cookies that I saw this is",
+      "start": 713.36,
+      "duration": 2
+    },
+    {
+      "text": "you know then you can go and make a much",
+      "start": 715.36,
+      "duration": 2.24
+    },
+    {
+      "text": "more strategic inference on behalf of",
+      "start": 717.6,
+      "duration": 1.679
+    },
+    {
+      "text": "that end user. So here are the lessons",
+      "start": 719.279,
+      "duration": 2.8
+    },
+    {
+      "text": "that we learned and I I'll jump into",
+      "start": 722.079,
+      "duration": 1.281
+    },
+    {
+      "text": "these but I'm also going to run out of",
+      "start": 723.36,
+      "duration": 1.76
+    },
+    {
+      "text": "time so I I'll speed through a little",
+      "start": 725.12,
+      "duration": 1.279
+    },
+    {
+      "text": "bit of it and I'll make the stack",
+      "start": 726.399,
+      "duration": 1.12
+    },
+    {
+      "text": "available for folks. But uh it turns out",
+      "start": 727.519,
+      "duration": 2.961
+    },
+    {
+      "text": "eval and embeddings are not all you",
+      "start": 730.48,
+      "duration": 1.919
+    },
+    {
+      "text": "need. Uh",
+      "start": 732.399,
+      "duration": 2.24
+    },
+    {
+      "text": "you know the understanding the access",
+      "start": 734.639,
+      "duration": 2.561
+    },
+    {
+      "text": "patterns and understanding the way that",
+      "start": 737.2,
+      "duration": 1.439
+    },
+    {
+      "text": "people will use the product uh will lead",
+      "start": 738.639,
+      "duration": 2.241
+    },
+    {
+      "text": "to a much better result than just",
+      "start": 740.88,
+      "duration": 1.6
+    },
+    {
+      "text": "throwing out evals and throwing out",
+      "start": 742.48,
+      "duration": 1.28
+    },
+    {
+      "text": "embeddings and wishing the best of luck.",
+      "start": 743.76,
+      "duration": 1.759
+    },
+    {
+      "text": "Embeddings alone do not a great query",
+      "start": 745.519,
+      "duration": 2.32
+    },
+    {
+      "text": "system make. How do you do faceted",
+      "start": 747.839,
+      "duration": 1.601
+    },
+    {
+      "text": "search and filters on top of embeddings",
+      "start": 749.44,
+      "duration": 1.839
+    },
+    {
+      "text": "alone? That is why we love things like",
+      "start": 751.279,
+      "duration": 2.641
+    },
+    {
+      "text": "open search and postgress. Um speed",
+      "start": 753.92,
+      "duration": 2.96
+    },
+    {
+      "text": "matters. So if your inference is slow,",
+      "start": 756.88,
+      "duration": 4.48
+    },
+    {
+      "text": "uh UX is a means of mitigating the",
+      "start": 761.36,
+      "duration": 2.64
+    },
+    {
+      "text": "slowness of some of these things.",
+      "start": 764,
+      "duration": 2.399
+    },
+    {
+      "text": "There's other techniques you can use.",
+      "start": 766.399,
+      "duration": 1.201
+    },
+    {
+      "text": "You can use caching, you can use other",
+      "start": 767.6,
+      "duration": 1.52
+    },
+    {
+      "text": "components. Um but if you are slower and",
+      "start": 769.12,
+      "duration": 3.2
+    },
+    {
+      "text": "more expensive, you will not be used. If",
+      "start": 772.32,
+      "duration": 2.639
+    },
+    {
+      "text": "you are uh slower and cheaper and you're",
+      "start": 774.959,
+      "duration": 2.32
+    },
+    {
+      "text": "mitigating some of the effects by",
+      "start": 777.279,
+      "duration": 1.521
+    },
+    {
+      "text": "leveraging something like a fancy UI",
+      "start": 778.8,
+      "duration": 2.56
+    },
+    {
+      "text": "spinner or something that keeps your",
+      "start": 781.36,
+      "duration": 1.2
+    },
+    {
+      "text": "users entertained as the inference is",
+      "start": 782.56,
+      "duration": 1.68
+    },
+    {
+      "text": "being calculated uh you can uh still",
+      "start": 784.24,
+      "duration": 2.64
+    },
+    {
+      "text": "win. Now uh knowing your end customer as",
+      "start": 786.88,
+      "duration": 2.56
+    },
+    {
+      "text": "I said is very important. And then the",
+      "start": 789.44,
+      "duration": 1.6
+    },
+    {
+      "text": "other very important thing is the number",
+      "start": 791.04,
+      "duration": 2.64
+    },
+    {
+      "text": "of times I see people defining a tool",
+      "start": 793.68,
+      "duration": 2.959
+    },
+    {
+      "text": "called get current date is infuriating",
+      "start": 796.639,
+      "duration": 2.481
+    },
+    {
+      "text": "to me. Like it is literally like import",
+      "start": 799.12,
+      "duration": 3.2
+    },
+    {
+      "text": "time.now",
+      "start": 802.32,
+      "duration": 1.84
+    },
+    {
+      "text": "you know like just it's a format string",
+      "start": 804.16,
+      "duration": 2.56
+    },
+    {
+      "text": "just throw it in the string like you",
+      "start": 806.72,
+      "duration": 2.239
+    },
+    {
+      "text": "control the prompt. Um, so, uh, the",
+      "start": 808.959,
+      "duration": 4.721
+    },
+    {
+      "text": "downside of putting some of that",
+      "start": 813.68,
+      "duration": 1.36
+    },
+    {
+      "text": "information very high up in the prompt",
+      "start": 815.04,
+      "duration": 1.599
+    },
+    {
+      "text": "is that your caching, uh, is not as",
+      "start": 816.639,
+      "duration": 2.081
+    },
+    {
+      "text": "effective. But if you can put some of",
+      "start": 818.72,
+      "duration": 1.52
+    },
+    {
+      "text": "that information at the bottom of the",
+      "start": 820.24,
+      "duration": 1.2
+    },
+    {
+      "text": "prompt after the instructions, you can",
+      "start": 821.44,
+      "duration": 1.76
+    },
+    {
+      "text": "often, uh, get very effective caching.",
+      "start": 823.2,
+      "duration": 2.24
+    },
+    {
+      "text": "Um, then there is like I I used to say",
+      "start": 825.44,
+      "duration": 5.68
+    },
+    {
+      "text": "we should fine-tune, we should do these",
+      "start": 831.12,
+      "duration": 1.68
+    },
+    {
+      "text": "things. Uh, it turns out I was wrong. As",
+      "start": 832.8,
+      "duration": 2
+    },
+    {
+      "text": "the models have improved and gotten more",
+      "start": 834.8,
+      "duration": 1.44
+    },
+    {
+      "text": "and more powerful, uh, prompt",
+      "start": 836.24,
+      "duration": 2.24
+    },
+    {
+      "text": "engineering has proven unreasonably",
+      "start": 838.48,
+      "duration": 1.84
+    },
+    {
+      "text": "effective for us, like far more",
+      "start": 840.32,
+      "duration": 1.759
+    },
+    {
+      "text": "effective than I would have predicted.",
+      "start": 842.079,
+      "duration": 1.601
+    },
+    {
+      "text": "Within, uh, cloud 3.7 to claude 4, we",
+      "start": 843.68,
+      "duration": 2.959
+    },
+    {
+      "text": "saw zero regressions. From cloud 35 to",
+      "start": 846.639,
+      "duration": 2.32
+    },
+    {
+      "text": "37, we did see regressions on certain",
+      "start": 848.959,
+      "duration": 2.24
+    },
+    {
+      "text": "things when we moved the exact same",
+      "start": 851.199,
+      "duration": 1.361
+    },
+    {
+      "text": "prompts over to some of our, uh, users",
+      "start": 852.56,
+      "duration": 2.719
+    },
+    {
+      "text": "and some of our evals. But from 37 to",
+      "start": 855.279,
+      "duration": 2.8
+    },
+    {
+      "text": "four, we got faster, better, cheaper,",
+      "start": 858.079,
+      "duration": 3.281
+    },
+    {
+      "text": "more optimized inference in virtually",
+      "start": 861.36,
+      "duration": 2.08
+    },
+    {
+      "text": "every use case. So it was like a drop in",
+      "start": 863.44,
+      "duration": 2.079
+    },
+    {
+      "text": "replacement and it was amazing. Um, and",
+      "start": 865.519,
+      "duration": 2.161
+    },
+    {
+      "text": "I hoping future versions will be the",
+      "start": 867.68,
+      "duration": 2
+    },
+    {
+      "text": "same. Uh, I'm hoping we're the era of",
+      "start": 869.68,
+      "duration": 2.08
+    },
+    {
+      "text": "having to adjust your prompt every time",
+      "start": 871.76,
+      "duration": 1.759
+    },
+    {
+      "text": "a new model comes out is ending. Um, and",
+      "start": 873.519,
+      "duration": 3.201
+    },
+    {
+      "text": "then finally, it's very important to",
+      "start": 876.72,
+      "duration": 1.2
+    },
+    {
+      "text": "know your economics like is this",
+      "start": 877.92,
+      "duration": 1.68
+    },
+    {
+      "text": "inference going to bankrupt my company?",
+      "start": 879.6,
+      "duration": 1.679
+    },
+    {
+      "text": "Um if you think about some of the cost",
+      "start": 881.279,
+      "duration": 2
+    },
+    {
+      "text": "of uh uh the the opus models, you know,",
+      "start": 883.279,
+      "duration": 4.081
+    },
+    {
+      "text": "it may not always be the best thing to",
+      "start": 887.36,
+      "duration": 1.76
+    },
+    {
+      "text": "run.",
+      "start": 889.12,
+      "duration": 1.519
+    },
+    {
+      "text": "Okay, so just in the interest of time,",
+      "start": 890.639,
+      "duration": 2.64
+    },
+    {
+      "text": "this is another great slide. This is uh",
+      "start": 893.279,
+      "duration": 1.761
+    },
+    {
+      "text": "from anthropic actually. And when we",
+      "start": 895.04,
+      "duration": 3.039
+    },
+    {
+      "text": "think about how to create our evals, the",
+      "start": 898.079,
+      "duration": 2
+    },
+    {
+      "text": "vibe check, the very first thing that",
+      "start": 900.079,
+      "duration": 1.841
+    },
+    {
+      "text": "you do when you try to create um a uh",
+      "start": 901.92,
+      "duration": 6.08
+    },
+    {
+      "text": "a test, that vibe check becomes your",
+      "start": 908,
+      "duration": 2.399
+    },
+    {
+      "text": "first eval. And then you change the data",
+      "start": 910.399,
+      "duration": 2.321
+    },
+    {
+      "text": "and the stuff that you're sending in and",
+      "start": 912.72,
+      "duration": 1.6
+    },
+    {
+      "text": "lo and behold, 20 minutes later, you do",
+      "start": 914.32,
+      "duration": 2.4
+    },
+    {
+      "text": "have some form of eval set that you can",
+      "start": 916.72,
+      "duration": 1.919
+    },
+    {
+      "text": "begin running. And then you can go for",
+      "start": 918.639,
+      "duration": 1.841
+    },
+    {
+      "text": "metrics. Now metrics do not have to be a",
+      "start": 920.48,
+      "duration": 2.32
+    },
+    {
+      "text": "score like a BERT or",
+      "start": 922.8,
+      "duration": 2.64
+    },
+    {
+      "text": "you know a benchmark score that is",
+      "start": 925.44,
+      "duration": 1.519
+    },
+    {
+      "text": "calculated. They can just be a boolean.",
+      "start": 926.959,
+      "duration": 2.081
+    },
+    {
+      "text": "It can just be true or false. Was this",
+      "start": 929.04,
+      "duration": 2.159
+    },
+    {
+      "text": "inference successful or not? Um that is",
+      "start": 931.199,
+      "duration": 2.721
+    },
+    {
+      "text": "often easier than trying to assign a",
+      "start": 933.92,
+      "duration": 1.76
+    },
+    {
+      "text": "particular value and a particular score.",
+      "start": 935.68,
+      "duration": 1.76
+    },
+    {
+      "text": "Uh and then you just iterate, you know,",
+      "start": 937.44,
+      "duration": 2
+    },
+    {
+      "text": "keep going. And like I said, speed",
+      "start": 939.44,
+      "duration": 2.399
+    },
+    {
+      "text": "matters, but UX matters more. you know,",
+      "start": 941.839,
+      "duration": 1.921
+    },
+    {
+      "text": "this UX orchestration, prop management,",
+      "start": 943.76,
+      "duration": 2.24
+    },
+    {
+      "text": "all of this great stuff uh is why we end",
+      "start": 946,
+      "duration": 3.199
+    },
+    {
+      "text": "up doing better than uh some of our",
+      "start": 949.199,
+      "duration": 2.08
+    },
+    {
+      "text": "competitors. And then, you know, one of",
+      "start": 951.279,
+      "duration": 2
+    },
+    {
+      "text": "our customers, Cloud Zero, uh we",
+      "start": 953.279,
+      "duration": 2.881
+    },
+    {
+      "text": "originally built a chatbot for them for",
+      "start": 956.16,
+      "duration": 1.76
+    },
+    {
+      "text": "you to chat with your AWS infrastructure",
+      "start": 957.92,
+      "duration": 1.919
+    },
+    {
+      "text": "and get cost out of that AWS",
+      "start": 959.839,
+      "duration": 1.841
+    },
+    {
+      "text": "infrastructure. Um we are now using",
+      "start": 961.68,
+      "duration": 2.24
+    },
+    {
+      "text": "generative UI in order to render uh the",
+      "start": 963.92,
+      "duration": 2.96
+    },
+    {
+      "text": "information that is shown in those",
+      "start": 966.88,
+      "duration": 1.68
+    },
+    {
+      "text": "charts. So in just in time we will craft",
+      "start": 968.56,
+      "duration": 2.719
+    },
+    {
+      "text": "a react component and inject it into the",
+      "start": 971.279,
+      "duration": 3.68
+    },
+    {
+      "text": "uh the rendering of the response and",
+      "start": 974.959,
+      "duration": 2.721
+    },
+    {
+      "text": "then we can cache those uh components",
+      "start": 977.68,
+      "duration": 3.279
+    },
+    {
+      "text": "and describe in the prompt hey I made",
+      "start": 980.959,
+      "duration": 2.721
+    },
+    {
+      "text": "this for this other user and maybe it's",
+      "start": 983.68,
+      "duration": 2.079
+    },
+    {
+      "text": "helpful one day uh for some other user's",
+      "start": 985.759,
+      "duration": 2.561
+    },
+    {
+      "text": "query. And so this generative UI allows",
+      "start": 988.32,
+      "duration": 2
+    },
+    {
+      "text": "the tool to constantly evolve and",
+      "start": 990.32,
+      "duration": 1.36
+    },
+    {
+      "text": "personalize to the individual end user.",
+      "start": 991.68,
+      "duration": 2.159
+    },
+    {
+      "text": "Um, this is an extremely powerful",
+      "start": 993.839,
+      "duration": 1.761
+    },
+    {
+      "text": "paradigm that is finally fast enough",
+      "start": 995.6,
+      "duration": 2.32
+    },
+    {
+      "text": "with some of these uh models and their",
+      "start": 997.92,
+      "duration": 1.76
+    },
+    {
+      "text": "lightning fast inference speed. Um,",
+      "start": 999.68,
+      "duration": 2.56
+    },
+    {
+      "text": "nature footage, we covered that earlier.",
+      "start": 1002.24,
+      "duration": 2.32
+    },
+    {
+      "text": "Uh there's also knowing your end user",
+      "start": 1004.56,
+      "duration": 1.92
+    },
+    {
+      "text": "which is we had a customer uh that had",
+      "start": 1006.48,
+      "duration": 3.52
+    },
+    {
+      "text": "users in remote areas and so we would",
+      "start": 1010,
+      "duration": 2.399
+    },
+    {
+      "text": "give uh text summaries of these PDFs and",
+      "start": 1012.399,
+      "duration": 2.24
+    },
+    {
+      "text": "manuals and things and that would uh",
+      "start": 1014.639,
+      "duration": 4.64
+    },
+    {
+      "text": "be great and then they would get the PDF",
+      "start": 1019.279,
+      "duration": 1.601
+    },
+    {
+      "text": "and it would be 200 megabytes you know",
+      "start": 1020.88,
+      "duration": 1.759
+    },
+    {
+      "text": "and then so what we found is on the back",
+      "start": 1022.639,
+      "duration": 2.081
+    },
+    {
+      "text": "end on the server we could take a",
+      "start": 1024.72,
+      "duration": 1.599
+    },
+    {
+      "text": "screenshot essentially of the PDF and",
+      "start": 1026.319,
+      "duration": 1.841
+    },
+    {
+      "text": "just send that one page so that even",
+      "start": 1028.16,
+      "duration": 1.84
+    },
+    {
+      "text": "when they were in low connectivity areas",
+      "start": 1030,
+      "duration": 1.52
+    },
+    {
+      "text": "we could still send the text summary of",
+      "start": 1031.52,
+      "duration": 1.84
+    },
+    {
+      "text": "the full document mentation and",
+      "start": 1033.36,
+      "duration": 1.438
+    },
+    {
+      "text": "instructions but just send the relevant",
+      "start": 1034.799,
+      "duration": 1.921
+    },
+    {
+      "text": "parts of the PDF without them having to",
+      "start": 1036.72,
+      "duration": 1.599
+    },
+    {
+      "text": "download a 200 megabyte thing. So that's",
+      "start": 1038.319,
+      "duration": 2
+    },
+    {
+      "text": "know your end customer. We worked with a",
+      "start": 1040.319,
+      "duration": 1.681
+    },
+    {
+      "text": "hospital system for instance that uh we",
+      "start": 1042,
+      "duration": 1.918
+    },
+    {
+      "text": "originally built a voice bot for these",
+      "start": 1043.919,
+      "duration": 1.441
+    },
+    {
+      "text": "nurses uh and it turns out nurses hate",
+      "start": 1045.36,
+      "duration": 2.078
+    },
+    {
+      "text": "voice bots because hospitals are loud",
+      "start": 1047.439,
+      "duration": 1.521
+    },
+    {
+      "text": "and noisy and the voice transcription is",
+      "start": 1048.96,
+      "duration": 1.599
+    },
+    {
+      "text": "not very good and you just hear other",
+      "start": 1050.559,
+      "duration": 1.521
+    },
+    {
+      "text": "people yelling and they preferred a",
+      "start": 1052.08,
+      "duration": 1.76
+    },
+    {
+      "text": "regular old chat interface. So, we had",
+      "start": 1053.84,
+      "duration": 1.68
+    },
+    {
+      "text": "to know our end customers. Figure out",
+      "start": 1055.52,
+      "duration": 1.84
+    },
+    {
+      "text": "what exactly they were doing day-to-day.",
+      "start": 1057.36,
+      "duration": 2.8
+    },
+    {
+      "text": "And then",
+      "start": 1060.16,
+      "duration": 1.92
+    },
+    {
+      "text": "let the computer do what the computer's",
+      "start": 1062.08,
+      "duration": 1.44
+    },
+    {
+      "text": "good at. Don't do math in an LLM. It is",
+      "start": 1063.52,
+      "duration": 2.96
+    },
+    {
+      "text": "the most expensive possible way of doing",
+      "start": 1066.48,
+      "duration": 2.079
+    },
+    {
+      "text": "math. Um, let the the computer do its",
+      "start": 1068.559,
+      "duration": 3.841
+    },
+    {
+      "text": "calculations. And then prompt",
+      "start": 1072.4,
+      "duration": 1.92
+    },
+    {
+      "text": "engineering. I'm not going to break this",
+      "start": 1074.32,
+      "duration": 1.52
+    },
+    {
+      "text": "down. I'm sure you've seen hundreds of",
+      "start": 1075.84,
+      "duration": 2
+    },
+    {
+      "text": "talks over the last two days about the",
+      "start": 1077.84,
+      "duration": 2.719
+    },
+    {
+      "text": "uh way to engineer your prompts and",
+      "start": 1080.559,
+      "duration": 1.761
+    },
+    {
+      "text": "everything. Uh but one of the things",
+      "start": 1082.32,
+      "duration": 1.84
+    },
+    {
+      "text": "that we like to do as part of our",
+      "start": 1084.16,
+      "duration": 2.24
+    },
+    {
+      "text": "optimization is to think about the",
+      "start": 1086.4,
+      "duration": 2.32
+    },
+    {
+      "text": "output tokens and the costs that are",
+      "start": 1088.72,
+      "duration": 1.6
+    },
+    {
+      "text": "associated there and how we can make",
+      "start": 1090.32,
+      "duration": 2
+    },
+    {
+      "text": "that perform better. And then finally,",
+      "start": 1092.32,
+      "duration": 2.56
+    },
+    {
+      "text": "know your economics. There's lots of",
+      "start": 1094.88,
+      "duration": 1.6
+    },
+    {
+      "text": "great tools. There's things like prompt",
+      "start": 1096.48,
+      "duration": 1.28
+    },
+    {
+      "text": "caching. There's things like tool usage",
+      "start": 1097.76,
+      "duration": 1.68
+    },
+    {
+      "text": "and batch. Um batch on bedrock is a 50%",
+      "start": 1099.44,
+      "duration": 3.359
+    },
+    {
+      "text": "off whatever model infrance you're",
+      "start": 1102.799,
+      "duration": 1.601
+    },
+    {
+      "text": "trying to make across the board. And",
+      "start": 1104.4,
+      "duration": 1.92
+    },
+    {
+      "text": "then context management. You can",
+      "start": 1106.32,
+      "duration": 2.08
+    },
+    {
+      "text": "optimize your context. you can figure",
+      "start": 1108.4,
+      "duration": 1.519
+    },
+    {
+      "text": "out what is the minimum viable context",
+      "start": 1109.919,
+      "duration": 1.601
+    },
+    {
+      "text": "in order to get the correct inference",
+      "start": 1111.52,
+      "duration": 1.6
+    },
+    {
+      "text": "and how can I optimize that context over",
+      "start": 1113.12,
+      "duration": 2.32
+    },
+    {
+      "text": "time and this again requires knowing",
+      "start": 1115.44,
+      "duration": 1.92
+    },
+    {
+      "text": "your end user knowing what they're doing",
+      "start": 1117.36,
+      "duration": 1.439
+    },
+    {
+      "text": "and injecting that information into the",
+      "start": 1118.799,
+      "duration": 2.081
+    },
+    {
+      "text": "model and also optimizing stuff that is",
+      "start": 1120.88,
+      "duration": 2.24
+    },
+    {
+      "text": "irrelevant and taking it out of the",
+      "start": 1123.12,
+      "duration": 1.6
+    },
+    {
+      "text": "context so that the model has less to",
+      "start": 1124.72,
+      "duration": 1.6
+    },
+    {
+      "text": "reason over",
+      "start": 1126.32,
+      "duration": 3.239
+    },
+    {
+      "text": "this and you want to learn more if you",
+      "start": 1130,
+      "duration": 2.16
+    },
+    {
+      "text": "want to talk more um I'm always happy to",
+      "start": 1132.16,
+      "duration": 2.08
+    },
+    {
+      "text": "hop on the phone with customers you can",
+      "start": 1134.24,
+      "duration": 2.08
+    },
+    {
+      "text": "scan this QR code we like building cool",
+      "start": 1136.32,
+      "duration": 2.4
+    },
+    {
+      "text": "stuff. Uh, I got a whole bunch of",
+      "start": 1138.72,
+      "duration": 1.68
+    },
+    {
+      "text": "talented engineers who were just excited",
+      "start": 1140.4,
+      "duration": 1.68
+    },
+    {
+      "text": "to go out and build things for",
+      "start": 1142.08,
+      "duration": 1.2
+    },
+    {
+      "text": "customers. So, if you have a super cool",
+      "start": 1143.28,
+      "duration": 2.16
+    },
+    {
+      "text": "use case, come at me. All right. Thank",
+      "start": 1145.44,
+      "duration": 3.2
+    },
+    {
+      "text": "you very much.",
+      "start": 1148.64,
+      "duration": 1.79
+    },
+    {
+      "text": "[Music]",
+      "start": 1150.43,
+      "duration": 6.589
+    }
+  ],
+  "fullText": "[Music] Everybody excited? So, uh, what does Kalin do? We build stuff for people. So, people come to us with ideas and they're like, I want to make an app or like, oh, I want to move off of Oracle onto Postgress, you know. And we just do that stuff. We are builders. We uh created a company by hiring a bunch of passionate autodidacts with a little bit of product ADHD. And we jump around to all these different things and build cool things for our customers. And we have hundreds of customers at any given time. Everyone from like the Fortune 500 to startups. And it's a very fun gig. It's really cool. You get exposed to a lot of technology. And what we've learned is that uh generative AI is not the the magical pill that solves everything that a lot of people seem to think it is. Uh and then what your CTO read in the Wall Street Journal is not necessarily the latest and greatest thing. And we'll share some concrete components of that. Uh but I'll just point out a couple of different customers here. One of the ones is Brainbox AI. So they are a uh building operating system. They help decarbonize the built environment. So they manage uh tens of thousands of buildings across the United States and Canada or North America and they manage the HVAC systems. And we built an agent for them for helping uh with that uh decarbonization of the built environment and managing those things. And that was uh I think in the Times 100 best inventions of the year or something because it helps drastically reduce greenhouse emissions. Uh and then Simmons is uh water management conservation which we also implemented with AI. Uh and with that, you know, there's a couple other customers here. Pipes AI, virtual moving technologies, Z5 inventory. Uh but I thought it'd be cool to just show a demo. And one of the things that I'm most interested in right now is multimodal search and uh semantic understanding of videos. So this is one of our customers, Nature Footage. They have uh a ton of stock footage of, you know, lions and tigers and bears. Oh my. and crocodiles I suppose and we needed to index all of that and make it searchable over uh not just a vector index but also like a caption. So we leverage the Nova Pro models to generate understandings and timestamps and features of these videos store all of those in elastic search and then we are able to search on them and one of the most important things there is that we were able to build uh a pooling embedding. So by taking frame samples and pulling the embeddings uh of those frames, we can do a multimodal embedding and search with text for the images. And that's provided through the Titan v2 multimodal embeddings. So uh I thought we'd take a look at a different architecture. I hope no one here is from Michigan because that's a terrible team. I hate them. Anyway, anyone remember March Madness? So, this is another customer of ours that uh I'm not going to reveal their name, but essentially we have a ton of sports footage that we're processing both in real time and in batch, archival and in real time. And what we'll do is we'll split that data into the audio. We'll generate the transcription. Fun fact, if you're looking for highlights, the easiest thing to do is just ffmpeg get an amplitude spectrograph of the audio and look for the audience cheering and lo and behold, you have your highlight reel. Um, very simple hack right there. And we'll take that and we'll generate embeddings from both the text and from the video itself. And we'll be able to uh identify certain behaviors with a certain vector and a certain confidence. And we'll store those then into a database. Oh, I think I paused the video by accident. My apologies. No, I didn't. And then we'll use something like Amazon end user messaging or SNS or whatever. we'll send a push notification to our end users and say, \"Look, we found uh a three-pointer or uh we found this other thing.\" And what we found is um you don't even have to take the the raw video. A a tiny little bit of annotation can do wonders um for the video understanding models at the as they exist right now. The soda models still just with a little tiny bit of uh augmentation on the video will outperform um what you can get with an unmodified video. And what I mean by that is if you have static camera angles and you annotate on the court where the three-pointer line is with a big blue line and then you just ask the model questions like did the player cross the big blue line. Lo and behold you get way better results and it takes you know seconds and you can even have something like SAM 2 which is another model from meta go and do some of those annotations for you. So that's an architecture. You'll notice that I've put up a couple of different databases there. We had uh Postgress PG vector uh which is my favorite right now. We had open search. That's another implementation of vector search there. Um, but anyway, why should you listen to me? Hi, I'm Randall. Um, I got started out hacking and building stuff and uh playing video games and hacking into video games. It turns out that's super illegal. Did not know that. Um, and then I went on to do some physics stuff at NASA. Uh, I joined a small company called Tenen, which became MongoDB. They IPOed. Um, I was an idiot and sold all my stock before the IPO. Uh, and then I worked at SpaceX where I led the CI/CD team. Fun fact, we never blew up a rocket while I was in charge of that team. Before and after my tenure, we blew up rockets. Um, I I don't know what else I can say there. Uh, and then I spent a long time at AWS and I had a great time building a ton of technology for a lot of customers. I even made a video about the transformer paper in July of 2017, not realizing what it was going to lead to. And the fact that we're all even here today is is still attention is all you need. Uh you can follow me on Twitter at JR Hunt. Uh it's still called Twitter. It will never be called X in my mind. And uh this is Kalin. You know, we've won partner of the year for AWS for a long time. We build stuff. Like I said, I I I like to say our motto is we build cool stuff. Um marketing doesn't like it when I say that. Uh because I don't always say the word stuff. Sometimes I'll sub in a different word. And what we build, you know, everything from chat bots to co-pilots to AI agents. And I'm going to share all the lessons that we've learned from building all of these things. You know, this sort of stuff on the top here, these self-service productivity tools. Um, these are things that you can typically buy. Uh, but certain institutions may need a fine tune. They may need a a particular application on top of that self-service productivity tool and we will often build things for them. Uh, one of the issues that we see organizations facing is how do they administer and track the usage of these third-party tools and APIs. Uh, and some people have an on-prem network and a VPN where they can just measure all the traffic. They can intercept things. They can look for PII or PHI and they can do all the fun stuff that we're supposed to do with network interception. There's a great tool called Shure Path. Uh, we use it at Kalin. I recommend them. Uh, it does all of that for you and it can integrate with Zcal or whatever else you might need. Um in terms of automating business functions, you know, this is typically trying to get a a percentage of time or dollars back uh end to end in a particular business process. Uh we work with a large logistics management customer that does a tremendous amount of processing of uh of receipts and bills of laden and things like that. And this is a typical intelligent document processing use case leveraging generative AI and a custom classifier before we send it into the generative AI models. Uh we can get far faster better results than even their human annotators can. Um and then there's monetization which is adding a new skew to an existing product. It's an existing SAS platform. It's an existing utility and the customer is like oh I want to add a new skew so I can charge my users for fancy AI because the Wall Street Journal told me to. And that is a very fun area to work in. But if you just build a chatbot, you know, sayanara, like good luck. I'll, you know, you're the Polaroid. Um, do people still use Polaroid? Are they doing okay? I don't know. Anyway, I used to say Kodak. Um, this is how we build these things and these are the lessons that we've learned. Um, I stole this slide. This is not my slide. I cannot remember where it is from. It's from Twitter somewhere. It might have been Jason Louu. It might have been from DSPY. But this is a great slide that I think very strategically identifies what the uh specifications are to build a moat in your business and the inputs to your system and what your system is going to do with them. That is the most fundamental part your inputs and your outputs. Um, does everyone remember Steve Balmer, uh, the former CEO of Microsoft and how he, uh, famously went on stage, uh, on a tremendous amount of cocaine and just started screaming, um, developers, developers, developers, developers. If I were to channel my inner balmer, what I would say is eval. So when we do this eval layer, this is where we prove that the system is robust and not just a vibe check and we're getting a one-off on a particularly unique uh prompt. Then we have the system architecture and then we have the different LLMs and tools and things we may use. And these are all incidental to your AI system and you should expect them to evolve and change. What will not evolve and change is your fundamental definition and specification of what are your inputs and what are your outputs. Uh and as you know the models get better and they improve and you can get other like modalities of output that may evolve. But you're always going to figure out why am I doing this? What is my ROI? What do I expect? This is how we build these things in AWS. On the bottom layer we have two services. We have Bedrock and we have SageMaker. Uh these are uh useful services. SageMaker comes at a particular compute premium. You can also just run on EKS or EC2 if you want. Um there's two different pieces of custom silicon that exist within AWS. One is trrenium, one is inferentia. Uh these come at about a 60% price performance improvement over using Nvidia GPUs. Now the downside is the amount of HP RAM is not as big as like an H200. I don't know if anyone saw today, but it was great news. Amazon announced that they were reducing the prices of the P4 and P5 instances by up to 40%. So we all get more GPUs cheaper. Very happy about that. Um the interesting thing with tranium and inferentia is that you must uh use something called the neuron SDK to write these. So if anyone has ever written XLA for like TensorFlow and the good old um what were they called the TPUs and now the new TPU7 and all that great stuff. Uh the the neuron kernel interface for tranium and infinia is very similar. One level up from that we get to pick our various models. So we have everything from uh claude and nova to llama and deepseeek uh and then open source models that we can deploy. I don't know if mistrol is ever going to release another open source model but who knows. Uh and then we have our embeddings and our vector stores. So like I said uh I do prefer Postgress right now. If you need um persistence in Reddus uh there's a great thing called memory DB on AWS that also supports vector search. Um the good news about the reddis vector search is that it is extremely fast. The bad news is that it is extremely expensive because it has to sit in RAM. Um so if you think about how you're going to construct your indexes and like do IVV flat or something uh be prepared to blow up your RAM in order to store all of that stuff. Now um within Postgress and open search you can go to disk and you can use things like HNSW indexes so that you can have uh a better allocation and search mechanism. Then we have the prompt versioning and prompt management. Uh all of these things are incidental and and kind of uh you you know not unique anymore. But this one context management is incredibly important. And if you are looking to differentiate your application from someone else's application, context is key. So if your competitor doesn't have the context of the user and additional information uh but you're able to inject oh the the user is on this page they have a history of this browsing you know these are the cookies that I saw this is you know then you can go and make a much more strategic inference on behalf of that end user. So here are the lessons that we learned and I I'll jump into these but I'm also going to run out of time so I I'll speed through a little bit of it and I'll make the stack available for folks. But uh it turns out eval and embeddings are not all you need. Uh you know the understanding the access patterns and understanding the way that people will use the product uh will lead to a much better result than just throwing out evals and throwing out embeddings and wishing the best of luck. Embeddings alone do not a great query system make. How do you do faceted search and filters on top of embeddings alone? That is why we love things like open search and postgress. Um speed matters. So if your inference is slow, uh UX is a means of mitigating the slowness of some of these things. There's other techniques you can use. You can use caching, you can use other components. Um but if you are slower and more expensive, you will not be used. If you are uh slower and cheaper and you're mitigating some of the effects by leveraging something like a fancy UI spinner or something that keeps your users entertained as the inference is being calculated uh you can uh still win. Now uh knowing your end customer as I said is very important. And then the other very important thing is the number of times I see people defining a tool called get current date is infuriating to me. Like it is literally like import time.now you know like just it's a format string just throw it in the string like you control the prompt. Um, so, uh, the downside of putting some of that information very high up in the prompt is that your caching, uh, is not as effective. But if you can put some of that information at the bottom of the prompt after the instructions, you can often, uh, get very effective caching. Um, then there is like I I used to say we should fine-tune, we should do these things. Uh, it turns out I was wrong. As the models have improved and gotten more and more powerful, uh, prompt engineering has proven unreasonably effective for us, like far more effective than I would have predicted. Within, uh, cloud 3.7 to claude 4, we saw zero regressions. From cloud 35 to 37, we did see regressions on certain things when we moved the exact same prompts over to some of our, uh, users and some of our evals. But from 37 to four, we got faster, better, cheaper, more optimized inference in virtually every use case. So it was like a drop in replacement and it was amazing. Um, and I hoping future versions will be the same. Uh, I'm hoping we're the era of having to adjust your prompt every time a new model comes out is ending. Um, and then finally, it's very important to know your economics like is this inference going to bankrupt my company? Um if you think about some of the cost of uh uh the the opus models, you know, it may not always be the best thing to run. Okay, so just in the interest of time, this is another great slide. This is uh from anthropic actually. And when we think about how to create our evals, the vibe check, the very first thing that you do when you try to create um a uh a test, that vibe check becomes your first eval. And then you change the data and the stuff that you're sending in and lo and behold, 20 minutes later, you do have some form of eval set that you can begin running. And then you can go for metrics. Now metrics do not have to be a score like a BERT or you know a benchmark score that is calculated. They can just be a boolean. It can just be true or false. Was this inference successful or not? Um that is often easier than trying to assign a particular value and a particular score. Uh and then you just iterate, you know, keep going. And like I said, speed matters, but UX matters more. you know, this UX orchestration, prop management, all of this great stuff uh is why we end up doing better than uh some of our competitors. And then, you know, one of our customers, Cloud Zero, uh we originally built a chatbot for them for you to chat with your AWS infrastructure and get cost out of that AWS infrastructure. Um we are now using generative UI in order to render uh the information that is shown in those charts. So in just in time we will craft a react component and inject it into the uh the rendering of the response and then we can cache those uh components and describe in the prompt hey I made this for this other user and maybe it's helpful one day uh for some other user's query. And so this generative UI allows the tool to constantly evolve and personalize to the individual end user. Um, this is an extremely powerful paradigm that is finally fast enough with some of these uh models and their lightning fast inference speed. Um, nature footage, we covered that earlier. Uh there's also knowing your end user which is we had a customer uh that had users in remote areas and so we would give uh text summaries of these PDFs and manuals and things and that would uh be great and then they would get the PDF and it would be 200 megabytes you know and then so what we found is on the back end on the server we could take a screenshot essentially of the PDF and just send that one page so that even when they were in low connectivity areas we could still send the text summary of the full document mentation and instructions but just send the relevant parts of the PDF without them having to download a 200 megabyte thing. So that's know your end customer. We worked with a hospital system for instance that uh we originally built a voice bot for these nurses uh and it turns out nurses hate voice bots because hospitals are loud and noisy and the voice transcription is not very good and you just hear other people yelling and they preferred a regular old chat interface. So, we had to know our end customers. Figure out what exactly they were doing day-to-day. And then let the computer do what the computer's good at. Don't do math in an LLM. It is the most expensive possible way of doing math. Um, let the the computer do its calculations. And then prompt engineering. I'm not going to break this down. I'm sure you've seen hundreds of talks over the last two days about the uh way to engineer your prompts and everything. Uh but one of the things that we like to do as part of our optimization is to think about the output tokens and the costs that are associated there and how we can make that perform better. And then finally, know your economics. There's lots of great tools. There's things like prompt caching. There's things like tool usage and batch. Um batch on bedrock is a 50% off whatever model infrance you're trying to make across the board. And then context management. You can optimize your context. you can figure out what is the minimum viable context in order to get the correct inference and how can I optimize that context over time and this again requires knowing your end user knowing what they're doing and injecting that information into the model and also optimizing stuff that is irrelevant and taking it out of the context so that the model has less to reason over this and you want to learn more if you want to talk more um I'm always happy to hop on the phone with customers you can scan this QR code we like building cool stuff. Uh, I got a whole bunch of talented engineers who were just excited to go out and build things for customers. So, if you have a super cool use case, come at me. All right. Thank you very much. [Music]"
+}

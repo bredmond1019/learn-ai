@@ -1,0 +1,2992 @@
+{
+  "videoId": "9ijnN985O_c",
+  "language": "en",
+  "segments": [
+    {
+      "text": "",
+      "start": 0,
+      "duration": 50
+    },
+    {
+      "text": "What you're about to see is simple and",
+      "start": 0.24,
+      "duration": 2.639
+    },
+    {
+      "text": "powerful.",
+      "start": 2.879,
+      "duration": 1.521
+    },
+    {
+      "text": "Running a single Cloud Code agent is",
+      "start": 4.4,
+      "duration": 2.479
+    },
+    {
+      "text": "just the beginning. Once you realize",
+      "start": 6.879,
+      "duration": 2.241
+    },
+    {
+      "text": "this and you start scaling up the number",
+      "start": 9.12,
+      "duration": 2.479
+    },
+    {
+      "text": "of agents you have shipping for you, you",
+      "start": 11.599,
+      "duration": 2.481
+    },
+    {
+      "text": "quickly run into a massive problem.",
+      "start": 14.08,
+      "duration": 3.039
+    },
+    {
+      "text": "There's too much to keep track of. When",
+      "start": 17.119,
+      "duration": 2.16
+    },
+    {
+      "text": "it comes to multi-agent systems,",
+      "start": 19.279,
+      "duration": 1.92
+    },
+    {
+      "text": "observability is everything. Check this",
+      "start": 21.199,
+      "duration": 2.481
+    },
+    {
+      "text": "out. With cloud code hooks sending",
+      "start": 23.68,
+      "duration": 2.4
+    },
+    {
+      "text": "events to a minimal client server",
+      "start": 26.08,
+      "duration": 2.24
+    },
+    {
+      "text": "architecture, you can see everything.",
+      "start": 28.32,
+      "duration": 3.039
+    },
+    {
+      "text": "Let's break down a concrete approach to",
+      "start": 31.359,
+      "duration": 2.641
+    },
+    {
+      "text": "cloud code multi- aent observability",
+      "start": 34,
+      "duration": 2.719
+    },
+    {
+      "text": "that let you scale up what you can do",
+      "start": 36.719,
+      "duration": 1.921
+    },
+    {
+      "text": "with not just one cloud code instance",
+      "start": 38.64,
+      "duration": 2.48
+    },
+    {
+      "text": "but 3 510 and beyond.",
+      "start": 41.12,
+      "duration": 5.16
+    },
+    {
+      "text": "So, as you can see here, we have a",
+      "start": 48.32,
+      "duration": 1.68
+    },
+    {
+      "text": "",
+      "start": 50,
+      "duration": 127
+    },
+    {
+      "text": "multi- aent observability system that is",
+      "start": 50,
+      "duration": 2.399
+    },
+    {
+      "text": "taking events in from every cloud code",
+      "start": 52.399,
+      "duration": 2.881
+    },
+    {
+      "text": "instance I have running. Doesn't matter",
+      "start": 55.28,
+      "duration": 1.599
+    },
+    {
+      "text": "if they're running subtasks, if they're",
+      "start": 56.879,
+      "duration": 2.081
+    },
+    {
+      "text": "planning, building, web scraping, web",
+      "start": 58.96,
+      "duration": 2.399
+    },
+    {
+      "text": "searching, deep research, calling MCP",
+      "start": 61.359,
+      "duration": 2.561
+    },
+    {
+      "text": "servers. Every event is getting tracked",
+      "start": 63.92,
+      "duration": 2.239
+    },
+    {
+      "text": "and traced into this simple multi- aent",
+      "start": 66.159,
+      "duration": 3.201
+    },
+    {
+      "text": "observability application. Here's what",
+      "start": 69.36,
+      "duration": 2
+    },
+    {
+      "text": "the application architecture looks like.",
+      "start": 71.36,
+      "duration": 2.16
+    },
+    {
+      "text": "We have multiple agents firing their own",
+      "start": 73.52,
+      "duration": 2.639
+    },
+    {
+      "text": "respective claude code hooks. Each one",
+      "start": 76.159,
+      "duration": 2.161
+    },
+    {
+      "text": "of these hooks hits a bun server which",
+      "start": 78.32,
+      "duration": 2.56
+    },
+    {
+      "text": "stores data to an SQL like database for",
+      "start": 80.88,
+      "duration": 2.8
+    },
+    {
+      "text": "persistence and simultaneously it uses",
+      "start": 83.68,
+      "duration": 2.32
+    },
+    {
+      "text": "websockets to stream the events right to",
+      "start": 86,
+      "duration": 2.479
+    },
+    {
+      "text": "the client you see right here. So no",
+      "start": 88.479,
+      "duration": 2.561
+    },
+    {
+      "text": "matter where your agents are running, if",
+      "start": 91.04,
+      "duration": 2
+    },
+    {
+      "text": "you're running on multiple devices, if",
+      "start": 93.04,
+      "duration": 2
+    },
+    {
+      "text": "you're running, you know, 5 10 plus",
+      "start": 95.04,
+      "duration": 1.759
+    },
+    {
+      "text": "agents, every event's going to get",
+      "start": 96.799,
+      "duration": 1.841
+    },
+    {
+      "text": "streamed in. You can see I have",
+      "start": 98.64,
+      "duration": 1.76
+    },
+    {
+      "text": "different applications streaming in",
+      "start": 100.4,
+      "duration": 1.84
+    },
+    {
+      "text": "events with different cloud code session",
+      "start": 102.24,
+      "duration": 2.239
+    },
+    {
+      "text": "IDs getting recorded here. And every",
+      "start": 104.479,
+      "duration": 2.161
+    },
+    {
+      "text": "tool call, every hook.",
+      "start": 106.64,
+      "duration": 1.519
+    },
+    {
+      "text": "Dan, your agent needs your input.",
+      "start": 108.159,
+      "duration": 1.761
+    },
+    {
+      "text": "You can see there every hook, every",
+      "start": 109.92,
+      "duration": 1.68
+    },
+    {
+      "text": "event type is getting recorded. I just",
+      "start": 111.6,
+      "duration": 1.839
+    },
+    {
+      "text": "got a notification event. So, one of my",
+      "start": 113.439,
+      "duration": 1.68
+    },
+    {
+      "text": "agents needs my input. We can go ahead",
+      "start": 115.119,
+      "duration": 2.801
+    },
+    {
+      "text": "go back to the terminal and we can see",
+      "start": 117.92,
+      "duration": 1.6
+    },
+    {
+      "text": "which one needs it. So,",
+      "start": 119.52,
+      "duration": 1.44
+    },
+    {
+      "text": "Dan, task nailed. Moving forward.",
+      "start": 120.96,
+      "duration": 1.519
+    },
+    {
+      "text": "There we go. We got a stop event coming",
+      "start": 122.479,
+      "duration": 1.521
+    },
+    {
+      "text": "in and we can see this custom theme",
+      "start": 124,
+      "duration": 2.24
+    },
+    {
+      "text": "feature is looking good. It looks like",
+      "start": 126.24,
+      "duration": 1.68
+    },
+    {
+      "text": "it needs a couple tweaks to this. Of",
+      "start": 127.92,
+      "duration": 1.28
+    },
+    {
+      "text": "course, we'll just accept and let it",
+      "start": 129.2,
+      "duration": 1.52
+    },
+    {
+      "text": "keep cooking. We have one Asian complete",
+      "start": 130.72,
+      "duration": 1.84
+    },
+    {
+      "text": "and you can see we have a multitask sub",
+      "start": 132.56,
+      "duration": 2.399
+    },
+    {
+      "text": "agent event getting a bunch of work",
+      "start": 134.959,
+      "duration": 1.441
+    },
+    {
+      "text": "done. All these events are streaming in.",
+      "start": 136.4,
+      "duration": 1.839
+    },
+    {
+      "text": "And so this is the power of",
+      "start": 138.239,
+      "duration": 1.681
+    },
+    {
+      "text": "observability. As you scale up your",
+      "start": 139.92,
+      "duration": 2.64
+    },
+    {
+      "text": "agents, as you specialize and build",
+      "start": 142.56,
+      "duration": 2.56
+    },
+    {
+      "text": "agents into your workflows, right, into",
+      "start": 145.12,
+      "duration": 2.24
+    },
+    {
+      "text": "your agentic workflows, you want to",
+      "start": 147.36,
+      "duration": 1.84
+    },
+    {
+      "text": "understand what they're doing. So let's",
+      "start": 149.2,
+      "duration": 1.84
+    },
+    {
+      "text": "break down this",
+      "start": 151.04,
+      "duration": 0.72
+    },
+    {
+      "text": "needs your input.",
+      "start": 151.76,
+      "duration": 0.8
+    },
+    {
+      "text": "Okay, so we got another input request",
+      "start": 152.56,
+      "duration": 2.319
+    },
+    {
+      "text": "there. Once you start using cloud code",
+      "start": 154.879,
+      "duration": 2.161
+    },
+    {
+      "text": "and once you start using agentic coding",
+      "start": 157.04,
+      "duration": 1.6
+    },
+    {
+      "text": "tools, you realize that you can do a lot",
+      "start": 158.64,
+      "duration": 2.48
+    },
+    {
+      "text": "more by just adding agents by just",
+      "start": 161.12,
+      "duration": 3.68
+    },
+    {
+      "text": "scaling up the number of agents you have",
+      "start": 164.8,
+      "duration": 1.76
+    },
+    {
+      "text": "working for you at any time. This is",
+      "start": 166.56,
+      "duration": 1.759
+    },
+    {
+      "text": "also great for specialization and cross",
+      "start": 168.319,
+      "duration": 2.321
+    },
+    {
+      "text": "app usage. This is just",
+      "start": 170.64,
+      "duration": 1.679
+    },
+    {
+      "text": "agent complete.",
+      "start": 172.319,
+      "duration": 0.801
+    },
+    {
+      "text": "Awesome. So we got sub agent complete",
+      "start": 173.12,
+      "duration": 1.6
+    },
+    {
+      "text": "calls here. You can see every type of",
+      "start": 174.72,
+      "duration": 2.72
+    },
+    {
+      "text": "",
+      "start": 177,
+      "duration": 531
+    },
+    {
+      "text": "cloud code event. At the top here we of",
+      "start": 177.44,
+      "duration": 1.92
+    },
+    {
+      "text": "course have filters. We're operating out",
+      "start": 179.36,
+      "duration": 1.84
+    },
+    {
+      "text": "of two code bases right now. the",
+      "start": 181.2,
+      "duration": 1.36
+    },
+    {
+      "text": "infinite agentic loop codebase and this",
+      "start": 182.56,
+      "duration": 2.24
+    },
+    {
+      "text": "brand new cloud code hook multi- aent",
+      "start": 184.8,
+      "duration": 2
+    },
+    {
+      "text": "observability codebase. We can filter",
+      "start": 186.8,
+      "duration": 2.24
+    },
+    {
+      "text": "down of course",
+      "start": 189.04,
+      "duration": 0.8
+    },
+    {
+      "text": "your agent needs your input",
+      "start": 189.84,
+      "duration": 1.2
+    },
+    {
+      "text": "to one or more of these code bases.",
+      "start": 191.04,
+      "duration": 2.08
+    },
+    {
+      "text": "Let's just go ahead and set back to all",
+      "start": 193.12,
+      "duration": 2
+    },
+    {
+      "text": "sources. You can hear in the background",
+      "start": 195.12,
+      "duration": 1.52
+    },
+    {
+      "text": "text to speech that we put together in",
+      "start": 196.64,
+      "duration": 1.92
+    },
+    {
+      "text": "the previous cloud code hooks video. My",
+      "start": 198.56,
+      "duration": 1.599
+    },
+    {
+      "text": "agents are letting me know when they",
+      "start": 200.159,
+      "duration": 1.601
+    },
+    {
+      "text": "need my input or when they're ready for",
+      "start": 201.76,
+      "duration": 1.759
+    },
+    {
+      "text": "more work.",
+      "start": 203.519,
+      "duration": 0.72
+    },
+    {
+      "text": "Sub agent complete.",
+      "start": 204.239,
+      "duration": 1.121
+    },
+    {
+      "text": "So we have session IDs which detail the",
+      "start": 205.36,
+      "duration": 2.239
+    },
+    {
+      "text": "exact cloud code instance and then of",
+      "start": 207.599,
+      "duration": 1.681
+    },
+    {
+      "text": "course we have event types. So these are",
+      "start": 209.28,
+      "duration": 2.08
+    },
+    {
+      "text": "all the current available cloud code",
+      "start": 211.36,
+      "duration": 2.08
+    },
+    {
+      "text": "hooks that you can tap into. And we're",
+      "start": 213.44,
+      "duration": 2.079
+    },
+    {
+      "text": "of course getting a stream of every",
+      "start": 215.519,
+      "duration": 1.681
+    },
+    {
+      "text": "single event. So we can easily filter",
+      "start": 217.2,
+      "duration": 2.24
+    },
+    {
+      "text": "down. Let's say we just want to see all",
+      "start": 219.44,
+      "duration": 1.6
+    },
+    {
+      "text": "of the stop events, post, tool use,",
+      "start": 221.04,
+      "duration": 2.96
+    },
+    {
+      "text": "notifications, so on and so forth. And",
+      "start": 224,
+      "duration": 2.319
+    },
+    {
+      "text": "so you can of course see something",
+      "start": 226.319,
+      "duration": 1.92
+    },
+    {
+      "text": "really, really cool, right? We have a",
+      "start": 228.239,
+      "duration": 2.64
+    },
+    {
+      "text": "live activity pulse of all the events",
+      "start": 230.879,
+      "duration": 2.801
+    },
+    {
+      "text": "coming in in real time. All the work our",
+      "start": 233.68,
+      "duration": 2.24
+    },
+    {
+      "text": "agents are doing across every",
+      "start": 235.92,
+      "duration": 1.599
+    },
+    {
+      "text": "application, across every cloud code",
+      "start": 237.519,
+      "duration": 2.321
+    },
+    {
+      "text": "instance. You can see our infinite",
+      "start": 239.84,
+      "duration": 1.36
+    },
+    {
+      "text": "agentic loop agent is doing a lot of",
+      "start": 241.2,
+      "duration": 2.64
+    },
+    {
+      "text": "work and this is one of the heavy",
+      "start": 243.84,
+      "duration": 1.2
+    },
+    {
+      "text": "hitters, right? Go ahead, let this",
+      "start": 245.04,
+      "duration": 1.839
+    },
+    {
+      "text": "continue. You can see that we have five",
+      "start": 246.879,
+      "duration": 2.401
+    },
+    {
+      "text": "subtasks operating in parallel. So, a",
+      "start": 249.28,
+      "duration": 3.12
+    },
+    {
+      "text": "lot of events are going to stream in",
+      "start": 252.4,
+      "duration": 1.44
+    },
+    {
+      "text": "from this. This agent here built out a",
+      "start": 253.84,
+      "duration": 2.399
+    },
+    {
+      "text": "plan. Now, I'm going to have it actually",
+      "start": 256.239,
+      "duration": 1.921
+    },
+    {
+      "text": "implement this plan. So, I'm just going",
+      "start": 258.16,
+      "duration": 1.28
+    },
+    {
+      "text": "to copy this /implement. Paste that in.",
+      "start": 259.44,
+      "duration": 2.56
+    },
+    {
+      "text": "And now, it's going to build out that",
+      "start": 262,
+      "duration": 1.52
+    },
+    {
+      "text": "plan. I'm still building this. I'm still",
+      "start": 263.52,
+      "duration": 1.679
+    },
+    {
+      "text": "working on this as I'm presenting it to",
+      "start": 265.199,
+      "duration": 1.44
+    },
+    {
+      "text": "you here. I need to make this mobile",
+      "start": 266.639,
+      "duration": 1.521
+    },
+    {
+      "text": "friendly so I can you know shrink this",
+      "start": 268.16,
+      "duration": 1.44
+    },
+    {
+      "text": "down and use this on my phone on my",
+      "start": 269.6,
+      "duration": 2.08
+    },
+    {
+      "text": "device on the go accept this cool stuff",
+      "start": 271.68,
+      "duration": 3.12
+    },
+    {
+      "text": "right this live activity policy is great",
+      "start": 274.8,
+      "duration": 1.679
+    },
+    {
+      "text": "for seeing all the events coming in live",
+      "start": 276.479,
+      "duration": 2.321
+    },
+    {
+      "text": "throughout all agents and we can see",
+      "start": 278.8,
+      "duration": 1.92
+    },
+    {
+      "text": "highle breakdown of what this looks like",
+      "start": 280.72,
+      "duration": 1.6
+    },
+    {
+      "text": "let's get to the bulk of it right the",
+      "start": 282.32,
+      "duration": 1.76
+    },
+    {
+      "text": "agent event stream you can see all the",
+      "start": 284.08,
+      "duration": 2.48
+    },
+    {
+      "text": "events are streaming in here we have a",
+      "start": 286.56,
+      "duration": 1.76
+    },
+    {
+      "text": "total of 63 events and this does cut off",
+      "start": 288.32,
+      "duration": 2.4
+    },
+    {
+      "text": "and refresh if we scroll down here we",
+      "start": 290.72,
+      "duration": 2.72
+    },
+    {
+      "text": "have the application that the events are",
+      "start": 293.44,
+      "duration": 2.319
+    },
+    {
+      "text": "coming out of we have the clawed code",
+      "start": 295.759,
+      "duration": 2.481
+    },
+    {
+      "text": "session ID.",
+      "start": 298.24,
+      "duration": 0.959
+    },
+    {
+      "text": "Your agent needs your input.",
+      "start": 299.199,
+      "duration": 1.361
+    },
+    {
+      "text": "Okay, thumbs up. This application and",
+      "start": 300.56,
+      "duration": 2.32
+    },
+    {
+      "text": "session IDs uniquely mark this instance",
+      "start": 302.88,
+      "duration": 2.72
+    },
+    {
+      "text": "for good UIUX. We have color coding here",
+      "start": 305.6,
+      "duration": 3.12
+    },
+    {
+      "text": "on the app and the session ID. So, we're",
+      "start": 308.72,
+      "duration": 2.96
+    },
+    {
+      "text": "hashing the incoming app name and",
+      "start": 311.68,
+      "duration": 1.76
+    },
+    {
+      "text": "session ID so that we can consistently",
+      "start": 313.44,
+      "duration": 1.84
+    },
+    {
+      "text": "see which agent is posting.",
+      "start": 315.28,
+      "duration": 2
+    },
+    {
+      "text": "Mailed. What's next?",
+      "start": 317.28,
+      "duration": 1.12
+    },
+    {
+      "text": "There we go. We got a task complete with",
+      "start": 318.4,
+      "duration": 1.6
+    },
+    {
+      "text": "that cloud code hook stop event. That's",
+      "start": 320,
+      "duration": 2.08
+    },
+    {
+      "text": "awesome. App name here, session ID, tool",
+      "start": 322.08,
+      "duration": 2.8
+    },
+    {
+      "text": "that we're actually calling. And then",
+      "start": 324.88,
+      "duration": 1.36
+    },
+    {
+      "text": "over here on the right, we have",
+      "start": 326.24,
+      "duration": 1.04
+    },
+    {
+      "text": "something really, really powerful. So we",
+      "start": 327.28,
+      "duration": 1.52
+    },
+    {
+      "text": "have summarizations of the work done in",
+      "start": 328.8,
+      "duration": 2.64
+    },
+    {
+      "text": "some of our tools here. We're actually",
+      "start": 331.44,
+      "duration": 1.599
+    },
+    {
+      "text": "running, and I'll show this off in the",
+      "start": 333.039,
+      "duration": 1.281
+    },
+    {
+      "text": "codebase in a moment here, where every",
+      "start": 334.32,
+      "duration": 1.68
+    },
+    {
+      "text": "event coming in before the cloud code",
+      "start": 336,
+      "duration": 2.32
+    },
+    {
+      "text": "hook sends it off, it's running a",
+      "start": 338.32,
+      "duration": 2
+    },
+    {
+      "text": "summarization prompt using a small fast",
+      "start": 340.32,
+      "duration": 2.4
+    },
+    {
+      "text": "model. So in this case, I'm running haik",
+      "start": 342.72,
+      "duration": 1.84
+    },
+    {
+      "text": "coup to get a summary on all of the",
+      "start": 344.56,
+      "duration": 2.479
+    },
+    {
+      "text": "events that I care about. So",
+      "start": 347.039,
+      "duration": 1.281
+    },
+    {
+      "text": "specifically, pre-tool, post tool, I",
+      "start": 348.32,
+      "duration": 2.48
+    },
+    {
+      "text": "want to see what is going on and just be",
+      "start": 350.8,
+      "duration": 2.08
+    },
+    {
+      "text": "able to read at a glance, right? I don't",
+      "start": 352.88,
+      "duration": 1.44
+    },
+    {
+      "text": "want to click in here and have to look",
+      "start": 354.32,
+      "duration": 1.68
+    },
+    {
+      "text": "at the exact payload which of course you",
+      "start": 356,
+      "duration": 2.08
+    },
+    {
+      "text": "can. What does event represent? So you",
+      "start": 358.08,
+      "duration": 1.839
+    },
+    {
+      "text": "can see here infinite agentic loop",
+      "start": 359.919,
+      "duration": 1.521
+    },
+    {
+      "text": "writes HTML file for medscan pro",
+      "start": 361.44,
+      "duration": 2.319
+    },
+    {
+      "text": "clinical dashboard at a specified",
+      "start": 363.759,
+      "duration": 2
+    },
+    {
+      "text": "project path. That's the post tool use.",
+      "start": 365.759,
+      "duration": 2
+    },
+    {
+      "text": "Sub aent complete.",
+      "start": 367.759,
+      "duration": 1.041
+    },
+    {
+      "text": "There we go. We got another sub aent",
+      "start": 368.8,
+      "duration": 1.36
+    },
+    {
+      "text": "complete. And post tool use fires of",
+      "start": 370.16,
+      "duration": 2
+    },
+    {
+      "text": "course after the tool has run. Of course",
+      "start": 372.16,
+      "duration": 2.64
+    },
+    {
+      "text": "we have pre-tool use right there. You",
+      "start": 374.8,
+      "duration": 1.519
+    },
+    {
+      "text": "can see these events are tied together.",
+      "start": 376.319,
+      "duration": 2.081
+    },
+    {
+      "text": "Right. Pre-tool post tool",
+      "start": 378.4,
+      "duration": 1.76
+    },
+    {
+      "text": "sub aent complete. It's the same agent",
+      "start": 380.16,
+      "duration": 2.64
+    },
+    {
+      "text": "15CC5C and the running in the infinite",
+      "start": 382.8,
+      "duration": 2.8
+    },
+    {
+      "text": "agentic loop codebase. This is this",
+      "start": 385.6,
+      "duration": 2
+    },
+    {
+      "text": "agent here. My implementation agent is",
+      "start": 387.6,
+      "duration": 2.56
+    },
+    {
+      "text": "still working and we are getting",
+      "start": 390.16,
+      "duration": 1.52
+    },
+    {
+      "text": "infinite UIs generated over here. These",
+      "start": 391.68,
+      "duration": 1.84
+    },
+    {
+      "text": "of course are just presentational",
+      "start": 393.52,
+      "duration": 1.76
+    },
+    {
+      "text": "examples. Although these two are",
+      "start": 395.28,
+      "duration": 1.6
+    },
+    {
+      "text": "actively, you know, working on",
+      "start": 396.88,
+      "duration": 1.68
+    },
+    {
+      "text": "multi-agent observability codebase. But",
+      "start": 398.56,
+      "duration": 2.079
+    },
+    {
+      "text": "anyway, I hope you can see the idea",
+      "start": 400.639,
+      "duration": 1.361
+    },
+    {
+      "text": "here, right? This is something that's",
+      "start": 402,
+      "duration": 1.36
+    },
+    {
+      "text": "going to be really really important for",
+      "start": 403.36,
+      "duration": 1.76
+    },
+    {
+      "text": "you as you scale up your agents. This",
+      "start": 405.12,
+      "duration": 3.12
+    },
+    {
+      "text": "architecture that we have here is a",
+      "start": 408.24,
+      "duration": 2.16
+    },
+    {
+      "text": "one-way data stream. This keeps things",
+      "start": 410.4,
+      "duration": 2.4
+    },
+    {
+      "text": "really, really simple. Everything flows",
+      "start": 412.8,
+      "duration": 1.76
+    },
+    {
+      "text": "here from cloud code agents through",
+      "start": 414.56,
+      "duration": 2.24
+    },
+    {
+      "text": "their hooks to the server. When they hit",
+      "start": 416.8,
+      "duration": 2
+    },
+    {
+      "text": "the server, they're stored in SQL like",
+      "start": 418.8,
+      "duration": 1.92
+    },
+    {
+      "text": "database. And then right after they're",
+      "start": 420.72,
+      "duration": 2
+    },
+    {
+      "text": "saved, they're streamed to the front end",
+      "start": 422.72,
+      "duration": 1.919
+    },
+    {
+      "text": "here. And so we're getting these live",
+      "start": 424.639,
+      "duration": 1.201
+    },
+    {
+      "text": "events coming in. And of course in the",
+      "start": 425.84,
+      "duration": 1.6
+    },
+    {
+      "text": "activity pulse, we can also, you know,",
+      "start": 427.44,
+      "duration": 1.599
+    },
+    {
+      "text": "we're looking at a 1 minute feed here,",
+      "start": 429.039,
+      "duration": 1.28
+    },
+    {
+      "text": "but we can go 3 minute and we can go 5",
+      "start": 430.319,
+      "duration": 2
+    },
+    {
+      "text": "minute. And you can see, you know, a",
+      "start": 432.319,
+      "duration": 1.121
+    },
+    {
+      "text": "larger collection of all these events",
+      "start": 433.44,
+      "duration": 1.599
+    },
+    {
+      "text": "coming in at a larger time frame. You",
+      "start": 435.039,
+      "duration": 1.681
+    },
+    {
+      "text": "can also see, you know, every individual",
+      "start": 436.72,
+      "duration": 2
+    },
+    {
+      "text": "line represents the actual agent that",
+      "start": 438.72,
+      "duration": 2.72
+    },
+    {
+      "text": "did the work.",
+      "start": 441.44,
+      "duration": 0.64
+    },
+    {
+      "text": "Sub agent complete.",
+      "start": 442.08,
+      "duration": 0.959
+    },
+    {
+      "text": "Right? This is the session ID hashed",
+      "start": 443.039,
+      "duration": 2
+    },
+    {
+      "text": "color. You want your observability to be",
+      "start": 445.039,
+      "duration": 2
+    },
+    {
+      "text": "fast, easy, quick.",
+      "start": 447.039,
+      "duration": 1.44
+    },
+    {
+      "text": "Sub agent complete.",
+      "start": 448.479,
+      "duration": 1.12
+    },
+    {
+      "text": "Right? This is why we have the",
+      "start": 449.599,
+      "duration": 1.121
+    },
+    {
+      "text": "summaries. If we scroll down here,",
+      "start": 450.72,
+      "duration": 1.599
+    },
+    {
+      "text": "getting summaries for post tool use. If",
+      "start": 452.319,
+      "duration": 2.081
+    },
+    {
+      "text": "we want to open up our sub agent stop",
+      "start": 454.4,
+      "duration": 1.519
+    },
+    {
+      "text": "event and see what that looks like, you",
+      "start": 455.919,
+      "duration": 1.361
+    },
+    {
+      "text": "can see here this is the exact payload",
+      "start": 457.28,
+      "duration": 2.24
+    },
+    {
+      "text": "for that cloud code hook. And we're",
+      "start": 459.52,
+      "duration": 1.76
+    },
+    {
+      "text": "putting it all together here in this",
+      "start": 461.28,
+      "duration": 1.68
+    },
+    {
+      "text": "one-way data flow architecture where",
+      "start": 462.96,
+      "duration": 2.4
+    },
+    {
+      "text": "Cloud Code uses its hooks after it",
+      "start": 465.36,
+      "duration": 2.48
+    },
+    {
+      "text": "finishes events. And these events then",
+      "start": 467.84,
+      "duration": 2.32
+    },
+    {
+      "text": "send information to the server. There",
+      "start": 470.16,
+      "duration": 2.319
+    },
+    {
+      "text": "you go. You can see five agentic loop",
+      "start": 472.479,
+      "duration": 1.84
+    },
+    {
+      "text": "tasks kicked off there. And then the",
+      "start": 474.319,
+      "duration": 1.761
+    },
+    {
+      "text": "server takes those events, stores it in",
+      "start": 476.08,
+      "duration": 2.559
+    },
+    {
+      "text": "SQLite, and then streams them right to",
+      "start": 478.639,
+      "duration": 2.56
+    },
+    {
+      "text": "the client we're looking at right here.",
+      "start": 481.199,
+      "duration": 1.68
+    },
+    {
+      "text": "So this oneway data stream keeps things",
+      "start": 482.879,
+      "duration": 1.6
+    },
+    {
+      "text": "really simple. Every agent is",
+      "start": 484.479,
+      "duration": 1.521
+    },
+    {
+      "text": "responsible for summarizing their work",
+      "start": 486,
+      "duration": 2
+    },
+    {
+      "text": "in the cloud code hook before they send",
+      "start": 488,
+      "duration": 1.599
+    },
+    {
+      "text": "it off. And we'll dive into the codebase",
+      "start": 489.599,
+      "duration": 1.841
+    },
+    {
+      "text": "in just a moment here. I just want to",
+      "start": 491.44,
+      "duration": 1.52
+    },
+    {
+      "text": "highlight how important this is. It's",
+      "start": 492.96,
+      "duration": 2.48
+    },
+    {
+      "text": "the same deal. If you don't measure it,",
+      "start": 495.44,
+      "duration": 1.68
+    },
+    {
+      "text": "you can't improve it. If you don't",
+      "start": 497.12,
+      "duration": 1.28
+    },
+    {
+      "text": "monitor it, how will you know what's",
+      "start": 498.4,
+      "duration": 1.76
+    },
+    {
+      "text": "actually happening? If you want to scale",
+      "start": 500.16,
+      "duration": 1.92
+    },
+    {
+      "text": "up your work, if you want to scale up",
+      "start": 502.08,
+      "duration": 1.44
+    },
+    {
+      "text": "your agents, you need to know what",
+      "start": 503.52,
+      "duration": 2.079
+    },
+    {
+      "text": "they're doing. And it is really",
+      "start": 505.599,
+      "duration": 1.681
+    },
+    {
+      "text": "interesting too to watch this data flow",
+      "start": 507.28,
+      "duration": 2.319
+    },
+    {
+      "text": "come in and really trail what the agents",
+      "start": 509.599,
+      "duration": 2.481
+    },
+    {
+      "text": "are doing to understand how your agentic",
+      "start": 512.08,
+      "duration": 2.48
+    },
+    {
+      "text": "coding tool really works. All right, but",
+      "start": 514.56,
+      "duration": 2
+    },
+    {
+      "text": "this is all powered, of course, by cloud",
+      "start": 516.56,
+      "duration": 2
+    },
+    {
+      "text": "code hooks. This is an incredible",
+      "start": 518.56,
+      "duration": 1.68
+    },
+    {
+      "text": "feature that lets you build on top of",
+      "start": 520.24,
+      "duration": 1.919
+    },
+    {
+      "text": "and understand what's going on in Cloud",
+      "start": 522.159,
+      "duration": 2.881
+    },
+    {
+      "text": "Code's life cycle. They give us",
+      "start": 525.04,
+      "duration": 1.919
+    },
+    {
+      "text": "deterministic control over Cloud Code's",
+      "start": 526.959,
+      "duration": 1.921
+    },
+    {
+      "text": "behavior and it lets us steer, monitor,",
+      "start": 528.88,
+      "duration": 2.959
+    },
+    {
+      "text": "control our agents. All right, so this",
+      "start": 531.839,
+      "duration": 2.321
+    },
+    {
+      "text": "is a big feature. I'm covering it again",
+      "start": 534.16,
+      "duration": 2.16
+    },
+    {
+      "text": "here week after week. Last week, we",
+      "start": 536.32,
+      "duration": 2.16
+    },
+    {
+      "text": "covered cloud code hooks in a more",
+      "start": 538.48,
+      "duration": 1.44
+    },
+    {
+      "text": "fundamental way. This time in this",
+      "start": 539.92,
+      "duration": 2.16
+    },
+    {
+      "text": "video, as you can see here, we're",
+      "start": 542.08,
+      "duration": 1.68
+    },
+    {
+      "text": "putting cloud code hooks to work for",
+      "start": 543.76,
+      "duration": 2.639
+    },
+    {
+      "text": "multi- aent observability. If you want",
+      "start": 546.399,
+      "duration": 2.481
+    },
+    {
+      "text": "to do more, if you want to scale up your",
+      "start": 548.88,
+      "duration": 2.399
+    },
+    {
+      "text": "agentic coding, if you want to become an",
+      "start": 551.279,
+      "duration": 2.24
+    },
+    {
+      "text": "agentic engineer, you're going to want",
+      "start": 553.519,
+      "duration": 2.401
+    },
+    {
+      "text": "multiple agents working for you,",
+      "start": 555.92,
+      "duration": 1.599
+    },
+    {
+      "text": "accomplishing tasks across all of your",
+      "start": 557.519,
+      "duration": 2.32
+    },
+    {
+      "text": "code bases. Of course, as you scale that",
+      "start": 559.839,
+      "duration": 1.921
+    },
+    {
+      "text": "up, another problem emerges, right?",
+      "start": 561.76,
+      "duration": 2.16
+    },
+    {
+      "text": "Solutions create problems, another",
+      "start": 563.92,
+      "duration": 1.84
+    },
+    {
+      "text": "problem emerges where we need a way to",
+      "start": 565.76,
+      "duration": 2.079
+    },
+    {
+      "text": "track and understand what is going on.",
+      "start": 567.839,
+      "duration": 2.801
+    },
+    {
+      "text": "And the cool part is, you know, I don't",
+      "start": 570.64,
+      "duration": 1.92
+    },
+    {
+      "text": "need to open up these terminals, these",
+      "start": 572.56,
+      "duration": 1.92
+    },
+    {
+      "text": "instances to know what's going on now,",
+      "start": 574.48,
+      "duration": 2.08
+    },
+    {
+      "text": "right? I can keep these closed and just",
+      "start": 576.56,
+      "duration": 1.92
+    },
+    {
+      "text": "look at what's happening here. I think",
+      "start": 578.48,
+      "duration": 1.919
+    },
+    {
+      "text": "you understand why multi-agent",
+      "start": 580.399,
+      "duration": 1.681
+    },
+    {
+      "text": "observability is so important. If you're",
+      "start": 582.08,
+      "duration": 1.68
+    },
+    {
+      "text": "scaling up your impact, if you're",
+      "start": 583.76,
+      "duration": 1.28
+    },
+    {
+      "text": "scaling up your engineering work, you",
+      "start": 585.04,
+      "duration": 1.52
+    },
+    {
+      "text": "need to understand what's happening,",
+      "start": 586.56,
+      "duration": 2.16
+    },
+    {
+      "text": "where it's happening, and what agent is",
+      "start": 588.72,
+      "duration": 2.08
+    },
+    {
+      "text": "doing the operation, right? Because",
+      "start": 590.8,
+      "duration": 1.76
+    },
+    {
+      "text": "eventually something will go wrong. A",
+      "start": 592.56,
+      "duration": 1.92
+    },
+    {
+      "text": "system will not do the right thing. And",
+      "start": 594.48,
+      "duration": 2
+    },
+    {
+      "text": "then it's going to be essential to have",
+      "start": 596.48,
+      "duration": 1.68
+    },
+    {
+      "text": "a trace throughout your system that you",
+      "start": 598.16,
+      "duration": 2.32
+    },
+    {
+      "text": "can fully control. All right? So, I'm",
+      "start": 600.48,
+      "duration": 1.919
+    },
+    {
+      "text": "not saying this is the right way to do",
+      "start": 602.399,
+      "duration": 1.521
+    },
+    {
+      "text": "it. I'm just saying this is a way you",
+      "start": 603.92,
+      "duration": 2.08
+    },
+    {
+      "text": "can start with multi- aent",
+      "start": 606,
+      "duration": 1.44
+    },
+    {
+      "text": "observability. You can see",
+      "start": 607.44,
+      "duration": 1.28
+    },
+    {
+      "text": "task accomplished and ready to roll.",
+      "start": 608.72,
+      "duration": 1.6
+    },
+    {
+      "text": "There's our stop task there. And",
+      "start": 610.32,
+      "duration": 1.84
+    },
+    {
+      "text": "something cool about the stop event,",
+      "start": 612.16,
+      "duration": 1.679
+    },
+    {
+      "text": "just to mention it here. If we click",
+      "start": 613.839,
+      "duration": 1.601
+    },
+    {
+      "text": "stop, we can see the entire chat",
+      "start": 615.44,
+      "duration": 2.32
+    },
+    {
+      "text": "transcript. So you can see this agent,",
+      "start": 617.76,
+      "duration": 1.84
+    },
+    {
+      "text": "agent07",
+      "start": 619.6,
+      "duration": 1.6
+    },
+    {
+      "text": "inside of the cloud code hooks multi-",
+      "start": 621.2,
+      "duration": 1.68
+    },
+    {
+      "text": "aent observability codebase. It has 500",
+      "start": 622.88,
+      "duration": 2.56
+    },
+    {
+      "text": "messages, right? And if we click into",
+      "start": 625.44,
+      "duration": 1.36
+    },
+    {
+      "text": "this, you can search through them and",
+      "start": 626.8,
+      "duration": 1.599
+    },
+    {
+      "text": "understand exactly what was happening at",
+      "start": 628.399,
+      "duration": 2.401
+    },
+    {
+      "text": "a glance. The stop event is the perfect",
+      "start": 630.8,
+      "duration": 1.84
+    },
+    {
+      "text": "time to copy you know the entire log via",
+      "start": 632.64,
+      "duration": 3.12
+    },
+    {
+      "text": "the transcript path right here and use",
+      "start": 635.76,
+      "duration": 2.4
+    },
+    {
+      "text": "it to operate on the work that happened",
+      "start": 638.16,
+      "duration": 2.64
+    },
+    {
+      "text": "right so for instance say I wanted to",
+      "start": 640.8,
+      "duration": 1.68
+    },
+    {
+      "text": "find all the read commands we can",
+      "start": 642.48,
+      "duration": 2.24
+    },
+    {
+      "text": "quickly filter all the reads and",
+      "start": 644.72,
+      "duration": 2.16
+    },
+    {
+      "text": "understand where that's happening we can",
+      "start": 646.88,
+      "duration": 1.84
+    },
+    {
+      "text": "do the same with all the glob usage",
+      "start": 648.72,
+      "duration": 2.08
+    },
+    {
+      "text": "assistant responses you can see that",
+      "start": 650.8,
+      "duration": 1.84
+    },
+    {
+      "text": "here to do all the responses here for",
+      "start": 652.64,
+      "duration": 2.639
+    },
+    {
+      "text": "this chat anyway so you get the idea",
+      "start": 655.279,
+      "duration": 2.321
+    },
+    {
+      "text": "right observability is ultra important",
+      "start": 657.6,
+      "duration": 2.56
+    },
+    {
+      "text": "and you something we've talked about",
+      "start": 660.16,
+      "duration": 1.76
+    },
+    {
+      "text": "before on the channel. Keeping track of",
+      "start": 661.92,
+      "duration": 2.08
+    },
+    {
+      "text": "what your tool can do teaches you, the",
+      "start": 664,
+      "duration": 2.72
+    },
+    {
+      "text": "engineer, what you can actually do with",
+      "start": 666.72,
+      "duration": 2
+    },
+    {
+      "text": "these tools. Monitoring lets you tap",
+      "start": 668.72,
+      "duration": 1.84
+    },
+    {
+      "text": "into the potential that your tool can",
+      "start": 670.56,
+      "duration": 2.399
+    },
+    {
+      "text": "have. So, it looks like our mobile",
+      "start": 672.959,
+      "duration": 1.841
+    },
+    {
+      "text": "version shipped. Okay, this is something",
+      "start": 674.8,
+      "duration": 1.92
+    },
+    {
+      "text": "of course we can come in and tweak event",
+      "start": 676.72,
+      "duration": 1.92
+    },
+    {
+      "text": "streams here. We probably want to",
+      "start": 678.64,
+      "duration": 1.199
+    },
+    {
+      "text": "increase the default size of this, the",
+      "start": 679.839,
+      "duration": 1.841
+    },
+    {
+      "text": "default height on mobile. That's fine.",
+      "start": 681.68,
+      "duration": 2.24
+    },
+    {
+      "text": "So, what does this look like? How does",
+      "start": 683.92,
+      "duration": 1.28
+    },
+    {
+      "text": "this actually work? Let's look at the",
+      "start": 685.2,
+      "duration": 1.92
+    },
+    {
+      "text": "events flowing through the system. Let's",
+      "start": 687.12,
+      "duration": 1.76
+    },
+    {
+      "text": "look at our small fast haik coup model",
+      "start": 688.88,
+      "duration": 2.72
+    },
+    {
+      "text": "giving us summaries on the event. Right,",
+      "start": 691.6,
+      "duration": 2
+    },
+    {
+      "text": "this is really powerful. We want to be",
+      "start": 693.6,
+      "duration": 1.28
+    },
+    {
+      "text": "able to observe very quickly at a",
+      "start": 694.88,
+      "duration": 1.519
+    },
+    {
+      "text": "glance. We got a notification here from",
+      "start": 696.399,
+      "duration": 1.68
+    },
+    {
+      "text": "one of our agents. Accept the changes",
+      "start": 698.079,
+      "duration": 2
+    },
+    {
+      "text": "there. That looks great. Infinite agent",
+      "start": 700.079,
+      "duration": 2.081
+    },
+    {
+      "text": "loop still running here. That looks",
+      "start": 702.16,
+      "duration": 1.76
+    },
+    {
+      "text": "great. All right. So, let's go ahead and",
+      "start": 703.92,
+      "duration": 1.2
+    },
+    {
+      "text": "understand how this works. Okay. From",
+      "start": 705.12,
+      "duration": 2.24
+    },
+    {
+      "text": "end to end cloud code agent to hook to",
+      "start": 707.36,
+      "duration": 2.88
+    },
+    {
+      "text": "",
+      "start": 708,
+      "duration": 352
+    },
+    {
+      "text": "server to client, we can see the",
+      "start": 710.24,
+      "duration": 2
+    },
+    {
+      "text": "following structure. As you know from",
+      "start": 712.24,
+      "duration": 2.159
+    },
+    {
+      "text": "the previous video, we have the claude",
+      "start": 714.399,
+      "duration": 2.081
+    },
+    {
+      "text": "directory and we've added a new hooks",
+      "start": 716.48,
+      "duration": 2.479
+    },
+    {
+      "text": "directory. If we open up settings, we",
+      "start": 718.959,
+      "duration": 2.161
+    },
+    {
+      "text": "can understand what's going on. And of",
+      "start": 721.12,
+      "duration": 1.839
+    },
+    {
+      "text": "course, it all starts from the hooks and",
+      "start": 722.959,
+      "duration": 1.841
+    },
+    {
+      "text": "see we have all of the events getting",
+      "start": 724.8,
+      "duration": 2.32
+    },
+    {
+      "text": "tracked. And let's just look at pre-tool",
+      "start": 727.12,
+      "duration": 2.399
+    },
+    {
+      "text": "use. We've added another hook. So",
+      "start": 729.519,
+      "duration": 2.081
+    },
+    {
+      "text": "instead of running one hook, we're",
+      "start": 731.6,
+      "duration": 1.44
+    },
+    {
+      "text": "running two hooks. Something very cool.",
+      "start": 733.04,
+      "duration": 1.76
+    },
+    {
+      "text": "We have this pre-tool use specific",
+      "start": 734.8,
+      "duration": 2.56
+    },
+    {
+      "text": "script. We're of course using Astral's",
+      "start": 737.36,
+      "duration": 2.56
+    },
+    {
+      "text": "UV single file Python scripts. This is a",
+      "start": 739.92,
+      "duration": 2.8
+    },
+    {
+      "text": "great way to isolate code and to create",
+      "start": 742.72,
+      "duration": 2.16
+    },
+    {
+      "text": "standalone scripts. But then we have",
+      "start": 744.88,
+      "duration": 2.399
+    },
+    {
+      "text": "something really cool down here. We have",
+      "start": 747.279,
+      "duration": 2.24
+    },
+    {
+      "text": "this new script here. And we can, you",
+      "start": 749.519,
+      "duration": 2.161
+    },
+    {
+      "text": "know, just shrink all this so that it's",
+      "start": 751.68,
+      "duration": 1.52
+    },
+    {
+      "text": "a little bit more readable. This looks",
+      "start": 753.2,
+      "duration": 1.52
+    },
+    {
+      "text": "like this, right? So in this directory,",
+      "start": 754.72,
+      "duration": 2.08
+    },
+    {
+      "text": "we have this send event method and it",
+      "start": 756.8,
+      "duration": 3.039
+    },
+    {
+      "text": "has a couple of args. We have the name",
+      "start": 759.839,
+      "duration": 2.321
+    },
+    {
+      "text": "of the application we're operating in.",
+      "start": 762.16,
+      "duration": 1.84
+    },
+    {
+      "text": "We have the event type and then we're",
+      "start": 764,
+      "duration": 1.76
+    },
+    {
+      "text": "adding this summarize flag. And the",
+      "start": 765.76,
+      "duration": 1.84
+    },
+    {
+      "text": "summarize flag is of course what's",
+      "start": 767.6,
+      "duration": 2.239
+    },
+    {
+      "text": "creating these summaries here on the",
+      "start": 769.839,
+      "duration": 2.321
+    },
+    {
+      "text": "right with our small fast haiku model.",
+      "start": 772.16,
+      "duration": 1.919
+    },
+    {
+      "text": "Sub aent complete. Sub aent complete.",
+      "start": 774.079,
+      "duration": 2.161
+    },
+    {
+      "text": "We're not going to dive into the natural",
+      "start": 776.24,
+      "duration": 1.279
+    },
+    {
+      "text": "language responses here. We covered this",
+      "start": 777.519,
+      "duration": 1.601
+    },
+    {
+      "text": "in our previous video. I'll link that in",
+      "start": 779.12,
+      "duration": 1.68
+    },
+    {
+      "text": "the description. Check that out after",
+      "start": 780.8,
+      "duration": 1.76
+    },
+    {
+      "text": "you understand multi-agent observability",
+      "start": 782.56,
+      "duration": 2.16
+    },
+    {
+      "text": "in this video. So if we look for send",
+      "start": 784.72,
+      "duration": 2.32
+    },
+    {
+      "text": "event, we have this running in all of",
+      "start": 787.04,
+      "duration": 3.039
+    },
+    {
+      "text": "our hooks. You know, you can see post",
+      "start": 790.079,
+      "duration": 2.241
+    },
+    {
+      "text": "tool use has it, pre-tool use has it,",
+      "start": 792.32,
+      "duration": 2.56
+    },
+    {
+      "text": "notification has it, stop.",
+      "start": 794.88,
+      "duration": 1.36
+    },
+    {
+      "text": "Dan, task nailed. What's next?",
+      "start": 796.24,
+      "duration": 1.92
+    },
+    {
+      "text": "We have sub agent stop and pre-ompact,",
+      "start": 798.16,
+      "duration": 2.4
+    },
+    {
+      "text": "right? The new cloud code hook that runs",
+      "start": 800.56,
+      "duration": 2.399
+    },
+    {
+      "text": "right before you compact. These are all",
+      "start": 802.959,
+      "duration": 1.68
+    },
+    {
+      "text": "running it. They're all passing in their",
+      "start": 804.639,
+      "duration": 1.361
+    },
+    {
+      "text": "own information. This enables this",
+      "start": 806,
+      "duration": 2.24
+    },
+    {
+      "text": "script to be dynamic and to handle every",
+      "start": 808.24,
+      "duration": 2.159
+    },
+    {
+      "text": "one of our hooks. What happens in send",
+      "start": 810.399,
+      "duration": 2.081
+    },
+    {
+      "text": "event? Let's look at this. We have the",
+      "start": 812.48,
+      "duration": 1.68
+    },
+    {
+      "text": "event data, which is just whatever JSON",
+      "start": 814.16,
+      "duration": 2
+    },
+    {
+      "text": "payload you want to send to the server.",
+      "start": 816.16,
+      "duration": 2
+    },
+    {
+      "text": "We have our local server running that's",
+      "start": 818.16,
+      "duration": 2.799
+    },
+    {
+      "text": "capturing events. We have apps, client,",
+      "start": 820.959,
+      "duration": 3.12
+    },
+    {
+      "text": "server, and demo. The server is",
+      "start": 824.079,
+      "duration": 2
+    },
+    {
+      "text": "receiving all of these events. And",
+      "start": 826.079,
+      "duration": 1.841
+    },
+    {
+      "text": "you'll notice this pattern that I'm",
+      "start": 827.92,
+      "duration": 1.76
+    },
+    {
+      "text": "adopting in every video and every",
+      "start": 829.68,
+      "duration": 1.52
+    },
+    {
+      "text": "codebase I operate in. Now, the actual",
+      "start": 831.2,
+      "duration": 2.16
+    },
+    {
+      "text": "application is inside of the wrapping of",
+      "start": 833.36,
+      "duration": 3.76
+    },
+    {
+      "text": "our generative AI technology, of our",
+      "start": 837.12,
+      "duration": 2.48
+    },
+    {
+      "text": "generative AI scaffolding. We're",
+      "start": 839.6,
+      "duration": 2.239
+    },
+    {
+      "text": "starting to build out an aentic layer",
+      "start": 841.839,
+      "duration": 2.56
+    },
+    {
+      "text": "around our codebase. and I'll highlight",
+      "start": 844.399,
+      "duration": 2.401
+    },
+    {
+      "text": "all the essential folders that make up",
+      "start": 846.8,
+      "duration": 2.399
+    },
+    {
+      "text": "that agentic layer. There are more of",
+      "start": 849.199,
+      "duration": 2.241
+    },
+    {
+      "text": "these agentic directories that we're",
+      "start": 851.44,
+      "duration": 2.16
+    },
+    {
+      "text": "going to be talking about on the",
+      "start": 853.6,
+      "duration": 1.28
+    },
+    {
+      "text": "channel. Make sure you're subscribed so",
+      "start": 854.88,
+      "duration": 2
+    },
+    {
+      "text": "you don't miss those. This new layer",
+      "start": 856.88,
+      "duration": 2.24
+    },
+    {
+      "text": "around your codebase is going to change",
+      "start": 859.12,
+      "duration": 2
+    },
+    {
+      "text": "the way you engineer forever. But you",
+      "start": 861.12,
+      "duration": 2.399
+    },
+    {
+      "text": "need to know where to put the right",
+      "start": 863.519,
+      "duration": 1.76
+    },
+    {
+      "text": "thing. More on that in the future.",
+      "start": 865.279,
+      "duration": 1.601
+    },
+    {
+      "text": "Again, make sure you're part of the",
+      "start": 866.88,
+      "duration": 1.28
+    },
+    {
+      "text": "journey. Here's apps. You know, the only",
+      "start": 868.16,
+      "duration": 1.919
+    },
+    {
+      "text": "thing we need to look at in the server.",
+      "start": 870.079,
+      "duration": 1.44
+    },
+    {
+      "text": "You can see the ESCO like database right",
+      "start": 871.519,
+      "duration": 1.76
+    },
+    {
+      "text": "there. Nice and portable. And then in",
+      "start": 873.279,
+      "duration": 1.92
+    },
+    {
+      "text": "the source, we're going to have our bun",
+      "start": 875.199,
+      "duration": 2.241
+    },
+    {
+      "text": "server. Our cloud code event gets kicked",
+      "start": 877.44,
+      "duration": 2.24
+    },
+    {
+      "text": "off no matter where this cloud code is,",
+      "start": 879.68,
+      "duration": 2.24
+    },
+    {
+      "text": "right? Keep in mind, we have hook set",
+      "start": 881.92,
+      "duration": 1.84
+    },
+    {
+      "text": "up. So the hook just fires off a, you",
+      "start": 883.76,
+      "duration": 2.56
+    },
+    {
+      "text": "know, HTTP request with the event. So it",
+      "start": 886.32,
+      "duration": 2.319
+    },
+    {
+      "text": "can go anywhere you want it to. And so",
+      "start": 888.639,
+      "duration": 1.521
+    },
+    {
+      "text": "that's what our send event is doing. So",
+      "start": 890.16,
+      "duration": 1.359
+    },
+    {
+      "text": "that's the cloud code and cloud code",
+      "start": 891.519,
+      "duration": 1.76
+    },
+    {
+      "text": "hook side of things. It then gets passed",
+      "start": 893.279,
+      "duration": 1.92
+    },
+    {
+      "text": "off to the server. And if we open up the",
+      "start": 895.199,
+      "duration": 1.521
+    },
+    {
+      "text": "server here, run a quick collapse, you",
+      "start": 896.72,
+      "duration": 2.799
+    },
+    {
+      "text": "can see all we have here is our",
+      "start": 899.519,
+      "duration": 2.481
+    },
+    {
+      "text": "slashevents. This is just a simple",
+      "start": 902,
+      "duration": 2.639
+    },
+    {
+      "text": "manual bun server. We are inserting this",
+      "start": 904.639,
+      "duration": 2.56
+    },
+    {
+      "text": "into the database and then broadcasting",
+      "start": 907.199,
+      "duration": 2.64
+    },
+    {
+      "text": "the event to our websocket client. Nice",
+      "start": 909.839,
+      "duration": 2.721
+    },
+    {
+      "text": "and simple. This is the server and this",
+      "start": 912.56,
+      "duration": 2
+    },
+    {
+      "text": "is of course the client. We have a use",
+      "start": 914.56,
+      "duration": 2.719
+    },
+    {
+      "text": "websocket event like this which mounts",
+      "start": 917.279,
+      "duration": 2.961
+    },
+    {
+      "text": "and handles our websocket. So classic",
+      "start": 920.24,
+      "duration": 2.56
+    },
+    {
+      "text": "stuff, right? This is Vue.js. Every",
+      "start": 922.8,
+      "duration": 1.92
+    },
+    {
+      "text": "front-end framework has their own",
+      "start": 924.72,
+      "duration": 1.76
+    },
+    {
+      "text": "version of this code. You know, you can",
+      "start": 926.48,
+      "duration": 2.159
+    },
+    {
+      "text": "easily use an agent, use a powerful",
+      "start": 928.639,
+      "duration": 1.681
+    },
+    {
+      "text": "model to completely convert this to",
+      "start": 930.32,
+      "duration": 1.84
+    },
+    {
+      "text": "whatever front-end framework you want.",
+      "start": 932.16,
+      "duration": 1.44
+    },
+    {
+      "text": "These things don't matter anymore.",
+      "start": 933.6,
+      "duration": 1.52
+    },
+    {
+      "text": "Frameworks are irrelevant when it comes",
+      "start": 935.12,
+      "duration": 1.68
+    },
+    {
+      "text": "to raw productivity. Your agent knows",
+      "start": 936.8,
+      "duration": 2.719
+    },
+    {
+      "text": "all of them. The key here is we have",
+      "start": 939.519,
+      "duration": 2.241
+    },
+    {
+      "text": "connect after it's connected. We have",
+      "start": 941.76,
+      "duration": 1.84
+    },
+    {
+      "text": "this websocket on event and we're just",
+      "start": 943.6,
+      "duration": 2.08
+    },
+    {
+      "text": "taking all of our events, slicing them",
+      "start": 945.68,
+      "duration": 2.48
+    },
+    {
+      "text": "because we don't want to overflow with",
+      "start": 948.16,
+      "duration": 1.44
+    },
+    {
+      "text": "too many events. Add them to this",
+      "start": 949.6,
+      "duration": 1.679
+    },
+    {
+      "text": "reference. And then, of course, our",
+      "start": 951.279,
+      "duration": 1.601
+    },
+    {
+      "text": "reference here is going to be available",
+      "start": 952.88,
+      "duration": 2.399
+    },
+    {
+      "text": "via this composable, right? via this",
+      "start": 955.279,
+      "duration": 2.641
+    },
+    {
+      "text": "hook use websocket and then our front",
+      "start": 957.92,
+      "duration": 2.56
+    },
+    {
+      "text": "end consumes this. So if we just search",
+      "start": 960.48,
+      "duration": 1.84
+    },
+    {
+      "text": "all for this, you can see in app.view,",
+      "start": 962.32,
+      "duration": 2.72
+    },
+    {
+      "text": "we're using this websocket event here",
+      "start": 965.04,
+      "duration": 2.159
+    },
+    {
+      "text": "and then we're passing in our events to",
+      "start": 967.199,
+      "duration": 2.481
+    },
+    {
+      "text": "anyone that's interested in our",
+      "start": 969.68,
+      "duration": 1.92
+    },
+    {
+      "text": "components and then the rest is",
+      "start": 971.6,
+      "duration": 1.52
+    },
+    {
+      "text": "front-end boring component stuff, right?",
+      "start": 973.12,
+      "duration": 1.92
+    },
+    {
+      "text": "So nothing special there for your",
+      "start": 975.04,
+      "duration": 1.52
+    },
+    {
+      "text": "observability systems. The key is you",
+      "start": 976.56,
+      "duration": 2.399
+    },
+    {
+      "text": "want to keep it simple. You want to put",
+      "start": 978.959,
+      "duration": 1.201
+    },
+    {
+      "text": "something up right away. And the",
+      "start": 980.16,
+      "duration": 1.359
+    },
+    {
+      "text": "quickest way to do that is a oneway data",
+      "start": 981.519,
+      "duration": 2.401
+    },
+    {
+      "text": "flow from your cloud code agents to your",
+      "start": 983.92,
+      "duration": 2.96
+    },
+    {
+      "text": "server. Server is going to store to both",
+      "start": 986.88,
+      "duration": 2.72
+    },
+    {
+      "text": "our SQLite database and our websocket",
+      "start": 989.6,
+      "duration": 3.039
+    },
+    {
+      "text": "client. So if we hop into our database,",
+      "start": 992.639,
+      "duration": 1.76
+    },
+    {
+      "text": "you can see exactly what this looks",
+      "start": 994.399,
+      "duration": 1.521
+    },
+    {
+      "text": "like. And then you can see all the data",
+      "start": 995.92,
+      "duration": 1.68
+    },
+    {
+      "text": "we're storing. And I can even open up",
+      "start": 997.6,
+      "duration": 2.159
+    },
+    {
+      "text": "our SQLite database. This is what it",
+      "start": 999.759,
+      "duration": 1.921
+    },
+    {
+      "text": "looks like with a quick preview. You can",
+      "start": 1001.68,
+      "duration": 1.92
+    },
+    {
+      "text": "see source app, session ID, event, and",
+      "start": 1003.6,
+      "duration": 3.12
+    },
+    {
+      "text": "then the raw payload. And then some of",
+      "start": 1006.72,
+      "duration": 2.08
+    },
+    {
+      "text": "the stop events will of course have the",
+      "start": 1008.8,
+      "duration": 1.839
+    },
+    {
+      "text": "entire chat attached. And this is what",
+      "start": 1010.639,
+      "duration": 1.841
+    },
+    {
+      "text": "the data structure looks like at a high",
+      "start": 1012.48,
+      "duration": 1.599
+    },
+    {
+      "text": "level. And then we of course just emit",
+      "start": 1014.079,
+      "duration": 2.32
+    },
+    {
+      "text": "all the events to the front end. If we",
+      "start": 1016.399,
+      "duration": 1.921
+    },
+    {
+      "text": "open up the readme, you can understand",
+      "start": 1018.32,
+      "duration": 1.92
+    },
+    {
+      "text": "how to get the setup on your own. And",
+      "start": 1020.24,
+      "duration": 1.68
+    },
+    {
+      "text": "really what I want to do here is I'm not",
+      "start": 1021.92,
+      "duration": 2
+    },
+    {
+      "text": "here to tell you how to observe your",
+      "start": 1023.92,
+      "duration": 1.68
+    },
+    {
+      "text": "agents. I'm here to show you what you",
+      "start": 1025.6,
+      "duration": 2.318
+    },
+    {
+      "text": "can do. I'm here to help you tap into",
+      "start": 1027.919,
+      "duration": 1.841
+    },
+    {
+      "text": "your potential with this powerful",
+      "start": 1029.76,
+      "duration": 2.079
+    },
+    {
+      "text": "generative AI technology. This codebase",
+      "start": 1031.839,
+      "duration": 2.079
+    },
+    {
+      "text": "is going to be available to you. Link in",
+      "start": 1033.919,
+      "duration": 1.841
+    },
+    {
+      "text": "the description. use this as a starting",
+      "start": 1035.76,
+      "duration": 1.918
+    },
+    {
+      "text": "place to understand what you can do with",
+      "start": 1037.679,
+      "duration": 3.041
+    },
+    {
+      "text": "cloud code, the best agentic coding tool",
+      "start": 1040.72,
+      "duration": 2.4
+    },
+    {
+      "text": "in the game. We're taking our big three.",
+      "start": 1043.12,
+      "duration": 2.16
+    },
+    {
+      "text": "We're taking our principles of ad coding",
+      "start": 1045.28,
+      "duration": 1.758
+    },
+    {
+      "text": "and of agentic coding, and we're",
+      "start": 1047.039,
+      "duration": 1.921
+    },
+    {
+      "text": "starting to put them to work. And the",
+      "start": 1048.96,
+      "duration": 1.76
+    },
+    {
+      "text": "key is that as you scale up the number",
+      "start": 1050.72,
+      "duration": 1.76
+    },
+    {
+      "text": "of agents doing work for you,",
+      "start": 1052.48,
+      "duration": 2.24
+    },
+    {
+      "text": "specialized agents working on specific",
+      "start": 1054.72,
+      "duration": 2.56
+    },
+    {
+      "text": "code bases, solving specific problems",
+      "start": 1057.28,
+      "duration": 2.48
+    },
+    {
+      "text": "very well, you want a way to observe",
+      "start": 1059.76,
+      "duration": 2.88
+    },
+    {
+      "text": "",
+      "start": 1060,
+      "duration": 149
+    },
+    {
+      "text": "them, right? You want a way to monitor",
+      "start": 1062.64,
+      "duration": 1.84
+    },
+    {
+      "text": "your agents. You want a concrete way to",
+      "start": 1064.48,
+      "duration": 2.559
+    },
+    {
+      "text": "monitor success. None of this generative",
+      "start": 1067.039,
+      "duration": 2.721
+    },
+    {
+      "text": "AI technology matters if you have no",
+      "start": 1069.76,
+      "duration": 2.159
+    },
+    {
+      "text": "idea what's going on. If you don't know",
+      "start": 1071.919,
+      "duration": 2
+    },
+    {
+      "text": "how to steer, correct, and control your",
+      "start": 1073.919,
+      "duration": 2.721
+    },
+    {
+      "text": "agentic systems, it's as good as",
+      "start": 1076.64,
+      "duration": 2.159
+    },
+    {
+      "text": "garbage. Okay, so this is what we're",
+      "start": 1078.799,
+      "duration": 2
+    },
+    {
+      "text": "doing here. You can see our summaries.",
+      "start": 1080.799,
+      "duration": 2.481
+    },
+    {
+      "text": "So powerful, so useful. Just quick,",
+      "start": 1083.28,
+      "duration": 2.399
+    },
+    {
+      "text": "highlevel, small, fast language models.",
+      "start": 1085.679,
+      "duration": 2.481
+    },
+    {
+      "text": "This is a great use case for these",
+      "start": 1088.16,
+      "duration": 1.6
+    },
+    {
+      "text": "small, fast, cheap models. I've sent a",
+      "start": 1089.76,
+      "duration": 2.72
+    },
+    {
+      "text": "thousand of these events so far just in",
+      "start": 1092.48,
+      "duration": 2.4
+    },
+    {
+      "text": "testing. I haven't even set these up",
+      "start": 1094.88,
+      "duration": 1.919
+    },
+    {
+      "text": "against my real multi- aent system yet,",
+      "start": 1096.799,
+      "duration": 2.24
+    },
+    {
+      "text": "but I've spent less than 20 cents on",
+      "start": 1099.039,
+      "duration": 2.88
+    },
+    {
+      "text": "thousands of events. So, this is where",
+      "start": 1101.919,
+      "duration": 2
+    },
+    {
+      "text": "small fast models really shine, right?",
+      "start": 1103.919,
+      "duration": 2.561
+    },
+    {
+      "text": "These one-off quick summaries, these",
+      "start": 1106.48,
+      "duration": 2.16
+    },
+    {
+      "text": "quick prompts. Once you start scaling up",
+      "start": 1108.64,
+      "duration": 2.399
+    },
+    {
+      "text": "from one agent running on your machine",
+      "start": 1111.039,
+      "duration": 2.161
+    },
+    {
+      "text": "to multiple agents running on your",
+      "start": 1113.2,
+      "duration": 1.52
+    },
+    {
+      "text": "machine like this to multiple agents",
+      "start": 1114.72,
+      "duration": 2.8
+    },
+    {
+      "text": "running on different machines, you get",
+      "start": 1117.52,
+      "duration": 2.32
+    },
+    {
+      "text": "something really incredible. You start",
+      "start": 1119.84,
+      "duration": 1.839
+    },
+    {
+      "text": "pushing in to true off-device agentic",
+      "start": 1121.679,
+      "duration": 3.921
+    },
+    {
+      "text": "coding. This is the future of",
+      "start": 1125.6,
+      "duration": 1.36
+    },
+    {
+      "text": "engineering. You want to be on this",
+      "start": 1126.96,
+      "duration": 1.68
+    },
+    {
+      "text": "trend. You want to be writing this. You",
+      "start": 1128.64,
+      "duration": 1.279
+    },
+    {
+      "text": "want to be pushing toward this.",
+      "start": 1129.919,
+      "duration": 1.361
+    },
+    {
+      "text": "Prompting back and forth, one prompt at",
+      "start": 1131.28,
+      "duration": 2
+    },
+    {
+      "text": "a time is not the way to engineer. It's",
+      "start": 1133.28,
+      "duration": 2.8
+    },
+    {
+      "text": "a great place to start. It's a terrible",
+      "start": 1136.08,
+      "duration": 1.92
+    },
+    {
+      "text": "place to finish. Things are going to",
+      "start": 1138,
+      "duration": 1.6
+    },
+    {
+      "text": "continue to progress and on the channel",
+      "start": 1139.6,
+      "duration": 1.92
+    },
+    {
+      "text": "we're going to continue to progress",
+      "start": 1141.52,
+      "duration": 1.84
+    },
+    {
+      "text": "beyond the curve.",
+      "start": 1143.36,
+      "duration": 1.28
+    },
+    {
+      "text": "Your agent needs your input.",
+      "start": 1144.64,
+      "duration": 1.36
+    },
+    {
+      "text": "We're going to move beyond the state.",
+      "start": 1146,
+      "duration": 1.52
+    },
+    {
+      "text": "We're always looking at where the ball's",
+      "start": 1147.52,
+      "duration": 1.519
+    },
+    {
+      "text": "going, not where the ball is. Pay",
+      "start": 1149.039,
+      "duration": 3.041
+    },
+    {
+      "text": "attention to what your agents are doing.",
+      "start": 1152.08,
+      "duration": 2
+    },
+    {
+      "text": "Understand what your agents can do. Use",
+      "start": 1154.08,
+      "duration": 2.56
+    },
+    {
+      "text": "multi- aent observability. Start",
+      "start": 1156.64,
+      "duration": 2.08
+    },
+    {
+      "text": "spinning up multiple agents focused on",
+      "start": 1158.72,
+      "duration": 2.56
+    },
+    {
+      "text": "one specific task for you. Specialize",
+      "start": 1161.28,
+      "duration": 2.72
+    },
+    {
+      "text": "your agents and then scale them up. The",
+      "start": 1164,
+      "duration": 3.36
+    },
+    {
+      "text": "big idea here is that we want to get out",
+      "start": 1167.36,
+      "duration": 2.72
+    },
+    {
+      "text": "of back and forth prompting mode like",
+      "start": 1170.08,
+      "duration": 2.24
+    },
+    {
+      "text": "this and we want to move into fully",
+      "start": 1172.32,
+      "duration": 2.4
+    },
+    {
+      "text": "trusted, fully agentic, programmable",
+      "start": 1174.72,
+      "duration": 3.12
+    },
+    {
+      "text": "agentic coding. I'll also link that",
+      "start": 1177.84,
+      "duration": 1.92
+    },
+    {
+      "text": "video in the description. Everything",
+      "start": 1179.76,
+      "duration": 1.44
+    },
+    {
+      "text": "we're doing on the channel is pushing",
+      "start": 1181.2,
+      "duration": 1.92
+    },
+    {
+      "text": "towards something big, hence the phase 2",
+      "start": 1183.12,
+      "duration": 2.72
+    },
+    {
+      "text": "agentic coding course coming in the next",
+      "start": 1185.84,
+      "duration": 2.719
+    },
+    {
+      "text": "couple of months. I'm ultra excited to",
+      "start": 1188.559,
+      "duration": 1.36
+    },
+    {
+      "text": "share that with you. What we're going to",
+      "start": 1189.919,
+      "duration": 1.441
+    },
+    {
+      "text": "do next is going to be truly",
+      "start": 1191.36,
+      "duration": 1.36
+    },
+    {
+      "text": "mind-blowing. So anyway, stay tuned for",
+      "start": 1192.72,
+      "duration": 1.839
+    },
+    {
+      "text": "that. Make sure you're subscribed so you",
+      "start": 1194.559,
+      "duration": 1.441
+    },
+    {
+      "text": "don't miss what's coming next in the",
+      "start": 1196,
+      "duration": 1.52
+    },
+    {
+      "text": "Agentic coding and the Agentic",
+      "start": 1197.52,
+      "duration": 1.76
+    },
+    {
+      "text": "engineering world. You know where to",
+      "start": 1199.28,
+      "duration": 1.759
+    },
+    {
+      "text": "find me every Monday. Stay focused and",
+      "start": 1201.039,
+      "duration": 3.681
+    },
+    {
+      "text": "keep building.",
+      "start": 1204.72,
+      "duration": 3.88
+    }
+  ],
+  "fullText": "What you're about to see is simple and powerful. Running a single Cloud Code agent is just the beginning. Once you realize this and you start scaling up the number of agents you have shipping for you, you quickly run into a massive problem. There's too much to keep track of. When it comes to multi-agent systems, observability is everything. Check this out. With cloud code hooks sending events to a minimal client server architecture, you can see everything. Let's break down a concrete approach to cloud code multi- aent observability that let you scale up what you can do with not just one cloud code instance but 3 510 and beyond. So, as you can see here, we have a multi- aent observability system that is taking events in from every cloud code instance I have running. Doesn't matter if they're running subtasks, if they're planning, building, web scraping, web searching, deep research, calling MCP servers. Every event is getting tracked and traced into this simple multi- aent observability application. Here's what the application architecture looks like. We have multiple agents firing their own respective claude code hooks. Each one of these hooks hits a bun server which stores data to an SQL like database for persistence and simultaneously it uses websockets to stream the events right to the client you see right here. So no matter where your agents are running, if you're running on multiple devices, if you're running, you know, 5 10 plus agents, every event's going to get streamed in. You can see I have different applications streaming in events with different cloud code session IDs getting recorded here. And every tool call, every hook. Dan, your agent needs your input. You can see there every hook, every event type is getting recorded. I just got a notification event. So, one of my agents needs my input. We can go ahead go back to the terminal and we can see which one needs it. So, Dan, task nailed. Moving forward. There we go. We got a stop event coming in and we can see this custom theme feature is looking good. It looks like it needs a couple tweaks to this. Of course, we'll just accept and let it keep cooking. We have one Asian complete and you can see we have a multitask sub agent event getting a bunch of work done. All these events are streaming in. And so this is the power of observability. As you scale up your agents, as you specialize and build agents into your workflows, right, into your agentic workflows, you want to understand what they're doing. So let's break down this needs your input. Okay, so we got another input request there. Once you start using cloud code and once you start using agentic coding tools, you realize that you can do a lot more by just adding agents by just scaling up the number of agents you have working for you at any time. This is also great for specialization and cross app usage. This is just agent complete. Awesome. So we got sub agent complete calls here. You can see every type of cloud code event. At the top here we of course have filters. We're operating out of two code bases right now. the infinite agentic loop codebase and this brand new cloud code hook multi- aent observability codebase. We can filter down of course your agent needs your input to one or more of these code bases. Let's just go ahead and set back to all sources. You can hear in the background text to speech that we put together in the previous cloud code hooks video. My agents are letting me know when they need my input or when they're ready for more work. Sub agent complete. So we have session IDs which detail the exact cloud code instance and then of course we have event types. So these are all the current available cloud code hooks that you can tap into. And we're of course getting a stream of every single event. So we can easily filter down. Let's say we just want to see all of the stop events, post, tool use, notifications, so on and so forth. And so you can of course see something really, really cool, right? We have a live activity pulse of all the events coming in in real time. All the work our agents are doing across every application, across every cloud code instance. You can see our infinite agentic loop agent is doing a lot of work and this is one of the heavy hitters, right? Go ahead, let this continue. You can see that we have five subtasks operating in parallel. So, a lot of events are going to stream in from this. This agent here built out a plan. Now, I'm going to have it actually implement this plan. So, I'm just going to copy this /implement. Paste that in. And now, it's going to build out that plan. I'm still building this. I'm still working on this as I'm presenting it to you here. I need to make this mobile friendly so I can you know shrink this down and use this on my phone on my device on the go accept this cool stuff right this live activity policy is great for seeing all the events coming in live throughout all agents and we can see highle breakdown of what this looks like let's get to the bulk of it right the agent event stream you can see all the events are streaming in here we have a total of 63 events and this does cut off and refresh if we scroll down here we have the application that the events are coming out of we have the clawed code session ID. Your agent needs your input. Okay, thumbs up. This application and session IDs uniquely mark this instance for good UIUX. We have color coding here on the app and the session ID. So, we're hashing the incoming app name and session ID so that we can consistently see which agent is posting. Mailed. What's next? There we go. We got a task complete with that cloud code hook stop event. That's awesome. App name here, session ID, tool that we're actually calling. And then over here on the right, we have something really, really powerful. So we have summarizations of the work done in some of our tools here. We're actually running, and I'll show this off in the codebase in a moment here, where every event coming in before the cloud code hook sends it off, it's running a summarization prompt using a small fast model. So in this case, I'm running haik coup to get a summary on all of the events that I care about. So specifically, pre-tool, post tool, I want to see what is going on and just be able to read at a glance, right? I don't want to click in here and have to look at the exact payload which of course you can. What does event represent? So you can see here infinite agentic loop writes HTML file for medscan pro clinical dashboard at a specified project path. That's the post tool use. Sub aent complete. There we go. We got another sub aent complete. And post tool use fires of course after the tool has run. Of course we have pre-tool use right there. You can see these events are tied together. Right. Pre-tool post tool sub aent complete. It's the same agent 15CC5C and the running in the infinite agentic loop codebase. This is this agent here. My implementation agent is still working and we are getting infinite UIs generated over here. These of course are just presentational examples. Although these two are actively, you know, working on multi-agent observability codebase. But anyway, I hope you can see the idea here, right? This is something that's going to be really really important for you as you scale up your agents. This architecture that we have here is a one-way data stream. This keeps things really, really simple. Everything flows here from cloud code agents through their hooks to the server. When they hit the server, they're stored in SQL like database. And then right after they're saved, they're streamed to the front end here. And so we're getting these live events coming in. And of course in the activity pulse, we can also, you know, we're looking at a 1 minute feed here, but we can go 3 minute and we can go 5 minute. And you can see, you know, a larger collection of all these events coming in at a larger time frame. You can also see, you know, every individual line represents the actual agent that did the work. Sub agent complete. Right? This is the session ID hashed color. You want your observability to be fast, easy, quick. Sub agent complete. Right? This is why we have the summaries. If we scroll down here, getting summaries for post tool use. If we want to open up our sub agent stop event and see what that looks like, you can see here this is the exact payload for that cloud code hook. And we're putting it all together here in this one-way data flow architecture where Cloud Code uses its hooks after it finishes events. And these events then send information to the server. There you go. You can see five agentic loop tasks kicked off there. And then the server takes those events, stores it in SQLite, and then streams them right to the client we're looking at right here. So this oneway data stream keeps things really simple. Every agent is responsible for summarizing their work in the cloud code hook before they send it off. And we'll dive into the codebase in just a moment here. I just want to highlight how important this is. It's the same deal. If you don't measure it, you can't improve it. If you don't monitor it, how will you know what's actually happening? If you want to scale up your work, if you want to scale up your agents, you need to know what they're doing. And it is really interesting too to watch this data flow come in and really trail what the agents are doing to understand how your agentic coding tool really works. All right, but this is all powered, of course, by cloud code hooks. This is an incredible feature that lets you build on top of and understand what's going on in Cloud Code's life cycle. They give us deterministic control over Cloud Code's behavior and it lets us steer, monitor, control our agents. All right, so this is a big feature. I'm covering it again here week after week. Last week, we covered cloud code hooks in a more fundamental way. This time in this video, as you can see here, we're putting cloud code hooks to work for multi- aent observability. If you want to do more, if you want to scale up your agentic coding, if you want to become an agentic engineer, you're going to want multiple agents working for you, accomplishing tasks across all of your code bases. Of course, as you scale that up, another problem emerges, right? Solutions create problems, another problem emerges where we need a way to track and understand what is going on. And the cool part is, you know, I don't need to open up these terminals, these instances to know what's going on now, right? I can keep these closed and just look at what's happening here. I think you understand why multi-agent observability is so important. If you're scaling up your impact, if you're scaling up your engineering work, you need to understand what's happening, where it's happening, and what agent is doing the operation, right? Because eventually something will go wrong. A system will not do the right thing. And then it's going to be essential to have a trace throughout your system that you can fully control. All right? So, I'm not saying this is the right way to do it. I'm just saying this is a way you can start with multi- aent observability. You can see task accomplished and ready to roll. There's our stop task there. And something cool about the stop event, just to mention it here. If we click stop, we can see the entire chat transcript. So you can see this agent, agent07 inside of the cloud code hooks multi- aent observability codebase. It has 500 messages, right? And if we click into this, you can search through them and understand exactly what was happening at a glance. The stop event is the perfect time to copy you know the entire log via the transcript path right here and use it to operate on the work that happened right so for instance say I wanted to find all the read commands we can quickly filter all the reads and understand where that's happening we can do the same with all the glob usage assistant responses you can see that here to do all the responses here for this chat anyway so you get the idea right observability is ultra important and you something we've talked about before on the channel. Keeping track of what your tool can do teaches you, the engineer, what you can actually do with these tools. Monitoring lets you tap into the potential that your tool can have. So, it looks like our mobile version shipped. Okay, this is something of course we can come in and tweak event streams here. We probably want to increase the default size of this, the default height on mobile. That's fine. So, what does this look like? How does this actually work? Let's look at the events flowing through the system. Let's look at our small fast haik coup model giving us summaries on the event. Right, this is really powerful. We want to be able to observe very quickly at a glance. We got a notification here from one of our agents. Accept the changes there. That looks great. Infinite agent loop still running here. That looks great. All right. So, let's go ahead and understand how this works. Okay. From end to end cloud code agent to hook to server to client, we can see the following structure. As you know from the previous video, we have the claude directory and we've added a new hooks directory. If we open up settings, we can understand what's going on. And of course, it all starts from the hooks and see we have all of the events getting tracked. And let's just look at pre-tool use. We've added another hook. So instead of running one hook, we're running two hooks. Something very cool. We have this pre-tool use specific script. We're of course using Astral's UV single file Python scripts. This is a great way to isolate code and to create standalone scripts. But then we have something really cool down here. We have this new script here. And we can, you know, just shrink all this so that it's a little bit more readable. This looks like this, right? So in this directory, we have this send event method and it has a couple of args. We have the name of the application we're operating in. We have the event type and then we're adding this summarize flag. And the summarize flag is of course what's creating these summaries here on the right with our small fast haiku model. Sub aent complete. Sub aent complete. We're not going to dive into the natural language responses here. We covered this in our previous video. I'll link that in the description. Check that out after you understand multi-agent observability in this video. So if we look for send event, we have this running in all of our hooks. You know, you can see post tool use has it, pre-tool use has it, notification has it, stop. Dan, task nailed. What's next? We have sub agent stop and pre-ompact, right? The new cloud code hook that runs right before you compact. These are all running it. They're all passing in their own information. This enables this script to be dynamic and to handle every one of our hooks. What happens in send event? Let's look at this. We have the event data, which is just whatever JSON payload you want to send to the server. We have our local server running that's capturing events. We have apps, client, server, and demo. The server is receiving all of these events. And you'll notice this pattern that I'm adopting in every video and every codebase I operate in. Now, the actual application is inside of the wrapping of our generative AI technology, of our generative AI scaffolding. We're starting to build out an aentic layer around our codebase. and I'll highlight all the essential folders that make up that agentic layer. There are more of these agentic directories that we're going to be talking about on the channel. Make sure you're subscribed so you don't miss those. This new layer around your codebase is going to change the way you engineer forever. But you need to know where to put the right thing. More on that in the future. Again, make sure you're part of the journey. Here's apps. You know, the only thing we need to look at in the server. You can see the ESCO like database right there. Nice and portable. And then in the source, we're going to have our bun server. Our cloud code event gets kicked off no matter where this cloud code is, right? Keep in mind, we have hook set up. So the hook just fires off a, you know, HTTP request with the event. So it can go anywhere you want it to. And so that's what our send event is doing. So that's the cloud code and cloud code hook side of things. It then gets passed off to the server. And if we open up the server here, run a quick collapse, you can see all we have here is our slashevents. This is just a simple manual bun server. We are inserting this into the database and then broadcasting the event to our websocket client. Nice and simple. This is the server and this is of course the client. We have a use websocket event like this which mounts and handles our websocket. So classic stuff, right? This is Vue.js. Every front-end framework has their own version of this code. You know, you can easily use an agent, use a powerful model to completely convert this to whatever front-end framework you want. These things don't matter anymore. Frameworks are irrelevant when it comes to raw productivity. Your agent knows all of them. The key here is we have connect after it's connected. We have this websocket on event and we're just taking all of our events, slicing them because we don't want to overflow with too many events. Add them to this reference. And then, of course, our reference here is going to be available via this composable, right? via this hook use websocket and then our front end consumes this. So if we just search all for this, you can see in app.view, we're using this websocket event here and then we're passing in our events to anyone that's interested in our components and then the rest is front-end boring component stuff, right? So nothing special there for your observability systems. The key is you want to keep it simple. You want to put something up right away. And the quickest way to do that is a oneway data flow from your cloud code agents to your server. Server is going to store to both our SQLite database and our websocket client. So if we hop into our database, you can see exactly what this looks like. And then you can see all the data we're storing. And I can even open up our SQLite database. This is what it looks like with a quick preview. You can see source app, session ID, event, and then the raw payload. And then some of the stop events will of course have the entire chat attached. And this is what the data structure looks like at a high level. And then we of course just emit all the events to the front end. If we open up the readme, you can understand how to get the setup on your own. And really what I want to do here is I'm not here to tell you how to observe your agents. I'm here to show you what you can do. I'm here to help you tap into your potential with this powerful generative AI technology. This codebase is going to be available to you. Link in the description. use this as a starting place to understand what you can do with cloud code, the best agentic coding tool in the game. We're taking our big three. We're taking our principles of ad coding and of agentic coding, and we're starting to put them to work. And the key is that as you scale up the number of agents doing work for you, specialized agents working on specific code bases, solving specific problems very well, you want a way to observe them, right? You want a way to monitor your agents. You want a concrete way to monitor success. None of this generative AI technology matters if you have no idea what's going on. If you don't know how to steer, correct, and control your agentic systems, it's as good as garbage. Okay, so this is what we're doing here. You can see our summaries. So powerful, so useful. Just quick, highlevel, small, fast language models. This is a great use case for these small, fast, cheap models. I've sent a thousand of these events so far just in testing. I haven't even set these up against my real multi- aent system yet, but I've spent less than 20 cents on thousands of events. So, this is where small fast models really shine, right? These one-off quick summaries, these quick prompts. Once you start scaling up from one agent running on your machine to multiple agents running on your machine like this to multiple agents running on different machines, you get something really incredible. You start pushing in to true off-device agentic coding. This is the future of engineering. You want to be on this trend. You want to be writing this. You want to be pushing toward this. Prompting back and forth, one prompt at a time is not the way to engineer. It's a great place to start. It's a terrible place to finish. Things are going to continue to progress and on the channel we're going to continue to progress beyond the curve. Your agent needs your input. We're going to move beyond the state. We're always looking at where the ball's going, not where the ball is. Pay attention to what your agents are doing. Understand what your agents can do. Use multi- aent observability. Start spinning up multiple agents focused on one specific task for you. Specialize your agents and then scale them up. The big idea here is that we want to get out of back and forth prompting mode like this and we want to move into fully trusted, fully agentic, programmable agentic coding. I'll also link that video in the description. Everything we're doing on the channel is pushing towards something big, hence the phase 2 agentic coding course coming in the next couple of months. I'm ultra excited to share that with you. What we're going to do next is going to be truly mind-blowing. So anyway, stay tuned for that. Make sure you're subscribed so you don't miss what's coming next in the Agentic coding and the Agentic engineering world. You know where to find me every Monday. Stay focused and keep building."
+}

@@ -37,6 +37,16 @@
       "id": "building-with-sdk",
       "title": "Building with Claude Code SDK",
       "description": "Create custom integrations and Unix utilities using the Claude Code SDK"
+    },
+    {
+      "id": "mastering-claude-hooks",
+      "title": "Mastering Claude Hooks",
+      "description": "Transform Claude Code into a proactive development partner with hooks for safety, observability, and automation"
+    },
+    {
+      "id": "building-multi-agent-systems",
+      "title": "Building Multi-Agent Systems",
+      "description": "Master the art of orchestrating multiple Claude agents for complex workflows, from sub-agents to meta-agents"
     }
   ],
   "tags": ["AI Development", "Claude Code", "Developer Tools", "Productivity"],

@@ -1,0 +1,646 @@
+---
+title: "The 7 Building Blocks of Reliable AI Agents (Skip the Frameworks)"
+date: "2025-07-23"
+excerpt: "Stop drowning in AI frameworks and learn the 7 fundamental building blocks used by teams shipping production AI systems. With code examples and a contrarian take on why most AI agents shouldn't be agentic at all."
+tags: ["AI Engineering", "Python", "AI Agents", "Production Systems", "Software Architecture"]
+author: "Brandon"
+featured: true
+---
+
+If you're a developer, then right now it feels almost impossible to keep up with everything that's going on within the AI space.
+
+Your LinkedIn feed is full of "I built an AI agent that made me $50K in 2 hours!" Your Twitter is drowning in new frameworks. Every week there's a new Fireship video making you question if you're already obsolete.
+
+And yet, you're still debugging that LangChain error, wondering if you should switch to LlamaIndex, while your "agentic" system hallucinates its way through production.
+
+Here's what nobody's telling you: **The teams actually shipping reliable AI systems to production are ignoring 99% of the noise.**
+
+Dave Ebbelaar gets it. With over 10 years in AI and 20+ production deployments under his belt, he's seen the pattern. The best AI engineers aren't using complex frameworks. They're using 7 simple building blocks that you can implement in any language.
+
+And here's the controversial part: The most effective AI agents aren't actually that agentic at all.
+
+## The $10,000 Reality Check 💸
+
+Let's start with a truth bomb: Making an LLM API call right now is the most expensive and dangerous operation in software engineering.
+
+Think about it:
+- **Cost**: $0.01-0.10 per call (adds up fast)
+- **Latency**: 1-5 seconds (eternity in computing)
+- **Reliability**: Probabilistic (different outputs for same input)
+- **Safety**: Can hallucinate, leak data, or make things up
+
+Yet most tutorials tell you to give your LLM 15 tools and let it figure everything out. That's like giving a toddler a chainsaw and hoping for the best.
+
+<Callout type="warning">
+**The Framework Trap**: Every abstraction layer between you and the LLM API is another point of failure, another dependency to manage, and another thing that can break when OpenAI updates their API.
+</Callout>
+
+## The Two Types of AI Systems (And Why It Matters) 🎭
+
+Before we dive into the building blocks, you need to understand this critical distinction:
+
+### Type 1: AI Assistants (Human-in-the-Loop)
+- Examples: ChatGPT, Cursor, GitHub Copilot
+- Multiple LLM calls make sense
+- Users can correct mistakes immediately
+- Tool use and exploration are features, not bugs
+
+### Type 2: Background Automation (No Human Oversight)
+- Examples: Customer service bots, data processing, workflow automation
+- Every LLM call is a risk
+- Errors compound silently
+- Determinism is crucial
+
+<CodeExample
+  title="The Difference in Practice"
+  language="python"
+  code={`# Type 1: AI Assistant (Multiple LLM calls OK)
+def ai_assistant_approach(user_query):
+    # Let the LLM explore and use multiple tools
+    response = llm.chat(
+        messages=[{"role": "user", "content": user_query}],
+        tools=[search_tool, calculator_tool, database_tool, email_tool]
+    )
+    return response  # User can correct if wrong
+
+# Type 2: Background Automation (Minimize LLM calls)
+def automation_approach(ticket_data):
+    # Deterministic routing first
+    if ticket_data.type == "refund":
+        return handle_refund_deterministically(ticket_data)
+    
+    # Only use LLM when absolutely necessary
+    if requires_reasoning(ticket_data):
+        context = prepare_specific_context(ticket_data)
+        response = llm.chat(
+            messages=[{"role": "user", "content": context}],
+            # No tools! Direct response only
+        )
+        return validate_and_process(response)
+    
+    return standard_response(ticket_data)`}
+/>
+
+Most of you aren't building the next ChatGPT. You're building backend automations. So let's focus on that.
+
+## Building Block #1: The Intelligence Layer 🧠
+
+This is the only actual AI component. Everything else is just software engineering.
+
+<CodeExample
+  title="1_intelligence.py - The Simplest LLM Call"
+  language="python"
+  code={`from openai import OpenAI
+
+client = OpenAI()
+
+def get_llm_response(prompt):
+    """The atomic unit of AI: send prompt, get response"""
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
+    return response.choices[0].message.content
+
+# Example usage
+result = get_llm_response("Explain quantum computing in one sentence")
+print(result)`}
+/>
+
+That's it. No frameworks. No abstractions. Just an API call.
+
+**Key insight**: The hard part isn't making the call—it's everything around it.
+
+## Building Block #2: Memory (State Management) 💾
+
+LLMs are goldfish. They remember nothing. You have to manually maintain conversation state.
+
+<CodeExample
+  title="2_memory.py - Maintaining Conversation History"
+  language="python"
+  code={`def chat_with_memory(conversation_history, new_message):
+    """Maintain conversation state across interactions"""
+    
+    # Add new message to history
+    conversation_history.append({"role": "user", "content": new_message})
+    
+    # Send entire history to LLM
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=conversation_history
+    )
+    
+    # Add response to history
+    assistant_message = response.choices[0].message
+    conversation_history.append({
+        "role": "assistant", 
+        "content": assistant_message.content
+    })
+    
+    return assistant_message.content, conversation_history
+
+# Example: Maintaining context
+history = []
+response1, history = chat_with_memory(history, "My name is Dave")
+response2, history = chat_with_memory(history, "What's my name?")
+# Response2: "Your name is Dave"`}
+/>
+
+<Callout type="insight">
+**Pro tip**: In production, store conversation history in a database, not memory. Add user IDs, timestamps, and token counts for proper management.
+</Callout>
+
+## Building Block #3: Tools (External Integration) 🔧
+
+Sometimes your LLM needs to actually DO things, not just talk. That's where tools come in.
+
+<CodeExample
+  title="3_tools.py - Function Calling Pattern"
+  language="python"
+  code={`def get_weather(location: str) -> str:
+    """Simulated weather API call"""
+    # In reality, this would call a weather API
+    return f"Weather in {location}: 72°F, sunny"
+
+# Define tool schema for LLM
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Get current weather for a location",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "type": "string",
+                    "description": "City name"
+                }
+            },
+            "required": ["location"]
+        }
+    }
+}]
+
+def chat_with_tools(prompt):
+    # First LLM call - decides if tool is needed
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        tools=tools,
+        tool_choice="auto"
+    )
+    
+    message = response.choices[0].message
+    
+    # Check if LLM wants to use a tool
+    if message.tool_calls:
+        tool_call = message.tool_calls[0]
+        
+        # Execute the actual function
+        if tool_call.function.name == "get_weather":
+            args = json.loads(tool_call.function.arguments)
+            result = get_weather(args["location"])
+            
+            # Second LLM call - format result for user
+            final_response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "user", "content": prompt},
+                    message,
+                    {
+                        "role": "tool",
+                        "tool_call_id": tool_call.id,
+                        "content": result
+                    }
+                ]
+            )
+            
+            return final_response.choices[0].message.content
+    
+    return message.content`}
+/>
+
+**Critical insight**: Tools require multiple LLM calls. Use sparingly in production.
+
+## Building Block #4: Validation (Structured Output) ✅
+
+The secret to reliable AI systems? Force LLMs to return structured data you can validate.
+
+<CodeExample
+  title="4_validation.py - Structured Output with Pydantic"
+  language="python"
+  code={`from pydantic import BaseModel
+from typing import Literal
+
+class TaskExtraction(BaseModel):
+    task: str
+    priority: Literal["high", "medium", "low"]
+    due_date: str | None
+    
+def extract_task_info(user_input: str) -> TaskExtraction:
+    """Force LLM to return structured, validated data"""
+    
+    response = client.beta.chat.completions.parse(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system", 
+                "content": "Extract task information from user input"
+            },
+            {"role": "user", "content": user_input}
+        ],
+        response_format=TaskExtraction
+    )
+    
+    # This is now a validated Pydantic object!
+    return response.choices[0].message.parsed
+
+# Example usage
+user_input = "I need to finish the report by Friday, it's high priority"
+task_info = extract_task_info(user_input)
+
+print(f"Task: {task_info.task}")
+print(f"Priority: {task_info.priority}")
+print(f"Due: {task_info.due_date}")
+
+# Now you can use this data programmatically
+if task_info.priority == "high":
+    send_urgent_notification(task_info)`}
+/>
+
+<Callout type="success">
+**Game changer**: Structured output turns unreliable text generation into reliable data extraction. This is how you build systems you can trust.
+</Callout>
+
+## Building Block #5: Control Flow (Deterministic Routing) 🚦
+
+Here's where Dave's approach gets brilliant. Instead of letting LLMs make every decision, use them for classification, then handle routing with good old if/else statements.
+
+<CodeExample
+  title="5_control.py - Smart Routing Pattern"
+  language="python"
+  code={`from pydantic import BaseModel
+from typing import Literal
+
+class IntentClassification(BaseModel):
+    intent: Literal["question", "request", "complaint"]
+    confidence: float
+    reasoning: str
+
+def classify_intent(user_message: str) -> IntentClassification:
+    """Use LLM to classify, not execute"""
+    response = client.beta.chat.completions.parse(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": "Classify the user's intent. Provide reasoning."
+            },
+            {"role": "user", "content": user_message}
+        ],
+        response_format=IntentClassification
+    )
+    
+    return response.choices[0].message.parsed
+
+def handle_user_input(message: str):
+    """Deterministic routing based on LLM classification"""
+    
+    # One LLM call for classification
+    intent = classify_intent(message)
+    
+    # Log for debugging (this is gold!)
+    print(f"Intent: {intent.intent}")
+    print(f"Reasoning: {intent.reasoning}")
+    print(f"Confidence: {intent.confidence}")
+    
+    # Deterministic routing - no more LLM calls!
+    if intent.intent == "question":
+        return handle_question(message)
+    elif intent.intent == "request":
+        return handle_request(message)
+    elif intent.intent == "complaint":
+        return handle_complaint(message, intent.confidence)
+
+def handle_complaint(message: str, confidence: float):
+    if confidence > 0.8:
+        # Route to senior support
+        return escalate_to_human(message)
+    else:
+        # Get more information
+        return "I understand you have a concern. Could you provide more details?"`}
+/>
+
+**Why this beats tool calling**:
+1. Full visibility into decision-making
+2. Easy to debug (you see the reasoning!)
+3. Deterministic execution paths
+4. One LLM call instead of multiple
+
+## Building Block #6: Recovery (Error Handling) 🛡️
+
+Production reality: Everything fails. APIs go down. LLMs return nonsense. Rate limits hit. Plan for it.
+
+<CodeExample
+  title="6_recovery.py - Production-Grade Error Handling"
+  language="python"
+  code={`import time
+from typing import Optional
+import logging
+
+class LLMError(Exception):
+    pass
+
+def reliable_llm_call(
+    prompt: str, 
+    max_retries: int = 3,
+    backoff_factor: float = 2.0
+) -> Optional[str]:
+    """Production-ready LLM call with retry logic"""
+    
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                timeout=30  # Always set timeouts!
+            )
+            
+            result = response.choices[0].message.content
+            
+            # Validate response isn't empty or error-like
+            if not result or "error" in result.lower():
+                raise LLMError("Invalid response from LLM")
+                
+            return result
+            
+        except Exception as e:
+            logging.warning(f"LLM call failed (attempt {attempt + 1}): {e}")
+            
+            if attempt < max_retries - 1:
+                # Exponential backoff
+                sleep_time = backoff_factor ** attempt
+                time.sleep(sleep_time)
+            else:
+                # Final attempt failed
+                logging.error(f"LLM call failed after {max_retries} attempts")
+                return None
+    
+    return None
+
+def safe_process_ticket(ticket):
+    """Example of graceful degradation"""
+    
+    # Try intelligent processing
+    ai_response = reliable_llm_call(f"Process this ticket: {ticket}")
+    
+    if ai_response:
+        return ai_response
+    else:
+        # Fallback to rule-based processing
+        logging.info("Falling back to rule-based processing")
+        
+        if "refund" in ticket.lower():
+            return "I've forwarded your refund request to our finance team."
+        elif "technical" in ticket.lower():
+            return "I've created a support ticket for our technical team."
+        else:
+            return "Thank you for contacting us. A human agent will respond within 24 hours."`}
+/>
+
+<Callout type="warning">
+**Production tip**: Always have a fallback. It's better to give a generic response than to crash.
+</Callout>
+
+## Building Block #7: Feedback (Human in the Loop) 👥
+
+For critical operations, add approval checkpoints. Not everything should be fully autonomous.
+
+<CodeExample
+  title="7_feedback.py - Human Approval Pattern"
+  language="python"
+  code={`from enum import Enum
+from datetime import datetime
+
+class ApprovalStatus(Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
+class ApprovalRequest:
+    def __init__(self, content: str, context: dict):
+        self.id = str(uuid.uuid4())
+        self.content = content
+        self.context = context
+        self.status = ApprovalStatus.PENDING
+        self.created_at = datetime.now()
+        self.reviewed_at = None
+        self.reviewer = None
+        
+def generate_with_approval(prompt: str, requires_approval: bool = True):
+    """Generate content with optional human approval"""
+    
+    # Generate initial content
+    content = get_llm_response(prompt)
+    
+    if not requires_approval:
+        return content
+        
+    # Create approval request
+    approval_req = ApprovalRequest(
+        content=content,
+        context={"prompt": prompt, "model": "gpt-4o-mini"}
+    )
+    
+    # In production, this would:
+    # 1. Store in database
+    # 2. Send notification (Slack, email, etc.)
+    # 3. Wait for webhook response
+    
+    # Simulated approval flow
+    print(f"\n🔔 APPROVAL REQUIRED")
+    print(f"Generated content: {content[:100]}...")
+    print(f"Approve? (yes/no): ", end="")
+    
+    user_input = input().strip().lower()
+    
+    if user_input == "yes":
+        approval_req.status = ApprovalStatus.APPROVED
+        approval_req.reviewed_at = datetime.now()
+        
+        # Log approval for audit trail
+        log_approval(approval_req)
+        
+        return content
+    else:
+        approval_req.status = ApprovalStatus.REJECTED
+        approval_req.reviewed_at = datetime.now()
+        
+        # Could regenerate or return fallback
+        return None
+
+# Example: High-stakes email generation
+def send_customer_email(customer_id: str, issue: str):
+    prompt = f"Write apology email for customer {customer_id} about {issue}"
+    
+    email_content = generate_with_approval(
+        prompt=prompt,
+        requires_approval=True  # Always approve customer communications
+    )
+    
+    if email_content:
+        send_email(customer_id, email_content)
+    else:
+        log_failed_generation(customer_id, issue)`}
+/>
+
+## Putting It All Together: The Production Pattern 🏗️
+
+Here's how these building blocks combine into a production-ready system:
+
+<CodeExample
+  title="Complete Workflow Example"
+  language="python"
+  code={`class ReliableAIAgent:
+    def __init__(self):
+        self.memory = {}  # Building Block 2
+        self.error_count = 0  # Building Block 6
+        
+    def process_request(self, user_id: str, message: str):
+        """Complete production workflow using all building blocks"""
+        
+        try:
+            # Building Block 2: Retrieve memory
+            conversation = self.memory.get(user_id, [])
+            
+            # Building Block 5: Classify intent first
+            intent = self.classify_with_validation(message)
+            
+            # Building Block 5: Deterministic routing
+            if intent.intent == "sensitive_request":
+                # Building Block 7: Human approval for sensitive ops
+                return self.handle_with_approval(message, intent)
+                
+            elif intent.confidence < 0.7:
+                # Low confidence - gather more info
+                return "I'm not quite sure I understand. Could you rephrase?"
+                
+            else:
+                # Building Block 1: Use LLM only when needed
+                response = self.generate_response(message, conversation)
+                
+                # Building Block 2: Update memory
+                conversation.append({"role": "user", "content": message})
+                conversation.append({"role": "assistant", "content": response})
+                self.memory[user_id] = conversation[-10:]  # Keep last 10
+                
+                return response
+                
+        except Exception as e:
+            # Building Block 6: Recovery
+            self.error_count += 1
+            
+            if self.error_count > 5:
+                # Circuit breaker pattern
+                return "System is experiencing issues. Please try again later."
+                
+            # Fallback response
+            return self.get_fallback_response(message)
+    
+    def classify_with_validation(self, message: str):
+        """Building Block 4: Structured output with validation"""
+        for attempt in range(3):
+            try:
+                classification = classify_intent(message)
+                
+                # Validate the response
+                if classification.confidence < 0.3:
+                    raise ValueError("Confidence too low")
+                    
+                return classification
+                
+            except Exception as e:
+                if attempt == 2:
+                    # Return safe default
+                    return IntentClassification(
+                        intent="unknown",
+                        confidence=0.0,
+                        reasoning="Classification failed"
+                    )
+                continue`}
+/>
+
+## The Shocking Truth About Production AI 🤯
+
+After building 20+ production systems, here's what Dave discovered:
+
+<Callout type="insight">
+**The 90/10 Rule**: 90% of your "AI" system should be deterministic code. Only 10% should involve LLM calls.
+
+Most successful AI applications are just regular software with strategic LLM calls placed exactly where they add value.
+</Callout>
+
+## Your 7-Day Implementation Plan 📅
+
+### Day 1-2: Foundation
+- Set up direct API access (no frameworks)
+- Implement basic error handling
+- Create structured output schemas for your use case
+
+### Day 3-4: Control Flow
+- Map out your deterministic decision tree
+- Identify where you REALLY need LLM reasoning
+- Build classification-based routing
+
+### Day 5-6: Production Hardening
+- Add retry logic and fallbacks
+- Implement conversation memory
+- Set up monitoring and logging
+
+### Day 7: Human in the Loop
+- Identify high-risk operations
+- Add approval checkpoints
+- Create audit trails
+
+## The Framework-Free Future 🚀
+
+Here's the controversial take that changes everything: **You don't need AI frameworks**. You need software engineering.
+
+The seven building blocks are:
+1. **Intelligence**: Direct LLM API calls
+2. **Memory**: State management
+3. **Tools**: External integrations (use sparingly)
+4. **Validation**: Structured output with schemas
+5. **Control**: Deterministic routing
+6. **Recovery**: Error handling and fallbacks
+7. **Feedback**: Human approval for critical ops
+
+That's it. No LangChain. No complex abstractions. Just clean, maintainable code that you understand completely.
+
+<Callout type="success">
+**The Payoff**: Teams using this approach report:
+- 80% fewer production incidents
+- 10x faster debugging
+- 90% reduction in LLM costs
+- Actually sleeping at night
+</Callout>
+
+## Start Small, Think Big 🎯
+
+The beauty of this approach? You can start today. Pick one workflow in your application. Break it down. Apply the building blocks. 
+
+Skip the framework tutorials. Ignore the hype. Build something that actually works.
+
+Because at the end of the day, your users don't care if your system is "agentic." They care if it works reliably, every time.
+
+And now you know how to build exactly that.
+
+<Callout type="action">
+**Your Next Step**: Take that LangChain spaghetti you've been debugging. Rewrite it using these 7 building blocks. I guarantee it'll be simpler, more reliable, and actually understandable.
+
+The best time to simplify your AI architecture was yesterday. The second best time is now.
+</Callout>
+
+Welcome to the post-framework era of AI development. Your production systems will thank you.

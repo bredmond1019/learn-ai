@@ -71,20 +71,16 @@ npx tsx scripts/test-devto.ts   # Test Dev.to API integration
 
 ### YouTube Transcript Management
 ```bash
-npx tsx scripts/youtube-transcript.ts <videoId>           # Fetch transcript for video
-npx tsx scripts/youtube-transcript.ts <videoId> --json    # Save as JSON format
-npx tsx scripts/youtube-transcript.ts <videoId> --txt     # Save as TXT format (default)
-npx tsx scripts/youtube-transcript.ts --help              # Show usage information
-```
+# Fetch and manage YouTube video transcripts
+npx tsx scripts/youtube-transcript.ts fetch <url> [options]   # Fetch new transcript
+npx tsx scripts/youtube-transcript.ts update <url>            # Update existing
+npx tsx scripts/youtube-transcript.ts list                    # List all transcripts
+npx tsx scripts/youtube-transcript.ts export <id> -f <format> # Export in different format
+npx tsx scripts/youtube-transcript.ts search <keyword>        # Search transcripts
+npx tsx scripts/youtube-transcript.ts remove <id>             # Remove transcript
+npx tsx scripts/youtube-transcript.ts --help                  # Show all commands
 
-### YouTube Integration
-```bash
-npm run youtube:fetch <url>      # Fetch transcript from YouTube URL
-npm run youtube:update <id>      # Update existing transcript
-npm run youtube:list             # List all stored transcripts
-npm run youtube:export <id>      # Export transcript in various formats
-npm run youtube:search <query>   # Search transcripts
-npm run youtube:remove <id>      # Remove transcript
+# See lib/CLAUDE.md for detailed YouTube Transcript API documentation
 ```
 
 ### Deployment
@@ -199,6 +195,10 @@ npm run k8s:status      # Check Kubernetes pod status
   - MDX components and external APIs mocked
 - **Accessibility**: Automated a11y testing with jest-axe
 - **Email Testing**: Production integration tests with real API calls
+
+## Service-Specific Documentation
+
+- **YouTube Transcript API**: See `lib/CLAUDE.md` for detailed documentation on the YouTube transcript fetching and management system, including API architecture, usage patterns, and integration points.
 
 ## Common Development Patterns
 

@@ -582,9 +582,296 @@ $ claude "implement the API to match the documentation and pass tests"
 4. **Parallel Power**: Multiple sessions multiply productivity
 5. **Pattern Application**: Combine workflows for maximum effectiveness
 
+## Multi-Agent Patterns
+
+Beyond parallel sessions, Claude Code now supports sophisticated multi-agent architectures with sub-agents and orchestration patterns.
+
+### Understanding Sub-Agents
+
+Sub-agents are specialized Claude instances that handle specific tasks, responding to your primary agent rather than directly to you.
+
+<CodeExample language="yaml">
+# agents/code-reviewer.yaml
+name: code-reviewer
+description: |
+  Use when code review is requested or when committing changes.
+  This agent specializes in security, performance, and best practices.
+tools:
+  - read_file
+  - grep
+  - bash
+prompt: |
+  You are a senior code reviewer. Analyze code for:
+  - Security vulnerabilities
+  - Performance issues
+  - Best practice violations
+  - Test coverage
+  
+  Report findings in this format:
+  "Tell the user: [severity] - [issue] in [file]:[line]"
+</CodeExample>
+
+### The Sub-Agent Architecture
+
+<CodeExample language="text">
+┌─────────┐      ┌───────────────┐      ┌──────────────┐
+│   YOU   │ ───► │ PRIMARY AGENT │ ───► │  SUB-AGENT   │
+│         │      │  (Orchestrator)│      │ (Specialist) │
+│         │ ◄─── │               │ ◄─── │              │
+└─────────┘      └───────────────┘      └──────────────┘
+                         │
+                         ├────► Code Reviewer
+                         ├────► Test Generator
+                         ├────► Documentation Writer
+                         └────► Performance Optimizer
+</CodeExample>
+
+### Creating Effective Sub-Agents
+
+<Callout type="important">
+Sub-agents receive their context from the primary agent, not from your conversation history. Design accordingly.
+</Callout>
+
+<CodeExample language="bash">
+# Step 1: Create specialized agents
+$ mkdir -p .claude/agents
+
+# Step 2: Define agent configurations
+$ cat > .claude/agents/test-generator.yaml << 'EOF'
+name: test-generator
+description: |
+  Triggers: "write tests", "generate tests", "test coverage"
+  When prompting, provide: file path, function names, test framework
+tools:
+  - read_file
+  - write_file
+prompt: |
+  Generate comprehensive tests including:
+  - Happy path scenarios
+  - Edge cases
+  - Error conditions
+  - Performance benchmarks (if applicable)
+  
+  Use the project's existing test patterns.
+EOF
+
+# Step 3: Use the sub-agent
+$ claude "write tests for the new authentication module"
+# Claude will automatically delegate to test-generator
+</CodeExample>
+
+### Multi-Agent Orchestration Patterns
+
+#### Pattern 1: Sequential Processing
+
+<CodeExample language="yaml">
+# .claude/commands/review-and-deploy
+#!/bin/bash
+# Sequential agent chain for deployment
+
+echo "Starting deployment pipeline..."
+
+# Step 1: Code review
+claude "use code-reviewer to check all changed files"
+
+# Step 2: Generate missing tests  
+claude "use test-generator for files with low coverage"
+
+# Step 3: Update documentation
+claude "use doc-writer to update API docs"
+
+# Step 4: Deploy
+claude "use deploy-agent to ship to staging"
+</CodeExample>
+
+#### Pattern 2: Parallel Specialists
+
+<CodeExample language="typescript">
+// Parallel agent configuration
+const agents = {
+  'frontend-expert': {
+    trigger: ['React', 'Vue', 'CSS', 'UI'],
+    specialty: 'Frontend optimization and accessibility'
+  },
+  'backend-expert': {
+    trigger: ['API', 'database', 'authentication'],
+    specialty: 'Backend architecture and security'
+  },
+  'devops-expert': {
+    trigger: ['deploy', 'CI/CD', 'Docker'],
+    specialty: 'Infrastructure and deployment'
+  }
+};
+
+// Claude automatically routes to the right expert
+</CodeExample>
+
+#### Pattern 3: Hierarchical Agents
+
+<CodeExample language="yaml">
+# Master architect agent
+name: architect
+description: "High-level system design decisions"
+delegates_to:
+  - frontend-lead
+  - backend-lead
+  - infrastructure-lead
+
+# Team lead agents  
+name: frontend-lead
+delegates_to:
+  - react-developer
+  - css-specialist
+  - a11y-expert
+
+# Specialist agents
+name: react-developer
+tools: [write_file, edit_file]
+focus: "React component implementation"
+</CodeExample>
+
+### Building a Meta-Agent
+
+Create agents that create other agents:
+
+<CodeExample language="yaml">
+# agents/meta-agent.yaml
+name: meta-agent
+description: |
+  PROACTIVELY use when user needs a new specialized agent.
+  Triggers: "create agent", "build automation", "need an agent for"
+tools:
+  - write_file
+  - read_file
+prompt: |
+  Generate complete agent configurations:
+  
+  1. Analyze the user's needs
+  2. Design appropriate agent.yaml
+  3. Include:
+     - Clear trigger conditions
+     - Minimal necessary tools
+     - Focused system prompt
+     - Communication protocol
+  
+  Remember: Agents have no conversation context.
+  They only know what the primary agent tells them.
+</CodeExample>
+
+### Advanced Multi-Agent Workflows
+
+#### Workflow 1: Full-Stack Feature Development
+
+<CodeExample language="bash">
+# Define the feature
+$ claude --plan "implement real-time notifications"
+
+# Spawn specialized agents
+$ claude "create agents for:
+- WebSocket backend (Node.js)
+- React notification components  
+- PostgreSQL queue system
+- Redis pub/sub handler"
+
+# Orchestrate development
+$ claude "coordinate all agents to build the notification system"
+</CodeExample>
+
+#### Workflow 2: Codebase Modernization
+
+<CodeExample language="bash">
+# Analyze technical debt
+$ claude "analyze codebase and identify modernization targets"
+
+# Deploy specialist agents
+$ claude "assign specialized agents:
+- legacy-code-refactorer: Handle old jQuery code
+- type-safety-agent: Add TypeScript types
+- test-coverage-agent: Backfill missing tests
+- dependency-updater: Modernize packages"
+
+# Monitor progress
+$ claude "show progress dashboard for all modernization agents"
+</CodeExample>
+
+### Multi-Agent Best Practices
+
+1. **Clear Boundaries**: Each agent should have a single, well-defined purpose
+2. **Minimal Tools**: Only grant necessary permissions
+3. **Explicit Communication**: Define how agents report back
+4. **Context Awareness**: Remember sub-agents start fresh
+5. **Orchestration Logic**: Primary agent must coordinate effectively
+
+### Common Pitfalls to Avoid
+
+<Callout type="warning">
+**Pitfall 1**: Assuming sub-agents have conversation context
+**Solution**: Pass all necessary context explicitly
+
+**Pitfall 2**: Creating too many similar agents  
+**Solution**: Consolidate overlapping agents
+
+**Pitfall 3**: No clear trigger conditions
+**Solution**: Use explicit keywords in descriptions
+</Callout>
+
+### Debugging Multi-Agent Systems
+
+<CodeExample language="bash">
+# Enable agent tracing
+$ export CLAUDE_AGENT_TRACE=1
+
+# View agent invocation log
+$ claude --show-agent-calls "do a complex task"
+
+# Debug specific agent
+$ claude --debug-agent code-reviewer "review main.js"
+
+# Profile agent performance
+$ claude --profile-agents "run the test suite"
+</CodeExample>
+
+<Quiz>
+  <Question
+    question="What is the key difference between sub-agents and parallel sessions?"
+    options={[
+      "Sub-agents are faster",
+      "Sub-agents respond to the primary agent, not to you",
+      "Sub-agents have more memory",
+      "Sub-agents can use more tools"
+    ]}
+    correct={1}
+    explanation="Sub-agents communicate with your primary agent, not directly with you. This creates a delegation pattern where the primary agent orchestrates specialized agents."
+  />
+  
+  <Question
+    question="What must you remember when designing sub-agent prompts?"
+    options={[
+      "They need to be very long",
+      "They must include your API keys",
+      "They have no conversation history",
+      "They require special syntax"
+    ]}
+    correct={2}
+    explanation="Sub-agents start with a fresh context. They only know what the primary agent explicitly tells them, so prompts must be self-contained."
+  />
+  
+  <Question
+    question="What is a meta-agent?"
+    options={[
+      "An agent that reviews other agents",
+      "An agent that creates other agents",
+      "An agent with extra memory",
+      "An agent that runs faster"
+    ]}
+    correct={1}
+    explanation="A meta-agent is an agent designed to create other agents. It generates agent configurations based on requirements, automating the agent creation process."
+  />
+</Quiz>
+
 ## Next Steps
 
-You've mastered advanced workflows that transform how you develop with Claude Code. In our final module, we'll explore building custom integrations with the Claude Code SDK.
+You've mastered advanced workflows and multi-agent patterns that transform how you develop with Claude Code. In our final module, we'll explore building custom integrations with the Claude Code SDK.
 
 <Callout type="preview">
 **Coming Next**: Build custom tools, create Unix utilities, and extend Claude Code with your own integrations using the SDK.

@@ -12,9 +12,10 @@
       "Configure and use Claude Code from the terminal effectively",
       "Set up IDE integrations for VS Code and other editors",
       "Master GitHub integration for pull requests and code reviews",
-      "Optimize your workflow with context management and aliases"
+      "Optimize your workflow with context management and aliases",
+      "Implement hooks for security, observability, and automation"
     ],
-    "tags": ["integrations", "IDE", "terminal", "GitHub", "Claude Code"],
+    "tags": ["integrations", "IDE", "terminal", "GitHub", "Claude Code", "hooks"],
     "version": "1.0.0",
     "lastUpdated": "2024-12-19",
     "author": "Brandon J. Redmond"

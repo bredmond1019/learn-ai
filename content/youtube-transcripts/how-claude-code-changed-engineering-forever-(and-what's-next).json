@@ -1,0 +1,3177 @@
+{
+  "videoId": "6fCqj4xFCZI",
+  "language": "en",
+  "segments": [
+    {
+      "text": "",
+      "start": 0,
+      "duration": 65
+    },
+    {
+      "text": "It started quietly. No grand",
+      "start": 1.28,
+      "duration": 2.72
+    },
+    {
+      "text": "announcements, no hype marketing, just a",
+      "start": 4,
+      "duration": 2.96
+    },
+    {
+      "text": "simple command line interface that would",
+      "start": 6.96,
+      "duration": 2.8
+    },
+    {
+      "text": "change engineering forever. Cloud Code",
+      "start": 9.76,
+      "duration": 2.72
+    },
+    {
+      "text": "emerged not as a tool, but as a partner",
+      "start": 12.48,
+      "duration": 3.52
+    },
+    {
+      "text": "in a gentic system that understood",
+      "start": 16,
+      "duration": 3.039
+    },
+    {
+      "text": "context, state, and most importantly,",
+      "start": 19.039,
+      "duration": 3.921
+    },
+    {
+      "text": "engineering. It consistently reasons",
+      "start": 22.96,
+      "duration": 2.479
+    },
+    {
+      "text": "about code at a level previously thought",
+      "start": 25.439,
+      "duration": 3.68
+    },
+    {
+      "text": "impossible. And the crazy part is there",
+      "start": 29.119,
+      "duration": 2.48
+    },
+    {
+      "text": "was no rag. There was no UI. Only the",
+      "start": 31.599,
+      "duration": 3.521
+    },
+    {
+      "text": "context, the model, and the prompt. The",
+      "start": 35.12,
+      "duration": 2.8
+    },
+    {
+      "text": "engineering community watched with a",
+      "start": 37.92,
+      "duration": 2.319
+    },
+    {
+      "text": "mixture of skepticism and awe. As early",
+      "start": 40.239,
+      "duration": 2.721
+    },
+    {
+      "text": "adopters like you and I started",
+      "start": 42.96,
+      "duration": 2.56
+    },
+    {
+      "text": "reporting productivity gains that defied",
+      "start": 45.52,
+      "duration": 3.039
+    },
+    {
+      "text": "belief, tasks that once took days were",
+      "start": 48.559,
+      "duration": 3.361
+    },
+    {
+      "text": "completed in hours, then minutes as we",
+      "start": 51.92,
+      "duration": 3.92
+    },
+    {
+      "text": "improved our agentic coding. It's clear",
+      "start": 55.84,
+      "duration": 3.199
+    },
+    {
+      "text": "looking back this time period marks the",
+      "start": 59.039,
+      "duration": 3.121
+    },
+    {
+      "text": "beginning of a new phase of engineering.",
+      "start": 62.16,
+      "duration": 3.358
+    },
+    {
+      "text": "",
+      "start": 65,
+      "duration": 45
+    },
+    {
+      "text": "Welcome back to the channel. In this",
+      "start": 65.519,
+      "duration": 1.841
+    },
+    {
+      "text": "video, I want to answer the question and",
+      "start": 67.36,
+      "duration": 2.24
+    },
+    {
+      "text": "I want to talk about how cloud code",
+      "start": 69.6,
+      "duration": 2.879
+    },
+    {
+      "text": "changed engineering. We spend so much",
+      "start": 72.479,
+      "duration": 2.64
+    },
+    {
+      "text": "time planning, building, and learning.",
+      "start": 75.119,
+      "duration": 2.721
+    },
+    {
+      "text": "We don't take enough time to stop,",
+      "start": 77.84,
+      "duration": 2.08
+    },
+    {
+      "text": "reflect, digest, and think hard about",
+      "start": 79.92,
+      "duration": 3.44
+    },
+    {
+      "text": "the incredible things we can do with our",
+      "start": 83.36,
+      "duration": 1.84
+    },
+    {
+      "text": "agentic coding tools. By breaking down",
+      "start": 85.2,
+      "duration": 2.64
+    },
+    {
+      "text": "how clog code changed engineering, we",
+      "start": 87.84,
+      "duration": 3.2
+    },
+    {
+      "text": "can understand the stateofthe-art, which",
+      "start": 91.04,
+      "duration": 2.399
+    },
+    {
+      "text": "sets us up for making bets on the future",
+      "start": 93.439,
+      "duration": 2.481
+    },
+    {
+      "text": "and prepares us for what's coming next,",
+      "start": 95.92,
+      "duration": 2.72
+    },
+    {
+      "text": "so we can make the highest return on",
+      "start": 98.64,
+      "duration": 2.159
+    },
+    {
+      "text": "investment bets on our precious",
+      "start": 100.799,
+      "duration": 2.64
+    },
+    {
+      "text": "engineering time. How has cloud code",
+      "start": 103.439,
+      "duration": 2.401
+    },
+    {
+      "text": "changed engineering? Just like deep",
+      "start": 105.84,
+      "duration": 2.319
+    },
+    {
+      "text": "learning worked, the agent architecture",
+      "start": 108.159,
+      "duration": 2.561
+    },
+    {
+      "text": "",
+      "start": 110,
+      "duration": 33
+    },
+    {
+      "text": "worked. Sam Alman called this out in the",
+      "start": 110.72,
+      "duration": 2.8
+    },
+    {
+      "text": "intelligence age post. And just like",
+      "start": 113.52,
+      "duration": 2.4
+    },
+    {
+      "text": "deep learning worked, the agent",
+      "start": 115.92,
+      "duration": 1.839
+    },
+    {
+      "text": "architecture worked. We're not just",
+      "start": 117.759,
+      "duration": 1.841
+    },
+    {
+      "text": "chatting with language models in chat",
+      "start": 119.6,
+      "duration": 2
+    },
+    {
+      "text": "interfaces. We're commanding compute.",
+      "start": 121.6,
+      "duration": 2.799
+    },
+    {
+      "text": "We're prompting agents. We're composing",
+      "start": 124.399,
+      "duration": 2.641
+    },
+    {
+      "text": "the language model to the next level of",
+      "start": 127.04,
+      "duration": 2.719
+    },
+    {
+      "text": "abstraction, the agent. It's clear that",
+      "start": 129.759,
+      "duration": 2.721
+    },
+    {
+      "text": "this transition marks phase 2 of the",
+      "start": 132.48,
+      "duration": 3.92
+    },
+    {
+      "text": "generative AI age. But cloud code didn't",
+      "start": 136.4,
+      "duration": 3.28
+    },
+    {
+      "text": "change engineering with the agent",
+      "start": 139.68,
+      "duration": 1.76
+    },
+    {
+      "text": "architecture alone. It's more than that.",
+      "start": 141.44,
+      "duration": 2.24
+    },
+    {
+      "text": "",
+      "start": 143,
+      "duration": 55
+    },
+    {
+      "text": "What is claude code really made of? It",
+      "start": 143.68,
+      "duration": 3.04
+    },
+    {
+      "text": "has three essential elements that",
+      "start": 146.72,
+      "duration": 2.08
+    },
+    {
+      "text": "defines it. A powerful set of language",
+      "start": 148.8,
+      "duration": 2.56
+    },
+    {
+      "text": "models that can call any tool in the",
+      "start": 151.36,
+      "duration": 2.879
+    },
+    {
+      "text": "right agent loop. This is what makes",
+      "start": 154.239,
+      "duration": 3.121
+    },
+    {
+      "text": "cloud code so incredible. You can't have",
+      "start": 157.36,
+      "duration": 2.64
+    },
+    {
+      "text": "one of these. You can't have two of",
+      "start": 160,
+      "duration": 1.36
+    },
+    {
+      "text": "these. You need all three. The",
+      "start": 161.36,
+      "duration": 2.159
+    },
+    {
+      "text": "architecture is everything. Don't let",
+      "start": 163.519,
+      "duration": 2.641
+    },
+    {
+      "text": "the benchmarks fool you. The performance",
+      "start": 166.16,
+      "duration": 2.079
+    },
+    {
+      "text": "from the Cloud 4 series is not",
+      "start": 168.239,
+      "duration": 2.481
+    },
+    {
+      "text": "detectable by the benchmarks. We'll",
+      "start": 170.72,
+      "duration": 2.64
+    },
+    {
+      "text": "discuss that more in a moment. But you",
+      "start": 173.36,
+      "duration": 1.76
+    },
+    {
+      "text": "put powerful LLMs like the Cloud 4",
+      "start": 175.12,
+      "duration": 2.24
+    },
+    {
+      "text": "series with a great set of bakedin tools",
+      "start": 177.36,
+      "duration": 3.04
+    },
+    {
+      "text": "and the ability to connect to any MCP",
+      "start": 180.4,
+      "duration": 3.199
+    },
+    {
+      "text": "server. But that's not it. You need the",
+      "start": 183.599,
+      "duration": 2.241
+    },
+    {
+      "text": "agent architecture. You need the agent",
+      "start": 185.84,
+      "duration": 2
+    },
+    {
+      "text": "loop so that the agent can operate in",
+      "start": 187.84,
+      "duration": 2
+    },
+    {
+      "text": "the right environment and use the right",
+      "start": 189.84,
+      "duration": 2.08
+    },
+    {
+      "text": "information to get the job done just",
+      "start": 191.92,
+      "duration": 2.319
+    },
+    {
+      "text": "like you or I would. This is the",
+      "start": 194.239,
+      "duration": 1.681
+    },
+    {
+      "text": "architecture behind cloud code. So how",
+      "start": 195.92,
+      "duration": 2.64
+    },
+    {
+      "text": "",
+      "start": 198,
+      "duration": 42
+    },
+    {
+      "text": "has claude code changed engineering?",
+      "start": 198.56,
+      "duration": 2.319
+    },
+    {
+      "text": "It's not just a tool. It's not an",
+      "start": 200.879,
+      "duration": 1.36
+    },
+    {
+      "text": "assistant and it's more than a partner.",
+      "start": 202.239,
+      "duration": 1.92
+    },
+    {
+      "text": "It's a new engineering primitive, right?",
+      "start": 204.159,
+      "duration": 2.961
+    },
+    {
+      "text": "It's a fundamental building block of a",
+      "start": 207.12,
+      "duration": 2.56
+    },
+    {
+      "text": "new class of software development. A new",
+      "start": 209.68,
+      "duration": 2.96
+    },
+    {
+      "text": "primitive that lets you tap into agents",
+      "start": 212.64,
+      "duration": 3.2
+    },
+    {
+      "text": "with a single prompt. That means more",
+      "start": 215.84,
+      "duration": 2.319
+    },
+    {
+      "text": "compute at your fingertips at any time",
+      "start": 218.159,
+      "duration": 3.121
+    },
+    {
+      "text": "at scale. It's a fundamental building",
+      "start": 221.28,
+      "duration": 2.239
+    },
+    {
+      "text": "block. What does that mean exactly?",
+      "start": 223.519,
+      "duration": 2
+    },
+    {
+      "text": "Cloud code is programmable. From any",
+      "start": 225.519,
+      "duration": 3.041
+    },
+    {
+      "text": "terminal, you can call your powerful",
+      "start": 228.56,
+      "duration": 2.72
+    },
+    {
+      "text": "agentic coding tool. This is massive. As",
+      "start": 231.28,
+      "duration": 3.28
+    },
+    {
+      "text": "engineers, we need the Lego blocks to",
+      "start": 234.56,
+      "duration": 2.8
+    },
+    {
+      "text": "solve the problem for our specific use",
+      "start": 237.36,
+      "duration": 2.879
+    },
+    {
+      "text": "",
+      "start": 240,
+      "duration": 50
+    },
+    {
+      "text": "cases in our specific domains. A lot of",
+      "start": 240.239,
+      "duration": 3.041
+    },
+    {
+      "text": "engineering products and tools miss",
+      "start": 243.28,
+      "duration": 1.84
+    },
+    {
+      "text": "this. They're too opinionated. There's",
+      "start": 245.12,
+      "duration": 2.399
+    },
+    {
+      "text": "too much thought. Speaking of the",
+      "start": 247.519,
+      "duration": 1.761
+    },
+    {
+      "text": "terminal, Cloud Code was able to change",
+      "start": 249.28,
+      "duration": 2.56
+    },
+    {
+      "text": "software engineering because it operates",
+      "start": 251.84,
+      "duration": 2.16
+    },
+    {
+      "text": "in the highest leverage point for",
+      "start": 254,
+      "duration": 2.079
+    },
+    {
+      "text": "engineers. It's not an accident that",
+      "start": 256.079,
+      "duration": 2.56
+    },
+    {
+      "text": "it's in the terminal. This is where us",
+      "start": 258.639,
+      "duration": 2.32
+    },
+    {
+      "text": "engineers have maximum control over the",
+      "start": 260.959,
+      "duration": 2.481
+    },
+    {
+      "text": "flow of information. We trade off that",
+      "start": 263.44,
+      "duration": 2.24
+    },
+    {
+      "text": "initial investment of understanding the",
+      "start": 265.68,
+      "duration": 2.16
+    },
+    {
+      "text": "terminal to have massive impact with",
+      "start": 267.84,
+      "duration": 2.639
+    },
+    {
+      "text": "minimal friction. It seems so obvious",
+      "start": 270.479,
+      "duration": 2.961
+    },
+    {
+      "text": "now in retrospect that this is the",
+      "start": 273.44,
+      "duration": 2.56
+    },
+    {
+      "text": "optimal place for an engineering agent.",
+      "start": 276,
+      "duration": 2.56
+    },
+    {
+      "text": "We have to give shoutouts to the",
+      "start": 278.56,
+      "duration": 1.84
+    },
+    {
+      "text": "original AI coding tools like Ader for",
+      "start": 280.4,
+      "duration": 2.88
+    },
+    {
+      "text": "starting right in the terminal. And of",
+      "start": 283.28,
+      "duration": 2.4
+    },
+    {
+      "text": "course, Claude Code and Enthropic",
+      "start": 285.68,
+      "duration": 2.72
+    },
+    {
+      "text": "focused on real engineering. These",
+      "start": 288.4,
+      "duration": 2.799
+    },
+    {
+      "text": "",
+      "start": 290,
+      "duration": 55
+    },
+    {
+      "text": "aren't toys. These aren't flashy demos.",
+      "start": 291.199,
+      "duration": 2.801
+    },
+    {
+      "text": "They change engineering by relentlessly",
+      "start": 294,
+      "duration": 2.16
+    },
+    {
+      "text": "focusing on true engineering workflows.",
+      "start": 296.16,
+      "duration": 2.8
+    },
+    {
+      "text": "Right? Think, plan, build with plan mode",
+      "start": 298.96,
+      "duration": 3.6
+    },
+    {
+      "text": "hooks to control and monitor. You can",
+      "start": 302.56,
+      "duration": 2.72
+    },
+    {
+      "text": "parallelize your agent. And then of",
+      "start": 305.28,
+      "duration": 2.56
+    },
+    {
+      "text": "course, it's programmable. This is a key",
+      "start": 307.84,
+      "duration": 3.199
+    },
+    {
+      "text": "feature of true engineering. Can your",
+      "start": 311.039,
+      "duration": 2.72
+    },
+    {
+      "text": "tool, can your work be composed? Is it",
+      "start": 313.759,
+      "duration": 2.88
+    },
+    {
+      "text": "interoperable? Right? You can build your",
+      "start": 316.639,
+      "duration": 2.161
+    },
+    {
+      "text": "own agentic systems with cloud code. And",
+      "start": 318.8,
+      "duration": 2.16
+    },
+    {
+      "text": "once you start stacking these together,",
+      "start": 320.96,
+      "duration": 1.679
+    },
+    {
+      "text": "I've only listed a few here. Right?",
+      "start": 322.639,
+      "duration": 1.681
+    },
+    {
+      "text": "There are many, many more features.",
+      "start": 324.32,
+      "duration": 1.52
+    },
+    {
+      "text": "These all help us engineers with our",
+      "start": 325.84,
+      "duration": 1.76
+    },
+    {
+      "text": "boots on the ground solve real",
+      "start": 327.6,
+      "duration": 2.08
+    },
+    {
+      "text": "engineering problems. It seems so",
+      "start": 329.68,
+      "duration": 2.239
+    },
+    {
+      "text": "mind-blowing that no previous tool",
+      "start": 331.919,
+      "duration": 2.401
+    },
+    {
+      "text": "really allowed us to tap into our",
+      "start": 334.32,
+      "duration": 1.92
+    },
+    {
+      "text": "prompts in a reusable way until Cloud",
+      "start": 336.24,
+      "duration": 2.56
+    },
+    {
+      "text": "Code. They did it right. They built",
+      "start": 338.8,
+      "duration": 1.52
+    },
+    {
+      "text": "features for real engineering. It's not",
+      "start": 340.32,
+      "duration": 2.719
+    },
+    {
+      "text": "just about features. It's not just about",
+      "start": 343.039,
+      "duration": 1.521
+    },
+    {
+      "text": "calling tools. Of course, none of this",
+      "start": 344.56,
+      "duration": 2.479
+    },
+    {
+      "text": "",
+      "start": 345,
+      "duration": 120
+    },
+    {
+      "text": "is possible without their models. And",
+      "start": 347.039,
+      "duration": 2.641
+    },
+    {
+      "text": "something incredible happened. Starting",
+      "start": 349.68,
+      "duration": 1.68
+    },
+    {
+      "text": "with the Sonnet 3.5 model.",
+      "start": 351.36,
+      "duration": 2.24
+    },
+    {
+      "text": "unexplainable,",
+      "start": 353.6,
+      "duration": 1.599
+    },
+    {
+      "text": "unttrackable emergent behavior inside of",
+      "start": 355.199,
+      "duration": 3.28
+    },
+    {
+      "text": "that model that again doesn't show up in",
+      "start": 358.479,
+      "duration": 2.961
+    },
+    {
+      "text": "benchmarks. I have a term for this",
+      "start": 361.44,
+      "duration": 1.44
+    },
+    {
+      "text": "because I like to look out for this.",
+      "start": 362.88,
+      "duration": 1.439
+    },
+    {
+      "text": "Okay, I call these benchmark ghosting",
+      "start": 364.319,
+      "duration": 2.16
+    },
+    {
+      "text": "models. Their performance does not show",
+      "start": 366.479,
+      "duration": 2.56
+    },
+    {
+      "text": "up in a benchmark. And you know, you can",
+      "start": 369.039,
+      "duration": 2.401
+    },
+    {
+      "text": "see this, right? Open up artificial",
+      "start": 371.44,
+      "duration": 1.599
+    },
+    {
+      "text": "analysis, look for sonnet, and just",
+      "start": 373.039,
+      "duration": 2.88
+    },
+    {
+      "text": "search through this. You can see this is",
+      "start": 375.919,
+      "duration": 2.481
+    },
+    {
+      "text": "not the quote unquote best model on",
+      "start": 378.4,
+      "duration": 2.56
+    },
+    {
+      "text": "almost any benchmark. You can look for",
+      "start": 380.96,
+      "duration": 2.48
+    },
+    {
+      "text": "Opus and you'll see the exact same",
+      "start": 383.44,
+      "duration": 2.479
+    },
+    {
+      "text": "thing, right? By no means is this the",
+      "start": 385.919,
+      "duration": 3.921
+    },
+    {
+      "text": "best model. Okay, but then why were we",
+      "start": 389.84,
+      "duration": 2.799
+    },
+    {
+      "text": "able to do more with it than any other",
+      "start": 392.639,
+      "duration": 2
+    },
+    {
+      "text": "model? This is because of emergent",
+      "start": 394.639,
+      "duration": 2.081
+    },
+    {
+      "text": "behavior. Something has cracked inside",
+      "start": 396.72,
+      "duration": 1.84
+    },
+    {
+      "text": "these models. Okay, they didn't just",
+      "start": 398.56,
+      "duration": 2.4
+    },
+    {
+      "text": "pass benchmarks. They made benchmarks",
+      "start": 400.96,
+      "duration": 2.799
+    },
+    {
+      "text": "irrelevant. Real world performance can",
+      "start": 403.759,
+      "duration": 2.56
+    },
+    {
+      "text": "only be approximated by benchmarks,",
+      "start": 406.319,
+      "duration": 2.961
+    },
+    {
+      "text": "right? their their proxies, their",
+      "start": 409.28,
+      "duration": 2.24
+    },
+    {
+      "text": "shells, their corlary systems, right?",
+      "start": 411.52,
+      "duration": 2
+    },
+    {
+      "text": "They don't equal true results, right?",
+      "start": 413.52,
+      "duration": 2.72
+    },
+    {
+      "text": "So, I'm not saying benchmarks don't",
+      "start": 416.24,
+      "duration": 1.36
+    },
+    {
+      "text": "matter, but models with emergent",
+      "start": 417.6,
+      "duration": 1.76
+    },
+    {
+      "text": "behavior that understand, and this is",
+      "start": 419.36,
+      "duration": 2.08
+    },
+    {
+      "text": "the important part, your context and",
+      "start": 421.44,
+      "duration": 2.479
+    },
+    {
+      "text": "your intent is what matters. And from",
+      "start": 423.919,
+      "duration": 3.12
+    },
+    {
+      "text": "sonnet 3.5 to now, and I imagine",
+      "start": 427.039,
+      "duration": 2.641
+    },
+    {
+      "text": "whatever anthropic is cooking next, the",
+      "start": 429.68,
+      "duration": 2.079
+    },
+    {
+      "text": "way they build their models encodes",
+      "start": 431.759,
+      "duration": 2.481
+    },
+    {
+      "text": "intent. It encodes engineering intent.",
+      "start": 434.24,
+      "duration": 3.12
+    },
+    {
+      "text": "This is an extremely unique property of",
+      "start": 437.36,
+      "duration": 3.04
+    },
+    {
+      "text": "these models. An interesting question",
+      "start": 440.4,
+      "duration": 1.84
+    },
+    {
+      "text": "you can ask is how can I find emergent",
+      "start": 442.24,
+      "duration": 3.28
+    },
+    {
+      "text": "behaviors inside of models? And so far",
+      "start": 445.52,
+      "duration": 3.519
+    },
+    {
+      "text": "my only answer for this is time. You",
+      "start": 449.039,
+      "duration": 3.121
+    },
+    {
+      "text": "need to spend time with these models.",
+      "start": 452.16,
+      "duration": 2.72
+    },
+    {
+      "text": "And oh boy, I know you and I, a lot of",
+      "start": 454.88,
+      "duration": 3.2
+    },
+    {
+      "text": "engineers were spending a lot of time",
+      "start": 458.08,
+      "duration": 2.239
+    },
+    {
+      "text": "with these models. So how else has claw",
+      "start": 460.319,
+      "duration": 3.041
+    },
+    {
+      "text": "code changed engineering? It's brought",
+      "start": 463.36,
+      "duration": 2.08
+    },
+    {
+      "text": "",
+      "start": 465,
+      "duration": 165
+    },
+    {
+      "text": "us all back to simplicity, right? As a",
+      "start": 465.44,
+      "duration": 3.92
+    },
+    {
+      "text": "core principle. As soon as I heard this",
+      "start": 469.36,
+      "duration": 2.399
+    },
+    {
+      "text": "from Boris, it completely made sense.",
+      "start": 471.759,
+      "duration": 2.801
+    },
+    {
+      "text": "You can see it. You can feel it in the",
+      "start": 474.56,
+      "duration": 1.68
+    },
+    {
+      "text": "tool, right? Simplicity is a property",
+      "start": 476.24,
+      "duration": 2.799
+    },
+    {
+      "text": "and a feature. Okay? And I am worried",
+      "start": 479.039,
+      "duration": 2.88
+    },
+    {
+      "text": "about this for the future of cloud code.",
+      "start": 481.919,
+      "duration": 1.761
+    },
+    {
+      "text": "Every successful application grows. It",
+      "start": 483.68,
+      "duration": 3.04
+    },
+    {
+      "text": "grows in complexity. It grows in",
+      "start": 486.72,
+      "duration": 1.599
+    },
+    {
+      "text": "features. It slowly becomes something",
+      "start": 488.319,
+      "duration": 3.041
+    },
+    {
+      "text": "that it wasn't. I hope that the claico",
+      "start": 491.36,
+      "duration": 2.32
+    },
+    {
+      "text": "team, the anthropic team, they stick",
+      "start": 493.68,
+      "duration": 2.32
+    },
+    {
+      "text": "with this property. If they don't, the",
+      "start": 496,
+      "duration": 2.72
+    },
+    {
+      "text": "tool will lose this powerful property",
+      "start": 498.72,
+      "duration": 3.599
+    },
+    {
+      "text": "that myself and other engineers uh seek",
+      "start": 502.319,
+      "duration": 3.201
+    },
+    {
+      "text": "uh pretty much in everything that we we",
+      "start": 505.52,
+      "duration": 1.76
+    },
+    {
+      "text": "do and and in and you know, every tool",
+      "start": 507.28,
+      "duration": 2.16
+    },
+    {
+      "text": "that we use. Enthropic has this",
+      "start": 509.44,
+      "duration": 1.92
+    },
+    {
+      "text": "beautiful principle um do the simple",
+      "start": 511.36,
+      "duration": 3.44
+    },
+    {
+      "text": "thing first inside of principle a",
+      "start": 514.8,
+      "duration": 1.919
+    },
+    {
+      "text": "coding. This is the first principle we",
+      "start": 516.719,
+      "duration": 1.921
+    },
+    {
+      "text": "discuss and it is keep it simple stupid.",
+      "start": 518.64,
+      "duration": 2.8
+    },
+    {
+      "text": "Right? That's our version of it. These",
+      "start": 521.44,
+      "duration": 1.519
+    },
+    {
+      "text": "are all the same thing. Simple things",
+      "start": 522.959,
+      "duration": 3.44
+    },
+    {
+      "text": "work. And not only do they work, they",
+      "start": 526.399,
+      "duration": 2.481
+    },
+    {
+      "text": "work consistently. Also, I don't know if",
+      "start": 528.88,
+      "duration": 2.48
+    },
+    {
+      "text": "you've heard the news, but the creators",
+      "start": 531.36,
+      "duration": 2
+    },
+    {
+      "text": "of Cloud Code, Boris and Cat, are",
+      "start": 533.36,
+      "duration": 2
+    },
+    {
+      "text": "apparently moving back over to",
+      "start": 535.36,
+      "duration": 2.72
+    },
+    {
+      "text": "Anthropic. They were rumored to be",
+      "start": 538.08,
+      "duration": 2.48
+    },
+    {
+      "text": "leaving. Now they're rumored to be",
+      "start": 540.56,
+      "duration": 1.6
+    },
+    {
+      "text": "coming back uh from Cursor. This tells",
+      "start": 542.16,
+      "duration": 2.32
+    },
+    {
+      "text": "me that whatever they saw at Cursor was",
+      "start": 544.48,
+      "duration": 2.799
+    },
+    {
+      "text": "not good. Just to call it out here,",
+      "start": 547.279,
+      "duration": 2
+    },
+    {
+      "text": "sometimes I still boot it up for the tab",
+      "start": 549.279,
+      "duration": 1.921
+    },
+    {
+      "text": "model, but that's a great example of an",
+      "start": 551.2,
+      "duration": 2
+    },
+    {
+      "text": "application that is no longer simple,",
+      "start": 553.2,
+      "duration": 2.4
+    },
+    {
+      "text": "right? It was when they started, but now",
+      "start": 555.6,
+      "duration": 2
+    },
+    {
+      "text": "it's not as simple. And that's not to",
+      "start": 557.6,
+      "duration": 1.679
+    },
+    {
+      "text": "say that it's not a great useful tool.",
+      "start": 559.279,
+      "duration": 2
+    },
+    {
+      "text": "But you can see the difference between",
+      "start": 561.279,
+      "duration": 2.081
+    },
+    {
+      "text": "cloud code and many other tools, right?",
+      "start": 563.36,
+      "duration": 1.76
+    },
+    {
+      "text": "There's no complexity. It's just the",
+      "start": 565.12,
+      "duration": 2.159
+    },
+    {
+      "text": "context window. I said it long ago",
+      "start": 567.279,
+      "duration": 3.521
+    },
+    {
+      "text": "as everyone was piping and jumping over",
+      "start": 570.8,
+      "duration": 2.479
+    },
+    {
+      "text": "to rag. You want just the context",
+      "start": 573.279,
+      "duration": 2.641
+    },
+    {
+      "text": "window. Don't add unnecessary",
+      "start": 575.92,
+      "duration": 2
+    },
+    {
+      "text": "complexity. Let the model do what it",
+      "start": 577.92,
+      "duration": 2.72
+    },
+    {
+      "text": "needs to with the right tools. Right?",
+      "start": 580.64,
+      "duration": 1.84
+    },
+    {
+      "text": "Let it search just like you and I",
+      "start": 582.48,
+      "duration": 2.479
+    },
+    {
+      "text": "search. Think about the tool you would",
+      "start": 584.959,
+      "duration": 1.841
+    },
+    {
+      "text": "use. Great. Now, give the model the tool",
+      "start": 586.8,
+      "duration": 3.2
+    },
+    {
+      "text": "you would use. Okay? At least to start.",
+      "start": 590,
+      "duration": 2.88
+    },
+    {
+      "text": "All right? So, there's no complexity.",
+      "start": 592.88,
+      "duration": 1.12
+    },
+    {
+      "text": "It's just a context window. No setup.",
+      "start": 594,
+      "duration": 2
+    },
+    {
+      "text": "Uh, this is something that's really",
+      "start": 596,
+      "duration": 1.279
+    },
+    {
+      "text": "powerful. A lot of us engineers, we",
+      "start": 597.279,
+      "duration": 2
+    },
+    {
+      "text": "overthink things. We try to compare and",
+      "start": 599.279,
+      "duration": 2.401
+    },
+    {
+      "text": "contrast all the time. Cloud code said",
+      "start": 601.68,
+      "duration": 2.48
+    },
+    {
+      "text": "no. Sonnet, Opus, no setup. All right.",
+      "start": 604.16,
+      "duration": 4.08
+    },
+    {
+      "text": "And then there's no friction. It's just",
+      "start": 608.24,
+      "duration": 2.56
+    },
+    {
+      "text": "the prompt. I still to this day have",
+      "start": 610.8,
+      "duration": 2.479
+    },
+    {
+      "text": "opened the application probably tens of",
+      "start": 613.279,
+      "duration": 2.401
+    },
+    {
+      "text": "thousands of times. That sounds",
+      "start": 615.68,
+      "duration": 1.12
+    },
+    {
+      "text": "ridiculous, but I love opening the",
+      "start": 616.8,
+      "duration": 2.56
+    },
+    {
+      "text": "terminal, typing Claude, and this is all",
+      "start": 619.36,
+      "duration": 3.2
+    },
+    {
+      "text": "you see, right? It's just this. It's an",
+      "start": 622.56,
+      "duration": 4.08
+    },
+    {
+      "text": "input field, and your agent loads things",
+      "start": 626.64,
+      "duration": 2.56
+    },
+    {
+      "text": "into its context window, and the LLM",
+      "start": 629.2,
+      "duration": 2.4
+    },
+    {
+      "text": "",
+      "start": 630,
+      "duration": 80
+    },
+    {
+      "text": "drives decision-m. That's it, right? I",
+      "start": 631.6,
+      "duration": 3.2
+    },
+    {
+      "text": "still love that to this day. All right.",
+      "start": 634.8,
+      "duration": 2.32
+    },
+    {
+      "text": "Um, you know, the cloud code team,",
+      "start": 637.12,
+      "duration": 1.44
+    },
+    {
+      "text": "they've cracked it. AI coding is not",
+      "start": 638.56,
+      "duration": 1.519
+    },
+    {
+      "text": "enough. This is something that we have",
+      "start": 640.079,
+      "duration": 1.121
+    },
+    {
+      "text": "talked about on the channel. I ran into",
+      "start": 641.2,
+      "duration": 2
+    },
+    {
+      "text": "this issue very, very early on when I",
+      "start": 643.2,
+      "duration": 2.24
+    },
+    {
+      "text": "was using Ader. Writing code is a",
+      "start": 645.44,
+      "duration": 2.32
+    },
+    {
+      "text": "fraction of what engineering is. And",
+      "start": 647.76,
+      "duration": 2.319
+    },
+    {
+      "text": "this is why vibe coding falls apart even",
+      "start": 650.079,
+      "duration": 2.401
+    },
+    {
+      "text": "with powerful agents. Coding is not",
+      "start": 652.48,
+      "duration": 2
+    },
+    {
+      "text": "enough. It's not just about generating",
+      "start": 654.48,
+      "duration": 1.76
+    },
+    {
+      "text": "code. Engineering is about much more",
+      "start": 656.24,
+      "duration": 2.32
+    },
+    {
+      "text": "than that. We needed a gentic coding and",
+      "start": 658.56,
+      "duration": 2.88
+    },
+    {
+      "text": "now we have it. We needed something that",
+      "start": 661.44,
+      "duration": 1.839
+    },
+    {
+      "text": "scales with the complexity of the",
+      "start": 663.279,
+      "duration": 2.081
+    },
+    {
+      "text": "problems we face as engineers. The agent",
+      "start": 665.36,
+      "duration": 3.599
+    },
+    {
+      "text": "does it and we can use it with agentic",
+      "start": 668.959,
+      "duration": 3.12
+    },
+    {
+      "text": "coding. So last thing to call out here,",
+      "start": 672.079,
+      "duration": 2.88
+    },
+    {
+      "text": "how has cloud code changed engineering?",
+      "start": 674.959,
+      "duration": 2.241
+    },
+    {
+      "text": "It's infinitely scalable. Okay, solving",
+      "start": 677.2,
+      "duration": 2.4
+    },
+    {
+      "text": "two problems at once, fire up multiple",
+      "start": 679.6,
+      "duration": 2.32
+    },
+    {
+      "text": "parallel sub aents. Are you working on",
+      "start": 681.92,
+      "duration": 1.919
+    },
+    {
+      "text": "multiple iterations, multiple problems",
+      "start": 683.839,
+      "duration": 1.761
+    },
+    {
+      "text": "at the same time? Open up multiple cloud",
+      "start": 685.6,
+      "duration": 1.919
+    },
+    {
+      "text": "code instances, right? Do you need your",
+      "start": 687.519,
+      "duration": 2.56
+    },
+    {
+      "text": "own custom multi- aent system? Fire up",
+      "start": 690.079,
+      "duration": 2.32
+    },
+    {
+      "text": "programmable mode, right? -p run it from",
+      "start": 692.399,
+      "duration": 3.12
+    },
+    {
+      "text": "any terminal. Run it off device. Again,",
+      "start": 695.519,
+      "duration": 3.44
+    },
+    {
+      "text": "it's programmable, right? It's a new",
+      "start": 698.959,
+      "duration": 2.241
+    },
+    {
+      "text": "foundational unit of engineering. It's a",
+      "start": 701.2,
+      "duration": 2.319
+    },
+    {
+      "text": "new engineering primitive.",
+      "start": 703.519,
+      "duration": 2.801
+    },
+    {
+      "text": "Okay. So, let's talk about the future.",
+      "start": 706.32,
+      "duration": 2.24
+    },
+    {
+      "text": "So, we know where we're at, right? We",
+      "start": 708.56,
+      "duration": 2.08
+    },
+    {
+      "text": "",
+      "start": 710,
+      "duration": 15
+    },
+    {
+      "text": "have this incredible tool that pushes us",
+      "start": 710.64,
+      "duration": 1.759
+    },
+    {
+      "text": "from AI coding into a coding. So, we",
+      "start": 712.399,
+      "duration": 2.961
+    },
+    {
+      "text": "have to ask the question, what's next?",
+      "start": 715.36,
+      "duration": 2
+    },
+    {
+      "text": "So, here are some predictions from the",
+      "start": 717.36,
+      "duration": 1.36
+    },
+    {
+      "text": "edge from everything that I can see. We",
+      "start": 718.72,
+      "duration": 1.76
+    },
+    {
+      "text": "talk about this on the channel. Go where",
+      "start": 720.48,
+      "duration": 2.08
+    },
+    {
+      "text": "the ball will be, not where it is. One",
+      "start": 722.56,
+      "duration": 2.959
+    },
+    {
+      "text": "",
+      "start": 725,
+      "duration": 70
+    },
+    {
+      "text": "of the trends happening right now,",
+      "start": 725.519,
+      "duration": 1.681
+    },
+    {
+      "text": "you're seeing this if you're paying any",
+      "start": 727.2,
+      "duration": 1.68
+    },
+    {
+      "text": "attention at all. Multi- aent systems,",
+      "start": 728.88,
+      "duration": 3.04
+    },
+    {
+      "text": "not one claw, not two. We're talking",
+      "start": 731.92,
+      "duration": 2.32
+    },
+    {
+      "text": "swarms working together in order running",
+      "start": 734.24,
+      "duration": 3.36
+    },
+    {
+      "text": "in AI developer workflows, ADWs,",
+      "start": 737.6,
+      "duration": 3.52
+    },
+    {
+      "text": "commonly known as agentic workflows.",
+      "start": 741.12,
+      "duration": 2.48
+    },
+    {
+      "text": "Each agent specializes. You need that",
+      "start": 743.6,
+      "duration": 2.72
+    },
+    {
+      "text": "context window focused on one problem",
+      "start": 746.32,
+      "duration": 2.079
+    },
+    {
+      "text": "and then you hand off to another agent.",
+      "start": 748.399,
+      "duration": 2.24
+    },
+    {
+      "text": "You see this inside of cloud code. You",
+      "start": 750.639,
+      "duration": 1.76
+    },
+    {
+      "text": "can fire up sub agents. That's just the",
+      "start": 752.399,
+      "duration": 2.401
+    },
+    {
+      "text": "beginning of what's possible. Together",
+      "start": 754.8,
+      "duration": 1.76
+    },
+    {
+      "text": "they form systems more powerful than any",
+      "start": 756.56,
+      "duration": 2.959
+    },
+    {
+      "text": "single mind. Okay? And I'm talking about",
+      "start": 759.519,
+      "duration": 2.56
+    },
+    {
+      "text": "you and I. You know on the channel we've",
+      "start": 762.079,
+      "duration": 1.921
+    },
+    {
+      "text": "we've run some systems that are doing so",
+      "start": 764,
+      "duration": 3.279
+    },
+    {
+      "text": "much engineering work at one time that",
+      "start": 767.279,
+      "duration": 2.24
+    },
+    {
+      "text": "it is is truly hard to follow everything",
+      "start": 769.519,
+      "duration": 2.641
+    },
+    {
+      "text": "that's going on. This is where",
+      "start": 772.16,
+      "duration": 1.28
+    },
+    {
+      "text": "observability and monitoring comes in.",
+      "start": 773.44,
+      "duration": 2.48
+    },
+    {
+      "text": "We talked about agent observability in",
+      "start": 775.92,
+      "duration": 1.68
+    },
+    {
+      "text": "our previous couple videos. We're going",
+      "start": 777.6,
+      "duration": 1.44
+    },
+    {
+      "text": "to see this become more and more",
+      "start": 779.04,
+      "duration": 1.28
+    },
+    {
+      "text": "important and we're going to continue to",
+      "start": 780.32,
+      "duration": 2
+    },
+    {
+      "text": "see multi- aent systems get used and",
+      "start": 782.32,
+      "duration": 3.199
+    },
+    {
+      "text": "built everywhere. All right. So,",
+      "start": 785.519,
+      "duration": 2.56
+    },
+    {
+      "text": "dedicated agent environments to support",
+      "start": 788.079,
+      "duration": 2.32
+    },
+    {
+      "text": "the scale and potential of the multi-",
+      "start": 790.399,
+      "duration": 2
+    },
+    {
+      "text": "aent systems we're going to be operating",
+      "start": 792.399,
+      "duration": 1.361
+    },
+    {
+      "text": "in. We need dedicated agent",
+      "start": 793.76,
+      "duration": 2.56
+    },
+    {
+      "text": "",
+      "start": 795,
+      "duration": 81
+    },
+    {
+      "text": "environments. Okay. This is a big trend",
+      "start": 796.32,
+      "duration": 2.639
+    },
+    {
+      "text": "and an easy bet to make. This is what",
+      "start": 798.959,
+      "duration": 2.081
+    },
+    {
+      "text": "you want, right? As an investor of your",
+      "start": 801.04,
+      "duration": 2
+    },
+    {
+      "text": "time, money, and attention, you want big",
+      "start": 803.04,
+      "duration": 3.599
+    },
+    {
+      "text": "trends that are easy to bet on. And this",
+      "start": 806.639,
+      "duration": 2
+    },
+    {
+      "text": "is one of them. Okay. So, you know, I",
+      "start": 808.639,
+      "duration": 2.081
+    },
+    {
+      "text": "have, and others are starting to do this",
+      "start": 810.72,
+      "duration": 1.52
+    },
+    {
+      "text": "as well, I have a dedicated box right",
+      "start": 812.24,
+      "duration": 3.68
+    },
+    {
+      "text": "here. All I do in this Mac Mini, all I",
+      "start": 815.92,
+      "duration": 3.12
+    },
+    {
+      "text": "do in this device is run agents. They",
+      "start": 819.04,
+      "duration": 3.2
+    },
+    {
+      "text": "have full control over this device here.",
+      "start": 822.24,
+      "duration": 2.48
+    },
+    {
+      "text": "We're going to be talking about",
+      "start": 824.72,
+      "duration": 1.04
+    },
+    {
+      "text": "dedicated agent environments a lot more",
+      "start": 825.76,
+      "duration": 2.319
+    },
+    {
+      "text": "on the channel. You can have physical",
+      "start": 828.079,
+      "duration": 1.681
+    },
+    {
+      "text": "devices, cloud VMs, and there are even",
+      "start": 829.76,
+      "duration": 2.8
+    },
+    {
+      "text": "services that are getting spun up from",
+      "start": 832.56,
+      "duration": 2.8
+    },
+    {
+      "text": "nowhere. And one of these companies, I",
+      "start": 835.36,
+      "duration": 1.919
+    },
+    {
+      "text": "can guarantee you, is going to become",
+      "start": 837.279,
+      "duration": 1.601
+    },
+    {
+      "text": "the new versal for AI agents. This is a",
+      "start": 838.88,
+      "duration": 3.519
+    },
+    {
+      "text": "big idea. Um, dedicated agent",
+      "start": 842.399,
+      "duration": 2
+    },
+    {
+      "text": "environments are something that is going",
+      "start": 844.399,
+      "duration": 2.161
+    },
+    {
+      "text": "to happen. It's starting to happen",
+      "start": 846.56,
+      "duration": 1.519
+    },
+    {
+      "text": "already, right? You don't want your",
+      "start": 848.079,
+      "duration": 1.281
+    },
+    {
+      "text": "agent running on your device, taking",
+      "start": 849.36,
+      "duration": 1.68
+    },
+    {
+      "text": "over your device. This is great, but",
+      "start": 851.04,
+      "duration": 1.68
+    },
+    {
+      "text": "this back and forth prompting with your",
+      "start": 852.72,
+      "duration": 1.919
+    },
+    {
+      "text": "agent is going to be good for you",
+      "start": 854.639,
+      "duration": 2.88
+    },
+    {
+      "text": "building these bigger systems. Okay, a",
+      "start": 857.519,
+      "duration": 2.56
+    },
+    {
+      "text": "lot more to say on that on the channel.",
+      "start": 860.079,
+      "duration": 1.681
+    },
+    {
+      "text": "Make sure you comment and subscribe so",
+      "start": 861.76,
+      "duration": 1.68
+    },
+    {
+      "text": "you don't miss that and so you let the",
+      "start": 863.44,
+      "duration": 1.839
+    },
+    {
+      "text": "algorithm know you're interested in",
+      "start": 865.279,
+      "duration": 2
+    },
+    {
+      "text": "this. What's next? What does the future",
+      "start": 867.279,
+      "duration": 2
+    },
+    {
+      "text": "have for us? What bets can we make as",
+      "start": 869.279,
+      "duration": 2.081
+    },
+    {
+      "text": "engineers right now to get ahead of the",
+      "start": 871.36,
+      "duration": 2.08
+    },
+    {
+      "text": "curve? Unbelievable automation. This is",
+      "start": 873.44,
+      "duration": 3.199
+    },
+    {
+      "text": "",
+      "start": 876,
+      "duration": 77
+    },
+    {
+      "text": "not new, but the scale is going to be",
+      "start": 876.639,
+      "duration": 2.64
+    },
+    {
+      "text": "new. I don't know if you've had this",
+      "start": 879.279,
+      "duration": 1.281
+    },
+    {
+      "text": "experience, but I've gotten some",
+      "start": 880.56,
+      "duration": 1.68
+    },
+    {
+      "text": "multi-agent systems up and running that",
+      "start": 882.24,
+      "duration": 2
+    },
+    {
+      "text": "are so powerful, so complex, it's hard",
+      "start": 884.24,
+      "duration": 2.719
+    },
+    {
+      "text": "for me to keep up with what I can do and",
+      "start": 886.959,
+      "duration": 2.721
+    },
+    {
+      "text": "with what I can do with these new",
+      "start": 889.68,
+      "duration": 2
+    },
+    {
+      "text": "systems. Okay, I'm starting to see few",
+      "start": 891.68,
+      "duration": 2.399
+    },
+    {
+      "text": "groups of engineers running into this",
+      "start": 894.079,
+      "duration": 1.681
+    },
+    {
+      "text": "problem as well, right? The scale is so",
+      "start": 895.76,
+      "duration": 3.199
+    },
+    {
+      "text": "big. The workload, they're becoming so",
+      "start": 898.959,
+      "duration": 2.56
+    },
+    {
+      "text": "massive. What it used to take teams",
+      "start": 901.519,
+      "duration": 2.241
+    },
+    {
+      "text": "months will take minutes. will close the",
+      "start": 903.76,
+      "duration": 3.04
+    },
+    {
+      "text": "loop and let the code write itself.",
+      "start": 906.8,
+      "duration": 2.96
+    },
+    {
+      "text": "Closing the loop is a principle of AI",
+      "start": 909.76,
+      "duration": 2.24
+    },
+    {
+      "text": "coding. You can see all the big labs",
+      "start": 912,
+      "duration": 3.12
+    },
+    {
+      "text": "going crazy over this idea right now.",
+      "start": 915.12,
+      "duration": 2.32
+    },
+    {
+      "text": "And frankly, any good agentic coding",
+      "start": 917.44,
+      "duration": 3.28
+    },
+    {
+      "text": "engineer really focuses on this idea,",
+      "start": 920.72,
+      "duration": 2.16
+    },
+    {
+      "text": "right? Don't just write a prompt. Write",
+      "start": 922.88,
+      "duration": 1.68
+    },
+    {
+      "text": "a prompt and then say validate your work",
+      "start": 924.56,
+      "duration": 2.719
+    },
+    {
+      "text": "with X. That creates a closed loop",
+      "start": 927.279,
+      "duration": 2.641
+    },
+    {
+      "text": "system. I have something that can help",
+      "start": 929.92,
+      "duration": 1.359
+    },
+    {
+      "text": "you understand that concept at the end",
+      "start": 931.279,
+      "duration": 1.841
+    },
+    {
+      "text": "of this video. But the key idea here is",
+      "start": 933.12,
+      "duration": 2.8
+    },
+    {
+      "text": "massive. We're going to have entire code",
+      "start": 935.92,
+      "duration": 1.76
+    },
+    {
+      "text": "bases refactored while you sleep. Test",
+      "start": 937.68,
+      "duration": 1.68
+    },
+    {
+      "text": "suites automatically generated",
+      "start": 939.36,
+      "duration": 1.36
+    },
+    {
+      "text": "documentation that writes itself. This",
+      "start": 940.72,
+      "duration": 1.44
+    },
+    {
+      "text": "is just the beginning of like the",
+      "start": 942.16,
+      "duration": 1.52
+    },
+    {
+      "text": "automation that's that is coming and",
+      "start": 943.68,
+      "duration": 2.32
+    },
+    {
+      "text": "that some engineers are starting to",
+      "start": 946,
+      "duration": 1.68
+    },
+    {
+      "text": "crack. So here's a big one. This is an",
+      "start": 947.68,
+      "duration": 2.88
+    },
+    {
+      "text": "important one. The engineering gap",
+      "start": 950.56,
+      "duration": 1.68
+    },
+    {
+      "text": "continues to widen. There's a lot of",
+      "start": 952.24,
+      "duration": 1.599
+    },
+    {
+      "text": "",
+      "start": 953,
+      "duration": 159
+    },
+    {
+      "text": "talk about the zero to 1x engineer, you",
+      "start": 953.839,
+      "duration": 3.68
+    },
+    {
+      "text": "know, using tools like lovable. They are",
+      "start": 957.519,
+      "duration": 1.921
+    },
+    {
+      "text": "able to do more than ever. That's great.",
+      "start": 959.44,
+      "duration": 2
+    },
+    {
+      "text": "That's true. But there's a really",
+      "start": 961.44,
+      "duration": 1.519
+    },
+    {
+      "text": "interesting gap between the 1 to 10x",
+      "start": 962.959,
+      "duration": 2.56
+    },
+    {
+      "text": "engineer and the 0ero to 1x engineer",
+      "start": 965.519,
+      "duration": 2.481
+    },
+    {
+      "text": "where they just stop. There's a point",
+      "start": 968,
+      "duration": 2.48
+    },
+    {
+      "text": "where they can't build any bigger. They",
+      "start": 970.48,
+      "duration": 2.56
+    },
+    {
+      "text": "can't build any more value because they",
+      "start": 973.04,
+      "duration": 2.159
+    },
+    {
+      "text": "don't know what's going on. I do believe",
+      "start": 975.199,
+      "duration": 2
+    },
+    {
+      "text": "that the gap will widen and then shrink",
+      "start": 977.199,
+      "duration": 2.721
+    },
+    {
+      "text": "as the tools progress and as our agents",
+      "start": 979.92,
+      "duration": 2.8
+    },
+    {
+      "text": "become that much more powerful. But",
+      "start": 982.72,
+      "duration": 1.84
+    },
+    {
+      "text": "there's going to be a dark age here,",
+      "start": 984.56,
+      "duration": 2.56
+    },
+    {
+      "text": "right? a a dark age where, you know,",
+      "start": 987.12,
+      "duration": 2.639
+    },
+    {
+      "text": "senior plus level engineers, mid-level",
+      "start": 989.759,
+      "duration": 1.76
+    },
+    {
+      "text": "plus engineers using these tools, your",
+      "start": 991.519,
+      "duration": 2.161
+    },
+    {
+      "text": "10xers on your team, in your company,",
+      "start": 993.68,
+      "duration": 2.32
+    },
+    {
+      "text": "the difference between them and then,",
+      "start": 996,
+      "duration": 1.92
+    },
+    {
+      "text": "you know, your mid and below engineers,",
+      "start": 997.92,
+      "duration": 2.159
+    },
+    {
+      "text": "your noobs, your vibe coders, it's going",
+      "start": 1000.079,
+      "duration": 2.081
+    },
+    {
+      "text": "to be mindblowingly massive. And it's",
+      "start": 1002.16,
+      "duration": 2.88
+    },
+    {
+      "text": "because when they watch an Indy Dev Dan",
+      "start": 1005.04,
+      "duration": 2.479
+    },
+    {
+      "text": "video, they understand what's going on",
+      "start": 1007.519,
+      "duration": 2.641
+    },
+    {
+      "text": "underneath, right? They know that when I",
+      "start": 1010.16,
+      "duration": 1.76
+    },
+    {
+      "text": "gloss over, you know, certain syntax or",
+      "start": 1011.92,
+      "duration": 2.96
+    },
+    {
+      "text": "the way I organize functions or the way",
+      "start": 1014.88,
+      "duration": 1.759
+    },
+    {
+      "text": "I organize the codebase, the runtime of",
+      "start": 1016.639,
+      "duration": 2.161
+    },
+    {
+      "text": "a specific method, you know, that's a",
+      "start": 1018.8,
+      "duration": 1.599
+    },
+    {
+      "text": "great example, right? They know that you",
+      "start": 1020.399,
+      "duration": 1.921
+    },
+    {
+      "text": "can prompt and discuss, you know,",
+      "start": 1022.32,
+      "duration": 2.32
+    },
+    {
+      "text": "logarithmic runtime of a specific piece",
+      "start": 1024.64,
+      "duration": 2.559
+    },
+    {
+      "text": "of code and have a discussion about",
+      "start": 1027.199,
+      "duration": 2
+    },
+    {
+      "text": "optimizing it, moving it. There are many",
+      "start": 1029.199,
+      "duration": 2.321
+    },
+    {
+      "text": "core engineering ideas like runtime",
+      "start": 1031.52,
+      "duration": 3.518
+    },
+    {
+      "text": "complexity, low-level architecture, why",
+      "start": 1035.039,
+      "duration": 2.961
+    },
+    {
+      "text": "we use certain frameworks, why you use",
+      "start": 1038,
+      "duration": 2.16
+    },
+    {
+      "text": "certain tools, tool mastery, right? Even",
+      "start": 1040.16,
+      "duration": 2.878
+    },
+    {
+      "text": "things like understanding what the",
+      "start": 1043.039,
+      "duration": 1.681
+    },
+    {
+      "text": "terminal can do and how you can",
+      "start": 1044.72,
+      "duration": 1.68
+    },
+    {
+      "text": "customize and modify your terminal.",
+      "start": 1046.4,
+      "duration": 1.439
+    },
+    {
+      "text": "There are tons of examples of beginner",
+      "start": 1047.839,
+      "duration": 2.001
+    },
+    {
+      "text": "engineers, they will just never learn",
+      "start": 1049.84,
+      "duration": 2.16
+    },
+    {
+      "text": "this stuff. Some of you guys will, some",
+      "start": 1052,
+      "duration": 1.52
+    },
+    {
+      "text": "of you guys are really smart and you'll",
+      "start": 1053.52,
+      "duration": 1.6
+    },
+    {
+      "text": "use these tools to learn instead of just",
+      "start": 1055.12,
+      "duration": 2.4
+    },
+    {
+      "text": "use the tools to build, right? There's a",
+      "start": 1057.52,
+      "duration": 1.84
+    },
+    {
+      "text": "big difference there. A lot of vibe",
+      "start": 1059.36,
+      "duration": 1.439
+    },
+    {
+      "text": "coders are just building. They're not",
+      "start": 1060.799,
+      "duration": 1.521
+    },
+    {
+      "text": "learning. But anyway, I don't want to",
+      "start": 1062.32,
+      "duration": 1.68
+    },
+    {
+      "text": "harp on this one too much. I just want",
+      "start": 1064,
+      "duration": 1.52
+    },
+    {
+      "text": "to mention that there is still time to",
+      "start": 1065.52,
+      "duration": 2
+    },
+    {
+      "text": "choose which side you're on. Use these",
+      "start": 1067.52,
+      "duration": 1.84
+    },
+    {
+      "text": "tools to learn. You're mid senior level",
+      "start": 1069.36,
+      "duration": 2.24
+    },
+    {
+      "text": "plus engineer. Don't become an old dog.",
+      "start": 1071.6,
+      "duration": 2.319
+    },
+    {
+      "text": "Keep investing in learning new",
+      "start": 1073.919,
+      "duration": 2.401
+    },
+    {
+      "text": "engineering, right? Learning the",
+      "start": 1076.32,
+      "duration": 1.359
+    },
+    {
+      "text": "generative AI way to do things. Okay?",
+      "start": 1077.679,
+      "duration": 2.481
+    },
+    {
+      "text": "Because it's not the same, right? This",
+      "start": 1080.16,
+      "duration": 1.92
+    },
+    {
+      "text": "is a new skill. AI coding is a new",
+      "start": 1082.08,
+      "duration": 2
+    },
+    {
+      "text": "skill. Agentic coding is a new skill,",
+      "start": 1084.08,
+      "duration": 2.8
+    },
+    {
+      "text": "right? The way you prompt these systems",
+      "start": 1086.88,
+      "duration": 2.56
+    },
+    {
+      "text": "continually evolves, right? The way you",
+      "start": 1089.44,
+      "duration": 2.64
+    },
+    {
+      "text": "add context continually evolves. I don't",
+      "start": 1092.08,
+      "duration": 2.959
+    },
+    {
+      "text": "care if you call it prompt engineering",
+      "start": 1095.039,
+      "duration": 1.681
+    },
+    {
+      "text": "or context engineering. It's going to",
+      "start": 1096.72,
+      "duration": 2.48
+    },
+    {
+      "text": "keep changing and evolving. All right?",
+      "start": 1099.2,
+      "duration": 2.16
+    },
+    {
+      "text": "So, take some time, always invest in",
+      "start": 1101.36,
+      "duration": 2.24
+    },
+    {
+      "text": "your tool. Always keep learning, right?",
+      "start": 1103.6,
+      "duration": 2.16
+    },
+    {
+      "text": "Because the engineering gap is going to",
+      "start": 1105.76,
+      "duration": 2.08
+    },
+    {
+      "text": "widen massively before it shrinks again.",
+      "start": 1107.84,
+      "duration": 3.839
+    },
+    {
+      "text": "And lastly, this is really important.",
+      "start": 1111.679,
+      "duration": 2.561
+    },
+    {
+      "text": "",
+      "start": 1112,
+      "duration": 88
+    },
+    {
+      "text": "This is a great call out for engineers",
+      "start": 1114.24,
+      "duration": 2.559
+    },
+    {
+      "text": "and teams looking for that next product.",
+      "start": 1116.799,
+      "duration": 2.88
+    },
+    {
+      "text": "Agents are going viral. Okay, they're",
+      "start": 1119.679,
+      "duration": 2.24
+    },
+    {
+      "text": "going to go viral over these next couple",
+      "start": 1121.919,
+      "duration": 1.681
+    },
+    {
+      "text": "years. Cloud code is the agent for",
+      "start": 1123.6,
+      "duration": 2.319
+    },
+    {
+      "text": "engineering, but there are hundreds of",
+      "start": 1125.919,
+      "duration": 2.241
+    },
+    {
+      "text": "domains where agents don't exist yet,",
+      "start": 1128.16,
+      "duration": 2.48
+    },
+    {
+      "text": "but where they can be created and",
+      "start": 1130.64,
+      "duration": 1.919
+    },
+    {
+      "text": "deployed. You know what that smells",
+      "start": 1132.559,
+      "duration": 1.601
+    },
+    {
+      "text": "like? What do we smell there? That's",
+      "start": 1134.16,
+      "duration": 2.639
+    },
+    {
+      "text": "called opportunity. Okay, if you're a",
+      "start": 1136.799,
+      "duration": 2.801
+    },
+    {
+      "text": "builder, if you're a creator and you're",
+      "start": 1139.6,
+      "duration": 1.92
+    },
+    {
+      "text": "in one of these domains, right, you do",
+      "start": 1141.52,
+      "duration": 1.84
+    },
+    {
+      "text": "want a domain advantage. If you're in",
+      "start": 1143.36,
+      "duration": 2.48
+    },
+    {
+      "text": "one of these domains, right, or any",
+      "start": 1145.84,
+      "duration": 1.76
+    },
+    {
+      "text": "domain, um the amount of of TAM, total",
+      "start": 1147.6,
+      "duration": 4.959
+    },
+    {
+      "text": "addressable market ready for disruption",
+      "start": 1152.559,
+      "duration": 2.24
+    },
+    {
+      "text": "for you, for your team, for your",
+      "start": 1154.799,
+      "duration": 1.441
+    },
+    {
+      "text": "company. This is a massive opportunity.",
+      "start": 1156.24,
+      "duration": 2.88
+    },
+    {
+      "text": "agents go viral and of course you know",
+      "start": 1159.12,
+      "duration": 2.96
+    },
+    {
+      "text": "it's natural that the first agent right",
+      "start": 1162.08,
+      "duration": 2.479
+    },
+    {
+      "text": "the best piece of technology would",
+      "start": 1164.559,
+      "duration": 1.761
+    },
+    {
+      "text": "emerge for the technology builders which",
+      "start": 1166.32,
+      "duration": 2.56
+    },
+    {
+      "text": "is you and I agents are going viral this",
+      "start": 1168.88,
+      "duration": 2.56
+    },
+    {
+      "text": "is a big opportunity uh this is a future",
+      "start": 1171.44,
+      "duration": 2.96
+    },
+    {
+      "text": "direction of where agents are going of",
+      "start": 1174.4,
+      "duration": 1.92
+    },
+    {
+      "text": "where agentic coding is going so on and",
+      "start": 1176.32,
+      "duration": 1.52
+    },
+    {
+      "text": "so forth all right the evidence is super",
+      "start": 1177.84,
+      "duration": 1.6
+    },
+    {
+      "text": "clear this channel is one of the first",
+      "start": 1179.44,
+      "duration": 1.68
+    },
+    {
+      "text": "to cover cloud code before all the hype",
+      "start": 1181.12,
+      "duration": 2.48
+    },
+    {
+      "text": "before you know everyone in their mom",
+      "start": 1183.6,
+      "duration": 2.64
+    },
+    {
+      "text": "starts using you know cloud code we",
+      "start": 1186.24,
+      "duration": 2
+    },
+    {
+      "text": "covered it first. This is the place to",
+      "start": 1188.24,
+      "duration": 1.92
+    },
+    {
+      "text": "be for agent coding on the edge for",
+      "start": 1190.16,
+      "duration": 3.12
+    },
+    {
+      "text": "really just that next phase of",
+      "start": 1193.28,
+      "duration": 2
+    },
+    {
+      "text": "engineering. So again, I don't know how",
+      "start": 1195.28,
+      "duration": 1.519
+    },
+    {
+      "text": "many times I can see TA in one video,",
+      "start": 1196.799,
+      "duration": 1.681
+    },
+    {
+      "text": "but comment, subscribe, like, you know",
+      "start": 1198.48,
+      "duration": 1.52
+    },
+    {
+      "text": "",
+      "start": 1200,
+      "duration": 106
+    },
+    {
+      "text": "what to do. Tell the algorithm you're",
+      "start": 1200,
+      "duration": 1.84
+    },
+    {
+      "text": "interested. All right, we were here",
+      "start": 1201.84,
+      "duration": 1.04
+    },
+    {
+      "text": "since the beginning and we're going to",
+      "start": 1202.88,
+      "duration": 1.039
+    },
+    {
+      "text": "be here until the end. Okay, we're in",
+      "start": 1203.919,
+      "duration": 2.801
+    },
+    {
+      "text": "the age of agents, okay? It's phase two.",
+      "start": 1206.72,
+      "duration": 2.56
+    },
+    {
+      "text": "After decades of failed AI promises, the",
+      "start": 1209.28,
+      "duration": 2.56
+    },
+    {
+      "text": "agent architecture has delivered. All",
+      "start": 1211.84,
+      "duration": 2.8
+    },
+    {
+      "text": "right, so take action. Couple call outs",
+      "start": 1214.64,
+      "duration": 2.24
+    },
+    {
+      "text": "for you, you know, as a thank you for",
+      "start": 1216.88,
+      "duration": 1.679
+    },
+    {
+      "text": "making it to the end of the video, for",
+      "start": 1218.559,
+      "duration": 1.36
+    },
+    {
+      "text": "sticking around. I always aim to provide",
+      "start": 1219.919,
+      "duration": 1.921
+    },
+    {
+      "text": "value for engineers here every single",
+      "start": 1221.84,
+      "duration": 2.4
+    },
+    {
+      "text": "week. Master Claw Code. Everyone else is",
+      "start": 1224.24,
+      "duration": 2.799
+    },
+    {
+      "text": "copying cloud code. All right, you saw",
+      "start": 1227.039,
+      "duration": 1.601
+    },
+    {
+      "text": "it with the CodeCli. You saw it with the",
+      "start": 1228.64,
+      "duration": 1.76
+    },
+    {
+      "text": "Gemini CLI. You see it with open source.",
+      "start": 1230.4,
+      "duration": 2.32
+    },
+    {
+      "text": "It's fine. Copying is great. This is how",
+      "start": 1232.72,
+      "duration": 2.079
+    },
+    {
+      "text": "we grow and improve, right? There are",
+      "start": 1234.799,
+      "duration": 1.841
+    },
+    {
+      "text": "copycats everywhere. First, you copy,",
+      "start": 1236.64,
+      "duration": 2.399
+    },
+    {
+      "text": "then you innovate. Whatever. Right now,",
+      "start": 1239.039,
+      "duration": 2.321
+    },
+    {
+      "text": "this is the tool to master. Okay. Scale",
+      "start": 1241.36,
+      "duration": 2.559
+    },
+    {
+      "text": "up your compute. More prompts, better",
+      "start": 1243.919,
+      "duration": 1.921
+    },
+    {
+      "text": "prompts than more agents. If you can't",
+      "start": 1245.84,
+      "duration": 3.12
+    },
+    {
+      "text": "use one cloud code instance, getting an",
+      "start": 1248.96,
+      "duration": 2.4
+    },
+    {
+      "text": "agent device makes no sense for you.",
+      "start": 1251.36,
+      "duration": 1.92
+    },
+    {
+      "text": "Scaling up more agents, using sub",
+      "start": 1253.28,
+      "duration": 1.68
+    },
+    {
+      "text": "agents, it makes no sense for you. Okay?",
+      "start": 1254.96,
+      "duration": 2
+    },
+    {
+      "text": "So, step up one step at a time. Scale",
+      "start": 1256.96,
+      "duration": 2.32
+    },
+    {
+      "text": "your compute. More prompts, better",
+      "start": 1259.28,
+      "duration": 1.6
+    },
+    {
+      "text": "prompts than more agents. All right? You",
+      "start": 1260.88,
+      "duration": 2.72
+    },
+    {
+      "text": "can do a lot more with the right prompt",
+      "start": 1263.6,
+      "duration": 1.68
+    },
+    {
+      "text": "than you think. All right? And I'm",
+      "start": 1265.28,
+      "duration": 1.44
+    },
+    {
+      "text": "looking at all of you who think your",
+      "start": 1266.72,
+      "duration": 1.52
+    },
+    {
+      "text": "codebase is too big. Okay? No, you just",
+      "start": 1268.24,
+      "duration": 3.28
+    },
+    {
+      "text": "haven't written the right prompts. All",
+      "start": 1271.52,
+      "duration": 1.6
+    },
+    {
+      "text": "right? solve bigger problems. Right? On",
+      "start": 1273.12,
+      "duration": 1.76
+    },
+    {
+      "text": "that same note, keep your agents running",
+      "start": 1274.88,
+      "duration": 1.76
+    },
+    {
+      "text": "longer and then longer. Okay? These",
+      "start": 1276.64,
+      "duration": 3.12
+    },
+    {
+      "text": "things can run for tens of minutes, half",
+      "start": 1279.76,
+      "duration": 2
+    },
+    {
+      "text": "an hour, and if you set it up right,",
+      "start": 1281.76,
+      "duration": 2.159
+    },
+    {
+      "text": "they can run for hours. Agents, okay?",
+      "start": 1283.919,
+      "duration": 3.361
+    },
+    {
+      "text": "Solving problems, building things, doing",
+      "start": 1287.28,
+      "duration": 1.92
+    },
+    {
+      "text": "research. It's happening right now. All",
+      "start": 1289.2,
+      "duration": 1.92
+    },
+    {
+      "text": "right. So, that's that. Uh, focus on",
+      "start": 1291.12,
+      "duration": 3.12
+    },
+    {
+      "text": "principles, not tools, not models. I",
+      "start": 1294.24,
+      "duration": 2.16
+    },
+    {
+      "text": "know some of you that have been with the",
+      "start": 1296.4,
+      "duration": 1.519
+    },
+    {
+      "text": "channel, you know, forgive me. Um, but",
+      "start": 1297.919,
+      "duration": 2.321
+    },
+    {
+      "text": "it's important to keep plugging for",
+      "start": 1300.24,
+      "duration": 1.36
+    },
+    {
+      "text": "engineers before the next big course",
+      "start": 1301.6,
+      "duration": 2.16
+    },
+    {
+      "text": "hits. If you want to get a asymmetric",
+      "start": 1303.76,
+      "duration": 2.399
+    },
+    {
+      "text": "",
+      "start": 1306,
+      "duration": 126
+    },
+    {
+      "text": "advantage on your time, I definitely",
+      "start": 1306.159,
+      "duration": 1.841
+    },
+    {
+      "text": "recommend you check out principled AI",
+      "start": 1308,
+      "duration": 1.679
+    },
+    {
+      "text": "coding. This is my take on how to master",
+      "start": 1309.679,
+      "duration": 2.48
+    },
+    {
+      "text": "the principles of AI coding. AI coding",
+      "start": 1312.159,
+      "duration": 2.161
+    },
+    {
+      "text": "came first. We're now agentic coding.",
+      "start": 1314.32,
+      "duration": 2.64
+    },
+    {
+      "text": "All the principles of AI coding directly",
+      "start": 1316.96,
+      "duration": 1.92
+    },
+    {
+      "text": "apply to agentic coding. Okay, agentic",
+      "start": 1318.88,
+      "duration": 2.48
+    },
+    {
+      "text": "coding is a superset of AI coding. You",
+      "start": 1321.36,
+      "duration": 2.88
+    },
+    {
+      "text": "want to focus on principles, not tools.",
+      "start": 1324.24,
+      "duration": 2.24
+    },
+    {
+      "text": "All right? and you want to master the",
+      "start": 1326.48,
+      "duration": 1.28
+    },
+    {
+      "text": "big three, that's going to show up in",
+      "start": 1327.76,
+      "duration": 1.919
+    },
+    {
+      "text": "every tool, in every agent, in every",
+      "start": 1329.679,
+      "duration": 2.161
+    },
+    {
+      "text": "multi- aent system context model prompt.",
+      "start": 1331.84,
+      "duration": 2.319
+    },
+    {
+      "text": "I'm not going to pitch this for too much",
+      "start": 1334.159,
+      "duration": 1.52
+    },
+    {
+      "text": "longer because the next phase 2 agent",
+      "start": 1335.679,
+      "duration": 2.801
+    },
+    {
+      "text": "coding course is coming. I am killing",
+      "start": 1338.48,
+      "duration": 1.679
+    },
+    {
+      "text": "the limited time discount after this",
+      "start": 1340.159,
+      "duration": 1.921
+    },
+    {
+      "text": "week. All right, this goes up to the",
+      "start": 1342.08,
+      "duration": 1.28
+    },
+    {
+      "text": "full price. This is risk-free. There is",
+      "start": 1343.36,
+      "duration": 2.16
+    },
+    {
+      "text": "a no questions asked refund before",
+      "start": 1345.52,
+      "duration": 1.92
+    },
+    {
+      "text": "lesson 4. If you get in here, if you",
+      "start": 1347.44,
+      "duration": 1.68
+    },
+    {
+      "text": "think it's outdated, if you can't make",
+      "start": 1349.12,
+      "duration": 1.6
+    },
+    {
+      "text": "the connection that it's about",
+      "start": 1350.72,
+      "duration": 2
+    },
+    {
+      "text": "principles, not tools, not models,",
+      "start": 1352.72,
+      "duration": 2.16
+    },
+    {
+      "text": "that's fine. Let me know. I'll refund",
+      "start": 1354.88,
+      "duration": 1.44
+    },
+    {
+      "text": "you in full. The next course is coming",
+      "start": 1356.32,
+      "duration": 2.239
+    },
+    {
+      "text": "focused on agentic coding and most",
+      "start": 1358.559,
+      "duration": 2.561
+    },
+    {
+      "text": "importantly focused on you. There's so",
+      "start": 1361.12,
+      "duration": 2.4
+    },
+    {
+      "text": "much work that you're doing now that you",
+      "start": 1363.52,
+      "duration": 1.6
+    },
+    {
+      "text": "don't need to be doing. The next course",
+      "start": 1365.12,
+      "duration": 2
+    },
+    {
+      "text": "we're going to tackle that problem head",
+      "start": 1367.12,
+      "duration": 2.32
+    },
+    {
+      "text": "on with of course the brand new",
+      "start": 1369.44,
+      "duration": 2.64
+    },
+    {
+      "text": "engineering primitive claw code. By the",
+      "start": 1372.08,
+      "duration": 2.479
+    },
+    {
+      "text": "way, anyone that has taken principal a",
+      "start": 1374.559,
+      "duration": 2.48
+    },
+    {
+      "text": "coding will receive a massive discount",
+      "start": 1377.039,
+      "duration": 1.921
+    },
+    {
+      "text": "on the next agentic coding course. a",
+      "start": 1378.96,
+      "duration": 2.64
+    },
+    {
+      "text": "little extra bonus and thank you for",
+      "start": 1381.6,
+      "duration": 2.48
+    },
+    {
+      "text": "everyone that's taken the course,",
+      "start": 1384.08,
+      "duration": 1.36
+    },
+    {
+      "text": "everyone that's trusted me with their",
+      "start": 1385.44,
+      "duration": 1.84
+    },
+    {
+      "text": "time and attention. Thousands of",
+      "start": 1387.28,
+      "duration": 1.6
+    },
+    {
+      "text": "engineers have been here and have gotten",
+      "start": 1388.88,
+      "duration": 1.919
+    },
+    {
+      "text": "massive value out of principal AI",
+      "start": 1390.799,
+      "duration": 1.841
+    },
+    {
+      "text": "coding. We discuss a lot of the big",
+      "start": 1392.64,
+      "duration": 2.08
+    },
+    {
+      "text": "ideas that are now popular. You know,",
+      "start": 1394.72,
+      "duration": 2
+    },
+    {
+      "text": "when we put this out, they were a lot",
+      "start": 1396.72,
+      "duration": 1.52
+    },
+    {
+      "text": "less popular. I'll just say it that way.",
+      "start": 1398.24,
+      "duration": 1.76
+    },
+    {
+      "text": "Plan-based coding, right? Specs,",
+      "start": 1400,
+      "duration": 2.159
+    },
+    {
+      "text": "programmability, and we talk about",
+      "start": 1402.159,
+      "duration": 2
+    },
+    {
+      "text": "closing the loop. This idea is",
+      "start": 1404.159,
+      "duration": 2.64
+    },
+    {
+      "text": "everything. This is in lesson seven. Let",
+      "start": 1406.799,
+      "duration": 2
+    },
+    {
+      "text": "the code write itself. That's that,",
+      "start": 1408.799,
+      "duration": 2
+    },
+    {
+      "text": "right? So, focus on principles, not",
+      "start": 1410.799,
+      "duration": 1.76
+    },
+    {
+      "text": "tools, not models. Both of these will",
+      "start": 1412.559,
+      "duration": 2.161
+    },
+    {
+      "text": "change. These never change. All right?",
+      "start": 1414.72,
+      "duration": 1.92
+    },
+    {
+      "text": "Principles never change. Subscribe,",
+      "start": 1416.64,
+      "duration": 1.76
+    },
+    {
+      "text": "comment, let me know where you're taking",
+      "start": 1418.4,
+      "duration": 1.759
+    },
+    {
+      "text": "your agentic development. You know where",
+      "start": 1420.159,
+      "duration": 1.841
+    },
+    {
+      "text": "to find me every single Monday. Thanks",
+      "start": 1422,
+      "duration": 3.36
+    },
+    {
+      "text": "so much for watching. Stay focused and",
+      "start": 1425.36,
+      "duration": 3.12
+    },
+    {
+      "text": "keep building.",
+      "start": 1428.48,
+      "duration": 3.8
+    }
+  ],
+  "fullText": "It started quietly. No grand announcements, no hype marketing, just a simple command line interface that would change engineering forever. Cloud Code emerged not as a tool, but as a partner in a gentic system that understood context, state, and most importantly, engineering. It consistently reasons about code at a level previously thought impossible. And the crazy part is there was no rag. There was no UI. Only the context, the model, and the prompt. The engineering community watched with a mixture of skepticism and awe. As early adopters like you and I started reporting productivity gains that defied belief, tasks that once took days were completed in hours, then minutes as we improved our agentic coding. It's clear looking back this time period marks the beginning of a new phase of engineering. Welcome back to the channel. In this video, I want to answer the question and I want to talk about how cloud code changed engineering. We spend so much time planning, building, and learning. We don't take enough time to stop, reflect, digest, and think hard about the incredible things we can do with our agentic coding tools. By breaking down how clog code changed engineering, we can understand the stateofthe-art, which sets us up for making bets on the future and prepares us for what's coming next, so we can make the highest return on investment bets on our precious engineering time. How has cloud code changed engineering? Just like deep learning worked, the agent architecture worked. Sam Alman called this out in the intelligence age post. And just like deep learning worked, the agent architecture worked. We're not just chatting with language models in chat interfaces. We're commanding compute. We're prompting agents. We're composing the language model to the next level of abstraction, the agent. It's clear that this transition marks phase 2 of the generative AI age. But cloud code didn't change engineering with the agent architecture alone. It's more than that. What is claude code really made of? It has three essential elements that defines it. A powerful set of language models that can call any tool in the right agent loop. This is what makes cloud code so incredible. You can't have one of these. You can't have two of these. You need all three. The architecture is everything. Don't let the benchmarks fool you. The performance from the Cloud 4 series is not detectable by the benchmarks. We'll discuss that more in a moment. But you put powerful LLMs like the Cloud 4 series with a great set of bakedin tools and the ability to connect to any MCP server. But that's not it. You need the agent architecture. You need the agent loop so that the agent can operate in the right environment and use the right information to get the job done just like you or I would. This is the architecture behind cloud code. So how has claude code changed engineering? It's not just a tool. It's not an assistant and it's more than a partner. It's a new engineering primitive, right? It's a fundamental building block of a new class of software development. A new primitive that lets you tap into agents with a single prompt. That means more compute at your fingertips at any time at scale. It's a fundamental building block. What does that mean exactly? Cloud code is programmable. From any terminal, you can call your powerful agentic coding tool. This is massive. As engineers, we need the Lego blocks to solve the problem for our specific use cases in our specific domains. A lot of engineering products and tools miss this. They're too opinionated. There's too much thought. Speaking of the terminal, Cloud Code was able to change software engineering because it operates in the highest leverage point for engineers. It's not an accident that it's in the terminal. This is where us engineers have maximum control over the flow of information. We trade off that initial investment of understanding the terminal to have massive impact with minimal friction. It seems so obvious now in retrospect that this is the optimal place for an engineering agent. We have to give shoutouts to the original AI coding tools like Ader for starting right in the terminal. And of course, Claude Code and Enthropic focused on real engineering. These aren't toys. These aren't flashy demos. They change engineering by relentlessly focusing on true engineering workflows. Right? Think, plan, build with plan mode hooks to control and monitor. You can parallelize your agent. And then of course, it's programmable. This is a key feature of true engineering. Can your tool, can your work be composed? Is it interoperable? Right? You can build your own agentic systems with cloud code. And once you start stacking these together, I've only listed a few here. Right? There are many, many more features. These all help us engineers with our boots on the ground solve real engineering problems. It seems so mind-blowing that no previous tool really allowed us to tap into our prompts in a reusable way until Cloud Code. They did it right. They built features for real engineering. It's not just about features. It's not just about calling tools. Of course, none of this is possible without their models. And something incredible happened. Starting with the Sonnet 3.5 model. unexplainable, unttrackable emergent behavior inside of that model that again doesn't show up in benchmarks. I have a term for this because I like to look out for this. Okay, I call these benchmark ghosting models. Their performance does not show up in a benchmark. And you know, you can see this, right? Open up artificial analysis, look for sonnet, and just search through this. You can see this is not the quote unquote best model on almost any benchmark. You can look for Opus and you'll see the exact same thing, right? By no means is this the best model. Okay, but then why were we able to do more with it than any other model? This is because of emergent behavior. Something has cracked inside these models. Okay, they didn't just pass benchmarks. They made benchmarks irrelevant. Real world performance can only be approximated by benchmarks, right? their their proxies, their shells, their corlary systems, right? They don't equal true results, right? So, I'm not saying benchmarks don't matter, but models with emergent behavior that understand, and this is the important part, your context and your intent is what matters. And from sonnet 3.5 to now, and I imagine whatever anthropic is cooking next, the way they build their models encodes intent. It encodes engineering intent. This is an extremely unique property of these models. An interesting question you can ask is how can I find emergent behaviors inside of models? And so far my only answer for this is time. You need to spend time with these models. And oh boy, I know you and I, a lot of engineers were spending a lot of time with these models. So how else has claw code changed engineering? It's brought us all back to simplicity, right? As a core principle. As soon as I heard this from Boris, it completely made sense. You can see it. You can feel it in the tool, right? Simplicity is a property and a feature. Okay? And I am worried about this for the future of cloud code. Every successful application grows. It grows in complexity. It grows in features. It slowly becomes something that it wasn't. I hope that the claico team, the anthropic team, they stick with this property. If they don't, the tool will lose this powerful property that myself and other engineers uh seek uh pretty much in everything that we we do and and in and you know, every tool that we use. Enthropic has this beautiful principle um do the simple thing first inside of principle a coding. This is the first principle we discuss and it is keep it simple stupid. Right? That's our version of it. These are all the same thing. Simple things work. And not only do they work, they work consistently. Also, I don't know if you've heard the news, but the creators of Cloud Code, Boris and Cat, are apparently moving back over to Anthropic. They were rumored to be leaving. Now they're rumored to be coming back uh from Cursor. This tells me that whatever they saw at Cursor was not good. Just to call it out here, sometimes I still boot it up for the tab model, but that's a great example of an application that is no longer simple, right? It was when they started, but now it's not as simple. And that's not to say that it's not a great useful tool. But you can see the difference between cloud code and many other tools, right? There's no complexity. It's just the context window. I said it long ago as everyone was piping and jumping over to rag. You want just the context window. Don't add unnecessary complexity. Let the model do what it needs to with the right tools. Right? Let it search just like you and I search. Think about the tool you would use. Great. Now, give the model the tool you would use. Okay? At least to start. All right? So, there's no complexity. It's just a context window. No setup. Uh, this is something that's really powerful. A lot of us engineers, we overthink things. We try to compare and contrast all the time. Cloud code said no. Sonnet, Opus, no setup. All right. And then there's no friction. It's just the prompt. I still to this day have opened the application probably tens of thousands of times. That sounds ridiculous, but I love opening the terminal, typing Claude, and this is all you see, right? It's just this. It's an input field, and your agent loads things into its context window, and the LLM drives decision-m. That's it, right? I still love that to this day. All right. Um, you know, the cloud code team, they've cracked it. AI coding is not enough. This is something that we have talked about on the channel. I ran into this issue very, very early on when I was using Ader. Writing code is a fraction of what engineering is. And this is why vibe coding falls apart even with powerful agents. Coding is not enough. It's not just about generating code. Engineering is about much more than that. We needed a gentic coding and now we have it. We needed something that scales with the complexity of the problems we face as engineers. The agent does it and we can use it with agentic coding. So last thing to call out here, how has cloud code changed engineering? It's infinitely scalable. Okay, solving two problems at once, fire up multiple parallel sub aents. Are you working on multiple iterations, multiple problems at the same time? Open up multiple cloud code instances, right? Do you need your own custom multi- aent system? Fire up programmable mode, right? -p run it from any terminal. Run it off device. Again, it's programmable, right? It's a new foundational unit of engineering. It's a new engineering primitive. Okay. So, let's talk about the future. So, we know where we're at, right? We have this incredible tool that pushes us from AI coding into a coding. So, we have to ask the question, what's next? So, here are some predictions from the edge from everything that I can see. We talk about this on the channel. Go where the ball will be, not where it is. One of the trends happening right now, you're seeing this if you're paying any attention at all. Multi- aent systems, not one claw, not two. We're talking swarms working together in order running in AI developer workflows, ADWs, commonly known as agentic workflows. Each agent specializes. You need that context window focused on one problem and then you hand off to another agent. You see this inside of cloud code. You can fire up sub agents. That's just the beginning of what's possible. Together they form systems more powerful than any single mind. Okay? And I'm talking about you and I. You know on the channel we've we've run some systems that are doing so much engineering work at one time that it is is truly hard to follow everything that's going on. This is where observability and monitoring comes in. We talked about agent observability in our previous couple videos. We're going to see this become more and more important and we're going to continue to see multi- aent systems get used and built everywhere. All right. So, dedicated agent environments to support the scale and potential of the multi- aent systems we're going to be operating in. We need dedicated agent environments. Okay. This is a big trend and an easy bet to make. This is what you want, right? As an investor of your time, money, and attention, you want big trends that are easy to bet on. And this is one of them. Okay. So, you know, I have, and others are starting to do this as well, I have a dedicated box right here. All I do in this Mac Mini, all I do in this device is run agents. They have full control over this device here. We're going to be talking about dedicated agent environments a lot more on the channel. You can have physical devices, cloud VMs, and there are even services that are getting spun up from nowhere. And one of these companies, I can guarantee you, is going to become the new versal for AI agents. This is a big idea. Um, dedicated agent environments are something that is going to happen. It's starting to happen already, right? You don't want your agent running on your device, taking over your device. This is great, but this back and forth prompting with your agent is going to be good for you building these bigger systems. Okay, a lot more to say on that on the channel. Make sure you comment and subscribe so you don't miss that and so you let the algorithm know you're interested in this. What's next? What does the future have for us? What bets can we make as engineers right now to get ahead of the curve? Unbelievable automation. This is not new, but the scale is going to be new. I don't know if you've had this experience, but I've gotten some multi-agent systems up and running that are so powerful, so complex, it's hard for me to keep up with what I can do and with what I can do with these new systems. Okay, I'm starting to see few groups of engineers running into this problem as well, right? The scale is so big. The workload, they're becoming so massive. What it used to take teams months will take minutes. will close the loop and let the code write itself. Closing the loop is a principle of AI coding. You can see all the big labs going crazy over this idea right now. And frankly, any good agentic coding engineer really focuses on this idea, right? Don't just write a prompt. Write a prompt and then say validate your work with X. That creates a closed loop system. I have something that can help you understand that concept at the end of this video. But the key idea here is massive. We're going to have entire code bases refactored while you sleep. Test suites automatically generated documentation that writes itself. This is just the beginning of like the automation that's that is coming and that some engineers are starting to crack. So here's a big one. This is an important one. The engineering gap continues to widen. There's a lot of talk about the zero to 1x engineer, you know, using tools like lovable. They are able to do more than ever. That's great. That's true. But there's a really interesting gap between the 1 to 10x engineer and the 0ero to 1x engineer where they just stop. There's a point where they can't build any bigger. They can't build any more value because they don't know what's going on. I do believe that the gap will widen and then shrink as the tools progress and as our agents become that much more powerful. But there's going to be a dark age here, right? a a dark age where, you know, senior plus level engineers, mid-level plus engineers using these tools, your 10xers on your team, in your company, the difference between them and then, you know, your mid and below engineers, your noobs, your vibe coders, it's going to be mindblowingly massive. And it's because when they watch an Indy Dev Dan video, they understand what's going on underneath, right? They know that when I gloss over, you know, certain syntax or the way I organize functions or the way I organize the codebase, the runtime of a specific method, you know, that's a great example, right? They know that you can prompt and discuss, you know, logarithmic runtime of a specific piece of code and have a discussion about optimizing it, moving it. There are many core engineering ideas like runtime complexity, low-level architecture, why we use certain frameworks, why you use certain tools, tool mastery, right? Even things like understanding what the terminal can do and how you can customize and modify your terminal. There are tons of examples of beginner engineers, they will just never learn this stuff. Some of you guys will, some of you guys are really smart and you'll use these tools to learn instead of just use the tools to build, right? There's a big difference there. A lot of vibe coders are just building. They're not learning. But anyway, I don't want to harp on this one too much. I just want to mention that there is still time to choose which side you're on. Use these tools to learn. You're mid senior level plus engineer. Don't become an old dog. Keep investing in learning new engineering, right? Learning the generative AI way to do things. Okay? Because it's not the same, right? This is a new skill. AI coding is a new skill. Agentic coding is a new skill, right? The way you prompt these systems continually evolves, right? The way you add context continually evolves. I don't care if you call it prompt engineering or context engineering. It's going to keep changing and evolving. All right? So, take some time, always invest in your tool. Always keep learning, right? Because the engineering gap is going to widen massively before it shrinks again. And lastly, this is really important. This is a great call out for engineers and teams looking for that next product. Agents are going viral. Okay, they're going to go viral over these next couple years. Cloud code is the agent for engineering, but there are hundreds of domains where agents don't exist yet, but where they can be created and deployed. You know what that smells like? What do we smell there? That's called opportunity. Okay, if you're a builder, if you're a creator and you're in one of these domains, right, you do want a domain advantage. If you're in one of these domains, right, or any domain, um the amount of of TAM, total addressable market ready for disruption for you, for your team, for your company. This is a massive opportunity. agents go viral and of course you know it's natural that the first agent right the best piece of technology would emerge for the technology builders which is you and I agents are going viral this is a big opportunity uh this is a future direction of where agents are going of where agentic coding is going so on and so forth all right the evidence is super clear this channel is one of the first to cover cloud code before all the hype before you know everyone in their mom starts using you know cloud code we covered it first. This is the place to be for agent coding on the edge for really just that next phase of engineering. So again, I don't know how many times I can see TA in one video, but comment, subscribe, like, you know what to do. Tell the algorithm you're interested. All right, we were here since the beginning and we're going to be here until the end. Okay, we're in the age of agents, okay? It's phase two. After decades of failed AI promises, the agent architecture has delivered. All right, so take action. Couple call outs for you, you know, as a thank you for making it to the end of the video, for sticking around. I always aim to provide value for engineers here every single week. Master Claw Code. Everyone else is copying cloud code. All right, you saw it with the CodeCli. You saw it with the Gemini CLI. You see it with open source. It's fine. Copying is great. This is how we grow and improve, right? There are copycats everywhere. First, you copy, then you innovate. Whatever. Right now, this is the tool to master. Okay. Scale up your compute. More prompts, better prompts than more agents. If you can't use one cloud code instance, getting an agent device makes no sense for you. Scaling up more agents, using sub agents, it makes no sense for you. Okay? So, step up one step at a time. Scale your compute. More prompts, better prompts than more agents. All right? You can do a lot more with the right prompt than you think. All right? And I'm looking at all of you who think your codebase is too big. Okay? No, you just haven't written the right prompts. All right? solve bigger problems. Right? On that same note, keep your agents running longer and then longer. Okay? These things can run for tens of minutes, half an hour, and if you set it up right, they can run for hours. Agents, okay? Solving problems, building things, doing research. It's happening right now. All right. So, that's that. Uh, focus on principles, not tools, not models. I know some of you that have been with the channel, you know, forgive me. Um, but it's important to keep plugging for engineers before the next big course hits. If you want to get a asymmetric advantage on your time, I definitely recommend you check out principled AI coding. This is my take on how to master the principles of AI coding. AI coding came first. We're now agentic coding. All the principles of AI coding directly apply to agentic coding. Okay, agentic coding is a superset of AI coding. You want to focus on principles, not tools. All right? and you want to master the big three, that's going to show up in every tool, in every agent, in every multi- aent system context model prompt. I'm not going to pitch this for too much longer because the next phase 2 agent coding course is coming. I am killing the limited time discount after this week. All right, this goes up to the full price. This is risk-free. There is a no questions asked refund before lesson 4. If you get in here, if you think it's outdated, if you can't make the connection that it's about principles, not tools, not models, that's fine. Let me know. I'll refund you in full. The next course is coming focused on agentic coding and most importantly focused on you. There's so much work that you're doing now that you don't need to be doing. The next course we're going to tackle that problem head on with of course the brand new engineering primitive claw code. By the way, anyone that has taken principal a coding will receive a massive discount on the next agentic coding course. a little extra bonus and thank you for everyone that's taken the course, everyone that's trusted me with their time and attention. Thousands of engineers have been here and have gotten massive value out of principal AI coding. We discuss a lot of the big ideas that are now popular. You know, when we put this out, they were a lot less popular. I'll just say it that way. Plan-based coding, right? Specs, programmability, and we talk about closing the loop. This idea is everything. This is in lesson seven. Let the code write itself. That's that, right? So, focus on principles, not tools, not models. Both of these will change. These never change. All right? Principles never change. Subscribe, comment, let me know where you're taking your agentic development. You know where to find me every single Monday. Thanks so much for watching. Stay focused and keep building."
+}

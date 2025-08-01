@@ -371,9 +371,256 @@ $ claude "generate API documentation for the cached endpoints" > docs/caching.md
 3. **GitHub Enables Scale** - Analyze any repo without local setup
 4. **Combine for Power** - Use all three based on the task at hand
 
+## Claude Code Hooks: Deterministic Control
+
+Beyond the three core integrations, Claude Code provides a powerful hooks system that gives you deterministic control over agent behavior.
+
+### Understanding Hooks
+
+Hooks are scripts that run at specific points in Claude Code's lifecycle, allowing you to:
+- Block dangerous commands before execution
+- Log all agent activities
+- Add notifications when tasks complete
+- Transform inputs and outputs
+- Implement custom security policies
+
+### The Six Lifecycle Hooks
+
+<CodeExample language="yaml">
+# ~/.claude/settings.yaml
+hooks:
+  pre-prompt:      # Before processing your prompt
+  pre-tool-use:    # Before executing any tool
+  post-tool-use:   # After tool execution
+  notification:    # When Claude needs input
+  stop:            # When agent completes
+  pre-compact:     # Before context compaction
+</CodeExample>
+
+### Creating Your First Hook
+
+Let's create a security hook that prevents dangerous commands:
+
+<CodeExample language="python">
+#!/usr/bin/env python3
+# Save as: ~/.claude/hooks/pre-tool-use
+
+import sys
+import json
+
+# Read event data from stdin
+event = json.loads(sys.stdin.read())
+
+# Check for dangerous commands
+if event['tool_name'] == 'bash':
+    command = event.get('arguments', {}).get('command', '')
+    dangerous = ['rm -rf', 'format', '> /dev/']
+    
+    for pattern in dangerous:
+        if pattern in command:
+            print(f"BLOCKED: {command}")
+            sys.exit(1)  # Exit 1 blocks execution
+
+# Allow safe commands
+sys.exit(0)
+</CodeExample>
+
+### Making Hooks Executable
+
+<CodeExample language="bash">
+# Set permissions
+$ chmod +x ~/.claude/hooks/pre-tool-use
+
+# Test your hook
+$ echo '{"tool_name":"bash","arguments":{"command":"rm -rf /"}}' | ~/.claude/hooks/pre-tool-use
+BLOCKED: rm -rf /
+$ echo $?  # Should be 1 (blocked)
+</CodeExample>
+
+### Advanced Hook Patterns
+
+<Callout type="power-feature">
+Hooks can be written in any language and can chain multiple scripts for layered functionality.
+</Callout>
+
+#### Pattern 1: Comprehensive Logging
+
+<CodeExample language="python">
+#!/usr/bin/env python3
+# ~/.claude/hooks/log-everything.py
+
+import sys
+import json
+import datetime
+import os
+
+event = json.loads(sys.stdin.read())
+log_dir = os.path.expanduser("~/.claude/logs")
+os.makedirs(log_dir, exist_ok=True)
+
+# Create structured log entry
+log_entry = {
+    "timestamp": datetime.datetime.now().isoformat(),
+    "event_type": sys.argv[1] if len(sys.argv) > 1 else "unknown",
+    "session_id": event.get("session_id"),
+    "data": event
+}
+
+# Write to daily log file
+log_file = f"{log_dir}/{datetime.date.today()}.jsonl"
+with open(log_file, "a") as f:
+    f.write(json.dumps(log_entry) + "\n")
+
+sys.exit(0)  # Always allow continuation
+</CodeExample>
+
+#### Pattern 2: Voice Notifications
+
+<CodeExample language="bash">
+#!/bin/bash
+# ~/.claude/hooks/voice-notify.sh
+
+# Read JSON from stdin
+EVENT=$(cat)
+
+# Extract relevant info (using jq if available)
+if command -v jq &> /dev/null; then
+    MESSAGE=$(echo "$EVENT" | jq -r '.summary // "Task complete"')
+else
+    MESSAGE="Claude Code task complete"
+fi
+
+# Platform-specific text-to-speech
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    say "$MESSAGE"
+elif command -v espeak &> /dev/null; then
+    espeak "$MESSAGE"
+fi
+
+exit 0
+</CodeExample>
+
+#### Pattern 3: Multi-Hook Configuration
+
+<CodeExample language="yaml">
+# ~/.claude/settings.yaml
+hooks:
+  pre-tool-use:
+    - ~/.claude/hooks/security-check.py
+    - ~/.claude/hooks/log-everything.py pre-tool-use
+    - ~/.claude/hooks/rate-limiter.py
+  
+  post-tool-use:
+    - ~/.claude/hooks/log-everything.py post-tool-use
+    - ~/.claude/hooks/error-detector.py
+  
+  stop:
+    - ~/.claude/hooks/voice-notify.sh
+    - ~/.claude/hooks/summary-generator.py
+    - ~/.claude/hooks/git-auto-commit.sh
+</CodeExample>
+
+### Building an Observability System
+
+Combine hooks with a simple server for real-time monitoring:
+
+<CodeExample language="python">
+#!/usr/bin/env python3
+# ~/.claude/hooks/send-to-dashboard.py
+
+import sys
+import json
+import requests
+
+event = json.loads(sys.stdin.read())
+
+# Add metadata
+event['timestamp'] = datetime.now().isoformat()
+event['hostname'] = socket.gethostname()
+event['event_type'] = sys.argv[1]
+
+# Send to observability server
+try:
+    requests.post(
+        'http://localhost:3000/events',
+        json=event,
+        timeout=0.5  # Don't block
+    )
+except:
+    pass  # Fail silently
+
+sys.exit(0)
+</CodeExample>
+
+### Hook Best Practices
+
+1. **Keep Hooks Fast** - They run synchronously and can slow down Claude
+2. **Fail Gracefully** - Don't let hook failures break your workflow
+3. **Use Exit Codes** - 0 allows continuation, 1 blocks action
+4. **Layer Security** - Run security checks before logging
+5. **Test Thoroughly** - Hooks can affect all Claude operations
+
+### Common Hook Use Cases
+
+<CodeExample language="bash">
+# Development workflow hooks
+pre-prompt:    Add project context, inject templates
+pre-tool-use:  Validate file paths, check permissions  
+post-tool-use: Auto-format code, run linters
+stop:          Generate commit message, update docs
+
+# Security and compliance
+pre-tool-use:  Block sensitive file access
+post-tool-use: Audit log for compliance
+notification:  Alert security team on suspicious activity
+
+# Productivity enhancements  
+stop:          Time tracking, task completion
+notification:  Desktop/mobile notifications
+pre-compact:   Save important context before cleanup
+</CodeExample>
+
+<Quiz>
+  <Question
+    question="What exit code should a hook return to block an action?"
+    options={[
+      "0 - Success blocks the action",
+      "1 - Failure blocks the action", 
+      "-1 - Negative blocks the action",
+      "Any non-zero blocks the action"
+    ]}
+    correct={1}
+    explanation="Exit code 1 blocks the action. Exit code 0 allows the action to proceed. This follows Unix conventions where 0 means success."
+  />
+  
+  <Question
+    question="In what format do hooks receive event data?"
+    options={[
+      "Command line arguments",
+      "Environment variables",
+      "JSON via stdin",
+      "YAML configuration file"
+    ]}
+    correct={2}
+    explanation="Hooks receive event data as JSON through stdin (standard input), making them language-agnostic and easy to parse."
+  />
+  
+  <Question
+    question="Which hook is best for adding voice notifications when tasks complete?"
+    options={[
+      "pre-prompt - Before the task starts",
+      "notification - When user input is needed",
+      "stop - When the agent completes",
+      "post-tool-use - After each tool"
+    ]}
+    correct={2}
+    explanation="The 'stop' hook fires when the agent completes its task, making it perfect for completion notifications."
+  />
+</Quiz>
+
 ## Next Steps
 
-You've mastered the three core integrations. In the next module, we'll explore advanced workflows that leverage these integrations to transform how you develop software.
+You've mastered the three core integrations and learned how hooks provide deterministic control. In the next module, we'll explore advanced workflows that leverage these integrations to transform how you develop software.
 
 <Callout type="preview">
 **Coming Next**: Learn TDD with Claude, master plan mode, implement memory management, and discover the power of parallel Claude sessions.

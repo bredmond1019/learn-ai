@@ -1,0 +1,769 @@
+---
+title: "Building Multi-Agent Systems"
+description: "Master the art of orchestrating multiple Claude agents for complex workflows"
+duration: "3 hours"
+difficulty: "advanced"
+objectives:
+  - "Design and implement sub-agent architectures"
+  - "Build meta-agents that create other agents"
+  - "Orchestrate complex multi-agent workflows"
+  - "Implement comprehensive observability for agent systems"
+  - "Handle agent coordination and conflict resolution"
+tags:
+  - "multi-agent"
+  - "sub-agents"
+  - "meta-agents"
+  - "orchestration"
+  - "observability"
+lastUpdated: "2025-07-30"
+author: "Brandon J. Redmond"
+---
+
+import { CodeExample } from '@/components/claude-sdk/CodeEditor'
+import { Callout } from '@/components/ui/callout'
+import { Quiz } from '@/components/claude-sdk/Quiz'
+import { Diagram } from '@/components/claude-sdk/Diagram'
+
+# Building Multi-Agent Systems
+
+## Introduction {#introduction}
+
+Imagine starting your day, opening the terminal, firing up Claude Code, then kicking off a single prompt `/cook` that does the work it used to take you hours in minutes. This isn't science fiction—it's the reality of multi-agent systems.
+
+As we scale from one Claude instance to many, we unlock exponential productivity gains. But with great power comes great complexity. In this module, we'll master the art of building, orchestrating, and observing multi-agent systems that work together seamlessly.
+
+<Callout type="info">
+  **Key Insight**: Code is a commodity. Your fine-tuned prompts and agent architectures are where the real value lies. Master multi-agent systems, and you master the future of software development.
+</Callout>
+
+### Why Multi-Agent Systems Matter
+
+Single agents are powerful, but they have limitations:
+- **Context limits**: One agent can only hold so much in memory
+- **Task specialization**: General-purpose agents aren't optimal for specific tasks
+- **Parallel execution**: One agent = one task at a time
+- **Fault isolation**: If one agent fails, everything stops
+
+Multi-agent systems solve these problems through:
+- **Distributed context**: Each agent maintains its own focused context
+- **Specialization**: Agents optimized for specific domains
+- **Parallelization**: Multiple agents working simultaneously
+- **Resilience**: Failures isolated to individual agents
+
+## Understanding Sub-Agent Architecture {#sub-agent-architecture}
+
+Sub-agents are not just parallel Claude instances—they're a fundamentally different architecture where agents communicate through a primary orchestrator.
+
+### The Communication Flow
+
+<CodeExample
+  title="Sub-Agent Architecture"
+  language="text"
+  code={`┌─────────┐      ┌───────────────┐      ┌──────────────┐
+│   YOU   │ ───► │ PRIMARY AGENT │ ───► │  SUB-AGENT   │
+│         │      │ (Orchestrator)│      │ (Specialist) │
+│         │ ◄─── │               │ ◄─── │              │
+└─────────┘      └───────────────┘      └──────────────┘
+                         │
+                    Delegates to:
+                         │
+        ┌────────────────┼────────────────┐
+        ▼                ▼                ▼
+   Code Reviewer    Test Generator   Doc Writer`}
+/>
+
+<Callout type="warning">
+  **Critical Understanding**: Sub-agents respond to your PRIMARY agent, not to you. This changes everything about how you design their prompts and communication protocols.
+</Callout>
+
+### Sub-Agent Configuration Structure
+
+<CodeExample
+  title="Sub-Agent YAML Configuration"
+  language="yaml"
+  code={`# .claude/agents/code-reviewer.yaml
+name: code-reviewer
+description: |
+  Triggers: "review code", "check PR", "security audit"
+  Use when: Code review is needed before commits or deployments
+  
+  IMPORTANT: When prompting this agent, provide:
+  - File paths to review
+  - Type of review (security/performance/style)
+  - Specific concerns if any
+  
+tools:
+  - read_file
+  - grep
+  - bash
+  
+color: yellow
+
+prompt: |
+  ## Purpose
+  You are a senior code reviewer specializing in security, performance, and best practices.
+  
+  ## Review Checklist
+  1. Security vulnerabilities (SQL injection, XSS, etc.)
+  2. Performance bottlenecks
+  3. Code style and consistency
+  4. Test coverage
+  5. Documentation completeness
+  
+  ## Communication Protocol
+  Report findings in this format:
+  "Tell the user: [SEVERITY] - [ISSUE] in [file]:[line]"
+  
+  Severity levels: CRITICAL, HIGH, MEDIUM, LOW, INFO
+  
+  ## Important Context
+  You have NO conversation history. The primary agent will provide all necessary context.`}
+/>
+
+### The Two Big Mistakes to Avoid
+
+#### Mistake #1: Misunderstanding the System Prompt
+
+<CodeExample
+  title="Wrong vs Right Sub-Agent Design"
+  language="yaml"
+  code={`# ❌ WRONG - Treating it like a user prompt
+prompt: |
+  Review the code and tell me what's wrong
+  
+# ✅ RIGHT - Proper system prompt
+prompt: |
+  ## Role
+  You are a specialized code reviewer.
+  
+  ## Input Format
+  The primary agent will provide:
+  - File content or path
+  - Review type (security/performance/general)
+  
+  ## Output Format
+  Respond with: "Tell the user: [structured findings]"`}
+/>
+
+#### Mistake #2: Assuming Context
+
+Sub-agents start with a completely fresh context. They know nothing about your conversation, your project, or even what you're trying to accomplish.
+
+<CodeExample
+  title="Context-Aware Sub-Agent Design"
+  language="yaml"
+  code={`description: |
+  When prompting this agent, ALWAYS provide:
+  1. Current project context
+  2. Specific files or code sections
+  3. What kind of analysis is needed
+  4. Expected output format
+  
+  Example prompt from primary agent:
+  "Review the authentication module in src/auth.js for security vulnerabilities. 
+   This is a Node.js Express app using JWT tokens. Focus on token validation and user input sanitization."`}
+/>
+
+## Creating Effective Sub-Agents {#creating-sub-agents}
+
+### Step 1: Define Clear Boundaries
+
+Each sub-agent should have a single, well-defined purpose:
+
+<CodeExample
+  title="Specialized Agent Examples"
+  language="bash"
+  code={`# Test Generator Agent
+.claude/agents/
+├── test-generator.yaml      # Writes comprehensive tests
+├── performance-optimizer.yaml # Optimizes code performance
+├── security-scanner.yaml    # Scans for vulnerabilities
+├── doc-writer.yaml         # Generates documentation
+├── refactorer.yaml         # Refactors code patterns
+└── dependency-updater.yaml # Updates and audits dependencies`}
+/>
+
+### Step 2: Design Communication Protocols
+
+<CodeExample
+  title="Effective Communication Patterns"
+  language="yaml"
+  code={`# In your sub-agent prompt:
+prompt: |
+  ## Input Protocol
+  Expect JSON input from primary agent:
+  {
+    "task": "generate_tests",
+    "file_path": "src/user.service.js",
+    "framework": "jest",
+    "coverage_target": 80
+  }
+  
+  ## Output Protocol
+  Respond with structured output:
+  {
+    "status": "success",
+    "tests_created": 5,
+    "coverage_achieved": 85,
+    "message": "Tell the user: Created 5 comprehensive test cases achieving 85% coverage"
+  }`}
+/>
+
+### Step 3: Implement Tool Restrictions
+
+<CodeExample
+  title="Minimal Tool Assignment"
+  language="yaml"
+  code={`# Documentation agent - read only
+tools:
+  - read_file
+  - grep
+  
+# Test generator - read and write specific files
+tools:
+  - read_file
+  - write_file
+  - bash  # but only for running tests
+  
+# Deployment agent - careful tool selection
+tools:
+  - bash
+  - read_file
+  # NO write_file - prevent accidental production changes`}
+/>
+
+## Building Meta-Agents {#meta-agents}
+
+Meta-agents are agents that create other agents—automation creating automation.
+
+### The Meta-Agent Pattern
+
+<CodeExample
+  title="Meta-Agent Configuration"
+  language="yaml"
+  code={`# .claude/agents/meta-agent.yaml
+name: meta-agent
+description: |
+  PROACTIVELY use when user needs:
+  - A new specialized agent
+  - Automation for repetitive tasks
+  - Custom workflow implementation
+  
+  Triggers: "create agent", "build automation", "need an agent for"
+  
+tools:
+  - write_file
+  - read_file
+  - web_fetch  # To get latest Claude docs
+
+prompt: |
+  ## Purpose
+  Generate complete, production-ready Claude sub-agent configurations.
+  
+  ## Process
+  1. Analyze the user's requirements
+  2. Fetch latest Claude Code agent documentation
+  3. Design optimal agent configuration
+  4. Generate complete YAML file
+  
+  ## Agent Design Principles
+  - Single Responsibility: One agent, one purpose
+  - Minimal Tools: Only what's necessary
+  - Clear Triggers: Explicit activation conditions
+  - Robust Communication: Define input/output formats
+  
+  ## Configuration Template
+  Always include:
+  - name: kebab-case identifier
+  - description: Clear triggers and usage instructions
+  - tools: Minimal necessary set
+  - prompt: Complete system prompt with:
+    - Purpose section
+    - Process/workflow
+    - Communication protocol
+    - Context awareness note
+  
+  ## Critical Reminders
+  - Sub-agents have NO conversation context
+  - They only know what the primary agent tells them
+  - Design for standalone operation`}
+/>
+
+### Meta-Agent in Action
+
+<CodeExample
+  title="Using Meta-Agent to Build Agents"
+  language="bash"
+  code={`$ claude
+> I need automation for our daily standup reports
+
+# Claude activates meta-agent
+[META-AGENT]: Analyzing requirements for standup automation...
+
+# Meta-agent creates:
+$ cat .claude/agents/standup-reporter.yaml
+name: standup-reporter
+description: |
+  Triggers: "daily standup", "standup report", "what did I do yesterday"
+  Generates standup reports by analyzing git commits and completed tasks
+  
+tools:
+  - bash  # for git commands
+  - read_file
+  
+prompt: |
+  ## Purpose
+  Generate concise daily standup reports following the format:
+  - Yesterday: What was completed
+  - Today: What's planned
+  - Blockers: Any impediments
+  
+  ## Process
+  1. Run git log for yesterday's commits
+  2. Check TODO.md or task files
+  3. Summarize in standup format
+  
+  ## Output
+  "Tell the user: Here's your standup report:
+  [formatted report]"`}
+/>
+
+## Multi-Agent Orchestration Patterns {#orchestration-patterns}
+
+### Pattern 1: Sequential Processing Pipeline
+
+<CodeExample
+  title="Sequential Agent Pipeline"
+  language="typescript"
+  code={`// .claude/commands/deploy-pipeline
+#!/bin/bash
+# Sequential deployment pipeline with specialized agents
+
+echo "🚀 Starting deployment pipeline..."
+
+# Step 1: Security scan
+claude "use security-scanner to audit all changed files"
+if [ $? -ne 0 ]; then
+  echo "❌ Security issues found. Aborting."
+  exit 1
+fi
+
+# Step 2: Generate/update tests
+claude "use test-generator to ensure 80% coverage"
+
+# Step 3: Performance check
+claude "use performance-optimizer to check for bottlenecks"
+
+# Step 4: Update documentation
+claude "use doc-writer to update API docs"
+
+# Step 5: Deploy
+claude "use deployment-agent to ship to staging"
+
+echo "✅ Pipeline complete!"`}
+/>
+
+### Pattern 2: Parallel Specialization
+
+<CodeExample
+  title="Parallel Agent Execution"
+  language="bash"
+  code={`# Launch specialized agents in parallel
+$ claude "/parallel-refactor analyze src/ and refactor:
+  - frontend-expert: Optimize React components
+  - backend-expert: Improve API performance  
+  - database-expert: Optimize queries
+  - test-expert: Update affected tests"
+
+# Agents work simultaneously on different aspects
+# Primary agent coordinates and merges results`}
+/>
+
+### Pattern 3: Hierarchical Delegation
+
+<CodeExample
+  title="Hierarchical Agent Structure"
+  language="yaml"
+  code={`# Master architect agent
+name: system-architect
+delegates_to:
+  - frontend-lead
+  - backend-lead
+  - devops-lead
+
+# Team lead agents
+name: frontend-lead
+specialty: "Frontend architecture decisions"
+delegates_to:
+  - react-specialist
+  - css-optimizer
+  - a11y-expert
+  - performance-tuner
+
+# Specialist agents
+name: react-specialist
+specialty: "React component implementation"
+capabilities:
+  - Component optimization
+  - Hook patterns
+  - State management`}
+/>
+
+### Pattern 4: Event-Driven Agents
+
+<CodeExample
+  title="Event-Triggered Agent Activation"
+  language="typescript"
+  code={`// Event-driven agent system
+const agentTriggers = {
+  'file:changed:*.test.js': 'test-runner',
+  'pr:opened': 'code-reviewer',
+  'deploy:requested': 'deployment-validator',
+  'error:detected': 'debug-specialist',
+  'performance:degraded': 'performance-optimizer'
+};
+
+// Agents activate based on events
+// No manual orchestration needed`}
+/>
+
+## Observability at Scale {#observability-scale}
+
+As you scale to 10+ agents, observability becomes critical.
+
+### Building a Real-Time Observatory
+
+<CodeExample
+  title="Multi-Agent Observability Architecture"
+  language="text"
+  code={`┌─────────────┬─────────────┬─────────────┬─────────────┐
+│   Agent 1   │   Agent 2   │   Agent 3   │   Agent N   │
+│  (Frontend) │  (Backend)  │  (Testing)  │    (...)    │
+└──────┬──────┴──────┬──────┴──────┬──────┴──────┬──────┘
+       │             │              │             │
+       └─────────────┴──────┬───────┴─────────────┘
+                            │ Events via Hooks
+                            ▼
+                ┌───────────────────────┐
+                │  Observability Server │
+                │  • Event Aggregation  │
+                │  • Real-time Streaming│
+                │  • Conflict Detection │
+                └───────────┬───────────┘
+                            ▼
+                ┌───────────────────────┐
+                │   Live Dashboard      │
+                │  • Activity Timeline  │
+                │  • Agent Health       │
+                │  • Performance Metrics│
+                └───────────────────────┘`}
+/>
+
+### Key Observability Metrics
+
+<CodeExample
+  title="Agent Performance Tracking"
+  language="python"
+  code={`# Track these metrics for each agent
+metrics = {
+    'response_time': [],      # How fast agents complete tasks
+    'success_rate': 0,        # Task completion percentage
+    'tokens_used': 0,         # Resource consumption
+    'conflicts': [],          # File modification conflicts
+    'idle_time': 0,          # Time between tasks
+    'error_rate': 0,         # Failure percentage
+    'delegation_count': 0     # How often it uses sub-agents
+}
+
+# Visualize in real-time dashboard
+# Alert on anomalies
+# Optimize based on patterns`}
+/>
+
+<Callout type="info">
+  **Scaling Tip**: Use AI summarization (Claude Haiku) for event descriptions. Thousands of summaries cost < $0.20 and provide instant context.
+</Callout>
+
+## Project: Build a Complete Multi-Agent System {#project}
+
+Let's build a production-ready multi-agent system for automated code review and deployment.
+
+### Project Requirements
+
+Build a system that:
+1. Monitors your repository for changes
+2. Automatically reviews code with specialized agents
+3. Generates tests for new features
+4. Updates documentation
+5. Deploys to staging after all checks pass
+
+### Step 1: Create the Agent Ecosystem
+
+<CodeExample
+  title="Project Agent Structure"
+  language="bash"
+  code={`# Create agent directory structure
+mkdir -p .claude/agents/code-review-system
+
+# Core agents needed:
+.claude/agents/code-review-system/
+├── pr-monitor.yaml          # Watches for PR events
+├── security-reviewer.yaml   # Security-focused review
+├── performance-reviewer.yaml # Performance analysis
+├── test-generator.yaml      # Creates missing tests
+├── doc-updater.yaml        # Updates documentation
+├── deploy-coordinator.yaml  # Manages deployment
+└── meta-agent.yaml         # Creates new agents as needed`}
+/>
+
+### Step 2: Implement the Orchestrator
+
+<CodeExample
+  title="Main Orchestration Script"
+  language="typescript"
+  code={`// orchestrator.ts
+import { ClaudeCodeSDK } from '@anthropic/claude-code-sdk';
+
+class CodeReviewOrchestrator {
+  private agents = new Map<string, Agent>();
+  
+  async processRepository(repoPath: string) {
+    // Phase 1: Analysis (Parallel)
+    const analyses = await Promise.all([
+      this.runAgent('security-reviewer', { path: repoPath }),
+      this.runAgent('performance-reviewer', { path: repoPath }),
+      this.runAgent('test-coverage-analyzer', { path: repoPath })
+    ]);
+    
+    // Phase 2: Remediation (Sequential)
+    for (const issue of this.extractIssues(analyses)) {
+      if (issue.type === 'missing-tests') {
+        await this.runAgent('test-generator', { 
+          file: issue.file,
+          coverage: issue.targetCoverage 
+        });
+      }
+      
+      if (issue.type === 'outdated-docs') {
+        await this.runAgent('doc-updater', {
+          file: issue.file,
+          changes: issue.changes
+        });
+      }
+    }
+    
+    // Phase 3: Validation
+    const validation = await this.runAgent('deploy-coordinator', {
+      preChecks: analyses,
+      remediations: this.completedTasks
+    });
+    
+    return validation;
+  }
+  
+  private async runAgent(name: string, context: any) {
+    // Add observability
+    this.emit('agent:started', { name, context });
+    
+    const result = await this.agents.get(name).execute(context);
+    
+    this.emit('agent:completed', { name, result });
+    
+    return result;
+  }
+}`}
+/>
+
+### Step 3: Add Comprehensive Observability
+
+<CodeExample
+  title="Observability Integration"
+  language="typescript"
+  code={`// Add to each agent configuration
+hooks:
+  PreToolUse:
+    - command: "log-event.py --agent ${AGENT_NAME} --event pre-tool"
+  PostToolUse:
+    - command: "log-event.py --agent ${AGENT_NAME} --event post-tool"
+  Stop:
+    - command: "summarize-session.py --agent ${AGENT_NAME}"
+
+// Real-time dashboard shows:
+// - Which agents are active
+// - What files they're modifying
+// - Performance metrics
+// - Conflict detection
+// - Success/failure rates`}
+/>
+
+### Step 4: Implement Conflict Resolution
+
+<CodeExample
+  title="Conflict Detection and Resolution"
+  language="python"
+  code={`def detect_conflicts(events):
+    """Detect when multiple agents modify the same resources"""
+    file_modifications = defaultdict(list)
+    
+    for event in events:
+        if event.type == 'file_modified':
+            file_modifications[event.file_path].append({
+                'agent': event.agent_name,
+                'time': event.timestamp,
+                'changes': event.changes
+            })
+    
+    conflicts = []
+    for file_path, modifications in file_modifications.items():
+        if len(modifications) > 1:
+            conflicts.append({
+                'file': file_path,
+                'agents': [m['agent'] for m in modifications],
+                'resolution_needed': True
+            })
+    
+    return conflicts
+
+# Resolution strategies:
+# 1. Sequential execution for conflicting files
+# 2. Designated "owner" agent per file type
+# 3. Manual intervention for critical conflicts`}
+/>
+
+### Step 5: Deploy and Monitor
+
+<CodeExample
+  title="Deployment Configuration"
+  language="yaml"
+  code={`# .claude/deploy.yaml
+stages:
+  - name: pre-flight
+    agents:
+      - security-reviewer
+      - test-runner
+    parallel: true
+    
+  - name: staging
+    agents:
+      - deploy-coordinator
+    requires:
+      - all_tests_pass
+      - no_security_issues
+      
+  - name: monitoring
+    agents:
+      - performance-monitor
+      - error-tracker
+    continuous: true`}
+/>
+
+## Common Pitfalls and Solutions {#pitfalls}
+
+### Pitfall 1: Context Confusion
+
+**Problem**: Sub-agents acting on outdated or missing context
+**Solution**: Always pass complete context in each invocation
+
+### Pitfall 2: Agent Sprawl
+
+**Problem**: Too many similar agents
+**Solution**: Regular consolidation and meta-agent governance
+
+### Pitfall 3: Cascade Failures
+
+**Problem**: One agent failure breaks entire workflow
+**Solution**: Implement circuit breakers and fallback strategies
+
+### Pitfall 4: Resource Exhaustion
+
+**Problem**: Too many parallel agents overwhelming system
+**Solution**: Implement agent pooling and rate limiting
+
+## Quiz {#quiz}
+
+<Quiz>
+  <Question
+    question="What is the fundamental difference between parallel Claude sessions and sub-agents?"
+    options={[
+      "Sub-agents are faster",
+      "Sub-agents communicate with the primary agent, not with you",
+      "Sub-agents have more memory",
+      "Sub-agents can use different models"
+    ]}
+    correct={1}
+    explanation="Sub-agents communicate with your primary agent, creating a delegation pattern. They never communicate directly with you, which fundamentally changes how you design their prompts and workflows."
+  />
+  
+  <Question
+    question="When designing a sub-agent prompt, what must you always remember?"
+    options={[
+      "Make it as long as possible",
+      "Include your API keys",
+      "It has no conversation context",
+      "Use special formatting"
+    ]}
+    correct={2}
+    explanation="Sub-agents start with zero context. They only know what the primary agent explicitly provides, so prompts must be completely self-contained."
+  />
+  
+  <Question
+    question="What is a meta-agent?"
+    options={[
+      "An agent that monitors other agents",
+      "An agent that creates other agents",
+      "An agent with metadata",
+      "An agent that runs faster"
+    ]}
+    correct={1}
+    explanation="A meta-agent is designed to create other agents. It analyzes requirements and generates complete agent configurations, automating the automation process itself."
+  />
+  
+  <Question
+    question="Which orchestration pattern is best for dependent tasks?"
+    options={[
+      "Parallel execution",
+      "Event-driven activation",
+      "Sequential pipeline",
+      "Random assignment"
+    ]}
+    correct={2}
+    explanation="Sequential pipelines ensure dependent tasks execute in order, with each agent's output feeding into the next agent's input."
+  />
+  
+  <Question
+    question="What's the most cost-effective way to add context to observability events?"
+    options={[
+      "Store full conversation logs",
+      "Use Claude Opus for summaries",
+      "Use Claude Haiku for quick summaries",
+      "Skip summaries entirely"
+    ]}
+    correct={2}
+    explanation="Claude Haiku provides ultra-fast, cheap summarization. Thousands of event summaries cost less than $0.20 while providing valuable context."
+  />
+</Quiz>
+
+## Next Steps
+
+Congratulations! You've mastered multi-agent systems with Claude Code. You can now:
+
+- Design and implement sophisticated sub-agent architectures
+- Build meta-agents that create custom automation
+- Orchestrate complex workflows with multiple specialized agents
+- Implement comprehensive observability for agent systems
+- Handle coordination and conflict resolution at scale
+
+### Continue Your Journey
+
+1. **Experiment**: Start with 2-3 specialized agents
+2. **Build**: Create a meta-agent for your common workflows  
+3. **Scale**: Add observability before scaling to 10+ agents
+4. **Share**: Join the Claude community to share patterns
+
+<Callout type="success">
+  **You've completed the Claude Code Mastery path!** You're now equipped to build sophisticated AI-powered development systems that multiply your impact as an engineer.
+</Callout>
+
+Remember: The future of software development isn't about writing more code—it's about orchestrating intelligent agents that write better code, faster, with fewer errors.
+
+Welcome to the age of multi-agent engineering. The possibilities are limitless.

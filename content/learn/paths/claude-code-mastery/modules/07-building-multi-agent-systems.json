@@ -1,0 +1,134 @@
+{
+  "metadata": {
+    "id": "building-multi-agent-systems",
+    "pathId": "claude-code-mastery",
+    "title": "Building Multi-Agent Systems",
+    "description": "Master the art of orchestrating multiple Claude agents for complex workflows, from sub-agents to meta-agents",
+    "duration": "3 hours",
+    "type": "project",
+    "difficulty": "advanced",
+    "order": 7,
+    "prerequisites": ["06-mastering-claude-hooks"],
+    "objectives": [
+      "Design and implement sub-agent architectures",
+      "Build meta-agents that create other agents",
+      "Orchestrate complex multi-agent workflows",
+      "Implement comprehensive observability for agent systems",
+      "Handle agent coordination and conflict resolution"
+    ],
+    "tags": ["multi-agent", "sub-agents", "meta-agents", "orchestration", "observability"],
+    "version": "1.0.0",
+    "lastUpdated": "2025-07-30",
+    "author": "Brandon J. Redmond"
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction to Multi-Agent Systems",
+      "type": "content",
+      "order": 1,
+      "estimatedDuration": "15 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-multi-agent-systems.mdx#introduction"
+      }
+    },
+    {
+      "id": "sub-agent-architecture",
+      "title": "Understanding Sub-Agent Architecture",
+      "type": "content",
+      "order": 2,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-multi-agent-systems.mdx#sub-agent-architecture"
+      }
+    },
+    {
+      "id": "creating-sub-agents",
+      "title": "Creating Effective Sub-Agents",
+      "type": "content",
+      "order": 3,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-multi-agent-systems.mdx#creating-sub-agents"
+      }
+    },
+    {
+      "id": "meta-agents",
+      "title": "Building Meta-Agents",
+      "type": "content",
+      "order": 4,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-multi-agent-systems.mdx#meta-agents"
+      }
+    },
+    {
+      "id": "orchestration-patterns",
+      "title": "Multi-Agent Orchestration Patterns",
+      "type": "content",
+      "order": 5,
+      "estimatedDuration": "30 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-multi-agent-systems.mdx#orchestration-patterns"
+      }
+    },
+    {
+      "id": "observability-scale",
+      "title": "Observability at Scale",
+      "type": "content",
+      "order": 6,
+      "estimatedDuration": "20 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-multi-agent-systems.mdx#observability-scale"
+      }
+    },
+    {
+      "id": "project",
+      "title": "Build a Complete Multi-Agent System",
+      "type": "project",
+      "order": 7,
+      "estimatedDuration": "45 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-multi-agent-systems.mdx#project"
+      }
+    },
+    {
+      "id": "quiz",
+      "title": "Knowledge Check",
+      "type": "quiz",
+      "order": 8,
+      "estimatedDuration": "10 minutes",
+      "content": {
+        "type": "mdx",
+        "source": "07-building-multi-agent-systems.mdx#quiz"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "title": "Claude Code Sub-Agents Documentation",
+      "type": "documentation",
+      "url": "https://docs.anthropic.com/claude-code/sub-agents",
+      "required": true
+    },
+    {
+      "title": "Multi-Agent Observability Repository",
+      "type": "code",
+      "url": "https://github.com/indydevdan/claude-hooks-observability",
+      "required": false
+    }
+  ],
+  "assessmentCriteria": {
+    "minimumScore": 80,
+    "requiredSections": ["sub-agent-architecture", "creating-sub-agents", "project"],
+    "timeTracking": true,
+    "completionCertificate": true
+  }
+}

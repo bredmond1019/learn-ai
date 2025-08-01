@@ -1,0 +1,386 @@
+---
+title: "Building Domain Expert AI: The Last Mile Problem Nobody Talks About"
+date: "2025-07-25"
+excerpt: "Former doctor turned AI engineer reveals why 95% isn't good enough for specialized industries and shares the exact system Anterior uses to achieve 99%+ accuracy in healthcare AI."
+tags: ["AI Engineering", "Domain Expertise", "Healthcare Tech", "Enterprise AI"]
+author: "Brandon"
+---
+
+"Your AI is 95% accurate? That's nice. Come back when it's 99.9%."
+
+That's what every enterprise client thinks but rarely says out loud. And they're right.
+
+When Christopher Lovejoy left his medical career after 8 years to build AI systems, he discovered something that most AI engineers miss: The gap between a demo-worthy AI and production-ready domain expert system isn't technical—it's contextual.
+
+Now at Anterior, his team processes healthcare decisions for 50 million Americans. They've cracked the code on what he calls the "last mile problem"—turning generic AI into domain-native intelligence that actually works in specialized industries.
+
+And here's the kicker: It has almost nothing to do with better models or fancier pipelines.
+
+## The Dirty Secret of Vertical AI Applications 🏥
+
+Let me paint you a picture. You've built an AI system that can analyze medical records. It correctly identifies conditions, extracts relevant information, and makes recommendations. Your accuracy? A solid 95%.
+
+Ship it, right?
+
+Not so fast.
+
+Here's a real example from Anterior's system. A 78-year-old patient needs knee surgery. The AI must answer: "Is there documentation of unsuccessful conservative therapy for at least six weeks?"
+
+Sounds simple. It's not.
+
+<Callout type="warning">
+**The Hidden Complexity**: 
+- What counts as "conservative therapy"? (Physical therapy? Medication? Weight loss?)
+- What defines "unsuccessful"? (No improvement? Partial improvement? How much is enough?)
+- What constitutes "documentation"? (Explicit notes? Can we infer from prescription dates?)
+
+Get any of these nuances wrong, and you've just denied someone necessary medical care—or approved unnecessary surgery.
+</Callout>
+
+This is the last mile problem: Your model can reason beautifully, but it doesn't understand the unwritten rules, edge cases, and context-specific interpretations that domain experts navigate unconsciously.
+
+## Why Better Models Won't Save You 📊
+
+"We invested a lot of time and effort improving our pipelines," Christopher admits. "We hit 95% accuracy and thought we were onto something."
+
+Then reality hit.
+
+<CodeExample
+  title="The Plateau Effect"
+  language="text"
+  code={`Model Performance Progression:
+GPT-3.5 → GPT-4: 85% → 92% (+7%)
+Pipeline optimization: 92% → 95% (+3%)
+More compute/params: 95% → 95.5% (+0.5%)
+
+After 95%: Diminishing returns on model improvements alone`}
+/>
+
+Here's what Anterior discovered: **Models aren't the bottleneck anymore**. They can reason. They can analyze. What they can't do is understand that when a doctor writes "patient appears stable," it might mean completely different things depending on whether it's in an emergency room note versus an annual checkup.
+
+The solution? Stop trying to make your model smarter. Start making it more contextual.
+
+## The Adaptive Domain Intelligence Engine 🧠
+
+Anterior's breakthrough came from building what they call an Adaptive Domain Intelligence Engine. Forget the fancy name—here's what it actually does:
+
+### The System Architecture
+
+<CodeExample
+  title="Domain Intelligence Flow"
+  language="text"
+  code={`Production Application
+    ↓
+Domain Expert Reviews
+    ↓
+Three Outputs:
+1. Performance Metrics (What's our accuracy?)
+2. Failure Mode Ontology (How do we fail?)
+3. Suggested Improvements (Domain knowledge to add)
+    ↓
+PM Prioritization
+    ↓
+Engineering Implementation
+    ↓
+Back to Production`}
+/>
+
+The magic isn't in any single component—it's in how they work together to create a self-improving system that gets smarter with every decision.
+
+## Step 1: Define What Actually Matters 🎯
+
+Most AI teams track accuracy. Anterior learned that's like measuring a surgeon's success by how many operations they perform.
+
+Instead, they track what their customers actually care about:
+
+### Healthcare Example:
+- **Metric**: False approval rate
+- **Why it matters**: Approving unnecessary care costs millions and risks patient safety
+- **How it's different**: Generic accuracy might hide critical false approvals in the noise
+
+### Other Industry Translations:
+- **Legal**: Missed critical contract terms (not overall extraction accuracy)
+- **Fraud Detection**: Dollar loss prevented (not fraud detection rate)
+- **Education**: Student outcome improvement (not test score prediction accuracy)
+
+<Callout type="insight">
+**The One-Metric Rule**: Push yourself to identify the single metric that, if optimized, would make your customers successful. Everything else is vanity metrics.
+</Callout>
+
+## Step 2: Build Your Failure Taxonomy 🔍
+
+This is where domain expertise becomes crucial. Anterior discovered their AI fails in three main ways:
+
+1. **Medical Record Extraction** (Can't find the information)
+2. **Clinical Reasoning** (Found it but interpreted it wrong)
+3. **Rules Interpretation** (Right reasoning, wrong application of guidelines)
+
+But here's the clever part: They go deeper.
+
+<CodeExample
+  title="Failure Mode Hierarchy"
+  language="python"
+  code={`failure_modes = {
+    "medical_record_extraction": {
+        "missing_data": ["Lab results not found", "Medication history incomplete"],
+        "wrong_data": ["Extracted wrong date", "Confused patient identifiers"],
+        "partial_data": ["Found diagnosis but missed severity"]
+    },
+    "clinical_reasoning": {
+        "temporal_confusion": ["Mixed past/present conditions"],
+        "causal_errors": ["Misattributed symptoms to wrong condition"],
+        "severity_misclass": ["Moderate classified as severe"]
+    },
+    "rules_interpretation": {
+        "ambiguous_terms": ["Conservative therapy interpretation"],
+        "threshold_errors": ["6 weeks vs 8 weeks of treatment"],
+        "exception_handling": ["Missed valid exemptions"]
+    }
+}`}
+/>
+
+Why does this matter? Because now you can quantify exactly which failure modes cost you the most.
+
+## Step 3: The Domain Expert Feedback Loop 🔄
+
+Here's where Anterior's approach gets brilliant. They built a custom interface where clinicians can:
+
+1. **Review AI decisions** (with full medical context)
+2. **Mark correct/incorrect** (tracking accuracy)
+3. **Tag failure modes** (building that taxonomy)
+4. **Suggest domain knowledge** (the secret sauce)
+
+<CodeExample
+  title="Domain Knowledge Addition"
+  language="typescript"
+  code={`interface DomainKnowledgeAddition {
+  case_id: string;
+  error_type: "interpretation" | "missing_context" | "ambiguous_term";
+  
+  // What the AI got wrong
+  ai_interpretation: "No suspicion of condition";
+  
+  // What it should understand
+  domain_insight: "In medical context, 'suspicion' includes:
+    - Confirmed diagnosis
+    - Differential diagnosis listing
+    - Order for diagnostic tests
+    - Referral to specialist";
+    
+  // How this applies
+  impact: "Would have changed denial to approval";
+}`}
+/>
+
+The clinician can add this knowledge, it goes through automated testing, and if it improves performance on the test set—boom, it's live in production. Sometimes within hours.
+
+## Step 4: The PM as Orchestra Conductor 🎼
+
+The secret weapon in Anterior's system? A domain expert product manager who sits at the center of everything.
+
+They see:
+- Which failure modes cause the most false approvals
+- Which improvements engineers are working on
+- What domain knowledge clinicians are suggesting
+- How each change impacts the key metrics
+
+Their job: Prioritize ruthlessly.
+
+<Callout type="success">
+**Real prioritization example**:
+- Failure Mode A: 50 false approvals/month, easy fix (2 days)
+- Failure Mode B: 100 false approvals/month, hard fix (2 weeks)
+- Failure Mode C: 20 false approvals/month, but high-severity cases
+
+The PM might choose C first because those 20 cases represent potential patient harm, not just cost.
+</Callout>
+
+## The Implementation Playbook 📚
+
+Want to build your own domain-native AI? Here's the step-by-step:
+
+### Phase 1: Measurement Infrastructure (Week 1-2)
+
+<CodeExample
+  title="Basic Measurement Setup"
+  language="python"
+  code={`class DomainExpertReview:
+    def __init__(self):
+        self.metrics_tracker = MetricsDB()
+        self.failure_modes = FailureModeDB()
+        
+    def review_decision(self, case_id, ai_output, expert_assessment):
+        # Track performance
+        is_correct = expert_assessment.decision == ai_output.decision
+        self.metrics_tracker.log(case_id, is_correct)
+        
+        # Capture failure mode if wrong
+        if not is_correct:
+            failure_mode = expert_assessment.classify_failure(ai_output)
+            self.failure_modes.log(case_id, failure_mode)
+            
+        # Capture suggested improvements
+        if expert_assessment.has_domain_insight:
+            self.queue_improvement(
+                case_id, 
+                expert_assessment.domain_insight
+            )
+            
+        return ReviewResult(is_correct, failure_mode)`}
+/>
+
+### Phase 2: Failure Mode Discovery (Week 3-4)
+
+Start simple:
+1. Review 100 production outputs
+2. Group similar failures
+3. Name the patterns
+4. Count frequency
+5. Estimate business impact
+
+### Phase 3: Domain Expert Integration (Week 5-6)
+
+Build the review interface:
+- Show full context (not just AI output)
+- Make marking failures fast (< 30 seconds per case)
+- Allow free-text domain insights
+- Track reviewer confidence
+
+### Phase 4: The Improvement Loop (Ongoing)
+
+<CodeExample
+  title="Improvement Workflow"
+  language="python"
+  code={`def improvement_cycle(failure_mode_data):
+    # 1. Engineer gets prioritized failure mode
+    target_cases = failure_mode_data.get_examples(n=100)
+    
+    # 2. Create isolated test set
+    test_suite = TestSuite(target_cases)
+    baseline_score = test_suite.evaluate(current_model)
+    
+    # 3. Iterate on improvements
+    improvements = [
+        "better_prompt_engineering",
+        "add_domain_context", 
+        "adjust_parsing_logic",
+        "incorporate_expert_rules"
+    ]
+    
+    for improvement in improvements:
+        new_score = test_suite.evaluate(improved_model)
+        if new_score > baseline_score * 1.1:  # 10% improvement
+            break
+            
+    # 4. Validate on broader test set
+    if passes_regression_tests(improved_model):
+        deploy_to_production(improved_model)
+        
+    return improvement_metrics`}
+/>
+
+## The Counter-Intuitive Insights 💡
+
+After building this system, Anterior discovered several surprises:
+
+### Insight 1: Domain Experts > ML Engineers (Sometimes)
+
+"We found that a clinical person adding one piece of domain knowledge could improve performance more than an engineer spending a week on model optimization."
+
+### Insight 2: Speed Beats Perfection
+
+Getting domain feedback in hours instead of weeks meant they could iterate 10x faster. Those iterations compound.
+
+### Insight 3: Customers Become Co-Creators
+
+When clients see their feedback directly improving the system, they become invested partners, not just users.
+
+## Common Pitfalls and How to Avoid Them ⚠️
+
+### Pitfall 1: Letting Engineers Define Failure Modes
+
+**Problem**: Technical categorization that doesn't map to business impact
+
+**Solution**: Always have domain experts lead the taxonomy creation
+
+### Pitfall 2: Optimizing for Overall Accuracy
+
+**Problem**: 99% overall accuracy might hide 50% failure on critical cases
+
+**Solution**: Weight your metrics by business impact, not case frequency
+
+### Pitfall 3: Slow Feedback Loops
+
+**Problem**: Monthly review cycles mean glacial improvement
+
+**Solution**: Build tools that make review fast and rewarding for experts
+
+### Pitfall 4: Not Closing the Loop
+
+**Problem**: Collecting feedback but not showing how it improves the system
+
+**Solution**: Show experts their impact: "Your insight fixed 73 cases this month"
+
+## The ROI of Domain Intelligence 📈
+
+Let's talk numbers. Anterior went from 95% to 99%+ accuracy. That 4% improvement?
+
+- **Cost savings**: Millions in prevented false approvals
+- **Time savings**: 10x faster review cycles
+- **Trust building**: Clients extending contracts before they expire
+- **Team morale**: Engineers see immediate impact of their work
+
+<Callout type="success">
+**The Compound Effect**: Each improvement makes the next one easier. Your domain experts get better at spotting patterns. Your engineers get better at implementing fixes. Your PMs get better at prioritization. The flywheel accelerates.
+</Callout>
+
+## Your Domain AI Playbook 🎮
+
+Ready to build your own domain-native AI? Here's your 30-day plan:
+
+### Week 1: Baseline Reality
+- Define your one key metric
+- Measure current performance
+- Interview 5 customers about what really matters
+
+### Week 2: Failure Archaeology
+- Review 100 production outputs
+- Categorize failures with domain experts
+- Quantify business impact per failure type
+
+### Week 3: Build the Loop
+- Create simple review interface
+- Recruit 2-3 domain experts
+- Set up daily review sessions (start with 30 min/day)
+
+### Week 4: First Improvements
+- Pick top failure mode
+- Create test set
+- Iterate until 10%+ improvement
+- Deploy and measure
+
+### Week 5+: Scale the System
+- Add more reviewers
+- Automate common improvements
+- Build customer-facing metrics dashboard
+- Celebrate wins with the team
+
+## The Future of Vertical AI 🚀
+
+Here's what Christopher's journey teaches us: **The winners in vertical AI won't be those with the best models—they'll be those with the best systems for incorporating domain expertise.**
+
+While everyone else is waiting for GPT-5 to magically understand industry nuances, companies like Anterior are building systematic approaches to teach current models what they need to know.
+
+The tools are there. The models are good enough. What's missing is the system to bridge that last mile.
+
+<Callout type="action">
+**Your Next Step**: Look at your AI system's failures. Pick the most expensive one. Find one domain expert who can explain why it fails. Build a simple way to capture and test their insights. 
+
+That's it. That's how you start building domain-native AI.
+</Callout>
+
+The gap between 95% and 99% isn't about better algorithms. It's about better understanding.
+
+And understanding comes from building systems that learn from experts, not just data.
+
+Welcome to the future of vertical AI—where domain expertise is the new moat.

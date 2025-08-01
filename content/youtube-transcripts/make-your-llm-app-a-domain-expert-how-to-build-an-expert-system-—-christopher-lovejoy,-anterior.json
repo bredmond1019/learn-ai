@@ -1,0 +1,2902 @@
+{
+  "videoId": "MRM7oA3JsFs",
+  "language": "en",
+  "segments": [
+    {
+      "text": "[Music]",
+      "start": 1.72,
+      "duration": 6.91
+    },
+    {
+      "text": "hi everybody So I'm Christopher Lovejoy",
+      "start": 14.559,
+      "duration": 2.64
+    },
+    {
+      "text": "I'm a medical doctor turned AI engineer",
+      "start": 17.199,
+      "duration": 2.641
+    },
+    {
+      "text": "and I'm going to share a playbook for",
+      "start": 19.84,
+      "duration": 2.16
+    },
+    {
+      "text": "building a domain native LLM application",
+      "start": 22,
+      "duration": 2.56
+    },
+    {
+      "text": "Uh so I spent about eight years um",
+      "start": 24.56,
+      "duration": 2.639
+    },
+    {
+      "text": "training and working as a medical doctor",
+      "start": 27.199,
+      "duration": 1.84
+    },
+    {
+      "text": "and then I spent the last seven years",
+      "start": 29.039,
+      "duration": 1.681
+    },
+    {
+      "text": "building AI systems that incorporate",
+      "start": 30.72,
+      "duration": 1.518
+    },
+    {
+      "text": "medical domain expertise Um and I did",
+      "start": 32.239,
+      "duration": 3.521
+    },
+    {
+      "text": "that at a few different startups So I",
+      "start": 35.76,
+      "duration": 1.52
+    },
+    {
+      "text": "worked at a a health tech startup called",
+      "start": 37.28,
+      "duration": 1.68
+    },
+    {
+      "text": "Serakare um doing tech enabled home care",
+      "start": 38.96,
+      "duration": 2.88
+    },
+    {
+      "text": "Uh the startup recently hit 500 million",
+      "start": 41.84,
+      "duration": 1.92
+    },
+    {
+      "text": "ARR Um worked at various other startups",
+      "start": 43.76,
+      "duration": 2.56
+    },
+    {
+      "text": "and I currently work at Anterior",
+      "start": 46.32,
+      "duration": 2.64
+    },
+    {
+      "text": "And Anterior is a New York based",
+      "start": 48.96,
+      "duration": 2.88
+    },
+    {
+      "text": "clinicianled uh company Here we provide",
+      "start": 51.84,
+      "duration": 1.92
+    },
+    {
+      "text": "clinical reasoning tools to automate and",
+      "start": 53.76,
+      "duration": 3.279
+    },
+    {
+      "text": "accelerate uh health insurance um and",
+      "start": 57.039,
+      "duration": 2.561
+    },
+    {
+      "text": "healthcare administration Uh we serve",
+      "start": 59.6,
+      "duration": 2.32
+    },
+    {
+      "text": "about 50 million we serve uh health",
+      "start": 61.92,
+      "duration": 2
+    },
+    {
+      "text": "insurance providers that cover about 50",
+      "start": 63.92,
+      "duration": 1.36
+    },
+    {
+      "text": "million lives uh in the US And we spend",
+      "start": 65.28,
+      "duration": 3.199
+    },
+    {
+      "text": "a lot of time thinking about what does",
+      "start": 68.479,
+      "duration": 1.201
+    },
+    {
+      "text": "it mean to build a domain native LLM",
+      "start": 69.68,
+      "duration": 2.799
+    },
+    {
+      "text": "application whether it's in healthcare",
+      "start": 72.479,
+      "duration": 1.841
+    },
+    {
+      "text": "um or otherwise Uh and that's what I'm",
+      "start": 74.32,
+      "duration": 2.24
+    },
+    {
+      "text": "going to talk about today And in",
+      "start": 76.56,
+      "duration": 2.48
+    },
+    {
+      "text": "particular our bet really is that when",
+      "start": 79.04,
+      "duration": 2.56
+    },
+    {
+      "text": "it comes to vertical AI applications the",
+      "start": 81.6,
+      "duration": 2.64
+    },
+    {
+      "text": "system that you build for incorporating",
+      "start": 84.24,
+      "duration": 1.519
+    },
+    {
+      "text": "your domain insights is far more",
+      "start": 85.759,
+      "duration": 1.921
+    },
+    {
+      "text": "important than the sophistication of",
+      "start": 87.68,
+      "duration": 1.2
+    },
+    {
+      "text": "your models and your pipelines So the",
+      "start": 88.88,
+      "duration": 2.16
+    },
+    {
+      "text": "limitation these days is not like how",
+      "start": 91.04,
+      "duration": 2.48
+    },
+    {
+      "text": "powerful is your model and whether it",
+      "start": 93.52,
+      "duration": 1.44
+    },
+    {
+      "text": "can uh reason to the level you need it",
+      "start": 94.96,
+      "duration": 2.08
+    },
+    {
+      "text": "to It's more can your model understand",
+      "start": 97.04,
+      "duration": 2.8
+    },
+    {
+      "text": "the context um in that industry for that",
+      "start": 99.84,
+      "duration": 3.12
+    },
+    {
+      "text": "particular customer uh and perform",
+      "start": 102.96,
+      "duration": 2
+    },
+    {
+      "text": "perform the reasoning that it needs to",
+      "start": 104.96,
+      "duration": 2
+    },
+    {
+      "text": "and the way that you enable that and the",
+      "start": 106.96,
+      "duration": 1.839
+    },
+    {
+      "text": "way that you uh kind of iterate quickly",
+      "start": 108.799,
+      "duration": 1.761
+    },
+    {
+      "text": "with your customers is by building the",
+      "start": 110.56,
+      "duration": 1.76
+    },
+    {
+      "text": "system around it and there's various",
+      "start": 112.32,
+      "duration": 1.839
+    },
+    {
+      "text": "components to that um that's what I'm",
+      "start": 114.159,
+      "duration": 1.841
+    },
+    {
+      "text": "going to talk about So this is the kind",
+      "start": 116,
+      "duration": 2.64
+    },
+    {
+      "text": "of high level schematic and we're going",
+      "start": 118.64,
+      "duration": 1.119
+    },
+    {
+      "text": "to go through each of these parts um",
+      "start": 119.759,
+      "duration": 1.521
+    },
+    {
+      "text": "throughout the talk Uh as you'll see",
+      "start": 121.28,
+      "duration": 2.08
+    },
+    {
+      "text": "right in the middle there's the the PM",
+      "start": 123.36,
+      "duration": 2.64
+    },
+    {
+      "text": "um and this is you know in our",
+      "start": 126,
+      "duration": 1.6
+    },
+    {
+      "text": "experience it makes sense for this to be",
+      "start": 127.6,
+      "duration": 1.04
+    },
+    {
+      "text": "a domain um expert um product manager So",
+      "start": 128.64,
+      "duration": 2.959
+    },
+    {
+      "text": "in our context it's clinical um and I'm",
+      "start": 131.599,
+      "duration": 2.881
+    },
+    {
+      "text": "going to go through go through this in",
+      "start": 134.48,
+      "duration": 1.04
+    },
+    {
+      "text": "more detail shortly But first I think",
+      "start": 135.52,
+      "duration": 2.4
+    },
+    {
+      "text": "it's worth taking a quick step back and",
+      "start": 137.92,
+      "duration": 1.44
+    },
+    {
+      "text": "asking you know why is it so hard to",
+      "start": 139.36,
+      "duration": 2.239
+    },
+    {
+      "text": "successfully apply large language models",
+      "start": 141.599,
+      "duration": 1.841
+    },
+    {
+      "text": "to specialized industries",
+      "start": 143.44,
+      "duration": 2.4
+    },
+    {
+      "text": "We think it's because of the last mile",
+      "start": 145.84,
+      "duration": 1.44
+    },
+    {
+      "text": "problem And what I mean by the last mile",
+      "start": 147.28,
+      "duration": 2.4
+    },
+    {
+      "text": "problem is is this problem that I I kind",
+      "start": 149.68,
+      "duration": 1.44
+    },
+    {
+      "text": "of touched on just now around uh giving",
+      "start": 151.12,
+      "duration": 3.199
+    },
+    {
+      "text": "the model and your your kind of AI",
+      "start": 154.319,
+      "duration": 2
+    },
+    {
+      "text": "system more generally context and",
+      "start": 156.319,
+      "duration": 2.081
+    },
+    {
+      "text": "understanding of the specific workflow",
+      "start": 158.4,
+      "duration": 2
+    },
+    {
+      "text": "for that customer for that industry Um",
+      "start": 160.4,
+      "duration": 3.36
+    },
+    {
+      "text": "and",
+      "start": 163.76,
+      "duration": 2.479
+    },
+    {
+      "text": "I'm going to illustrate that with an",
+      "start": 166.239,
+      "duration": 1.201
+    },
+    {
+      "text": "example um from a clinical case that",
+      "start": 167.44,
+      "duration": 2.64
+    },
+    {
+      "text": "we've processed Our AI anterior is",
+      "start": 170.08,
+      "duration": 2.48
+    },
+    {
+      "text": "called Florence and a 78-y old female",
+      "start": 172.56,
+      "duration": 4.08
+    },
+    {
+      "text": "patient uh presented with right knee",
+      "start": 176.64,
+      "duration": 2.319
+    },
+    {
+      "text": "pain The doctor recommended a knee",
+      "start": 178.959,
+      "duration": 2.481
+    },
+    {
+      "text": "arthoscopy and as part of deciding",
+      "start": 181.44,
+      "duration": 3.04
+    },
+    {
+      "text": "whether this treatment was appropriate",
+      "start": 184.48,
+      "duration": 1.2
+    },
+    {
+      "text": "whether the doctor made an appropriate",
+      "start": 185.68,
+      "duration": 1.279
+    },
+    {
+      "text": "decision Florence needs to answer",
+      "start": 186.959,
+      "duration": 1.521
+    },
+    {
+      "text": "various questions Uh one of those",
+      "start": 188.48,
+      "duration": 1.839
+    },
+    {
+      "text": "questions is is there documentation of",
+      "start": 190.319,
+      "duration": 2.161
+    },
+    {
+      "text": "unsuccessful conservative therapy for at",
+      "start": 192.48,
+      "duration": 1.759
+    },
+    {
+      "text": "least six weeks Um and you know on the",
+      "start": 194.239,
+      "duration": 3.681
+    },
+    {
+      "text": "surface of it that might seem relatively",
+      "start": 197.92,
+      "duration": 1.52
+    },
+    {
+      "text": "simple I mean I appreciate maybe not a",
+      "start": 199.44,
+      "duration": 2.24
+    },
+    {
+      "text": "lot of doctors in the room so you might",
+      "start": 201.68,
+      "duration": 1.44
+    },
+    {
+      "text": "not know what conservative therapy is",
+      "start": 203.12,
+      "duration": 1.92
+    },
+    {
+      "text": "but um actually there's a lot of kind of",
+      "start": 205.04,
+      "duration": 3.119
+    },
+    {
+      "text": "like hidden complexity in answering a",
+      "start": 208.159,
+      "duration": 1.681
+    },
+    {
+      "text": "question like this So for example you",
+      "start": 209.84,
+      "duration": 2.88
+    },
+    {
+      "text": "know conservative therapy um typically",
+      "start": 212.72,
+      "duration": 2.56
+    },
+    {
+      "text": "what we mean by conservative therapy is",
+      "start": 215.28,
+      "duration": 1.519
+    },
+    {
+      "text": "when there's some kind of option for uh",
+      "start": 216.799,
+      "duration": 2.641
+    },
+    {
+      "text": "you know a more aggressive treatment",
+      "start": 219.44,
+      "duration": 1.04
+    },
+    {
+      "text": "maybe a surgical operation that's like",
+      "start": 220.48,
+      "duration": 2.08
+    },
+    {
+      "text": "the the you know the surgical treatment",
+      "start": 222.56,
+      "duration": 2.399
+    },
+    {
+      "text": "And then if you're deciding not to",
+      "start": 224.959,
+      "duration": 1.28
+    },
+    {
+      "text": "operate and you want to try something",
+      "start": 226.239,
+      "duration": 1.441
+    },
+    {
+      "text": "conservative first that's like the",
+      "start": 227.68,
+      "duration": 1.199
+    },
+    {
+      "text": "conservative therapy So it might be you",
+      "start": 228.879,
+      "duration": 1.601
+    },
+    {
+      "text": "know do physiootherapy uh lose weight um",
+      "start": 230.48,
+      "duration": 3.44
+    },
+    {
+      "text": "do kind of you know non-invasive things",
+      "start": 233.92,
+      "duration": 1.92
+    },
+    {
+      "text": "that might help resolve the problem But",
+      "start": 235.84,
+      "duration": 2.16
+    },
+    {
+      "text": "actually there's some there's still some",
+      "start": 238,
+      "duration": 1.28
+    },
+    {
+      "text": "ambiguity there because uh you know in",
+      "start": 239.28,
+      "duration": 2.56
+    },
+    {
+      "text": "some cases giving medication might be a",
+      "start": 241.84,
+      "duration": 1.599
+    },
+    {
+      "text": "conservative therapy In some cases",
+      "start": 243.439,
+      "duration": 1.681
+    },
+    {
+      "text": "that's actually the more aggressive",
+      "start": 245.12,
+      "duration": 1.119
+    },
+    {
+      "text": "treatment and there's something else",
+      "start": 246.239,
+      "duration": 0.801
+    },
+    {
+      "text": "that's more conservative Um so there's",
+      "start": 247.04,
+      "duration": 2
+    },
+    {
+      "text": "one layer of ambiguity there Then when",
+      "start": 249.04,
+      "duration": 2.16
+    },
+    {
+      "text": "we talk about unsuccessful um well what",
+      "start": 251.2,
+      "duration": 2.08
+    },
+    {
+      "text": "is unsu let's say that somebody has uh",
+      "start": 253.28,
+      "duration": 3.6
+    },
+    {
+      "text": "some knee pain they do some treatment",
+      "start": 256.88,
+      "duration": 2.079
+    },
+    {
+      "text": "and their symptoms improve significantly",
+      "start": 258.959,
+      "duration": 2
+    },
+    {
+      "text": "but they don't like fully resolve So is",
+      "start": 260.959,
+      "duration": 2.561
+    },
+    {
+      "text": "that successful do we need like a full",
+      "start": 263.52,
+      "duration": 1.44
+    },
+    {
+      "text": "resolution of symptoms or is it just",
+      "start": 264.96,
+      "duration": 1.6
+    },
+    {
+      "text": "like a partial resolution is enough if",
+      "start": 266.56,
+      "duration": 1.6
+    },
+    {
+      "text": "it's partial like at what point is that",
+      "start": 268.16,
+      "duration": 1.84
+    },
+    {
+      "text": "enough to be quantified as successful um",
+      "start": 270,
+      "duration": 2.96
+    },
+    {
+      "text": "so again there's kind of complexity and",
+      "start": 272.96,
+      "duration": 1.44
+    },
+    {
+      "text": "nuance with with how that's interpreted",
+      "start": 274.4,
+      "duration": 2.239
+    },
+    {
+      "text": "And then finally documentation for at",
+      "start": 276.639,
+      "duration": 1.601
+    },
+    {
+      "text": "least six weeks again you know",
+      "start": 278.24,
+      "duration": 2.72
+    },
+    {
+      "text": "documentation Are we saying that the",
+      "start": 280.96,
+      "duration": 3.04
+    },
+    {
+      "text": "medical record said they started",
+      "start": 284,
+      "duration": 1.28
+    },
+    {
+      "text": "physical therapy 8 weeks ago then it's",
+      "start": 285.28,
+      "duration": 2
+    },
+    {
+      "text": "never mentioned again we can therefore",
+      "start": 287.28,
+      "duration": 2.08
+    },
+    {
+      "text": "assume that they've been doing it for",
+      "start": 289.36,
+      "duration": 1.04
+    },
+    {
+      "text": "for 8 weeks Uh or do we need like",
+      "start": 290.4,
+      "duration": 2.16
+    },
+    {
+      "text": "explicit documentation that they started",
+      "start": 292.56,
+      "duration": 2.16
+    },
+    {
+      "text": "treatment they did it for 8 weeks and",
+      "start": 294.72,
+      "duration": 2.8
+    },
+    {
+      "text": "you know it's completed Uh where where",
+      "start": 297.52,
+      "duration": 3.679
+    },
+    {
+      "text": "do we like draw the line there in terms",
+      "start": 301.199,
+      "duration": 1.201
+    },
+    {
+      "text": "of what we can infer",
+      "start": 302.4,
+      "duration": 3.56
+    },
+    {
+      "text": "um and yeah just kind of coming back to",
+      "start": 306,
+      "duration": 1.68
+    },
+    {
+      "text": "echo our point So this is really our bet",
+      "start": 307.68,
+      "duration": 2.56
+    },
+    {
+      "text": "that the system is more important Uh we",
+      "start": 310.24,
+      "duration": 2.32
+    },
+    {
+      "text": "believe that in every vertical industry",
+      "start": 312.56,
+      "duration": 2.56
+    },
+    {
+      "text": "the uh you know the team the company",
+      "start": 315.12,
+      "duration": 2.16
+    },
+    {
+      "text": "that wins is the one that builds the",
+      "start": 317.28,
+      "duration": 1.84
+    },
+    {
+      "text": "best system for taking those domain",
+      "start": 319.12,
+      "duration": 1.44
+    },
+    {
+      "text": "insights and quickly translating them",
+      "start": 320.56,
+      "duration": 2.079
+    },
+    {
+      "text": "into the pipeline giving it that context",
+      "start": 322.639,
+      "duration": 2.081
+    },
+    {
+      "text": "and iterating um to create this",
+      "start": 324.72,
+      "duration": 1.84
+    },
+    {
+      "text": "improvements",
+      "start": 326.56,
+      "duration": 3
+    },
+    {
+      "text": "Um and we also you know found I guess to",
+      "start": 329.919,
+      "duration": 2.241
+    },
+    {
+      "text": "talk to this counterpoint the models I",
+      "start": 332.16,
+      "duration": 1.68
+    },
+    {
+      "text": "mean models obviously are important Um",
+      "start": 333.84,
+      "duration": 2.4
+    },
+    {
+      "text": "and the the progress in models makes it",
+      "start": 336.24,
+      "duration": 1.92
+    },
+    {
+      "text": "easier to have a good starting point but",
+      "start": 338.16,
+      "duration": 2.479
+    },
+    {
+      "text": "that's only getting up to a certain",
+      "start": 340.639,
+      "duration": 1.201
+    },
+    {
+      "text": "baseline And we found we kind of hit a",
+      "start": 341.84,
+      "duration": 1.84
+    },
+    {
+      "text": "saturation around like 95% uh level So",
+      "start": 343.68,
+      "duration": 3.28
+    },
+    {
+      "text": "we invested a lot of time and effort",
+      "start": 346.96,
+      "duration": 1.28
+    },
+    {
+      "text": "improving our pipelines Um obviously 95%",
+      "start": 348.24,
+      "duration": 2.56
+    },
+    {
+      "text": "is stuck still pretty reasonable And",
+      "start": 350.8,
+      "duration": 1.92
+    },
+    {
+      "text": "this is that performing the like primary",
+      "start": 352.72,
+      "duration": 2.08
+    },
+    {
+      "text": "task that our our AI system does which",
+      "start": 354.8,
+      "duration": 1.76
+    },
+    {
+      "text": "is approving these care requests um in a",
+      "start": 356.56,
+      "duration": 2.639
+    },
+    {
+      "text": "health insurance context Um so we're at",
+      "start": 359.199,
+      "duration": 2.56
+    },
+    {
+      "text": "95% and we then iterated based on this",
+      "start": 361.759,
+      "duration": 2.56
+    },
+    {
+      "text": "system um that I'm going to walk through",
+      "start": 364.319,
+      "duration": 1.841
+    },
+    {
+      "text": "and we really got to you know kind of",
+      "start": 366.16,
+      "duration": 1.52
+    },
+    {
+      "text": "almost silly accuracy of like 99% Uh we",
+      "start": 367.68,
+      "duration": 3.12
+    },
+    {
+      "text": "got this class point of um light award a",
+      "start": 370.8,
+      "duration": 2.399
+    },
+    {
+      "text": "few weeks ago for this Um and really",
+      "start": 373.199,
+      "duration": 3.44
+    },
+    {
+      "text": "what we found here and what we observed",
+      "start": 376.639,
+      "duration": 1.361
+    },
+    {
+      "text": "is that the the models reason very well",
+      "start": 378,
+      "duration": 3.039
+    },
+    {
+      "text": "they get to a great baseline But if",
+      "start": 381.039,
+      "duration": 1.6
+    },
+    {
+      "text": "you're in in an industry where you",
+      "start": 382.639,
+      "duration": 1.441
+    },
+    {
+      "text": "really need to ek out that like final",
+      "start": 384.08,
+      "duration": 1.76
+    },
+    {
+      "text": "mile of performance um you need to be",
+      "start": 385.84,
+      "duration": 2.24
+    },
+    {
+      "text": "able to then kind of give the model give",
+      "start": 388.08,
+      "duration": 1.44
+    },
+    {
+      "text": "the pipeline that context",
+      "start": 389.52,
+      "duration": 3.84
+    },
+    {
+      "text": "Uh so how do we do that well we call",
+      "start": 393.36,
+      "duration": 3.279
+    },
+    {
+      "text": "this our adaptive domain intelligence",
+      "start": 396.639,
+      "duration": 1.68
+    },
+    {
+      "text": "engine And what this is performing is",
+      "start": 398.319,
+      "duration": 3.121
+    },
+    {
+      "text": "it's taking customer specific domain",
+      "start": 401.44,
+      "duration": 2.16
+    },
+    {
+      "text": "insights and it's converting them into",
+      "start": 403.6,
+      "duration": 2.08
+    },
+    {
+      "text": "performance improvements um and kind of",
+      "start": 405.68,
+      "duration": 1.84
+    },
+    {
+      "text": "building a system around that And",
+      "start": 407.52,
+      "duration": 2
+    },
+    {
+      "text": "there's broadly two main parts to this",
+      "start": 409.52,
+      "duration": 2
+    },
+    {
+      "text": "The first part is the measurement side",
+      "start": 411.52,
+      "duration": 1.6
+    },
+    {
+      "text": "of things So you know how is how is our",
+      "start": 413.12,
+      "duration": 2.799
+    },
+    {
+      "text": "current pipeline doing um and then the",
+      "start": 415.919,
+      "duration": 2.56
+    },
+    {
+      "text": "rest of this is the uh improvement side",
+      "start": 418.479,
+      "duration": 2.72
+    },
+    {
+      "text": "So I'm going to talk first a bit more",
+      "start": 421.199,
+      "duration": 1.361
+    },
+    {
+      "text": "about measurement in more detail and",
+      "start": 422.56,
+      "duration": 1.199
+    },
+    {
+      "text": "then and then a bit about improvements",
+      "start": 423.759,
+      "duration": 2.321
+    },
+    {
+      "text": "So measuring domain specific uh",
+      "start": 426.08,
+      "duration": 2
+    },
+    {
+      "text": "performance",
+      "start": 428.08,
+      "duration": 2.239
+    },
+    {
+      "text": "The first thing um and I think you know",
+      "start": 430.319,
+      "duration": 1.761
+    },
+    {
+      "text": "a lot of this is is really just kind of",
+      "start": 432.08,
+      "duration": 1.519
+    },
+    {
+      "text": "practice best practice more generally",
+      "start": 433.599,
+      "duration": 1.44
+    },
+    {
+      "text": "but um the first step is to define what",
+      "start": 435.039,
+      "duration": 3.841
+    },
+    {
+      "text": "is it that your users really care about",
+      "start": 438.88,
+      "duration": 1.36
+    },
+    {
+      "text": "as metrics So in a health context",
+      "start": 440.24,
+      "duration": 2.48
+    },
+    {
+      "text": "obviously I've been talking about",
+      "start": 442.72,
+      "duration": 0.8
+    },
+    {
+      "text": "medical necessity reviews um this is our",
+      "start": 443.52,
+      "duration": 1.92
+    },
+    {
+      "text": "bread and butter and there the customers",
+      "start": 445.44,
+      "duration": 2
+    },
+    {
+      "text": "really care about false approvals They",
+      "start": 447.44,
+      "duration": 1.28
+    },
+    {
+      "text": "want to minimize false approvals because",
+      "start": 448.72,
+      "duration": 1.599
+    },
+    {
+      "text": "a false approval where you've approved",
+      "start": 450.319,
+      "duration": 1.761
+    },
+    {
+      "text": "care means that you know a patient who",
+      "start": 452.08,
+      "duration": 2.08
+    },
+    {
+      "text": "didn't need the care might get given",
+      "start": 454.16,
+      "duration": 1.52
+    },
+    {
+      "text": "some care they don't need and obviously",
+      "start": 455.68,
+      "duration": 1.359
+    },
+    {
+      "text": "from an insurance provider point of view",
+      "start": 457.039,
+      "duration": 1.44
+    },
+    {
+      "text": "they're then paying for treatment that",
+      "start": 458.479,
+      "duration": 1.12
+    },
+    {
+      "text": "they don't necessarily want to pay for",
+      "start": 459.599,
+      "duration": 1.521
+    },
+    {
+      "text": "Um and often defining these metrics is",
+      "start": 461.12,
+      "duration": 3.04
+    },
+    {
+      "text": "like a collaboration between the domain",
+      "start": 464.16,
+      "duration": 1.439
+    },
+    {
+      "text": "experts in your company and the",
+      "start": 465.599,
+      "duration": 1.361
+    },
+    {
+      "text": "customers to kind of like really",
+      "start": 466.96,
+      "duration": 1.12
+    },
+    {
+      "text": "translate what are the metrics that you",
+      "start": 468.08,
+      "duration": 1.839
+    },
+    {
+      "text": "care about They might be like one or two",
+      "start": 469.919,
+      "duration": 1.921
+    },
+    {
+      "text": "or like usually there's just a few",
+      "start": 471.84,
+      "duration": 1.6
+    },
+    {
+      "text": "metrics that matter most So in a few",
+      "start": 473.44,
+      "duration": 2.159
+    },
+    {
+      "text": "other industries like legal when you're",
+      "start": 475.599,
+      "duration": 1.6
+    },
+    {
+      "text": "analyzing contracts it might be that you",
+      "start": 477.199,
+      "duration": 1.44
+    },
+    {
+      "text": "really want to minimize a number of uh",
+      "start": 478.639,
+      "duration": 1.601
+    },
+    {
+      "text": "missed critical terms when you're when",
+      "start": 480.24,
+      "duration": 1.44
+    },
+    {
+      "text": "you're identifying these clauses in the",
+      "start": 481.68,
+      "duration": 1.359
+    },
+    {
+      "text": "contract for fraud detection Your",
+      "start": 483.039,
+      "duration": 1.681
+    },
+    {
+      "text": "topline metric might be something like",
+      "start": 484.72,
+      "duration": 1.199
+    },
+    {
+      "text": "preventing um dollar loss from fraud You",
+      "start": 485.919,
+      "duration": 1.921
+    },
+    {
+      "text": "know education it might be you want to",
+      "start": 487.84,
+      "duration": 1.359
+    },
+    {
+      "text": "optimize for test score improvements Um",
+      "start": 489.199,
+      "duration": 2.241
+    },
+    {
+      "text": "I think it's it's definitely a helpful",
+      "start": 491.44,
+      "duration": 2
+    },
+    {
+      "text": "exercise to push yourself to think of",
+      "start": 493.44,
+      "duration": 2
+    },
+    {
+      "text": "like really if I'm optimizing for like",
+      "start": 495.44,
+      "duration": 1.28
+    },
+    {
+      "text": "one or two metrics what is like the",
+      "start": 496.72,
+      "duration": 1.44
+    },
+    {
+      "text": "metric that is most important Um and",
+      "start": 498.16,
+      "duration": 3.36
+    },
+    {
+      "text": "then what you can also do hand inhand",
+      "start": 501.52,
+      "duration": 1.519
+    },
+    {
+      "text": "with that um which is very helpful uh",
+      "start": 503.039,
+      "duration": 3.681
+    },
+    {
+      "text": "just going off the bottom there a little",
+      "start": 506.72,
+      "duration": 1.12
+    },
+    {
+      "text": "bit but uh is designing a failure mode",
+      "start": 507.84,
+      "duration": 3.28
+    },
+    {
+      "text": "ontology and what I mean by this is",
+      "start": 511.12,
+      "duration": 2.719
+    },
+    {
+      "text": "taking the task that you're performing",
+      "start": 513.839,
+      "duration": 2.32
+    },
+    {
+      "text": "and identifying what are all the",
+      "start": 516.159,
+      "duration": 1.359
+    },
+    {
+      "text": "different ways in which my AI fails and",
+      "start": 517.519,
+      "duration": 2.08
+    },
+    {
+      "text": "it might be at the level of like higher",
+      "start": 519.599,
+      "duration": 1.761
+    },
+    {
+      "text": "order categories so for example here",
+      "start": 521.36,
+      "duration": 1.84
+    },
+    {
+      "text": "we've got medical record extraction",
+      "start": 523.2,
+      "duration": 1.28
+    },
+    {
+      "text": "clinical reasoning and rules",
+      "start": 524.48,
+      "duration": 1.039
+    },
+    {
+      "text": "interpretation we found that for medical",
+      "start": 525.519,
+      "duration": 1.841
+    },
+    {
+      "text": "necessity review these are the three",
+      "start": 527.36,
+      "duration": 1.28
+    },
+    {
+      "text": "broad categories these the three board",
+      "start": 528.64,
+      "duration": 1.6
+    },
+    {
+      "text": "ways in which the AI can fail and then",
+      "start": 530.24,
+      "duration": 1.76
+    },
+    {
+      "text": "within those there's various like",
+      "start": 532,
+      "duration": 1.04
+    },
+    {
+      "text": "different subtypes Um and this is an",
+      "start": 533.04,
+      "duration": 2.479
+    },
+    {
+      "text": "iterative process There's like various",
+      "start": 535.519,
+      "duration": 1.281
+    },
+    {
+      "text": "techniques for doing this Um I think it",
+      "start": 536.8,
+      "duration": 2.4
+    },
+    {
+      "text": "it's important here to bring in your",
+      "start": 539.2,
+      "duration": 1.52
+    },
+    {
+      "text": "domain experts I think one failure mode",
+      "start": 540.72,
+      "duration": 1.84
+    },
+    {
+      "text": "is that you have somebody kind of",
+      "start": 542.56,
+      "duration": 1.76
+    },
+    {
+      "text": "looking at your AI traces in isolation",
+      "start": 544.32,
+      "duration": 1.519
+    },
+    {
+      "text": "and coming up with these um who don't",
+      "start": 545.839,
+      "duration": 1.601
+    },
+    {
+      "text": "necessarily have the context on how",
+      "start": 547.44,
+      "duration": 1.28
+    },
+    {
+      "text": "things are working I think this is a a",
+      "start": 548.72,
+      "duration": 2
+    },
+    {
+      "text": "step that's critical to have domain",
+      "start": 550.72,
+      "duration": 1.2
+    },
+    {
+      "text": "experts uh leading this process",
+      "start": 551.92,
+      "duration": 3.12
+    },
+    {
+      "text": "Um but really I think the the big value",
+      "start": 555.04,
+      "duration": 3.04
+    },
+    {
+      "text": "ad is when you do both of these at the",
+      "start": 558.08,
+      "duration": 2.319
+    },
+    {
+      "text": "same time um together because what this",
+      "start": 560.399,
+      "duration": 2.241
+    },
+    {
+      "text": "gives you uh and and this is a this is a",
+      "start": 562.64,
+      "duration": 2.08
+    },
+    {
+      "text": "dashboard that we've built internally I",
+      "start": 564.72,
+      "duration": 1.84
+    },
+    {
+      "text": "appreciate the text might be a little",
+      "start": 566.56,
+      "duration": 1.12
+    },
+    {
+      "text": "bit small um but essentially on the",
+      "start": 567.68,
+      "duration": 2.08
+    },
+    {
+      "text": "right hand side you have a patient's",
+      "start": 569.76,
+      "duration": 1.6
+    },
+    {
+      "text": "medical record You also have the",
+      "start": 571.36,
+      "duration": 1.599
+    },
+    {
+      "text": "guidelines that the record is being",
+      "start": 572.959,
+      "duration": 1.44
+    },
+    {
+      "text": "appraised against On the left hand side",
+      "start": 574.399,
+      "duration": 2.081
+    },
+    {
+      "text": "you have the AI outputs Um so this is",
+      "start": 576.48,
+      "duration": 2.88
+    },
+    {
+      "text": "the decision that it's made the",
+      "start": 579.36,
+      "duration": 1.12
+    },
+    {
+      "text": "reasoning behind its decision and what",
+      "start": 580.48,
+      "duration": 2.08
+    },
+    {
+      "text": "we enable our domain experts to do here",
+      "start": 582.56,
+      "duration": 1.68
+    },
+    {
+      "text": "enable our clinicians is they can come",
+      "start": 584.24,
+      "duration": 1.76
+    },
+    {
+      "text": "in they can mark whether it's correct or",
+      "start": 586,
+      "duration": 1.68
+    },
+    {
+      "text": "incorrect and if it's incorrect then",
+      "start": 587.68,
+      "duration": 2.08
+    },
+    {
+      "text": "this box here is for um defining the",
+      "start": 589.76,
+      "duration": 1.92
+    },
+    {
+      "text": "failure mode So from that ontology we",
+      "start": 591.68,
+      "duration": 1.52
+    },
+    {
+      "text": "just saw on the slide before they can",
+      "start": 593.2,
+      "duration": 1.759
+    },
+    {
+      "text": "say this failed in this way and doing",
+      "start": 594.959,
+      "duration": 3.361
+    },
+    {
+      "text": "those at the same point and having your",
+      "start": 598.32,
+      "duration": 1.28
+    },
+    {
+      "text": "domain expert sit at that point doing",
+      "start": 599.6,
+      "duration": 1.76
+    },
+    {
+      "text": "both of these is uh super valuable",
+      "start": 601.36,
+      "duration": 3.12
+    },
+    {
+      "text": "because it then enables you to",
+      "start": 604.48,
+      "duration": 2.24
+    },
+    {
+      "text": "understand things like this So on the x-",
+      "start": 606.72,
+      "duration": 1.84
+    },
+    {
+      "text": "axis here we have number of false",
+      "start": 608.56,
+      "duration": 1.76
+    },
+    {
+      "text": "approvals That's the metric that we",
+      "start": 610.32,
+      "duration": 1.519
+    },
+    {
+      "text": "really care about in our context And",
+      "start": 611.839,
+      "duration": 1.601
+    },
+    {
+      "text": "then we have the different failure modes",
+      "start": 613.44,
+      "duration": 1.6
+    },
+    {
+      "text": "on on the y- axis And obviously that",
+      "start": 615.04,
+      "duration": 2.56
+    },
+    {
+      "text": "tells us that if we want to minimize our",
+      "start": 617.6,
+      "duration": 2
+    },
+    {
+      "text": "false approvals and we want to like",
+      "start": 619.6,
+      "duration": 1.12
+    },
+    {
+      "text": "optimize for this this top northstar",
+      "start": 620.72,
+      "duration": 1.92
+    },
+    {
+      "text": "metric that we care about these are what",
+      "start": 622.64,
+      "duration": 2.08
+    },
+    {
+      "text": "we want to address first kind of in this",
+      "start": 624.72,
+      "duration": 2
+    },
+    {
+      "text": "order Um which as a PM is then a useful",
+      "start": 626.72,
+      "duration": 2.799
+    },
+    {
+      "text": "piece of information to help you",
+      "start": 629.519,
+      "duration": 1.121
+    },
+    {
+      "text": "prioritize uh the work that you want to",
+      "start": 630.64,
+      "duration": 1.6
+    },
+    {
+      "text": "do",
+      "start": 632.24,
+      "duration": 2.96
+    },
+    {
+      "text": "So that's the measure side of things I'm",
+      "start": 635.2,
+      "duration": 2.48
+    },
+    {
+      "text": "now going to go on to talk about the um",
+      "start": 637.68,
+      "duration": 2.08
+    },
+    {
+      "text": "the improvements",
+      "start": 639.76,
+      "duration": 2.079
+    },
+    {
+      "text": "um and particularly with this domain",
+      "start": 641.839,
+      "duration": 1.601
+    },
+    {
+      "text": "specific context",
+      "start": 643.44,
+      "duration": 2.32
+    },
+    {
+      "text": "So",
+      "start": 645.76,
+      "duration": 2.56
+    },
+    {
+      "text": "what that also gives you this kind of",
+      "start": 648.32,
+      "duration": 1.92
+    },
+    {
+      "text": "failure mode labeling we talked about",
+      "start": 650.24,
+      "duration": 1.68
+    },
+    {
+      "text": "before is you get these readymade data",
+      "start": 651.92,
+      "duration": 2.479
+    },
+    {
+      "text": "sets that you can iterate against And",
+      "start": 654.399,
+      "duration": 2
+    },
+    {
+      "text": "these data sets are super valuable",
+      "start": 656.399,
+      "duration": 1.361
+    },
+    {
+      "text": "because they're coming directly from",
+      "start": 657.76,
+      "duration": 1.519
+    },
+    {
+      "text": "production data which means you know",
+      "start": 659.279,
+      "duration": 2.321
+    },
+    {
+      "text": "that they're representative of the kind",
+      "start": 661.6,
+      "duration": 1.12
+    },
+    {
+      "text": "of input data distribution that you're",
+      "start": 662.72,
+      "duration": 1.28
+    },
+    {
+      "text": "going to see more so than synthetic data",
+      "start": 664,
+      "duration": 2
+    },
+    {
+      "text": "would be Uh and you can now you know",
+      "start": 666,
+      "duration": 3.68
+    },
+    {
+      "text": "when you you had those priorities on the",
+      "start": 669.68,
+      "duration": 1.36
+    },
+    {
+      "text": "previous slide we saw which sort of",
+      "start": 671.04,
+      "duration": 1.039
+    },
+    {
+      "text": "failure modes were causing the most",
+      "start": 672.079,
+      "duration": 1.041
+    },
+    {
+      "text": "false approvals We can then pick that",
+      "start": 673.12,
+      "duration": 1.839
+    },
+    {
+      "text": "data set of you know 100 cases that came",
+      "start": 674.959,
+      "duration": 2.081
+    },
+    {
+      "text": "through prodical",
+      "start": 677.04,
+      "duration": 2.239
+    },
+    {
+      "text": "failure mode You can give that to an",
+      "start": 679.279,
+      "duration": 1.921
+    },
+    {
+      "text": "engineer An engineer can iterate against",
+      "start": 681.2,
+      "duration": 1.28
+    },
+    {
+      "text": "it and you can keep on testing Okay how",
+      "start": 682.48,
+      "duration": 1.359
+    },
+    {
+      "text": "is my performance against that",
+      "start": 683.839,
+      "duration": 1.041
+    },
+    {
+      "text": "particular failure mode right now",
+      "start": 684.88,
+      "duration": 3.959
+    },
+    {
+      "text": "and that lets you do something like this",
+      "start": 689.2,
+      "duration": 1.68
+    },
+    {
+      "text": "where on the x-axis here we have the",
+      "start": 690.88,
+      "duration": 1.76
+    },
+    {
+      "text": "pipeline version On the y axis we have",
+      "start": 692.64,
+      "duration": 1.759
+    },
+    {
+      "text": "the performance score Um by definition",
+      "start": 694.399,
+      "duration": 2.161
+    },
+    {
+      "text": "on these flaws we're starting very low",
+      "start": 696.56,
+      "duration": 1.76
+    },
+    {
+      "text": "for each of these like failure mode data",
+      "start": 698.32,
+      "duration": 1.68
+    },
+    {
+      "text": "sets but every time you increment your",
+      "start": 700,
+      "duration": 2
+    },
+    {
+      "text": "pipeline version maybe you spent some",
+      "start": 702,
+      "duration": 1.839
+    },
+    {
+      "text": "time focusing on this particular failure",
+      "start": 703.839,
+      "duration": 1.361
+    },
+    {
+      "text": "mode and and you were able to get a big",
+      "start": 705.2,
+      "duration": 1.28
+    },
+    {
+      "text": "jump in performance Um and then you can",
+      "start": 706.48,
+      "duration": 1.84
+    },
+    {
+      "text": "see the other ones also jumping up as",
+      "start": 708.32,
+      "duration": 1.36
+    },
+    {
+      "text": "well um on kind of subsequent releases",
+      "start": 709.68,
+      "duration": 2.56
+    },
+    {
+      "text": "And you can also use this to then track",
+      "start": 712.24,
+      "duration": 1.44
+    },
+    {
+      "text": "that you're not regressing on any",
+      "start": 713.68,
+      "duration": 1.279
+    },
+    {
+      "text": "particular failure mode as well Um so",
+      "start": 714.959,
+      "duration": 2.161
+    },
+    {
+      "text": "it's a useful useful uh visualization to",
+      "start": 717.12,
+      "duration": 2.399
+    },
+    {
+      "text": "be able to make",
+      "start": 719.519,
+      "duration": 2.641
+    },
+    {
+      "text": "And you can then go one step further and",
+      "start": 722.16,
+      "duration": 2.16
+    },
+    {
+      "text": "actually bring your domain experts into",
+      "start": 724.32,
+      "duration": 2.4
+    },
+    {
+      "text": "the kind of improvements in the",
+      "start": 726.72,
+      "duration": 1.679
+    },
+    {
+      "text": "iteration itself And what that looks",
+      "start": 728.399,
+      "duration": 2.321
+    },
+    {
+      "text": "like is creating this tooling that",
+      "start": 730.72,
+      "duration": 2.32
+    },
+    {
+      "text": "enables a domain expert who's not",
+      "start": 733.04,
+      "duration": 1.28
+    },
+    {
+      "text": "necessarily technical to come in They",
+      "start": 734.32,
+      "duration": 2.24
+    },
+    {
+      "text": "can then suggest changes to the",
+      "start": 736.56,
+      "duration": 1.2
+    },
+    {
+      "text": "application pipeline They can also",
+      "start": 737.76,
+      "duration": 1.759
+    },
+    {
+      "text": "suggest new domain knowledge that's made",
+      "start": 739.519,
+      "duration": 1.921
+    },
+    {
+      "text": "available to the pipeline And obviously",
+      "start": 741.44,
+      "duration": 1.76
+    },
+    {
+      "text": "they're the best positioned to be making",
+      "start": 743.2,
+      "duration": 1.52
+    },
+    {
+      "text": "these kind of um you know opinions of",
+      "start": 744.72,
+      "duration": 2.559
+    },
+    {
+      "text": "what sort of domain knowledge might be",
+      "start": 747.279,
+      "duration": 1.281
+    },
+    {
+      "text": "might be relevant And then you have your",
+      "start": 748.56,
+      "duration": 2.399
+    },
+    {
+      "text": "pipeline in the middle that's ready to",
+      "start": 750.959,
+      "duration": 1.601
+    },
+    {
+      "text": "use those if it wants to And on the",
+      "start": 752.56,
+      "duration": 2.16
+    },
+    {
+      "text": "right hand side you have those domain",
+      "start": 754.72,
+      "duration": 1.119
+    },
+    {
+      "text": "evals which might be these failure set",
+      "start": 755.839,
+      "duration": 1.44
+    },
+    {
+      "text": "evals You might have more generic eval",
+      "start": 757.279,
+      "duration": 1.441
+    },
+    {
+      "text": "sets as well and they can then tell you",
+      "start": 758.72,
+      "duration": 2.48
+    },
+    {
+      "text": "in a data-driven way okay given this",
+      "start": 761.2,
+      "duration": 2.24
+    },
+    {
+      "text": "domain knowledge suggestion from a",
+      "start": 763.44,
+      "duration": 1.6
+    },
+    {
+      "text": "domain expert should that go live in the",
+      "start": 765.04,
+      "duration": 2
+    },
+    {
+      "text": "platform and now it's in production and",
+      "start": 767.04,
+      "duration": 1.52
+    },
+    {
+      "text": "and then um you know it should be",
+      "start": 768.56,
+      "duration": 1.76
+    },
+    {
+      "text": "improving the performance for for live",
+      "start": 770.32,
+      "duration": 1.6
+    },
+    {
+      "text": "customers Um and this whole loop can",
+      "start": 771.92,
+      "duration": 1.919
+    },
+    {
+      "text": "happen very quickly So for example and I",
+      "start": 773.839,
+      "duration": 2.24
+    },
+    {
+      "text": "think actually on the next slide yeah",
+      "start": 776.079,
+      "duration": 1.76
+    },
+    {
+      "text": "I'll just show um so this is a dashboard",
+      "start": 777.839,
+      "duration": 2.321
+    },
+    {
+      "text": "we saw before but this is with this",
+      "start": 780.16,
+      "duration": 2.08
+    },
+    {
+      "text": "extra button which is like a domain",
+      "start": 782.24,
+      "duration": 1.44
+    },
+    {
+      "text": "knowledge addition button and so again",
+      "start": 783.68,
+      "duration": 2.08
+    },
+    {
+      "text": "we're keeping the same context we have",
+      "start": 785.76,
+      "duration": 2.079
+    },
+    {
+      "text": "uh you know a domain expert clinician",
+      "start": 787.839,
+      "duration": 1.521
+    },
+    {
+      "text": "coming in here they're reviewing the",
+      "start": 789.36,
+      "duration": 1.36
+    },
+    {
+      "text": "case they're saying is it correct is it",
+      "start": 790.72,
+      "duration": 1.6
+    },
+    {
+      "text": "incorrect they're saying what's the",
+      "start": 792.32,
+      "duration": 1.28
+    },
+    {
+      "text": "failure mode and now they can say I",
+      "start": 793.6,
+      "duration": 2.16
+    },
+    {
+      "text": "think this domain knowledge would be",
+      "start": 795.76,
+      "duration": 1.92
+    },
+    {
+      "text": "helpful for the application's",
+      "start": 797.68,
+      "duration": 1.12
+    },
+    {
+      "text": "performance and uh you know it might be",
+      "start": 798.8,
+      "duration": 2.8
+    },
+    {
+      "text": "I think in this case appreciate it might",
+      "start": 801.6,
+      "duration": 1.76
+    },
+    {
+      "text": "not be that easy to read But um the",
+      "start": 803.36,
+      "duration": 1.84
+    },
+    {
+      "text": "model is kind of making some some",
+      "start": 805.2,
+      "duration": 1.52
+    },
+    {
+      "text": "mistake related to understanding",
+      "start": 806.72,
+      "duration": 2.08
+    },
+    {
+      "text": "suspicion of a condition because the",
+      "start": 808.8,
+      "duration": 2.719
+    },
+    {
+      "text": "patient like has the condition and it",
+      "start": 811.519,
+      "duration": 1.281
+    },
+    {
+      "text": "says oh there's no suspicion of the",
+      "start": 812.8,
+      "duration": 1.279
+    },
+    {
+      "text": "condition um but actually they they have",
+      "start": 814.079,
+      "duration": 2.56
+    },
+    {
+      "text": "it and like there's there's like you",
+      "start": 816.639,
+      "duration": 1.601
+    },
+    {
+      "text": "could give some information to the model",
+      "start": 818.24,
+      "duration": 1.76
+    },
+    {
+      "text": "for the medical context of how we",
+      "start": 820,
+      "duration": 1.36
+    },
+    {
+      "text": "interpret suspicious or suspicion as a",
+      "start": 821.36,
+      "duration": 2.08
+    },
+    {
+      "text": "word that would then influence the",
+      "start": 823.44,
+      "duration": 1.6
+    },
+    {
+      "text": "answer Um or it could be that maybe the",
+      "start": 825.04,
+      "duration": 2
+    },
+    {
+      "text": "reasoning uses some kind of scoring",
+      "start": 827.04,
+      "duration": 1.919
+    },
+    {
+      "text": "system and you realize actually the",
+      "start": 828.959,
+      "duration": 1.041
+    },
+    {
+      "text": "model doesn't have access to that",
+      "start": 830,
+      "duration": 0.959
+    },
+    {
+      "text": "scoring system You could again you could",
+      "start": 830.959,
+      "duration": 1.601
+    },
+    {
+      "text": "add that as domain knowledge um to",
+      "start": 832.56,
+      "duration": 2
+    },
+    {
+      "text": "continually build out what the what the",
+      "start": 834.56,
+      "duration": 1.519
+    },
+    {
+      "text": "model can handle And what that helps",
+      "start": 836.079,
+      "duration": 3.601
+    },
+    {
+      "text": "with yeah in ter in terms of kind of",
+      "start": 839.68,
+      "duration": 1.68
+    },
+    {
+      "text": "iteration speed from that you can do",
+      "start": 841.36,
+      "duration": 2
+    },
+    {
+      "text": "that maybe you want to let your evals",
+      "start": 843.36,
+      "duration": 2.08
+    },
+    {
+      "text": "automatically let that go in or maybe",
+      "start": 845.44,
+      "duration": 1.759
+    },
+    {
+      "text": "you want to um have some kind of human",
+      "start": 847.199,
+      "duration": 1.521
+    },
+    {
+      "text": "in the loop but it just means that you",
+      "start": 848.72,
+      "duration": 1.44
+    },
+    {
+      "text": "can have this very quick process This",
+      "start": 850.16,
+      "duration": 1.2
+    },
+    {
+      "text": "prod comes through you analyze it um by",
+      "start": 851.36,
+      "duration": 3.919
+    },
+    {
+      "text": "through a clinical lens and then the",
+      "start": 855.279,
+      "duration": 1.521
+    },
+    {
+      "text": "same day you've essentially fixed it",
+      "start": 856.8,
+      "duration": 1.279
+    },
+    {
+      "text": "because you've added the domain",
+      "start": 858.079,
+      "duration": 0.801
+    },
+    {
+      "text": "knowledge that should solve it You can",
+      "start": 858.88,
+      "duration": 1.44
+    },
+    {
+      "text": "prove that with the evals and then it's",
+      "start": 860.32,
+      "duration": 1.6
+    },
+    {
+      "text": "live",
+      "start": 861.92,
+      "duration": 3
+    },
+    {
+      "text": "And what this means is that you know",
+      "start": 866.16,
+      "duration": 1.76
+    },
+    {
+      "text": "these domain expert reviews that are",
+      "start": 867.92,
+      "duration": 1.359
+    },
+    {
+      "text": "really kind of powering a lot of the",
+      "start": 869.279,
+      "duration": 0.881
+    },
+    {
+      "text": "insights you're getting here are giving",
+      "start": 870.16,
+      "duration": 1.6
+    },
+    {
+      "text": "you three main things They're giving you",
+      "start": 871.76,
+      "duration": 1.28
+    },
+    {
+      "text": "performance metrics they're giving you",
+      "start": 873.04,
+      "duration": 1.68
+    },
+    {
+      "text": "these failure modes and they're giving",
+      "start": 874.72,
+      "duration": 1.359
+    },
+    {
+      "text": "you these suggested improvements um",
+      "start": 876.079,
+      "duration": 1.361
+    },
+    {
+      "text": "allin one",
+      "start": 877.44,
+      "duration": 2.56
+    },
+    {
+      "text": "Yep",
+      "start": 880,
+      "duration": 3
+    },
+    {
+      "text": "Yeah good question So the question is um",
+      "start": 885.04,
+      "duration": 1.68
+    },
+    {
+      "text": "how do you define a domain expert like",
+      "start": 886.72,
+      "duration": 1.2
+    },
+    {
+      "text": "what level of of expertise do you need",
+      "start": 887.92,
+      "duration": 1.279
+    },
+    {
+      "text": "here i think it really depends on the",
+      "start": 889.199,
+      "duration": 1.76
+    },
+    {
+      "text": "specific like workflow that you're doing",
+      "start": 890.959,
+      "duration": 2.961
+    },
+    {
+      "text": "um and what you're kind of optimizing",
+      "start": 893.92,
+      "duration": 1.52
+    },
+    {
+      "text": "for So in our context if you're",
+      "start": 895.44,
+      "duration": 2
+    },
+    {
+      "text": "optimizing for clinical reasoning and",
+      "start": 897.44,
+      "duration": 1.839
+    },
+    {
+      "text": "the quality of the clinical reasoning",
+      "start": 899.279,
+      "duration": 1.36
+    },
+    {
+      "text": "you therefore want somebody with like as",
+      "start": 900.639,
+      "duration": 1.601
+    },
+    {
+      "text": "much clinical experience ideally a",
+      "start": 902.24,
+      "duration": 1.68
+    },
+    {
+      "text": "doctor um you know ideally they have",
+      "start": 903.92,
+      "duration": 2.479
+    },
+    {
+      "text": "relevant expertise in the specialtity",
+      "start": 906.399,
+      "duration": 1.44
+    },
+    {
+      "text": "that you're dealing with Uh but it but",
+      "start": 907.839,
+      "duration": 2.401
+    },
+    {
+      "text": "it kind of really depends on your use",
+      "start": 910.24,
+      "duration": 0.959
+    },
+    {
+      "text": "case It might be that there's actually",
+      "start": 911.199,
+      "duration": 1.2
+    },
+    {
+      "text": "simpler things we also um can can do in",
+      "start": 912.399,
+      "duration": 3.761
+    },
+    {
+      "text": "which case that level of expertise is",
+      "start": 916.16,
+      "duration": 1.2
+    },
+    {
+      "text": "not necessary and you could have you",
+      "start": 917.36,
+      "duration": 1.599
+    },
+    {
+      "text": "know like a more junior clinical person",
+      "start": 918.959,
+      "duration": 1.361
+    },
+    {
+      "text": "but the idea being that it's either like",
+      "start": 920.32,
+      "duration": 1.759
+    },
+    {
+      "text": "a nurse or a doctor or somebody that has",
+      "start": 922.079,
+      "duration": 1.841
+    },
+    {
+      "text": "experience of doing this workflow in in",
+      "start": 923.92,
+      "duration": 2.32
+    },
+    {
+      "text": "the real world Does that make sense yeah",
+      "start": 926.24,
+      "duration": 2.08
+    },
+    {
+      "text": "Another question",
+      "start": 928.32,
+      "duration": 3.319
+    },
+    {
+      "text": "Yeah This is this is bespoke tooling And",
+      "start": 935.92,
+      "duration": 2.479
+    },
+    {
+      "text": "I think in general my my philosophy on",
+      "start": 938.399,
+      "duration": 1.841
+    },
+    {
+      "text": "this is that if you if you're really",
+      "start": 940.24,
+      "duration": 3.36
+    },
+    {
+      "text": "placing a lot of weight on what you're",
+      "start": 943.6,
+      "duration": 2.56
+    },
+    {
+      "text": "kind of generating and this feeds into",
+      "start": 946.16,
+      "duration": 1.28
+    },
+    {
+      "text": "your system in various other different",
+      "start": 947.44,
+      "duration": 1.04
+    },
+    {
+      "text": "ways in the kind of ways I'm describing",
+      "start": 948.48,
+      "duration": 1.52
+    },
+    {
+      "text": "it probably makes most sense to do this",
+      "start": 950,
+      "duration": 1.6
+    },
+    {
+      "text": "with bespoke tooling that you build",
+      "start": 951.6,
+      "duration": 1.359
+    },
+    {
+      "text": "yourself because it's you want to",
+      "start": 952.959,
+      "duration": 1.601
+    },
+    {
+      "text": "integrate it into the rest of your",
+      "start": 954.56,
+      "duration": 0.959
+    },
+    {
+      "text": "platform and it's just generally going",
+      "start": 955.519,
+      "duration": 1.201
+    },
+    {
+      "text": "to be um you know easier to do that if",
+      "start": 956.72,
+      "duration": 2.479
+    },
+    {
+      "text": "you're if you're kind of like doing",
+      "start": 959.199,
+      "duration": 0.88
+    },
+    {
+      "text": "everything yourself Yeah",
+      "start": 960.079,
+      "duration": 2.961
+    },
+    {
+      "text": "Are these are your domain experts users",
+      "start": 963.04,
+      "duration": 3.039
+    },
+    {
+      "text": "them to come in",
+      "start": 966.079,
+      "duration": 2
+    },
+    {
+      "text": "Yeah great question Um I think it c it",
+      "start": 968.079,
+      "duration": 2.801
+    },
+    {
+      "text": "can be both Um we like in our experience",
+      "start": 970.88,
+      "duration": 3.12
+    },
+    {
+      "text": "typically we start with we we will hire",
+      "start": 974,
+      "duration": 1.519
+    },
+    {
+      "text": "some people inhouse who kind of come and",
+      "start": 975.519,
+      "duration": 1.76
+    },
+    {
+      "text": "do this for us to give us this initial",
+      "start": 977.279,
+      "duration": 1.601
+    },
+    {
+      "text": "data so that we can do that iteration I",
+      "start": 978.88,
+      "duration": 1.84
+    },
+    {
+      "text": "think there's definitely a world in",
+      "start": 980.72,
+      "duration": 1.119
+    },
+    {
+      "text": "which the customer themselves might also",
+      "start": 981.839,
+      "duration": 2.961
+    },
+    {
+      "text": "want to do validation of your AI and",
+      "start": 984.8,
+      "duration": 1.76
+    },
+    {
+      "text": "they might actually do this kind of",
+      "start": 986.56,
+      "duration": 1.12
+    },
+    {
+      "text": "process themselves in which case this",
+      "start": 987.68,
+      "duration": 1.44
+    },
+    {
+      "text": "then becomes a customerf facing product",
+      "start": 989.12,
+      "duration": 1.68
+    },
+    {
+      "text": "for them to to use as well Um yeah",
+      "start": 990.8,
+      "duration": 3.839
+    },
+    {
+      "text": "Uh okay So love the questions but we're",
+      "start": 994.639,
+      "duration": 2.64
+    },
+    {
+      "text": "going to reserve time for Chris to keep",
+      "start": 997.279,
+      "duration": 2.161
+    },
+    {
+      "text": "going Sounds good And and I'm just um",
+      "start": 999.44,
+      "duration": 1.6
+    },
+    {
+      "text": "these are the last couple slides now as",
+      "start": 1001.04,
+      "duration": 1.28
+    },
+    {
+      "text": "well So putting everything together Uh",
+      "start": 1002.32,
+      "duration": 3.519
+    },
+    {
+      "text": "this is the overall flow and",
+      "start": 1005.839,
+      "duration": 3.92
+    },
+    {
+      "text": "essentially what this what what this can",
+      "start": 1009.759,
+      "duration": 1.361
+    },
+    {
+      "text": "look like is you have your production",
+      "start": 1011.12,
+      "duration": 1.839
+    },
+    {
+      "text": "application It's generating these",
+      "start": 1012.959,
+      "duration": 1.921
+    },
+    {
+      "text": "decisions these AI outputs You're having",
+      "start": 1014.88,
+      "duration": 2.48
+    },
+    {
+      "text": "your domain experts review that giving",
+      "start": 1017.36,
+      "duration": 1.52
+    },
+    {
+      "text": "these performance insights That's things",
+      "start": 1018.88,
+      "duration": 1.44
+    },
+    {
+      "text": "like the metrics the failure modes uh",
+      "start": 1020.32,
+      "duration": 2.8
+    },
+    {
+      "text": "you then have your PM your kind of",
+      "start": 1023.12,
+      "duration": 1.839
+    },
+    {
+      "text": "domain expert PM who sits in the middle",
+      "start": 1024.959,
+      "duration": 1.681
+    },
+    {
+      "text": "They then have this rich information on",
+      "start": 1026.64,
+      "duration": 1.52
+    },
+    {
+      "text": "okay what should I prioritize based on",
+      "start": 1028.16,
+      "duration": 1.36
+    },
+    {
+      "text": "the failure modes based on the metrics",
+      "start": 1029.52,
+      "duration": 1.918
+    },
+    {
+      "text": "They can then turn to an engineer and",
+      "start": 1031.439,
+      "duration": 1.52
+    },
+    {
+      "text": "say um I want you to fix this failure",
+      "start": 1032.959,
+      "duration": 2.161
+    },
+    {
+      "text": "mode because I really care about it and",
+      "start": 1035.12,
+      "duration": 1.36
+    },
+    {
+      "text": "I want you to fix it up to this",
+      "start": 1036.48,
+      "duration": 1.12
+    },
+    {
+      "text": "performance threshold So they can say",
+      "start": 1037.6,
+      "duration": 1.359
+    },
+    {
+      "text": "right now you know in production we're",
+      "start": 1038.959,
+      "duration": 1.921
+    },
+    {
+      "text": "getting 0% or 10% on this particular",
+      "start": 1040.88,
+      "duration": 1.918
+    },
+    {
+      "text": "data set I want you to go away and work",
+      "start": 1042.799,
+      "duration": 1.841
+    },
+    {
+      "text": "on this until you get to 50% And then",
+      "start": 1044.64,
+      "duration": 2.24
+    },
+    {
+      "text": "the engineer can go and um you know run",
+      "start": 1046.88,
+      "duration": 2.24
+    },
+    {
+      "text": "different experiments have different",
+      "start": 1049.12,
+      "duration": 1.12
+    },
+    {
+      "text": "ideas of how they might improve this",
+      "start": 1050.24,
+      "duration": 1.52
+    },
+    {
+      "text": "changing prompting changing models doing",
+      "start": 1051.76,
+      "duration": 1.68
+    },
+    {
+      "text": "fine-tuning all this kind of thing They",
+      "start": 1053.44,
+      "duration": 2.32
+    },
+    {
+      "text": "then have a very tight iteration loop",
+      "start": 1055.76,
+      "duration": 1.279
+    },
+    {
+      "text": "because they have these ready-made",
+      "start": 1057.039,
+      "duration": 1.121
+    },
+    {
+      "text": "failure mode data sets They can run the",
+      "start": 1058.16,
+      "duration": 1.759
+    },
+    {
+      "text": "eval They can see the impact of those um",
+      "start": 1059.919,
+      "duration": 2
+    },
+    {
+      "text": "eval And then once they've kind of done",
+      "start": 1061.919,
+      "duration": 1.921
+    },
+    {
+      "text": "that loop and they're they're hitting",
+      "start": 1063.84,
+      "duration": 1.04
+    },
+    {
+      "text": "the percentage that they need they can",
+      "start": 1064.88,
+      "duration": 1.76
+    },
+    {
+      "text": "then go and give that back to the PM and",
+      "start": 1066.64,
+      "duration": 1.52
+    },
+    {
+      "text": "say \"Hey here are the changes I made",
+      "start": 1068.16,
+      "duration": 1.519
+    },
+    {
+      "text": "This is the impact.\" The PM can then um",
+      "start": 1069.679,
+      "duration": 3.201
+    },
+    {
+      "text": "take that information and make some",
+      "start": 1072.88,
+      "duration": 1.919
+    },
+    {
+      "text": "decision about going live they can take",
+      "start": 1074.799,
+      "duration": 1.681
+    },
+    {
+      "text": "the those uh email metrics they can look",
+      "start": 1076.48,
+      "duration": 2.16
+    },
+    {
+      "text": "at the kind of wider context of what",
+      "start": 1078.64,
+      "duration": 1.68
+    },
+    {
+      "text": "this change might impact elsewhere in",
+      "start": 1080.32,
+      "duration": 1.52
+    },
+    {
+      "text": "the product um and then decide whether",
+      "start": 1081.84,
+      "duration": 2
+    },
+    {
+      "text": "to go live uh with that in production",
+      "start": 1083.84,
+      "duration": 3.839
+    },
+    {
+      "text": "So final takeaway just to wrap up um you",
+      "start": 1087.679,
+      "duration": 3.521
+    },
+    {
+      "text": "know to build a domain native element",
+      "start": 1091.2,
+      "duration": 1.52
+    },
+    {
+      "text": "application you need to solve the the",
+      "start": 1092.72,
+      "duration": 1.44
+    },
+    {
+      "text": "last mile problem This isn't solved by",
+      "start": 1094.16,
+      "duration": 2.24
+    },
+    {
+      "text": "just using more powerful models or more",
+      "start": 1096.4,
+      "duration": 1.44
+    },
+    {
+      "text": "sophisticated pipelines Uh you need what",
+      "start": 1097.84,
+      "duration": 2.079
+    },
+    {
+      "text": "we call an adaptive domain intelligence",
+      "start": 1099.919,
+      "duration": 1.681
+    },
+    {
+      "text": "engine Domain experts can power this",
+      "start": 1101.6,
+      "duration": 2.4
+    },
+    {
+      "text": "system by reviewing their AI outputs to",
+      "start": 1104,
+      "duration": 1.76
+    },
+    {
+      "text": "generate metrics to generate failure",
+      "start": 1105.76,
+      "duration": 1.36
+    },
+    {
+      "text": "modes and to generate suggested",
+      "start": 1107.12,
+      "duration": 1.2
+    },
+    {
+      "text": "improvements And this is really powerful",
+      "start": 1108.32,
+      "duration": 1.84
+    },
+    {
+      "text": "because it takes production data live",
+      "start": 1110.16,
+      "duration": 1.84
+    },
+    {
+      "text": "from kind of inside your customer's",
+      "start": 1112,
+      "duration": 1.44
+    },
+    {
+      "text": "context and it uses that to give your LM",
+      "start": 1113.44,
+      "duration": 2.32
+    },
+    {
+      "text": "product the nuance understanding of the",
+      "start": 1115.76,
+      "duration": 1.52
+    },
+    {
+      "text": "customer workflows and continually",
+      "start": 1117.28,
+      "duration": 1.44
+    },
+    {
+      "text": "iterate towards that and eek out the the",
+      "start": 1118.72,
+      "duration": 1.6
+    },
+    {
+      "text": "kind of final performance um performance",
+      "start": 1120.32,
+      "duration": 2.32
+    },
+    {
+      "text": "level And the end result is you have",
+      "start": 1122.64,
+      "duration": 2.24
+    },
+    {
+      "text": "this self-improving datadriven process",
+      "start": 1124.88,
+      "duration": 2.08
+    },
+    {
+      "text": "that can be managed by a domain expert",
+      "start": 1126.96,
+      "duration": 2.079
+    },
+    {
+      "text": "PM sitting in the middle",
+      "start": 1129.039,
+      "duration": 2.321
+    },
+    {
+      "text": "Um so thank you for your attention Um",
+      "start": 1131.36,
+      "duration": 3.76
+    },
+    {
+      "text": "uh I if you're interested in kind of",
+      "start": 1135.12,
+      "duration": 1.439
+    },
+    {
+      "text": "vertical AI applications or like evals",
+      "start": 1136.559,
+      "duration": 1.921
+    },
+    {
+      "text": "and AI product management more generally",
+      "start": 1138.48,
+      "duration": 1.36
+    },
+    {
+      "text": "I've written about that at my website",
+      "start": 1139.84,
+      "duration": 1.68
+    },
+    {
+      "text": "chris lovejoy.me Uh always interested to",
+      "start": 1141.52,
+      "duration": 2.64
+    },
+    {
+      "text": "talk about this So feel free to drop an",
+      "start": 1144.16,
+      "duration": 1.28
+    },
+    {
+      "text": "email at chrisanser.com And we're also",
+      "start": 1145.44,
+      "duration": 2
+    },
+    {
+      "text": "hiring as well at the moment So check",
+      "start": 1147.44,
+      "duration": 1.44
+    },
+    {
+      "text": "out anio.com/comp",
+      "start": 1148.88,
+      "duration": 1.919
+    },
+    {
+      "text": "for open roles Thank you",
+      "start": 1150.799,
+      "duration": 4.201
+    },
+    {
+      "text": "[Music]",
+      "start": 1156.58,
+      "duration": 3.079
+    }
+  ],
+  "fullText": "[Music] hi everybody So I'm Christopher Lovejoy I'm a medical doctor turned AI engineer and I'm going to share a playbook for building a domain native LLM application Uh so I spent about eight years um training and working as a medical doctor and then I spent the last seven years building AI systems that incorporate medical domain expertise Um and I did that at a few different startups So I worked at a a health tech startup called Serakare um doing tech enabled home care Uh the startup recently hit 500 million ARR Um worked at various other startups and I currently work at Anterior And Anterior is a New York based clinicianled uh company Here we provide clinical reasoning tools to automate and accelerate uh health insurance um and healthcare administration Uh we serve about 50 million we serve uh health insurance providers that cover about 50 million lives uh in the US And we spend a lot of time thinking about what does it mean to build a domain native LLM application whether it's in healthcare um or otherwise Uh and that's what I'm going to talk about today And in particular our bet really is that when it comes to vertical AI applications the system that you build for incorporating your domain insights is far more important than the sophistication of your models and your pipelines So the limitation these days is not like how powerful is your model and whether it can uh reason to the level you need it to It's more can your model understand the context um in that industry for that particular customer uh and perform perform the reasoning that it needs to and the way that you enable that and the way that you uh kind of iterate quickly with your customers is by building the system around it and there's various components to that um that's what I'm going to talk about So this is the kind of high level schematic and we're going to go through each of these parts um throughout the talk Uh as you'll see right in the middle there's the the PM um and this is you know in our experience it makes sense for this to be a domain um expert um product manager So in our context it's clinical um and I'm going to go through go through this in more detail shortly But first I think it's worth taking a quick step back and asking you know why is it so hard to successfully apply large language models to specialized industries We think it's because of the last mile problem And what I mean by the last mile problem is is this problem that I I kind of touched on just now around uh giving the model and your your kind of AI system more generally context and understanding of the specific workflow for that customer for that industry Um and I'm going to illustrate that with an example um from a clinical case that we've processed Our AI anterior is called Florence and a 78-y old female patient uh presented with right knee pain The doctor recommended a knee arthoscopy and as part of deciding whether this treatment was appropriate whether the doctor made an appropriate decision Florence needs to answer various questions Uh one of those questions is is there documentation of unsuccessful conservative therapy for at least six weeks Um and you know on the surface of it that might seem relatively simple I mean I appreciate maybe not a lot of doctors in the room so you might not know what conservative therapy is but um actually there's a lot of kind of like hidden complexity in answering a question like this So for example you know conservative therapy um typically what we mean by conservative therapy is when there's some kind of option for uh you know a more aggressive treatment maybe a surgical operation that's like the the you know the surgical treatment And then if you're deciding not to operate and you want to try something conservative first that's like the conservative therapy So it might be you know do physiootherapy uh lose weight um do kind of you know non-invasive things that might help resolve the problem But actually there's some there's still some ambiguity there because uh you know in some cases giving medication might be a conservative therapy In some cases that's actually the more aggressive treatment and there's something else that's more conservative Um so there's one layer of ambiguity there Then when we talk about unsuccessful um well what is unsu let's say that somebody has uh some knee pain they do some treatment and their symptoms improve significantly but they don't like fully resolve So is that successful do we need like a full resolution of symptoms or is it just like a partial resolution is enough if it's partial like at what point is that enough to be quantified as successful um so again there's kind of complexity and nuance with with how that's interpreted And then finally documentation for at least six weeks again you know documentation Are we saying that the medical record said they started physical therapy 8 weeks ago then it's never mentioned again we can therefore assume that they've been doing it for for 8 weeks Uh or do we need like explicit documentation that they started treatment they did it for 8 weeks and you know it's completed Uh where where do we like draw the line there in terms of what we can infer um and yeah just kind of coming back to echo our point So this is really our bet that the system is more important Uh we believe that in every vertical industry the uh you know the team the company that wins is the one that builds the best system for taking those domain insights and quickly translating them into the pipeline giving it that context and iterating um to create this improvements Um and we also you know found I guess to talk to this counterpoint the models I mean models obviously are important Um and the the progress in models makes it easier to have a good starting point but that's only getting up to a certain baseline And we found we kind of hit a saturation around like 95% uh level So we invested a lot of time and effort improving our pipelines Um obviously 95% is stuck still pretty reasonable And this is that performing the like primary task that our our AI system does which is approving these care requests um in a health insurance context Um so we're at 95% and we then iterated based on this system um that I'm going to walk through and we really got to you know kind of almost silly accuracy of like 99% Uh we got this class point of um light award a few weeks ago for this Um and really what we found here and what we observed is that the the models reason very well they get to a great baseline But if you're in in an industry where you really need to ek out that like final mile of performance um you need to be able to then kind of give the model give the pipeline that context Uh so how do we do that well we call this our adaptive domain intelligence engine And what this is performing is it's taking customer specific domain insights and it's converting them into performance improvements um and kind of building a system around that And there's broadly two main parts to this The first part is the measurement side of things So you know how is how is our current pipeline doing um and then the rest of this is the uh improvement side So I'm going to talk first a bit more about measurement in more detail and then and then a bit about improvements So measuring domain specific uh performance The first thing um and I think you know a lot of this is is really just kind of practice best practice more generally but um the first step is to define what is it that your users really care about as metrics So in a health context obviously I've been talking about medical necessity reviews um this is our bread and butter and there the customers really care about false approvals They want to minimize false approvals because a false approval where you've approved care means that you know a patient who didn't need the care might get given some care they don't need and obviously from an insurance provider point of view they're then paying for treatment that they don't necessarily want to pay for Um and often defining these metrics is like a collaboration between the domain experts in your company and the customers to kind of like really translate what are the metrics that you care about They might be like one or two or like usually there's just a few metrics that matter most So in a few other industries like legal when you're analyzing contracts it might be that you really want to minimize a number of uh missed critical terms when you're when you're identifying these clauses in the contract for fraud detection Your topline metric might be something like preventing um dollar loss from fraud You know education it might be you want to optimize for test score improvements Um I think it's it's definitely a helpful exercise to push yourself to think of like really if I'm optimizing for like one or two metrics what is like the metric that is most important Um and then what you can also do hand inhand with that um which is very helpful uh just going off the bottom there a little bit but uh is designing a failure mode ontology and what I mean by this is taking the task that you're performing and identifying what are all the different ways in which my AI fails and it might be at the level of like higher order categories so for example here we've got medical record extraction clinical reasoning and rules interpretation we found that for medical necessity review these are the three broad categories these the three board ways in which the AI can fail and then within those there's various like different subtypes Um and this is an iterative process There's like various techniques for doing this Um I think it it's important here to bring in your domain experts I think one failure mode is that you have somebody kind of looking at your AI traces in isolation and coming up with these um who don't necessarily have the context on how things are working I think this is a a step that's critical to have domain experts uh leading this process Um but really I think the the big value ad is when you do both of these at the same time um together because what this gives you uh and and this is a this is a dashboard that we've built internally I appreciate the text might be a little bit small um but essentially on the right hand side you have a patient's medical record You also have the guidelines that the record is being appraised against On the left hand side you have the AI outputs Um so this is the decision that it's made the reasoning behind its decision and what we enable our domain experts to do here enable our clinicians is they can come in they can mark whether it's correct or incorrect and if it's incorrect then this box here is for um defining the failure mode So from that ontology we just saw on the slide before they can say this failed in this way and doing those at the same point and having your domain expert sit at that point doing both of these is uh super valuable because it then enables you to understand things like this So on the x- axis here we have number of false approvals That's the metric that we really care about in our context And then we have the different failure modes on on the y- axis And obviously that tells us that if we want to minimize our false approvals and we want to like optimize for this this top northstar metric that we care about these are what we want to address first kind of in this order Um which as a PM is then a useful piece of information to help you prioritize uh the work that you want to do So that's the measure side of things I'm now going to go on to talk about the um the improvements um and particularly with this domain specific context So what that also gives you this kind of failure mode labeling we talked about before is you get these readymade data sets that you can iterate against And these data sets are super valuable because they're coming directly from production data which means you know that they're representative of the kind of input data distribution that you're going to see more so than synthetic data would be Uh and you can now you know when you you had those priorities on the previous slide we saw which sort of failure modes were causing the most false approvals We can then pick that data set of you know 100 cases that came through prodical failure mode You can give that to an engineer An engineer can iterate against it and you can keep on testing Okay how is my performance against that particular failure mode right now and that lets you do something like this where on the x-axis here we have the pipeline version On the y axis we have the performance score Um by definition on these flaws we're starting very low for each of these like failure mode data sets but every time you increment your pipeline version maybe you spent some time focusing on this particular failure mode and and you were able to get a big jump in performance Um and then you can see the other ones also jumping up as well um on kind of subsequent releases And you can also use this to then track that you're not regressing on any particular failure mode as well Um so it's a useful useful uh visualization to be able to make And you can then go one step further and actually bring your domain experts into the kind of improvements in the iteration itself And what that looks like is creating this tooling that enables a domain expert who's not necessarily technical to come in They can then suggest changes to the application pipeline They can also suggest new domain knowledge that's made available to the pipeline And obviously they're the best positioned to be making these kind of um you know opinions of what sort of domain knowledge might be might be relevant And then you have your pipeline in the middle that's ready to use those if it wants to And on the right hand side you have those domain evals which might be these failure set evals You might have more generic eval sets as well and they can then tell you in a data-driven way okay given this domain knowledge suggestion from a domain expert should that go live in the platform and now it's in production and and then um you know it should be improving the performance for for live customers Um and this whole loop can happen very quickly So for example and I think actually on the next slide yeah I'll just show um so this is a dashboard we saw before but this is with this extra button which is like a domain knowledge addition button and so again we're keeping the same context we have uh you know a domain expert clinician coming in here they're reviewing the case they're saying is it correct is it incorrect they're saying what's the failure mode and now they can say I think this domain knowledge would be helpful for the application's performance and uh you know it might be I think in this case appreciate it might not be that easy to read But um the model is kind of making some some mistake related to understanding suspicion of a condition because the patient like has the condition and it says oh there's no suspicion of the condition um but actually they they have it and like there's there's like you could give some information to the model for the medical context of how we interpret suspicious or suspicion as a word that would then influence the answer Um or it could be that maybe the reasoning uses some kind of scoring system and you realize actually the model doesn't have access to that scoring system You could again you could add that as domain knowledge um to continually build out what the what the model can handle And what that helps with yeah in ter in terms of kind of iteration speed from that you can do that maybe you want to let your evals automatically let that go in or maybe you want to um have some kind of human in the loop but it just means that you can have this very quick process This prod comes through you analyze it um by through a clinical lens and then the same day you've essentially fixed it because you've added the domain knowledge that should solve it You can prove that with the evals and then it's live And what this means is that you know these domain expert reviews that are really kind of powering a lot of the insights you're getting here are giving you three main things They're giving you performance metrics they're giving you these failure modes and they're giving you these suggested improvements um allin one Yep Yeah good question So the question is um how do you define a domain expert like what level of of expertise do you need here i think it really depends on the specific like workflow that you're doing um and what you're kind of optimizing for So in our context if you're optimizing for clinical reasoning and the quality of the clinical reasoning you therefore want somebody with like as much clinical experience ideally a doctor um you know ideally they have relevant expertise in the specialtity that you're dealing with Uh but it but it kind of really depends on your use case It might be that there's actually simpler things we also um can can do in which case that level of expertise is not necessary and you could have you know like a more junior clinical person but the idea being that it's either like a nurse or a doctor or somebody that has experience of doing this workflow in in the real world Does that make sense yeah Another question Yeah This is this is bespoke tooling And I think in general my my philosophy on this is that if you if you're really placing a lot of weight on what you're kind of generating and this feeds into your system in various other different ways in the kind of ways I'm describing it probably makes most sense to do this with bespoke tooling that you build yourself because it's you want to integrate it into the rest of your platform and it's just generally going to be um you know easier to do that if you're if you're kind of like doing everything yourself Yeah Are these are your domain experts users them to come in Yeah great question Um I think it c it can be both Um we like in our experience typically we start with we we will hire some people inhouse who kind of come and do this for us to give us this initial data so that we can do that iteration I think there's definitely a world in which the customer themselves might also want to do validation of your AI and they might actually do this kind of process themselves in which case this then becomes a customerf facing product for them to to use as well Um yeah Uh okay So love the questions but we're going to reserve time for Chris to keep going Sounds good And and I'm just um these are the last couple slides now as well So putting everything together Uh this is the overall flow and essentially what this what what this can look like is you have your production application It's generating these decisions these AI outputs You're having your domain experts review that giving these performance insights That's things like the metrics the failure modes uh you then have your PM your kind of domain expert PM who sits in the middle They then have this rich information on okay what should I prioritize based on the failure modes based on the metrics They can then turn to an engineer and say um I want you to fix this failure mode because I really care about it and I want you to fix it up to this performance threshold So they can say right now you know in production we're getting 0% or 10% on this particular data set I want you to go away and work on this until you get to 50% And then the engineer can go and um you know run different experiments have different ideas of how they might improve this changing prompting changing models doing fine-tuning all this kind of thing They then have a very tight iteration loop because they have these ready-made failure mode data sets They can run the eval They can see the impact of those um eval And then once they've kind of done that loop and they're they're hitting the percentage that they need they can then go and give that back to the PM and say \"Hey here are the changes I made This is the impact.\" The PM can then um take that information and make some decision about going live they can take the those uh email metrics they can look at the kind of wider context of what this change might impact elsewhere in the product um and then decide whether to go live uh with that in production So final takeaway just to wrap up um you know to build a domain native element application you need to solve the the last mile problem This isn't solved by just using more powerful models or more sophisticated pipelines Uh you need what we call an adaptive domain intelligence engine Domain experts can power this system by reviewing their AI outputs to generate metrics to generate failure modes and to generate suggested improvements And this is really powerful because it takes production data live from kind of inside your customer's context and it uses that to give your LM product the nuance understanding of the customer workflows and continually iterate towards that and eek out the the kind of final performance um performance level And the end result is you have this self-improving datadriven process that can be managed by a domain expert PM sitting in the middle Um so thank you for your attention Um uh I if you're interested in kind of vertical AI applications or like evals and AI product management more generally I've written about that at my website chris lovejoy.me Uh always interested to talk about this So feel free to drop an email at chrisanser.com And we're also hiring as well at the moment So check out anio.com/comp for open roles Thank you [Music]"
+}

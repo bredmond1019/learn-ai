@@ -1,0 +1,382 @@
+---
+title: "POC to Production: What 200+ Enterprise GenAI Deployments Taught Us"
+date: "2025-07-30"
+excerpt: "Former SpaceX and MongoDB engineer reveals the brutal truths about enterprise AI after building 200+ production systems. Spoiler: Your fancy framework won't save you."
+tags: ["Enterprise AI", "Production Systems", "GenAI", "AWS", "Engineering Leadership"]
+author: "Brandon"
+featured: true
+---
+
+"Generative AI is not the magical pill that solves everything that a lot of people seem to think it is."
+
+Randall Hunt doesn't mince words. After building 200+ enterprise GenAI deployments at Caylent—from Fortune 500 giants to scrappy startups—he's seen every way these projects can fail. And succeed.
+
+The former SpaceX CI/CD lead (fun fact: no rockets exploded on his watch) and MongoDB engineer turned AWS partner has a message for every team rushing to production with their ChatGPT wrapper: You're probably doing it wrong.
+
+But he's also here to show you how to do it right.
+
+## The Reality Check: What Actually Gets Built 🏗️
+
+Let's start with what Caylent actually ships to production:
+
+- **BrainBox AI**: Building operating system managing 10,000+ buildings, reducing greenhouse emissions (Time's 100 Best Inventions)
+- **Nature Footage**: Multimodal video search across thousands of hours of wildlife footage
+- **Sports Analytics**: Real-time highlight detection processing millions of frames
+- **Hospital Systems**: Clinical documentation tools (spoiler: nurses hate voice bots)
+
+Notice what's missing? Basic chatbots. Todo list apps. Simple RAG demos.
+
+<Callout type="warning">
+**The Wall Street Journal Problem**: What your CTO read in the WSJ about AI is not necessarily the latest and greatest thing. In fact, it's probably already outdated by the time it's printed.
+</Callout>
+
+## The Architectural Truth Bomb 💣
+
+After 200+ deployments, here's the architecture that actually works:
+
+<CodeExample
+  title="The Production-Ready Stack"
+  language="text"
+  code={`1. Foundation Layer
+   ├── AWS Bedrock / SageMaker
+   ├── Custom Silicon (Trainium/Inferentia - 60% cost savings)
+   └── Now 40% cheaper GPU instances (just announced!)
+
+2. Model Layer
+   ├── Claude, Nova, Llama, DeepSeek
+   ├── Embeddings: Titan V2 Multimodal
+   └── Open source when it makes sense
+
+3. Storage Layer
+   ├── PostgreSQL + pgvector (Randall's favorite)
+   ├── OpenSearch for faceted search
+   └── Redis for speed (but $$$)
+
+4. The Secret Sauce
+   └── Context Management (THIS is your moat)`}
+/>
+
+But here's the kicker: All of this is incidental. What matters is your inputs and outputs.
+
+## Lesson #1: Eval, Eval, Eval, Eval 📊
+
+Channel your inner Steve Ballmer, but instead of screaming "Developers!", scream "EVAL!"
+
+<CodeExample
+  title="The Eval Evolution"
+  language="python"
+  code={`# Day 1: The Vibe Check
+response = llm.complete("Summarize this document")
+print("Looks good to me! 👍")
+
+# Day 2: Your First Real Eval
+def evaluate_summary(original, summary):
+    return "important_keyword" in summary  # Boolean is fine!
+
+# Day 30: Production Eval Suite
+class SummaryEval:
+    def __init__(self):
+        self.test_cases = load_production_samples()
+        self.metrics = ["accuracy", "completeness", "hallucination_rate"]
+    
+    def run(self, model_version):
+        # Test on REAL production data
+        # Not synthetic benchmarks
+        return self.evaluate_all_cases()`}
+/>
+
+**The Brutal Truth**: Metrics don't have to be complex. A simple boolean "did this work?" is often better than a complex BERT score.
+
+## Lesson #2: Embeddings Alone Will Betray You 🗡️
+
+"Embeddings alone do not a great query system make."
+
+Real conversation from a client meeting:
+- Client: "We need semantic search!"
+- Randall: "Great! How will users filter by date?"
+- Client: "..."
+- Randall: "By category?"
+- Client: "..."
+- Randall: "This is why you need PostgreSQL."
+
+<Callout type="insight">
+**The Hybrid Approach**: 
+- Embeddings for semantic similarity
+- Traditional indexes for filters
+- Faceted search for user experience
+- All in one database (PostgreSQL with pgvector FTW)
+</Callout>
+
+## Lesson #3: Speed Kills (Your User Adoption) ⚡
+
+The speed hierarchy of what actually works:
+
+1. **Fast + Cheap**: Winner
+2. **Slow + Cheap + Good UX**: Acceptable (spinners help!)
+3. **Slow + Expensive**: Dead on arrival
+4. **Fast + Expensive**: Only for critical use cases
+
+<CodeExample
+  title="The Multimodal Speed Hack"
+  language="python"
+  code={`# Naive approach: Process entire video
+def analyze_sports_video_slow(video_path):
+    frames = extract_all_frames(video_path)  # 30fps * 3 hours = death
+    return process_frames(frames)
+
+# Production approach: Audio amplitude FTW
+def find_highlights_fast(video_path):
+    # Extract audio track
+    audio = ffmpeg.extract_audio(video_path)
+    
+    # Get amplitude spectrograph
+    amplitude = get_amplitude_graph(audio)
+    
+    # Find peaks (crowd cheering = highlights!)
+    highlights = find_peaks(amplitude, threshold=0.8)
+    
+    # Only process these specific moments
+    return process_specific_frames(video_path, highlights)`}
+/>
+
+One client reduced processing time from 6 hours to 3 minutes with this one trick. Sports broadcasters hate him!
+
+## Lesson #4: Know Your Users (They're Not Who You Think) 👥
+
+The **Voice Bot Disaster** story:
+
+1. Built sophisticated voice interface for hospital nurses
+2. State-of-the-art transcription
+3. Natural conversation flow
+4. Nurses **hated** it
+
+Why? Hospitals are LOUD. Voice transcription picked up:
+- Other conversations
+- Medical equipment beeping  
+- Overhead announcements
+- General chaos
+
+Solution? A boring text interface. Adoption went from 5% to 85%.
+
+<Callout type="warning">
+**The Remote User Problem**: 
+- Built beautiful PDF summaries
+- Attached 200MB PDFs
+- Users in remote areas with slow internet couldn't download
+- Solution: Screenshot just the relevant page + text summary
+</Callout>
+
+## Lesson #5: Stop Building Stupid Tools 🛠️
+
+The number of times Randall sees this makes him want to scream:
+
+<CodeExample
+  title="The Tool Antipattern"
+  language="python"
+  code={`# 🤦‍♂️ STOP DOING THIS
+tools = [{
+    "name": "get_current_date",
+    "description": "Gets the current date",
+    "function": lambda: datetime.now().strftime("%Y-%m-%d")
+}]
+
+# ✅ DO THIS INSTEAD
+prompt = f"""
+Current date: {datetime.now().strftime("%Y-%m-%d")}
+User query: {user_input}
+"""
+
+# You control the prompt! Just put the data there!`}
+/>
+
+Other unnecessary tools Randall has seen:
+- Basic math operations
+- String formatting
+- Simple lookups
+- Anything that takes < 1ms to compute
+
+## Lesson #6: Prompt Engineering > Fine-Tuning 🎯
+
+"I used to say we should fine-tune. It turns out I was wrong."
+
+The progression of model improvements:
+- Claude 3.5 → 3.7: Some regressions
+- Claude 3.7 → 4.0: **Zero regressions**, faster, cheaper, better
+
+<Callout type="success">
+**The New Reality**: Prompt engineering has proven unreasonably effective. More effective than Randall would have predicted. Save fine-tuning for when you really need it (you probably don't).
+</Callout>
+
+## Lesson #7: The Economics Will Eat You Alive 💸
+
+Real production costs from Caylent's clients:
+
+<CodeExample
+  title="The Cost Reality"
+  language="text"
+  code={`Video Processing Platform:
+- Infrastructure: $4,000/month
+- LLM API calls: $5,000/month
+- Human time saved: $50,000/month
+- ROI: Clear win ✅
+
+Failed Chatbot:
+- Infrastructure: $500/month
+- LLM API calls: $8,000/month (Opus models)
+- Value generated: "It's nice I guess?"
+- ROI: Terminated after 2 months ❌`}
+/>
+
+Cost optimization strategies that work:
+1. **Batch processing**: 50% off on Bedrock
+2. **Prompt caching**: Reuse system prompts
+3. **Context optimization**: Minimum viable context
+4. **Model selection**: Haiku for classification, Sonnet for reasoning
+
+## The Context Management Revolution 🎯
+
+This is your actual moat. Not your model. Not your framework. Your context.
+
+<CodeExample
+  title="Context Is Everything"
+  language="python"
+  code={`# Basic context (everyone has this)
+context = {
+    "user_query": "Show me sales data",
+    "user_id": "12345"
+}
+
+# Winning context (your moat)
+context = {
+    "user_query": "Show me sales data",
+    "user_id": "12345",
+    "current_page": "/dashboard/northeast",
+    "previous_queries": ["filter by Q4", "compare to last year"],
+    "user_role": "Regional Manager",
+    "time_of_day": "end of quarter",
+    "device_type": "mobile",
+    "connection_speed": "slow",
+    "preferred_viz_type": "charts_not_tables"
+}
+
+# Result: Completely different (and better) experience`}
+/>
+
+## The Generative UI Revolution 🎨
+
+One of Caylent's customers, CloudZero, originally wanted a chatbot for AWS cost optimization. What they built instead will blow your mind:
+
+<CodeExample
+  title="Just-In-Time UI Generation"
+  language="typescript"
+  code={`// Traditional approach
+if (query.includes("costs")) {
+    return <CostChart data={data} />;
+}
+
+// Generative UI approach
+const GenerativeResponse = async ({ query, context }) => {
+    // LLM generates React component on the fly
+    const componentCode = await llm.generateUI({
+        query,
+        context,
+        previousComponents: cache.getRelevant(query),
+        style: userPreferences
+    });
+    
+    // Compile and render
+    const Component = compileComponent(componentCode);
+    
+    // Cache for future similar queries
+    cache.store(query, Component);
+    
+    return <Component data={data} />;
+};`}
+/>
+
+Result: Personalized visualizations that evolve with user needs. No more static dashboards.
+
+## The Production Playbook 📚
+
+After 200+ deployments, here's the playbook that works:
+
+### 1. Start with the "Why"
+- What's the ROI?
+- What specific metric improves?
+- Who loses their job if this fails? (harsh but important)
+
+### 2. Define Your True Moat
+It's not the LLM. It's probably:
+- Your data
+- Your context
+- Your domain expertise
+- Your integration points
+
+### 3. Build Your Eval Suite First
+- Start with vibe checks
+- Convert to boolean tests
+- Use production data
+- Measure what matters to the business
+
+### 4. Optimize for Reality
+- Users have slow internet
+- Hospitals are noisy
+- People are impatient
+- Inference costs compound
+
+### 5. Architecture for Change
+```
+Your System = Inputs/Outputs (stable)
+            + Evals (critical)
+            + Everything else (will change)
+```
+
+## The Brutal Truths Nobody Tells You 🎭
+
+1. **Your POC performance is a lie**: Production data is messier, users are less forgiving, edge cases are weirder
+
+2. **Fancy frameworks are a crutch**: The teams shipping to production are using boring tools well
+
+3. **Context beats intelligence**: A dumber model with better context outperforms a smarter model flying blind
+
+4. **Users don't care about your tech**: They care if it works, if it's fast, and if it saves them time
+
+5. **The best AI UX might not include AI**: Sometimes a good search box beats a chatbot
+
+## Your 30-Day Production Roadmap 🗺️
+
+**Week 1: Reality Check**
+- Define ONE metric that matters
+- Talk to 10 actual users
+- Build 20 test cases from real data
+
+**Week 2: Minimum Viable Context**
+- What context do you already have?
+- What's the least you need for good results?
+- How fast can you retrieve it?
+
+**Week 3: Speed Run**
+- Measure baseline performance
+- Find the bottlenecks (hint: it's not the LLM)
+- Implement caching and batching
+
+**Week 4: Production Hardening**
+- Add fallbacks for every external call
+- Implement cost monitoring
+- Build escape hatches for when AI fails
+
+<Callout type="action">
+**The Bottom Line**: Stop reading about AI in the Wall Street Journal. Stop chasing the latest framework. Start building boring solutions to real problems. That's where the money is.
+
+Want to build something real? Focus on:
+1. Eval (scream it!)
+2. Context (hoard it!)
+3. Speed (optimize it!)
+4. Economics (watch it!)
+
+Everything else is just expensive noise.
+</Callout>
+
+Welcome to production. It's messier than your POC, harder than your demo, and more rewarding than you imagined.
+
+Now go build something that actually works.

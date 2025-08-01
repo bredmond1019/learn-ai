@@ -442,15 +442,550 @@ Create a comprehensive hook setup that:
 3. **Implement Rollback**: Add a hook that can automatically rollback changes if tests fail
 4. **Create Team Notifications**: Build hooks that notify your team channel when important milestones are reached
 
+## Building Multi-Agent Observability {#multi-agent-observability}
+
+As you scale from one Claude instance to many, observability becomes critical. Let's build a complete observability system that tracks multiple agents in real-time.
+
+### The Observability Architecture
+
+<CodeExample
+  title="Multi-Agent Observability Flow"
+  language="text"
+  code={`┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  Claude Agent 1 │     │  Claude Agent 2 │     │  Claude Agent 3 │
+│   (Frontend)    │     │   (Backend)     │     │   (Testing)     │
+└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
+         │ Hooks                 │ Hooks                 │ Hooks
+         └───────────┬───────────┴───────────┬──────────┘
+                     ▼                       ▼
+              ┌─────────────────────────────────┐
+              │      Observability Server       │
+              │   • Event Storage (SQLite)      │
+              │   • WebSocket Broadcasting      │
+              │   • AI Summarization           │
+              └──────────────┬──────────────────┘
+                             ▼
+              ┌─────────────────────────────────┐
+              │    Real-Time Dashboard          │
+              │   • Live Activity Pulse         │
+              │   • Event Stream & Filtering   │
+              │   • Agent Health Monitoring     │
+              └─────────────────────────────────┘`}
+/>
+
+### Step 1: Enhanced Hook for Event Streaming
+
+<CodeExample
+  title="Universal Event Streaming Hook"
+  language="python"
+  code={`#!/usr/bin/env uv run
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#   "requests",
+#   "anthropic",
+# ]
+# ///
+
+import sys
+import json
+import requests
+import os
+from datetime import datetime
+import socket
+
+def summarize_event(event_data, event_type):
+    """Use Haiku for ultra-fast event summarization"""
+    if event_type not in ['PreToolUse', 'PostToolUse']:
+        return None
+    
+    try:
+        import anthropic
+        client = anthropic.Client()
+        
+        prompt = f"Summarize in 10 words: {json.dumps(event_data)}"
+        response = client.messages.create(
+            model="claude-3-haiku-20240307",
+            max_tokens=30,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.content[0].text
+    except:
+        return None
+
+def main():
+    event_type = sys.argv[1] if len(sys.argv) > 1 else "unknown"
+    event = json.loads(sys.stdin.read())
+    
+    # Enrich event data
+    event['timestamp'] = datetime.now().isoformat()
+    event['hostname'] = socket.gethostname()
+    event['event_type'] = event_type
+    event['app_name'] = os.environ.get('PROJECT_NAME', 'unknown')
+    event['session_id'] = os.environ.get('CLAUDE_SESSION_ID', 'unknown')
+    
+    # Add AI summary for key events
+    if summary := summarize_event(event, event_type):
+        event['summary'] = summary
+    
+    # Send to observability server
+    try:
+        requests.post(
+            'http://localhost:3000/events',
+            json=event,
+            timeout=0.5  # Non-blocking
+        )
+    except:
+        pass  # Fail silently to not disrupt workflow
+
+if __name__ == "__main__":
+    main()`}
+/>
+
+### Step 2: Real-Time Observability Server
+
+<CodeExample
+  title="Bun-Based Event Server"
+  language="typescript"
+  code={`// server.ts
+import { serve } from 'bun';
+import { Database } from 'bun:sqlite';
+
+const db = new Database('agent-events.db');
+
+// Initialize schema
+db.run(\`
+  CREATE TABLE IF NOT EXISTS events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp TEXT NOT NULL,
+    app_name TEXT,
+    session_id TEXT,
+    event_type TEXT,
+    summary TEXT,
+    data TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )
+\`);
+
+// WebSocket clients
+const clients = new Set<WebSocket>();
+
+serve({
+  port: 3000,
+  
+  async fetch(req, server) {
+    const url = new URL(req.url);
+    
+    // Handle event ingestion
+    if (url.pathname === '/events' && req.method === 'POST') {
+      const event = await req.json();
+      
+      // Store event
+      db.run(
+        \`INSERT INTO events 
+         (timestamp, app_name, session_id, event_type, summary, data) 
+         VALUES (?, ?, ?, ?, ?, ?)\`,
+        event.timestamp,
+        event.app_name,
+        event.session_id,
+        event.event_type,
+        event.summary,
+        JSON.stringify(event)
+      );
+      
+      // Broadcast to connected clients
+      const message = JSON.stringify({
+        type: 'event',
+        data: event
+      });
+      
+      clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(message);
+        }
+      });
+      
+      return new Response('OK');
+    }
+    
+    // WebSocket endpoint
+    if (url.pathname === '/ws') {
+      if (server.upgrade(req)) {
+        return; // Upgrade successful
+      }
+    }
+    
+    // Dashboard endpoint
+    if (url.pathname === '/') {
+      return new Response(dashboardHTML, {
+        headers: { 'Content-Type': 'text/html' }
+      });
+    }
+    
+    return new Response('Not found', { status: 404 });
+  },
+  
+  websocket: {
+    open(ws) {
+      clients.add(ws);
+      
+      // Send recent events on connect
+      const recent = db.query(\`
+        SELECT * FROM events 
+        ORDER BY id DESC 
+        LIMIT 100
+      \`).all();
+      
+      ws.send(JSON.stringify({
+        type: 'history',
+        data: recent
+      }));
+    },
+    
+    close(ws) {
+      clients.delete(ws);
+    }
+  }
+});`}
+/>
+
+### Step 3: Live Dashboard Implementation
+
+<CodeExample
+  title="Real-Time Dashboard Component"
+  language="html"
+  code={`<!DOCTYPE html>
+<html>
+<head>
+  <title>Claude Multi-Agent Observatory</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    .event-stream { 
+      height: 400px; 
+      overflow-y: auto; 
+      border: 1px solid #333;
+      padding: 10px;
+    }
+    .event-item {
+      padding: 8px;
+      margin: 4px 0;
+      border-radius: 4px;
+      background: #f0f0f0;
+    }
+    .session-badge {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: white;
+    }
+    .activity-pulse {
+      display: flex;
+      height: 100px;
+      align-items: flex-end;
+      gap: 2px;
+    }
+    .pulse-bar {
+      flex: 1;
+      background: #3498db;
+      transition: height 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Claude Multi-Agent Observatory</h1>
+    
+    <!-- Activity Pulse -->
+    <div class="activity-pulse">
+      <div v-for="bar in activityBars" 
+           :key="bar.time"
+           class="pulse-bar"
+           :style="{ height: bar.height + '%' }">
+      </div>
+    </div>
+    
+    <!-- Stats -->
+    <div>
+      <h3>Active Sessions: {{ activeSessions.size }}</h3>
+      <span v-for="session in activeSessions" 
+            :key="session"
+            class="session-badge"
+            :style="{ backgroundColor: getSessionColor(session) }">
+        {{ session.slice(0, 8) }}
+      </span>
+    </div>
+    
+    <!-- Event Stream -->
+    <div class="event-stream">
+      <div v-for="event in events" 
+           :key="event.id"
+           class="event-item">
+        <strong>{{ event.app_name }}</strong> - 
+        {{ event.event_type }} - 
+        <span v-if="event.summary">{{ event.summary }}</span>
+        <small>{{ new Date(event.timestamp).toLocaleTimeString() }}</small>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const { createApp } = Vue;
+    
+    createApp({
+      data() {
+        return {
+          events: [],
+          ws: null,
+          activityBars: Array(60).fill({ height: 0 })
+        };
+      },
+      
+      computed: {
+        activeSessions() {
+          const sessions = new Set();
+          this.events.slice(0, 100).forEach(e => {
+            sessions.add(e.session_id);
+          });
+          return sessions;
+        }
+      },
+      
+      methods: {
+        connect() {
+          this.ws = new WebSocket('ws://localhost:3000/ws');
+          
+          this.ws.onmessage = (event) => {
+            const message = JSON.parse(event.data);
+            
+            if (message.type === 'event') {
+              this.events.unshift(message.data);
+              this.events = this.events.slice(0, 1000);
+              this.updateActivityPulse();
+            } else if (message.type === 'history') {
+              this.events = message.data.reverse();
+            }
+          };
+          
+          this.ws.onclose = () => {
+            setTimeout(() => this.connect(), 1000);
+          };
+        },
+        
+        updateActivityPulse() {
+          // Update activity visualization
+          const now = Date.now();
+          const minute = Math.floor(now / 1000);
+          const index = minute % 60;
+          
+          this.activityBars[index] = {
+            height: Math.min(100, this.activityBars[index].height + 10),
+            time: minute
+          };
+        },
+        
+        getSessionColor(sessionId) {
+          // Generate consistent color from session ID
+          let hash = 0;
+          for (let i = 0; i < sessionId.length; i++) {
+            hash = sessionId.charCodeAt(i) + ((hash << 5) - hash);
+          }
+          const hue = Math.abs(hash) % 360;
+          return \`hsl(\${hue}, 70%, 50%)\`;
+        }
+      },
+      
+      mounted() {
+        this.connect();
+        
+        // Decay activity bars over time
+        setInterval(() => {
+          this.activityBars = this.activityBars.map(bar => ({
+            ...bar,
+            height: Math.max(0, bar.height - 1)
+          }));
+        }, 1000);
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>`}
+/>
+
+### Step 4: Configure Hooks for Full Observability
+
+<CodeExample
+  title="Complete Observability Hook Configuration"
+  language="json"
+  code={`{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "uv run scripts/stream-event.py PreToolUse"
+        }
+      ]
+    }],
+    "PostToolUse": [{
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "uv run scripts/stream-event.py PostToolUse"
+        }
+      ]
+    }],
+    "Notification": [{
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "uv run scripts/stream-event.py Notification"
+        }
+      ]
+    }],
+    "Stop": [{
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "uv run scripts/stream-event.py Stop"
+        },
+        {
+          "type": "command",
+          "command": "uv run scripts/save-transcript.py"
+        }
+      ]
+    }],
+    "SubagentStop": [{
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "uv run scripts/stream-event.py SubagentStop"
+        }
+      ]
+    }]
+  }
+}`}
+/>
+
+### Advanced Observability Patterns
+
+<Callout type="info">
+  **Pro Tip**: Use small, fast models like Claude Haiku for event summarization. Thousands of summaries cost less than $0.20 and provide instant context.
+</Callout>
+
+#### Pattern 1: Agent Health Monitoring
+
+<CodeExample
+  title="Agent Health Check Script"
+  language="python"
+  code={`#!/usr/bin/env uv run
+# Check for stuck or inactive agents
+
+import sqlite3
+from datetime import datetime, timedelta
+
+def check_agent_health():
+    conn = sqlite3.connect('agent-events.db')
+    cursor = conn.cursor()
+    
+    # Find inactive agents
+    threshold = datetime.now() - timedelta(minutes=5)
+    
+    cursor.execute("""
+        SELECT session_id, MAX(timestamp) as last_seen
+        FROM events
+        GROUP BY session_id
+        HAVING last_seen < ?
+    """, (threshold.isoformat(),))
+    
+    inactive = cursor.fetchall()
+    
+    if inactive:
+        print("⚠️  Inactive agents detected:")
+        for session_id, last_seen in inactive:
+            print(f"  - {session_id}: Last seen {last_seen}")
+    
+    conn.close()
+
+if __name__ == "__main__":
+    check_agent_health()`}
+/>
+
+#### Pattern 2: Cross-Agent Conflict Detection
+
+<CodeExample
+  title="Detect File Conflicts Between Agents"
+  language="python"
+  code={`#!/usr/bin/env uv run
+# Detect when multiple agents modify the same files
+
+import json
+import sqlite3
+from collections import defaultdict
+
+def detect_conflicts():
+    conn = sqlite3.connect('agent-events.db')
+    cursor = conn.cursor()
+    
+    # Get recent file modifications
+    cursor.execute("""
+        SELECT session_id, data
+        FROM events
+        WHERE event_type = 'PostToolUse'
+        AND timestamp > datetime('now', '-1 hour')
+    """)
+    
+    file_sessions = defaultdict(set)
+    
+    for session_id, data_str in cursor.fetchall():
+        data = json.loads(data_str)
+        if data.get('tool') in ['Edit', 'Write']:
+            file_path = data.get('arguments', {}).get('path')
+            if file_path:
+                file_sessions[file_path].add(session_id)
+    
+    # Report conflicts
+    conflicts = {f: list(s) for f, s in file_sessions.items() if len(s) > 1}
+    
+    if conflicts:
+        print("⚠️  File conflicts detected:")
+        for file_path, sessions in conflicts.items():
+            print(f"  - {file_path}: {len(sessions)} agents")
+    
+    conn.close()
+    return conflicts
+
+if __name__ == "__main__":
+    detect_conflicts()`}
+/>
+
+### Scaling Considerations
+
+As you scale to 10+ agents:
+
+1. **Event Sampling**: For high-frequency events, sample rather than log everything
+2. **Batch Processing**: Buffer events and send in batches
+3. **Data Retention**: Implement automatic cleanup of old events
+4. **Performance Monitoring**: Track hook execution time to avoid slowdowns
+
+<Callout type="warning">
+  **Important**: Keep your hooks fast! They run synchronously and can slow down Claude if they take too long. Aim for <100ms execution time.
+</Callout>
+
 ## Summary
 
-Claude hooks represent a fundamental shift in how we work with AI coding assistants. By implementing proper hooks, you gain:
+Claude hooks represent a fundamental shift in how we work with AI coding assistants. By implementing proper hooks with comprehensive observability, you gain:
 
 - **Safety**: Prevent disasters before they happen
-- **Observability**: Understand exactly what your agent is doing
+- **Visibility**: See everything your agents are doing in real-time
 - **Automation**: Eliminate repetitive manual tasks
 - **Awareness**: Stay informed with voice and visual notifications
 - **Control**: Fine-grained control over agent behavior
+- **Scale**: Manage multiple agents with confidence
 
 Remember: The goal isn't to constrain your AI assistant, but to enhance it with the context and guardrails that make it a truly effective development partner.
 

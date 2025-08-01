@@ -1,0 +1,3987 @@
+{
+  "videoId": "T1Lowy1mnEg",
+  "language": "en",
+  "segments": [
+    {
+      "text": "",
+      "start": 0,
+      "duration": 56
+    },
+    {
+      "text": "If you're a developer, then right now it",
+      "start": 0.08,
+      "duration": 1.92
+    },
+    {
+      "text": "feels almost impossible to keep up with",
+      "start": 2,
+      "duration": 2.08
+    },
+    {
+      "text": "everything that's going on within the AI",
+      "start": 4.08,
+      "duration": 1.759
+    },
+    {
+      "text": "space. Everyone's talking about AI",
+      "start": 5.839,
+      "duration": 1.92
+    },
+    {
+      "text": "agents. Your whole LinkedIn feeds and AX",
+      "start": 7.759,
+      "duration": 2.241
+    },
+    {
+      "text": "feeds are full of it. Everyone makes it",
+      "start": 10,
+      "duration": 2.639
+    },
+    {
+      "text": "seem super easy. Yet, you are still",
+      "start": 12.639,
+      "duration": 2
+    },
+    {
+      "text": "trying to figure out, should I use Lang",
+      "start": 14.639,
+      "duration": 1.761
+    },
+    {
+      "text": "Chain or Llama Index and trying to debug",
+      "start": 16.4,
+      "duration": 2.639
+    },
+    {
+      "text": "and figure out all of these AI agent",
+      "start": 19.039,
+      "duration": 2.4
+    },
+    {
+      "text": "systems that you're building and",
+      "start": 21.439,
+      "duration": 1.201
+    },
+    {
+      "text": "tinkering with. All of the tutorials",
+      "start": 22.64,
+      "duration": 1.84
+    },
+    {
+      "text": "that you'll find either are messy or",
+      "start": 24.48,
+      "duration": 1.84
+    },
+    {
+      "text": "contradicting. And every week there is a",
+      "start": 26.32,
+      "duration": 1.76
+    },
+    {
+      "text": "new fire ship video dropping something",
+      "start": 28.08,
+      "duration": 2.16
+    },
+    {
+      "text": "new where you're like, \"Oh do we",
+      "start": 30.24,
+      "duration": 1.76
+    },
+    {
+      "text": "now also need to know this?\" So all in",
+      "start": 32,
+      "duration": 2.719
+    },
+    {
+      "text": "all, it's a complete mess. And my goal",
+      "start": 34.719,
+      "duration": 2.321
+    },
+    {
+      "text": "with this video is to help calm your AI",
+      "start": 37.04,
+      "duration": 3.12
+    },
+    {
+      "text": "anxiety and give you clarity on what's",
+      "start": 40.16,
+      "duration": 3.6
+    },
+    {
+      "text": "currently really going on within the AI",
+      "start": 43.76,
+      "duration": 2.479
+    },
+    {
+      "text": "space and why you can pretty much ignore",
+      "start": 46.239,
+      "duration": 2.081
+    },
+    {
+      "text": "99% of everything that you see online",
+      "start": 48.32,
+      "duration": 2.96
+    },
+    {
+      "text": "and just focus on the core foundational",
+      "start": 51.28,
+      "duration": 2.4
+    },
+    {
+      "text": "building blocks that you can use to",
+      "start": 53.68,
+      "duration": 1.6
+    },
+    {
+      "text": "build reliable and effective agents. So",
+      "start": 55.28,
+      "duration": 2.24
+    },
+    {
+      "text": "",
+      "start": 56,
+      "duration": 420
+    },
+    {
+      "text": "in this video, I'm going to walk you",
+      "start": 57.52,
+      "duration": 1.839
+    },
+    {
+      "text": "through the seven foundational building",
+      "start": 59.359,
+      "duration": 1.84
+    },
+    {
+      "text": "blocks that you need to understand when",
+      "start": 61.199,
+      "duration": 2.16
+    },
+    {
+      "text": "you want to build AI agents regardless",
+      "start": 63.359,
+      "duration": 2.241
+    },
+    {
+      "text": "of what tool you are using. Now I'm",
+      "start": 65.6,
+      "duration": 2
+    },
+    {
+      "text": "going to give these code examples in the",
+      "start": 67.6,
+      "duration": 1.519
+    },
+    {
+      "text": "Python programming language, but",
+      "start": 69.119,
+      "duration": 1.441
+    },
+    {
+      "text": "honestly it doesn't matter what tool you",
+      "start": 70.56,
+      "duration": 1.919
+    },
+    {
+      "text": "use whether that's NAN, TypeScript, Java",
+      "start": 72.479,
+      "duration": 2.241
+    },
+    {
+      "text": "or any other programming language. If",
+      "start": 74.72,
+      "duration": 1.92
+    },
+    {
+      "text": "you boil it down to these seven",
+      "start": 76.64,
+      "duration": 1.36
+    },
+    {
+      "text": "foundational building blocks, you can",
+      "start": 78,
+      "duration": 1.68
+    },
+    {
+      "text": "implement it in anything because they're",
+      "start": 79.68,
+      "duration": 1.84
+    },
+    {
+      "text": "so simple. So, I will execute these",
+      "start": 81.52,
+      "duration": 1.919
+    },
+    {
+      "text": "simple code blocks and show you the",
+      "start": 83.439,
+      "duration": 1.601
+    },
+    {
+      "text": "output and walk you through everything",
+      "start": 85.04,
+      "duration": 1.68
+    },
+    {
+      "text": "step by step with diagrams as well. So",
+      "start": 86.72,
+      "duration": 1.92
+    },
+    {
+      "text": "that even if you've never written a",
+      "start": 88.64,
+      "duration": 1.519
+    },
+    {
+      "text": "single line of Python, you can still",
+      "start": 90.159,
+      "duration": 1.441
+    },
+    {
+      "text": "follow this video and I can guarantee",
+      "start": 91.6,
+      "duration": 1.76
+    },
+    {
+      "text": "you that after watching this video,",
+      "start": 93.36,
+      "duration": 1.92
+    },
+    {
+      "text": "you'll have a completely different",
+      "start": 95.28,
+      "duration": 1.519
+    },
+    {
+      "text": "perspective on what it takes to build",
+      "start": 96.799,
+      "duration": 2
+    },
+    {
+      "text": "effective AI agents and you'll be able",
+      "start": 98.799,
+      "duration": 2
+    },
+    {
+      "text": "to look at almost any problem, break it",
+      "start": 100.799,
+      "duration": 2.481
+    },
+    {
+      "text": "down, and know the patterns and the",
+      "start": 103.28,
+      "duration": 1.519
+    },
+    {
+      "text": "building blocks you need in order to",
+      "start": 104.799,
+      "duration": 1.201
+    },
+    {
+      "text": "solve it and automate it. And then you",
+      "start": 106,
+      "duration": 1.439
+    },
+    {
+      "text": "might be thinking, okay, like Dave, but",
+      "start": 107.439,
+      "duration": 1.441
+    },
+    {
+      "text": "why should I listen to you? Aren't you",
+      "start": 108.88,
+      "duration": 1.44
+    },
+    {
+      "text": "just part of the 99% of noise you just",
+      "start": 110.32,
+      "duration": 2
+    },
+    {
+      "text": "mentioned? Well, I'll let that up to",
+      "start": 112.32,
+      "duration": 1.759
+    },
+    {
+      "text": "you. But I have somewhat of a unique",
+      "start": 114.079,
+      "duration": 1.441
+    },
+    {
+      "text": "perspective on the AI market right now.",
+      "start": 115.52,
+      "duration": 1.76
+    },
+    {
+      "text": "And that's because I have over 10 years",
+      "start": 117.28,
+      "duration": 1.519
+    },
+    {
+      "text": "of experience in AI. So, I have",
+      "start": 118.799,
+      "duration": 1.761
+    },
+    {
+      "text": "background in machine learning and I run",
+      "start": 120.56,
+      "duration": 1.599
+    },
+    {
+      "text": "my own AI development company where over",
+      "start": 122.159,
+      "duration": 1.92
+    },
+    {
+      "text": "the past years we've done over 20 full",
+      "start": 124.079,
+      "duration": 2
+    },
+    {
+      "text": "system deployments. Next to that, I have",
+      "start": 126.079,
+      "duration": 2.16
+    },
+    {
+      "text": "plenty of communities with thousands of",
+      "start": 128.239,
+      "duration": 2.24
+    },
+    {
+      "text": "members combined. So, that gives me a",
+      "start": 130.479,
+      "duration": 2.001
+    },
+    {
+      "text": "really good pulse on everything that's",
+      "start": 132.48,
+      "duration": 1.68
+    },
+    {
+      "text": "going on, what's working and what's not.",
+      "start": 134.16,
+      "duration": 2
+    },
+    {
+      "text": "And next to that, I also regularly",
+      "start": 136.16,
+      "duration": 2
+    },
+    {
+      "text": "interview industry leaders like Jason",
+      "start": 138.16,
+      "duration": 1.92
+    },
+    {
+      "text": "Leu or Dan Martell, for example. So, I",
+      "start": 140.08,
+      "duration": 2.64
+    },
+    {
+      "text": "briefly wanted to bring that up just so",
+      "start": 142.72,
+      "duration": 1.76
+    },
+    {
+      "text": "you know that I'm not just some random",
+      "start": 144.48,
+      "duration": 1.839
+    },
+    {
+      "text": "guy building NAT workflows from his",
+      "start": 146.319,
+      "duration": 2.081
+    },
+    {
+      "text": "bedroom. And there's nothing wrong with",
+      "start": 148.4,
+      "duration": 1.6
+    },
+    {
+      "text": "that. It's just a different category.",
+      "start": 150,
+      "duration": 2.16
+    },
+    {
+      "text": "Clients work with us and hire us to",
+      "start": 152.16,
+      "duration": 1.76
+    },
+    {
+      "text": "build production ready systems that they",
+      "start": 153.92,
+      "duration": 1.679
+    },
+    {
+      "text": "can rely on. And that's that knowledge",
+      "start": 155.599,
+      "duration": 1.92
+    },
+    {
+      "text": "from that I want to bring to you in this",
+      "start": 157.519,
+      "duration": 1.681
+    },
+    {
+      "text": "video. And the big big problem that I",
+      "start": 159.2,
+      "duration": 2.08
+    },
+    {
+      "text": "see right now within the AI space and",
+      "start": 161.28,
+      "duration": 1.84
+    },
+    {
+      "text": "why you feel so confused as a developer",
+      "start": 163.12,
+      "duration": 2
+    },
+    {
+      "text": "all comes from this simple image over",
+      "start": 165.12,
+      "duration": 2
+    },
+    {
+      "text": "here. There is simply a lot of money",
+      "start": 167.12,
+      "duration": 2.8
+    },
+    {
+      "text": "flowing into the market. And every time",
+      "start": 169.92,
+      "duration": 2.16
+    },
+    {
+      "text": "throughout history when there's an",
+      "start": 172.08,
+      "duration": 1.36
+    },
+    {
+      "text": "opportunity like that, what happens?",
+      "start": 173.44,
+      "duration": 1.92
+    },
+    {
+      "text": "People jump on it because people want to",
+      "start": 175.36,
+      "duration": 1.92
+    },
+    {
+      "text": "try and capitalize on it. So even if",
+      "start": 177.28,
+      "duration": 1.679
+    },
+    {
+      "text": "you're remotely interested in AI, this",
+      "start": 178.959,
+      "duration": 2.321
+    },
+    {
+      "text": "is what most of your social media feeds",
+      "start": 181.28,
+      "duration": 2.319
+    },
+    {
+      "text": "will look like. And they all make it",
+      "start": 183.599,
+      "duration": 2.481
+    },
+    {
+      "text": "seem super easy. There are all these",
+      "start": 186.08,
+      "duration": 1.68
+    },
+    {
+      "text": "tools that you can use to build full",
+      "start": 187.76,
+      "duration": 1.759
+    },
+    {
+      "text": "agent armies. Yet you are still",
+      "start": 189.519,
+      "duration": 2
+    },
+    {
+      "text": "wondering like where do I start and how",
+      "start": 191.519,
+      "duration": 1.761
+    },
+    {
+      "text": "do I make this all work in really a",
+      "start": 193.28,
+      "duration": 2.239
+    },
+    {
+      "text": "production ready environment. And on top",
+      "start": 195.519,
+      "duration": 2.481
+    },
+    {
+      "text": "of that you have of course all of the",
+      "start": 198,
+      "duration": 1.599
+    },
+    {
+      "text": "frameworks and libraries that follow a",
+      "start": 199.599,
+      "duration": 2.161
+    },
+    {
+      "text": "similar trend right so developer tools",
+      "start": 201.76,
+      "duration": 2.24
+    },
+    {
+      "text": "GitHub repositories all kinds of tools",
+      "start": 204,
+      "duration": 2.08
+    },
+    {
+      "text": "that make it seem super easy to build",
+      "start": 206.08,
+      "duration": 2.239
+    },
+    {
+      "text": "these AI agents. And then of course we",
+      "start": 208.319,
+      "duration": 2
+    },
+    {
+      "text": "have the news, everything that's going",
+      "start": 210.319,
+      "duration": 1.521
+    },
+    {
+      "text": "on and the plenty of other tools that",
+      "start": 211.84,
+      "duration": 2.88
+    },
+    {
+      "text": "are built on top of that that you can",
+      "start": 214.72,
+      "duration": 2.32
+    },
+    {
+      "text": "also use. And this all results in you",
+      "start": 217.04,
+      "duration": 2.32
+    },
+    {
+      "text": "feeling really overwhelmed and having no",
+      "start": 219.36,
+      "duration": 2.32
+    },
+    {
+      "text": "idea what's going on and what to focus",
+      "start": 221.68,
+      "duration": 1.68
+    },
+    {
+      "text": "on. And now there's a clear distinction",
+      "start": 223.36,
+      "duration": 1.76
+    },
+    {
+      "text": "between the top developers and teams",
+      "start": 225.12,
+      "duration": 2
+    },
+    {
+      "text": "that are actually shipping AI systems",
+      "start": 227.12,
+      "duration": 1.839
+    },
+    {
+      "text": "that make it to production versus the",
+      "start": 228.959,
+      "duration": 2.64
+    },
+    {
+      "text": "developers that are still trying to",
+      "start": 231.599,
+      "duration": 2
+    },
+    {
+      "text": "debug the latest agent frameworks. and",
+      "start": 233.599,
+      "duration": 2
+    },
+    {
+      "text": "that is that most developers follow all",
+      "start": 235.599,
+      "duration": 2.081
+    },
+    {
+      "text": "the hype you see on social media, the",
+      "start": 237.68,
+      "duration": 2.08
+    },
+    {
+      "text": "frameworks, the media attention and the",
+      "start": 239.76,
+      "duration": 1.92
+    },
+    {
+      "text": "plethora of AI tools that are out there",
+      "start": 241.68,
+      "duration": 2.24
+    },
+    {
+      "text": "while the smart developers realize that",
+      "start": 243.92,
+      "duration": 1.92
+    },
+    {
+      "text": "everything that you see over here is",
+      "start": 245.84,
+      "duration": 1.679
+    },
+    {
+      "text": "simply an abstraction over the current",
+      "start": 247.519,
+      "duration": 2.241
+    },
+    {
+      "text": "industry leaders the LLM model providers",
+      "start": 249.76,
+      "duration": 3.44
+    },
+    {
+      "text": "and once you realize that as a developer",
+      "start": 253.2,
+      "duration": 2.08
+    },
+    {
+      "text": "building AI systems and you start to",
+      "start": 255.28,
+      "duration": 1.84
+    },
+    {
+      "text": "work directly with these model providers",
+      "start": 257.12,
+      "duration": 2.079
+    },
+    {
+      "text": "APIs you realize that you can actually",
+      "start": 259.199,
+      "duration": 2.72
+    },
+    {
+      "text": "ignore 99% of the stuff that you see",
+      "start": 261.919,
+      "duration": 2.161
+    },
+    {
+      "text": "online and also O realized that",
+      "start": 264.08,
+      "duration": 1.92
+    },
+    {
+      "text": "fundamentally nothing has pretty much",
+      "start": 266,
+      "duration": 2.24
+    },
+    {
+      "text": "changed since function calling was",
+      "start": 268.24,
+      "duration": 1.84
+    },
+    {
+      "text": "introduced. Yes, models get better, but",
+      "start": 270.08,
+      "duration": 2.8
+    },
+    {
+      "text": "the way we work with these LLMs, it's",
+      "start": 272.88,
+      "duration": 2.4
+    },
+    {
+      "text": "still the same. And every time I bring",
+      "start": 275.28,
+      "duration": 1.919
+    },
+    {
+      "text": "this up, people are like, \"What? How is",
+      "start": 277.199,
+      "duration": 1.44
+    },
+    {
+      "text": "this possible?\" But our code bases from",
+      "start": 278.639,
+      "duration": 1.84
+    },
+    {
+      "text": "2 years ago, they still run. They still",
+      "start": 280.479,
+      "duration": 2.641
+    },
+    {
+      "text": "work. We only have to change the model",
+      "start": 283.12,
+      "duration": 2.16
+    },
+    {
+      "text": "endpoints through the APIs because we've",
+      "start": 285.28,
+      "duration": 2.08
+    },
+    {
+      "text": "engineered them in such a way to not be",
+      "start": 287.36,
+      "duration": 2.16
+    },
+    {
+      "text": "reliant on frameworks that are",
+      "start": 289.52,
+      "duration": 1.6
+    },
+    {
+      "text": "essentially built on Quicksand. So all",
+      "start": 291.12,
+      "duration": 1.76
+    },
+    {
+      "text": "this context that I'm providing right",
+      "start": 292.88,
+      "duration": 1.52
+    },
+    {
+      "text": "now is super important just like with",
+      "start": 294.4,
+      "duration": 1.68
+    },
+    {
+      "text": "LLMs because otherwise the rest of this",
+      "start": 296.08,
+      "duration": 1.92
+    },
+    {
+      "text": "video and the seven core building blocks",
+      "start": 298,
+      "duration": 1.759
+    },
+    {
+      "text": "won't make a lot of sense. So the first",
+      "start": 299.759,
+      "duration": 2.16
+    },
+    {
+      "text": "most important thing to understand is",
+      "start": 301.919,
+      "duration": 2.321
+    },
+    {
+      "text": "that if you look at the top teams",
+      "start": 304.24,
+      "duration": 1.6
+    },
+    {
+      "text": "building AI systems, they use custom",
+      "start": 305.84,
+      "duration": 2.16
+    },
+    {
+      "text": "building blocks, not frameworks. And",
+      "start": 308,
+      "duration": 1.919
+    },
+    {
+      "text": "that is because the most effective AI",
+      "start": 309.919,
+      "duration": 2
+    },
+    {
+      "text": "agents aren't actually that agentic at",
+      "start": 311.919,
+      "duration": 2.481
+    },
+    {
+      "text": "all. They're mostly deterministic",
+      "start": 314.4,
+      "duration": 1.76
+    },
+    {
+      "text": "software with strategic LLM calls placed",
+      "start": 316.16,
+      "duration": 2.16
+    },
+    {
+      "text": "exactly where they add value. So, the",
+      "start": 318.32,
+      "duration": 1.76
+    },
+    {
+      "text": "problem with most agent frameworks and",
+      "start": 320.08,
+      "duration": 1.679
+    },
+    {
+      "text": "tutorials out there is that most of them",
+      "start": 321.759,
+      "duration": 1.761
+    },
+    {
+      "text": "push for giving your LLM just a bunch of",
+      "start": 323.52,
+      "duration": 2.8
+    },
+    {
+      "text": "tools and let it figure out how to solve",
+      "start": 326.32,
+      "duration": 2.56
+    },
+    {
+      "text": "the problem. But in reality, you don't",
+      "start": 328.88,
+      "duration": 1.84
+    },
+    {
+      "text": "want your LLM making every decision. You",
+      "start": 330.72,
+      "duration": 2.24
+    },
+    {
+      "text": "want it handling the one thing that's",
+      "start": 332.96,
+      "duration": 1.519
+    },
+    {
+      "text": "really good at reasoning with context",
+      "start": 334.479,
+      "duration": 2.321
+    },
+    {
+      "text": "while your code or application handles",
+      "start": 336.8,
+      "duration": 2
+    },
+    {
+      "text": "everything else. And the solution is",
+      "start": 338.8,
+      "duration": 1.679
+    },
+    {
+      "text": "actually quite straightforward. It's",
+      "start": 340.479,
+      "duration": 1.761
+    },
+    {
+      "text": "just software engineering. So instead of",
+      "start": 342.24,
+      "duration": 2.239
+    },
+    {
+      "text": "making an LLM API call with 15 tools,",
+      "start": 344.479,
+      "duration": 2.801
+    },
+    {
+      "text": "you want to tactfully break down what",
+      "start": 347.28,
+      "duration": 1.919
+    },
+    {
+      "text": "you're actually building into",
+      "start": 349.199,
+      "duration": 1.121
+    },
+    {
+      "text": "fundamental components, solve each",
+      "start": 350.32,
+      "duration": 2.319
+    },
+    {
+      "text": "problem with proper software engineering",
+      "start": 352.639,
+      "duration": 1.681
+    },
+    {
+      "text": "best practices and only include an LLM",
+      "start": 354.32,
+      "duration": 2.879
+    },
+    {
+      "text": "step when it's impossible to solve it",
+      "start": 357.199,
+      "duration": 1.84
+    },
+    {
+      "text": "with deterministic code. Making an LLM",
+      "start": 359.039,
+      "duration": 2.401
+    },
+    {
+      "text": "API call right now is the most expensive",
+      "start": 361.44,
+      "duration": 2.8
+    },
+    {
+      "text": "and dangerous operation in software",
+      "start": 364.24,
+      "duration": 2.239
+    },
+    {
+      "text": "engineering and it's super powerful but",
+      "start": 366.479,
+      "duration": 2.241
+    },
+    {
+      "text": "you want to avoid it at all cost and",
+      "start": 368.72,
+      "duration": 1.919
+    },
+    {
+      "text": "only use them when it's absolutely",
+      "start": 370.639,
+      "duration": 1.84
+    },
+    {
+      "text": "necessary and this is especially true",
+      "start": 372.479,
+      "duration": 2.321
+    },
+    {
+      "text": "for background automation systems. This",
+      "start": 374.8,
+      "duration": 2.16
+    },
+    {
+      "text": "is a super important concept to",
+      "start": 376.96,
+      "duration": 1.519
+    },
+    {
+      "text": "understand. There is a huge difference",
+      "start": 378.479,
+      "duration": 2.081
+    },
+    {
+      "text": "between building personal assistants",
+      "start": 380.56,
+      "duration": 2.24
+    },
+    {
+      "text": "like chat GPT or cursor where users are",
+      "start": 382.8,
+      "duration": 3.2
+    },
+    {
+      "text": "in the loop versus building fully",
+      "start": 386,
+      "duration": 2.08
+    },
+    {
+      "text": "automated systems that process",
+      "start": 388.08,
+      "duration": 2
+    },
+    {
+      "text": "information or handle workflows without",
+      "start": 390.08,
+      "duration": 1.92
+    },
+    {
+      "text": "humor in defension. And let's face it,",
+      "start": 392,
+      "duration": 1.919
+    },
+    {
+      "text": "most of you aren't building the next",
+      "start": 393.919,
+      "duration": 1.601
+    },
+    {
+      "text": "chat or cursor. You're building backend",
+      "start": 395.52,
+      "duration": 2.32
+    },
+    {
+      "text": "automations to make your work or your",
+      "start": 397.84,
+      "duration": 2.079
+    },
+    {
+      "text": "company more efficient. So when you are",
+      "start": 399.919,
+      "duration": 1.761
+    },
+    {
+      "text": "building personal assistant like",
+      "start": 401.68,
+      "duration": 1.6
+    },
+    {
+      "text": "applications, using tools and multiple",
+      "start": 403.28,
+      "duration": 2.8
+    },
+    {
+      "text": "LLM calls can be more effective. But",
+      "start": 406.08,
+      "duration": 2.239
+    },
+    {
+      "text": "when you're building background",
+      "start": 408.319,
+      "duration": 1.201
+    },
+    {
+      "text": "automation system, you really want to",
+      "start": 409.52,
+      "duration": 2.239
+    },
+    {
+      "text": "reduce them. And for example, for our",
+      "start": 411.759,
+      "duration": 1.761
+    },
+    {
+      "text": "production environments for our clients,",
+      "start": 413.52,
+      "duration": 1.679
+    },
+    {
+      "text": "we almost never rely on tool calls. So",
+      "start": 415.199,
+      "duration": 2.401
+    },
+    {
+      "text": "you want to build your applications in",
+      "start": 417.6,
+      "duration": 1.68
+    },
+    {
+      "text": "such a way where you need as little LLM",
+      "start": 419.28,
+      "duration": 2.56
+    },
+    {
+      "text": "API calls as possible. Only when you",
+      "start": 421.84,
+      "duration": 2.799
+    },
+    {
+      "text": "can't solve the problem anymore with",
+      "start": 424.639,
+      "duration": 1.68
+    },
+    {
+      "text": "deterministic code, that's when you make",
+      "start": 426.319,
+      "duration": 2.081
+    },
+    {
+      "text": "a call. And when you get to that point,",
+      "start": 428.4,
+      "duration": 2.799
+    },
+    {
+      "text": "it's all about context engineering.",
+      "start": 431.199,
+      "duration": 1.84
+    },
+    {
+      "text": "Because in order to get a good answer",
+      "start": 433.039,
+      "duration": 1.921
+    },
+    {
+      "text": "back from an LLM, you need the right",
+      "start": 434.96,
+      "duration": 2.079
+    },
+    {
+      "text": "context at the right time sent to the",
+      "start": 437.039,
+      "duration": 2.081
+    },
+    {
+      "text": "right model. So you need to pre-process",
+      "start": 439.12,
+      "duration": 1.84
+    },
+    {
+      "text": "all the available information, prompts,",
+      "start": 440.96,
+      "duration": 2
+    },
+    {
+      "text": "and user inputs so the LLM can easily",
+      "start": 442.96,
+      "duration": 2.4
+    },
+    {
+      "text": "and reliably solve the problem. This is",
+      "start": 445.36,
+      "duration": 2.399
+    },
+    {
+      "text": "the most fundamental skill in working",
+      "start": 447.759,
+      "duration": 1.44
+    },
+    {
+      "text": "with LLMs. And then the final thing that",
+      "start": 449.199,
+      "duration": 1.84
+    },
+    {
+      "text": "you need to understand is that most AI",
+      "start": 451.039,
+      "duration": 1.921
+    },
+    {
+      "text": "agents are simply workflows or DAGs if",
+      "start": 452.96,
+      "duration": 3.12
+    },
+    {
+      "text": "you want to be precise or just graphs if",
+      "start": 456.08,
+      "duration": 2.16
+    },
+    {
+      "text": "you include loops. And most steps in",
+      "start": 458.24,
+      "duration": 1.92
+    },
+    {
+      "text": "these workflows should be regular code,",
+      "start": 460.16,
+      "duration": 2
+    },
+    {
+      "text": "not LLM calls. So what I'm trying to do",
+      "start": 462.16,
+      "duration": 2.319
+    },
+    {
+      "text": "in this video is really help you",
+      "start": 464.479,
+      "duration": 2.16
+    },
+    {
+      "text": "understand AI agents from a foundational",
+      "start": 466.639,
+      "duration": 2.96
+    },
+    {
+      "text": "level from first principles. And now",
+      "start": 469.599,
+      "duration": 2.32
+    },
+    {
+      "text": "that we've set the stage, we get into",
+      "start": 471.919,
+      "duration": 2.4
+    },
+    {
+      "text": "the foundational building blocks that",
+      "start": 474.319,
+      "duration": 2.32
+    },
+    {
+      "text": "",
+      "start": 476,
+      "duration": 72
+    },
+    {
+      "text": "you need. And there are really only",
+      "start": 476.639,
+      "duration": 1.921
+    },
+    {
+      "text": "seven or so that you use in order to",
+      "start": 478.56,
+      "duration": 2.4
+    },
+    {
+      "text": "take a problem, break it down into",
+      "start": 480.96,
+      "duration": 1.679
+    },
+    {
+      "text": "smaller problems, and then try and solve",
+      "start": 482.639,
+      "duration": 2.24
+    },
+    {
+      "text": "each of those sub problems with these",
+      "start": 484.879,
+      "duration": 1.921
+    },
+    {
+      "text": "building blocks that I will introduce to",
+      "start": 486.8,
+      "duration": 1.36
+    },
+    {
+      "text": "you right now. And building block number",
+      "start": 488.16,
+      "duration": 1.759
+    },
+    {
+      "text": "one is what I call the intelligence",
+      "start": 489.919,
+      "duration": 1.68
+    },
+    {
+      "text": "layer. So super obvious, right? This is",
+      "start": 491.599,
+      "duration": 2.081
+    },
+    {
+      "text": "the only truly AI component in there.",
+      "start": 493.68,
+      "duration": 2.32
+    },
+    {
+      "text": "And this is where the magic happens. So",
+      "start": 496,
+      "duration": 2
+    },
+    {
+      "text": "this is where you make the actual API",
+      "start": 498,
+      "duration": 2.16
+    },
+    {
+      "text": "call to the large language model.",
+      "start": 500.16,
+      "duration": 2.319
+    },
+    {
+      "text": "Without this, you just have regular",
+      "start": 502.479,
+      "duration": 2.081
+    },
+    {
+      "text": "software. The tricky part isn't the LLM",
+      "start": 504.56,
+      "duration": 2.639
+    },
+    {
+      "text": "call itself. That's super",
+      "start": 507.199,
+      "duration": 1.361
+    },
+    {
+      "text": "straightforward. It's everything else",
+      "start": 508.56,
+      "duration": 1.28
+    },
+    {
+      "text": "that you need to do around it. So the",
+      "start": 509.84,
+      "duration": 2.24
+    },
+    {
+      "text": "pattern here is you have a user input,",
+      "start": 512.08,
+      "duration": 2.079
+    },
+    {
+      "text": "you send it to the LLM, and the LLM will",
+      "start": 514.159,
+      "duration": 2.081
+    },
+    {
+      "text": "send it back to you. Now we can very",
+      "start": 516.24,
+      "duration": 2.479
+    },
+    {
+      "text": "easily do this in the Python programming",
+      "start": 518.719,
+      "duration": 2.88
+    },
+    {
+      "text": "language using for example the open AI",
+      "start": 521.599,
+      "duration": 3.041
+    },
+    {
+      "text": "Python SDK where we connect with the",
+      "start": 524.64,
+      "duration": 2.72
+    },
+    {
+      "text": "client. We pretty much select which",
+      "start": 527.36,
+      "duration": 2.159
+    },
+    {
+      "text": "model we want to use. We plug in a",
+      "start": 529.519,
+      "duration": 2.241
+    },
+    {
+      "text": "prompt and then we wait for the",
+      "start": 531.76,
+      "duration": 1.519
+    },
+    {
+      "text": "response. So simply running this can be",
+      "start": 533.279,
+      "duration": 2.881
+    },
+    {
+      "text": "done in any programming language. It can",
+      "start": 536.16,
+      "duration": 2.4
+    },
+    {
+      "text": "be done directly with the API. It can be",
+      "start": 538.56,
+      "duration": 2.16
+    },
+    {
+      "text": "done with N8. But this is the first",
+      "start": 540.72,
+      "duration": 2.16
+    },
+    {
+      "text": "foundational building block. you need a",
+      "start": 542.88,
+      "duration": 2
+    },
+    {
+      "text": "way to communicate with these models and",
+      "start": 544.88,
+      "duration": 2.48
+    },
+    {
+      "text": "get information back from it. Then",
+      "start": 547.36,
+      "duration": 1.84
+    },
+    {
+      "text": "",
+      "start": 548,
+      "duration": 108
+    },
+    {
+      "text": "building block number two is the memory",
+      "start": 549.2,
+      "duration": 2.639
+    },
+    {
+      "text": "building block and this ensures context",
+      "start": 551.839,
+      "duration": 1.921
+    },
+    {
+      "text": "persistence across your interactions",
+      "start": 553.76,
+      "duration": 2
+    },
+    {
+      "text": "with these models because LLMs don't",
+      "start": 555.76,
+      "duration": 2.24
+    },
+    {
+      "text": "remember anything from previous",
+      "start": 558,
+      "duration": 1.839
+    },
+    {
+      "text": "messages. They are stateless and without",
+      "start": 559.839,
+      "duration": 2.481
+    },
+    {
+      "text": "memory each interaction starts from",
+      "start": 562.32,
+      "duration": 2
+    },
+    {
+      "text": "scratch. So you need to manually pass in",
+      "start": 564.32,
+      "duration": 2.72
+    },
+    {
+      "text": "the conversation history each time. This",
+      "start": 567.04,
+      "duration": 2.64
+    },
+    {
+      "text": "is just storing and passing a",
+      "start": 569.68,
+      "duration": 1.92
+    },
+    {
+      "text": "conversation state, something we've been",
+      "start": 571.6,
+      "duration": 1.84
+    },
+    {
+      "text": "doing in web apps forever. So to build",
+      "start": 573.44,
+      "duration": 2.32
+    },
+    {
+      "text": "on top of the intelligence layer that we",
+      "start": 575.76,
+      "duration": 2.16
+    },
+    {
+      "text": "just saw, now next to just providing a",
+      "start": 577.92,
+      "duration": 2.64
+    },
+    {
+      "text": "user input prompt, we also get the",
+      "start": 580.56,
+      "duration": 2.16
+    },
+    {
+      "text": "previous context and we structure that",
+      "start": 582.72,
+      "duration": 2.239
+    },
+    {
+      "text": "in a conversation like sequence where we",
+      "start": 584.959,
+      "duration": 3.121
+    },
+    {
+      "text": "have a sequence of messages. Then we can",
+      "start": 588.08,
+      "duration": 2.4
+    },
+    {
+      "text": "get the response and within that process",
+      "start": 590.48,
+      "duration": 2.32
+    },
+    {
+      "text": "we also have to handle updating our",
+      "start": 592.8,
+      "duration": 2.56
+    },
+    {
+      "text": "conversation history. And within the",
+      "start": 595.36,
+      "duration": 1.76
+    },
+    {
+      "text": "second file over here called memory.py",
+      "start": 597.12,
+      "duration": 1.68
+    },
+    {
+      "text": "Pi, we see an example where we ask the",
+      "start": 598.8,
+      "duration": 2.32
+    },
+    {
+      "text": "AI to tell us a joke. Then we ask a",
+      "start": 601.12,
+      "duration": 2.56
+    },
+    {
+      "text": "follow-up question to ask what was my",
+      "start": 603.68,
+      "duration": 2.32
+    },
+    {
+      "text": "previous question, but we don't handle",
+      "start": 606,
+      "duration": 2.24
+    },
+    {
+      "text": "the conversation history correctly. And",
+      "start": 608.24,
+      "duration": 2.159
+    },
+    {
+      "text": "because LLMs are stateless, if we run",
+      "start": 610.399,
+      "duration": 2.401
+    },
+    {
+      "text": "this, it will simply don't know. And",
+      "start": 612.8,
+      "duration": 1.92
+    },
+    {
+      "text": "then here in this function, we have a",
+      "start": 614.72,
+      "duration": 1.52
+    },
+    {
+      "text": "proper example of how to handle memory",
+      "start": 616.24,
+      "duration": 2.159
+    },
+    {
+      "text": "where we pass in the conversation",
+      "start": 618.399,
+      "duration": 1.761
+    },
+    {
+      "text": "history and we have an alternating",
+      "start": 620.16,
+      "duration": 1.84
+    },
+    {
+      "text": "sequence between user and assistant. We",
+      "start": 622,
+      "duration": 2.64
+    },
+    {
+      "text": "are now programming this dynamically",
+      "start": 624.64,
+      "duration": 2
+    },
+    {
+      "text": "within our code. In a more realistic",
+      "start": 626.64,
+      "duration": 2.319
+    },
+    {
+      "text": "example, you would store and retrieve",
+      "start": 628.959,
+      "duration": 1.681
+    },
+    {
+      "text": "this from a database. And to demo this,",
+      "start": 630.64,
+      "duration": 2
+    },
+    {
+      "text": "we can simply run the first joke. So why",
+      "start": 632.64,
+      "duration": 2.48
+    },
+    {
+      "text": "do programmers prefer dark mode? Because",
+      "start": 635.12,
+      "duration": 2.08
+    },
+    {
+      "text": "light attracts bugs. Then we ask it a",
+      "start": 637.2,
+      "duration": 2.72
+    },
+    {
+      "text": "follow-up question to ask it what was my",
+      "start": 639.92,
+      "duration": 2.64
+    },
+    {
+      "text": "previous question. And it says, I'm",
+      "start": 642.56,
+      "duration": 1.519
+    },
+    {
+      "text": "unable to recall previous interactions.",
+      "start": 644.079,
+      "duration": 2.721
+    },
+    {
+      "text": "And lastly, we do it properly where we",
+      "start": 646.8,
+      "duration": 2.24
+    },
+    {
+      "text": "pass down the previous answer. And then",
+      "start": 649.04,
+      "duration": 2.32
+    },
+    {
+      "text": "your previous question was asking for a",
+      "start": 651.36,
+      "duration": 2
+    },
+    {
+      "text": "joke about programming. So now it",
+      "start": 653.36,
+      "duration": 1.76
+    },
+    {
+      "text": "understands the context of the",
+      "start": 655.12,
+      "duration": 1.279
+    },
+    {
+      "text": "",
+      "start": 656,
+      "duration": 132
+    },
+    {
+      "text": "conversation history. And then building",
+      "start": 656.399,
+      "duration": 1.601
+    },
+    {
+      "text": "block number three is what we call tools",
+      "start": 658,
+      "duration": 2.32
+    },
+    {
+      "text": "for external system integration",
+      "start": 660.32,
+      "duration": 1.68
+    },
+    {
+      "text": "capabilities. Because most of the time",
+      "start": 662,
+      "duration": 2
+    },
+    {
+      "text": "you need your LLM to actually do stuff",
+      "start": 664,
+      "duration": 2.399
+    },
+    {
+      "text": "and not just chat because pure text",
+      "start": 666.399,
+      "duration": 2.56
+    },
+    {
+      "text": "generation is limited. You want to call",
+      "start": 668.959,
+      "duration": 2.32
+    },
+    {
+      "text": "APIs, update databases or read files.",
+      "start": 671.279,
+      "duration": 2.721
+    },
+    {
+      "text": "tools let your LLM say I need to call",
+      "start": 674,
+      "duration": 2.24
+    },
+    {
+      "text": "this function with these parameters and",
+      "start": 676.24,
+      "duration": 2.32
+    },
+    {
+      "text": "your code handles the actual execution",
+      "start": 678.56,
+      "duration": 2.24
+    },
+    {
+      "text": "of that. So if we then look at the",
+      "start": 680.8,
+      "duration": 1.92
+    },
+    {
+      "text": "diagram over here, we augment the",
+      "start": 682.72,
+      "duration": 2.4
+    },
+    {
+      "text": "intelligence layer, the LLM API call",
+      "start": 685.12,
+      "duration": 2.64
+    },
+    {
+      "text": "potentially also with memory and we now",
+      "start": 687.76,
+      "duration": 2.8
+    },
+    {
+      "text": "also provide the LLM with tools. And for",
+      "start": 690.56,
+      "duration": 2.48
+    },
+    {
+      "text": "every API call with tools, the LLM",
+      "start": 693.04,
+      "duration": 2.479
+    },
+    {
+      "text": "decides should I use one or more of the",
+      "start": 695.519,
+      "duration": 3.201
+    },
+    {
+      "text": "tools that I have available? Yes or no?",
+      "start": 698.72,
+      "duration": 2.48
+    },
+    {
+      "text": "If no, I'll give a direct response, a",
+      "start": 701.2,
+      "duration": 2.16
+    },
+    {
+      "text": "text answer back. If yes, then select",
+      "start": 703.36,
+      "duration": 2.08
+    },
+    {
+      "text": "the tool. Then your actual code is",
+      "start": 705.44,
+      "duration": 2
+    },
+    {
+      "text": "responsible for catching that and",
+      "start": 707.44,
+      "duration": 2
+    },
+    {
+      "text": "executing the tool. then pass the result",
+      "start": 709.44,
+      "duration": 2.72
+    },
+    {
+      "text": "one more time to the LLM for it to",
+      "start": 712.16,
+      "duration": 2.16
+    },
+    {
+      "text": "format the final response yet again in a",
+      "start": 714.32,
+      "duration": 2.88
+    },
+    {
+      "text": "text answer for you. And tool calling is",
+      "start": 717.2,
+      "duration": 2.079
+    },
+    {
+      "text": "also directly available in all of the",
+      "start": 719.279,
+      "duration": 1.921
+    },
+    {
+      "text": "major model providers. So no need for",
+      "start": 721.2,
+      "duration": 2.079
+    },
+    {
+      "text": "any external frameworks or libraries. We",
+      "start": 723.279,
+      "duration": 2.24
+    },
+    {
+      "text": "just specify the function that we want",
+      "start": 725.519,
+      "duration": 1.921
+    },
+    {
+      "text": "to call. We transform that into a tool",
+      "start": 727.44,
+      "duration": 2.72
+    },
+    {
+      "text": "schema that we then make available to",
+      "start": 730.16,
+      "duration": 2.64
+    },
+    {
+      "text": "the LLM. Our code will perform a simple",
+      "start": 732.8,
+      "duration": 2.32
+    },
+    {
+      "text": "check to see if the LLM actually decided",
+      "start": 735.12,
+      "duration": 2.719
+    },
+    {
+      "text": "to call the tool. then pass in the",
+      "start": 737.839,
+      "duration": 1.921
+    },
+    {
+      "text": "parameters into the actual function and",
+      "start": 739.76,
+      "duration": 1.92
+    },
+    {
+      "text": "run it and then pass it back to the LLM",
+      "start": 741.68,
+      "duration": 2.159
+    },
+    {
+      "text": "one more time. And if we run all of",
+      "start": 743.839,
+      "duration": 1.68
+    },
+    {
+      "text": "this, we can now see that we now have an",
+      "start": 745.519,
+      "duration": 1.921
+    },
+    {
+      "text": "LLM that using the get weather function",
+      "start": 747.44,
+      "duration": 2.399
+    },
+    {
+      "text": "is able to get the weather information",
+      "start": 749.839,
+      "duration": 2.081
+    },
+    {
+      "text": "for any given city or place that you can",
+      "start": 751.92,
+      "duration": 2.24
+    },
+    {
+      "text": "think of. So we augment the LLM beyond",
+      "start": 754.16,
+      "duration": 2.96
+    },
+    {
+      "text": "just the text generation capabilities",
+      "start": 757.12,
+      "duration": 2.08
+    },
+    {
+      "text": "based on what the model was trained on.",
+      "start": 759.2,
+      "duration": 1.92
+    },
+    {
+      "text": "So through tools, we give the model a",
+      "start": 761.12,
+      "duration": 2.48
+    },
+    {
+      "text": "way to integrate and to connect with",
+      "start": 763.6,
+      "duration": 2
+    },
+    {
+      "text": "external systems. And now if you're",
+      "start": 765.6,
+      "duration": 1.679
+    },
+    {
+      "text": "entirely new to tool calling, you've",
+      "start": 767.279,
+      "duration": 1.921
+    },
+    {
+      "text": "never done it, this can actually be a",
+      "start": 769.2,
+      "duration": 1.68
+    },
+    {
+      "text": "little tricky to understand. You need to",
+      "start": 770.88,
+      "duration": 1.6
+    },
+    {
+      "text": "see a couple of examples. So for that, I",
+      "start": 772.48,
+      "duration": 1.919
+    },
+    {
+      "text": "highly recommend to check out the",
+      "start": 774.399,
+      "duration": 1.361
+    },
+    {
+      "text": "official documentation from OpenAI on",
+      "start": 775.76,
+      "duration": 2
+    },
+    {
+      "text": "function calling. Or if you want to go",
+      "start": 777.76,
+      "duration": 1.519
+    },
+    {
+      "text": "really deep with this, I have this full",
+      "start": 779.279,
+      "duration": 1.441
+    },
+    {
+      "text": "beginner course here on YouTube,",
+      "start": 780.72,
+      "duration": 2.08
+    },
+    {
+      "text": "building AI agents in pure Python, which",
+      "start": 782.8,
+      "duration": 2
+    },
+    {
+      "text": "is actually a really good follow-up for",
+      "start": 784.8,
+      "duration": 1.92
+    },
+    {
+      "text": "this video, which I will link in the",
+      "start": 786.72,
+      "duration": 1.44
+    },
+    {
+      "text": "",
+      "start": 788,
+      "duration": 225
+    },
+    {
+      "text": "description as well. All right. So now",
+      "start": 788.16,
+      "duration": 1.119
+    },
+    {
+      "text": "that we understand the basic operations",
+      "start": 789.279,
+      "duration": 1.841
+    },
+    {
+      "text": "that you can do with a large language",
+      "start": 791.12,
+      "duration": 1.76
+    },
+    {
+      "text": "model, we get to building block number",
+      "start": 792.88,
+      "duration": 1.6
+    },
+    {
+      "text": "four, which is arguably the most",
+      "start": 794.48,
+      "duration": 2.159
+    },
+    {
+      "text": "important one, and that is validation.",
+      "start": 796.639,
+      "duration": 2.241
+    },
+    {
+      "text": "So this can help us with quality",
+      "start": 798.88,
+      "duration": 2.16
+    },
+    {
+      "text": "assurance and structured data",
+      "start": 801.04,
+      "duration": 1.52
+    },
+    {
+      "text": "enforcement. So if you want to build",
+      "start": 802.56,
+      "duration": 1.839
+    },
+    {
+      "text": "effective applications around large",
+      "start": 804.399,
+      "duration": 1.68
+    },
+    {
+      "text": "language models, you need a way to make",
+      "start": 806.079,
+      "duration": 2.241
+    },
+    {
+      "text": "sure the LLM returns JSON that matches",
+      "start": 808.32,
+      "duration": 3.04
+    },
+    {
+      "text": "your expected schema because LLMs are",
+      "start": 811.36,
+      "duration": 2.64
+    },
+    {
+      "text": "probabilistic and can produce",
+      "start": 814,
+      "duration": 1.519
+    },
+    {
+      "text": "inconsistent outputs. If you ask it one",
+      "start": 815.519,
+      "duration": 2.641
+    },
+    {
+      "text": "question and then another user asks a",
+      "start": 818.16,
+      "duration": 2.08
+    },
+    {
+      "text": "question in a slightly different way,",
+      "start": 820.24,
+      "duration": 1.599
+    },
+    {
+      "text": "they can get a completely different",
+      "start": 821.839,
+      "duration": 1.44
+    },
+    {
+      "text": "answer. One might be correct, the other",
+      "start": 823.279,
+      "duration": 2.24
+    },
+    {
+      "text": "one might be wrong. So you validate the",
+      "start": 825.519,
+      "duration": 2.641
+    },
+    {
+      "text": "JSON output against a predefined",
+      "start": 828.16,
+      "duration": 2.239
+    },
+    {
+      "text": "structure. If the validation fails, you",
+      "start": 830.399,
+      "duration": 2.24
+    },
+    {
+      "text": "can send it back to LLM and fix it. And",
+      "start": 832.639,
+      "duration": 2.64
+    },
+    {
+      "text": "this concept is known as structured",
+      "start": 835.279,
+      "duration": 2.081
+    },
+    {
+      "text": "output. And we need that structured",
+      "start": 837.36,
+      "duration": 2.08
+    },
+    {
+      "text": "output, which is super crucial so we can",
+      "start": 839.44,
+      "duration": 2.32
+    },
+    {
+      "text": "engineer systems around it. So rather",
+      "start": 841.76,
+      "duration": 2.16
+    },
+    {
+      "text": "than just asking a question to a large",
+      "start": 843.92,
+      "duration": 1.76
+    },
+    {
+      "text": "language model and getting text back, we",
+      "start": 845.68,
+      "duration": 2.719
+    },
+    {
+      "text": "want a predefined JSON schema where we",
+      "start": 848.399,
+      "duration": 2.321
+    },
+    {
+      "text": "are 100% sure that what we're getting",
+      "start": 850.72,
+      "duration": 2.32
+    },
+    {
+      "text": "back contains the actual fields that we",
+      "start": 853.04,
+      "duration": 2.479
+    },
+    {
+      "text": "can use later down the line within our",
+      "start": 855.519,
+      "duration": 2.081
+    },
+    {
+      "text": "application. So the diagram looks like",
+      "start": 857.6,
+      "duration": 1.84
+    },
+    {
+      "text": "this. We ask an LLM to provide us with",
+      "start": 859.44,
+      "duration": 3.04
+    },
+    {
+      "text": "structured output which is simply just",
+      "start": 862.48,
+      "duration": 1.84
+    },
+    {
+      "text": "JSON. We validate it against a schema",
+      "start": 864.32,
+      "duration": 2.959
+    },
+    {
+      "text": "using a library like Pentic or S or",
+      "start": 867.279,
+      "duration": 2.56
+    },
+    {
+      "text": "Python data classes. We check whether",
+      "start": 869.839,
+      "duration": 2.161
+    },
+    {
+      "text": "it's valid. If it's valid, we have the",
+      "start": 872,
+      "duration": 2.48
+    },
+    {
+      "text": "structured data. If it's not valid, we",
+      "start": 874.48,
+      "duration": 2.24
+    },
+    {
+      "text": "take the error response and we send it",
+      "start": 876.72,
+      "duration": 2.08
+    },
+    {
+      "text": "back to the LLM in order to correct it.",
+      "start": 878.8,
+      "duration": 2.08
+    },
+    {
+      "text": "So, let's say you want to build some",
+      "start": 880.88,
+      "duration": 1.759
+    },
+    {
+      "text": "agentic task management tool that can",
+      "start": 882.639,
+      "duration": 2.64
+    },
+    {
+      "text": "transform natural language and put it",
+      "start": 885.279,
+      "duration": 2.401
+    },
+    {
+      "text": "into task with due dates and priorities.",
+      "start": 887.68,
+      "duration": 3.12
+    },
+    {
+      "text": "Instead of just building an agent and",
+      "start": 890.8,
+      "duration": 2.159
+    },
+    {
+      "text": "let it interact with the user and then",
+      "start": 892.959,
+      "duration": 1.921
+    },
+    {
+      "text": "just provide a text output back of what",
+      "start": 894.88,
+      "duration": 2.16
+    },
+    {
+      "text": "it thinks is the goal of the user, we",
+      "start": 897.04,
+      "duration": 2.4
+    },
+    {
+      "text": "can define a specific data structure. In",
+      "start": 899.44,
+      "duration": 2.639
+    },
+    {
+      "text": "this example, I'm doing this with the",
+      "start": 902.079,
+      "duration": 1.361
+    },
+    {
+      "text": "pyentic library within Python. And",
+      "start": 903.44,
+      "duration": 1.839
+    },
+    {
+      "text": "getting structured output from large",
+      "start": 905.279,
+      "duration": 1.68
+    },
+    {
+      "text": "language models is yet again also",
+      "start": 906.959,
+      "duration": 2.161
+    },
+    {
+      "text": "supported by all of the major model",
+      "start": 909.12,
+      "duration": 1.92
+    },
+    {
+      "text": "providers. So here you can see that when",
+      "start": 911.04,
+      "duration": 1.919
+    },
+    {
+      "text": "we're making the LLM API call to OpenAI,",
+      "start": 912.959,
+      "duration": 2.801
+    },
+    {
+      "text": "we have the parameter of text format",
+      "start": 915.76,
+      "duration": 2.24
+    },
+    {
+      "text": "that we can put in here and we set that",
+      "start": 918,
+      "duration": 2.48
+    },
+    {
+      "text": "equal to the defined task result object",
+      "start": 920.48,
+      "duration": 3.52
+    },
+    {
+      "text": "that we want to get back from the LLM.",
+      "start": 924,
+      "duration": 2.32
+    },
+    {
+      "text": "So now with our system prompt and",
+      "start": 926.32,
+      "duration": 1.68
+    },
+    {
+      "text": "instructing our model to extract task",
+      "start": 928,
+      "duration": 1.92
+    },
+    {
+      "text": "information from the user input and our",
+      "start": 929.92,
+      "duration": 1.76
+    },
+    {
+      "text": "prompt I need to complete the project",
+      "start": 931.68,
+      "duration": 1.44
+    },
+    {
+      "text": "presentation by Friday is high priority.",
+      "start": 933.12,
+      "duration": 2.399
+    },
+    {
+      "text": "We can run this and get an actual",
+      "start": 935.519,
+      "duration": 2.161
+    },
+    {
+      "text": "validated structured output data object",
+      "start": 937.68,
+      "duration": 2.8
+    },
+    {
+      "text": "back where we can clearly see we have a",
+      "start": 940.48,
+      "duration": 2.32
+    },
+    {
+      "text": "task completed and a priority field that",
+      "start": 942.8,
+      "duration": 2.8
+    },
+    {
+      "text": "we can now also programmatically call.",
+      "start": 945.6,
+      "duration": 2.239
+    },
+    {
+      "text": "So we can now actually come to our",
+      "start": 947.839,
+      "duration": 1.68
+    },
+    {
+      "text": "result object. We can call the task on",
+      "start": 949.519,
+      "duration": 2.801
+    },
+    {
+      "text": "it and we actually get the information",
+      "start": 952.32,
+      "duration": 2.4
+    },
+    {
+      "text": "that's on there. And with techniques",
+      "start": 954.72,
+      "duration": 1.52
+    },
+    {
+      "text": "like this we can validate both the",
+      "start": 956.24,
+      "duration": 1.76
+    },
+    {
+      "text": "incoming data so what we send to the LLM",
+      "start": 958,
+      "duration": 2.32
+    },
+    {
+      "text": "as well as the outcoming data of what",
+      "start": 960.32,
+      "duration": 2.24
+    },
+    {
+      "text": "the LLM is sending back to us. And you",
+      "start": 962.56,
+      "duration": 2.48
+    },
+    {
+      "text": "now already understand that context",
+      "start": 965.04,
+      "duration": 1.52
+    },
+    {
+      "text": "engineering is one of the most important",
+      "start": 966.56,
+      "duration": 2
+    },
+    {
+      "text": "skills when it comes to building",
+      "start": 968.56,
+      "duration": 1.68
+    },
+    {
+      "text": "reliable LLM applications. So using",
+      "start": 970.24,
+      "duration": 2.48
+    },
+    {
+      "text": "libraries like Pientic are really at the",
+      "start": 972.72,
+      "duration": 2.239
+    },
+    {
+      "text": "core of that. And then real quick, if",
+      "start": 974.959,
+      "duration": 1.68
+    },
+    {
+      "text": "you're a developer and you ever thought",
+      "start": 976.639,
+      "duration": 1.44
+    },
+    {
+      "text": "about starting as a freelancer to maybe",
+      "start": 978.079,
+      "duration": 1.841
+    },
+    {
+      "text": "make a little bit more money on the",
+      "start": 979.92,
+      "duration": 1.2
+    },
+    {
+      "text": "side, work on fun projects, or just to",
+      "start": 981.12,
+      "duration": 1.839
+    },
+    {
+      "text": "learn, but you don't really know where",
+      "start": 982.959,
+      "duration": 1.601
+    },
+    {
+      "text": "to start or how to find that first",
+      "start": 984.56,
+      "duration": 1.68
+    },
+    {
+      "text": "client, you might want to check out the",
+      "start": 986.24,
+      "duration": 1.36
+    },
+    {
+      "text": "first link in the description. It's a",
+      "start": 987.6,
+      "duration": 1.44
+    },
+    {
+      "text": "video of me going over how my company",
+      "start": 989.04,
+      "duration": 1.68
+    },
+    {
+      "text": "can help you with this. We've been",
+      "start": 990.72,
+      "duration": 1.44
+    },
+    {
+      "text": "running this program for over 3 years.",
+      "start": 992.16,
+      "duration": 1.599
+    },
+    {
+      "text": "We have hundreds of case studies of",
+      "start": 993.759,
+      "duration": 1.52
+    },
+    {
+      "text": "developers who already successfully made",
+      "start": 995.279,
+      "duration": 2.161
+    },
+    {
+      "text": "the leap and are now working on exciting",
+      "start": 997.44,
+      "duration": 2
+    },
+    {
+      "text": "projects either next to their full-time",
+      "start": 999.44,
+      "duration": 1.839
+    },
+    {
+      "text": "job or even doing this full-time. And",
+      "start": 1001.279,
+      "duration": 2.161
+    },
+    {
+      "text": "now, if you feel like you're not",
+      "start": 1003.44,
+      "duration": 1.04
+    },
+    {
+      "text": "technically ready yet for freelancing or",
+      "start": 1004.48,
+      "duration": 1.84
+    },
+    {
+      "text": "don't feel comfortable, there's a second",
+      "start": 1006.32,
+      "duration": 1.759
+    },
+    {
+      "text": "link in there as well that will teach",
+      "start": 1008.079,
+      "duration": 1.44
+    },
+    {
+      "text": "you everything that you need to know",
+      "start": 1009.519,
+      "duration": 1.201
+    },
+    {
+      "text": "about how to get ready for freelancing",
+      "start": 1010.72,
+      "duration": 2.16
+    },
+    {
+      "text": "as an AI engineer. And that brings us to",
+      "start": 1012.88,
+      "duration": 2.16
+    },
+    {
+      "text": "",
+      "start": 1013,
+      "duration": 246
+    },
+    {
+      "text": "building block number five, and that is",
+      "start": 1015.04,
+      "duration": 1.76
+    },
+    {
+      "text": "control for deterministics, decision-m,",
+      "start": 1016.8,
+      "duration": 2.56
+    },
+    {
+      "text": "and process flow. So you don't want your",
+      "start": 1019.36,
+      "duration": 2.64
+    },
+    {
+      "text": "LLM making every decision. Some things",
+      "start": 1022,
+      "duration": 2.88
+    },
+    {
+      "text": "should be handled by regular code. You",
+      "start": 1024.88,
+      "duration": 2.24
+    },
+    {
+      "text": "can use if else statements, switch",
+      "start": 1027.12,
+      "duration": 2
+    },
+    {
+      "text": "cases, and routing logic to direct flow",
+      "start": 1029.12,
+      "duration": 2.558
+    },
+    {
+      "text": "based on conditions. This is just normal",
+      "start": 1031.679,
+      "duration": 2.64
+    },
+    {
+      "text": "business logic and routing that you",
+      "start": 1034.319,
+      "duration": 1.599
+    },
+    {
+      "text": "would write in any application. So if we",
+      "start": 1035.919,
+      "duration": 2.561
+    },
+    {
+      "text": "look at the diagram over here, we have",
+      "start": 1038.48,
+      "duration": 2.24
+    },
+    {
+      "text": "incoming data. We can for example use an",
+      "start": 1040.72,
+      "duration": 3.04
+    },
+    {
+      "text": "LLM to classify the intent using",
+      "start": 1043.76,
+      "duration": 2.96
+    },
+    {
+      "text": "structured output where we tell the LLM",
+      "start": 1046.72,
+      "duration": 2.48
+    },
+    {
+      "text": "look here's the incoming message. It can",
+      "start": 1049.2,
+      "duration": 2.08
+    },
+    {
+      "text": "either be a question, it can be a",
+      "start": 1051.28,
+      "duration": 1.759
+    },
+    {
+      "text": "request, a complaint or the category of",
+      "start": 1053.039,
+      "duration": 2.561
+    },
+    {
+      "text": "other. We can now program our",
+      "start": 1055.6,
+      "duration": 1.76
+    },
+    {
+      "text": "application using simple if statements",
+      "start": 1057.36,
+      "duration": 2.24
+    },
+    {
+      "text": "where we do a quick check. If the",
+      "start": 1059.6,
+      "duration": 2.079
+    },
+    {
+      "text": "category equals question, we call this",
+      "start": 1061.679,
+      "duration": 2.721
+    },
+    {
+      "text": "specific function that handles just that",
+      "start": 1064.4,
+      "duration": 2.48
+    },
+    {
+      "text": "part of the application. If it's a",
+      "start": 1066.88,
+      "duration": 1.76
+    },
+    {
+      "text": "request, we do something else. If it's a",
+      "start": 1068.64,
+      "duration": 2.159
+    },
+    {
+      "text": "complaint, we have a different way of",
+      "start": 1070.799,
+      "duration": 1.681
+    },
+    {
+      "text": "handling it. We now make our workflow in",
+      "start": 1072.48,
+      "duration": 2.8
+    },
+    {
+      "text": "our process modular. We take a big",
+      "start": 1075.28,
+      "duration": 2.399
+    },
+    {
+      "text": "problem and we break it down into",
+      "start": 1077.679,
+      "duration": 1.921
+    },
+    {
+      "text": "smaller sub problems and categories that",
+      "start": 1079.6,
+      "duration": 2.319
+    },
+    {
+      "text": "we can better solve individually. And",
+      "start": 1081.919,
+      "duration": 1.76
+    },
+    {
+      "text": "now here's what that looks like in a",
+      "start": 1083.679,
+      "duration": 1.441
+    },
+    {
+      "text": "simple code example. So we again use",
+      "start": 1085.12,
+      "duration": 2.08
+    },
+    {
+      "text": "Pentic here to define a data model where",
+      "start": 1087.2,
+      "duration": 2.719
+    },
+    {
+      "text": "we can now specify the intent and we set",
+      "start": 1089.919,
+      "duration": 2.481
+    },
+    {
+      "text": "that equal to a literal which is pretty",
+      "start": 1092.4,
+      "duration": 2.639
+    },
+    {
+      "text": "much a category. It can either be a",
+      "start": 1095.039,
+      "duration": 2.241
+    },
+    {
+      "text": "question, a request or a complaint. If",
+      "start": 1097.28,
+      "duration": 1.68
+    },
+    {
+      "text": "it's set to something else, it will",
+      "start": 1098.96,
+      "duration": 1.36
+    },
+    {
+      "text": "throw an error. We also have the",
+      "start": 1100.32,
+      "duration": 1.599
+    },
+    {
+      "text": "confidence score and reasoning. We then",
+      "start": 1101.919,
+      "duration": 2.081
+    },
+    {
+      "text": "have a simple function that we can use",
+      "start": 1104,
+      "duration": 2.32
+    },
+    {
+      "text": "to filter for the type of intent that we",
+      "start": 1106.32,
+      "duration": 3.04
+    },
+    {
+      "text": "have. And then based on that, we can",
+      "start": 1109.36,
+      "duration": 1.6
+    },
+    {
+      "text": "call a specific function within our",
+      "start": 1110.96,
+      "duration": 2.16
+    },
+    {
+      "text": "application. This is nothing more than",
+      "start": 1113.12,
+      "duration": 1.6
+    },
+    {
+      "text": "using simple if else statements to",
+      "start": 1114.72,
+      "duration": 2
+    },
+    {
+      "text": "create the router that we see over here",
+      "start": 1116.72,
+      "duration": 1.52
+    },
+    {
+      "text": "in this diagram. So if I now run this, I",
+      "start": 1118.24,
+      "duration": 2.559
+    },
+    {
+      "text": "will run through these three examples.",
+      "start": 1120.799,
+      "duration": 1.681
+    },
+    {
+      "text": "So three questions. What is machine",
+      "start": 1122.48,
+      "duration": 1.439
+    },
+    {
+      "text": "learning? Please schedule a meeting for",
+      "start": 1123.919,
+      "duration": 1.361
+    },
+    {
+      "text": "tomorrow. And I'm unhappy with my",
+      "start": 1125.28,
+      "duration": 1.44
+    },
+    {
+      "text": "surface quality. So you'll find that the",
+      "start": 1126.72,
+      "duration": 2.16
+    },
+    {
+      "text": "LLM is now going through this and it's",
+      "start": 1128.88,
+      "duration": 2.159
+    },
+    {
+      "text": "going to determine the intent. So for",
+      "start": 1131.039,
+      "duration": 2.081
+    },
+    {
+      "text": "the first question, uh it determined",
+      "start": 1133.12,
+      "duration": 1.919
+    },
+    {
+      "text": "that this is a question. Now it's a",
+      "start": 1135.039,
+      "duration": 2.321
+    },
+    {
+      "text": "request in the second one and the third",
+      "start": 1137.36,
+      "duration": 1.6
+    },
+    {
+      "text": "one is a complaint. And based on that,",
+      "start": 1138.96,
+      "duration": 2.24
+    },
+    {
+      "text": "it handled it differently based on the",
+      "start": 1141.2,
+      "duration": 2.64
+    },
+    {
+      "text": "functions that we have sent it towards.",
+      "start": 1143.84,
+      "duration": 2.32
+    },
+    {
+      "text": "And now you can see that you can also",
+      "start": 1146.16,
+      "duration": 1.68
+    },
+    {
+      "text": "start to chain multiple LLM calls",
+      "start": 1147.84,
+      "duration": 2
+    },
+    {
+      "text": "together where if it's a question, we",
+      "start": 1149.84,
+      "duration": 2.32
+    },
+    {
+      "text": "simply have another function that makes",
+      "start": 1152.16,
+      "duration": 2.08
+    },
+    {
+      "text": "another call to OpenAI to handle it. For",
+      "start": 1154.24,
+      "duration": 3.439
+    },
+    {
+      "text": "a request, we might do something else.",
+      "start": 1157.679,
+      "duration": 1.841
+    },
+    {
+      "text": "Here we just do a simple print",
+      "start": 1159.52,
+      "duration": 1.44
+    },
+    {
+      "text": "statement, but this can be anything.",
+      "start": 1160.96,
+      "duration": 1.92
+    },
+    {
+      "text": "This is how you make modular workflows",
+      "start": 1162.88,
+      "duration": 1.84
+    },
+    {
+      "text": "where you implement the logic based on",
+      "start": 1164.72,
+      "duration": 2.16
+    },
+    {
+      "text": "certain conditions. And now remember",
+      "start": 1166.88,
+      "duration": 1.679
+    },
+    {
+      "text": "this is all possible because we are",
+      "start": 1168.559,
+      "duration": 1.921
+    },
+    {
+      "text": "first of all using structured output. So",
+      "start": 1170.48,
+      "duration": 2.8
+    },
+    {
+      "text": "we know that we get this data model",
+      "start": 1173.28,
+      "duration": 1.759
+    },
+    {
+      "text": "back. Then in our code we look at the",
+      "start": 1175.039,
+      "duration": 2.561
+    },
+    {
+      "text": "response from the LLM and we can say",
+      "start": 1177.6,
+      "duration": 2.079
+    },
+    {
+      "text": "take the intent and then we can create a",
+      "start": 1179.679,
+      "duration": 2.401
+    },
+    {
+      "text": "simple if else statement to do a simple",
+      "start": 1182.08,
+      "duration": 2.479
+    },
+    {
+      "text": "check. If the intent is equal to",
+      "start": 1184.559,
+      "duration": 2.641
+    },
+    {
+      "text": "question we do this. If the intent is",
+      "start": 1187.2,
+      "duration": 2.88
+    },
+    {
+      "text": "equal to request we do this and so on.",
+      "start": 1190.08,
+      "duration": 2.88
+    },
+    {
+      "text": "And now at this point I can also get",
+      "start": 1192.96,
+      "duration": 1.52
+    },
+    {
+      "text": "back to something I mentioned earlier in",
+      "start": 1194.48,
+      "duration": 1.76
+    },
+    {
+      "text": "this video and that was being very",
+      "start": 1196.24,
+      "duration": 1.76
+    },
+    {
+      "text": "careful with tool calls and that for our",
+      "start": 1198,
+      "duration": 2
+    },
+    {
+      "text": "production environments we rarely use",
+      "start": 1200,
+      "duration": 1.84
+    },
+    {
+      "text": "tool calls at all. So what do we do?",
+      "start": 1201.84,
+      "duration": 2.88
+    },
+    {
+      "text": "Well, we almost always prefer to use",
+      "start": 1204.72,
+      "duration": 2.64
+    },
+    {
+      "text": "structured output and let an LLM decide",
+      "start": 1207.36,
+      "duration": 3.12
+    },
+    {
+      "text": "a specific type of category and then",
+      "start": 1210.48,
+      "duration": 2.24
+    },
+    {
+      "text": "based on that category create simple",
+      "start": 1212.72,
+      "duration": 2.079
+    },
+    {
+      "text": "routers within our code that you just",
+      "start": 1214.799,
+      "duration": 1.921
+    },
+    {
+      "text": "saw using if else statements to decide",
+      "start": 1216.72,
+      "duration": 2.8
+    },
+    {
+      "text": "what function or tool if you will to",
+      "start": 1219.52,
+      "duration": 2.64
+    },
+    {
+      "text": "use. Now, in simple cases, the result",
+      "start": 1222.16,
+      "duration": 2
+    },
+    {
+      "text": "will be exactly the same whether you use",
+      "start": 1224.16,
+      "duration": 1.759
+    },
+    {
+      "text": "a tool call or the approach that I just",
+      "start": 1225.919,
+      "duration": 1.921
+    },
+    {
+      "text": "mentioned. But when your systems get",
+      "start": 1227.84,
+      "duration": 2.079
+    },
+    {
+      "text": "more complex and you need to debug",
+      "start": 1229.919,
+      "duration": 2
+    },
+    {
+      "text": "things, it can get very tricky as to",
+      "start": 1231.919,
+      "duration": 2.88
+    },
+    {
+      "text": "figure out why an LLM did not decide to",
+      "start": 1234.799,
+      "duration": 3.041
+    },
+    {
+      "text": "use a tool call. Whereas if you use a",
+      "start": 1237.84,
+      "duration": 2.319
+    },
+    {
+      "text": "classification step with categories and",
+      "start": 1240.159,
+      "duration": 2.801
+    },
+    {
+      "text": "a reasoning for why it decided to use",
+      "start": 1242.96,
+      "duration": 2.56
+    },
+    {
+      "text": "that category, you have a full log of",
+      "start": 1245.52,
+      "duration": 2.96
+    },
+    {
+      "text": "figuring out, okay, look, we have a bug",
+      "start": 1248.48,
+      "duration": 2.4
+    },
+    {
+      "text": "within this step of our workflow for",
+      "start": 1250.88,
+      "duration": 1.84
+    },
+    {
+      "text": "this particular data point where the LLM",
+      "start": 1252.72,
+      "duration": 2.319
+    },
+    {
+      "text": "actually thought it was this category",
+      "start": 1255.039,
+      "duration": 1.921
+    },
+    {
+      "text": "and it gave a reasoning for why it",
+      "start": 1256.96,
+      "duration": 2.24
+    },
+    {
+      "text": "",
+      "start": 1259,
+      "duration": 127
+    },
+    {
+      "text": "thought it was that category. And that's",
+      "start": 1259.2,
+      "duration": 1.359
+    },
+    {
+      "text": "also exactly what we were doing over",
+      "start": 1260.559,
+      "duration": 1.921
+    },
+    {
+      "text": "here. So beyond just printing the",
+      "start": 1262.48,
+      "duration": 2.72
+    },
+    {
+      "text": "response and the classification, we also",
+      "start": 1265.2,
+      "duration": 2.64
+    },
+    {
+      "text": "list the reasoning. So you can see that",
+      "start": 1267.84,
+      "duration": 1.92
+    },
+    {
+      "text": "over here if I make this a little bit",
+      "start": 1269.76,
+      "duration": 1.52
+    },
+    {
+      "text": "bigger. So the input, what is machine",
+      "start": 1271.28,
+      "duration": 2.08
+    },
+    {
+      "text": "learning reasoning? The input asks for",
+      "start": 1273.36,
+      "duration": 1.92
+    },
+    {
+      "text": "information or explanation about the",
+      "start": 1275.28,
+      "duration": 1.36
+    },
+    {
+      "text": "concept etc. So this gives you an entire",
+      "start": 1276.64,
+      "duration": 2.399
+    },
+    {
+      "text": "log as to the decision-making process of",
+      "start": 1279.039,
+      "duration": 2.721
+    },
+    {
+      "text": "the LLM, which is super helpful for",
+      "start": 1281.76,
+      "duration": 1.84
+    },
+    {
+      "text": "debugging. All right. And that brings us",
+      "start": 1283.6,
+      "duration": 1.439
+    },
+    {
+      "text": "to building block number six, and that",
+      "start": 1285.039,
+      "duration": 2
+    },
+    {
+      "text": "is recovery. So things will go wrong in",
+      "start": 1287.039,
+      "duration": 3.041
+    },
+    {
+      "text": "production. and APIs will be down. LLMs",
+      "start": 1290.08,
+      "duration": 2.4
+    },
+    {
+      "text": "will return nonsense. Rate limits will",
+      "start": 1292.48,
+      "duration": 2.48
+    },
+    {
+      "text": "hit you. And you need try catch blocks,",
+      "start": 1294.96,
+      "duration": 3.28
+    },
+    {
+      "text": "retire logic with back off and fallbacks",
+      "start": 1298.24,
+      "duration": 2.16
+    },
+    {
+      "text": "responses when stuff breaks. This is",
+      "start": 1300.4,
+      "duration": 2.72
+    },
+    {
+      "text": "building reliable applications 101. This",
+      "start": 1303.12,
+      "duration": 2.4
+    },
+    {
+      "text": "is just standard error handling that you",
+      "start": 1305.52,
+      "duration": 1.84
+    },
+    {
+      "text": "would implement in any production",
+      "start": 1307.36,
+      "duration": 1.52
+    },
+    {
+      "text": "system. So it could look something like",
+      "start": 1308.88,
+      "duration": 2
+    },
+    {
+      "text": "this. You have a request coming in. You",
+      "start": 1310.88,
+      "duration": 2.48
+    },
+    {
+      "text": "check whether it's a success, yes or no,",
+      "start": 1313.36,
+      "duration": 1.92
+    },
+    {
+      "text": "based on either an error that is",
+      "start": 1315.28,
+      "duration": 1.759
+    },
+    {
+      "text": "happening or some kind of data that is",
+      "start": 1317.039,
+      "duration": 2.081
+    },
+    {
+      "text": "present or not. If it's a success, you",
+      "start": 1319.12,
+      "duration": 2.48
+    },
+    {
+      "text": "can simply return the result. All good.",
+      "start": 1321.6,
+      "duration": 2
+    },
+    {
+      "text": "But if it's not a success, there is an",
+      "start": 1323.6,
+      "duration": 2
+    },
+    {
+      "text": "error, you can for example retry that",
+      "start": 1325.6,
+      "duration": 3.04
+    },
+    {
+      "text": "first of all check is that even",
+      "start": 1328.64,
+      "duration": 1.44
+    },
+    {
+      "text": "possible. So you can retry with a back",
+      "start": 1330.08,
+      "duration": 1.92
+    },
+    {
+      "text": "off. Or if that's not possible at all,",
+      "start": 1332,
+      "duration": 1.84
+    },
+    {
+      "text": "you have some kind of fallback scenario",
+      "start": 1333.84,
+      "duration": 2.079
+    },
+    {
+      "text": "where you for example let the user know",
+      "start": 1335.919,
+      "duration": 2.161
+    },
+    {
+      "text": "sorry I cannot help with this question",
+      "start": 1338.08,
+      "duration": 2
+    },
+    {
+      "text": "because it couldn't find the right",
+      "start": 1340.08,
+      "duration": 1.839
+    },
+    {
+      "text": "information in the knowledge base for",
+      "start": 1341.919,
+      "duration": 1.681
+    },
+    {
+      "text": "example. And here quickly a simple",
+      "start": 1343.6,
+      "duration": 2
+    },
+    {
+      "text": "example within the Python programming",
+      "start": 1345.6,
+      "duration": 1.76
+    },
+    {
+      "text": "language you can use the try accept",
+      "start": 1347.36,
+      "duration": 2.16
+    },
+    {
+      "text": "blocks where if something goes wrong",
+      "start": 1349.52,
+      "duration": 2.159
+    },
+    {
+      "text": "within this first part of the code it",
+      "start": 1351.679,
+      "duration": 2.721
+    },
+    {
+      "text": "raises some type of error it will fall",
+      "start": 1354.4,
+      "duration": 2.48
+    },
+    {
+      "text": "back to the exception. Now you can",
+      "start": 1356.88,
+      "duration": 2.159
+    },
+    {
+      "text": "expand on this with a finally clause",
+      "start": 1359.039,
+      "duration": 2.401
+    },
+    {
+      "text": "where you can try something in another",
+      "start": 1361.44,
+      "duration": 2
+    },
+    {
+      "text": "case do this and then if that doesn't",
+      "start": 1363.44,
+      "duration": 1.68
+    },
+    {
+      "text": "work you can finally do something else.",
+      "start": 1365.12,
+      "duration": 2.24
+    },
+    {
+      "text": "Here you can build some kind of a",
+      "start": 1367.36,
+      "duration": 1.76
+    },
+    {
+      "text": "recovery mechanism where we can for",
+      "start": 1369.12,
+      "duration": 2.88
+    },
+    {
+      "text": "example check if a certain key here is",
+      "start": 1372,
+      "duration": 2.159
+    },
+    {
+      "text": "available. So we try to access a field",
+      "start": 1374.159,
+      "duration": 2.4
+    },
+    {
+      "text": "within a dictionary that is not present",
+      "start": 1376.559,
+      "duration": 1.921
+    },
+    {
+      "text": "in this case. So it's not available.",
+      "start": 1378.48,
+      "duration": 2.24
+    },
+    {
+      "text": "We're using the fallback information and",
+      "start": 1380.72,
+      "duration": 2.079
+    },
+    {
+      "text": "that results in a general output or a",
+      "start": 1382.799,
+      "duration": 2.961
+    },
+    {
+      "text": "standard reply in this case. It's a very",
+      "start": 1385.76,
+      "duration": 2.56
+    },
+    {
+      "text": "",
+      "start": 1386,
+      "duration": 227
+    },
+    {
+      "text": "simple illustration. Uh this is",
+      "start": 1388.32,
+      "duration": 2.32
+    },
+    {
+      "text": "infinitely complex when it comes to",
+      "start": 1390.64,
+      "duration": 2.08
+    },
+    {
+      "text": "doing this properly within your own",
+      "start": 1392.72,
+      "duration": 1.52
+    },
+    {
+      "text": "applications because every try accept",
+      "start": 1394.24,
+      "duration": 2
+    },
+    {
+      "text": "block will be completely unique to what",
+      "start": 1396.24,
+      "duration": 2.799
+    },
+    {
+      "text": "problem you're trying to solve and what",
+      "start": 1399.039,
+      "duration": 1.681
+    },
+    {
+      "text": "errors may or may not pop up. And then",
+      "start": 1400.72,
+      "duration": 2.079
+    },
+    {
+      "text": "the final building block is what we call",
+      "start": 1402.799,
+      "duration": 2.641
+    },
+    {
+      "text": "feedback. So human oversight and",
+      "start": 1405.44,
+      "duration": 2.239
+    },
+    {
+      "text": "approval of workflows because some",
+      "start": 1407.679,
+      "duration": 2.561
+    },
+    {
+      "text": "processes are just too tricky right now",
+      "start": 1410.24,
+      "duration": 2.799
+    },
+    {
+      "text": "to be fully handled by your AI agents.",
+      "start": 1413.039,
+      "duration": 2.64
+    },
+    {
+      "text": "Sometimes you just want a human in the",
+      "start": 1415.679,
+      "duration": 1.761
+    },
+    {
+      "text": "loop to check an LM's work before it",
+      "start": 1417.44,
+      "duration": 2.4
+    },
+    {
+      "text": "goes live or sent to someone. So when a",
+      "start": 1419.84,
+      "duration": 2.56
+    },
+    {
+      "text": "task or decision is too important or",
+      "start": 1422.4,
+      "duration": 2.24
+    },
+    {
+      "text": "complex for full automation, like",
+      "start": 1424.64,
+      "duration": 2.08
+    },
+    {
+      "text": "sending very sensitive emails to",
+      "start": 1426.72,
+      "duration": 2.24
+    },
+    {
+      "text": "customers or making purchases, adding",
+      "start": 1428.96,
+      "duration": 2.48
+    },
+    {
+      "text": "approval steps where humans can review",
+      "start": 1431.44,
+      "duration": 2.4
+    },
+    {
+      "text": "and approve or reject before execution",
+      "start": 1433.84,
+      "duration": 2.48
+    },
+    {
+      "text": "is crucial. This is a basic approval",
+      "start": 1436.32,
+      "duration": 2.56
+    },
+    {
+      "text": "workflow like you would build for any",
+      "start": 1438.88,
+      "duration": 2.159
+    },
+    {
+      "text": "app, but then have really the human in",
+      "start": 1441.039,
+      "duration": 2.321
+    },
+    {
+      "text": "the loop where it takes a full stop and",
+      "start": 1443.36,
+      "duration": 2
+    },
+    {
+      "text": "it waits for that point. So let's say an",
+      "start": 1445.36,
+      "duration": 2.16
+    },
+    {
+      "text": "LLM generated a response or created some",
+      "start": 1447.52,
+      "duration": 2.72
+    },
+    {
+      "text": "piece of content and before sending that",
+      "start": 1450.24,
+      "duration": 2.319
+    },
+    {
+      "text": "out into the world, you want human",
+      "start": 1452.559,
+      "duration": 2.801
+    },
+    {
+      "text": "review in there. So a human for example",
+      "start": 1455.36,
+      "duration": 2.559
+    },
+    {
+      "text": "getting a popup within Slack with a",
+      "start": 1457.919,
+      "duration": 2.24
+    },
+    {
+      "text": "button like yes or no to review it,",
+      "start": 1460.159,
+      "duration": 3.12
+    },
+    {
+      "text": "approve it, and then if it's all good,",
+      "start": 1463.279,
+      "duration": 2.88
+    },
+    {
+      "text": "perfect. We'll send it, we'll execute",
+      "start": 1466.159,
+      "duration": 1.841
+    },
+    {
+      "text": "it. If it's a no, we can potentially",
+      "start": 1468,
+      "duration": 2.72
+    },
+    {
+      "text": "provide feedback as to what we need to",
+      "start": 1470.72,
+      "duration": 2.559
+    },
+    {
+      "text": "adjust. And then we send that back to",
+      "start": 1473.279,
+      "duration": 2.321
+    },
+    {
+      "text": "the LLM and we repeat the process one",
+      "start": 1475.6,
+      "duration": 2.8
+    },
+    {
+      "text": "more time. And this is where we get back",
+      "start": 1478.4,
+      "duration": 1.759
+    },
+    {
+      "text": "to the point that I brought up about the",
+      "start": 1480.159,
+      "duration": 1.841
+    },
+    {
+      "text": "importance of humans in the loop and the",
+      "start": 1482,
+      "duration": 1.76
+    },
+    {
+      "text": "difference between building what I call",
+      "start": 1483.76,
+      "duration": 1.76
+    },
+    {
+      "text": "AI assistants that directly work with",
+      "start": 1485.52,
+      "duration": 3.36
+    },
+    {
+      "text": "humans in the loop like chat GPT or",
+      "start": 1488.88,
+      "duration": 1.84
+    },
+    {
+      "text": "cursor. the user asks something, the LM",
+      "start": 1490.72,
+      "duration": 2.24
+    },
+    {
+      "text": "does something and the user immediately",
+      "start": 1492.96,
+      "duration": 2.56
+    },
+    {
+      "text": "sees the feedback and can adjust and",
+      "start": 1495.52,
+      "duration": 2
+    },
+    {
+      "text": "they can work in this dance going back",
+      "start": 1497.52,
+      "duration": 1.6
+    },
+    {
+      "text": "and forth versus fully autonomous",
+      "start": 1499.12,
+      "duration": 2.48
+    },
+    {
+      "text": "systems that work in the background.",
+      "start": 1501.6,
+      "duration": 2.16
+    },
+    {
+      "text": "Let's say a customer care ticketing",
+      "start": 1503.76,
+      "duration": 1.919
+    },
+    {
+      "text": "system fully autonomous. It comes in,",
+      "start": 1505.679,
+      "duration": 2.24
+    },
+    {
+      "text": "the AI should solve that ticket,",
+      "start": 1507.919,
+      "duration": 2.321
+    },
+    {
+      "text": "generate a response and then send it",
+      "start": 1510.24,
+      "duration": 1.52
+    },
+    {
+      "text": "back. There is a big distinction between",
+      "start": 1511.76,
+      "duration": 2.08
+    },
+    {
+      "text": "the two. And almost all very effective",
+      "start": 1513.84,
+      "duration": 2.719
+    },
+    {
+      "text": "and great AI products, if it gets to a",
+      "start": 1516.559,
+      "duration": 2.961
+    },
+    {
+      "text": "point where it gets too tricky, you",
+      "start": 1519.52,
+      "duration": 2.399
+    },
+    {
+      "text": "instead of like just optimizing your",
+      "start": 1521.919,
+      "duration": 1.681
+    },
+    {
+      "text": "prompt further and further and further,",
+      "start": 1523.6,
+      "duration": 1.6
+    },
+    {
+      "text": "you might just need a human in the loop",
+      "start": 1525.2,
+      "duration": 2.16
+    },
+    {
+      "text": "in order to be on the safe side of",
+      "start": 1527.36,
+      "duration": 2.48
+    },
+    {
+      "text": "things before shipping something into",
+      "start": 1529.84,
+      "duration": 2.24
+    },
+    {
+      "text": "production where it works 80% of the",
+      "start": 1532.08,
+      "duration": 3.04
+    },
+    {
+      "text": "time, but 20% of the time it's a",
+      "start": 1535.12,
+      "duration": 2.24
+    },
+    {
+      "text": "complete shitow. And how you can",
+      "start": 1537.36,
+      "duration": 1.679
+    },
+    {
+      "text": "actually implement that within your",
+      "start": 1539.039,
+      "duration": 2.081
+    },
+    {
+      "text": "application or codebase here in seven",
+      "start": 1541.12,
+      "duration": 1.84
+    },
+    {
+      "text": "feedback.py, by you can integrate or",
+      "start": 1542.96,
+      "duration": 2.88
+    },
+    {
+      "text": "create a strategic moment where you have",
+      "start": 1545.84,
+      "duration": 1.92
+    },
+    {
+      "text": "a full stop and do not let the agent",
+      "start": 1547.76,
+      "duration": 2.399
+    },
+    {
+      "text": "continue until it gets an approval. Now",
+      "start": 1550.159,
+      "duration": 3.12
+    },
+    {
+      "text": "there are various ways that you can do",
+      "start": 1553.279,
+      "duration": 2.081
+    },
+    {
+      "text": "this. This is a very simple example. You",
+      "start": 1555.36,
+      "duration": 1.919
+    },
+    {
+      "text": "can integrate some kind of front-end",
+      "start": 1557.279,
+      "duration": 1.361
+    },
+    {
+      "text": "application. You can integrate something",
+      "start": 1558.64,
+      "duration": 1.76
+    },
+    {
+      "text": "like Slack. You'll probably need to set",
+      "start": 1560.4,
+      "duration": 2.08
+    },
+    {
+      "text": "up some web hooks to ping back and",
+      "start": 1562.48,
+      "duration": 1.76
+    },
+    {
+      "text": "forth. Super technical beyond the scope",
+      "start": 1564.24,
+      "duration": 2.08
+    },
+    {
+      "text": "of this video, but the principle is the",
+      "start": 1566.32,
+      "duration": 2.16
+    },
+    {
+      "text": "same. You want to create a full stop",
+      "start": 1568.48,
+      "duration": 2
+    },
+    {
+      "text": "where if you for example run this and",
+      "start": 1570.48,
+      "duration": 2.48
+    },
+    {
+      "text": "I'm running this in the terminal over",
+      "start": 1572.96,
+      "duration": 1.599
+    },
+    {
+      "text": "here to showcase this. Let's say we're",
+      "start": 1574.559,
+      "duration": 2
+    },
+    {
+      "text": "generating a piece of content. So here",
+      "start": 1576.559,
+      "duration": 1.681
+    },
+    {
+      "text": "is the content generated right now. The",
+      "start": 1578.24,
+      "duration": 2.24
+    },
+    {
+      "text": "agent before it continues it waits for",
+      "start": 1580.48,
+      "duration": 2.24
+    },
+    {
+      "text": "approval. So I'm here right now doing",
+      "start": 1582.72,
+      "duration": 2
+    },
+    {
+      "text": "this in the terminal but again in a real",
+      "start": 1584.72,
+      "duration": 2.48
+    },
+    {
+      "text": "application you want to have some",
+      "start": 1587.2,
+      "duration": 1.599
+    },
+    {
+      "text": "systems that users can easily interact",
+      "start": 1588.799,
+      "duration": 2
+    },
+    {
+      "text": "with and get a notification from. So",
+      "start": 1590.799,
+      "duration": 1.76
+    },
+    {
+      "text": "let's say I do yes then final answer is",
+      "start": 1592.559,
+      "duration": 2.72
+    },
+    {
+      "text": "approved. When I run it one more time, I",
+      "start": 1595.279,
+      "duration": 2.561
+    },
+    {
+      "text": "let it generate another piece of",
+      "start": 1597.84,
+      "duration": 1.6
+    },
+    {
+      "text": "content. I can now ignore that or give",
+      "start": 1599.44,
+      "duration": 3.28
+    },
+    {
+      "text": "essentially a no and just not approve",
+      "start": 1602.72,
+      "duration": 2.88
+    },
+    {
+      "text": "this workflow. Now, you would also",
+      "start": 1605.6,
+      "duration": 2.079
+    },
+    {
+      "text": "ideally then have some feedback around",
+      "start": 1607.679,
+      "duration": 1.761
+    },
+    {
+      "text": "that. But again, the principle is the",
+      "start": 1609.44,
+      "duration": 2.08
+    },
+    {
+      "text": "same, a full stop before sending it off.",
+      "start": 1611.52,
+      "duration": 2.32
+    },
+    {
+      "text": "",
+      "start": 1613,
+      "duration": 55
+    },
+    {
+      "text": "All right? So, those are your seven",
+      "start": 1613.84,
+      "duration": 1.52
+    },
+    {
+      "text": "building blocks that you need to",
+      "start": 1615.36,
+      "duration": 1.52
+    },
+    {
+      "text": "understand in order to build reliable AI",
+      "start": 1616.88,
+      "duration": 2.56
+    },
+    {
+      "text": "agents. And now what you do is you take",
+      "start": 1619.44,
+      "duration": 2.239
+    },
+    {
+      "text": "a big problem. You break it down into",
+      "start": 1621.679,
+      "duration": 2.24
+    },
+    {
+      "text": "smaller problems. And for every smaller",
+      "start": 1623.919,
+      "duration": 2
+    },
+    {
+      "text": "problem, you try to solve it using the",
+      "start": 1625.919,
+      "duration": 3.201
+    },
+    {
+      "text": "building blocks available only using an",
+      "start": 1629.12,
+      "duration": 2.96
+    },
+    {
+      "text": "LLM API called the intelligence layer",
+      "start": 1632.08,
+      "duration": 2.479
+    },
+    {
+      "text": "when you absolutely cannot get around",
+      "start": 1634.559,
+      "duration": 2.72
+    },
+    {
+      "text": "it. And now if you want to learn how you",
+      "start": 1637.279,
+      "duration": 2.721
+    },
+    {
+      "text": "can orchestrate entire workflows using",
+      "start": 1640,
+      "duration": 2.32
+    },
+    {
+      "text": "these building blocks, so how to",
+      "start": 1642.32,
+      "duration": 1.599
+    },
+    {
+      "text": "actually combine them and piece them",
+      "start": 1643.919,
+      "duration": 1.521
+    },
+    {
+      "text": "together, you want to check out the",
+      "start": 1645.44,
+      "duration": 2.479
+    },
+    {
+      "text": "workflow orchestration that I have over",
+      "start": 1647.919,
+      "duration": 2
+    },
+    {
+      "text": "here. So this is the GitHub repository",
+      "start": 1649.919,
+      "duration": 2
+    },
+    {
+      "text": "for the course that I already shared",
+      "start": 1651.919,
+      "duration": 1.681
+    },
+    {
+      "text": "that I have on YouTube. So this is the",
+      "start": 1653.6,
+      "duration": 1.52
+    },
+    {
+      "text": "same same resource, same video. I will",
+      "start": 1655.12,
+      "duration": 2.4
+    },
+    {
+      "text": "link it below. It's a super good",
+      "start": 1657.52,
+      "duration": 1.519
+    },
+    {
+      "text": "follow-up from this video where we will",
+      "start": 1659.039,
+      "duration": 2
+    },
+    {
+      "text": "bring everything together. So, make sure",
+      "start": 1661.039,
+      "duration": 1.681
+    },
+    {
+      "text": "to like this video, subscribe to the",
+      "start": 1662.72,
+      "duration": 1.839
+    },
+    {
+      "text": "channel, and then go check out this",
+      "start": 1664.559,
+      "duration": 1.681
+    },
+    {
+      "text": "video",
+      "start": 1666.24,
+      "duration": 2.48
+    }
+  ],
+  "fullText": "If you're a developer, then right now it feels almost impossible to keep up with everything that's going on within the AI space. Everyone's talking about AI agents. Your whole LinkedIn feeds and AX feeds are full of it. Everyone makes it seem super easy. Yet, you are still trying to figure out, should I use Lang Chain or Llama Index and trying to debug and figure out all of these AI agent systems that you're building and tinkering with. All of the tutorials that you'll find either are messy or contradicting. And every week there is a new fire ship video dropping something new where you're like, \"Oh do we now also need to know this?\" So all in all, it's a complete mess. And my goal with this video is to help calm your AI anxiety and give you clarity on what's currently really going on within the AI space and why you can pretty much ignore 99% of everything that you see online and just focus on the core foundational building blocks that you can use to build reliable and effective agents. So in this video, I'm going to walk you through the seven foundational building blocks that you need to understand when you want to build AI agents regardless of what tool you are using. Now I'm going to give these code examples in the Python programming language, but honestly it doesn't matter what tool you use whether that's NAN, TypeScript, Java or any other programming language. If you boil it down to these seven foundational building blocks, you can implement it in anything because they're so simple. So, I will execute these simple code blocks and show you the output and walk you through everything step by step with diagrams as well. So that even if you've never written a single line of Python, you can still follow this video and I can guarantee you that after watching this video, you'll have a completely different perspective on what it takes to build effective AI agents and you'll be able to look at almost any problem, break it down, and know the patterns and the building blocks you need in order to solve it and automate it. And then you might be thinking, okay, like Dave, but why should I listen to you? Aren't you just part of the 99% of noise you just mentioned? Well, I'll let that up to you. But I have somewhat of a unique perspective on the AI market right now. And that's because I have over 10 years of experience in AI. So, I have background in machine learning and I run my own AI development company where over the past years we've done over 20 full system deployments. Next to that, I have plenty of communities with thousands of members combined. So, that gives me a really good pulse on everything that's going on, what's working and what's not. And next to that, I also regularly interview industry leaders like Jason Leu or Dan Martell, for example. So, I briefly wanted to bring that up just so you know that I'm not just some random guy building NAT workflows from his bedroom. And there's nothing wrong with that. It's just a different category. Clients work with us and hire us to build production ready systems that they can rely on. And that's that knowledge from that I want to bring to you in this video. And the big big problem that I see right now within the AI space and why you feel so confused as a developer all comes from this simple image over here. There is simply a lot of money flowing into the market. And every time throughout history when there's an opportunity like that, what happens? People jump on it because people want to try and capitalize on it. So even if you're remotely interested in AI, this is what most of your social media feeds will look like. And they all make it seem super easy. There are all these tools that you can use to build full agent armies. Yet you are still wondering like where do I start and how do I make this all work in really a production ready environment. And on top of that you have of course all of the frameworks and libraries that follow a similar trend right so developer tools GitHub repositories all kinds of tools that make it seem super easy to build these AI agents. And then of course we have the news, everything that's going on and the plenty of other tools that are built on top of that that you can also use. And this all results in you feeling really overwhelmed and having no idea what's going on and what to focus on. And now there's a clear distinction between the top developers and teams that are actually shipping AI systems that make it to production versus the developers that are still trying to debug the latest agent frameworks. and that is that most developers follow all the hype you see on social media, the frameworks, the media attention and the plethora of AI tools that are out there while the smart developers realize that everything that you see over here is simply an abstraction over the current industry leaders the LLM model providers and once you realize that as a developer building AI systems and you start to work directly with these model providers APIs you realize that you can actually ignore 99% of the stuff that you see online and also O realized that fundamentally nothing has pretty much changed since function calling was introduced. Yes, models get better, but the way we work with these LLMs, it's still the same. And every time I bring this up, people are like, \"What? How is this possible?\" But our code bases from 2 years ago, they still run. They still work. We only have to change the model endpoints through the APIs because we've engineered them in such a way to not be reliant on frameworks that are essentially built on Quicksand. So all this context that I'm providing right now is super important just like with LLMs because otherwise the rest of this video and the seven core building blocks won't make a lot of sense. So the first most important thing to understand is that if you look at the top teams building AI systems, they use custom building blocks, not frameworks. And that is because the most effective AI agents aren't actually that agentic at all. They're mostly deterministic software with strategic LLM calls placed exactly where they add value. So, the problem with most agent frameworks and tutorials out there is that most of them push for giving your LLM just a bunch of tools and let it figure out how to solve the problem. But in reality, you don't want your LLM making every decision. You want it handling the one thing that's really good at reasoning with context while your code or application handles everything else. And the solution is actually quite straightforward. It's just software engineering. So instead of making an LLM API call with 15 tools, you want to tactfully break down what you're actually building into fundamental components, solve each problem with proper software engineering best practices and only include an LLM step when it's impossible to solve it with deterministic code. Making an LLM API call right now is the most expensive and dangerous operation in software engineering and it's super powerful but you want to avoid it at all cost and only use them when it's absolutely necessary and this is especially true for background automation systems. This is a super important concept to understand. There is a huge difference between building personal assistants like chat GPT or cursor where users are in the loop versus building fully automated systems that process information or handle workflows without humor in defension. And let's face it, most of you aren't building the next chat or cursor. You're building backend automations to make your work or your company more efficient. So when you are building personal assistant like applications, using tools and multiple LLM calls can be more effective. But when you're building background automation system, you really want to reduce them. And for example, for our production environments for our clients, we almost never rely on tool calls. So you want to build your applications in such a way where you need as little LLM API calls as possible. Only when you can't solve the problem anymore with deterministic code, that's when you make a call. And when you get to that point, it's all about context engineering. Because in order to get a good answer back from an LLM, you need the right context at the right time sent to the right model. So you need to pre-process all the available information, prompts, and user inputs so the LLM can easily and reliably solve the problem. This is the most fundamental skill in working with LLMs. And then the final thing that you need to understand is that most AI agents are simply workflows or DAGs if you want to be precise or just graphs if you include loops. And most steps in these workflows should be regular code, not LLM calls. So what I'm trying to do in this video is really help you understand AI agents from a foundational level from first principles. And now that we've set the stage, we get into the foundational building blocks that you need. And there are really only seven or so that you use in order to take a problem, break it down into smaller problems, and then try and solve each of those sub problems with these building blocks that I will introduce to you right now. And building block number one is what I call the intelligence layer. So super obvious, right? This is the only truly AI component in there. And this is where the magic happens. So this is where you make the actual API call to the large language model. Without this, you just have regular software. The tricky part isn't the LLM call itself. That's super straightforward. It's everything else that you need to do around it. So the pattern here is you have a user input, you send it to the LLM, and the LLM will send it back to you. Now we can very easily do this in the Python programming language using for example the open AI Python SDK where we connect with the client. We pretty much select which model we want to use. We plug in a prompt and then we wait for the response. So simply running this can be done in any programming language. It can be done directly with the API. It can be done with N8. But this is the first foundational building block. you need a way to communicate with these models and get information back from it. Then building block number two is the memory building block and this ensures context persistence across your interactions with these models because LLMs don't remember anything from previous messages. They are stateless and without memory each interaction starts from scratch. So you need to manually pass in the conversation history each time. This is just storing and passing a conversation state, something we've been doing in web apps forever. So to build on top of the intelligence layer that we just saw, now next to just providing a user input prompt, we also get the previous context and we structure that in a conversation like sequence where we have a sequence of messages. Then we can get the response and within that process we also have to handle updating our conversation history. And within the second file over here called memory.py Pi, we see an example where we ask the AI to tell us a joke. Then we ask a follow-up question to ask what was my previous question, but we don't handle the conversation history correctly. And because LLMs are stateless, if we run this, it will simply don't know. And then here in this function, we have a proper example of how to handle memory where we pass in the conversation history and we have an alternating sequence between user and assistant. We are now programming this dynamically within our code. In a more realistic example, you would store and retrieve this from a database. And to demo this, we can simply run the first joke. So why do programmers prefer dark mode? Because light attracts bugs. Then we ask it a follow-up question to ask it what was my previous question. And it says, I'm unable to recall previous interactions. And lastly, we do it properly where we pass down the previous answer. And then your previous question was asking for a joke about programming. So now it understands the context of the conversation history. And then building block number three is what we call tools for external system integration capabilities. Because most of the time you need your LLM to actually do stuff and not just chat because pure text generation is limited. You want to call APIs, update databases or read files. tools let your LLM say I need to call this function with these parameters and your code handles the actual execution of that. So if we then look at the diagram over here, we augment the intelligence layer, the LLM API call potentially also with memory and we now also provide the LLM with tools. And for every API call with tools, the LLM decides should I use one or more of the tools that I have available? Yes or no? If no, I'll give a direct response, a text answer back. If yes, then select the tool. Then your actual code is responsible for catching that and executing the tool. then pass the result one more time to the LLM for it to format the final response yet again in a text answer for you. And tool calling is also directly available in all of the major model providers. So no need for any external frameworks or libraries. We just specify the function that we want to call. We transform that into a tool schema that we then make available to the LLM. Our code will perform a simple check to see if the LLM actually decided to call the tool. then pass in the parameters into the actual function and run it and then pass it back to the LLM one more time. And if we run all of this, we can now see that we now have an LLM that using the get weather function is able to get the weather information for any given city or place that you can think of. So we augment the LLM beyond just the text generation capabilities based on what the model was trained on. So through tools, we give the model a way to integrate and to connect with external systems. And now if you're entirely new to tool calling, you've never done it, this can actually be a little tricky to understand. You need to see a couple of examples. So for that, I highly recommend to check out the official documentation from OpenAI on function calling. Or if you want to go really deep with this, I have this full beginner course here on YouTube, building AI agents in pure Python, which is actually a really good follow-up for this video, which I will link in the description as well. All right. So now that we understand the basic operations that you can do with a large language model, we get to building block number four, which is arguably the most important one, and that is validation. So this can help us with quality assurance and structured data enforcement. So if you want to build effective applications around large language models, you need a way to make sure the LLM returns JSON that matches your expected schema because LLMs are probabilistic and can produce inconsistent outputs. If you ask it one question and then another user asks a question in a slightly different way, they can get a completely different answer. One might be correct, the other one might be wrong. So you validate the JSON output against a predefined structure. If the validation fails, you can send it back to LLM and fix it. And this concept is known as structured output. And we need that structured output, which is super crucial so we can engineer systems around it. So rather than just asking a question to a large language model and getting text back, we want a predefined JSON schema where we are 100% sure that what we're getting back contains the actual fields that we can use later down the line within our application. So the diagram looks like this. We ask an LLM to provide us with structured output which is simply just JSON. We validate it against a schema using a library like Pentic or S or Python data classes. We check whether it's valid. If it's valid, we have the structured data. If it's not valid, we take the error response and we send it back to the LLM in order to correct it. So, let's say you want to build some agentic task management tool that can transform natural language and put it into task with due dates and priorities. Instead of just building an agent and let it interact with the user and then just provide a text output back of what it thinks is the goal of the user, we can define a specific data structure. In this example, I'm doing this with the pyentic library within Python. And getting structured output from large language models is yet again also supported by all of the major model providers. So here you can see that when we're making the LLM API call to OpenAI, we have the parameter of text format that we can put in here and we set that equal to the defined task result object that we want to get back from the LLM. So now with our system prompt and instructing our model to extract task information from the user input and our prompt I need to complete the project presentation by Friday is high priority. We can run this and get an actual validated structured output data object back where we can clearly see we have a task completed and a priority field that we can now also programmatically call. So we can now actually come to our result object. We can call the task on it and we actually get the information that's on there. And with techniques like this we can validate both the incoming data so what we send to the LLM as well as the outcoming data of what the LLM is sending back to us. And you now already understand that context engineering is one of the most important skills when it comes to building reliable LLM applications. So using libraries like Pientic are really at the core of that. And then real quick, if you're a developer and you ever thought about starting as a freelancer to maybe make a little bit more money on the side, work on fun projects, or just to learn, but you don't really know where to start or how to find that first client, you might want to check out the first link in the description. It's a video of me going over how my company can help you with this. We've been running this program for over 3 years. We have hundreds of case studies of developers who already successfully made the leap and are now working on exciting projects either next to their full-time job or even doing this full-time. And now, if you feel like you're not technically ready yet for freelancing or don't feel comfortable, there's a second link in there as well that will teach you everything that you need to know about how to get ready for freelancing as an AI engineer. And that brings us to building block number five, and that is control for deterministics, decision-m, and process flow. So you don't want your LLM making every decision. Some things should be handled by regular code. You can use if else statements, switch cases, and routing logic to direct flow based on conditions. This is just normal business logic and routing that you would write in any application. So if we look at the diagram over here, we have incoming data. We can for example use an LLM to classify the intent using structured output where we tell the LLM look here's the incoming message. It can either be a question, it can be a request, a complaint or the category of other. We can now program our application using simple if statements where we do a quick check. If the category equals question, we call this specific function that handles just that part of the application. If it's a request, we do something else. If it's a complaint, we have a different way of handling it. We now make our workflow in our process modular. We take a big problem and we break it down into smaller sub problems and categories that we can better solve individually. And now here's what that looks like in a simple code example. So we again use Pentic here to define a data model where we can now specify the intent and we set that equal to a literal which is pretty much a category. It can either be a question, a request or a complaint. If it's set to something else, it will throw an error. We also have the confidence score and reasoning. We then have a simple function that we can use to filter for the type of intent that we have. And then based on that, we can call a specific function within our application. This is nothing more than using simple if else statements to create the router that we see over here in this diagram. So if I now run this, I will run through these three examples. So three questions. What is machine learning? Please schedule a meeting for tomorrow. And I'm unhappy with my surface quality. So you'll find that the LLM is now going through this and it's going to determine the intent. So for the first question, uh it determined that this is a question. Now it's a request in the second one and the third one is a complaint. And based on that, it handled it differently based on the functions that we have sent it towards. And now you can see that you can also start to chain multiple LLM calls together where if it's a question, we simply have another function that makes another call to OpenAI to handle it. For a request, we might do something else. Here we just do a simple print statement, but this can be anything. This is how you make modular workflows where you implement the logic based on certain conditions. And now remember this is all possible because we are first of all using structured output. So we know that we get this data model back. Then in our code we look at the response from the LLM and we can say take the intent and then we can create a simple if else statement to do a simple check. If the intent is equal to question we do this. If the intent is equal to request we do this and so on. And now at this point I can also get back to something I mentioned earlier in this video and that was being very careful with tool calls and that for our production environments we rarely use tool calls at all. So what do we do? Well, we almost always prefer to use structured output and let an LLM decide a specific type of category and then based on that category create simple routers within our code that you just saw using if else statements to decide what function or tool if you will to use. Now, in simple cases, the result will be exactly the same whether you use a tool call or the approach that I just mentioned. But when your systems get more complex and you need to debug things, it can get very tricky as to figure out why an LLM did not decide to use a tool call. Whereas if you use a classification step with categories and a reasoning for why it decided to use that category, you have a full log of figuring out, okay, look, we have a bug within this step of our workflow for this particular data point where the LLM actually thought it was this category and it gave a reasoning for why it thought it was that category. And that's also exactly what we were doing over here. So beyond just printing the response and the classification, we also list the reasoning. So you can see that over here if I make this a little bit bigger. So the input, what is machine learning reasoning? The input asks for information or explanation about the concept etc. So this gives you an entire log as to the decision-making process of the LLM, which is super helpful for debugging. All right. And that brings us to building block number six, and that is recovery. So things will go wrong in production. and APIs will be down. LLMs will return nonsense. Rate limits will hit you. And you need try catch blocks, retire logic with back off and fallbacks responses when stuff breaks. This is building reliable applications 101. This is just standard error handling that you would implement in any production system. So it could look something like this. You have a request coming in. You check whether it's a success, yes or no, based on either an error that is happening or some kind of data that is present or not. If it's a success, you can simply return the result. All good. But if it's not a success, there is an error, you can for example retry that first of all check is that even possible. So you can retry with a back off. Or if that's not possible at all, you have some kind of fallback scenario where you for example let the user know sorry I cannot help with this question because it couldn't find the right information in the knowledge base for example. And here quickly a simple example within the Python programming language you can use the try accept blocks where if something goes wrong within this first part of the code it raises some type of error it will fall back to the exception. Now you can expand on this with a finally clause where you can try something in another case do this and then if that doesn't work you can finally do something else. Here you can build some kind of a recovery mechanism where we can for example check if a certain key here is available. So we try to access a field within a dictionary that is not present in this case. So it's not available. We're using the fallback information and that results in a general output or a standard reply in this case. It's a very simple illustration. Uh this is infinitely complex when it comes to doing this properly within your own applications because every try accept block will be completely unique to what problem you're trying to solve and what errors may or may not pop up. And then the final building block is what we call feedback. So human oversight and approval of workflows because some processes are just too tricky right now to be fully handled by your AI agents. Sometimes you just want a human in the loop to check an LM's work before it goes live or sent to someone. So when a task or decision is too important or complex for full automation, like sending very sensitive emails to customers or making purchases, adding approval steps where humans can review and approve or reject before execution is crucial. This is a basic approval workflow like you would build for any app, but then have really the human in the loop where it takes a full stop and it waits for that point. So let's say an LLM generated a response or created some piece of content and before sending that out into the world, you want human review in there. So a human for example getting a popup within Slack with a button like yes or no to review it, approve it, and then if it's all good, perfect. We'll send it, we'll execute it. If it's a no, we can potentially provide feedback as to what we need to adjust. And then we send that back to the LLM and we repeat the process one more time. And this is where we get back to the point that I brought up about the importance of humans in the loop and the difference between building what I call AI assistants that directly work with humans in the loop like chat GPT or cursor. the user asks something, the LM does something and the user immediately sees the feedback and can adjust and they can work in this dance going back and forth versus fully autonomous systems that work in the background. Let's say a customer care ticketing system fully autonomous. It comes in, the AI should solve that ticket, generate a response and then send it back. There is a big distinction between the two. And almost all very effective and great AI products, if it gets to a point where it gets too tricky, you instead of like just optimizing your prompt further and further and further, you might just need a human in the loop in order to be on the safe side of things before shipping something into production where it works 80% of the time, but 20% of the time it's a complete shitow. And how you can actually implement that within your application or codebase here in seven feedback.py, by you can integrate or create a strategic moment where you have a full stop and do not let the agent continue until it gets an approval. Now there are various ways that you can do this. This is a very simple example. You can integrate some kind of front-end application. You can integrate something like Slack. You'll probably need to set up some web hooks to ping back and forth. Super technical beyond the scope of this video, but the principle is the same. You want to create a full stop where if you for example run this and I'm running this in the terminal over here to showcase this. Let's say we're generating a piece of content. So here is the content generated right now. The agent before it continues it waits for approval. So I'm here right now doing this in the terminal but again in a real application you want to have some systems that users can easily interact with and get a notification from. So let's say I do yes then final answer is approved. When I run it one more time, I let it generate another piece of content. I can now ignore that or give essentially a no and just not approve this workflow. Now, you would also ideally then have some feedback around that. But again, the principle is the same, a full stop before sending it off. All right? So, those are your seven building blocks that you need to understand in order to build reliable AI agents. And now what you do is you take a big problem. You break it down into smaller problems. And for every smaller problem, you try to solve it using the building blocks available only using an LLM API called the intelligence layer when you absolutely cannot get around it. And now if you want to learn how you can orchestrate entire workflows using these building blocks, so how to actually combine them and piece them together, you want to check out the workflow orchestration that I have over here. So this is the GitHub repository for the course that I already shared that I have on YouTube. So this is the same same resource, same video. I will link it below. It's a super good follow-up from this video where we will bring everything together. So, make sure to like this video, subscribe to the channel, and then go check out this video"
+}

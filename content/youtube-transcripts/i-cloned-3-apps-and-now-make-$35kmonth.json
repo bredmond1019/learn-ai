@@ -1,0 +1,1982 @@
+{
+  "videoId": "8BtHk-oNlN0",
+  "language": "en",
+  "segments": [
+    {
+      "text": "",
+      "start": 0,
+      "duration": 53
+    },
+    {
+      "text": "My name is Samuel and I run three apps",
+      "start": 0.16,
+      "duration": 1.999
+    },
+    {
+      "text": "making $35,000 a month.",
+      "start": 2.159,
+      "duration": 2.401
+    },
+    {
+      "text": "You might think you need to come up with",
+      "start": 4.56,
+      "duration": 1.68
+    },
+    {
+      "text": "a completely new idea. But I just met a",
+      "start": 6.24,
+      "duration": 3.12
+    },
+    {
+      "text": "guy who does the exact opposite. His",
+      "start": 9.36,
+      "duration": 2.72
+    },
+    {
+      "text": "strategy is simple. One, find an app",
+      "start": 12.08,
+      "duration": 2.479
+    },
+    {
+      "text": "that's working. And two, make it 1%",
+      "start": 14.559,
+      "duration": 3.121
+    },
+    {
+      "text": "better.",
+      "start": 17.68,
+      "duration": 0.48
+    },
+    {
+      "text": "If it's already successful, I know it's",
+      "start": 18.16,
+      "duration": 1.84
+    },
+    {
+      "text": "validating.",
+      "start": 20,
+      "duration": 1.039
+    },
+    {
+      "text": "But don't be fooled. He's not just",
+      "start": 21.039,
+      "duration": 2.4
+    },
+    {
+      "text": "copying and pasting. And in this",
+      "start": 23.439,
+      "duration": 1.84
+    },
+    {
+      "text": "episode, he breaks down his meticulous",
+      "start": 25.279,
+      "duration": 2.32
+    },
+    {
+      "text": "method for finding winning ideas and",
+      "start": 27.599,
+      "duration": 2.241
+    },
+    {
+      "text": "turning them into successful apps. We'll",
+      "start": 29.84,
+      "duration": 2.32
+    },
+    {
+      "text": "get into where the best ideas are hiding",
+      "start": 32.16,
+      "duration": 2.079
+    },
+    {
+      "text": "in plain sight, how to validate fast so",
+      "start": 34.239,
+      "duration": 2.721
+    },
+    {
+      "text": "you don't waste months working on a",
+      "start": 36.96,
+      "duration": 1.68
+    },
+    {
+      "text": "failed project, and the playbook for",
+      "start": 38.64,
+      "duration": 2.16
+    },
+    {
+      "text": "researching and replicating successful",
+      "start": 40.8,
+      "duration": 2
+    },
+    {
+      "text": "apps that you can put into practice",
+      "start": 42.8,
+      "duration": 2.16
+    },
+    {
+      "text": "today. All right, let's dive in. I'm Pat",
+      "start": 44.96,
+      "duration": 2.32
+    },
+    {
+      "text": "Walls, and this is Starter Story.",
+      "start": 47.28,
+      "duration": 4.91
+    },
+    {
+      "text": "[Music]",
+      "start": 52.19,
+      "duration": 1.33
+    },
+    {
+      "text": "",
+      "start": 53,
+      "duration": 18
+    },
+    {
+      "text": "All right, welcome Samuel to the",
+      "start": 53.52,
+      "duration": 1.76
+    },
+    {
+      "text": "channel. Thanks for coming on. Tell me",
+      "start": 55.28,
+      "duration": 1.84
+    },
+    {
+      "text": "about who you are and what's your story.",
+      "start": 57.12,
+      "duration": 1.84
+    },
+    {
+      "text": "So, my name is Samuel Rondo. I used to",
+      "start": 58.96,
+      "duration": 2.16
+    },
+    {
+      "text": "have a full-time job, but I quit a few",
+      "start": 61.12,
+      "duration": 2.32
+    },
+    {
+      "text": "years ago and I taught myself to code on",
+      "start": 63.44,
+      "duration": 2.24
+    },
+    {
+      "text": "YouTube and now I run three SAS apps",
+      "start": 65.68,
+      "duration": 2.24
+    },
+    {
+      "text": "that are making $35,000 per month.",
+      "start": 67.92,
+      "duration": 2.72
+    },
+    {
+      "text": "Okay, cool. So, before we get into all",
+      "start": 70.64,
+      "duration": 1.68
+    },
+    {
+      "text": "",
+      "start": 71,
+      "duration": 47
+    },
+    {
+      "text": "your apps and how they grew, you said",
+      "start": 72.32,
+      "duration": 1.92
+    },
+    {
+      "text": "that you actually taught yourself how to",
+      "start": 74.24,
+      "duration": 2.16
+    },
+    {
+      "text": "code. How did you do that? And could you",
+      "start": 76.4,
+      "duration": 1.6
+    },
+    {
+      "text": "break that down for us? So yeah,",
+      "start": 78,
+      "duration": 1.28
+    },
+    {
+      "text": "actually I used to be an optician and I",
+      "start": 79.28,
+      "duration": 2.08
+    },
+    {
+      "text": "had the zero coding experience. At the",
+      "start": 81.36,
+      "duration": 2.16
+    },
+    {
+      "text": "time I wanted to rebuild a tool I was",
+      "start": 83.52,
+      "duration": 2.32
+    },
+    {
+      "text": "using for Instagram, but this time I",
+      "start": 85.84,
+      "duration": 1.84
+    },
+    {
+      "text": "wanted to build it myself using code. I",
+      "start": 87.68,
+      "duration": 2.24
+    },
+    {
+      "text": "ended up following a 15-hour course on",
+      "start": 89.92,
+      "duration": 2.32
+    },
+    {
+      "text": "YouTube. And every time I learn",
+      "start": 92.24,
+      "duration": 1.44
+    },
+    {
+      "text": "something new in the course, I",
+      "start": 93.68,
+      "duration": 1.439
+    },
+    {
+      "text": "immediately try to apply it to that tool",
+      "start": 95.119,
+      "duration": 1.921
+    },
+    {
+      "text": "I was building. So if you just watch a",
+      "start": 97.04,
+      "duration": 2.32
+    },
+    {
+      "text": "course, most of the time it's not enough",
+      "start": 99.36,
+      "duration": 2.24
+    },
+    {
+      "text": "because you end up losing yourself in",
+      "start": 101.6,
+      "duration": 2.64
+    },
+    {
+      "text": "the languages that you will probably",
+      "start": 104.24,
+      "duration": 1.76
+    },
+    {
+      "text": "never use and you don't really see why",
+      "start": 106,
+      "duration": 2.479
+    },
+    {
+      "text": "you are learning what you are learning.",
+      "start": 108.479,
+      "duration": 1.92
+    },
+    {
+      "text": "But yeah, it all starting like this",
+      "start": 110.399,
+      "duration": 2.321
+    },
+    {
+      "text": "following a YouTube course and it",
+      "start": 112.72,
+      "duration": 1.679
+    },
+    {
+      "text": "quickly became a passion for me.",
+      "start": 114.399,
+      "duration": 1.601
+    },
+    {
+      "text": "Cool. All right. Well, for anyone",
+      "start": 116,
+      "duration": 1.439
+    },
+    {
+      "text": "watching this today who wants to learn",
+      "start": 117.439,
+      "duration": 1.36
+    },
+    {
+      "text": "",
+      "start": 118,
+      "duration": 45
+    },
+    {
+      "text": "how to code, how to build apps, what",
+      "start": 118.799,
+      "duration": 1.841
+    },
+    {
+      "text": "would be your advice? What would be your",
+      "start": 120.64,
+      "duration": 1.519
+    },
+    {
+      "text": "framework or playbook or how you'd get",
+      "start": 122.159,
+      "duration": 1.521
+    },
+    {
+      "text": "started? If I were 18 years old now, I",
+      "start": 123.68,
+      "duration": 2.719
+    },
+    {
+      "text": "don't think I would learn to code the",
+      "start": 126.399,
+      "duration": 1.84
+    },
+    {
+      "text": "traditional way. I would probably just",
+      "start": 128.239,
+      "duration": 2
+    },
+    {
+      "text": "use AI coding tools. And with AI today,",
+      "start": 130.239,
+      "duration": 2.481
+    },
+    {
+      "text": "you can literally build like 90% of most",
+      "start": 132.72,
+      "duration": 2.8
+    },
+    {
+      "text": "apps. So my framework today would be",
+      "start": 135.52,
+      "duration": 2.48
+    },
+    {
+      "text": "one, pick a real project. Two, ask JPT",
+      "start": 138,
+      "duration": 3.36
+    },
+    {
+      "text": "what you need to learn to build it. So",
+      "start": 141.36,
+      "duration": 1.84
+    },
+    {
+      "text": "for example, you go on Google or on",
+      "start": 143.2,
+      "duration": 1.679
+    },
+    {
+      "text": "Twitter and you find a product you like",
+      "start": 144.879,
+      "duration": 1.681
+    },
+    {
+      "text": "and you take a screenshot of that page",
+      "start": 146.56,
+      "duration": 2
+    },
+    {
+      "text": "and you ask JPT, how can I build just",
+      "start": 148.56,
+      "duration": 2.72
+    },
+    {
+      "text": "the landing page to start? and three",
+      "start": 151.28,
+      "duration": 2.08
+    },
+    {
+      "text": "build step by step asking Chad GPT for",
+      "start": 153.36,
+      "duration": 2.4
+    },
+    {
+      "text": "help at each roadblock. I would of",
+      "start": 155.76,
+      "duration": 1.92
+    },
+    {
+      "text": "course ask him to use modern",
+      "start": 157.68,
+      "duration": 2
+    },
+    {
+      "text": "technologies like Nexjs, NodeJS.",
+      "start": 159.68,
+      "duration": 2.8
+    },
+    {
+      "text": "That's awesome. What I really want to",
+      "start": 162.48,
+      "duration": 1.44
+    },
+    {
+      "text": "",
+      "start": 163,
+      "duration": 62
+    },
+    {
+      "text": "talk about is ideas and finding",
+      "start": 163.92,
+      "duration": 2
+    },
+    {
+      "text": "successful ideas. You have multiple",
+      "start": 165.92,
+      "duration": 2.16
+    },
+    {
+      "text": "successful products and you share with",
+      "start": 168.08,
+      "duration": 2.239
+    },
+    {
+      "text": "me your strategy for how you found",
+      "start": 170.319,
+      "duration": 1.681
+    },
+    {
+      "text": "those. Could you tell me a little bit",
+      "start": 172,
+      "duration": 1.04
+    },
+    {
+      "text": "more about that?",
+      "start": 173.04,
+      "duration": 0.88
+    },
+    {
+      "text": "I'm someone a bit lazy and I don't have",
+      "start": 173.92,
+      "duration": 2.48
+    },
+    {
+      "text": "unlimited energy. So I have one rule",
+      "start": 176.4,
+      "duration": 2.8
+    },
+    {
+      "text": "that is really crucial for me is to",
+      "start": 179.2,
+      "duration": 1.92
+    },
+    {
+      "text": "never build something that doesn't",
+      "start": 181.12,
+      "duration": 1.759
+    },
+    {
+      "text": "already exist and isn't already",
+      "start": 182.879,
+      "duration": 2.08
+    },
+    {
+      "text": "successful or at least getting some",
+      "start": 184.959,
+      "duration": 2.081
+    },
+    {
+      "text": "traction. So this way I reduce my chance",
+      "start": 187.04,
+      "duration": 2.479
+    },
+    {
+      "text": "of failure and I increase my chances of",
+      "start": 189.519,
+      "duration": 2.72
+    },
+    {
+      "text": "success. So usually to find products",
+      "start": 192.239,
+      "duration": 1.761
+    },
+    {
+      "text": "idea my number one source of idea is",
+      "start": 194,
+      "duration": 2.56
+    },
+    {
+      "text": "Twitter especially around communities",
+      "start": 196.56,
+      "duration": 2.48
+    },
+    {
+      "text": "like solopreneur in the building public",
+      "start": 199.04,
+      "duration": 2.72
+    },
+    {
+      "text": "etc. And then I look for things that are",
+      "start": 201.76,
+      "duration": 2.24
+    },
+    {
+      "text": "working or products that I personally",
+      "start": 204,
+      "duration": 2
+    },
+    {
+      "text": "like. Here are my four keys filter.",
+      "start": 206,
+      "duration": 2.08
+    },
+    {
+      "text": "Number one, I will use it myself. Number",
+      "start": 208.08,
+      "duration": 2.32
+    },
+    {
+      "text": "two, I can see that it already works.",
+      "start": 210.4,
+      "duration": 2.08
+    },
+    {
+      "text": "And three, they are not spending",
+      "start": 212.48,
+      "duration": 1.52
+    },
+    {
+      "text": "thousand on marketing, meaning there is",
+      "start": 214,
+      "duration": 1.92
+    },
+    {
+      "text": "a true demand. And four, the product is",
+      "start": 215.92,
+      "duration": 2.64
+    },
+    {
+      "text": "simple enough to maintain. If your",
+      "start": 218.56,
+      "duration": 2.16
+    },
+    {
+      "text": "product passes this filter, then usually",
+      "start": 220.72,
+      "duration": 2.159
+    },
+    {
+      "text": "I'm confident building it.",
+      "start": 222.879,
+      "duration": 1.92
+    },
+    {
+      "text": "Okay, let's go a little bit deeper on",
+      "start": 224.799,
+      "duration": 2.321
+    },
+    {
+      "text": "",
+      "start": 225,
+      "duration": 86
+    },
+    {
+      "text": "that. When you come across ideas online,",
+      "start": 227.12,
+      "duration": 2.399
+    },
+    {
+      "text": "what is the actual criteria that you're",
+      "start": 229.519,
+      "duration": 2.8
+    },
+    {
+      "text": "looking at? what are some of the numbers",
+      "start": 232.319,
+      "duration": 1.761
+    },
+    {
+      "text": "and websites and things that you look at",
+      "start": 234.08,
+      "duration": 2.079
+    },
+    {
+      "text": "to know if this is worth building and if",
+      "start": 236.159,
+      "duration": 2.08
+    },
+    {
+      "text": "this is validated.",
+      "start": 238.239,
+      "duration": 1.041
+    },
+    {
+      "text": "So first the most important thing I look",
+      "start": 239.28,
+      "duration": 2.4
+    },
+    {
+      "text": "for traction. Uh the best signal you can",
+      "start": 241.68,
+      "duration": 2.4
+    },
+    {
+      "text": "find on Twitter is when founders share",
+      "start": 244.08,
+      "duration": 2.56
+    },
+    {
+      "text": "their MR screenshot or stripe",
+      "start": 246.64,
+      "duration": 1.92
+    },
+    {
+      "text": "screenshot. Uh I know that sounds basic",
+      "start": 248.56,
+      "duration": 2.16
+    },
+    {
+      "text": "but honestly it's the ultimate proof",
+      "start": 250.72,
+      "duration": 1.68
+    },
+    {
+      "text": "that the tool is working and that people",
+      "start": 252.4,
+      "duration": 2.16
+    },
+    {
+      "text": "are paying for it. Second I analyze how",
+      "start": 254.56,
+      "duration": 2.72
+    },
+    {
+      "text": "they are getting their customers. So I",
+      "start": 257.28,
+      "duration": 2.16
+    },
+    {
+      "text": "use href to check their traffic sources.",
+      "start": 259.44,
+      "duration": 2.479
+    },
+    {
+      "text": "So, are they getting customers only from",
+      "start": 261.919,
+      "duration": 1.921
+    },
+    {
+      "text": "ads or are they also ranking on SEO? If",
+      "start": 263.84,
+      "duration": 2.639
+    },
+    {
+      "text": "they are growing with both ads and SEO,",
+      "start": 266.479,
+      "duration": 2.081
+    },
+    {
+      "text": "that's a very good sign because it shows",
+      "start": 268.56,
+      "duration": 1.84
+    },
+    {
+      "text": "a strong demand and it's usually easier",
+      "start": 270.4,
+      "duration": 1.92
+    },
+    {
+      "text": "to replicate their success. Is they rely",
+      "start": 272.32,
+      "duration": 2.319
+    },
+    {
+      "text": "mostly on SEO? It can be harder because",
+      "start": 274.639,
+      "duration": 2.081
+    },
+    {
+      "text": "SEO takes time, but it's still doable if",
+      "start": 276.72,
+      "duration": 2.72
+    },
+    {
+      "text": "I'm patient. And third, I check if the",
+      "start": 279.44,
+      "duration": 2.24
+    },
+    {
+      "text": "product is technically something I can",
+      "start": 281.68,
+      "duration": 2
+    },
+    {
+      "text": "build and maintain easily. I don't want",
+      "start": 283.68,
+      "duration": 1.84
+    },
+    {
+      "text": "to build a product that will make me",
+      "start": 285.52,
+      "duration": 1.679
+    },
+    {
+      "text": "lose sleep maintaining a complex back",
+      "start": 287.199,
+      "duration": 1.841
+    },
+    {
+      "text": "end. Simplicity is very important for",
+      "start": 289.04,
+      "duration": 1.76
+    },
+    {
+      "text": "me. And uh finally I asked myself, do I",
+      "start": 290.8,
+      "duration": 3.04
+    },
+    {
+      "text": "actually like the product? Because",
+      "start": 293.84,
+      "duration": 1.76
+    },
+    {
+      "text": "there's nothing worse than working on a",
+      "start": 295.6,
+      "duration": 2.319
+    },
+    {
+      "text": "product you don't care about. If I don't",
+      "start": 297.919,
+      "duration": 1.761
+    },
+    {
+      "text": "enjoy using it myself, I won't have the",
+      "start": 299.68,
+      "duration": 2
+    },
+    {
+      "text": "motivation to keep going longterm. So in",
+      "start": 301.68,
+      "duration": 2.88
+    },
+    {
+      "text": "short, uh traction first, analyze",
+      "start": 304.56,
+      "duration": 2.639
+    },
+    {
+      "text": "traffic sources, check if I can build it",
+      "start": 307.199,
+      "duration": 2
+    },
+    {
+      "text": "easily, and make sure I like the",
+      "start": 309.199,
+      "duration": 1.761
+    },
+    {
+      "text": "product.",
+      "start": 310.96,
+      "duration": 0.56
+    },
+    {
+      "text": "",
+      "start": 311,
+      "duration": 75
+    },
+    {
+      "text": "That strategy is cool, and it's amazing",
+      "start": 311.52,
+      "duration": 1.84
+    },
+    {
+      "text": "to have it kind of all boiled down, but",
+      "start": 313.36,
+      "duration": 1.52
+    },
+    {
+      "text": "I want to hear how it actually applied",
+      "start": 314.88,
+      "duration": 1.28
+    },
+    {
+      "text": "to your actual apps that you built. How",
+      "start": 316.16,
+      "duration": 3.039
+    },
+    {
+      "text": "did that strategy specifically work?",
+      "start": 319.199,
+      "duration": 1.761
+    },
+    {
+      "text": "So actually the first real app I built",
+      "start": 320.96,
+      "duration": 2.4
+    },
+    {
+      "text": "was usimus and at that time I didn't use",
+      "start": 323.36,
+      "duration": 2.64
+    },
+    {
+      "text": "that strategy and it was a mistake",
+      "start": 326,
+      "duration": 1.759
+    },
+    {
+      "text": "because I ended up building an email",
+      "start": 327.759,
+      "duration": 2.401
+    },
+    {
+      "text": "finding tool that have for competitors",
+      "start": 330.16,
+      "duration": 2.879
+    },
+    {
+      "text": "big names like Apollo limb list and",
+      "start": 333.039,
+      "duration": 2.401
+    },
+    {
+      "text": "stuff like that and it was so difficult",
+      "start": 335.44,
+      "duration": 2.16
+    },
+    {
+      "text": "to maintain. So after us I really",
+      "start": 337.6,
+      "duration": 2.64
+    },
+    {
+      "text": "decided to build something that will be",
+      "start": 340.24,
+      "duration": 2.48
+    },
+    {
+      "text": "easier to maintain and that's how I end",
+      "start": 342.72,
+      "duration": 2.16
+    },
+    {
+      "text": "up building story short. So I saw a post",
+      "start": 344.88,
+      "duration": 2.24
+    },
+    {
+      "text": "from a guy building a tool to automate",
+      "start": 347.12,
+      "duration": 2.16
+    },
+    {
+      "text": "posting faceless video on YouTube, Tik",
+      "start": 349.28,
+      "duration": 1.919
+    },
+    {
+      "text": "Tok, etc. And the numbers were crazy. So",
+      "start": 351.199,
+      "duration": 3.041
+    },
+    {
+      "text": "I started to investigate is it hard to",
+      "start": 354.24,
+      "duration": 2.32
+    },
+    {
+      "text": "build and where is the traffic coming",
+      "start": 356.56,
+      "duration": 1.919
+    },
+    {
+      "text": "from? The really good thing with this",
+      "start": 358.479,
+      "duration": 1.761
+    },
+    {
+      "text": "one is all the traffic was from Facebook",
+      "start": 360.24,
+      "duration": 2.72
+    },
+    {
+      "text": "ads which means I can replicate it",
+      "start": 362.96,
+      "duration": 2.4
+    },
+    {
+      "text": "literally in a week because Facebook ads",
+      "start": 365.36,
+      "duration": 2.32
+    },
+    {
+      "text": "you just have to start it and you have",
+      "start": 367.68,
+      "duration": 1.359
+    },
+    {
+      "text": "the traffic. So I went for it. I built",
+      "start": 369.039,
+      "duration": 2.481
+    },
+    {
+      "text": "the tool launched ads and story shorti",
+      "start": 371.52,
+      "duration": 2.64
+    },
+    {
+      "text": "grew very fast. So story short, it was",
+      "start": 374.16,
+      "duration": 2.159
+    },
+    {
+      "text": "100% the process I described earlier. I",
+      "start": 376.319,
+      "duration": 2.801
+    },
+    {
+      "text": "validated the idea. I saw there a clear",
+      "start": 379.12,
+      "duration": 2.48
+    },
+    {
+      "text": "demand. It was simple product and it was",
+      "start": 381.6,
+      "duration": 2.64
+    },
+    {
+      "text": "a market I was personally interested in.",
+      "start": 384.24,
+      "duration": 2.56
+    },
+    {
+      "text": "",
+      "start": 386,
+      "duration": 62
+    },
+    {
+      "text": "All right, before we finish talking",
+      "start": 386.8,
+      "duration": 1.2
+    },
+    {
+      "text": "about how Samuel grew his apps to",
+      "start": 388,
+      "duration": 2.319
+    },
+    {
+      "text": "$34,000 per month, let's talk about",
+      "start": 390.319,
+      "duration": 2.16
+    },
+    {
+      "text": "something a lot of solers struggle with.",
+      "start": 392.479,
+      "duration": 2.401
+    },
+    {
+      "text": "Design. You've got a working idea. You",
+      "start": 394.88,
+      "duration": 2.159
+    },
+    {
+      "text": "know it solves a problem, but suddenly",
+      "start": 397.039,
+      "duration": 2.081
+    },
+    {
+      "text": "you've wasted hours taking screenshots",
+      "start": 399.12,
+      "duration": 2.56
+    },
+    {
+      "text": "just to figure out how to make your app",
+      "start": 401.68,
+      "duration": 2
+    },
+    {
+      "text": "look good. That's where Mobin comes in.",
+      "start": 403.68,
+      "duration": 2.959
+    },
+    {
+      "text": "Mobin is the world's largest library of",
+      "start": 406.639,
+      "duration": 2.801
+    },
+    {
+      "text": "realworld mobile and web app designs.",
+      "start": 409.44,
+      "duration": 2.56
+    },
+    {
+      "text": "Over 1.7 million people, from Airbnb",
+      "start": 412,
+      "duration": 3.44
+    },
+    {
+      "text": "designers to indie devs, use it to find",
+      "start": 415.44,
+      "duration": 2.56
+    },
+    {
+      "text": "inspiration, study flows, and build",
+      "start": 418,
+      "duration": 2.8
+    },
+    {
+      "text": "smarter, not slower. You can search",
+      "start": 420.8,
+      "duration": 2.399
+    },
+    {
+      "text": "thousands of actual product screens by",
+      "start": 423.199,
+      "duration": 2.321
+    },
+    {
+      "text": "keyword, flow, or even style. Whether",
+      "start": 425.52,
+      "duration": 2.88
+    },
+    {
+      "text": "you need an onboarding flow, payw wall",
+      "start": 428.4,
+      "duration": 2.079
+    },
+    {
+      "text": "layout, or just a clean signup form,",
+      "start": 430.479,
+      "duration": 2.081
+    },
+    {
+      "text": "Mobin shows you exactly how the best",
+      "start": 432.56,
+      "duration": 2.24
+    },
+    {
+      "text": "apps do it so you don't have to start",
+      "start": 434.8,
+      "duration": 1.76
+    },
+    {
+      "text": "from scratch. Whether you're building",
+      "start": 436.56,
+      "duration": 1.44
+    },
+    {
+      "text": "your first app or your 10th, it's a",
+      "start": 438,
+      "duration": 2.4
+    },
+    {
+      "text": "massive timesaver. Just click the first",
+      "start": 440.4,
+      "duration": 2.239
+    },
+    {
+      "text": "link in the description to check out",
+      "start": 442.639,
+      "duration": 1.84
+    },
+    {
+      "text": "Mobin. Thank you to Mobin for sponsoring",
+      "start": 444.479,
+      "duration": 1.761
+    },
+    {
+      "text": "this video. All right, let's get back to",
+      "start": 446.24,
+      "duration": 1.76
+    },
+    {
+      "text": "",
+      "start": 448,
+      "duration": 34
+    },
+    {
+      "text": "Samuel. All right, so I mean on that",
+      "start": 448,
+      "duration": 1.919
+    },
+    {
+      "text": "note, can you break down the three",
+      "start": 449.919,
+      "duration": 1.601
+    },
+    {
+      "text": "different businesses that you built that",
+      "start": 451.52,
+      "duration": 1.76
+    },
+    {
+      "text": "are all successful?",
+      "start": 453.28,
+      "duration": 1.199
+    },
+    {
+      "text": "Okay, so I built us.com. It's a LinkedIn",
+      "start": 454.479,
+      "duration": 2.56
+    },
+    {
+      "text": "scrapping tool that is making around",
+      "start": 457.039,
+      "duration": 1.841
+    },
+    {
+      "text": "$15,000 per month and has around 10,000",
+      "start": 458.88,
+      "duration": 3.2
+    },
+    {
+      "text": "customers. I have storyshow.ai, which is",
+      "start": 462.08,
+      "duration": 2.399
+    },
+    {
+      "text": "an AI video generator for Tik Tok and",
+      "start": 464.479,
+      "duration": 2.321
+    },
+    {
+      "text": "YouTube that is making around $20,000",
+      "start": 466.8,
+      "duration": 2.32
+    },
+    {
+      "text": "per month and has around $4,000",
+      "start": 469.12,
+      "duration": 2.639
+    },
+    {
+      "text": "customers. And Capacity.so, which is",
+      "start": 471.759,
+      "duration": 2.081
+    },
+    {
+      "text": "brand new. It's an AI coding tool that",
+      "start": 473.84,
+      "duration": 2.24
+    },
+    {
+      "text": "is making currently $900 per month and",
+      "start": 476.08,
+      "duration": 3.2
+    },
+    {
+      "text": "has around 50 users.",
+      "start": 479.28,
+      "duration": 2.319
+    },
+    {
+      "text": "Okay, that's awesome. So we talked about",
+      "start": 481.599,
+      "duration": 2.561
+    },
+    {
+      "text": "",
+      "start": 482,
+      "duration": 107
+    },
+    {
+      "text": "the ideas, we talked about the framework",
+      "start": 484.16,
+      "duration": 2.08
+    },
+    {
+      "text": "for finding ideas, let's talk about what",
+      "start": 486.24,
+      "duration": 1.92
+    },
+    {
+      "text": "everyone wants to hear about, which is",
+      "start": 488.16,
+      "duration": 1.92
+    },
+    {
+      "text": "once you find the idea, how do you grow",
+      "start": 490.08,
+      "duration": 2.08
+    },
+    {
+      "text": "the business? What growth strategies are",
+      "start": 492.16,
+      "duration": 1.92
+    },
+    {
+      "text": "you using and how do you know which ones",
+      "start": 494.08,
+      "duration": 1.679
+    },
+    {
+      "text": "to do?",
+      "start": 495.759,
+      "duration": 0.801
+    },
+    {
+      "text": "So I always start by running ads. It's",
+      "start": 496.56,
+      "duration": 2.479
+    },
+    {
+      "text": "always the first thing I do. So I do it",
+      "start": 499.039,
+      "duration": 2.401
+    },
+    {
+      "text": "on Google and meta depending on the",
+      "start": 501.44,
+      "duration": 2.159
+    },
+    {
+      "text": "product. Sometimes it's better on",
+      "start": 503.599,
+      "duration": 1.761
+    },
+    {
+      "text": "Google, sometimes it's better on meta.",
+      "start": 505.36,
+      "duration": 1.839
+    },
+    {
+      "text": "It's the fastest way to validate and",
+      "start": 507.199,
+      "duration": 1.68
+    },
+    {
+      "text": "test the market. And as soon as I get",
+      "start": 508.879,
+      "duration": 2.16
+    },
+    {
+      "text": "some traction with ads, I move to the",
+      "start": 511.039,
+      "duration": 2.641
+    },
+    {
+      "text": "second part of the growth, which is SEO.",
+      "start": 513.68,
+      "duration": 2.479
+    },
+    {
+      "text": "I think too many apps rely only on ads",
+      "start": 516.159,
+      "duration": 2.481
+    },
+    {
+      "text": "and never got a single visitor from",
+      "start": 518.64,
+      "duration": 2
+    },
+    {
+      "text": "Google. Of course, SEO takes time, but",
+      "start": 520.64,
+      "duration": 2.079
+    },
+    {
+      "text": "once it works, it's almost free traffic",
+      "start": 522.719,
+      "duration": 2.24
+    },
+    {
+      "text": "and it compounds. I also use faceless",
+      "start": 524.959,
+      "duration": 2.241
+    },
+    {
+      "text": "YouTube channels to grow my apps. I even",
+      "start": 527.2,
+      "duration": 2.8
+    },
+    {
+      "text": "created a feature inside Story Short for",
+      "start": 530,
+      "duration": 2
+    },
+    {
+      "text": "this. The idea is that story short will",
+      "start": 532,
+      "duration": 2.16
+    },
+    {
+      "text": "automatically publish daily UGC style",
+      "start": 534.16,
+      "duration": 2.72
+    },
+    {
+      "text": "video about your product on YouTube",
+      "start": 536.88,
+      "duration": 2.399
+    },
+    {
+      "text": "channels, Tik Tok and Instagram. You can",
+      "start": 539.279,
+      "duration": 2.081
+    },
+    {
+      "text": "create multiple channel that talk about",
+      "start": 541.36,
+      "duration": 1.76
+    },
+    {
+      "text": "your product every day on autopilot. So",
+      "start": 543.12,
+      "duration": 2.24
+    },
+    {
+      "text": "depending on your niche, this can bring",
+      "start": 545.36,
+      "duration": 2
+    },
+    {
+      "text": "crazy results over time. It works really",
+      "start": 547.36,
+      "duration": 2.479
+    },
+    {
+      "text": "well. And finally, I do affiliate",
+      "start": 549.839,
+      "duration": 2.321
+    },
+    {
+      "text": "marketing. I did it for all those three",
+      "start": 552.16,
+      "duration": 1.76
+    },
+    {
+      "text": "apps, especially on Story Short. It's a",
+      "start": 553.92,
+      "duration": 2.08
+    },
+    {
+      "text": "super important because not only does it",
+      "start": 556,
+      "duration": 2.08
+    },
+    {
+      "text": "bring clients at a fixed cost, but it",
+      "start": 558.08,
+      "duration": 2.16
+    },
+    {
+      "text": "also create virality because I have many",
+      "start": 560.24,
+      "duration": 2.48
+    },
+    {
+      "text": "people doing a YouTube video about story",
+      "start": 562.72,
+      "duration": 2.239
+    },
+    {
+      "text": "short writing articles. So it bring a",
+      "start": 564.959,
+      "duration": 2.481
+    },
+    {
+      "text": "zero results and people are more likely",
+      "start": 567.44,
+      "duration": 2.56
+    },
+    {
+      "text": "to share your product if they earn a",
+      "start": 570,
+      "duration": 1.519
+    },
+    {
+      "text": "commission. So in short to my grow stack",
+      "start": 571.519,
+      "duration": 2.401
+    },
+    {
+      "text": "is one start with ads. Two build SEO as",
+      "start": 573.92,
+      "duration": 3.12
+    },
+    {
+      "text": "soon as there's traction three use",
+      "start": 577.04,
+      "duration": 2
+    },
+    {
+      "text": "faceless YouTube channel to drive",
+      "start": 579.04,
+      "duration": 1.68
+    },
+    {
+      "text": "attention on also on Tik Tok and",
+      "start": 580.72,
+      "duration": 2.16
+    },
+    {
+      "text": "Instagram. And four run an affiliate",
+      "start": 582.88,
+      "duration": 2.639
+    },
+    {
+      "text": "program to boost virality and get",
+      "start": 585.519,
+      "duration": 2.161
+    },
+    {
+      "text": "customers at a fixed price.",
+      "start": 587.68,
+      "duration": 1.52
+    },
+    {
+      "text": "",
+      "start": 589,
+      "duration": 40
+    },
+    {
+      "text": "All right cool. Well on a similar note",
+      "start": 589.2,
+      "duration": 1.6
+    },
+    {
+      "text": "let's talk about tech stack. I know you",
+      "start": 590.8,
+      "duration": 1.84
+    },
+    {
+      "text": "don't come from a software engineering",
+      "start": 592.64,
+      "duration": 1.68
+    },
+    {
+      "text": "background but what stack do you build",
+      "start": 594.32,
+      "duration": 2.4
+    },
+    {
+      "text": "your apps in and how do you deploy",
+      "start": 596.72,
+      "duration": 1.76
+    },
+    {
+      "text": "these? So all my apps are built with",
+      "start": 598.48,
+      "duration": 2.799
+    },
+    {
+      "text": "NexJS and NodeJS for the coding part. I",
+      "start": 601.279,
+      "duration": 3.441
+    },
+    {
+      "text": "use Href for the SEO analysis and I use",
+      "start": 604.72,
+      "duration": 3.28
+    },
+    {
+      "text": "also AI tools for writing articles. So",
+      "start": 608,
+      "duration": 3.279
+    },
+    {
+      "text": "for the SEO so I was using SEO which is",
+      "start": 611.279,
+      "duration": 3.041
+    },
+    {
+      "text": "really great but now I just switched to",
+      "start": 614.32,
+      "duration": 2
+    },
+    {
+      "text": "a new one called outrank.so. It really",
+      "start": 616.32,
+      "duration": 2.639
+    },
+    {
+      "text": "automates the writing of article posted",
+      "start": 618.959,
+      "duration": 2.241
+    },
+    {
+      "text": "automatically on your blog and I use",
+      "start": 621.2,
+      "duration": 1.84
+    },
+    {
+      "text": "Versel for deploying my apps, Stripe for",
+      "start": 623.04,
+      "duration": 3.039
+    },
+    {
+      "text": "payments and yeah that's it. That was",
+      "start": 626.079,
+      "duration": 2.081
+    },
+    {
+      "text": "great. On a similar note, people who are",
+      "start": 628.16,
+      "duration": 1.76
+    },
+    {
+      "text": "",
+      "start": 629,
+      "duration": 33
+    },
+    {
+      "text": "watching are probably wondering, \"Okay,",
+      "start": 629.92,
+      "duration": 1.28
+    },
+    {
+      "text": "you're telling us how much money your",
+      "start": 631.2,
+      "duration": 1.44
+    },
+    {
+      "text": "business is making, but what's the",
+      "start": 632.64,
+      "duration": 1.36
+    },
+    {
+      "text": "profit? What's the cost to run this",
+      "start": 634,
+      "duration": 1.6
+    },
+    {
+      "text": "business and how profitable are these?\"",
+      "start": 635.6,
+      "duration": 1.919
+    },
+    {
+      "text": "Well, us cost me around $4,000 per",
+      "start": 637.519,
+      "duration": 3.921
+    },
+    {
+      "text": "month. And story short, cost me around",
+      "start": 641.44,
+      "duration": 2.24
+    },
+    {
+      "text": "$5,000 per month. So, it cost a bit less",
+      "start": 643.68,
+      "duration": 2.32
+    },
+    {
+      "text": "than us because Artimis you have to run",
+      "start": 646,
+      "duration": 3.12
+    },
+    {
+      "text": "instances to automate many things. So,",
+      "start": 649.12,
+      "duration": 2.159
+    },
+    {
+      "text": "it's quite expensive. And capacity, I",
+      "start": 651.279,
+      "duration": 2.881
+    },
+    {
+      "text": "can't tell yet, but it will be quite",
+      "start": 654.16,
+      "duration": 1.919
+    },
+    {
+      "text": "expensive because we have to run",
+      "start": 656.079,
+      "duration": 1.601
+    },
+    {
+      "text": "instances to deploy a website each time.",
+      "start": 657.68,
+      "duration": 3.04
+    },
+    {
+      "text": "Cool. You built a bunch of successful",
+      "start": 660.72,
+      "duration": 1.679
+    },
+    {
+      "text": "",
+      "start": 662,
+      "duration": 32
+    },
+    {
+      "text": "businesses. Some things have worked,",
+      "start": 662.399,
+      "duration": 2
+    },
+    {
+      "text": "some things haven't. What did you learn",
+      "start": 664.399,
+      "duration": 1.68
+    },
+    {
+      "text": "while building those businesses that",
+      "start": 666.079,
+      "duration": 1.76
+    },
+    {
+      "text": "surprised you?",
+      "start": 667.839,
+      "duration": 1.12
+    },
+    {
+      "text": "What really surprised me uh is that you",
+      "start": 668.959,
+      "duration": 2.481
+    },
+    {
+      "text": "don't need to innovate. You just need to",
+      "start": 671.44,
+      "duration": 1.92
+    },
+    {
+      "text": "see what is working on ex in",
+      "start": 673.36,
+      "duration": 2.159
+    },
+    {
+      "text": "communities, on forums, and build your",
+      "start": 675.519,
+      "duration": 2.081
+    },
+    {
+      "text": "own alternative, your own version of a",
+      "start": 677.6,
+      "duration": 1.84
+    },
+    {
+      "text": "product. If you like the product and see",
+      "start": 679.44,
+      "duration": 1.6
+    },
+    {
+      "text": "that it's working, just clone the idea,",
+      "start": 681.04,
+      "duration": 2.32
+    },
+    {
+      "text": "build an MVP in two weeks and launch ads",
+      "start": 683.36,
+      "duration": 2.4
+    },
+    {
+      "text": "immediately. I think people are always",
+      "start": 685.76,
+      "duration": 2.24
+    },
+    {
+      "text": "over complicated this uh but simple",
+      "start": 688,
+      "duration": 2.48
+    },
+    {
+      "text": "boring tools are what makes the most of",
+      "start": 690.48,
+      "duration": 2.24
+    },
+    {
+      "text": "money I think.",
+      "start": 692.72,
+      "duration": 0.88
+    },
+    {
+      "text": "Great. And last question that we ask",
+      "start": 693.6,
+      "duration": 1.76
+    },
+    {
+      "text": "",
+      "start": 694,
+      "duration": 81
+    },
+    {
+      "text": "everyone who comes onto the channel, if",
+      "start": 695.36,
+      "duration": 1.76
+    },
+    {
+      "text": "you could go back in time and stand on",
+      "start": 697.12,
+      "duration": 2.8
+    },
+    {
+      "text": "Samuel's shoulder when you were an",
+      "start": 699.92,
+      "duration": 1.52
+    },
+    {
+      "text": "optitian, what advice would you give him",
+      "start": 701.44,
+      "duration": 2.24
+    },
+    {
+      "text": "to get started to build apps and make",
+      "start": 703.68,
+      "duration": 1.68
+    },
+    {
+      "text": "money online? My first advice would be",
+      "start": 705.36,
+      "duration": 2.56
+    },
+    {
+      "text": "of course to use AI coding tools. At",
+      "start": 707.92,
+      "duration": 2.24
+    },
+    {
+      "text": "that time there was no coding tool but",
+      "start": 710.16,
+      "duration": 2.08
+    },
+    {
+      "text": "today you can use so many AI coding",
+      "start": 712.24,
+      "duration": 2
+    },
+    {
+      "text": "tools that I think that I wouldn't have",
+      "start": 714.24,
+      "duration": 1.76
+    },
+    {
+      "text": "learned to code. Two would be spend time",
+      "start": 716,
+      "duration": 2.399
+    },
+    {
+      "text": "learning Google ads and meta even X ads",
+      "start": 718.399,
+      "duration": 3.201
+    },
+    {
+      "text": "and there are many ads you can learn.",
+      "start": 721.6,
+      "duration": 1.6
+    },
+    {
+      "text": "Three launch as soon as possible. Skip",
+      "start": 723.2,
+      "duration": 2.319
+    },
+    {
+      "text": "the boring parts of building a SAS like",
+      "start": 725.519,
+      "duration": 2.32
+    },
+    {
+      "text": "the password reset pages setting pages.",
+      "start": 727.839,
+      "duration": 2.8
+    },
+    {
+      "text": "Just launch the minimal basic products",
+      "start": 730.639,
+      "duration": 2.32
+    },
+    {
+      "text": "and run ads to test demand right away.",
+      "start": 732.959,
+      "duration": 2.081
+    },
+    {
+      "text": "Once you get traction, focus on SEO. It",
+      "start": 735.04,
+      "duration": 2.72
+    },
+    {
+      "text": "will bring a compounding free traffic",
+      "start": 737.76,
+      "duration": 1.92
+    },
+    {
+      "text": "over time. And even if one day you want",
+      "start": 739.68,
+      "duration": 2
+    },
+    {
+      "text": "to sell the tool, having SEO traffic is",
+      "start": 741.68,
+      "duration": 2.399
+    },
+    {
+      "text": "also very valuable. And automate as much",
+      "start": 744.079,
+      "duration": 2.801
+    },
+    {
+      "text": "as you can use automation tools. So like",
+      "start": 746.88,
+      "duration": 2.48
+    },
+    {
+      "text": "outrank, story short, etc. to automate",
+      "start": 749.36,
+      "duration": 2.56
+    },
+    {
+      "text": "posting, article creation, as much as",
+      "start": 751.92,
+      "duration": 2.56
+    },
+    {
+      "text": "you can. Finally, once you have growth",
+      "start": 754.48,
+      "duration": 2.72
+    },
+    {
+      "text": "and customers coming daily, I would",
+      "start": 757.2,
+      "duration": 2.24
+    },
+    {
+      "text": "finish the product, bring new feature,",
+      "start": 759.44,
+      "duration": 2
+    },
+    {
+      "text": "etc.",
+      "start": 761.44,
+      "duration": 0.56
+    },
+    {
+      "text": "All right. Well, that's great advice. I",
+      "start": 762,
+      "duration": 1.76
+    },
+    {
+      "text": "love your strategy. I love the business",
+      "start": 763.76,
+      "duration": 1.28
+    },
+    {
+      "text": "that you're building. Thank you for",
+      "start": 765.04,
+      "duration": 1.2
+    },
+    {
+      "text": "coming on the channel, Samuel. And I",
+      "start": 766.24,
+      "duration": 2
+    },
+    {
+      "text": "hope everyone watching this learned",
+      "start": 768.24,
+      "duration": 1.76
+    },
+    {
+      "text": "something and you're going to build cool",
+      "start": 770,
+      "duration": 1.839
+    },
+    {
+      "text": "stuff because of it. Thanks for coming",
+      "start": 771.839,
+      "duration": 1.361
+    },
+    {
+      "text": "on.",
+      "start": 773.2,
+      "duration": 0.639
+    },
+    {
+      "text": "Thanks, bud.",
+      "start": 773.839,
+      "duration": 0.8
+    },
+    {
+      "text": "I love Samuel's story because it goes to",
+      "start": 774.639,
+      "duration": 2.401
+    },
+    {
+      "text": "",
+      "start": 775,
+      "duration": 43
+    },
+    {
+      "text": "show that you don't need to invent a",
+      "start": 777.04,
+      "duration": 1.84
+    },
+    {
+      "text": "brand new idea. You can go find",
+      "start": 778.88,
+      "duration": 1.84
+    },
+    {
+      "text": "something that's already working and",
+      "start": 780.72,
+      "duration": 1.76
+    },
+    {
+      "text": "just make it a little bit better. With",
+      "start": 782.48,
+      "duration": 1.919
+    },
+    {
+      "text": "the right process and the right",
+      "start": 784.399,
+      "duration": 1.521
+    },
+    {
+      "text": "approach, anybody can build something",
+      "start": 785.92,
+      "duration": 2.24
+    },
+    {
+      "text": "successful. And inside Starter Story",
+      "start": 788.16,
+      "duration": 1.919
+    },
+    {
+      "text": "Build, we'll show you how to build apps",
+      "start": 790.079,
+      "duration": 2.081
+    },
+    {
+      "text": "the right way. In just 2 weeks, you'll",
+      "start": 792.16,
+      "duration": 2.56
+    },
+    {
+      "text": "find an idea, build it with AI, and ship",
+      "start": 794.72,
+      "duration": 2.72
+    },
+    {
+      "text": "it out into the world. Over 1,000 people",
+      "start": 797.44,
+      "duration": 2.399
+    },
+    {
+      "text": "have already joined and shipped their",
+      "start": 799.839,
+      "duration": 1.601
+    },
+    {
+      "text": "first apps. So, if you want to finally",
+      "start": 801.44,
+      "duration": 2.16
+    },
+    {
+      "text": "bring your idea to life, head to the",
+      "start": 803.6,
+      "duration": 2.32
+    },
+    {
+      "text": "link in the description and check out",
+      "start": 805.92,
+      "duration": 1.68
+    },
+    {
+      "text": "Starter Story Build. Thank you guys for",
+      "start": 807.6,
+      "duration": 1.6
+    },
+    {
+      "text": "watching. We'll see you in the next one.",
+      "start": 809.2,
+      "duration": 1.84
+    },
+    {
+      "text": "Peace.",
+      "start": 811.04,
+      "duration": 3
+    }
+  ],
+  "fullText": "My name is Samuel and I run three apps making $35,000 a month. You might think you need to come up with a completely new idea. But I just met a guy who does the exact opposite. His strategy is simple. One, find an app that's working. And two, make it 1% better. If it's already successful, I know it's validating. But don't be fooled. He's not just copying and pasting. And in this episode, he breaks down his meticulous method for finding winning ideas and turning them into successful apps. We'll get into where the best ideas are hiding in plain sight, how to validate fast so you don't waste months working on a failed project, and the playbook for researching and replicating successful apps that you can put into practice today. All right, let's dive in. I'm Pat Walls, and this is Starter Story. [Music] All right, welcome Samuel to the channel. Thanks for coming on. Tell me about who you are and what's your story. So, my name is Samuel Rondo. I used to have a full-time job, but I quit a few years ago and I taught myself to code on YouTube and now I run three SAS apps that are making $35,000 per month. Okay, cool. So, before we get into all your apps and how they grew, you said that you actually taught yourself how to code. How did you do that? And could you break that down for us? So yeah, actually I used to be an optician and I had the zero coding experience. At the time I wanted to rebuild a tool I was using for Instagram, but this time I wanted to build it myself using code. I ended up following a 15-hour course on YouTube. And every time I learn something new in the course, I immediately try to apply it to that tool I was building. So if you just watch a course, most of the time it's not enough because you end up losing yourself in the languages that you will probably never use and you don't really see why you are learning what you are learning. But yeah, it all starting like this following a YouTube course and it quickly became a passion for me. Cool. All right. Well, for anyone watching this today who wants to learn how to code, how to build apps, what would be your advice? What would be your framework or playbook or how you'd get started? If I were 18 years old now, I don't think I would learn to code the traditional way. I would probably just use AI coding tools. And with AI today, you can literally build like 90% of most apps. So my framework today would be one, pick a real project. Two, ask JPT what you need to learn to build it. So for example, you go on Google or on Twitter and you find a product you like and you take a screenshot of that page and you ask JPT, how can I build just the landing page to start? and three build step by step asking Chad GPT for help at each roadblock. I would of course ask him to use modern technologies like Nexjs, NodeJS. That's awesome. What I really want to talk about is ideas and finding successful ideas. You have multiple successful products and you share with me your strategy for how you found those. Could you tell me a little bit more about that? I'm someone a bit lazy and I don't have unlimited energy. So I have one rule that is really crucial for me is to never build something that doesn't already exist and isn't already successful or at least getting some traction. So this way I reduce my chance of failure and I increase my chances of success. So usually to find products idea my number one source of idea is Twitter especially around communities like solopreneur in the building public etc. And then I look for things that are working or products that I personally like. Here are my four keys filter. Number one, I will use it myself. Number two, I can see that it already works. And three, they are not spending thousand on marketing, meaning there is a true demand. And four, the product is simple enough to maintain. If your product passes this filter, then usually I'm confident building it. Okay, let's go a little bit deeper on that. When you come across ideas online, what is the actual criteria that you're looking at? what are some of the numbers and websites and things that you look at to know if this is worth building and if this is validated. So first the most important thing I look for traction. Uh the best signal you can find on Twitter is when founders share their MR screenshot or stripe screenshot. Uh I know that sounds basic but honestly it's the ultimate proof that the tool is working and that people are paying for it. Second I analyze how they are getting their customers. So I use href to check their traffic sources. So, are they getting customers only from ads or are they also ranking on SEO? If they are growing with both ads and SEO, that's a very good sign because it shows a strong demand and it's usually easier to replicate their success. Is they rely mostly on SEO? It can be harder because SEO takes time, but it's still doable if I'm patient. And third, I check if the product is technically something I can build and maintain easily. I don't want to build a product that will make me lose sleep maintaining a complex back end. Simplicity is very important for me. And uh finally I asked myself, do I actually like the product? Because there's nothing worse than working on a product you don't care about. If I don't enjoy using it myself, I won't have the motivation to keep going longterm. So in short, uh traction first, analyze traffic sources, check if I can build it easily, and make sure I like the product. That strategy is cool, and it's amazing to have it kind of all boiled down, but I want to hear how it actually applied to your actual apps that you built. How did that strategy specifically work? So actually the first real app I built was usimus and at that time I didn't use that strategy and it was a mistake because I ended up building an email finding tool that have for competitors big names like Apollo limb list and stuff like that and it was so difficult to maintain. So after us I really decided to build something that will be easier to maintain and that's how I end up building story short. So I saw a post from a guy building a tool to automate posting faceless video on YouTube, Tik Tok, etc. And the numbers were crazy. So I started to investigate is it hard to build and where is the traffic coming from? The really good thing with this one is all the traffic was from Facebook ads which means I can replicate it literally in a week because Facebook ads you just have to start it and you have the traffic. So I went for it. I built the tool launched ads and story shorti grew very fast. So story short, it was 100% the process I described earlier. I validated the idea. I saw there a clear demand. It was simple product and it was a market I was personally interested in. All right, before we finish talking about how Samuel grew his apps to $34,000 per month, let's talk about something a lot of solers struggle with. Design. You've got a working idea. You know it solves a problem, but suddenly you've wasted hours taking screenshots just to figure out how to make your app look good. That's where Mobin comes in. Mobin is the world's largest library of realworld mobile and web app designs. Over 1.7 million people, from Airbnb designers to indie devs, use it to find inspiration, study flows, and build smarter, not slower. You can search thousands of actual product screens by keyword, flow, or even style. Whether you need an onboarding flow, payw wall layout, or just a clean signup form, Mobin shows you exactly how the best apps do it so you don't have to start from scratch. Whether you're building your first app or your 10th, it's a massive timesaver. Just click the first link in the description to check out Mobin. Thank you to Mobin for sponsoring this video. All right, let's get back to Samuel. All right, so I mean on that note, can you break down the three different businesses that you built that are all successful? Okay, so I built us.com. It's a LinkedIn scrapping tool that is making around $15,000 per month and has around 10,000 customers. I have storyshow.ai, which is an AI video generator for Tik Tok and YouTube that is making around $20,000 per month and has around $4,000 customers. And Capacity.so, which is brand new. It's an AI coding tool that is making currently $900 per month and has around 50 users. Okay, that's awesome. So we talked about the ideas, we talked about the framework for finding ideas, let's talk about what everyone wants to hear about, which is once you find the idea, how do you grow the business? What growth strategies are you using and how do you know which ones to do? So I always start by running ads. It's always the first thing I do. So I do it on Google and meta depending on the product. Sometimes it's better on Google, sometimes it's better on meta. It's the fastest way to validate and test the market. And as soon as I get some traction with ads, I move to the second part of the growth, which is SEO. I think too many apps rely only on ads and never got a single visitor from Google. Of course, SEO takes time, but once it works, it's almost free traffic and it compounds. I also use faceless YouTube channels to grow my apps. I even created a feature inside Story Short for this. The idea is that story short will automatically publish daily UGC style video about your product on YouTube channels, Tik Tok and Instagram. You can create multiple channel that talk about your product every day on autopilot. So depending on your niche, this can bring crazy results over time. It works really well. And finally, I do affiliate marketing. I did it for all those three apps, especially on Story Short. It's a super important because not only does it bring clients at a fixed cost, but it also create virality because I have many people doing a YouTube video about story short writing articles. So it bring a zero results and people are more likely to share your product if they earn a commission. So in short to my grow stack is one start with ads. Two build SEO as soon as there's traction three use faceless YouTube channel to drive attention on also on Tik Tok and Instagram. And four run an affiliate program to boost virality and get customers at a fixed price. All right cool. Well on a similar note let's talk about tech stack. I know you don't come from a software engineering background but what stack do you build your apps in and how do you deploy these? So all my apps are built with NexJS and NodeJS for the coding part. I use Href for the SEO analysis and I use also AI tools for writing articles. So for the SEO so I was using SEO which is really great but now I just switched to a new one called outrank.so. It really automates the writing of article posted automatically on your blog and I use Versel for deploying my apps, Stripe for payments and yeah that's it. That was great. On a similar note, people who are watching are probably wondering, \"Okay, you're telling us how much money your business is making, but what's the profit? What's the cost to run this business and how profitable are these?\" Well, us cost me around $4,000 per month. And story short, cost me around $5,000 per month. So, it cost a bit less than us because Artimis you have to run instances to automate many things. So, it's quite expensive. And capacity, I can't tell yet, but it will be quite expensive because we have to run instances to deploy a website each time. Cool. You built a bunch of successful businesses. Some things have worked, some things haven't. What did you learn while building those businesses that surprised you? What really surprised me uh is that you don't need to innovate. You just need to see what is working on ex in communities, on forums, and build your own alternative, your own version of a product. If you like the product and see that it's working, just clone the idea, build an MVP in two weeks and launch ads immediately. I think people are always over complicated this uh but simple boring tools are what makes the most of money I think. Great. And last question that we ask everyone who comes onto the channel, if you could go back in time and stand on Samuel's shoulder when you were an optitian, what advice would you give him to get started to build apps and make money online? My first advice would be of course to use AI coding tools. At that time there was no coding tool but today you can use so many AI coding tools that I think that I wouldn't have learned to code. Two would be spend time learning Google ads and meta even X ads and there are many ads you can learn. Three launch as soon as possible. Skip the boring parts of building a SAS like the password reset pages setting pages. Just launch the minimal basic products and run ads to test demand right away. Once you get traction, focus on SEO. It will bring a compounding free traffic over time. And even if one day you want to sell the tool, having SEO traffic is also very valuable. And automate as much as you can use automation tools. So like outrank, story short, etc. to automate posting, article creation, as much as you can. Finally, once you have growth and customers coming daily, I would finish the product, bring new feature, etc. All right. Well, that's great advice. I love your strategy. I love the business that you're building. Thank you for coming on the channel, Samuel. And I hope everyone watching this learned something and you're going to build cool stuff because of it. Thanks for coming on. Thanks, bud. I love Samuel's story because it goes to show that you don't need to invent a brand new idea. You can go find something that's already working and just make it a little bit better. With the right process and the right approach, anybody can build something successful. And inside Starter Story Build, we'll show you how to build apps the right way. In just 2 weeks, you'll find an idea, build it with AI, and ship it out into the world. Over 1,000 people have already joined and shipped their first apps. So, if you want to finally bring your idea to life, head to the link in the description and check out Starter Story Build. Thank you guys for watching. We'll see you in the next one. Peace."
+}

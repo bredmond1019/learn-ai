@@ -1,0 +1,2582 @@
+{
+  "videoId": "8rABwKRsec4",
+  "language": "en",
+  "segments": [
+    {
+      "text": "[Music]",
+      "start": 0.33,
+      "duration": 7.479
+    },
+    {
+      "text": "[Music]",
+      "start": 15.48,
+      "duration": 6.34
+    },
+    {
+      "text": "Hello everyone. Thank you very much for",
+      "start": 24.32,
+      "duration": 1.68
+    },
+    {
+      "text": "having me. Uh it's a very exciting uh",
+      "start": 26,
+      "duration": 2.56
+    },
+    {
+      "text": "place to be, very exciting time to be.",
+      "start": 28.56,
+      "duration": 2.879
+    },
+    {
+      "text": "Uh",
+      "start": 31.439,
+      "duration": 1.921
+    },
+    {
+      "text": "second, uh I mean this has been like a",
+      "start": 33.36,
+      "duration": 2.32
+    },
+    {
+      "text": "pretty intense couple of days. I don't",
+      "start": 35.68,
+      "duration": 2.08
+    },
+    {
+      "text": "know if you feel the same way. Uh but",
+      "start": 37.76,
+      "duration": 2
+    },
+    {
+      "text": "also very energizing. So I want to take",
+      "start": 39.76,
+      "duration": 2.479
+    },
+    {
+      "text": "a little bit of your time today uh to",
+      "start": 42.239,
+      "duration": 1.84
+    },
+    {
+      "text": "talk about what I see as the coming of",
+      "start": 44.079,
+      "duration": 1.521
+    },
+    {
+      "text": "the new code. uh in particular",
+      "start": 45.6,
+      "duration": 1.92
+    },
+    {
+      "text": "specifications which sort of hold this",
+      "start": 47.52,
+      "duration": 2.24
+    },
+    {
+      "text": "promise uh that it has been the dream of",
+      "start": 49.76,
+      "duration": 2
+    },
+    {
+      "text": "the industry where you can write your",
+      "start": 51.76,
+      "duration": 2.08
+    },
+    {
+      "text": "your code your intentions once and run",
+      "start": 53.84,
+      "duration": 2.64
+    },
+    {
+      "text": "them everywhere.",
+      "start": 56.48,
+      "duration": 1.919
+    },
+    {
+      "text": "Uh quick intro uh my name is Sean I work",
+      "start": 58.399,
+      "duration": 1.921
+    },
+    {
+      "text": "at uh OpenAI uh specifically in",
+      "start": 60.32,
+      "duration": 2.719
+    },
+    {
+      "text": "alignment research and today I want to",
+      "start": 63.039,
+      "duration": 2.08
+    },
+    {
+      "text": "talk about sort of the value of code",
+      "start": 65.119,
+      "duration": 1.921
+    },
+    {
+      "text": "versus communication and why",
+      "start": 67.04,
+      "duration": 1.68
+    },
+    {
+      "text": "specifications might be a little bit of",
+      "start": 68.72,
+      "duration": 1.6
+    },
+    {
+      "text": "a better approach in general.",
+      "start": 70.32,
+      "duration": 4.68
+    },
+    {
+      "text": "Uh I'm going to go over the anatomy of a",
+      "start": 75.52,
+      "duration": 2.72
+    },
+    {
+      "text": "specification and we'll use the uh model",
+      "start": 78.24,
+      "duration": 2.4
+    },
+    {
+      "text": "spec as the example. Uh and we'll talk",
+      "start": 80.64,
+      "duration": 3.119
+    },
+    {
+      "text": "about communicating intent to other",
+      "start": 83.759,
+      "duration": 2.321
+    },
+    {
+      "text": "humans and we'll go over the 40 syphency",
+      "start": 86.08,
+      "duration": 2.719
+    },
+    {
+      "text": "issue uh as a case study.",
+      "start": 88.799,
+      "duration": 3.041
+    },
+    {
+      "text": "Uh we'll talk about how to make the",
+      "start": 91.84,
+      "duration": 1.68
+    },
+    {
+      "text": "specification executable, how to",
+      "start": 93.52,
+      "duration": 2.72
+    },
+    {
+      "text": "communicate intent to the models, uh and",
+      "start": 96.24,
+      "duration": 3.6
+    },
+    {
+      "text": "how to think about specifications as",
+      "start": 99.84,
+      "duration": 2.16
+    },
+    {
+      "text": "code, even if they're a little bit",
+      "start": 102,
+      "duration": 1.2
+    },
+    {
+      "text": "different. Um, and we'll end on a couple",
+      "start": 103.2,
+      "duration": 2.16
+    },
+    {
+      "text": "of open questions. So, let's talk about",
+      "start": 105.36,
+      "duration": 2.96
+    },
+    {
+      "text": "code versus communication.",
+      "start": 108.32,
+      "duration": 2.72
+    },
+    {
+      "text": "Real quick, raise your hand if you write",
+      "start": 111.04,
+      "duration": 2.96
+    },
+    {
+      "text": "code and vibe code counts.",
+      "start": 114,
+      "duration": 3.119
+    },
+    {
+      "text": "Cool. Keep them up if your job is to",
+      "start": 117.119,
+      "duration": 3.761
+    },
+    {
+      "text": "write code.",
+      "start": 120.88,
+      "duration": 2.559
+    },
+    {
+      "text": "Okay. Now, for those people, keep their",
+      "start": 123.439,
+      "duration": 2.401
+    },
+    {
+      "text": "head up if you feel that the most",
+      "start": 125.84,
+      "duration": 2.08
+    },
+    {
+      "text": "valuable professional artifact that you",
+      "start": 127.92,
+      "duration": 2.16
+    },
+    {
+      "text": "produce is code.",
+      "start": 130.08,
+      "duration": 3.36
+    },
+    {
+      "text": "Okay, there's quite a few people and I",
+      "start": 133.44,
+      "duration": 2.24
+    },
+    {
+      "text": "think this is quite natural. We all work",
+      "start": 135.68,
+      "duration": 2.4
+    },
+    {
+      "text": "very very hard to solve problems. We",
+      "start": 138.08,
+      "duration": 2.879
+    },
+    {
+      "text": "talk with people. We gather",
+      "start": 140.959,
+      "duration": 1.201
+    },
+    {
+      "text": "requirements. We think through",
+      "start": 142.16,
+      "duration": 1.92
+    },
+    {
+      "text": "implementation details. We integrate",
+      "start": 144.08,
+      "duration": 1.84
+    },
+    {
+      "text": "with lots of different sources. And the",
+      "start": 145.92,
+      "duration": 2.08
+    },
+    {
+      "text": "ultimate thing that we produce is code.",
+      "start": 148,
+      "duration": 3.28
+    },
+    {
+      "text": "Code is the artifact that we can point",
+      "start": 151.28,
+      "duration": 2.319
+    },
+    {
+      "text": "to, we can measure, we can debate, and",
+      "start": 153.599,
+      "duration": 2.161
+    },
+    {
+      "text": "we can discuss. uh it feels tangible and",
+      "start": 155.76,
+      "duration": 3.119
+    },
+    {
+      "text": "real but it's sort of underelling the",
+      "start": 158.879,
+      "duration": 3.281
+    },
+    {
+      "text": "job that each of you does. Code is sort",
+      "start": 162.16,
+      "duration": 3.04
+    },
+    {
+      "text": "of 10 to 20% of the value that you",
+      "start": 165.2,
+      "duration": 2.48
+    },
+    {
+      "text": "bring. The other 80 to 90% is in",
+      "start": 167.68,
+      "duration": 3.36
+    },
+    {
+      "text": "structured communication.",
+      "start": 171.04,
+      "duration": 2.24
+    },
+    {
+      "text": "And this is going to be different for",
+      "start": 173.28,
+      "duration": 1.2
+    },
+    {
+      "text": "everyone, but a process typically looks",
+      "start": 174.48,
+      "duration": 1.759
+    },
+    {
+      "text": "something like you talk to users in",
+      "start": 176.239,
+      "duration": 2.64
+    },
+    {
+      "text": "order to understand their challenges.",
+      "start": 178.879,
+      "duration": 2.881
+    },
+    {
+      "text": "You distill these stories down and then",
+      "start": 181.76,
+      "duration": 2.16
+    },
+    {
+      "text": "ideulate about how to solve these",
+      "start": 183.92,
+      "duration": 2.399
+    },
+    {
+      "text": "problems. What what is the goal that you",
+      "start": 186.319,
+      "duration": 1.84
+    },
+    {
+      "text": "want to achieve? You plan ways to",
+      "start": 188.159,
+      "duration": 2.881
+    },
+    {
+      "text": "achieve those goals. You share those",
+      "start": 191.04,
+      "duration": 2.8
+    },
+    {
+      "text": "plans with your colleagues.",
+      "start": 193.84,
+      "duration": 2.56
+    },
+    {
+      "text": "Uh you translate those plans into code.",
+      "start": 196.4,
+      "duration": 2.96
+    },
+    {
+      "text": "So this is a very important step",
+      "start": 199.36,
+      "duration": 1.36
+    },
+    {
+      "text": "obviously. And then you test and verify",
+      "start": 200.72,
+      "duration": 3.439
+    },
+    {
+      "text": "not the code itself, right? No one cares",
+      "start": 204.159,
+      "duration": 3.201
+    },
+    {
+      "text": "actually about the code itself. What you",
+      "start": 207.36,
+      "duration": 1.599
+    },
+    {
+      "text": "care is when the code ran, did it",
+      "start": 208.959,
+      "duration": 3.121
+    },
+    {
+      "text": "achieve the goals, did it alleviate the",
+      "start": 212.08,
+      "duration": 2.64
+    },
+    {
+      "text": "challenges of your user? You look at the",
+      "start": 214.72,
+      "duration": 2.56
+    },
+    {
+      "text": "the effects that your code had on the",
+      "start": 217.28,
+      "duration": 2.959
+    },
+    {
+      "text": "world. So talking, understanding,",
+      "start": 220.239,
+      "duration": 3.761
+    },
+    {
+      "text": "distilling, ideulating,",
+      "start": 224,
+      "duration": 3.64
+    },
+    {
+      "text": "planning, sharing, translating, testing,",
+      "start": 228.239,
+      "duration": 2.881
+    },
+    {
+      "text": "verifying. These all sound like",
+      "start": 231.12,
+      "duration": 2.16
+    },
+    {
+      "text": "structured communication to me. And",
+      "start": 233.28,
+      "duration": 4
+    },
+    {
+      "text": "structured communication is the",
+      "start": 237.28,
+      "duration": 1.92
+    },
+    {
+      "text": "bottleneck.",
+      "start": 239.2,
+      "duration": 1.679
+    },
+    {
+      "text": "Knowing what to build, talking to people",
+      "start": 240.879,
+      "duration": 2.401
+    },
+    {
+      "text": "and gathering requirements, knowing how",
+      "start": 243.28,
+      "duration": 2.319
+    },
+    {
+      "text": "to build it, knowing why to build it,",
+      "start": 245.599,
+      "duration": 2.481
+    },
+    {
+      "text": "and at the end of the day, knowing if it",
+      "start": 248.08,
+      "duration": 1.92
+    },
+    {
+      "text": "has been built correctly and has",
+      "start": 250,
+      "duration": 1.68
+    },
+    {
+      "text": "actually achieved the intentions that",
+      "start": 251.68,
+      "duration": 2.16
+    },
+    {
+      "text": "you set out with.",
+      "start": 253.84,
+      "duration": 2.08
+    },
+    {
+      "text": "And the more advanced AI models get, the",
+      "start": 255.92,
+      "duration": 3.039
+    },
+    {
+      "text": "more we are all going to starkly feel",
+      "start": 258.959,
+      "duration": 2.56
+    },
+    {
+      "text": "this bottleneck.",
+      "start": 261.519,
+      "duration": 2.481
+    },
+    {
+      "text": "Because in the near future, the person",
+      "start": 264,
+      "duration": 2.16
+    },
+    {
+      "text": "who communicates most effectively is the",
+      "start": 266.16,
+      "duration": 3.28
+    },
+    {
+      "text": "most valuable programmer. And literally,",
+      "start": 269.44,
+      "duration": 3.6
+    },
+    {
+      "text": "if you can communicate effectively, you",
+      "start": 273.04,
+      "duration": 2.24
+    },
+    {
+      "text": "can program.",
+      "start": 275.28,
+      "duration": 2.4
+    },
+    {
+      "text": "So, let's take uh vibe coding as an",
+      "start": 277.68,
+      "duration": 2
+    },
+    {
+      "text": "illustrative example. Vibe coding tends",
+      "start": 279.68,
+      "duration": 2.32
+    },
+    {
+      "text": "to feel quite good. And it's worth",
+      "start": 282,
+      "duration": 2.639
+    },
+    {
+      "text": "asking why is that? Well, vibe coding is",
+      "start": 284.639,
+      "duration": 3.041
+    },
+    {
+      "text": "fundamentally about communication first.",
+      "start": 287.68,
+      "duration": 2.64
+    },
+    {
+      "text": "And the code is actually a secondary",
+      "start": 290.32,
+      "duration": 1.84
+    },
+    {
+      "text": "downstream artifact of that",
+      "start": 292.16,
+      "duration": 1.84
+    },
+    {
+      "text": "communication.",
+      "start": 294,
+      "duration": 1.68
+    },
+    {
+      "text": "We get to describe our intentions and",
+      "start": 295.68,
+      "duration": 2.16
+    },
+    {
+      "text": "our the outcomes that we want to see and",
+      "start": 297.84,
+      "duration": 1.919
+    },
+    {
+      "text": "we let the model actually handle the",
+      "start": 299.759,
+      "duration": 1.921
+    },
+    {
+      "text": "grunt work for us. And even so, there is",
+      "start": 301.68,
+      "duration": 3.2
+    },
+    {
+      "text": "something strange about the way that we",
+      "start": 304.88,
+      "duration": 2.08
+    },
+    {
+      "text": "do vibe coding. We communicate via",
+      "start": 306.96,
+      "duration": 3.28
+    },
+    {
+      "text": "prompts to the model",
+      "start": 310.24,
+      "duration": 2.399
+    },
+    {
+      "text": "and we tell them our intentions and our",
+      "start": 312.639,
+      "duration": 2.081
+    },
+    {
+      "text": "values and we get a code artifact out at",
+      "start": 314.72,
+      "duration": 3.12
+    },
+    {
+      "text": "the end and then we sort of throw our",
+      "start": 317.84,
+      "duration": 2.56
+    },
+    {
+      "text": "prompts away they're ephemeral",
+      "start": 320.4,
+      "duration": 4.079
+    },
+    {
+      "text": "and if you've written TypeScript or Rust",
+      "start": 324.479,
+      "duration": 2.881
+    },
+    {
+      "text": "once you put your your code through a",
+      "start": 327.36,
+      "duration": 1.92
+    },
+    {
+      "text": "compiler or it gets down into a binary",
+      "start": 329.28,
+      "duration": 2.8
+    },
+    {
+      "text": "no one is happy with that binary. That",
+      "start": 332.08,
+      "duration": 3.28
+    },
+    {
+      "text": "wasn't the purpose. It's useful. In",
+      "start": 335.36,
+      "duration": 3.2
+    },
+    {
+      "text": "fact, we always regenerate the binaries",
+      "start": 338.56,
+      "duration": 2
+    },
+    {
+      "text": "from scratch every time we compile or we",
+      "start": 340.56,
+      "duration": 2.4
+    },
+    {
+      "text": "run our code through V8 or whatever it",
+      "start": 342.96,
+      "duration": 1.92
+    },
+    {
+      "text": "might be from the source spec. It's the",
+      "start": 344.88,
+      "duration": 3.039
+    },
+    {
+      "text": "source specification that's the valuable",
+      "start": 347.919,
+      "duration": 2.56
+    },
+    {
+      "text": "artifact.",
+      "start": 350.479,
+      "duration": 1.681
+    },
+    {
+      "text": "And yet when we prompt elements, we sort",
+      "start": 352.16,
+      "duration": 1.759
+    },
+    {
+      "text": "of do the opposite. We keep the",
+      "start": 353.919,
+      "duration": 1.761
+    },
+    {
+      "text": "generated code and we delete the prompt.",
+      "start": 355.68,
+      "duration": 2.72
+    },
+    {
+      "text": "And this feels like a little bit like",
+      "start": 358.4,
+      "duration": 1.519
+    },
+    {
+      "text": "you shred the source and then you very",
+      "start": 359.919,
+      "duration": 1.761
+    },
+    {
+      "text": "carefully version control the binary.",
+      "start": 361.68,
+      "duration": 4.079
+    },
+    {
+      "text": "And that's why it's so important to",
+      "start": 365.759,
+      "duration": 1.761
+    },
+    {
+      "text": "actually capture the intent and the",
+      "start": 367.52,
+      "duration": 2.32
+    },
+    {
+      "text": "values in a specification.",
+      "start": 369.84,
+      "duration": 2.799
+    },
+    {
+      "text": "A written specification is what enables",
+      "start": 372.639,
+      "duration": 2.321
+    },
+    {
+      "text": "you to align humans on the shared set of",
+      "start": 374.96,
+      "duration": 2.72
+    },
+    {
+      "text": "goals and to know if you are aligned if",
+      "start": 377.68,
+      "duration": 3.04
+    },
+    {
+      "text": "you actually synchronize on what needs",
+      "start": 380.72,
+      "duration": 1.44
+    },
+    {
+      "text": "to be done. This is the artifact that",
+      "start": 382.16,
+      "duration": 2
+    },
+    {
+      "text": "you discuss that you debate that you",
+      "start": 384.16,
+      "duration": 2
+    },
+    {
+      "text": "refer to and that you synchronize on.",
+      "start": 386.16,
+      "duration": 2.96
+    },
+    {
+      "text": "And this is really important. And so I",
+      "start": 389.12,
+      "duration": 1.12
+    },
+    {
+      "text": "want to nail this this home that a",
+      "start": 390.24,
+      "duration": 2.399
+    },
+    {
+      "text": "written specification effectively aligns",
+      "start": 392.639,
+      "duration": 3.201
+    },
+    {
+      "text": "humans",
+      "start": 395.84,
+      "duration": 1.84
+    },
+    {
+      "text": "and it is the artifact that you use to",
+      "start": 397.68,
+      "duration": 2.88
+    },
+    {
+      "text": "communicate and to discuss and debate",
+      "start": 400.56,
+      "duration": 2.16
+    },
+    {
+      "text": "and refer to and synchronize on. If you",
+      "start": 402.72,
+      "duration": 2.72
+    },
+    {
+      "text": "don't have a specification, you just",
+      "start": 405.44,
+      "duration": 2.24
+    },
+    {
+      "text": "have a vague idea.",
+      "start": 407.68,
+      "duration": 2.799
+    },
+    {
+      "text": "Now let's talk about why specifications",
+      "start": 410.479,
+      "duration": 2.16
+    },
+    {
+      "text": "are more powerful in general than code.",
+      "start": 412.639,
+      "duration": 3.441
+    },
+    {
+      "text": "Because code itself is actually a lossy",
+      "start": 416.08,
+      "duration": 2.559
+    },
+    {
+      "text": "projection from the specification.",
+      "start": 418.639,
+      "duration": 3.201
+    },
+    {
+      "text": "In the same way that if you were to take",
+      "start": 421.84,
+      "duration": 1.52
+    },
+    {
+      "text": "a compiled C binary and decompile it,",
+      "start": 423.36,
+      "duration": 3.6
+    },
+    {
+      "text": "you wouldn't get nice comments and uh",
+      "start": 426.96,
+      "duration": 2.48
+    },
+    {
+      "text": "well-n named variables. You would have",
+      "start": 429.44,
+      "duration": 1.84
+    },
+    {
+      "text": "to work backwards. You'd have to infer",
+      "start": 431.28,
+      "duration": 1.84
+    },
+    {
+      "text": "what was this person trying to do? Why",
+      "start": 433.12,
+      "duration": 2
+    },
+    {
+      "text": "is this code written this way? It isn't",
+      "start": 435.12,
+      "duration": 2.24
+    },
+    {
+      "text": "actually contained in there. It was a",
+      "start": 437.36,
+      "duration": 1.44
+    },
+    {
+      "text": "lossy translation. And in the same way,",
+      "start": 438.8,
+      "duration": 2.799
+    },
+    {
+      "text": "code itself, even nice code, typically",
+      "start": 441.599,
+      "duration": 2.72
+    },
+    {
+      "text": "doesn't embody all of the intentions and",
+      "start": 444.319,
+      "duration": 2.72
+    },
+    {
+      "text": "the values in itself. You have to infer",
+      "start": 447.039,
+      "duration": 3.921
+    },
+    {
+      "text": "what is the ultimate goal that this team",
+      "start": 450.96,
+      "duration": 1.92
+    },
+    {
+      "text": "is trying to achieve. Uh when you read",
+      "start": 452.88,
+      "duration": 2.319
+    },
+    {
+      "text": "through code,",
+      "start": 455.199,
+      "duration": 2
+    },
+    {
+      "text": "so communication, the work that we",
+      "start": 457.199,
+      "duration": 1.84
+    },
+    {
+      "text": "establish, we already do when embodied",
+      "start": 459.039,
+      "duration": 2.801
+    },
+    {
+      "text": "inside of a written specification is",
+      "start": 461.84,
+      "duration": 1.919
+    },
+    {
+      "text": "better than code. It actually encodes",
+      "start": 463.759,
+      "duration": 2.72
+    },
+    {
+      "text": "all of the the necessary requirements in",
+      "start": 466.479,
+      "duration": 2.241
+    },
+    {
+      "text": "order to generate the code. And in the",
+      "start": 468.72,
+      "duration": 3.12
+    },
+    {
+      "text": "same way that having a source code that",
+      "start": 471.84,
+      "duration": 1.84
+    },
+    {
+      "text": "you pass to a compiler allows you to",
+      "start": 473.68,
+      "duration": 2.88
+    },
+    {
+      "text": "target multiple different uh",
+      "start": 476.56,
+      "duration": 2.079
+    },
+    {
+      "text": "architectures, you can compile for ARM",
+      "start": 478.639,
+      "duration": 2.56
+    },
+    {
+      "text": "64, x86 or web assembly. The source",
+      "start": 481.199,
+      "duration": 3.361
+    },
+    {
+      "text": "document actually contains enough",
+      "start": 484.56,
+      "duration": 2.079
+    },
+    {
+      "text": "information to describe how to translate",
+      "start": 486.639,
+      "duration": 2.801
+    },
+    {
+      "text": "it to your target architecture.",
+      "start": 489.44,
+      "duration": 2.479
+    },
+    {
+      "text": "In the same way, a a sufficiently robust",
+      "start": 491.919,
+      "duration": 3.441
+    },
+    {
+      "text": "specification given to models will",
+      "start": 495.36,
+      "duration": 3.119
+    },
+    {
+      "text": "produce good TypeScript, good Rust,",
+      "start": 498.479,
+      "duration": 3.44
+    },
+    {
+      "text": "servers, clients, documentation,",
+      "start": 501.919,
+      "duration": 2.641
+    },
+    {
+      "text": "tutorials, blog posts, and even",
+      "start": 504.56,
+      "duration": 1.68
+    },
+    {
+      "text": "podcasts.",
+      "start": 506.24,
+      "duration": 1.6
+    },
+    {
+      "text": "Uh, show of hands, who works at a",
+      "start": 507.84,
+      "duration": 2.24
+    },
+    {
+      "text": "company that has developers as",
+      "start": 510.08,
+      "duration": 1.92
+    },
+    {
+      "text": "customers?",
+      "start": 512,
+      "duration": 2.24
+    },
+    {
+      "text": "Okay. So, a a quick like thought",
+      "start": 514.24,
+      "duration": 2.32
+    },
+    {
+      "text": "exercise is if you were to take your",
+      "start": 516.56,
+      "duration": 2.399
+    },
+    {
+      "text": "entire codebase, all of the the",
+      "start": 518.959,
+      "duration": 1.921
+    },
+    {
+      "text": "documentation, oh, so all of the code",
+      "start": 520.88,
+      "duration": 2.159
+    },
+    {
+      "text": "that runs your business, and you were to",
+      "start": 523.039,
+      "duration": 2.081
+    },
+    {
+      "text": "put that into a podcast generator, could",
+      "start": 525.12,
+      "duration": 2.24
+    },
+    {
+      "text": "you generate something that would be",
+      "start": 527.36,
+      "duration": 2.08
+    },
+    {
+      "text": "sufficiently interesting and compelling",
+      "start": 529.44,
+      "duration": 1.44
+    },
+    {
+      "text": "that would tell the users how to",
+      "start": 530.88,
+      "duration": 2.48
+    },
+    {
+      "text": "succeed, how to achieve their goals, or",
+      "start": 533.36,
+      "duration": 2.479
+    },
+    {
+      "text": "is all of that information somewhere",
+      "start": 535.839,
+      "duration": 1.361
+    },
+    {
+      "text": "else? It's not actually in your code.",
+      "start": 537.2,
+      "duration": 3.92
+    },
+    {
+      "text": "And so moving forward, the new scarce",
+      "start": 541.12,
+      "duration": 2.399
+    },
+    {
+      "text": "skill is writing specifications that",
+      "start": 543.519,
+      "duration": 2.88
+    },
+    {
+      "text": "fully capture the intent and values. And",
+      "start": 546.399,
+      "duration": 3.761
+    },
+    {
+      "text": "whoever masters that again becomes the",
+      "start": 550.16,
+      "duration": 2.48
+    },
+    {
+      "text": "most valuable programmer.",
+      "start": 552.64,
+      "duration": 2.96
+    },
+    {
+      "text": "And there's a reasonable chance that",
+      "start": 555.6,
+      "duration": 1.359
+    },
+    {
+      "text": "this is going to be the coders of today.",
+      "start": 556.959,
+      "duration": 2.241
+    },
+    {
+      "text": "This is already very similar to what we",
+      "start": 559.2,
+      "duration": 1.84
+    },
+    {
+      "text": "do. However, product managers also write",
+      "start": 561.04,
+      "duration": 2.96
+    },
+    {
+      "text": "specifications. Lawmakers write legal",
+      "start": 564,
+      "duration": 2.88
+    },
+    {
+      "text": "specifications.",
+      "start": 566.88,
+      "duration": 1.76
+    },
+    {
+      "text": "This is actually a universal principle.",
+      "start": 568.64,
+      "duration": 2.879
+    },
+    {
+      "text": "So with that in mind, let's look at what",
+      "start": 571.519,
+      "duration": 1.361
+    },
+    {
+      "text": "a specification actually looks like. And",
+      "start": 572.88,
+      "duration": 2.48
+    },
+    {
+      "text": "I'm going to use the OpenAI model spec",
+      "start": 575.36,
+      "duration": 1.919
+    },
+    {
+      "text": "as an example here. So last year, OpenAI",
+      "start": 577.279,
+      "duration": 2.881
+    },
+    {
+      "text": "released the model spec. And this is a",
+      "start": 580.16,
+      "duration": 2.56
+    },
+    {
+      "text": "living document that tries to clearly",
+      "start": 582.72,
+      "duration": 3.36
+    },
+    {
+      "text": "and unambiguously",
+      "start": 586.08,
+      "duration": 1.84
+    },
+    {
+      "text": "express the intentions and values that",
+      "start": 587.92,
+      "duration": 2.16
+    },
+    {
+      "text": "OpenAI hopes to imbue its models with",
+      "start": 590.08,
+      "duration": 2.64
+    },
+    {
+      "text": "that it ships to the world.",
+      "start": 592.72,
+      "duration": 4.2
+    },
+    {
+      "text": "and it was updated in in uh February and",
+      "start": 597.04,
+      "duration": 3.12
+    },
+    {
+      "text": "open sourced. So you can actually go to",
+      "start": 600.16,
+      "duration": 1.92
+    },
+    {
+      "text": "GitHub and you can see the",
+      "start": 602.08,
+      "duration": 1.28
+    },
+    {
+      "text": "implementation of uh the model spec and",
+      "start": 603.36,
+      "duration": 3.919
+    },
+    {
+      "text": "surprise surprise it's actually just a",
+      "start": 607.279,
+      "duration": 1.601
+    },
+    {
+      "text": "collection of markdown files just looks",
+      "start": 608.88,
+      "duration": 2.399
+    },
+    {
+      "text": "like this. Now markdown is remarkable.",
+      "start": 611.279,
+      "duration": 3.761
+    },
+    {
+      "text": "It is human readable. It's versioned.",
+      "start": 615.04,
+      "duration": 2.72
+    },
+    {
+      "text": "It's change logged and because it is",
+      "start": 617.76,
+      "duration": 2.639
+    },
+    {
+      "text": "natural language everyone in not just",
+      "start": 620.399,
+      "duration": 3.041
+    },
+    {
+      "text": "technical people can contribute",
+      "start": 623.44,
+      "duration": 1.76
+    },
+    {
+      "text": "including product legal safety research",
+      "start": 625.2,
+      "duration": 2.639
+    },
+    {
+      "text": "policy they can all read discuss debate",
+      "start": 627.839,
+      "duration": 4.161
+    },
+    {
+      "text": "and contribute to the same source code.",
+      "start": 632,
+      "duration": 3.12
+    },
+    {
+      "text": "This is the universal artifact that",
+      "start": 635.12,
+      "duration": 2.719
+    },
+    {
+      "text": "aligns all of the humans as to our",
+      "start": 637.839,
+      "duration": 2.641
+    },
+    {
+      "text": "intentions and values inside of the",
+      "start": 640.48,
+      "duration": 2.4
+    },
+    {
+      "text": "company.",
+      "start": 642.88,
+      "duration": 2.079
+    },
+    {
+      "text": "Now, as much as we might try to use",
+      "start": 644.959,
+      "duration": 2.56
+    },
+    {
+      "text": "unambiguous language, there are times",
+      "start": 647.519,
+      "duration": 2.401
+    },
+    {
+      "text": "where it's very difficult to express the",
+      "start": 649.92,
+      "duration": 2
+    },
+    {
+      "text": "nuance. So, every clause in the model",
+      "start": 651.92,
+      "duration": 3.44
+    },
+    {
+      "text": "spec has an ID here. So, you can see",
+      "start": 655.36,
+      "duration": 2.24
+    },
+    {
+      "text": "sy73 here. And using that ID, you can",
+      "start": 657.6,
+      "duration": 4.08
+    },
+    {
+      "text": "find another file in the repository",
+      "start": 661.68,
+      "duration": 2.08
+    },
+    {
+      "text": "sy73.mmarkdown",
+      "start": 663.76,
+      "duration": 1.6
+    },
+    {
+      "text": "or md uh that contains one or more",
+      "start": 665.36,
+      "duration": 3.2
+    },
+    {
+      "text": "challenging prompts",
+      "start": 668.56,
+      "duration": 2.24
+    },
+    {
+      "text": "for this exact clause. So the document",
+      "start": 670.8,
+      "duration": 3.039
+    },
+    {
+      "text": "itself actually encodes success criteria",
+      "start": 673.839,
+      "duration": 4.24
+    },
+    {
+      "text": "that the the model under test has to be",
+      "start": 678.079,
+      "duration": 3.2
+    },
+    {
+      "text": "able to answer this in a way that",
+      "start": 681.279,
+      "duration": 1.281
+    },
+    {
+      "text": "actually adheres to that clause.",
+      "start": 682.56,
+      "duration": 4.719
+    },
+    {
+      "text": "So let's talk about uh syphy. Uh",
+      "start": 687.279,
+      "duration": 4
+    },
+    {
+      "text": "recently there was a update to 40. I",
+      "start": 691.279,
+      "duration": 2.8
+    },
+    {
+      "text": "don't know if you've heard of this. Uh",
+      "start": 694.079,
+      "duration": 2.401
+    },
+    {
+      "text": "there uh caused extreme syphy. uh and we",
+      "start": 696.48,
+      "duration": 5.2
+    },
+    {
+      "text": "can ask like what value is the model",
+      "start": 701.68,
+      "duration": 2.719
+    },
+    {
+      "text": "spec in this scenario and the model spec",
+      "start": 704.399,
+      "duration": 3.601
+    },
+    {
+      "text": "serves to align humans around a set of",
+      "start": 708,
+      "duration": 2.88
+    },
+    {
+      "text": "values and intentions.",
+      "start": 710.88,
+      "duration": 2.32
+    },
+    {
+      "text": "Here's an example of sycancy where the",
+      "start": 713.2,
+      "duration": 2.4
+    },
+    {
+      "text": "user calls out the behavior of being uh",
+      "start": 715.6,
+      "duration": 3.04
+    },
+    {
+      "text": "syphants uh or sophantic at the expense",
+      "start": 718.64,
+      "duration": 2.879
+    },
+    {
+      "text": "of impartial truth and the model very",
+      "start": 721.519,
+      "duration": 2.721
+    },
+    {
+      "text": "kindly uh praises the user for their",
+      "start": 724.24,
+      "duration": 2
+    },
+    {
+      "text": "insight.",
+      "start": 726.24,
+      "duration": 3
+    },
+    {
+      "text": "There have been other esteemed",
+      "start": 729.36,
+      "duration": 1.279
+    },
+    {
+      "text": "researchers uh who have found similarly",
+      "start": 730.639,
+      "duration": 2.721
+    },
+    {
+      "text": "uh",
+      "start": 733.36,
+      "duration": 2.159
+    },
+    {
+      "text": "similarly uh concerning examples",
+      "start": 735.519,
+      "duration": 4.401
+    },
+    {
+      "text": "and this hurts",
+      "start": 739.92,
+      "duration": 3.44
+    },
+    {
+      "text": "uh shipping sycopency in this manner",
+      "start": 743.36,
+      "duration": 3.2
+    },
+    {
+      "text": "erodess trust.",
+      "start": 746.56,
+      "duration": 2.079
+    },
+    {
+      "text": "It hurts.",
+      "start": 748.639,
+      "duration": 2.721
+    },
+    {
+      "text": "So and it also raises a lot of questions",
+      "start": 751.36,
+      "duration": 2.479
+    },
+    {
+      "text": "like was this intentional? you could see",
+      "start": 753.839,
+      "duration": 2.881
+    },
+    {
+      "text": "some way where you might interpret it",
+      "start": 756.72,
+      "duration": 1.6
+    },
+    {
+      "text": "that way. Was it accidental and why",
+      "start": 758.32,
+      "duration": 2.639
+    },
+    {
+      "text": "wasn't it caught?",
+      "start": 760.959,
+      "duration": 1.921
+    },
+    {
+      "text": "Luckily, the model spec actually",
+      "start": 762.88,
+      "duration": 1.759
+    },
+    {
+      "text": "includes a section dedicated to this",
+      "start": 764.639,
+      "duration": 3.521
+    },
+    {
+      "text": "since its release that says don't be",
+      "start": 768.16,
+      "duration": 2.56
+    },
+    {
+      "text": "sick of fantic and it explains that",
+      "start": 770.72,
+      "duration": 2.48
+    },
+    {
+      "text": "while sophency might feel good in the",
+      "start": 773.2,
+      "duration": 2.079
+    },
+    {
+      "text": "short term, it's bad for everyone in the",
+      "start": 775.279,
+      "duration": 2.24
+    },
+    {
+      "text": "long term. So, we actually expressed our",
+      "start": 777.519,
+      "duration": 2.801
+    },
+    {
+      "text": "intentions and our values and were able",
+      "start": 780.32,
+      "duration": 1.519
+    },
+    {
+      "text": "to communicate it to others through this",
+      "start": 781.839,
+      "duration": 5.12
+    },
+    {
+      "text": "So people could reference it and if we",
+      "start": 787.44,
+      "duration": 3.68
+    },
+    {
+      "text": "have it in the model spec specification",
+      "start": 791.12,
+      "duration": 2.48
+    },
+    {
+      "text": "if the model specification is our agreed",
+      "start": 793.6,
+      "duration": 2.4
+    },
+    {
+      "text": "upon set of intentions and values and",
+      "start": 796,
+      "duration": 2.32
+    },
+    {
+      "text": "the behavior doesn't align with that",
+      "start": 798.32,
+      "duration": 2.48
+    },
+    {
+      "text": "then this must be a bug.",
+      "start": 800.8,
+      "duration": 2.88
+    },
+    {
+      "text": "So we rolled back we published some",
+      "start": 803.68,
+      "duration": 2.399
+    },
+    {
+      "text": "studies and some blog post and we fixed",
+      "start": 806.079,
+      "duration": 2
+    },
+    {
+      "text": "it.",
+      "start": 808.079,
+      "duration": 3
+    },
+    {
+      "text": "But in the interim, the specs served as",
+      "start": 811.6,
+      "duration": 2.64
+    },
+    {
+      "text": "a trust anchor, a way to communicate to",
+      "start": 814.24,
+      "duration": 2.48
+    },
+    {
+      "text": "people what is expected and what is not",
+      "start": 816.72,
+      "duration": 2
+    },
+    {
+      "text": "expected.",
+      "start": 818.72,
+      "duration": 3
+    },
+    {
+      "text": "So if just if the only thing the model",
+      "start": 823.279,
+      "duration": 3.281
+    },
+    {
+      "text": "specification did was to align humans",
+      "start": 826.56,
+      "duration": 3.2
+    },
+    {
+      "text": "along those shared sets of intentions",
+      "start": 829.76,
+      "duration": 1.84
+    },
+    {
+      "text": "and values, it would already be",
+      "start": 831.6,
+      "duration": 2.16
+    },
+    {
+      "text": "incredibly useful.",
+      "start": 833.76,
+      "duration": 3.04
+    },
+    {
+      "text": "But ideally we can also align our models",
+      "start": 836.8,
+      "duration": 3.039
+    },
+    {
+      "text": "and the artifacts that our models",
+      "start": 839.839,
+      "duration": 1.601
+    },
+    {
+      "text": "produce against that same specification.",
+      "start": 841.44,
+      "duration": 3.68
+    },
+    {
+      "text": "So there's a technique a paper that we",
+      "start": 845.12,
+      "duration": 1.6
+    },
+    {
+      "text": "released uh called deliberative",
+      "start": 846.72,
+      "duration": 1.359
+    },
+    {
+      "text": "alignment that sort of talks about this",
+      "start": 848.079,
+      "duration": 1.601
+    },
+    {
+      "text": "how to automatically align a model and",
+      "start": 849.68,
+      "duration": 2.719
+    },
+    {
+      "text": "the technique is uh such where you take",
+      "start": 852.399,
+      "duration": 3.201
+    },
+    {
+      "text": "your specification and a set of very",
+      "start": 855.6,
+      "duration": 2
+    },
+    {
+      "text": "challenging uh input prompts and you",
+      "start": 857.6,
+      "duration": 2.32
+    },
+    {
+      "text": "sample from the model under test or",
+      "start": 859.92,
+      "duration": 1.44
+    },
+    {
+      "text": "training.",
+      "start": 861.36,
+      "duration": 1.839
+    },
+    {
+      "text": "You then uh take its response, the",
+      "start": 863.199,
+      "duration": 2.161
+    },
+    {
+      "text": "original prompt and the policy and you",
+      "start": 865.36,
+      "duration": 1.839
+    },
+    {
+      "text": "give that to a greater model and you ask",
+      "start": 867.199,
+      "duration": 1.681
+    },
+    {
+      "text": "it to score the response according to",
+      "start": 868.88,
+      "duration": 3.519
+    },
+    {
+      "text": "the specification. How aligned is it? So",
+      "start": 872.399,
+      "duration": 2.481
+    },
+    {
+      "text": "the document actually becomes both",
+      "start": 874.88,
+      "duration": 2.079
+    },
+    {
+      "text": "training material and eval material",
+      "start": 876.959,
+      "duration": 3.201
+    },
+    {
+      "text": "and based off of this score we reinforce",
+      "start": 880.16,
+      "duration": 2
+    },
+    {
+      "text": "those weights and it goes from you know",
+      "start": 882.16,
+      "duration": 2.88
+    },
+    {
+      "text": "you could include your specification in",
+      "start": 885.04,
+      "duration": 2.56
+    },
+    {
+      "text": "the context and then maybe a system",
+      "start": 887.6,
+      "duration": 1.28
+    },
+    {
+      "text": "message or developer message in every",
+      "start": 888.88,
+      "duration": 1.68
+    },
+    {
+      "text": "single time you sample and that is",
+      "start": 890.56,
+      "duration": 1.44
+    },
+    {
+      "text": "actually quite useful. a prompted uh",
+      "start": 892,
+      "duration": 2
+    },
+    {
+      "text": "model is going to be somewhat aligned,",
+      "start": 894,
+      "duration": 2.24
+    },
+    {
+      "text": "but it does detract from the compute",
+      "start": 896.24,
+      "duration": 1.68
+    },
+    {
+      "text": "available to solve the uh problem that",
+      "start": 897.92,
+      "duration": 3.279
+    },
+    {
+      "text": "you're trying to solve with the model.",
+      "start": 901.199,
+      "duration": 1.681
+    },
+    {
+      "text": "And keep in mind, these specifications",
+      "start": 902.88,
+      "duration": 1.519
+    },
+    {
+      "text": "can be anything. They could be code",
+      "start": 904.399,
+      "duration": 1.921
+    },
+    {
+      "text": "style or testing requirements or or",
+      "start": 906.32,
+      "duration": 2.4
+    },
+    {
+      "text": "safety requirements. All of that can be",
+      "start": 908.72,
+      "duration": 2.08
+    },
+    {
+      "text": "embedded into the model. So through this",
+      "start": 910.8,
+      "duration": 2.479
+    },
+    {
+      "text": "technique you're actually moving it from",
+      "start": 913.279,
+      "duration": 1.68
+    },
+    {
+      "text": "a inference time compute and actually",
+      "start": 914.959,
+      "duration": 2.721
+    },
+    {
+      "text": "you're pushing down into the weights of",
+      "start": 917.68,
+      "duration": 2.159
+    },
+    {
+      "text": "the model so that the model actually",
+      "start": 919.839,
+      "duration": 1.68
+    },
+    {
+      "text": "feels your policy and is able to sort of",
+      "start": 921.519,
+      "duration": 2.481
+    },
+    {
+      "text": "muscle memory uh style apply it to the",
+      "start": 924,
+      "duration": 3.519
+    },
+    {
+      "text": "problem at hand.",
+      "start": 927.519,
+      "duration": 2.32
+    },
+    {
+      "text": "And even though we saw that the model",
+      "start": 929.839,
+      "duration": 1.761
+    },
+    {
+      "text": "spec is just markdown it's quite useful",
+      "start": 931.6,
+      "duration": 2.479
+    },
+    {
+      "text": "to think of it as code. It's quite",
+      "start": 934.079,
+      "duration": 2
+    },
+    {
+      "text": "analogous.",
+      "start": 936.079,
+      "duration": 1.76
+    },
+    {
+      "text": "uh these specifications they compose",
+      "start": 937.839,
+      "duration": 1.921
+    },
+    {
+      "text": "they're executable as we've seen uh they",
+      "start": 939.76,
+      "duration": 2.48
+    },
+    {
+      "text": "are testable they have interfaces where",
+      "start": 942.24,
+      "duration": 1.92
+    },
+    {
+      "text": "they they touch the real world uh they",
+      "start": 944.16,
+      "duration": 2.32
+    },
+    {
+      "text": "can be shipped as modules",
+      "start": 946.48,
+      "duration": 2.719
+    },
+    {
+      "text": "and whenever you're working on a model",
+      "start": 949.199,
+      "duration": 2.88
+    },
+    {
+      "text": "spec there are a lot of similar sort of",
+      "start": 952.079,
+      "duration": 2.161
+    },
+    {
+      "text": "uh problem domains so just like in",
+      "start": 954.24,
+      "duration": 2.32
+    },
+    {
+      "text": "programming where you have a type",
+      "start": 956.56,
+      "duration": 1.44
+    },
+    {
+      "text": "checker the type checker is meant to",
+      "start": 958,
+      "duration": 1.68
+    },
+    {
+      "text": "ensure consistency where if interface A",
+      "start": 959.68,
+      "duration": 2.719
+    },
+    {
+      "text": "has a dependent uh module B they have to",
+      "start": 962.399,
+      "duration": 3.201
+    },
+    {
+      "text": "be consistent in their understanding of",
+      "start": 965.6,
+      "duration": 1.599
+    },
+    {
+      "text": "one another. So if department A writes a",
+      "start": 967.199,
+      "duration": 3.2
+    },
+    {
+      "text": "spec and department B writes a spec and",
+      "start": 970.399,
+      "duration": 1.761
+    },
+    {
+      "text": "there is a conflict in there you want to",
+      "start": 972.16,
+      "duration": 1.76
+    },
+    {
+      "text": "be able to pull that forward and maybe",
+      "start": 973.92,
+      "duration": 1.839
+    },
+    {
+      "text": "block the publication of the the",
+      "start": 975.759,
+      "duration": 2.481
+    },
+    {
+      "text": "specification as we saw the policy can",
+      "start": 978.24,
+      "duration": 2.8
+    },
+    {
+      "text": "actually embody its own unit tests and",
+      "start": 981.04,
+      "duration": 2.56
+    },
+    {
+      "text": "you can imagine sort of various llinters",
+      "start": 983.6,
+      "duration": 1.599
+    },
+    {
+      "text": "where if you're using overly ambiguous",
+      "start": 985.199,
+      "duration": 1.601
+    },
+    {
+      "text": "language you're going to confuse humans",
+      "start": 986.8,
+      "duration": 1.92
+    },
+    {
+      "text": "and you're going to confuse the model",
+      "start": 988.72,
+      "duration": 1.52
+    },
+    {
+      "text": "and the artifacts that you get from that",
+      "start": 990.24,
+      "duration": 1.76
+    },
+    {
+      "text": "are going to be less satisfactory.",
+      "start": 992,
+      "duration": 2.639
+    },
+    {
+      "text": "So specs actually give us a very similar",
+      "start": 994.639,
+      "duration": 2.401
+    },
+    {
+      "text": "tool chain but it's targeted at",
+      "start": 997.04,
+      "duration": 2.08
+    },
+    {
+      "text": "intentions rather than syntax.",
+      "start": 999.12,
+      "duration": 3.36
+    },
+    {
+      "text": "So let's talk about lawmakers as",
+      "start": 1002.48,
+      "duration": 2.56
+    },
+    {
+      "text": "programmers. Uh",
+      "start": 1005.04,
+      "duration": 3.359
+    },
+    {
+      "text": "the US constitution is literally a",
+      "start": 1008.399,
+      "duration": 2.961
+    },
+    {
+      "text": "national model specification. It has",
+      "start": 1011.36,
+      "duration": 2.479
+    },
+    {
+      "text": "written text which is aspirationally at",
+      "start": 1013.839,
+      "duration": 2.161
+    },
+    {
+      "text": "least clear and unambiguous policy that",
+      "start": 1016,
+      "duration": 2.959
+    },
+    {
+      "text": "we can all refer to. And it doesn't mean",
+      "start": 1018.959,
+      "duration": 2.24
+    },
+    {
+      "text": "that we agree with it but we can refer",
+      "start": 1021.199,
+      "duration": 1.841
+    },
+    {
+      "text": "to it as the current status quo as the",
+      "start": 1023.04,
+      "duration": 2.56
+    },
+    {
+      "text": "reality. Uh there is a versioned way to",
+      "start": 1025.6,
+      "duration": 4.239
+    },
+    {
+      "text": "make amendments to bump and to uh",
+      "start": 1029.839,
+      "duration": 2.321
+    },
+    {
+      "text": "publish updates to it. There is judicial",
+      "start": 1032.16,
+      "duration": 2.72
+    },
+    {
+      "text": "review where a a grader is effectively",
+      "start": 1034.88,
+      "duration": 4.319
+    },
+    {
+      "text": "uh grading a situation and seeing how",
+      "start": 1039.199,
+      "duration": 1.599
+    },
+    {
+      "text": "well it aligns with the policy. And even",
+      "start": 1040.799,
+      "duration": 2.4
+    },
+    {
+      "text": "though the again because or even though",
+      "start": 1043.199,
+      "duration": 2.161
+    },
+    {
+      "text": "the source policy is meant to be",
+      "start": 1045.36,
+      "duration": 2.479
+    },
+    {
+      "text": "unambiguous sometimes you don't the",
+      "start": 1047.839,
+      "duration": 2.72
+    },
+    {
+      "text": "world is messy and maybe you miss part",
+      "start": 1050.559,
+      "duration": 1.841
+    },
+    {
+      "text": "of the distribution and a case falls",
+      "start": 1052.4,
+      "duration": 1.92
+    },
+    {
+      "text": "through and in that case the there is a",
+      "start": 1054.32,
+      "duration": 3.28
+    },
+    {
+      "text": "lot of compute spent in judicial review",
+      "start": 1057.6,
+      "duration": 2.4
+    },
+    {
+      "text": "where you're trying to understand how",
+      "start": 1060,
+      "duration": 1.76
+    },
+    {
+      "text": "the law actually applies here and once",
+      "start": 1061.76,
+      "duration": 2.159
+    },
+    {
+      "text": "that's decided it sets a precedent and",
+      "start": 1063.919,
+      "duration": 2.401
+    },
+    {
+      "text": "that precedent is effectively an input",
+      "start": 1066.32,
+      "duration": 1.92
+    },
+    {
+      "text": "output pair that serves as a unit test",
+      "start": 1068.24,
+      "duration": 2.559
+    },
+    {
+      "text": "that disambiguates and rein reinforces",
+      "start": 1070.799,
+      "duration": 2.081
+    },
+    {
+      "text": "the original policy spec. Uh it has",
+      "start": 1072.88,
+      "duration": 2.88
+    },
+    {
+      "text": "things like a chain of command embedded",
+      "start": 1075.76,
+      "duration": 2.48
+    },
+    {
+      "text": "in it and the enforcement of this over",
+      "start": 1078.24,
+      "duration": 3.28
+    },
+    {
+      "text": "time is a training loop that helps align",
+      "start": 1081.52,
+      "duration": 1.92
+    },
+    {
+      "text": "all of us towards a shared set of",
+      "start": 1083.44,
+      "duration": 2.08
+    },
+    {
+      "text": "intentions and values. So this is one",
+      "start": 1085.52,
+      "duration": 3.039
+    },
+    {
+      "text": "artifact that communicates intent. It",
+      "start": 1088.559,
+      "duration": 2.561
+    },
+    {
+      "text": "adjudicates compliance and it has a way",
+      "start": 1091.12,
+      "duration": 2.16
+    },
+    {
+      "text": "of uh evolving safely.",
+      "start": 1093.28,
+      "duration": 4.32
+    },
+    {
+      "text": "So it's quite possible that lawmakers",
+      "start": 1097.6,
+      "duration": 1.92
+    },
+    {
+      "text": "will be programmers or inversely that",
+      "start": 1099.52,
+      "duration": 2.399
+    },
+    {
+      "text": "programmers will be lawmakers in the",
+      "start": 1101.919,
+      "duration": 2.561
+    },
+    {
+      "text": "future.",
+      "start": 1104.48,
+      "duration": 1.6
+    },
+    {
+      "text": "And actually this apply this is a very",
+      "start": 1106.08,
+      "duration": 2.32
+    },
+    {
+      "text": "universal concept. Programmers are in",
+      "start": 1108.4,
+      "duration": 2.32
+    },
+    {
+      "text": "the business of aligning silicon via",
+      "start": 1110.72,
+      "duration": 2.959
+    },
+    {
+      "text": "code specifications. Product managers",
+      "start": 1113.679,
+      "duration": 2.401
+    },
+    {
+      "text": "align teams via product specifications.",
+      "start": 1116.08,
+      "duration": 2.56
+    },
+    {
+      "text": "Lawmakers literally align humans via",
+      "start": 1118.64,
+      "duration": 2.64
+    },
+    {
+      "text": "legal specifications. And everyone in",
+      "start": 1121.28,
+      "duration": 2.399
+    },
+    {
+      "text": "this room whenever you are doing a",
+      "start": 1123.679,
+      "duration": 1.601
+    },
+    {
+      "text": "prompt it's a sort of proto",
+      "start": 1125.28,
+      "duration": 1.44
+    },
+    {
+      "text": "specification. You are in the business",
+      "start": 1126.72,
+      "duration": 2.319
+    },
+    {
+      "text": "of aligning AI models towards a common",
+      "start": 1129.039,
+      "duration": 3.441
+    },
+    {
+      "text": "set set of intentions and values. And",
+      "start": 1132.48,
+      "duration": 3.04
+    },
+    {
+      "text": "whether you realize it or not you are",
+      "start": 1135.52,
+      "duration": 1.44
+    },
+    {
+      "text": "spec authors in this world and specs let",
+      "start": 1136.96,
+      "duration": 4.16
+    },
+    {
+      "text": "you ship faster and safer. Everyone can",
+      "start": 1141.12,
+      "duration": 3.52
+    },
+    {
+      "text": "contribute and whoever writes the spec",
+      "start": 1144.64,
+      "duration": 2.88
+    },
+    {
+      "text": "be it a",
+      "start": 1147.52,
+      "duration": 2.32
+    },
+    {
+      "text": "uh a PM uh a lawmaker an engineer a",
+      "start": 1149.84,
+      "duration": 3.68
+    },
+    {
+      "text": "marketer is now the programmer",
+      "start": 1153.52,
+      "duration": 4.24
+    },
+    {
+      "text": "and software engineering has never been",
+      "start": 1157.76,
+      "duration": 2.08
+    },
+    {
+      "text": "about code. Going back to our original",
+      "start": 1159.84,
+      "duration": 2.8
+    },
+    {
+      "text": "question a lot of you put your hands",
+      "start": 1162.64,
+      "duration": 1.6
+    },
+    {
+      "text": "down when you thought well actually the",
+      "start": 1164.24,
+      "duration": 1.439
+    },
+    {
+      "text": "thing I produced is not code.",
+      "start": 1165.679,
+      "duration": 2.321
+    },
+    {
+      "text": "Engineering has never been about this.",
+      "start": 1168,
+      "duration": 1.52
+    },
+    {
+      "text": "Coding is an incredible skill and a",
+      "start": 1169.52,
+      "duration": 1.68
+    },
+    {
+      "text": "wonderful asset, but it is not the end",
+      "start": 1171.2,
+      "duration": 1.92
+    },
+    {
+      "text": "goal. Engineering is the precise",
+      "start": 1173.12,
+      "duration": 2.4
+    },
+    {
+      "text": "exploration by humans of software",
+      "start": 1175.52,
+      "duration": 2.159
+    },
+    {
+      "text": "solutions to human problems. It's always",
+      "start": 1177.679,
+      "duration": 2.88
+    },
+    {
+      "text": "been this way. We're just moving away",
+      "start": 1180.559,
+      "duration": 1.761
+    },
+    {
+      "text": "from sort of the disperate machine",
+      "start": 1182.32,
+      "duration": 1.52
+    },
+    {
+      "text": "encodings to a unified human encoding uh",
+      "start": 1183.84,
+      "duration": 3.44
+    },
+    {
+      "text": "of how we actually uh solve these these",
+      "start": 1187.28,
+      "duration": 2.32
+    },
+    {
+      "text": "problems. Uh I want to thank Josh for",
+      "start": 1189.6,
+      "duration": 2
+    },
+    {
+      "text": "this uh credit. So I want to ask you,",
+      "start": 1191.6,
+      "duration": 3.36
+    },
+    {
+      "text": "put this in action. Whenever you're",
+      "start": 1194.96,
+      "duration": 2.16
+    },
+    {
+      "text": "working on your next AI feature, start",
+      "start": 1197.12,
+      "duration": 2.08
+    },
+    {
+      "text": "with a specification.",
+      "start": 1199.2,
+      "duration": 2.08
+    },
+    {
+      "text": "What do you actually expect to happen?",
+      "start": 1201.28,
+      "duration": 2.08
+    },
+    {
+      "text": "What's success criteria look like?",
+      "start": 1203.36,
+      "duration": 2.16
+    },
+    {
+      "text": "Debate whether or not it's actually",
+      "start": 1205.52,
+      "duration": 1.76
+    },
+    {
+      "text": "clearly written down and communicated.",
+      "start": 1207.28,
+      "duration": 2.08
+    },
+    {
+      "text": "Make the spec executable. Feed the spec",
+      "start": 1209.36,
+      "duration": 2.319
+    },
+    {
+      "text": "to the model",
+      "start": 1211.679,
+      "duration": 2.801
+    },
+    {
+      "text": "and test against the model or test",
+      "start": 1214.48,
+      "duration": 2.8
+    },
+    {
+      "text": "against the spec. And there's an",
+      "start": 1217.28,
+      "duration": 2.56
+    },
+    {
+      "text": "interesting question sort of in this",
+      "start": 1219.84,
+      "duration": 0.88
+    },
+    {
+      "text": "world given that there's so many uh",
+      "start": 1220.72,
+      "duration": 2.24
+    },
+    {
+      "text": "parallels between programming and spec",
+      "start": 1222.96,
+      "duration": 2.64
+    },
+    {
+      "text": "authorship.",
+      "start": 1225.6,
+      "duration": 1.68
+    },
+    {
+      "text": "I wonder what is the what does the IDE",
+      "start": 1227.28,
+      "duration": 2.8
+    },
+    {
+      "text": "look like in the future. you know, an",
+      "start": 1230.08,
+      "duration": 1.839
+    },
+    {
+      "text": "integrated development environment. And",
+      "start": 1231.919,
+      "duration": 1.841
+    },
+    {
+      "text": "I'd like to think it's something like an",
+      "start": 1233.76,
+      "duration": 1.12
+    },
+    {
+      "text": "inte like integrated thought clarifier",
+      "start": 1234.88,
+      "duration": 2.72
+    },
+    {
+      "text": "where whenever you're writing your",
+      "start": 1237.6,
+      "duration": 1.199
+    },
+    {
+      "text": "specification, it sort of ex pulls out",
+      "start": 1238.799,
+      "duration": 3.36
+    },
+    {
+      "text": "the ambiguity and asks you to clarify it",
+      "start": 1242.159,
+      "duration": 3.361
+    },
+    {
+      "text": "and it really clarifies your thought so",
+      "start": 1245.52,
+      "duration": 1.519
+    },
+    {
+      "text": "that you and all human beings can",
+      "start": 1247.039,
+      "duration": 2.321
+    },
+    {
+      "text": "communicate your intent to each other",
+      "start": 1249.36,
+      "duration": 2.319
+    },
+    {
+      "text": "much more effectively and to the models.",
+      "start": 1251.679,
+      "duration": 4.24
+    },
+    {
+      "text": "And I have a a closing request for help",
+      "start": 1255.919,
+      "duration": 2.321
+    },
+    {
+      "text": "which is uh what is both amenable and in",
+      "start": 1258.24,
+      "duration": 2.88
+    },
+    {
+      "text": "desperate need of specification. This is",
+      "start": 1261.12,
+      "duration": 2.96
+    },
+    {
+      "text": "aligning agent at scale. Uh I love this",
+      "start": 1264.08,
+      "duration": 3.04
+    },
+    {
+      "text": "line of like you then you realize that",
+      "start": 1267.12,
+      "duration": 2.559
+    },
+    {
+      "text": "you never told it what you wanted and",
+      "start": 1269.679,
+      "duration": 1.521
+    },
+    {
+      "text": "maybe you never fully understood it",
+      "start": 1271.2,
+      "duration": 1.599
+    },
+    {
+      "text": "anyway. This is a cry for specification.",
+      "start": 1272.799,
+      "duration": 2.481
+    },
+    {
+      "text": "Uh we have a new agent robustness team",
+      "start": 1275.28,
+      "duration": 2.16
+    },
+    {
+      "text": "that we've started up. So please join us",
+      "start": 1277.44,
+      "duration": 2.16
+    },
+    {
+      "text": "and help us deliver safe AGI for the",
+      "start": 1279.6,
+      "duration": 2.88
+    },
+    {
+      "text": "benefit of all humanity.",
+      "start": 1282.48,
+      "duration": 2.8
+    },
+    {
+      "text": "And thank you. I'm happy to chat.",
+      "start": 1285.28,
+      "duration": 4.04
+    },
+    {
+      "text": "[Music]",
+      "start": 1289.67,
+      "duration": 3.21
+    }
+  ],
+  "fullText": "[Music] [Music] Hello everyone. Thank you very much for having me. Uh it's a very exciting uh place to be, very exciting time to be. Uh second, uh I mean this has been like a pretty intense couple of days. I don't know if you feel the same way. Uh but also very energizing. So I want to take a little bit of your time today uh to talk about what I see as the coming of the new code. uh in particular specifications which sort of hold this promise uh that it has been the dream of the industry where you can write your your code your intentions once and run them everywhere. Uh quick intro uh my name is Sean I work at uh OpenAI uh specifically in alignment research and today I want to talk about sort of the value of code versus communication and why specifications might be a little bit of a better approach in general. Uh I'm going to go over the anatomy of a specification and we'll use the uh model spec as the example. Uh and we'll talk about communicating intent to other humans and we'll go over the 40 syphency issue uh as a case study. Uh we'll talk about how to make the specification executable, how to communicate intent to the models, uh and how to think about specifications as code, even if they're a little bit different. Um, and we'll end on a couple of open questions. So, let's talk about code versus communication. Real quick, raise your hand if you write code and vibe code counts. Cool. Keep them up if your job is to write code. Okay. Now, for those people, keep their head up if you feel that the most valuable professional artifact that you produce is code. Okay, there's quite a few people and I think this is quite natural. We all work very very hard to solve problems. We talk with people. We gather requirements. We think through implementation details. We integrate with lots of different sources. And the ultimate thing that we produce is code. Code is the artifact that we can point to, we can measure, we can debate, and we can discuss. uh it feels tangible and real but it's sort of underelling the job that each of you does. Code is sort of 10 to 20% of the value that you bring. The other 80 to 90% is in structured communication. And this is going to be different for everyone, but a process typically looks something like you talk to users in order to understand their challenges. You distill these stories down and then ideulate about how to solve these problems. What what is the goal that you want to achieve? You plan ways to achieve those goals. You share those plans with your colleagues. Uh you translate those plans into code. So this is a very important step obviously. And then you test and verify not the code itself, right? No one cares actually about the code itself. What you care is when the code ran, did it achieve the goals, did it alleviate the challenges of your user? You look at the the effects that your code had on the world. So talking, understanding, distilling, ideulating, planning, sharing, translating, testing, verifying. These all sound like structured communication to me. And structured communication is the bottleneck. Knowing what to build, talking to people and gathering requirements, knowing how to build it, knowing why to build it, and at the end of the day, knowing if it has been built correctly and has actually achieved the intentions that you set out with. And the more advanced AI models get, the more we are all going to starkly feel this bottleneck. Because in the near future, the person who communicates most effectively is the most valuable programmer. And literally, if you can communicate effectively, you can program. So, let's take uh vibe coding as an illustrative example. Vibe coding tends to feel quite good. And it's worth asking why is that? Well, vibe coding is fundamentally about communication first. And the code is actually a secondary downstream artifact of that communication. We get to describe our intentions and our the outcomes that we want to see and we let the model actually handle the grunt work for us. And even so, there is something strange about the way that we do vibe coding. We communicate via prompts to the model and we tell them our intentions and our values and we get a code artifact out at the end and then we sort of throw our prompts away they're ephemeral and if you've written TypeScript or Rust once you put your your code through a compiler or it gets down into a binary no one is happy with that binary. That wasn't the purpose. It's useful. In fact, we always regenerate the binaries from scratch every time we compile or we run our code through V8 or whatever it might be from the source spec. It's the source specification that's the valuable artifact. And yet when we prompt elements, we sort of do the opposite. We keep the generated code and we delete the prompt. And this feels like a little bit like you shred the source and then you very carefully version control the binary. And that's why it's so important to actually capture the intent and the values in a specification. A written specification is what enables you to align humans on the shared set of goals and to know if you are aligned if you actually synchronize on what needs to be done. This is the artifact that you discuss that you debate that you refer to and that you synchronize on. And this is really important. And so I want to nail this this home that a written specification effectively aligns humans and it is the artifact that you use to communicate and to discuss and debate and refer to and synchronize on. If you don't have a specification, you just have a vague idea. Now let's talk about why specifications are more powerful in general than code. Because code itself is actually a lossy projection from the specification. In the same way that if you were to take a compiled C binary and decompile it, you wouldn't get nice comments and uh well-n named variables. You would have to work backwards. You'd have to infer what was this person trying to do? Why is this code written this way? It isn't actually contained in there. It was a lossy translation. And in the same way, code itself, even nice code, typically doesn't embody all of the intentions and the values in itself. You have to infer what is the ultimate goal that this team is trying to achieve. Uh when you read through code, so communication, the work that we establish, we already do when embodied inside of a written specification is better than code. It actually encodes all of the the necessary requirements in order to generate the code. And in the same way that having a source code that you pass to a compiler allows you to target multiple different uh architectures, you can compile for ARM 64, x86 or web assembly. The source document actually contains enough information to describe how to translate it to your target architecture. In the same way, a a sufficiently robust specification given to models will produce good TypeScript, good Rust, servers, clients, documentation, tutorials, blog posts, and even podcasts. Uh, show of hands, who works at a company that has developers as customers? Okay. So, a a quick like thought exercise is if you were to take your entire codebase, all of the the documentation, oh, so all of the code that runs your business, and you were to put that into a podcast generator, could you generate something that would be sufficiently interesting and compelling that would tell the users how to succeed, how to achieve their goals, or is all of that information somewhere else? It's not actually in your code. And so moving forward, the new scarce skill is writing specifications that fully capture the intent and values. And whoever masters that again becomes the most valuable programmer. And there's a reasonable chance that this is going to be the coders of today. This is already very similar to what we do. However, product managers also write specifications. Lawmakers write legal specifications. This is actually a universal principle. So with that in mind, let's look at what a specification actually looks like. And I'm going to use the OpenAI model spec as an example here. So last year, OpenAI released the model spec. And this is a living document that tries to clearly and unambiguously express the intentions and values that OpenAI hopes to imbue its models with that it ships to the world. and it was updated in in uh February and open sourced. So you can actually go to GitHub and you can see the implementation of uh the model spec and surprise surprise it's actually just a collection of markdown files just looks like this. Now markdown is remarkable. It is human readable. It's versioned. It's change logged and because it is natural language everyone in not just technical people can contribute including product legal safety research policy they can all read discuss debate and contribute to the same source code. This is the universal artifact that aligns all of the humans as to our intentions and values inside of the company. Now, as much as we might try to use unambiguous language, there are times where it's very difficult to express the nuance. So, every clause in the model spec has an ID here. So, you can see sy73 here. And using that ID, you can find another file in the repository sy73.mmarkdown or md uh that contains one or more challenging prompts for this exact clause. So the document itself actually encodes success criteria that the the model under test has to be able to answer this in a way that actually adheres to that clause. So let's talk about uh syphy. Uh recently there was a update to 40. I don't know if you've heard of this. Uh there uh caused extreme syphy. uh and we can ask like what value is the model spec in this scenario and the model spec serves to align humans around a set of values and intentions. Here's an example of sycancy where the user calls out the behavior of being uh syphants uh or sophantic at the expense of impartial truth and the model very kindly uh praises the user for their insight. There have been other esteemed researchers uh who have found similarly uh similarly uh concerning examples and this hurts uh shipping sycopency in this manner erodess trust. It hurts. So and it also raises a lot of questions like was this intentional? you could see some way where you might interpret it that way. Was it accidental and why wasn't it caught? Luckily, the model spec actually includes a section dedicated to this since its release that says don't be sick of fantic and it explains that while sophency might feel good in the short term, it's bad for everyone in the long term. So, we actually expressed our intentions and our values and were able to communicate it to others through this So people could reference it and if we have it in the model spec specification if the model specification is our agreed upon set of intentions and values and the behavior doesn't align with that then this must be a bug. So we rolled back we published some studies and some blog post and we fixed it. But in the interim, the specs served as a trust anchor, a way to communicate to people what is expected and what is not expected. So if just if the only thing the model specification did was to align humans along those shared sets of intentions and values, it would already be incredibly useful. But ideally we can also align our models and the artifacts that our models produce against that same specification. So there's a technique a paper that we released uh called deliberative alignment that sort of talks about this how to automatically align a model and the technique is uh such where you take your specification and a set of very challenging uh input prompts and you sample from the model under test or training. You then uh take its response, the original prompt and the policy and you give that to a greater model and you ask it to score the response according to the specification. How aligned is it? So the document actually becomes both training material and eval material and based off of this score we reinforce those weights and it goes from you know you could include your specification in the context and then maybe a system message or developer message in every single time you sample and that is actually quite useful. a prompted uh model is going to be somewhat aligned, but it does detract from the compute available to solve the uh problem that you're trying to solve with the model. And keep in mind, these specifications can be anything. They could be code style or testing requirements or or safety requirements. All of that can be embedded into the model. So through this technique you're actually moving it from a inference time compute and actually you're pushing down into the weights of the model so that the model actually feels your policy and is able to sort of muscle memory uh style apply it to the problem at hand. And even though we saw that the model spec is just markdown it's quite useful to think of it as code. It's quite analogous. uh these specifications they compose they're executable as we've seen uh they are testable they have interfaces where they they touch the real world uh they can be shipped as modules and whenever you're working on a model spec there are a lot of similar sort of uh problem domains so just like in programming where you have a type checker the type checker is meant to ensure consistency where if interface A has a dependent uh module B they have to be consistent in their understanding of one another. So if department A writes a spec and department B writes a spec and there is a conflict in there you want to be able to pull that forward and maybe block the publication of the the specification as we saw the policy can actually embody its own unit tests and you can imagine sort of various llinters where if you're using overly ambiguous language you're going to confuse humans and you're going to confuse the model and the artifacts that you get from that are going to be less satisfactory. So specs actually give us a very similar tool chain but it's targeted at intentions rather than syntax. So let's talk about lawmakers as programmers. Uh the US constitution is literally a national model specification. It has written text which is aspirationally at least clear and unambiguous policy that we can all refer to. And it doesn't mean that we agree with it but we can refer to it as the current status quo as the reality. Uh there is a versioned way to make amendments to bump and to uh publish updates to it. There is judicial review where a a grader is effectively uh grading a situation and seeing how well it aligns with the policy. And even though the again because or even though the source policy is meant to be unambiguous sometimes you don't the world is messy and maybe you miss part of the distribution and a case falls through and in that case the there is a lot of compute spent in judicial review where you're trying to understand how the law actually applies here and once that's decided it sets a precedent and that precedent is effectively an input output pair that serves as a unit test that disambiguates and rein reinforces the original policy spec. Uh it has things like a chain of command embedded in it and the enforcement of this over time is a training loop that helps align all of us towards a shared set of intentions and values. So this is one artifact that communicates intent. It adjudicates compliance and it has a way of uh evolving safely. So it's quite possible that lawmakers will be programmers or inversely that programmers will be lawmakers in the future. And actually this apply this is a very universal concept. Programmers are in the business of aligning silicon via code specifications. Product managers align teams via product specifications. Lawmakers literally align humans via legal specifications. And everyone in this room whenever you are doing a prompt it's a sort of proto specification. You are in the business of aligning AI models towards a common set set of intentions and values. And whether you realize it or not you are spec authors in this world and specs let you ship faster and safer. Everyone can contribute and whoever writes the spec be it a uh a PM uh a lawmaker an engineer a marketer is now the programmer and software engineering has never been about code. Going back to our original question a lot of you put your hands down when you thought well actually the thing I produced is not code. Engineering has never been about this. Coding is an incredible skill and a wonderful asset, but it is not the end goal. Engineering is the precise exploration by humans of software solutions to human problems. It's always been this way. We're just moving away from sort of the disperate machine encodings to a unified human encoding uh of how we actually uh solve these these problems. Uh I want to thank Josh for this uh credit. So I want to ask you, put this in action. Whenever you're working on your next AI feature, start with a specification. What do you actually expect to happen? What's success criteria look like? Debate whether or not it's actually clearly written down and communicated. Make the spec executable. Feed the spec to the model and test against the model or test against the spec. And there's an interesting question sort of in this world given that there's so many uh parallels between programming and spec authorship. I wonder what is the what does the IDE look like in the future. you know, an integrated development environment. And I'd like to think it's something like an inte like integrated thought clarifier where whenever you're writing your specification, it sort of ex pulls out the ambiguity and asks you to clarify it and it really clarifies your thought so that you and all human beings can communicate your intent to each other much more effectively and to the models. And I have a a closing request for help which is uh what is both amenable and in desperate need of specification. This is aligning agent at scale. Uh I love this line of like you then you realize that you never told it what you wanted and maybe you never fully understood it anyway. This is a cry for specification. Uh we have a new agent robustness team that we've started up. So please join us and help us deliver safe AGI for the benefit of all humanity. And thank you. I'm happy to chat. [Music]"
+}

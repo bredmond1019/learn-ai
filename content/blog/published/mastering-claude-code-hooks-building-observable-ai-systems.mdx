@@ -1,0 +1,381 @@
+---
+title: "Mastering Claude Code Hooks: Building Observable AI Systems"
+date: "2025-07-23"
+excerpt: "Learn how to leverage Claude Code's six lifecycle hooks to build secure, observable, and controllable AI systems. From blocking dangerous commands to adding voice feedback, hooks give you deterministic control over your agents."
+tags: ["Claude Code", "Hooks", "Observability", "Security", "AI Engineering"]
+author: "Brandon"
+---
+
+Picture this: It's 6 AM. You sit down to start cooking with Claude Code. You open up the terminal and boot up Claude Code in YOLO mode because you can't be bothered with permissions. You run your handcrafted `/sentient` command that ships 100x faster than you ever could by hand.
+
+But today, something goes wrong.
+
+Your agent has gotten so good that it realizes what every senior engineer has realized: **the best code is no code at all**. Your agent starts deleting your codebase with the `rm -rf` command.
+
+But thankfully... "All set and ready for the next step." 
+
+Nice.
+
+## The Power of Pre-Tool Hooks 🛡️
+
+Thankfully, instead of nuking all your code, you set up the pre-tool-use Claude Code hook to prevent the tool use from happening at all. Every `rm` command was completely blocked, and Claude Code even has a voice to let you know when it's finished.
+
+<CodeExample
+  title="Security Hook: Blocking Dangerous Commands"
+  language="python"
+  code={`#!/usr/bin/env python3
+# save as: ~/.claude/hooks/pre-tool-use
+
+import sys
+import json
+
+# Read the event data
+event = json.loads(sys.stdin.read())
+
+# Check if it's a dangerous command
+if event['tool_name'] == 'bash':
+    command = event.get('arguments', {}).get('command', '')
+    dangerous_patterns = ['rm -rf', 'rm -r /', 'format', 'dd if=']
+    
+    for pattern in dangerous_patterns:
+        if pattern in command:
+            print(f"BLOCKED: Dangerous command attempted: {command}")
+            sys.exit(1)  # Block the tool use
+
+# Allow safe commands
+sys.exit(0)`}
+/>
+
+This is just the tip of the iceberg of what you can do with hooks.
+
+## The Six Lifecycle Hooks 🔄
+
+Claude Code provides six deterministic hooks that let you intercept and control every aspect of your agent's lifecycle:
+
+### 1. **Pre-Prompt Hook**
+Fires before your prompt is processed. Perfect for:
+- Prompt enhancement
+- Context injection
+- Security filtering
+
+### 2. **Pre-Tool-Use Hook**
+Fires before any tool is executed. Use for:
+- Command validation
+- Permission checks
+- Audit logging
+
+### 3. **Post-Tool-Use Hook**
+Fires after tool execution. Great for:
+- Result processing
+- Error handling
+- Notifications
+
+### 4. **Notification Hook**
+Fires when Claude needs user input. Enables:
+- Custom alerts
+- External notifications
+- UI integrations
+
+### 5. **Stop Hook**
+Fires when the agent completes. Perfect for:
+- Summary generation
+- Cleanup tasks
+- Final logging
+
+### 6. **Pre-Compact Hook**
+Fires before context compaction. Use for:
+- Context preservation
+- Important data extraction
+- Memory management
+
+<Callout type="info">
+**Pro Tip**: Hooks run in a separate process and can be written in any language. They receive JSON via stdin and can exit with status codes to control flow.
+</Callout>
+
+## Building an Observable System 📊
+
+Let's build a complete logging system that captures every action your agent takes:
+
+<CodeExample
+  title="Comprehensive Logging Setup"
+  language="bash"
+  code={`# Directory structure
+~/.claude/
+├── hooks/
+│   ├── pre-prompt
+│   ├── pre-tool-use
+│   ├── post-tool-use
+│   └── stop
+└── settings.yaml`}
+/>
+
+### The Logging Hook
+
+<CodeExample
+  title="Universal Logging Hook"
+  language="python"
+  code={`#!/usr/bin/env python3
+# save as: ~/.claude/hooks/send-event.py
+
+import sys
+import json
+import requests
+from datetime import datetime
+
+def send_event(event_type, data):
+    """Send event to observability server"""
+    payload = {
+        'timestamp': datetime.now().isoformat(),
+        'event_type': event_type,
+        'session_id': data.get('session_id'),
+        'app_name': 'my-project',
+        'data': data
+    }
+    
+    # Send to local observability server
+    try:
+        requests.post('http://localhost:3000/events', 
+                     json=payload, 
+                     timeout=1)
+    except:
+        pass  # Don't block on logging failures
+
+# Read event from stdin
+event = json.loads(sys.stdin.read())
+send_event(sys.argv[1], event)
+
+# Always allow continuation
+sys.exit(0)`}
+/>
+
+### Configuring Multiple Hooks
+
+<CodeExample
+  title="Claude Settings Configuration"
+  language="yaml"
+  code={`# ~/.claude/settings.yaml
+hooks:
+  pre-prompt:
+    - ~/.claude/hooks/pre-prompt-security.py
+    - ~/.claude/hooks/send-event.py pre-prompt
+  
+  pre-tool-use:
+    - ~/.claude/hooks/security-filter.py
+    - ~/.claude/hooks/send-event.py pre-tool-use
+  
+  post-tool-use:
+    - ~/.claude/hooks/send-event.py post-tool-use
+    - ~/.claude/hooks/summarize-action.py
+  
+  stop:
+    - ~/.claude/hooks/voice-notification.py
+    - ~/.claude/hooks/save-transcript.py`}
+/>
+
+## Adding Voice Feedback 🔊
+
+One of the most powerful patterns is adding natural language feedback to your agents:
+
+<CodeExample
+  title="Text-to-Speech Notification Hook"
+  language="python"
+  code={`#!/usr/bin/env python3
+# save as: ~/.claude/hooks/voice-notification.py
+
+import sys
+import json
+import subprocess
+
+event = json.loads(sys.stdin.read())
+
+# Extract summary from the conversation
+messages = event.get('messages', [])
+last_message = messages[-1] if messages else {}
+content = last_message.get('content', '')
+
+# Create a concise summary
+summary = f"Task complete. {content[:100]}..."
+
+# Use macOS say command (or your TTS of choice)
+subprocess.run(['say', summary])`}
+/>
+
+<Callout type="success">
+**Real-World Impact**: With voice notifications, you can run long-running async jobs and be notified when they complete, without constantly checking your terminal.
+</Callout>
+
+## Advanced Patterns 🚀
+
+### Pattern 1: Security Filtering
+
+<CodeExample
+  title="Multi-Layer Security"
+  language="python"
+  code={`# Check file paths
+if tool_name == 'write_file':
+    path = args.get('path', '')
+    if path.startswith('/etc/') or path.startswith('/sys/'):
+        exit_with_error("Cannot write to system directories")
+
+# Check network requests
+if tool_name == 'curl':
+    url = args.get('url', '')
+    if 'internal' in url or '192.168' in url:
+        exit_with_error("Cannot access internal networks")`}
+/>
+
+### Pattern 2: Smart Summarization
+
+Using small, fast models to summarize actions:
+
+<CodeExample
+  title="AI-Powered Summaries"
+  language="python"
+  code={`# In your post-tool-use hook
+import anthropic
+
+client = anthropic.Client()
+
+# Use Haiku for fast, cheap summaries
+summary = client.messages.create(
+    model="claude-3-haiku",
+    max_tokens=50,
+    messages=[{
+        "role": "user",
+        "content": f"Summarize this action in 10 words: {tool_output}"
+    }]
+).content[0].text
+
+# Add to event data for logging
+event['summary'] = summary`}
+/>
+
+### Pattern 3: Conditional Tool Access
+
+<CodeExample
+  title="Time-Based Permissions"
+  language="python"
+  code={`from datetime import datetime
+
+current_hour = datetime.now().hour
+
+# Restrict dangerous operations to business hours
+if event['tool_name'] in ['deploy', 'migrate_database']:
+    if current_hour < 9 or current_hour > 17:
+        exit_with_error("Deployment operations only allowed 9 AM - 5 PM")`}
+/>
+
+## Building a Complete Observability Dashboard 📈
+
+With hooks sending events, you can build a real-time dashboard:
+
+<CodeExample
+  title="Simple Event Server"
+  language="typescript"
+  code={`// server.ts
+import { serve } from 'bun';
+import { Database } from 'bun:sqlite';
+
+const db = new Database('events.db');
+const clients = new Set<WebSocket>();
+
+serve({
+  port: 3000,
+  
+  fetch(req, server) {
+    if (req.url.endsWith('/events')) {
+      // Store event
+      const event = await req.json();
+      db.run('INSERT INTO events (data) VALUES (?)', 
+             JSON.stringify(event));
+      
+      // Broadcast to all connected clients
+      clients.forEach(client => {
+        client.send(JSON.stringify(event));
+      });
+      
+      return new Response('OK');
+    }
+    
+    // WebSocket endpoint for real-time updates
+    if (server.upgrade(req)) {
+      return;
+    }
+  },
+  
+  websocket: {
+    open(ws) {
+      clients.add(ws);
+    },
+    close(ws) {
+      clients.delete(ws);
+    }
+  }
+});`}
+/>
+
+## Best Practices 🎯
+
+### 1. **Keep Hooks Fast**
+Hooks run synchronously and can slow down your agent. Keep them under 100ms.
+
+### 2. **Fail Gracefully**
+Don't let logging failures break your workflow:
+```python
+try:
+    send_to_server(event)
+except:
+    pass  # Continue anyway
+```
+
+### 3. **Use Status Codes Wisely**
+- Exit 0: Allow continuation
+- Exit 1: Block the action
+- Exit 2+: Custom handling
+
+### 4. **Layer Your Hooks**
+Run multiple hooks for the same event—security first, then logging, then notifications.
+
+### 5. **Test Your Hooks**
+<CodeExample
+  title="Testing Hooks Locally"
+  language="bash"
+  code={`# Test a hook manually
+echo '{"tool_name": "bash", "arguments": {"command": "ls"}}' | \
+  ~/.claude/hooks/pre-tool-use
+
+# Check exit code
+echo $?  # Should be 0 for allowed, 1 for blocked`}
+/>
+
+<Callout type="warning">
+**Security Note**: Always validate and sanitize data in your hooks. Remember that agents can generate arbitrary content.
+</Callout>
+
+## The Future of Observable AI 🔮
+
+Hooks are just the beginning. As we scale up multi-agent systems, observability becomes critical. You need to:
+
+1. **Track Everything**: Every decision, every action, every outcome
+2. **Monitor in Real-Time**: See what your agents are doing as they do it
+3. **Control the Flow**: Intervene when necessary, guide when helpful
+4. **Learn from Patterns**: Use logs to improve prompts and workflows
+
+## Taking Action 🚀
+
+Start simple:
+
+1. **Add a Basic Security Hook**: Block `rm -rf` and other dangerous commands
+2. **Set Up Simple Logging**: Just save events to a file initially
+3. **Add One Notification**: Maybe just a sound when tasks complete
+4. **Iterate and Improve**: Add more sophisticated hooks as needed
+
+<Callout type="success">
+**Remember**: Hooks give you deterministic control over non-deterministic systems. They're your safety net, your observability layer, and your automation enabler all in one.
+</Callout>
+
+The best part? This is all available today. No waiting for the next version. No complex setup. Just simple scripts that give you complete control over your AI agents.
+
+Start with one hook. See the power. Then build your complete observability system.
+
+Your agents are powerful. Now make them observable, controllable, and safe.
