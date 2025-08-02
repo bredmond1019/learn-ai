@@ -38,18 +38,18 @@ Claude Code isn't just a tool. It's not an assistant, and it's more than a partn
 
 What does that mean exactly? Claude Code is **programmable**. From any terminal, you can call your powerful agentic coding tool. This is massive. As engineers, we need the Lego blocks to solve problems for our specific use cases in our specific domains.
 
-<CodeExample
-  title="Invoking Claude Code as a Primitive"
-  language="bash"
-  code={`# Traditional approach: Multiple manual steps
+### Invoking Claude Code as a Primitive
+
+```bash
+# Traditional approach: Multiple manual steps
 git status
 # Analyze changes manually
 # Write commit message manually
 git commit -m "..."
 
 # Claude Code approach: Single agentic command
-claude "analyze changes and commit with appropriate message"`}
-/>
+claude "analyze changes and commit with appropriate message"
+```
 
 ### Why the Terminal Matters
 
@@ -64,10 +64,10 @@ These aren't flashy demos. Claude Code changed engineering by relentlessly focus
 - **Parallelization**: Run multiple agents simultaneously
 - **Programmability**: Build your own agentic systems
 
-<CodeExample
-  title="Engineering-First Features"
-  language="typescript"
-  code={`// Example: Parallel agent execution
+### Engineering-First Features
+
+```typescript
+// Example: Parallel agent execution
 const agents = [
   { task: "refactor authentication", context: "src/auth" },
   { task: "update API documentation", context: "docs/api" },
@@ -75,8 +75,8 @@ const agents = [
 ];
 
 // Claude Code handles these in parallel
-// Each with its own context and goals`}
-/>
+// Each with its own context and goals
+```
 
 ## The Benchmark Ghosting Phenomenon 👻
 
@@ -94,10 +94,10 @@ Claude Code brought us all back to simplicity as a core principle. As Boris from
 
 **Simplicity is both a property and a feature.**
 
-<CodeExample
-  title="The Power of Simplicity"
-  language="text"
-  code={`# Complex RAG-based system
+### The Power of Simplicity
+
+```text
+# Complex RAG-based system
 1. Index codebase
 2. Configure embeddings
 3. Set up vector database
@@ -107,8 +107,8 @@ Claude Code brought us all back to simplicity as a core principle. As Boris from
 # Claude Code approach
 1. Open terminal
 2. Type: claude
-3. Start engineering`}
-/>
+3. Start engineering
+```
 
 Key simplicity principles:
 - No complexity, just the context window

@@ -37,7 +37,7 @@ Notice something? Only one step involves actual coding. Everything else? Structu
 
 And here's the kicker: As AI models get more advanced, we're going to feel this bottleneck even more starkly. The grunt work of translating ideas into syntax is becoming trivial. The hard part—the valuable part—is knowing what to build and why.
 
-<Callout type="insight">
+<Callout type="info">
 **The Paradigm Shift**: In the near future, the person who communicates most effectively is the most valuable programmer. And literally, if you can communicate effectively, you can program.
 </Callout>
 
@@ -69,10 +69,10 @@ Here's why specifications are more powerful than code:
 
 ### Code is a Lossy Projection
 
-<CodeExample
-  title="The Information Loss Problem"
-  language="text"
-  code={`Original Intent: "Build a system that helps users find relevant information quickly"
+### The Information Loss Problem
+
+```text
+Original Intent: "Build a system that helps users find relevant information quickly"
 ↓
 Specification: Detailed requirements, user stories, success criteria
 ↓
@@ -80,8 +80,8 @@ Code: if (query) { return search(query, index) }
 ↓
 Compiled Binary: 01101000 01100101 01101100 01110000...
 
-At each step, we lose context about WHY.`}
-/>
+At each step, we lose context about WHY.
+```
 
 Just like decompiling a C binary doesn't give you nice comments and well-named variables, reading code doesn't tell you the ultimate goals the team is trying to achieve.
 
@@ -102,18 +102,18 @@ It's like having source code that compiles to ARM64, x86, *and* human understand
 
 OpenAI's Model Spec isn't some complex formal language. It's just... markdown files on GitHub.
 
-<CodeExample
-  title="Actual Model Spec Structure"
-  language="markdown"
-  code={`# Model Behavior Specification
+### Actual Model Spec Structure
+
+```markdown
+# Model Behavior Specification
 
 ## Don't be sycophantic (ID: sy73)
 While being helpful might feel good in the short term, 
 sycophancy is bad for everyone in the long term...
 
 ### Success Criteria
-See: tests/sy73.md for challenging prompts that test this behavior`}
-/>
+See: tests/sy73.md for challenging prompts that test this behavior
+```
 
 Why is this powerful?
 
@@ -132,10 +132,10 @@ Result: Rollback, fix, and restored trust.
 
 Specifications aren't just documentation—they're executable. OpenAI uses a technique called "deliberative alignment":
 
-<CodeExample
-  title="Making Specs Executable"
-  language="python"
-  code={`def align_model_to_spec(model, specification, test_prompts):
+### Making Specs Executable
+
+```python
+def align_model_to_spec(model, specification, test_prompts):
     for prompt in test_prompts:
         # 1. Get model response
         response = model.generate(prompt)
@@ -152,8 +152,8 @@ Specifications aren't just documentation—they're executable. OpenAI uses a tec
             model.reinforce(response)
             
     # Specification moves from context to weights
-    return aligned_model`}
-/>
+    return aligned_model
+```
 
 The specification literally becomes part of the model's "muscle memory"—no longer just inference-time guidance but embedded behavior.
 
@@ -166,7 +166,7 @@ This isn't just about AI. It's a universal principle:
 - **Lawmakers**: Align humans via legal specifications
 - **You (right now)**: Align AI models via prompt specifications
 
-<Callout type="insight">
+<Callout type="tip">
 **The U.S. Constitution as Code**: It's literally a national model specification with:
 - Clear policy text (aspirationally unambiguous)
 - Version control (amendments)
@@ -204,17 +204,17 @@ When failures occur, ask: Was the spec ambiguous? Update it.
 
 Imagine an IDE that doesn't just check syntax but actively helps clarify your thinking:
 
-<CodeExample
-  title="Future IDE Interaction"
-  language="text"
-  code={`You write: "The system should handle user data appropriately"
+### Future IDE Interaction
+
+```text
+You write: "The system should handle user data appropriately"
 
 IDE suggests: "Ambiguous term 'appropriately' detected. Please clarify:
 - What data types?
 - What does 'handle' mean? (store/process/transmit)
 - What are the privacy requirements?
-- What regulations apply?"`}
-/>
+- What regulations apply?"
+```
 
 It's not about writing better code—it's about thinking more clearly.
 
@@ -224,7 +224,7 @@ Sean's closing point hits hard: "You realize that you never told it what you wan
 
 This is a cry for specifications. As we build increasingly powerful agents, the challenge isn't making them capable—it's clearly expressing what we want them to do.
 
-<Callout type="action">
+<Callout type="success">
 **Your Next Steps**:
 1. Take your next feature request
 2. Before writing code, write a specification
@@ -247,7 +247,7 @@ But the ability to clearly communicate intent? That's timeless.
 
 Welcome to the age of specifications. Your code is just the beginning.
 
-<Callout type="insight">
+<Callout type="info">
 **Final Thought**: Software engineering has never been about code. It's the precise exploration by humans of software solutions to human problems. We're just moving from disparate machine encodings to a unified human encoding of how we solve these problems.
 
 And that changes everything.

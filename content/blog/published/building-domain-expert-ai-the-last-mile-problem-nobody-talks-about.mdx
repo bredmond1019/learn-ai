@@ -45,16 +45,16 @@ This is the last mile problem: Your model can reason beautifully, but it doesn't
 
 Then reality hit.
 
-<CodeExample
-  title="The Plateau Effect"
-  language="text"
-  code={`Model Performance Progression:
+### The Plateau Effect
+
+```text
+Model Performance Progression:
 GPT-3.5 → GPT-4: 85% → 92% (+7%)
 Pipeline optimization: 92% → 95% (+3%)
 More compute/params: 95% → 95.5% (+0.5%)
 
-After 95%: Diminishing returns on model improvements alone`}
-/>
+After 95%: Diminishing returns on model improvements alone
+```
 
 Here's what Anterior discovered: **Models aren't the bottleneck anymore**. They can reason. They can analyze. What they can't do is understand that when a doctor writes "patient appears stable," it might mean completely different things depending on whether it's in an emergency room note versus an annual checkup.
 
@@ -66,10 +66,10 @@ Anterior's breakthrough came from building what they call an Adaptive Domain Int
 
 ### The System Architecture
 
-<CodeExample
-  title="Domain Intelligence Flow"
-  language="text"
-  code={`Production Application
+### Domain Intelligence Flow
+
+```text
+Production Application
     ↓
 Domain Expert Reviews
     ↓
@@ -82,8 +82,8 @@ PM Prioritization
     ↓
 Engineering Implementation
     ↓
-Back to Production`}
-/>
+Back to Production
+```
 
 The magic isn't in any single component—it's in how they work together to create a self-improving system that gets smarter with every decision.
 
@@ -117,10 +117,10 @@ This is where domain expertise becomes crucial. Anterior discovered their AI fai
 
 But here's the clever part: They go deeper.
 
-<CodeExample
-  title="Failure Mode Hierarchy"
-  language="python"
-  code={`failure_modes = {
+### Failure Mode Hierarchy
+
+```python
+failure_modes = {
     "medical_record_extraction": {
         "missing_data": ["Lab results not found", "Medication history incomplete"],
         "wrong_data": ["Extracted wrong date", "Confused patient identifiers"],
@@ -136,8 +136,8 @@ But here's the clever part: They go deeper.
         "threshold_errors": ["6 weeks vs 8 weeks of treatment"],
         "exception_handling": ["Missed valid exemptions"]
     }
-}`}
-/>
+}
+```
 
 Why does this matter? Because now you can quantify exactly which failure modes cost you the most.
 
@@ -150,10 +150,10 @@ Here's where Anterior's approach gets brilliant. They built a custom interface w
 3. **Tag failure modes** (building that taxonomy)
 4. **Suggest domain knowledge** (the secret sauce)
 
-<CodeExample
-  title="Domain Knowledge Addition"
-  language="typescript"
-  code={`interface DomainKnowledgeAddition {
+### Domain Knowledge Addition
+
+```typescript
+interface DomainKnowledgeAddition {
   case_id: string;
   error_type: "interpretation" | "missing_context" | "ambiguous_term";
   
@@ -169,8 +169,8 @@ Here's where Anterior's approach gets brilliant. They built a custom interface w
     
   // How this applies
   impact: "Would have changed denial to approval";
-}`}
-/>
+}
+```
 
 The clinician can add this knowledge, it goes through automated testing, and if it improves performance on the test set—boom, it's live in production. Sometimes within hours.
 
@@ -201,10 +201,10 @@ Want to build your own domain-native AI? Here's the step-by-step:
 
 ### Phase 1: Measurement Infrastructure (Week 1-2)
 
-<CodeExample
-  title="Basic Measurement Setup"
-  language="python"
-  code={`class DomainExpertReview:
+### Basic Measurement Setup
+
+```python
+class DomainExpertReview:
     def __init__(self):
         self.metrics_tracker = MetricsDB()
         self.failure_modes = FailureModeDB()
@@ -226,8 +226,8 @@ Want to build your own domain-native AI? Here's the step-by-step:
                 expert_assessment.domain_insight
             )
             
-        return ReviewResult(is_correct, failure_mode)`}
-/>
+        return ReviewResult(is_correct, failure_mode)
+```
 
 ### Phase 2: Failure Mode Discovery (Week 3-4)
 
@@ -248,10 +248,10 @@ Build the review interface:
 
 ### Phase 4: The Improvement Loop (Ongoing)
 
-<CodeExample
-  title="Improvement Workflow"
-  language="python"
-  code={`def improvement_cycle(failure_mode_data):
+### Improvement Workflow
+
+```python
+def improvement_cycle(failure_mode_data):
     # 1. Engineer gets prioritized failure mode
     target_cases = failure_mode_data.get_examples(n=100)
     
@@ -276,8 +276,8 @@ Build the review interface:
     if passes_regression_tests(improved_model):
         deploy_to_production(improved_model)
         
-    return improvement_metrics`}
-/>
+    return improvement_metrics
+```
 
 ## The Counter-Intuitive Insights 💡
 

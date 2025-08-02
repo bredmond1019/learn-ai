@@ -20,10 +20,10 @@ Nice.
 
 Thankfully, instead of nuking all your code, you set up the pre-tool-use Claude Code hook to prevent the tool use from happening at all. Every `rm` command was completely blocked, and Claude Code even has a voice to let you know when it's finished.
 
-<CodeExample
-  title="Security Hook: Blocking Dangerous Commands"
-  language="python"
-  code={`#!/usr/bin/env python3
+### Security Hook: Blocking Dangerous Commands
+
+```python
+#!/usr/bin/env python3
 # save as: ~/.claude/hooks/pre-tool-use
 
 import sys
@@ -43,8 +43,8 @@ if event['tool_name'] == 'bash':
             sys.exit(1)  # Block the tool use
 
 # Allow safe commands
-sys.exit(0)`}
-/>
+sys.exit(0)
+```
 
 This is just the tip of the iceberg of what you can do with hooks.
 
@@ -96,25 +96,25 @@ Fires before context compaction. Use for:
 
 Let's build a complete logging system that captures every action your agent takes:
 
-<CodeExample
-  title="Comprehensive Logging Setup"
-  language="bash"
-  code={`# Directory structure
+### Comprehensive Logging Setup
+
+```bash
+# Directory structure
 ~/.claude/
 ├── hooks/
 │   ├── pre-prompt
 │   ├── pre-tool-use
 │   ├── post-tool-use
 │   └── stop
-└── settings.yaml`}
-/>
+└── settings.yaml
+```
 
 ### The Logging Hook
 
-<CodeExample
-  title="Universal Logging Hook"
-  language="python"
-  code={`#!/usr/bin/env python3
+### Universal Logging Hook
+
+```python
+#!/usr/bin/env python3
 # save as: ~/.claude/hooks/send-event.py
 
 import sys
@@ -145,15 +145,15 @@ event = json.loads(sys.stdin.read())
 send_event(sys.argv[1], event)
 
 # Always allow continuation
-sys.exit(0)`}
-/>
+sys.exit(0)
+```
 
 ### Configuring Multiple Hooks
 
-<CodeExample
-  title="Claude Settings Configuration"
-  language="yaml"
-  code={`# ~/.claude/settings.yaml
+### Claude Settings Configuration
+
+```yaml
+# ~/.claude/settings.yaml
 hooks:
   pre-prompt:
     - ~/.claude/hooks/pre-prompt-security.py
@@ -169,17 +169,17 @@ hooks:
   
   stop:
     - ~/.claude/hooks/voice-notification.py
-    - ~/.claude/hooks/save-transcript.py`}
-/>
+    - ~/.claude/hooks/save-transcript.py
+```
 
 ## Adding Voice Feedback 🔊
 
 One of the most powerful patterns is adding natural language feedback to your agents:
 
-<CodeExample
-  title="Text-to-Speech Notification Hook"
-  language="python"
-  code={`#!/usr/bin/env python3
+### Text-to-Speech Notification Hook
+
+```python
+#!/usr/bin/env python3
 # save as: ~/.claude/hooks/voice-notification.py
 
 import sys
@@ -197,8 +197,8 @@ content = last_message.get('content', '')
 summary = f"Task complete. {content[:100]}..."
 
 # Use macOS say command (or your TTS of choice)
-subprocess.run(['say', summary])`}
-/>
+subprocess.run(['say', summary])
+```
 
 <Callout type="success">
 **Real-World Impact**: With voice notifications, you can run long-running async jobs and be notified when they complete, without constantly checking your terminal.
@@ -208,10 +208,10 @@ subprocess.run(['say', summary])`}
 
 ### Pattern 1: Security Filtering
 
-<CodeExample
-  title="Multi-Layer Security"
-  language="python"
-  code={`# Check file paths
+### Multi-Layer Security
+
+```python
+# Check file paths
 if tool_name == 'write_file':
     path = args.get('path', '')
     if path.startswith('/etc/') or path.startswith('/sys/'):
@@ -221,17 +221,17 @@ if tool_name == 'write_file':
 if tool_name == 'curl':
     url = args.get('url', '')
     if 'internal' in url or '192.168' in url:
-        exit_with_error("Cannot access internal networks")`}
-/>
+        exit_with_error("Cannot access internal networks")
+```
 
 ### Pattern 2: Smart Summarization
 
 Using small, fast models to summarize actions:
 
-<CodeExample
-  title="AI-Powered Summaries"
-  language="python"
-  code={`# In your post-tool-use hook
+### AI-Powered Summaries
+
+```python
+# In your post-tool-use hook
 import anthropic
 
 client = anthropic.Client()
@@ -247,32 +247,32 @@ summary = client.messages.create(
 ).content[0].text
 
 # Add to event data for logging
-event['summary'] = summary`}
-/>
+event['summary'] = summary
+```
 
 ### Pattern 3: Conditional Tool Access
 
-<CodeExample
-  title="Time-Based Permissions"
-  language="python"
-  code={`from datetime import datetime
+### Time-Based Permissions
+
+```python
+from datetime import datetime
 
 current_hour = datetime.now().hour
 
 # Restrict dangerous operations to business hours
 if event['tool_name'] in ['deploy', 'migrate_database']:
     if current_hour < 9 or current_hour > 17:
-        exit_with_error("Deployment operations only allowed 9 AM - 5 PM")`}
-/>
+        exit_with_error("Deployment operations only allowed 9 AM - 5 PM")
+```
 
 ## Building a Complete Observability Dashboard 📈
 
 With hooks sending events, you can build a real-time dashboard:
 
-<CodeExample
-  title="Simple Event Server"
-  language="typescript"
-  code={`// server.ts
+### Simple Event Server
+
+```typescript
+// server.ts
 import { serve } from 'bun';
 import { Database } from 'bun:sqlite';
 
@@ -311,8 +311,8 @@ serve({
       clients.delete(ws);
     }
   }
-});`}
-/>
+});
+```
 
 ## Best Practices 🎯
 
@@ -337,16 +337,16 @@ except:
 Run multiple hooks for the same event—security first, then logging, then notifications.
 
 ### 5. **Test Your Hooks**
-<CodeExample
-  title="Testing Hooks Locally"
-  language="bash"
-  code={`# Test a hook manually
+### Testing Hooks Locally
+
+```bash
+# Test a hook manually
 echo '{"tool_name": "bash", "arguments": {"command": "ls"}}' | \
   ~/.claude/hooks/pre-tool-use
 
 # Check exit code
-echo $?  # Should be 0 for allowed, 1 for blocked`}
-/>
+echo $?  # Should be 0 for allowed, 1 for blocked
+```
 
 <Callout type="warning">
 **Security Note**: Always validate and sanitize data in your hooks. Remember that agents can generate arbitrary content.

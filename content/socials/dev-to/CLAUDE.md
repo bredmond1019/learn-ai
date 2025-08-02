@@ -2,6 +2,13 @@
 
 This guide helps Claude (and you) remember how to use the Dev.to API functionality.
 
+## Website Information
+
+**Main Website**: https://learn-agentic-ai.com
+- Use this URL when referencing blog posts or learning paths in Dev.to articles
+- Blog format: `https://learn-agentic-ai.com/blog/[slug]`
+- Learning paths: `https://learn-agentic-ai.com/en/learn/paths/[path-id]`
+
 ## Quick Start
 
 ### Publishing Articles

@@ -59,10 +59,10 @@ O Claude Code fornece cinco eventos de hook poderosos que disparam em pontos esp
 
 Este hook dispara **antes** de qualquer ferramenta ser executada, dando-lhe o poder de inspecionar e potencialmente bloquear operações.
 
-<CodeExample
-  title="Hook PreToolUse Básico"
-  language="json"
-  code={`{
+### Hook PreToolUse Básico
+
+```json
+{
   "hooks": {
     "PreToolUse": [{
       "matcher": ".*",
@@ -72,8 +72,8 @@ Este hook dispara **antes** de qualquer ferramenta ser executada, dando-lhe o po
       }]
     }]
   }
-}`}
-/>
+}
+```
 
 **Casos de Uso Comuns:**
 - Bloquear comandos perigosos (`rm -rf`, `sudo`, etc.)
@@ -85,10 +85,10 @@ Este hook dispara **antes** de qualquer ferramenta ser executada, dando-lhe o po
 
 Dispara **após** uma ferramenta ser concluída, perfeito para logging e monitoramento.
 
-<CodeExample
-  title="Logging com PostToolUse"
-  language="json"
-  code={`{
+### Logging com PostToolUse
+
+```json
+{
   "PostToolUse": [{
     "matcher": "Edit|Write",
     "hooks": [{
@@ -96,8 +96,8 @@ Dispara **após** uma ferramenta ser concluída, perfeito para logging e monitor
       "command": "uv run scripts/log_changes.py"
     }]
   }]
-}`}
-/>
+}
+```
 
 **Casos de Uso Comuns:**
 - Registrar todas as modificações de arquivo
@@ -109,10 +109,10 @@ Dispara **após** uma ferramenta ser concluída, perfeito para logging e monitor
 
 Dispara quando Claude precisa de sua entrada ou quer notificá-lo de algo importante.
 
-<CodeExample
-  title="Hook de Notificação por Voz"
-  language="json"
-  code={`{
+### Hook de Notificação por Voz
+
+```json
+{
   "Notification": [{
     "matcher": ".*",
     "hooks": [{
@@ -120,17 +120,17 @@ Dispara quando Claude precisa de sua entrada ou quer notificá-lo de algo import
       "command": "echo 'Claude precisa da sua atenção' | say"
     }]
   }]
-}`}
-/>
+}
+```
 
 ### 4. Stop - Sessão Completa
 
 Executa quando Claude termina de responder, ideal para limpeza e ações finais.
 
-<CodeExample
-  title="Salvar Log do Chat ao Parar"
-  language="json"
-  code={`{
+### Salvar Log do Chat ao Parar
+
+```json
+{
   "Stop": [{
     "matcher": ".*",
     "hooks": [{
@@ -138,8 +138,8 @@ Executa quando Claude termina de responder, ideal para limpeza e ações finais.
       "command": "python scripts/save_chat.py --format json"
     }]
   }]
-}`}
-/>
+}
+```
 
 ### 5. SubagentStop - Processamento Paralelo
 
@@ -157,10 +157,10 @@ Um dos usos mais críticos dos hooks é prevenir desastres antes que aconteçam.
 
 Comece com um script Python simples que verifica comandos perigosos:
 
-<CodeExample
-  title="scripts/safety_check.py"
-  language="python"
-  code={`#!/usr/bin/env python3
+### scripts/safety_check.py
+
+```python
+#!/usr/bin/env python3
 import os
 import sys
 import json
@@ -188,17 +188,17 @@ def verificar_seguranca_comando():
     return True
 
 if __name__ == "__main__":
-    verificar_seguranca_comando()`}
-/>
+    verificar_seguranca_comando()
+```
 
 ### Segurança Avançada com Listas de Permissão
 
 Para ambientes de produção, use uma abordagem de lista de permissão:
 
-<CodeExample
-  title="Configuração Avançada de Segurança"
-  language="python"
-  code={`PADROES_PERMITIDOS = {
+### Configuração Avançada de Segurança
+
+```python
+PADROES_PERMITIDOS = {
     'npm': ['install', 'run', 'test', 'build'],
     'git': ['status', 'diff', 'log', 'add', 'commit'],
     'python': ['*.py', '-m pytest'],
@@ -217,8 +217,8 @@ def validar_contra_lista_permissao(comando):
     # Verificar se comando corresponde aos padrões permitidos
     permitidos = PADROES_PERMITIDOS[cmd_base]
     return any(padrao_corresponde(comando, padrao) 
-               for padrao in permitidos)`}
-/>
+               for padrao in permitidos)
+```
 
 ## Construindo Observabilidade {#observability}
 
@@ -228,10 +228,10 @@ Observabilidade é crucial para entender e melhorar o comportamento do seu agent
 
 Crie logs detalhados e estruturados que capturam tudo que seu agente faz:
 
-<CodeExample
-  title="Sistema de Logging Abrangente"
-  language="python"
-  code={`import json
+### Sistema de Logging Abrangente
+
+```python
+import json
 import time
 from datetime import datetime
 from pathlib import Path
@@ -261,17 +261,17 @@ class HookLogger:
         
         arquivo_log = self.log_dir / "chat.json"
         with open(arquivo_log, 'w') as f:
-            json.dump(dados_chat, f, indent=2)`}
-/>
+            json.dump(dados_chat, f, indent=2)
+```
 
 ### Analisando Comportamento do Agente
 
 Use os logs para entender padrões e otimizar fluxos de trabalho:
 
-<CodeExample
-  title="Script de Análise de Log"
-  language="python"
-  code={`def analisar_uso_ferramenta(arquivo_log):
+### Script de Análise de Log
+
+```python
+def analisar_uso_ferramenta(arquivo_log):
     with open(arquivo_log) as f:
         logs = [json.loads(linha) for linha in f]
     
@@ -289,8 +289,8 @@ Use os logs para entender padrões e otimizar fluxos de trabalho:
         'operacoes_totais': len(logs),
         'uso_ferramentas': contagem_ferramentas,
         'arquivos_modificados': len(set(e['caminho_arquivo'] for e in logs if e.get('caminho_arquivo')))
-    }`}
-/>
+    }
+```
 
 ## Padrões Avançados de Hook {#advanced-patterns}
 
@@ -298,10 +298,10 @@ Use os logs para entender padrões e otimizar fluxos de trabalho:
 
 Transforme sua experiência de desenvolvimento com feedback de áudio:
 
-<CodeExample
-  title="Integração Completa de Voz"
-  language="python"
-  code={`# scripts/assistente_voz.py
+### Integração Completa de Voz
+
+```python
+# scripts/assistente_voz.py
 import pyttsx3
 import os
 
@@ -318,17 +318,17 @@ class AssistenteVoz:
         self.falar(f"Erro detectado: {msg_erro}")
     
     def atualizar_progresso(self, atual, total):
-        self.falar(f"Progresso: {atual} de {total} concluído")`}
-/>
+        self.falar(f"Progresso: {atual} de {total} concluído")
+```
 
 ### Coordenação de Agentes Paralelos
 
 Gerencie múltiplos agentes trabalhando simultaneamente:
 
-<CodeExample
-  title="Monitoramento de Agentes Paralelos"
-  language="json"
-  code={`{
+### Monitoramento de Agentes Paralelos
+
+```json
+{
   "SubagentStop": [{
     "matcher": ".*",
     "hooks": [
@@ -342,17 +342,17 @@ Gerencie múltiplos agentes trabalhando simultaneamente:
       }
     ]
   }]
-}`}
-/>
+}
+```
 
 ### Integração com Ferramentas Externas
 
 Conecte Claude ao seu ecossistema de desenvolvimento existente:
 
-<CodeExample
-  title="Integração com Slack"
-  language="python"
-  code={`import requests
+### Integração com Slack
+
+```python
+import requests
 
 def notificar_slack(mensagem, canal="#dev-notificacoes"):
     webhook_url = os.environ.get('SLACK_WEBHOOK_URL')
@@ -364,8 +364,8 @@ def notificar_slack(mensagem, canal="#dev-notificacoes"):
         "icon_emoji": ":robot_face:"
     }
     
-    requests.post(webhook_url, json=payload)`}
-/>
+    requests.post(webhook_url, json=payload)
+```
 
 <Callout type="warning">
   **Nota de Segurança**: Nunca codifique URLs de webhook ou chaves de API diretamente. Sempre use variáveis de ambiente e mantenha dados sensíveis fora de seus scripts de hook.
@@ -385,10 +385,10 @@ Crie uma configuração abrangente de hook que:
 4. **Salve contexto do chat** para análise
 5. **Gerencie agentes paralelos** graciosamente
 
-<CodeExample
-  title="Configuração Completa de Hook"
-  language="json"
-  code={`{
+### Configuração Completa de Hook
+
+```json
+{
   "hooks": {
     "PreToolUse": [{
       "matcher": ".*",
@@ -432,8 +432,8 @@ Crie uma configuração abrangente de hook que:
       }]
     }]
   }
-}`}
-/>
+}
+```
 
 ### Tarefas Desafio
 

@@ -51,10 +51,10 @@ Before we dive into the building blocks, you need to understand this critical di
 - Errors compound silently
 - Determinism is crucial
 
-<CodeExample
-  title="The Difference in Practice"
-  language="python"
-  code={`# Type 1: AI Assistant (Multiple LLM calls OK)
+### The Difference in Practice
+
+```python
+# Type 1: AI Assistant (Multiple LLM calls OK)
 def ai_assistant_approach(user_query):
     # Let the LLM explore and use multiple tools
     response = llm.chat(
@@ -78,8 +78,8 @@ def automation_approach(ticket_data):
         )
         return validate_and_process(response)
     
-    return standard_response(ticket_data)`}
-/>
+    return standard_response(ticket_data)
+```
 
 Most of you aren't building the next ChatGPT. You're building backend automations. So let's focus on that.
 
@@ -87,10 +87,10 @@ Most of you aren't building the next ChatGPT. You're building backend automation
 
 This is the only actual AI component. Everything else is just software engineering.
 
-<CodeExample
-  title="1_intelligence.py - The Simplest LLM Call"
-  language="python"
-  code={`from openai import OpenAI
+### 1_intelligence.py - The Simplest LLM Call
+
+```python
+from openai import OpenAI
 
 client = OpenAI()
 
@@ -106,8 +106,8 @@ def get_llm_response(prompt):
 
 # Example usage
 result = get_llm_response("Explain quantum computing in one sentence")
-print(result)`}
-/>
+print(result)
+```
 
 That's it. No frameworks. No abstractions. Just an API call.
 
@@ -117,10 +117,10 @@ That's it. No frameworks. No abstractions. Just an API call.
 
 LLMs are goldfish. They remember nothing. You have to manually maintain conversation state.
 
-<CodeExample
-  title="2_memory.py - Maintaining Conversation History"
-  language="python"
-  code={`def chat_with_memory(conversation_history, new_message):
+### 2_memory.py - Maintaining Conversation History
+
+```python
+def chat_with_memory(conversation_history, new_message):
     """Maintain conversation state across interactions"""
     
     # Add new message to history
@@ -145,10 +145,10 @@ LLMs are goldfish. They remember nothing. You have to manually maintain conversa
 history = []
 response1, history = chat_with_memory(history, "My name is Dave")
 response2, history = chat_with_memory(history, "What's my name?")
-# Response2: "Your name is Dave"`}
-/>
+# Response2: "Your name is Dave"
+```
 
-<Callout type="insight">
+<Callout type="info">
 **Pro tip**: In production, store conversation history in a database, not memory. Add user IDs, timestamps, and token counts for proper management.
 </Callout>
 
@@ -156,10 +156,10 @@ response2, history = chat_with_memory(history, "What's my name?")
 
 Sometimes your LLM needs to actually DO things, not just talk. That's where tools come in.
 
-<CodeExample
-  title="3_tools.py - Function Calling Pattern"
-  language="python"
-  code={`def get_weather(location: str) -> str:
+### 3_tools.py - Function Calling Pattern
+
+```python
+def get_weather(location: str) -> str:
     """Simulated weather API call"""
     # In reality, this would call a weather API
     return f"Weather in {location}: 72°F, sunny"
@@ -219,8 +219,8 @@ def chat_with_tools(prompt):
             
             return final_response.choices[0].message.content
     
-    return message.content`}
-/>
+    return message.content
+```
 
 **Critical insight**: Tools require multiple LLM calls. Use sparingly in production.
 
@@ -228,10 +228,10 @@ def chat_with_tools(prompt):
 
 The secret to reliable AI systems? Force LLMs to return structured data you can validate.
 
-<CodeExample
-  title="4_validation.py - Structured Output with Pydantic"
-  language="python"
-  code={`from pydantic import BaseModel
+### 4_validation.py - Structured Output with Pydantic
+
+```python
+from pydantic import BaseModel
 from typing import Literal
 
 class TaskExtraction(BaseModel):
@@ -267,8 +267,8 @@ print(f"Due: {task_info.due_date}")
 
 # Now you can use this data programmatically
 if task_info.priority == "high":
-    send_urgent_notification(task_info)`}
-/>
+    send_urgent_notification(task_info)
+```
 
 <Callout type="success">
 **Game changer**: Structured output turns unreliable text generation into reliable data extraction. This is how you build systems you can trust.
@@ -278,10 +278,10 @@ if task_info.priority == "high":
 
 Here's where Dave's approach gets brilliant. Instead of letting LLMs make every decision, use them for classification, then handle routing with good old if/else statements.
 
-<CodeExample
-  title="5_control.py - Smart Routing Pattern"
-  language="python"
-  code={`from pydantic import BaseModel
+### 5_control.py - Smart Routing Pattern
+
+```python
+from pydantic import BaseModel
 from typing import Literal
 
 class IntentClassification(BaseModel):
@@ -330,8 +330,8 @@ def handle_complaint(message: str, confidence: float):
         return escalate_to_human(message)
     else:
         # Get more information
-        return "I understand you have a concern. Could you provide more details?"`}
-/>
+        return "I understand you have a concern. Could you provide more details?"
+```
 
 **Why this beats tool calling**:
 1. Full visibility into decision-making
@@ -343,10 +343,10 @@ def handle_complaint(message: str, confidence: float):
 
 Production reality: Everything fails. APIs go down. LLMs return nonsense. Rate limits hit. Plan for it.
 
-<CodeExample
-  title="6_recovery.py - Production-Grade Error Handling"
-  language="python"
-  code={`import time
+### 6_recovery.py - Production-Grade Error Handling
+
+```python
+import time
 from typing import Optional
 import logging
 
@@ -407,8 +407,8 @@ def safe_process_ticket(ticket):
         elif "technical" in ticket.lower():
             return "I've created a support ticket for our technical team."
         else:
-            return "Thank you for contacting us. A human agent will respond within 24 hours."`}
-/>
+            return "Thank you for contacting us. A human agent will respond within 24 hours."
+```
 
 <Callout type="warning">
 **Production tip**: Always have a fallback. It's better to give a generic response than to crash.
@@ -418,10 +418,10 @@ def safe_process_ticket(ticket):
 
 For critical operations, add approval checkpoints. Not everything should be fully autonomous.
 
-<CodeExample
-  title="7_feedback.py - Human Approval Pattern"
-  language="python"
-  code={`from enum import Enum
+### 7_feedback.py - Human Approval Pattern
+
+```python
+from enum import Enum
 from datetime import datetime
 
 class ApprovalStatus(Enum):
@@ -493,17 +493,17 @@ def send_customer_email(customer_id: str, issue: str):
     if email_content:
         send_email(customer_id, email_content)
     else:
-        log_failed_generation(customer_id, issue)`}
-/>
+        log_failed_generation(customer_id, issue)
+```
 
 ## Putting It All Together: The Production Pattern 🏗️
 
 Here's how these building blocks combine into a production-ready system:
 
-<CodeExample
-  title="Complete Workflow Example"
-  language="python"
-  code={`class ReliableAIAgent:
+### Complete Workflow Example
+
+```python
+class ReliableAIAgent:
     def __init__(self):
         self.memory = {}  # Building Block 2
         self.error_count = 0  # Building Block 6
@@ -569,14 +569,14 @@ Here's how these building blocks combine into a production-ready system:
                         confidence=0.0,
                         reasoning="Classification failed"
                     )
-                continue`}
-/>
+                continue
+```
 
 ## The Shocking Truth About Production AI 🤯
 
 After building 20+ production systems, here's what Dave discovered:
 
-<Callout type="insight">
+<Callout type="info">
 **The 90/10 Rule**: 90% of your "AI" system should be deterministic code. Only 10% should involve LLM calls.
 
 Most successful AI applications are just regular software with strategic LLM calls placed exactly where they add value.

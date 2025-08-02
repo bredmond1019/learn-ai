@@ -56,10 +56,10 @@ Sub-agents are not just parallel Claude instances—they're a fundamentally diff
 
 ### The Communication Flow
 
-<CodeExample
-  title="Sub-Agent Architecture"
-  language="text"
-  code={`┌─────────┐      ┌───────────────┐      ┌──────────────┐
+### Sub-Agent Architecture
+
+```text
+┌─────────┐      ┌───────────────┐      ┌──────────────┐
 │   YOU   │ ───► │ PRIMARY AGENT │ ───► │  SUB-AGENT   │
 │         │      │ (Orchestrator)│      │ (Specialist) │
 │         │ ◄─── │               │ ◄─── │              │
@@ -69,8 +69,8 @@ Sub-agents are not just parallel Claude instances—they're a fundamentally diff
                          │
         ┌────────────────┼────────────────┐
         ▼                ▼                ▼
-   Code Reviewer    Test Generator   Doc Writer`}
-/>
+   Code Reviewer    Test Generator   Doc Writer
+```
 
 <Callout type="warning">
   **Critical Understanding**: Sub-agents respond to your PRIMARY agent, not to you. This changes everything about how you design their prompts and communication protocols.
@@ -78,10 +78,10 @@ Sub-agents are not just parallel Claude instances—they're a fundamentally diff
 
 ### Sub-Agent Configuration Structure
 
-<CodeExample
-  title="Sub-Agent YAML Configuration"
-  language="yaml"
-  code={`# .claude/agents/code-reviewer.yaml
+### Sub-Agent YAML Configuration
+
+```yaml
+# .claude/agents/code-reviewer.yaml
 name: code-reviewer
 description: |
   Triggers: "review code", "check PR", "security audit"
@@ -117,17 +117,17 @@ prompt: |
   Severity levels: CRITICAL, HIGH, MEDIUM, LOW, INFO
   
   ## Important Context
-  You have NO conversation history. The primary agent will provide all necessary context.`}
-/>
+  You have NO conversation history. The primary agent will provide all necessary context.
+```
 
 ### The Two Big Mistakes to Avoid
 
 #### Mistake #1: Misunderstanding the System Prompt
 
-<CodeExample
-  title="Wrong vs Right Sub-Agent Design"
-  language="yaml"
-  code={`# ❌ WRONG - Treating it like a user prompt
+### Wrong vs Right Sub-Agent Design
+
+```yaml
+# ❌ WRONG - Treating it like a user prompt
 prompt: |
   Review the code and tell me what's wrong
   
@@ -142,17 +142,17 @@ prompt: |
   - Review type (security/performance/general)
   
   ## Output Format
-  Respond with: "Tell the user: [structured findings]"`}
-/>
+  Respond with: "Tell the user: [structured findings]"
+```
 
 #### Mistake #2: Assuming Context
 
 Sub-agents start with a completely fresh context. They know nothing about your conversation, your project, or even what you're trying to accomplish.
 
-<CodeExample
-  title="Context-Aware Sub-Agent Design"
-  language="yaml"
-  code={`description: |
+### Context-Aware Sub-Agent Design
+
+```yaml
+description: |
   When prompting this agent, ALWAYS provide:
   1. Current project context
   2. Specific files or code sections
@@ -161,8 +161,8 @@ Sub-agents start with a completely fresh context. They know nothing about your c
   
   Example prompt from primary agent:
   "Review the authentication module in src/auth.js for security vulnerabilities. 
-   This is a Node.js Express app using JWT tokens. Focus on token validation and user input sanitization."`}
-/>
+   This is a Node.js Express app using JWT tokens. Focus on token validation and user input sanitization."
+```
 
 ## Creating Effective Sub-Agents {#creating-sub-agents}
 
@@ -170,25 +170,25 @@ Sub-agents start with a completely fresh context. They know nothing about your c
 
 Each sub-agent should have a single, well-defined purpose:
 
-<CodeExample
-  title="Specialized Agent Examples"
-  language="bash"
-  code={`# Test Generator Agent
+### Specialized Agent Examples
+
+```bash
+# Test Generator Agent
 .claude/agents/
 ├── test-generator.yaml      # Writes comprehensive tests
 ├── performance-optimizer.yaml # Optimizes code performance
 ├── security-scanner.yaml    # Scans for vulnerabilities
 ├── doc-writer.yaml         # Generates documentation
 ├── refactorer.yaml         # Refactors code patterns
-└── dependency-updater.yaml # Updates and audits dependencies`}
-/>
+└── dependency-updater.yaml # Updates and audits dependencies
+```
 
 ### Step 2: Design Communication Protocols
 
-<CodeExample
-  title="Effective Communication Patterns"
-  language="yaml"
-  code={`# In your sub-agent prompt:
+### Effective Communication Patterns
+
+```yaml
+# In your sub-agent prompt:
 prompt: |
   ## Input Protocol
   Expect JSON input from primary agent:
@@ -206,15 +206,15 @@ prompt: |
     "tests_created": 5,
     "coverage_achieved": 85,
     "message": "Tell the user: Created 5 comprehensive test cases achieving 85% coverage"
-  }`}
-/>
+  }
+```
 
 ### Step 3: Implement Tool Restrictions
 
-<CodeExample
-  title="Minimal Tool Assignment"
-  language="yaml"
-  code={`# Documentation agent - read only
+### Minimal Tool Assignment
+
+```yaml
+# Documentation agent - read only
 tools:
   - read_file
   - grep
@@ -229,8 +229,8 @@ tools:
 tools:
   - bash
   - read_file
-  # NO write_file - prevent accidental production changes`}
-/>
+  # NO write_file - prevent accidental production changes
+```
 
 ## Building Meta-Agents {#meta-agents}
 
@@ -238,10 +238,10 @@ Meta-agents are agents that create other agents—automation creating automation
 
 ### The Meta-Agent Pattern
 
-<CodeExample
-  title="Meta-Agent Configuration"
-  language="yaml"
-  code={`# .claude/agents/meta-agent.yaml
+### Meta-Agent Configuration
+
+```yaml
+# .claude/agents/meta-agent.yaml
 name: meta-agent
 description: |
   PROACTIVELY use when user needs:
@@ -286,15 +286,15 @@ prompt: |
   ## Critical Reminders
   - Sub-agents have NO conversation context
   - They only know what the primary agent tells them
-  - Design for standalone operation`}
-/>
+  - Design for standalone operation
+```
 
 ### Meta-Agent in Action
 
-<CodeExample
-  title="Using Meta-Agent to Build Agents"
-  language="bash"
-  code={`$ claude
+### Using Meta-Agent to Build Agents
+
+```bash
+$ claude
 > I need automation for our daily standup reports
 
 # Claude activates meta-agent
@@ -325,17 +325,17 @@ prompt: |
   
   ## Output
   "Tell the user: Here's your standup report:
-  [formatted report]"`}
-/>
+  [formatted report]"
+```
 
 ## Multi-Agent Orchestration Patterns {#orchestration-patterns}
 
 ### Pattern 1: Sequential Processing Pipeline
 
-<CodeExample
-  title="Sequential Agent Pipeline"
-  language="typescript"
-  code={`// .claude/commands/deploy-pipeline
+### Sequential Agent Pipeline
+
+```typescript
+// .claude/commands/deploy-pipeline
 #!/bin/bash
 # Sequential deployment pipeline with specialized agents
 
@@ -360,15 +360,15 @@ claude "use doc-writer to update API docs"
 # Step 5: Deploy
 claude "use deployment-agent to ship to staging"
 
-echo "✅ Pipeline complete!"`}
-/>
+echo "✅ Pipeline complete!"
+```
 
 ### Pattern 2: Parallel Specialization
 
-<CodeExample
-  title="Parallel Agent Execution"
-  language="bash"
-  code={`# Launch specialized agents in parallel
+### Parallel Agent Execution
+
+```bash
+# Launch specialized agents in parallel
 $ claude "/parallel-refactor analyze src/ and refactor:
   - frontend-expert: Optimize React components
   - backend-expert: Improve API performance  
@@ -376,15 +376,15 @@ $ claude "/parallel-refactor analyze src/ and refactor:
   - test-expert: Update affected tests"
 
 # Agents work simultaneously on different aspects
-# Primary agent coordinates and merges results`}
-/>
+# Primary agent coordinates and merges results
+```
 
 ### Pattern 3: Hierarchical Delegation
 
-<CodeExample
-  title="Hierarchical Agent Structure"
-  language="yaml"
-  code={`# Master architect agent
+### Hierarchical Agent Structure
+
+```yaml
+# Master architect agent
 name: system-architect
 delegates_to:
   - frontend-lead
@@ -406,15 +406,15 @@ specialty: "React component implementation"
 capabilities:
   - Component optimization
   - Hook patterns
-  - State management`}
-/>
+  - State management
+```
 
 ### Pattern 4: Event-Driven Agents
 
-<CodeExample
-  title="Event-Triggered Agent Activation"
-  language="typescript"
-  code={`// Event-driven agent system
+### Event-Triggered Agent Activation
+
+```typescript
+// Event-driven agent system
 const agentTriggers = {
   'file:changed:*.test.js': 'test-runner',
   'pr:opened': 'code-reviewer',
@@ -424,8 +424,8 @@ const agentTriggers = {
 };
 
 // Agents activate based on events
-// No manual orchestration needed`}
-/>
+// No manual orchestration needed
+```
 
 ## Observability at Scale {#observability-scale}
 
@@ -433,10 +433,10 @@ As you scale to 10+ agents, observability becomes critical.
 
 ### Building a Real-Time Observatory
 
-<CodeExample
-  title="Multi-Agent Observability Architecture"
-  language="text"
-  code={`┌─────────────┬─────────────┬─────────────┬─────────────┐
+### Multi-Agent Observability Architecture
+
+```text
+┌─────────────┬─────────────┬─────────────┬─────────────┐
 │   Agent 1   │   Agent 2   │   Agent 3   │   Agent N   │
 │  (Frontend) │  (Backend)  │  (Testing)  │    (...)    │
 └──────┬──────┴──────┬──────┴──────┬──────┴──────┬──────┘
@@ -456,15 +456,15 @@ As you scale to 10+ agents, observability becomes critical.
                 │  • Activity Timeline  │
                 │  • Agent Health       │
                 │  • Performance Metrics│
-                └───────────────────────┘`}
-/>
+                └───────────────────────┘
+```
 
 ### Key Observability Metrics
 
-<CodeExample
-  title="Agent Performance Tracking"
-  language="python"
-  code={`# Track these metrics for each agent
+### Agent Performance Tracking
+
+```python
+# Track these metrics for each agent
 metrics = {
     'response_time': [],      # How fast agents complete tasks
     'success_rate': 0,        # Task completion percentage
@@ -477,8 +477,8 @@ metrics = {
 
 # Visualize in real-time dashboard
 # Alert on anomalies
-# Optimize based on patterns`}
-/>
+# Optimize based on patterns
+```
 
 <Callout type="info">
   **Scaling Tip**: Use AI summarization (Claude Haiku) for event descriptions. Thousands of summaries cost < $0.20 and provide instant context.
@@ -499,10 +499,10 @@ Build a system that:
 
 ### Step 1: Create the Agent Ecosystem
 
-<CodeExample
-  title="Project Agent Structure"
-  language="bash"
-  code={`# Create agent directory structure
+### Project Agent Structure
+
+```bash
+# Create agent directory structure
 mkdir -p .claude/agents/code-review-system
 
 # Core agents needed:
@@ -513,15 +513,15 @@ mkdir -p .claude/agents/code-review-system
 ├── test-generator.yaml      # Creates missing tests
 ├── doc-updater.yaml        # Updates documentation
 ├── deploy-coordinator.yaml  # Manages deployment
-└── meta-agent.yaml         # Creates new agents as needed`}
-/>
+└── meta-agent.yaml         # Creates new agents as needed
+```
 
 ### Step 2: Implement the Orchestrator
 
-<CodeExample
-  title="Main Orchestration Script"
-  language="typescript"
-  code={`// orchestrator.ts
+### Main Orchestration Script
+
+```typescript
+// orchestrator.ts
 import { ClaudeCodeSDK } from '@anthropic/claude-code-sdk';
 
 class CodeReviewOrchestrator {
@@ -571,15 +571,15 @@ class CodeReviewOrchestrator {
     
     return result;
   }
-}`}
-/>
+}
+```
 
 ### Step 3: Add Comprehensive Observability
 
-<CodeExample
-  title="Observability Integration"
-  language="typescript"
-  code={`// Add to each agent configuration
+### Observability Integration
+
+```typescript
+// Add to each agent configuration
 hooks:
   PreToolUse:
     - command: "log-event.py --agent ${AGENT_NAME} --event pre-tool"
@@ -593,15 +593,15 @@ hooks:
 // - What files they're modifying
 // - Performance metrics
 // - Conflict detection
-// - Success/failure rates`}
-/>
+// - Success/failure rates
+```
 
 ### Step 4: Implement Conflict Resolution
 
-<CodeExample
-  title="Conflict Detection and Resolution"
-  language="python"
-  code={`def detect_conflicts(events):
+### Conflict Detection and Resolution
+
+```python
+def detect_conflicts(events):
     """Detect when multiple agents modify the same resources"""
     file_modifications = defaultdict(list)
     
@@ -627,15 +627,15 @@ hooks:
 # Resolution strategies:
 # 1. Sequential execution for conflicting files
 # 2. Designated "owner" agent per file type
-# 3. Manual intervention for critical conflicts`}
-/>
+# 3. Manual intervention for critical conflicts
+```
 
 ### Step 5: Deploy and Monitor
 
-<CodeExample
-  title="Deployment Configuration"
-  language="yaml"
-  code={`# .claude/deploy.yaml
+### Deployment Configuration
+
+```yaml
+# .claude/deploy.yaml
 stages:
   - name: pre-flight
     agents:
@@ -654,8 +654,8 @@ stages:
     agents:
       - performance-monitor
       - error-tracker
-    continuous: true`}
-/>
+    continuous: true
+```
 
 ## Common Pitfalls and Solutions {#pitfalls}
 

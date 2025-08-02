@@ -422,6 +422,22 @@ const learningPathsEn: LearningPath[] = [
         duration: '3 hours',
         type: 'project',
         content: 'SDK architecture and building production-ready tools'
+      },
+      {
+        id: 'mastering-claude-hooks',
+        title: 'Mastering Claude Hooks',
+        description: 'Transform Claude Code into a proactive development partner with hooks for safety, observability, and automation',
+        duration: '2 hours',
+        type: 'hands-on',
+        content: 'Hook system architecture, implementation patterns, and real-world use cases'
+      },
+      {
+        id: 'building-multi-agent-systems',
+        title: 'Building Multi-Agent Systems',
+        description: 'Master the art of orchestrating multiple Claude agents for complex workflows, from sub-agents to meta-agents',
+        duration: '3 hours',
+        type: 'project',
+        content: 'Multi-agent architecture, communication patterns, and orchestration strategies'
       }
     ]
   },
@@ -874,6 +890,22 @@ const learningPathsPtBR: LearningPath[] = [
         duration: '3 horas',
         type: 'project',
         content: 'Arquitetura do SDK e construção de ferramentas prontas para produção'
+      },
+      {
+        id: 'mastering-claude-hooks',
+        title: 'Dominando Claude Hooks',
+        description: 'Transforme o Claude Code em um parceiro de desenvolvimento proativo com hooks para segurança, observabilidade e automação',
+        duration: '2 horas',
+        type: 'hands-on',
+        content: 'Arquitetura do sistema de hooks, padrões de implementação e casos de uso do mundo real'
+      },
+      {
+        id: 'building-multi-agent-systems',
+        title: 'Construindo Sistemas Multi-Agentes',
+        description: 'Domine a arte de orquestrar múltiplos agentes Claude para fluxos de trabalho complexos, de sub-agentes a meta-agentes',
+        duration: '3 horas',
+        type: 'project',
+        content: 'Arquitetura multi-agente, padrões de comunicação e estratégias de orquestração'
       }
     ]
   },

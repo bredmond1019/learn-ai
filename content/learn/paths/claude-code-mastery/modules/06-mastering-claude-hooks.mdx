@@ -59,10 +59,10 @@ Claude Code provides five powerful hook events that fire at specific points in t
 
 This hook fires **before** any tool runs, giving you the power to inspect and potentially block operations.
 
-<CodeExample
-  title="Basic PreToolUse Hook"
-  language="json"
-  code={`{
+### Basic PreToolUse Hook
+
+```json
+{
   "hooks": {
     "PreToolUse": [{
       "matcher": ".*",
@@ -72,8 +72,8 @@ This hook fires **before** any tool runs, giving you the power to inspect and po
       }]
     }]
   }
-}`}
-/>
+}
+```
 
 **Common Use Cases:**
 - Block dangerous commands (`rm -rf`, `sudo`, etc.)
@@ -85,10 +85,10 @@ This hook fires **before** any tool runs, giving you the power to inspect and po
 
 Fires **after** a tool completes, perfect for logging and monitoring.
 
-<CodeExample
-  title="Logging with PostToolUse"
-  language="json"
-  code={`{
+### Logging with PostToolUse
+
+```json
+{
   "PostToolUse": [{
     "matcher": "Edit|Write",
     "hooks": [{
@@ -96,8 +96,8 @@ Fires **after** a tool completes, perfect for logging and monitoring.
       "command": "uv run scripts/log_changes.py"
     }]
   }]
-}`}
-/>
+}
+```
 
 **Common Use Cases:**
 - Log all file modifications
@@ -109,10 +109,10 @@ Fires **after** a tool completes, perfect for logging and monitoring.
 
 Triggers when Claude needs your input or wants to notify you of something important.
 
-<CodeExample
-  title="Voice Notification Hook"
-  language="json"
-  code={`{
+### Voice Notification Hook
+
+```json
+{
   "Notification": [{
     "matcher": ".*",
     "hooks": [{
@@ -120,17 +120,17 @@ Triggers when Claude needs your input or wants to notify you of something import
       "command": "echo 'Claude needs your attention' | say"
     }]
   }]
-}`}
-/>
+}
+```
 
 ### 4. Stop - Session Complete
 
 Executes when Claude finishes responding, ideal for cleanup and final actions.
 
-<CodeExample
-  title="Save Chat Log on Stop"
-  language="json"
-  code={`{
+### Save Chat Log on Stop
+
+```json
+{
   "Stop": [{
     "matcher": ".*",
     "hooks": [{
@@ -138,8 +138,8 @@ Executes when Claude finishes responding, ideal for cleanup and final actions.
       "command": "python scripts/save_chat.py --format json"
     }]
   }]
-}`}
-/>
+}
+```
 
 ### 5. SubagentStop - Parallel Processing
 
@@ -157,10 +157,10 @@ One of the most critical uses of hooks is preventing disasters before they happe
 
 Start with a simple Python script that checks for dangerous commands:
 
-<CodeExample
-  title="scripts/safety_check.py"
-  language="python"
-  code={`#!/usr/bin/env python3
+### scripts/safety_check.py
+
+```python
+#!/usr/bin/env python3
 import os
 import sys
 import json
@@ -188,17 +188,17 @@ def check_command_safety():
     return True
 
 if __name__ == "__main__":
-    check_command_safety()`}
-/>
+    check_command_safety()
+```
 
 ### Advanced Safety with Allowlists
 
 For production environments, use an allowlist approach:
 
-<CodeExample
-  title="Advanced Safety Configuration"
-  language="python"
-  code={`ALLOWED_PATTERNS = {
+### Advanced Safety Configuration
+
+```python
+ALLOWED_PATTERNS = {
     'npm': ['install', 'run', 'test', 'build'],
     'git': ['status', 'diff', 'log', 'add', 'commit'],
     'python': ['*.py', '-m pytest'],
@@ -217,8 +217,8 @@ def validate_against_allowlist(command):
     # Check if command matches allowed patterns
     allowed = ALLOWED_PATTERNS[base_cmd]
     return any(pattern_matches(command, pattern) 
-               for pattern in allowed)`}
-/>
+               for pattern in allowed)
+```
 
 ## Building Observability {#observability}
 
@@ -228,10 +228,10 @@ Observability is crucial for understanding and improving your agent's behavior. 
 
 Create detailed, structured logs that capture everything your agent does:
 
-<CodeExample
-  title="Comprehensive Logging System"
-  language="python"
-  code={`import json
+### Comprehensive Logging System
+
+```python
+import json
 import time
 from datetime import datetime
 from pathlib import Path
@@ -261,17 +261,17 @@ class HookLogger:
         
         log_file = self.log_dir / "chat.json"
         with open(log_file, 'w') as f:
-            json.dump(chat_data, f, indent=2)`}
-/>
+            json.dump(chat_data, f, indent=2)
+```
 
 ### Analyzing Agent Behavior
 
 Use the logs to understand patterns and optimize workflows:
 
-<CodeExample
-  title="Log Analysis Script"
-  language="python"
-  code={`def analyze_tool_usage(log_file):
+### Log Analysis Script
+
+```python
+def analyze_tool_usage(log_file):
     with open(log_file) as f:
         logs = [json.loads(line) for line in f]
     
@@ -289,8 +289,8 @@ Use the logs to understand patterns and optimize workflows:
         'total_operations': len(logs),
         'tool_usage': tool_counts,
         'files_modified': len(set(e['file_path'] for e in logs if e.get('file_path')))
-    }`}
-/>
+    }
+```
 
 ## Advanced Hook Patterns {#advanced-patterns}
 
@@ -298,10 +298,10 @@ Use the logs to understand patterns and optimize workflows:
 
 Transform your development experience with audio feedback:
 
-<CodeExample
-  title="Complete Voice Integration"
-  language="python"
-  code={`# scripts/voice_assistant.py
+### Complete Voice Integration
+
+```python
+# scripts/voice_assistant.py
 import pyttsx3
 import os
 
@@ -318,17 +318,17 @@ class VoiceAssistant:
         self.speak(f"Error detected: {error_msg}")
     
     def progress_update(self, current, total):
-        self.speak(f"Progress: {current} of {total} complete")`}
-/>
+        self.speak(f"Progress: {current} of {total} complete")
+```
 
 ### Parallel Agent Coordination
 
 Handle multiple agents working simultaneously:
 
-<CodeExample
-  title="Parallel Agent Monitoring"
-  language="json"
-  code={`{
+### Parallel Agent Monitoring
+
+```json
+{
   "SubagentStop": [{
     "matcher": ".*",
     "hooks": [
@@ -342,17 +342,17 @@ Handle multiple agents working simultaneously:
       }
     ]
   }]
-}`}
-/>
+}
+```
 
 ### Integration with External Tools
 
 Connect Claude to your existing development ecosystem:
 
-<CodeExample
-  title="Slack Integration"
-  language="python"
-  code={`import requests
+### Slack Integration
+
+```python
+import requests
 
 def notify_slack(message, channel="#dev-notifications"):
     webhook_url = os.environ.get('SLACK_WEBHOOK_URL')
@@ -364,8 +364,8 @@ def notify_slack(message, channel="#dev-notifications"):
         "icon_emoji": ":robot_face:"
     }
     
-    requests.post(webhook_url, json=payload)`}
-/>
+    requests.post(webhook_url, json=payload)
+```
 
 <Callout type="warning">
   **Security Note**: Never hardcode webhook URLs or API keys. Always use environment variables and keep sensitive data out of your hook scripts.
@@ -385,10 +385,10 @@ Create a comprehensive hook setup that:
 4. **Saves chat context** for analysis
 5. **Handles parallel agents** gracefully
 
-<CodeExample
-  title="Complete Hook Configuration"
-  language="json"
-  code={`{
+### Complete Hook Configuration
+
+```json
+{
   "hooks": {
     "PreToolUse": [{
       "matcher": ".*",
@@ -432,8 +432,8 @@ Create a comprehensive hook setup that:
       }]
     }]
   }
-}`}
-/>
+}
+```
 
 ### Challenge Tasks
 
@@ -448,10 +448,10 @@ As you scale from one Claude instance to many, observability becomes critical. L
 
 ### The Observability Architecture
 
-<CodeExample
-  title="Multi-Agent Observability Flow"
-  language="text"
-  code={`┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+### Multi-Agent Observability Flow
+
+```text
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │  Claude Agent 1 │     │  Claude Agent 2 │     │  Claude Agent 3 │
 │   (Frontend)    │     │   (Backend)     │     │   (Testing)     │
 └────────┬────────┘     └────────┬────────┘     └────────┬────────┘
@@ -470,15 +470,15 @@ As you scale from one Claude instance to many, observability becomes critical. L
               │   • Live Activity Pulse         │
               │   • Event Stream & Filtering   │
               │   • Agent Health Monitoring     │
-              └─────────────────────────────────┘`}
-/>
+              └─────────────────────────────────┘
+```
 
 ### Step 1: Enhanced Hook for Event Streaming
 
-<CodeExample
-  title="Universal Event Streaming Hook"
-  language="python"
-  code={`#!/usr/bin/env uv run
+### Universal Event Streaming Hook
+
+```python
+#!/usr/bin/env uv run
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
@@ -539,15 +539,15 @@ def main():
         pass  # Fail silently to not disrupt workflow
 
 if __name__ == "__main__":
-    main()`}
-/>
+    main()
+```
 
 ### Step 2: Real-Time Observability Server
 
-<CodeExample
-  title="Bun-Based Event Server"
-  language="typescript"
-  code={`// server.ts
+### Bun-Based Event Server
+
+```typescript
+// server.ts
 import { serve } from 'bun';
 import { Database } from 'bun:sqlite';
 
@@ -646,15 +646,15 @@ serve({
       clients.delete(ws);
     }
   }
-});`}
-/>
+});
+```
 
 ### Step 3: Live Dashboard Implementation
 
-<CodeExample
-  title="Real-Time Dashboard Component"
-  language="html"
-  code={`<!DOCTYPE html>
+### Real-Time Dashboard Component
+
+```html
+<!DOCTYPE html>
 <html>
 <head>
   <title>Claude Multi-Agent Observatory</title>
@@ -808,15 +808,15 @@ serve({
     }).mount('#app');
   </script>
 </body>
-</html>`}
-/>
+</html>
+```
 
 ### Step 4: Configure Hooks for Full Observability
 
-<CodeExample
-  title="Complete Observability Hook Configuration"
-  language="json"
-  code={`{
+### Complete Observability Hook Configuration
+
+```json
+{
   "hooks": {
     "PreToolUse": [{
       "matcher": ".*",
@@ -868,8 +868,8 @@ serve({
       ]
     }]
   }
-}`}
-/>
+}
+```
 
 ### Advanced Observability Patterns
 
@@ -879,10 +879,10 @@ serve({
 
 #### Pattern 1: Agent Health Monitoring
 
-<CodeExample
-  title="Agent Health Check Script"
-  language="python"
-  code={`#!/usr/bin/env uv run
+### Agent Health Check Script
+
+```python
+#!/usr/bin/env uv run
 # Check for stuck or inactive agents
 
 import sqlite3
@@ -912,15 +912,15 @@ def check_agent_health():
     conn.close()
 
 if __name__ == "__main__":
-    check_agent_health()`}
-/>
+    check_agent_health()
+```
 
 #### Pattern 2: Cross-Agent Conflict Detection
 
-<CodeExample
-  title="Detect File Conflicts Between Agents"
-  language="python"
-  code={`#!/usr/bin/env uv run
+### Detect File Conflicts Between Agents
+
+```python
+#!/usr/bin/env uv run
 # Detect when multiple agents modify the same files
 
 import json
@@ -960,8 +960,8 @@ def detect_conflicts():
     return conflicts
 
 if __name__ == "__main__":
-    detect_conflicts()`}
-/>
+    detect_conflicts()
+```
 
 ### Scaling Considerations
 

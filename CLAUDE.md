@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a production-ready portfolio website for Brandon J. Redmond, an AI Engineer & Agentic Systems Architect. Built with Next.js 15.3.3 (App Router), React 19, TypeScript 5, and Tailwind CSS 4. The site features full internationalization (English/Portuguese), a learning management system, MDX blog, and AI-powered content translation.
 
+**Live Website**: https://learn-agentic-ai.com
+
 ## Key Commands
 
 ### Development
@@ -200,6 +202,8 @@ npm run k8s:status      # Check Kubernetes pod status
 
 - **YouTube Transcript API**: See `lib/CLAUDE.md` for detailed documentation on the YouTube transcript fetching and management system, including API architecture, usage patterns, and integration points.
 - **Blog Writing Guide**: See `content/blog/CLAUDE.md` for comprehensive blog writing guidelines, style guide, MDX troubleshooting, and content management patterns.
+- **LinkedIn Social Posts**: See `content/socials/linkedin/CLAUDE.md` for LinkedIn post formatting and website URL guidelines.
+- **Dev.to Publishing**: See `content/socials/dev-to/CLAUDE.md` for Dev.to API usage, publishing workflows, and multi-part series guidelines.
 
 ## Common Development Patterns
 
