@@ -35,10 +35,10 @@ Sem observabilidade, você está voando às cegas.
 
 Dan fez um ponto crucial: observabilidade não é algo que você adiciona depois—é a fundação sobre a qual você constrói sistemas multi-agente.
 
-<CodeExample
-  title="Arquitetura de Observabilidade Multi-Agente"
-  language="yaml"
-  code={`arquitetura:
+### Arquitetura de Observabilidade Multi-Agente
+
+```yaml
+arquitetura:
   camada_central:
     nome: "Barramento de Eventos de Observabilidade"
     responsabilidade: "Capturar todos os eventos de agentes"
@@ -62,8 +62,8 @@ Dan fez um ponto crucial: observabilidade não é algo que você adiciona depois
     visualizador:
       - mostra: "Fluxo de execução em tempo real"
       - destaca: "Gargalos e falhas"
-      - permite: "Controle interativo"`}
-/>
+      - permite: "Controle interativo"
+```
 
 ## Construindo o Sistema Nervoso Central 🧠
 
@@ -71,10 +71,10 @@ Vamos construir um sistema real de observabilidade multi-agente usando hooks do 
 
 ### 1. O Barramento de Eventos Central
 
-<CodeExample
-  title="Barramento de Eventos Central para Todos os Agentes"
-  language="javascript"
-  code={`// event-bus.js - O sistema nervoso dos seus agentes
+### Barramento de Eventos Central para Todos os Agentes
+
+```javascript
+// event-bus.js - O sistema nervoso dos seus agentes
 class AgentEventBus {
   constructor() {
     this.events = new EventEmitter();
@@ -129,15 +129,15 @@ class AgentEventBus {
       subscriber.notify(eventType, data);
     });
   }
-}`}
-/>
+}
+```
 
 ### 2. Hooks Universais para Cada Agente
 
-<CodeExample
-  title="Sistema de Hooks com Consciência de Agente"
-  language="javascript"
-  code={`// hooks/multi-agent.js
+### Sistema de Hooks com Consciência de Agente
+
+```javascript
+// hooks/multi-agent.js
 export function createAgentHooks(agentId, eventBus) {
   return {
     'pre-prompt': async (prompt) => {
@@ -210,15 +210,15 @@ export function createAgentHooks(agentId, eventBus) {
       }
     }
   };
-}`}
-/>
+}
+```
 
 ### 3. Orquestrador de Agentes
 
-<CodeExample
-  title="Orquestrador Inteligente de Agentes"
-  language="javascript"
-  code={`// orchestrator.js
+### Orquestrador Inteligente de Agentes
+
+```javascript
+// orchestrator.js
 class AgentOrchestrator {
   constructor(eventBus) {
     this.eventBus = eventBus;
@@ -303,15 +303,15 @@ class AgentOrchestrator {
       await this.restartAgent(agentId);
     }
   }
-}`}
-/>
+}
+```
 
 ### 4. Visualização em Tempo Real
 
-<CodeExample
-  title="Dashboard de Observabilidade Multi-Agente"
-  language="javascript"
-  code={`// visualizer.js
+### Dashboard de Observabilidade Multi-Agente
+
+```javascript
+// visualizer.js
 class AgentVisualizer {
   constructor(eventBus) {
     this.eventBus = eventBus;
@@ -378,17 +378,17 @@ class AgentVisualizer {
         return { agentId, tool, count };
       });
   }
-}`}
-/>
+}
+```
 
 ## Padrões de Coordenação Multi-Agente 🎭
 
 ### Padrão 1: Supervisor-Trabalhador
 
-<CodeExample
-  title="Padrão Supervisor-Trabalhador com Observabilidade"
-  language="javascript"
-  code={`class SupervisorAgent {
+### Padrão Supervisor-Trabalhador com Observabilidade
+
+```javascript
+class SupervisorAgent {
   async orchestrateTask(task) {
     // Decompor tarefa
     const subtasks = this.decomposeTask(task);
@@ -425,15 +425,15 @@ class AgentVisualizer {
     
     return this.aggregateResults(results);
   }
-}`}
-/>
+}
+```
 
 ### Padrão 2: Pipeline de Processamento
 
-<CodeExample
-  title="Pipeline de Agentes com Observabilidade"
-  language="javascript"
-  code={`class AgentPipeline {
+### Pipeline de Agentes com Observabilidade
+
+```javascript
+class AgentPipeline {
   async process(input) {
     const stages = ['extract', 'transform', 'analyze', 'report'];
     let currentData = input;
@@ -484,17 +484,17 @@ class AgentVisualizer {
       });
     });
   }
-}`}
-/>
+}
+```
 
 ## Depuração de Viagem no Tempo 🕰️
 
 Uma das capacidades mais poderosas da observabilidade total é a capacidade de "voltar no tempo":
 
-<CodeExample
-  title="Sistema de Replay de Depuração"
-  language="javascript"
-  code={`class TimeTraveDebugger {
+### Sistema de Replay de Depuração
+
+```javascript
+class TimeTraveDebugger {
   constructor(eventBus) {
     this.eventBus = eventBus;
   }
@@ -556,15 +556,15 @@ Uma das capacidades mais poderosas da observabilidade total é a capacidade de "
       recommendations: this.generateRecommendations(trail)
     };
   }
-}`}
-/>
+}
+```
 
 ## Métricas e Alertas 📊
 
-<CodeExample
-  title="Sistema de Métricas Multi-Agente"
-  language="javascript"
-  code={`class AgentMetrics {
+### Sistema de Métricas Multi-Agente
+
+```javascript
+class AgentMetrics {
   constructor(eventBus) {
     this.eventBus = eventBus;
     this.metrics = new Map();
@@ -627,8 +627,8 @@ Uma das capacidades mais poderosas da observabilidade total é a capacidade de "
       message: 'Possível deadlock entre agentes detectado'
     });
   }
-}`}
-/>
+}
+```
 
 ## Casos de Uso do Mundo Real 🌍
 
@@ -654,7 +654,7 @@ Dan compartilhou exemplos impressionantes de observabilidade multi-agente em pro
 
 ## Implementando em Seu Sistema 🛠️
 
-<Callout type="action">
+<Callout type="success">
 **Guia de Implementação Passo a Passo**:
 
 1. **Semana 1**: Implemente barramento de eventos básico

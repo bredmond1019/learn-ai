@@ -27,7 +27,7 @@ IA está seguindo o mesmo caminho:
 
 Estamos entrando no Estágio 3, e é absolutamente selvagem.
 
-<Callout type="insight">
+<Callout type="info">
 **A Mudança de Paradigma**: Meta-agentes não executam trabalho diretamente—eles criam trabalhadores especializados otimizados para tarefas específicas, depois gerenciam sua execução.
 </Callout>
 
@@ -35,10 +35,10 @@ Estamos entrando no Estágio 3, e é absolutamente selvagem.
 
 Um meta-agente é fundamentalmente diferente de um agente normal:
 
-<CodeExample
-  title="Meta-Agente vs Agente Regular"
-  language="yaml"
-  code={`agente_regular:
+### Meta-Agente vs Agente Regular
+
+```yaml
+agente_regular:
   entrada: "Analise estes dados de vendas"
   processo: Executa análise diretamente
   saída: Resultados da análise
@@ -55,8 +55,8 @@ meta_agente:
     4. Orquestra execução
     5. Agrega resultados
     6. Desativa sub-agentes
-  saída: Resultados da análise + logs de execução`}
-/>
+  saída: Resultados da análise + logs de execução
+```
 
 A diferença chave? Meta-agentes pensam em termos de arquitetura de sistemas, não execução de tarefas.
 
@@ -64,10 +64,10 @@ A diferença chave? Meta-agentes pensam em termos de arquitetura de sistemas, n�
 
 Vamos construir um meta-agente real que pode criar sub-agentes dinamicamente:
 
-<CodeExample
-  title="Implementação Básica de Meta-Agente"
-  language="javascript"
-  code={`class MetaAgent {
+### Implementação Básica de Meta-Agente
+
+```javascript
+class MetaAgent {
   constructor(claudeCode) {
     this.claudeCode = claudeCode;
     this.activeAgents = new Map();
@@ -138,17 +138,17 @@ Vamos construir um meta-agente real que pode criar sub-agentes dinamicamente:
     
     return agents;
   }
-}`}
-/>
+}
+```
 
 ## Padrões Avançados de Meta-Agentes 🎯
 
 ### Padrão 1: Fábrica de Agentes Adaptativa
 
-<CodeExample
-  title="Fábrica que Aprende e Melhora"
-  language="javascript"
-  code={`class AdaptiveAgentFactory {
+### Fábrica que Aprende e Melhora
+
+```javascript
+class AdaptiveAgentFactory {
   constructor() {
     this.performanceHistory = new Map();
     this.agentBlueprints = new Map();
@@ -210,15 +210,15 @@ Vamos construir um meta-agente real que pode criar sub-agentes dinamicamente:
     // Aplicar otimizações aprendidas
     return this.applyOptimizations(blueprint, improvements, newRequirements);
   }
-}`}
-/>
+}
+```
 
 ### Padrão 2: Hierarquia de Agentes Auto-Organizável
 
-<CodeExample
-  title="Sistema que Se Reorganiza Dinamicamente"
-  language="javascript"
-  code={`class SelfOrganizingHierarchy {
+### Sistema que Se Reorganiza Dinamicamente
+
+```javascript
+class SelfOrganizingHierarchy {
   constructor(metaAgent) {
     this.metaAgent = metaAgent;
     this.hierarchy = new AgentHierarchy();
@@ -269,15 +269,15 @@ Vamos construir um meta-agente real que pode criar sub-agentes dinamicamente:
     // Migrar para nova estrutura
     await this.migrateToNewStructure(newStructure);
   }
-}`}
-/>
+}
+```
 
 ### Padrão 3: Agentes Evolutivos
 
-<CodeExample
-  title="Agentes que Evoluem e Se Aprimoram"
-  language="javascript"
-  code={`class EvolutionaryAgentSystem {
+### Agentes que Evoluem e Se Aprimoram
+
+```javascript
+class EvolutionaryAgentSystem {
   constructor() {
     this.population = [];
     this.generations = 0;
@@ -337,17 +337,17 @@ Vamos construir um meta-agente real que pode criar sub-agentes dinamicamente:
       }
     }
   }
-}`}
-/>
+}
+```
 
 ## Sub-Agentes vs Sessões Paralelas 🔄
 
 Dan fez uma distinção importante entre sub-agentes verdadeiros e sessões paralelas simples:
 
-<CodeExample
-  title="Sub-Agentes vs Sessões Paralelas"
-  language="javascript"
-  code={`// Sessões Paralelas (Simples)
+### Sub-Agentes vs Sessões Paralelas
+
+```javascript
+// Sessões Paralelas (Simples)
 class ParallelSessions {
   async process(tasks) {
     // Apenas executa tarefas em paralelo
@@ -394,17 +394,17 @@ class SubAgentSystem {
     
     return await this.orchestrate(agents);
   }
-}`}
-/>
+}
+```
 
 ## Casos de Uso do Mundo Real 🌍
 
 ### 1. Sistema de Pesquisa Auto-Expansível
 
-<CodeExample
-  title="Pesquisador que Cria Pesquisadores Especializados"
-  language="javascript"
-  code={`class ResearchMetaAgent {
+### Pesquisador que Cria Pesquisadores Especializados
+
+```javascript
+class ResearchMetaAgent {
   async research(topic) {
     // Análise inicial do tópico
     const analysis = await this.analyzeTopic(topic);
@@ -438,8 +438,8 @@ class SubAgentSystem {
     // Sintetizar resultados
     return await this.synthesizeFindings(findings);
   }
-}`}
-/>
+}
+```
 
 ### 2. Sistema de Desenvolvimento Auto-Arquitetante
 
@@ -454,10 +454,10 @@ Cada agente foi criado sob demanda com capacidades específicas.
 
 ### 3. Sistema de Resolução de Problemas Adaptativo
 
-<CodeExample
-  title="Solucionador que Cria Solucionadores"
-  language="javascript"
-  code={`class AdaptiveProblemSolver {
+### Solucionador que Cria Solucionadores
+
+```javascript
+class AdaptiveProblemSolver {
   async solve(problem) {
     // Tentar com agente generalista primeiro
     const generalSolution = await this.tryGeneralApproach(problem);
@@ -485,8 +485,8 @@ Cada agente foi criado sob demanda com capacidades específicas.
     
     return generalSolution;
   }
-}`}
-/>
+}
+```
 
 ## Desafios e Soluções 🎯
 
@@ -498,10 +498,10 @@ Cada agente foi criado sob demanda com capacidades específicas.
 
 **Solução**: Implementar governança de recursos:
 
-<CodeExample
-  title="Governança de Recursos para Meta-Agentes"
-  language="javascript"
-  code={`class ResourceGovernor {
+### Governança de Recursos para Meta-Agentes
+
+```javascript
+class ResourceGovernor {
   constructor() {
     this.maxAgents = 50;
     this.maxDepth = 5;
@@ -536,17 +536,17 @@ Cada agente foi criado sob demanda com capacidades específicas.
     // Opção 2: Enfileirar para depois
     return { queued: true, position: this.queue.add(specification) };
   }
-}`}
-/>
+}
+```
 
 ### Desafio 2: Coordenação e Comunicação
 
 **Solução**: Implementar protocolos de comunicação estruturados:
 
-<CodeExample
-  title="Sistema de Comunicação Inter-Agente"
-  language="javascript"
-  code={`class AgentCommunicationProtocol {
+### Sistema de Comunicação Inter-Agente
+
+```javascript
+class AgentCommunicationProtocol {
   constructor() {
     this.messageTypes = {
       DISCOVERY: 'discovery',
@@ -578,14 +578,14 @@ Cada agente foi criado sob demanda com capacidades específicas.
     
     return channel;
   }
-}`}
-/>
+}
+```
 
 ## O Futuro: Ecossistemas de IA Auto-Evolucionários 🌟
 
 Dan compartilhou uma visão fascinante: "Imagine sistemas de IA que não apenas criam sub-agentes, mas evoluem ecossistemas inteiros de agentes especializados ao longo do tempo."
 
-<Callout type="insight">
+<Callout type="info">
 **A Visão**: Organizações de IA que crescem, se adaptam e evoluem como organismos vivos, criando novas capacidades conforme necessário e descartando as obsoletas.
 </Callout>
 

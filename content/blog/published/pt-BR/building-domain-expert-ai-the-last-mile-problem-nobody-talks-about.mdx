@@ -41,17 +41,17 @@ Este é o problema da última milha: infinitas decisões de julgamento específi
 
 Aqui está a percepção principal de Christopher:
 
-<CodeExample
-  title="A Equação de IA Vertical"
-  language="text"
-  code={`IA de Propósito Geral:
+### A Equação de IA Vertical
+
+```text
+IA de Propósito Geral:
 Poder do Modelo × Dados = ~95% de desempenho
 
 IA Específica de Domínio:
 (Poder do Modelo × Dados) × Sistema de Contexto = 99%+ desempenho
 
-O multiplicador do sistema é o que importa.`}
-/>
+O multiplicador do sistema é o que importa.
+```
 
 A Anterior apostou que construir o sistema certo para capturar e aplicar conhecimento de domínio supera ter o modelo mais sofisticado. E eles estavam certos.
 
@@ -59,10 +59,10 @@ A Anterior apostou que construir o sistema certo para capturar e aplicar conheci
 
 Aqui está como a Anterior constrói esse multiplicador de sistema:
 
-<CodeExample
-  title="Arquitetura do Motor de Domínio Adaptativo"
-  language="yaml"
-  code={`componentes:
+### Arquitetura do Motor de Domínio Adaptativo
+
+```yaml
+componentes:
   camada_medicao:
     - metricas_especificas_cliente: "O que realmente importa"
     - ontologia_modos_falha: "Como as coisas dão errado"
@@ -76,8 +76,8 @@ Aqui está como a Anterior constrói esse multiplicador de sistema:
   orquestracao:
     - pm_especialista_dominio: "Médico gerenciando prioridades"
     - ciclo_iteracao_apertado: "Produção → insight → melhoria"
-    - melhoria_continua: "Cada caso torna o sistema mais inteligente"`}
-/>
+    - melhoria_continua: "Cada caso torna o sistema mais inteligente"
+```
 
 Mas aqui está o molho secreto: tudo gira em torno de especialistas de domínio (médicos reais) revisando saídas de IA e fornecendo três coisas:
 1. Métricas de desempenho
@@ -88,10 +88,10 @@ Mas aqui está o molho secreto: tudo gira em torno de especialistas de domínio 
 
 Christopher enfatizou: "Se você está otimizando para mais de 2-3 métricas, não está otimizando para nenhuma."
 
-<CodeExample
-  title="Métricas por Indústria"
-  language="javascript"
-  code={`const metricasVerticais = {
+### Métricas por Indústria
+
+```javascript
+const metricasVerticais = {
   saude: {
     primaria: "Taxa de falsas aprovações", // Aprovar cuidado desnecessário
     secundaria: "Tempo de processamento",
@@ -115,17 +115,17 @@ Christopher enfatizou: "Se você está otimizando para mais de 2-3 métricas, n�
     secundaria: "Engajamento do estudante",
     porque: "Resultados de aprendizagem > métricas de vaidade"
   }
-};`}
-/>
+};
+```
 
 ## Lição #2: Construa uma Ontologia de Modos de Falha 🎯
 
 Isso foi revolucionário. Em vez de apenas rastrear "certo/errado", a Anterior constrói taxonomias detalhadas de COMO sua IA falha:
 
-<CodeExample
-  title="Exemplo de Ontologia de Modos de Falha"
-  language="yaml"
-  code={`modos_falha_revisao_medica:
+### Exemplo de Ontologia de Modos de Falha
+
+```yaml
+modos_falha_revisao_medica:
   extracao_registro_medico:
     - informacao_perdida:
         - dado_em_formato_nao_estruturado
@@ -152,8 +152,8 @@ Isso foi revolucionário. Em vez de apenas rastrear "certo/errado", a Anterior c
     - ambiguidade_linguagem:
         - "pode" vs "deve"
         - "e/ou" confusao
-        - definicao_prazo_pouco_clara`}
-/>
+        - definicao_prazo_pouco_clara
+```
 
 Esse mapeamento detalhado permite priorização direcionada. Se "abreviação não reconhecida" causa 30% das falsas aprovações, você sabe exatamente o que corrigir.
 
@@ -161,10 +161,10 @@ Esse mapeamento detalhado permite priorização direcionada. Se "abreviação n�
 
 Aqui está onde a experiência médica de Christopher brilha:
 
-<CodeExample
-  title="Sistema de Revisão de Especialista de Domínio"
-  language="javascript"
-  code={`class SistemaRevisaoEspecialista {
+### Sistema de Revisão de Especialista de Domínio
+
+```javascript
+class SistemaRevisaoEspecialista {
   constructor() {
     this.filaRevisao = new FilaPriorizada();
     this.conhecimentoDominio = new BaseConhecimento();
@@ -202,8 +202,8 @@ Aqui está onde a experiência médica de Christopher brilha:
     
     return revisaoEspecialista;
   }
-}`}
-/>
+}
+```
 
 O insight chave: Especialistas de domínio não apenas validam—eles ensinam ativamente o sistema.
 
@@ -211,10 +211,10 @@ O insight chave: Especialistas de domínio não apenas validam—eles ensinam at
 
 Isso é ouro puro. Cada modo de falha se torna automaticamente um conjunto de dados de teste:
 
-<CodeExample
-  title="Sistema de Teste Direcionado"
-  language="javascript"
-  code={`class GeradorConjuntoDadosModoFalha {
+### Sistema de Teste Direcionado
+
+```javascript
+class GeradorConjuntoDadosModoFalha {
   async gerarConjuntoDados(modoFalha) {
     // Extrair todos os casos que falharam deste modo específico
     const casosFalha = await this.db.consultar({
@@ -251,8 +251,8 @@ Isso é ouro puro. Cada modo de falha se torna automaticamente um conjunto de da
       melhoria: resultados.precisao - resultados.precisaoBase
     });
   }
-}`}
-/>
+}
+```
 
 Agora os engenheiros têm alvos claros: "Melhore o modo de falha X de 10% para 50% de precisão."
 
@@ -260,10 +260,10 @@ Agora os engenheiros têm alvos claros: "Melhore o modo de falha X de 10% para 5
 
 A inovação matadora da Anterior: especialistas de domínio podem adicionar conhecimento diretamente:
 
-<CodeExample
-  title="Sistema de Injeção de Conhecimento"
-  language="javascript"
-  code={`class InjetorConhecimentoDominio {
+### Sistema de Injeção de Conhecimento
+
+```javascript
+class InjetorConhecimentoDominio {
   async lidarComSugestaoEspecialista(sugestao) {
     // Validar conhecimento contra conjunto de teste
     const impacto = await this.avaliarImpacto(sugestao);
@@ -300,8 +300,8 @@ A inovação matadora da Anterior: especialistas de domínio podem adicionar con
     // Sistema aplica instantaneamente
     await this.injetar(conhecimentoMedico);
   }
-}`}
-/>
+}
+```
 
 O resultado? Correções que normalmente levariam semanas agora acontecem em minutos.
 
@@ -309,10 +309,10 @@ O resultado? Correções que normalmente levariam semanas agora acontecem em min
 
 Christopher mostrou o painel real deles. É lindo em sua simplicidade:
 
-<CodeExample
-  title="Painel de Inteligência de Domínio"
-  language="typescript"
-  code={`interface PainelUltimaMilha {
+### Painel de Inteligência de Domínio
+
+```typescript
+interface PainelUltimaMilha {
   // Seção superior: Métricas de estrela norte
   metricas: {
     taxaFalsaAprovacao: number; // Alvo: <1%
@@ -343,8 +343,8 @@ Christopher mostrou o painel real deles. É lindo em sua simplicidade:
     impactoEstimado: number;
     status: 'pendente' | 'testando' | 'implantado';
   }>;
-}`}
-/>
+}
+```
 
 ## Resultados do Mundo Real 🏆
 
@@ -446,7 +446,7 @@ Christopher concluiu com uma visão:
 2. Um sistema de inteligência de domínio (diferenciador)
 3. Especialistas de domínio no loop (vantagem imbatível)"
 
-<Callout type="insight">
+<Callout type="info">
 **A Percepção Final**: A corrida da IA não é sobre quem tem o melhor modelo. É sobre quem constrói o melhor sistema para capturar e aplicar conhecimento de domínio.
 
 Modelos são commodity. Sistemas são moats.

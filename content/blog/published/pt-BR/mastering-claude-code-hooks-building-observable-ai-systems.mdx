@@ -27,10 +27,10 @@ Hooks resolvem esse paradoxo dando a você pontos de interceptação em cada est
 
 O Claude Code fornece seis hooks de ciclo de vida, cada um servindo a um propósito crucial:
 
-<CodeExample
-  title="Os 6 Hooks de Ciclo de Vida do Claude Code"
-  language="yaml"
-  code={`hooks:
+### Os 6 Hooks de Ciclo de Vida do Claude Code
+
+```yaml
+hooks:
   1. pre-prompt:
      quando: "Antes da IA processar sua solicitação"
      use_para: "Validar/modificar entrada, adicionar contexto"
@@ -53,8 +53,8 @@ O Claude Code fornece seis hooks de ciclo de vida, cada um servindo a um propós
      
   6. pre-compact:
      quando: "Antes da compactação do contexto"
-     use_para: "Preservar informações críticas"`}
-/>
+     use_para: "Preservar informações críticas"
+```
 
 Mas aqui está o que a documentação não diz: esses hooks não são apenas sobre segurança—eles são sobre transformar IA em engenharia de software real.
 
@@ -62,10 +62,10 @@ Mas aqui está o que a documentação não diz: esses hooks não são apenas sob
 
 O hook pre-prompt é executado antes que o Claude processe qualquer solicitação. Dan o usa brilhantemente para injetar contexto que o Claude não saberia de outra forma:
 
-<CodeExample
-  title="Hook Pre-Prompt em Ação"
-  language="javascript"
-  code={`// Exemplo de .claude/hooks/pre-prompt.js
+### Hook Pre-Prompt em Ação
+
+```javascript
+// Exemplo de .claude/hooks/pre-prompt.js
 export default async function prePromptHook(prompt) {
   // Adicionar contexto do projeto
   const projectContext = await loadProjectContext();
@@ -88,8 +88,8 @@ export default async function prePromptHook(prompt) {
       userPreferences: getUserPrefs()
     }
   };
-}`}
-/>
+}
+```
 
 **Casos de Uso Matadores**:
 - Adicionar automaticamente convenções do projeto
@@ -101,10 +101,10 @@ export default async function prePromptHook(prompt) {
 
 Este é o herói da nossa história de abertura. Antes que o Claude execute QUALQUER ferramenta, este hook lhe dá poder de veto:
 
-<CodeExample
-  title="Prevenindo Desastres com Pre-Tool-Use"
-  language="javascript"
-  code={`// Salvando você de comandos destrutivos
+### Prevenindo Desastres com Pre-Tool-Use
+
+```javascript
+// Salvando você de comandos destrutivos
 export default async function preToolUseHook(tool, args) {
   const dangerousPatterns = [
     /rm\s+-rf\s+\//,
@@ -135,8 +135,8 @@ export default async function preToolUseHook(tool, args) {
     console.log(`[AUDITORIA] Executando: ${command}`);
     return { action: 'allow' };
   }
-}`}
-/>
+}
+```
 
 Dan compartilhou como isso salvou seu bacon várias vezes: "Claude uma vez tentou 'otimizar' meu projeto deletando todos os arquivos de teste. O hook pre-tool-use pegou isso e me perguntou primeiro."
 
@@ -144,10 +144,10 @@ Dan compartilhou como isso salvou seu bacon várias vezes: "Claude uma vez tento
 
 Após a execução de cada ferramenta, este hook permite que você reaja aos resultados:
 
-<CodeExample
-  title="Criando Sistemas Reativos com Post-Tool-Use"
-  language="javascript"
-  code={`export default async function postToolUseHook(tool, args, result) {
+### Criando Sistemas Reativos com Post-Tool-Use
+
+```javascript
+export default async function postToolUseHook(tool, args, result) {
   // Rastrear todas as operações de arquivo
   if (tool === 'write_file') {
     await updateFileIndex(args.path, result.content);
@@ -177,17 +177,17 @@ Após a execução de cada ferramenta, este hook permite que você reaja aos res
     success: !result.error,
     timestamp: Date.now()
   });
-}`}
-/>
+}
+```
 
 ## Hook de Notificação: Seu Centro de Comando 📡
 
 Notificações não são apenas sobre erros—são sobre manter você informado:
 
-<CodeExample
-  title="Sistema de Notificação Inteligente"
-  language="javascript"
-  code={`// Sistema de notificação baseado em contexto
+### Sistema de Notificação Inteligente
+
+```javascript
+// Sistema de notificação baseado em contexto
 export function setupNotifications() {
   // Marcos de progresso
   on('files_modified', (count) => {
@@ -218,17 +218,17 @@ export function setupNotifications() {
       progress: operation.progress
     });
   });
-}`}
-/>
+}
+```
 
 ## Hook Stop: Seu Graceful Shutdown 🛬
 
 Quando as coisas são interrompidas (e serão), este hook garante uma aterrissagem suave:
 
-<CodeExample
-  title="Tratamento Gracioso de Interrupções"
-  language="javascript"
-  code={`export default async function stopHook(reason) {
+### Tratamento Gracioso de Interrupções
+
+```javascript
+export default async function stopHook(reason) {
   console.log(`Parando execução: ${reason}`);
   
   // Salvar estado para retomada
@@ -256,17 +256,17 @@ Quando as coisas são interrompidas (e serão), este hook garante uma aterrissag
       resumable: true
     });
   }
-}`}
-/>
+}
+```
 
 ## Hook Pre-Compact: Seu Preservador de Memória 💾
 
 Este é o hook secreto que Dan chama de "game-changer para projetos longos":
 
-<CodeExample
-  title="Preservando Contexto Crítico Durante Compactação"
-  language="javascript"
-  code={`export default async function preCompactHook(context) {
+### Preservando Contexto Crítico Durante Compactação
+
+```javascript
+export default async function preCompactHook(context) {
   // Identificar informações críticas para preservar
   const criticalInfo = {
     projectGoals: context.projectGoals,
@@ -290,8 +290,8 @@ Este é o hook secreto que Dan chama de "game-changer para projetos longos":
     compress: compressible,
     strategy: 'progressive'  // Manter detalhes recentes, comprimir antigos
   };
-}`}
-/>
+}
+```
 
 ## Padrões Avançados: Orquestrando Hooks 🎼
 
@@ -299,10 +299,10 @@ O verdadeiro poder vem da combinação de hooks em sistemas coerentes:
 
 ### Padrão 1: O Pipeline de Validação
 
-<CodeExample
-  title="Pipeline de Validação Multi-Etapas"
-  language="javascript"
-  code={`// Validar → Executar → Verificar → Relatar
+### Pipeline de Validação Multi-Etapas
+
+```javascript
+// Validar → Executar → Verificar → Relatar
 class ValidationPipeline {
   async prePrompt(prompt) {
     const validation = await this.validateRequest(prompt);
@@ -325,15 +325,15 @@ class ValidationPipeline {
       await this.triggerRemediation(tool, args, result);
     }
   }
-}`}
-/>
+}
+```
 
 ### Padrão 2: O Observador de Sistema
 
-<CodeExample
-  title="Observabilidade Completa do Sistema"
-  language="javascript"
-  code={`// Rastrear tudo, entender padrões, melhorar com o tempo
+### Observabilidade Completa do Sistema
+
+```javascript
+// Rastrear tudo, entender padrões, melhorar com o tempo
 class SystemObserver {
   constructor() {
     this.metrics = new MetricsCollector();
@@ -361,8 +361,8 @@ class SystemObserver {
       metrics: this.metrics.current()
     });
   }
-}`}
-/>
+}
+```
 
 ## Aplicações do Mundo Real 🌍
 
@@ -449,10 +449,10 @@ metricsSync(data);
 
 Pronto para implementar hooks? Aqui está seu kit inicial:
 
-<CodeExample
-  title="Template de Configuração de Hooks"
-  language="javascript"
-  code={`// .claude/hooks/index.js
+### Template de Configuração de Hooks
+
+```javascript
+// .claude/hooks/index.js
 import { SecurityGuard } from './security';
 import { PerformanceMonitor } from './performance';
 import { ContextEnricher } from './context';
@@ -480,10 +480,10 @@ export default {
   'pre-compact': async (context) => {
     return await preserveCriticalContext(context);
   }
-};`}
-/>
+};
+```
 
-<Callout type="action">
+<Callout type="success">
 **Próximos Passos**: 
 1. Comece com um hook pre-tool-use básico para segurança
 2. Adicione logging post-tool-use para observabilidade

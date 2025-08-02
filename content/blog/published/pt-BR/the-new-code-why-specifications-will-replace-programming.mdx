@@ -37,7 +37,7 @@ Percebeu algo? Apenas um passo envolve codificação real. Todo o resto? Comunic
 
 E aqui está o ponto crucial: À medida que modelos de IA ficam mais avançados, vamos sentir esse gargalo ainda mais intensamente. O trabalho braçal de traduzir ideias em sintaxe está se tornando trivial. A parte difícil—a parte valiosa—é saber o que construir e por quê.
 
-<Callout type="insight">
+<Callout type="info">
 **A Mudança de Paradigma**: No futuro próximo, a pessoa que se comunica mais efetivamente é o programador mais valioso. E literalmente, se você consegue se comunicar efetivamente, você pode programar.
 </Callout>
 
@@ -69,10 +69,10 @@ Aqui está por que especificações são mais poderosas que código:
 
 ### Código é uma Projeção com Perdas
 
-<CodeExample
-  title="O Problema da Perda de Informação"
-  language="text"
-  code={`Intenção Original: "Construir um sistema que ajude usuários a encontrar informações relevantes rapidamente"
+### O Problema da Perda de Informação
+
+```text
+Intenção Original: "Construir um sistema que ajude usuários a encontrar informações relevantes rapidamente"
 ↓
 Especificação: Requisitos detalhados, histórias de usuário, critérios de sucesso
 ↓
@@ -80,8 +80,8 @@ Código: if (query) { return search(query, index) }
 ↓
 Binário Compilado: 01101000 01100101 01101100 01110000...
 
-A cada passo, perdemos contexto sobre o PORQUÊ.`}
-/>
+A cada passo, perdemos contexto sobre o PORQUÊ.
+```
 
 Assim como descompilar um binário C não te dá comentários bonitos e variáveis bem nomeadas, ler código não te diz os objetivos finais que a equipe está tentando alcançar.
 
@@ -102,18 +102,18 @@ Uma especificação robusta dada a modelos pode produzir:
 
 A Especificação de Modelo da OpenAI não é alguma linguagem formal complexa. São apenas... arquivos markdown no GitHub.
 
-<CodeExample
-  title="Estrutura Real da Especificação de Modelo"
-  language="markdown"
-  code={`# Especificação de Comportamento do Modelo
+### Estrutura Real da Especificação de Modelo
+
+```markdown
+# Especificação de Comportamento do Modelo
 
 ## Não seja bajulador (ID: sy73)
 Embora ser útil possa parecer bom a curto prazo, 
 bajulação é ruim para todos a longo prazo...
 
 ### Critérios de Sucesso
-Veja: tests/sy73.md para prompts desafiadores que testam este comportamento`}
-/>
+Veja: tests/sy73.md para prompts desafiadores que testam este comportamento
+```
 
 Por que isso é poderoso?
 
@@ -132,10 +132,10 @@ Resultado: Reversão, correção e confiança restaurada.
 
 Especificações não são apenas documentação—são executáveis. A OpenAI usa uma técnica chamada "alinhamento deliberativo":
 
-<CodeExample
-  title="Tornando Especificações Executáveis"
-  language="python"
-  code={`def alinhar_modelo_com_spec(modelo, especificacao, prompts_teste):
+### Tornando Especificações Executáveis
+
+```python
+def alinhar_modelo_com_spec(modelo, especificacao, prompts_teste):
     for prompt in prompts_teste:
         # 1. Obter resposta do modelo
         resposta = modelo.gerar(prompt)
@@ -152,8 +152,8 @@ Especificações não são apenas documentação—são executáveis. A OpenAI u
             modelo.reforcar(resposta)
             
     # Especificação passa de contexto para pesos
-    return modelo_alinhado`}
-/>
+    return modelo_alinhado
+```
 
 A especificação literalmente se torna parte da "memória muscular" do modelo—não mais apenas orientação em tempo de inferência, mas comportamento incorporado.
 
@@ -166,7 +166,7 @@ Isso não é apenas sobre IA. É um princípio universal:
 - **Legisladores**: Alinham humanos via especificações legais
 - **Você (agora mesmo)**: Alinha modelos de IA via especificações de prompt
 
-<Callout type="insight">
+<Callout type="info">
 **A Constituição dos EUA como Código**: É literalmente uma especificação de modelo nacional com:
 - Texto de política clara (aspiracionalmente não ambíguo)
 - Controle de versão (emendas)
@@ -204,17 +204,17 @@ Quando falhas ocorrem, pergunte: A especificação era ambígua? Atualize-a.
 
 Imagine uma IDE que não apenas verifica sintaxe, mas ativamente ajuda a clarificar seu pensamento:
 
-<CodeExample
-  title="Interação com IDE do Futuro"
-  language="text"
-  code={`Você escreve: "O sistema deve lidar com dados do usuário apropriadamente"
+### Interação com IDE do Futuro
+
+```text
+Você escreve: "O sistema deve lidar com dados do usuário apropriadamente"
 
 IDE sugere: "Termo ambíguo 'apropriadamente' detectado. Por favor, esclareça:
 - Que tipos de dados?
 - O que 'lidar' significa? (armazenar/processar/transmitir)
 - Quais são os requisitos de privacidade?
-- Que regulamentações se aplicam?"`}
-/>
+- Que regulamentações se aplicam?"
+```
 
 Não é sobre escrever código melhor—é sobre pensar mais claramente.
 
@@ -224,7 +224,7 @@ O ponto final de Sean atinge forte: "Você percebe que nunca disse o que queria,
 
 Este é um clamor por especificações. À medida que construímos agentes cada vez mais poderosos, o desafio não é torná-los capazes—é expressar claramente o que queremos que eles façam.
 
-<Callout type="action">
+<Callout type="success">
 **Seus Próximos Passos**:
 1. Pegue sua próxima solicitação de recurso
 2. Antes de escrever código, escreva uma especificação
@@ -247,7 +247,7 @@ Mas a capacidade de comunicar claramente a intenção? Isso é atemporal.
 
 Bem-vindo à era das especificações. Seu código é apenas o começo.
 
-<Callout type="insight">
+<Callout type="info">
 **Pensamento Final**: Engenharia de software nunca foi sobre código. É a exploração precisa por humanos de soluções de software para problemas humanos. Estamos apenas passando de codificações de máquina díspares para uma codificação humana unificada de como resolvemos esses problemas.
 
 E isso muda tudo.

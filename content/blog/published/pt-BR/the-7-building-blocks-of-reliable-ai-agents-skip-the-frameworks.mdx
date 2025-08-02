@@ -33,10 +33,10 @@ Parada. Vamos focar no que realmente importa.
 
 ## Os 7 Blocos de Construção de Agentes Confiáveis 🏗️
 
-<CodeExample
-  title="A Arquitetura Universal de Agentes"
-  language="yaml"
-  code={`blocos_construcao_agente:
+### A Arquitetura Universal de Agentes
+
+```yaml
+blocos_construcao_agente:
   1_modelos_base:
     - llm: "Cérebro do raciocínio"
     - embedding: "Compreensão semântica"
@@ -70,8 +70,8 @@ Parada. Vamos focar no que realmente importa.
   7_guardrails:
     - seguranca: "Prevenir danos"
     - qualidade: "Garantir precisão"
-    - compliance: "Seguir regras"`}
-/>
+    - compliance: "Seguir regras"
+```
 
 Vamos detalhar cada um com exemplos do mundo real.
 
@@ -79,10 +79,10 @@ Vamos detalhar cada um com exemplos do mundo real.
 
 Harrison esclareceu: "Pare de tentar fazer um modelo fazer tudo. Use modelos especializados para tarefas especializadas."
 
-<CodeExample
-  title="Seleção de Modelo Estratégica"
-  language="javascript"
-  code={`class SeletorModeloInteligente {
+### Seleção de Modelo Estratégica
+
+```javascript
+class SeletorModeloInteligente {
   constructor() {
     // Diferentes modelos para diferentes trabalhos
     this.modelos = {
@@ -114,8 +114,8 @@ Harrison esclareceu: "Pare de tentar fazer um modelo fazer tudo. Use modelos esp
         return await this.usarModelo('classificacao', tarefa);
     }
   }
-}`}
-/>
+}
+```
 
 **Insight chave**: Usar GPT-4 para tudo é como usar uma Ferrari para entregar pizza—caro e desnecessário.
 
@@ -123,10 +123,10 @@ Harrison esclareceu: "Pare de tentar fazer um modelo fazer tudo. Use modelos esp
 
 Este é onde a maioria das equipes se perde. Harrison identificou três padrões:
 
-<CodeExample
-  title="Padrões de Orquestração"
-  language="python"
-  code={`# Padrão 1: Totalmente Agêntico (Caótico mas Flexível)
+### Padrões de Orquestração
+
+```python
+# Padrão 1: Totalmente Agêntico (Caótico mas Flexível)
 class AgenteAutonomo:
     def executar(self, objetivo):
         while not objetivo_completo:
@@ -160,8 +160,8 @@ class OrquestradorHibrido:
             if resultado.requer_replanejamento:
                 plano = self.adaptar_plano(plano, resultado)
                 
-        return self.compilar_resultados()`}
-/>
+        return self.compilar_resultados()
+```
 
 Harrison revelou: "80% dos agentes de produção bem-sucedidos usam orquestração híbrida."
 
@@ -169,10 +169,10 @@ Harrison revelou: "80% dos agentes de produção bem-sucedidos usam orquestraç�
 
 Esqueça prompts genéricos. Harrison enfatizou especificidade extrema:
 
-<CodeExample
-  title="Sistema de Prompt de Nível de Produção"
-  language="python"
-  code={`class SistemaPromptProducao:
+### Sistema de Prompt de Nível de Produção
+
+```python
+class SistemaPromptProducao:
     def __init__(self):
         # Prompts base versionados
         self.prompts = {
@@ -199,11 +199,11 @@ FORMATO DE SAÍDA:
 ```
 
 EXEMPLOS:
-{examples}
+\{examples\}
 
 RESTRIÇÕES:
 - Números devem ter precisão de 2 decimais
-- Mencionar apenas produtos de {products}
+- Mencionar apenas produtos de \{products\}
 - Ações devem ser implementáveis em 30 dias"""
             }
         }
@@ -219,8 +219,8 @@ RESTRIÇÕES:
         return template.format(
             **contexto,
             examples=self.formatar_exemplos(exemplos)
-        )`}
-/>
+        )
+```
 
 **Sacada profunda**: "Seu prompt É seu código. Versione, teste e faça deploy como tal."
 
@@ -228,10 +228,10 @@ RESTRIÇÕES:
 
 Harrison foi direto: "RAG ruim mata mais agentes do que qualquer outra coisa."
 
-<CodeExample
-  title="Sistema de Recuperação Multicamadas"
-  language="javascript"
-  code={`class RecuperadorInteligente {
+### Sistema de Recuperação Multicamadas
+
+```javascript
+class RecuperadorInteligente {
   constructor() {
     this.estrategias = {
       denso: new BuscaVetorial(),      // Busca semântica
@@ -283,17 +283,17 @@ Harrison foi direto: "RAG ruim mata mais agentes do que qualquer outra coisa."
       confianca: this.calcularConfianca(r)
     }));
   }
-}`}
-/>
+}
+```
 
 ## Bloco 5: Memória—Dando Contexto aos Agentes 🧩
 
 Harrison destacou três tipos de memória que todo agente precisa:
 
-<CodeExample
-  title="Sistema de Memória em Três Camadas"
-  language="python"
-  code={`class SistemaMemoriaCompleto:
+### Sistema de Memória em Três Camadas
+
+```python
+class SistemaMemoriaCompleto:
     def __init__(self):
         # Memória de diálogo (curto prazo)
         self.dialogo = MemoriaDialogo(
@@ -337,8 +337,8 @@ Harrison destacou três tipos de memória que todo agente precisa:
             'conversa_recente': self.dialogo.obter_relevante(consulta),
             'estado_tarefa': self.tarefa.obter_estado_atual(),
             'conhecimento_relevante': self.conhecimento.buscar(consulta, k=5)
-        }`}
-/>
+        }
+```
 
 **Ponto crítico**: "Memória sem estratégia de poda é apenas acumulação de lixo."
 
@@ -346,10 +346,10 @@ Harrison destacou três tipos de memória que todo agente precisa:
 
 Harrison foi enfático: "Pare de criar ferramentas desnecessárias."
 
-<CodeExample
-  title="Design de Ferramentas Inteligente"
-  language="typescript"
-  code={`class GerenciadorFerramentas {
+### Design de Ferramentas Inteligente
+
+```typescript
+class GerenciadorFerramentas {
   constructor() {
     // Apenas ferramentas que realmente precisam ser ferramentas
     this.ferramentas = new Map();
@@ -399,17 +399,17 @@ Harrison foi enfático: "Pare de criar ferramentas desnecessárias."
       }
     });
   }
-}`}
-/>
+}
+```
 
 ## Bloco 7: Guardrails—Mantendo Agentes nos Trilhos 🛡️
 
 O bloco final e mais crítico:
 
-<CodeExample
-  title="Sistema de Guardrails Abrangente"
-  language="python"
-  code={`class SistemaGuardrails:
+### Sistema de Guardrails Abrangente
+
+```python
+class SistemaGuardrails:
     def __init__(self):
         self.verificadores = []
         
@@ -459,17 +459,17 @@ O bloco final e mais crítico:
                 'guardrail_acionado': resultado.verificador,
                 'gravidade': resultado.gravidade
             }
-        }`}
-/>
+        }
+```
 
 ## Juntando Tudo: Arquitetura de Referência 🏛️
 
 Harrison compartilhou esta arquitetura de referência do LangChain:
 
-<CodeExample
-  title="Arquitetura de Agente de Produção Completa"
-  language="yaml"
-  code={`arquitetura_agente_producao:
+### Arquitetura de Agente de Produção Completa
+
+```yaml
+arquitetura_agente_producao:
   camada_entrada:
     - validacao_entrada
     - classificacao_intencao
@@ -515,8 +515,8 @@ Harrison compartilhou esta arquitetura de referência do LangChain:
     - formatacao_resposta
     - guardrails_qualidade
     - rastreamento_metricas
-    - cache_resposta`}
-/>
+    - cache_resposta
+```
 
 ## Lições do Mundo Real do LangChain 🎓
 
@@ -534,7 +534,7 @@ Harrison compartilhou esta arquitetura de referência do LangChain:
 
 ## Seu Checklist de Implementação ✅
 
-<Callout type="action">
+<Callout type="success">
 **Semana 1-2: MVP com 4 Blocos**
 - [ ] Escolha modelo principal (provavelmente GPT-3.5 para começar)
 - [ ] Implemente orquestração básica (comece determinística)
@@ -567,7 +567,7 @@ As palavras finais de Harrison que deveriam estar gravadas em pedra:
 
 O segredo não é escolher o framework perfeito. É entender os componentes fundamentais tão bem que você poderia construí-los do zero se precisasse.
 
-<Callout type="insight">
+<Callout type="info">
 **A Percepção Final**: Agentes confiáveis não vêm de frameworks mágicos. Eles vêm de implementar deliberadamente cada um desses 7 blocos de uma forma que se adeque ao seu caso de uso específico.
 
 Pare de procurar balas de prata. Comece a construir com blocos fundamentais.
