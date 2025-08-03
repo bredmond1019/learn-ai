@@ -437,6 +437,29 @@ But don't wait - implement your first hook today. Your future self will thank yo
 
 ---
 
-**Want to master Claude hooks?** Check out my complete guide: [Mastering Claude Hooks: Building Observable AI Systems](https://learn-agentic-ai.com/blog/mastering-claude-code-hooks-building-observable-ai-systems)
+## 📚 Master AI Development at [learn-agentic-ai.com](https://learn-agentic-ai.com)
+
+### **🎓 Featured Learning Paths:**
+- 🚀 [Claude Code Mastery](https://learn-agentic-ai.com/en/learn/paths/claude-code-mastery) - Complete 7-module course including advanced hooks
+- 🛠️ [AI Engineering Fundamentals](https://learn-agentic-ai.com/en/learn/paths/ai-engineering-fundamentals) - Build your foundation
+
+### **📖 Related Deep-Dive Articles:**
+- [Mastering Claude Hooks: Complete Technical Guide](https://learn-agentic-ai.com/blog/mastering-claude-code-hooks-building-observable-ai-systems) - Extended version with advanced patterns
+- [Claude Hooks: Automate Your AI Development Workflow](https://learn-agentic-ai.com/blog/claude-hooks-automate-your-ai-development-workflow) - Practical automation recipes
+- [Multi-Agent Observability: See Everything Your AI Agents Do](https://learn-agentic-ai.com/blog/multi-agent-observability-see-everything-your-ai-agents-do) - Build complete observability systems
+- [Why Multi-Agent Systems Are a Trap](https://learn-agentic-ai.com/blog/why-multi-agent-systems-are-a-trap) - Critical analysis and solutions
+- [Self-Building AI: Meta-Agents and Sub-Agent Architecture](https://learn-agentic-ai.com/blog/self-building-ai-meta-agents-and-sub-agent-architecture) - Advanced orchestration patterns
+
+### **🔧 Practical Resources:**
+- [GitHub: Claude Hooks Examples](https://github.com/brandonredmond) - Ready-to-use hook templates
+- [Free AI Development Newsletter](https://learn-agentic-ai.com) - Weekly insights and tutorials
+
+**About the Author:**
+I'm Brandon J. Redmond, an AI Engineer specializing in observable AI systems. I've helped dozens of teams implement production-ready AI workflows. Connect on [LinkedIn](https://www.linkedin.com/in/bredmond1019/) or visit [learn-agentic-ai.com](https://learn-agentic-ai.com).
+
+---
 
 What repetitive tasks would you automate with hooks? Share your ideas below!
+
+**Previous:** [Part 1 - The Claude Code Revolution](#)
+**Next:** [Part 3 - Multi-Agent Orchestration](#)

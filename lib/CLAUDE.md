@@ -1,6 +1,150 @@
+# Library Services Documentation
+
+This directory contains essential service APIs and utilities for the portfolio site.
+
+## Services Overview
+
+1. **YouTube Transcript API** - Fetch and manage YouTube video transcripts
+2. **Dev.to Publishing API** - Publish and manage articles on Dev.to platform
+3. **Content Management** - MDX processing, caching, and content utilities
+4. **Translation Services** - AI-powered content translation with Claude
+
+---
+
+# Dev.to Publishing API
+
+## Quick Start
+
+The Dev.to API integration enables publishing blog posts directly from markdown files to Dev.to.
+
+### Basic Commands
+
+```bash
+# Publish a single article
+npm run devto:publish <file-path>
+
+# Publish with options
+npm run devto:publish <file> -- --draft    # Publish as draft
+npm run devto:publish <file> -- --force    # Force republish
+
+# Publish entire directory (e.g., series)
+npm run devto:publish-dir <directory-path>
+
+# Update existing article
+npm run devto:update <file-path>
+
+# List all published articles
+npm run devto:list
+
+# Sync changed articles
+npm run devto:sync
+```
+
+### Multi-Part Series Publishing
+
+For publishing article series (like the Claude Code series):
+
+```bash
+# Publish series in order
+npm run devto:publish content/socials/dev-to/series/part-1.md
+npm run devto:publish content/socials/dev-to/series/part-2.md
+npm run devto:publish content/socials/dev-to/series/part-3.md
+
+# Or publish entire directory
+npm run devto:publish-dir content/socials/dev-to/series/
+```
+
+## Architecture
+
+### Core Components
+
+1. **DevToAPI** (`devto-api.ts`): API client with rate limiting
+   - Handles all Dev.to API interactions
+   - Built-in rate limiting (30 requests/30 seconds)
+   - Error handling and retry logic
+
+2. **DevToMarkdown** (`devto-markdown.ts`): Content processor
+   - Parses markdown frontmatter
+   - Validates YAML structure
+   - Handles special characters and formatting
+
+3. **DevToMapping** (`devto-mapping.ts`): Article tracking
+   - Maps local files to Dev.to article IDs
+   - Tracks publication status
+   - Detects content changes for syncing
+
+### Programmatic Usage
+
+```typescript
+import { DevToAPI } from '@/lib/devto-api';
+import { DevToMarkdown } from '@/lib/devto-markdown';
+import { DevToMapping } from '@/lib/devto-mapping';
+
+// Initialize services
+const api = new DevToAPI(process.env.DEV_TO_API_KEY);
+const markdown = new DevToMarkdown();
+const mapping = new DevToMapping();
+
+// Publish article
+const content = await markdown.parseFile('article.md');
+const article = await api.createArticle({
+  title: content.title,
+  body_markdown: content.content,
+  published: true,
+  tags: content.tags,
+  series: content.series
+});
+
+// Track publication
+await mapping.set('article.md', article.id);
+```
+
+## Markdown Format Requirements
+
+```markdown
+---
+title: "Article Title"           # Required, quote if contains colons
+published: true                   # true/false for publication status
+tags: ai, programming, claude     # Max 4 tags, comma-separated
+series: "Series Name"             # Optional, for multi-part articles
+description: "Brief summary"      # Optional, article excerpt
+canonical_url: "https://..."      # Optional, original source URL
+cover_image: "https://..."        # Optional, article header image
+---
+
+Article content in markdown...
+```
+
+## Common Issues & Solutions
+
+### YAML Parsing Errors
+- **Problem**: Title contains colon without quotes
+- **Solution**: Wrap title in quotes: `title: "Part 1: Introduction"`
+
+### Rate Limiting
+- **Problem**: "Rate limit reached" error
+- **Solution**: Wait 30 seconds between bulk operations
+
+### Duplicate Publication
+- **Problem**: Article already published error
+- **Solution**: Use `--force` flag or `npm run devto:update`
+
+### Missing Mapping File
+- **Problem**: Lost track of published articles
+- **Solution**: `.devto-mapping.json` stores mappings (gitignored)
+
+## Website URL References
+
+When linking back to the main site in Dev.to articles:
+- Main site: `https://learn-agentic-ai.com`
+- Blog posts: `https://learn-agentic-ai.com/blog/[slug]`
+- Learning paths: `https://learn-agentic-ai.com/en/learn/paths/[path-id]`
+
+---
+
 # YouTube Transcript API Service Documentation
 
-This directory contains the YouTube transcript fetching and management system for the portfolio site.
+The YouTube transcript fetching and management system for the portfolio site.
 
 ## Architecture Overview
 

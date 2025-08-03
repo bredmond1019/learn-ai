@@ -2,6 +2,13 @@
 
 This guide helps Claude remember key information for creating and managing LinkedIn posts.
 
+## Profile Information
+
+**LinkedIn Profile**: https://www.linkedin.com/in/bredmond1019/
+- Name: Brandon J. Redmond
+- Title: AI Engineer & Agentic Systems Architect
+- Focus: Multi-agent systems, Claude Code, AI observability
+
 ## Website Information
 
 **Main Website**: https://learn-agentic-ai.com

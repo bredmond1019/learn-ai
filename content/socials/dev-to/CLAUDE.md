@@ -2,6 +2,14 @@
 
 This guide helps Claude (and you) remember how to use the Dev.to API functionality.
 
+## Author Information
+
+**Author**: Brandon J. Redmond
+- **Dev.to Profile**: @bredmond1019
+- **LinkedIn**: https://www.linkedin.com/in/bredmond1019/
+- **GitHub**: https://github.com/brandonredmond
+- **Title**: AI Engineer & Agentic Systems Architect
+
 ## Website Information
 
 **Main Website**: https://learn-agentic-ai.com

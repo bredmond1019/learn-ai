@@ -7,6 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a production-ready portfolio website for Brandon J. Redmond, an AI Engineer & Agentic Systems Architect. Built with Next.js 15.3.3 (App Router), React 19, TypeScript 5, and Tailwind CSS 4. The site features full internationalization (English/Portuguese), a learning management system, MDX blog, and AI-powered content translation.
 
 **Live Website**: https://learn-agentic-ai.com
+**LinkedIn Profile**: https://www.linkedin.com/in/bredmond1019/
+**GitHub**: https://github.com/brandonredmond
 
 ## Key Commands
 
