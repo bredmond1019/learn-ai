@@ -1,0 +1,3642 @@
+{
+  "videoId": "SSbqXzRsC6s",
+  "language": "en",
+  "segments": [
+    {
+      "text": "",
+      "start": 0,
+      "duration": 257
+    },
+    {
+      "text": "weak, base, strong. Three levels of",
+      "start": 0.88,
+      "duration": 3.919
+    },
+    {
+      "text": "model control, simple, and beautiful. We",
+      "start": 4.799,
+      "duration": 3.281
+    },
+    {
+      "text": "now have access to the haik coup,",
+      "start": 8.08,
+      "duration": 2.16
+    },
+    {
+      "text": "sonnet, and opus models in our sub",
+      "start": 10.24,
+      "duration": 2.88
+    },
+    {
+      "text": "aents. In the background here, I have 12",
+      "start": 13.12,
+      "duration": 3.6
+    },
+    {
+      "text": "sub aents operating across these three",
+      "start": 16.72,
+      "duration": 2.399
+    },
+    {
+      "text": "levels of intelligence, speed, and cost",
+      "start": 19.119,
+      "duration": 2.641
+    },
+    {
+      "text": "conducting crypto research for me.",
+      "start": 21.76,
+      "duration": 2.32
+    },
+    {
+      "text": "They're setting up my next big trade.",
+      "start": 24.08,
+      "duration": 3.039
+    },
+    {
+      "text": "Now, obviously not financial advice, but",
+      "start": 27.119,
+      "duration": 2.16
+    },
+    {
+      "text": "you can see here running 12 agents in",
+      "start": 29.279,
+      "duration": 2.32
+    },
+    {
+      "text": "parallel with different levels of",
+      "start": 31.599,
+      "duration": 2.001
+    },
+    {
+      "text": "compute, Haiku, Sonnet, and Opus, you",
+      "start": 33.6,
+      "duration": 2.959
+    },
+    {
+      "text": "and I are able to do more deep research",
+      "start": 36.559,
+      "duration": 2.561
+    },
+    {
+      "text": "and more wide research than we ever",
+      "start": 39.12,
+      "duration": 2.48
+    },
+    {
+      "text": "could before. The Claudeco team",
+      "start": 41.6,
+      "duration": 2.16
+    },
+    {
+      "text": "continues their blazing red hot streak",
+      "start": 43.76,
+      "duration": 2.799
+    },
+    {
+      "text": "as they ship another set of surgical",
+      "start": 46.559,
+      "duration": 2.641
+    },
+    {
+      "text": "minimal useful features. We have sub",
+      "start": 49.2,
+      "duration": 2.24
+    },
+    {
+      "text": "agent model selection, agent mentions,",
+      "start": 51.44,
+      "duration": 2.32
+    },
+    {
+      "text": "and hidden file mentions. We do have bad",
+      "start": 53.76,
+      "duration": 3.2
+    },
+    {
+      "text": "news though. We have new rate limits.",
+      "start": 56.96,
+      "duration": 3.68
+    },
+    {
+      "text": "Someone watching the Andy Dev Dan",
+      "start": 60.64,
+      "duration": 1.759
+    },
+    {
+      "text": "channel took the infinite agentic loop,",
+      "start": 62.399,
+      "duration": 1.84
+    },
+    {
+      "text": "parallelized it, and ran it 24/7 and",
+      "start": 64.239,
+      "duration": 2.801
+    },
+    {
+      "text": "ruined it for the rest of us. In this",
+      "start": 67.04,
+      "duration": 1.92
+    },
+    {
+      "text": "post, Anthropic mentioned something",
+      "start": 68.96,
+      "duration": 1.92
+    },
+    {
+      "text": "really, really interesting that caught",
+      "start": 70.88,
+      "duration": 1.279
+    },
+    {
+      "text": "my attention. We're committed to",
+      "start": 72.159,
+      "duration": 1.761
+    },
+    {
+      "text": "supporting longunning use cases through",
+      "start": 73.92,
+      "duration": 2.32
+    },
+    {
+      "text": "other options in the future. With the",
+      "start": 76.24,
+      "duration": 2.239
+    },
+    {
+      "text": "success of Claude Code and the Claude 4",
+      "start": 78.479,
+      "duration": 2.32
+    },
+    {
+      "text": "series, you and I can bet that Enthropic",
+      "start": 80.799,
+      "duration": 2.64
+    },
+    {
+      "text": "is betting on highly agentic longrunning",
+      "start": 83.439,
+      "duration": 2.961
+    },
+    {
+      "text": "systems and models. So, I'm thinking",
+      "start": 86.4,
+      "duration": 2
+    },
+    {
+      "text": "ahead toward what Enthropic could be",
+      "start": 88.4,
+      "duration": 2.24
+    },
+    {
+      "text": "releasing next. But I have to say with",
+      "start": 90.64,
+      "duration": 2.32
+    },
+    {
+      "text": "all the excitement around cloud code,",
+      "start": 92.96,
+      "duration": 1.839
+    },
+    {
+      "text": "it's pretty clear engineers like you and",
+      "start": 94.799,
+      "duration": 2.481
+    },
+    {
+      "text": "I and now a decent portion of the Genai",
+      "start": 97.28,
+      "duration": 2.72
+    },
+    {
+      "text": "tech industry, we're all overexposed to",
+      "start": 100,
+      "duration": 3.52
+    },
+    {
+      "text": "claw code. We have too many eggs in one",
+      "start": 103.52,
+      "duration": 3.12
+    },
+    {
+      "text": "basket. This is bad investing. I don't",
+      "start": 106.64,
+      "duration": 2
+    },
+    {
+      "text": "think these rate limits are unfair at",
+      "start": 108.64,
+      "duration": 1.439
+    },
+    {
+      "text": "all, but it's woken me up. And maybe",
+      "start": 110.079,
+      "duration": 1.761
+    },
+    {
+      "text": "it's woken you up, too. We need cloud",
+      "start": 111.84,
+      "duration": 2.16
+    },
+    {
+      "text": "code alternatives. We have too many eggs",
+      "start": 114,
+      "duration": 1.92
+    },
+    {
+      "text": "in one basket, right? We're addicted. We",
+      "start": 115.92,
+      "duration": 2.32
+    },
+    {
+      "text": "need help. We're clawholics now. We need",
+      "start": 118.24,
+      "duration": 3.36
+    },
+    {
+      "text": "alternatives. Not because cloud code",
+      "start": 121.6,
+      "duration": 1.76
+    },
+    {
+      "text": "isn't great. It's because it's too",
+      "start": 123.36,
+      "duration": 2
+    },
+    {
+      "text": "great. With these new rate limits coming",
+      "start": 125.36,
+      "duration": 1.759
+    },
+    {
+      "text": "in, as they mentioned, it'll affect less",
+      "start": 127.119,
+      "duration": 2.401
+    },
+    {
+      "text": "than 5% of users, but you and I, we're",
+      "start": 129.52,
+      "duration": 2.56
+    },
+    {
+      "text": "probably in the 10 or 5%. And these rate",
+      "start": 132.08,
+      "duration": 2.48
+    },
+    {
+      "text": "limits are coming. All right. August",
+      "start": 134.56,
+      "duration": 1.6
+    },
+    {
+      "text": "28th. It's kind of perfect timing that",
+      "start": 136.16,
+      "duration": 2.079
+    },
+    {
+      "text": "this came out with their brand new model",
+      "start": 138.239,
+      "duration": 2
+    },
+    {
+      "text": "selection feature. In this video, we're",
+      "start": 140.239,
+      "duration": 1.441
+    },
+    {
+      "text": "going to take a look at that because you",
+      "start": 141.68,
+      "duration": 1.36
+    },
+    {
+      "text": "can see across three versions. And you",
+      "start": 143.04,
+      "duration": 2.24
+    },
+    {
+      "text": "know, speaking of limits, right, there's",
+      "start": 145.28,
+      "duration": 1.599
+    },
+    {
+      "text": "my Opus limit coming up right here. But",
+      "start": 146.879,
+      "duration": 1.841
+    },
+    {
+      "text": "you can see across three versions, you",
+      "start": 148.72,
+      "duration": 1.519
+    },
+    {
+      "text": "know, I have Haiku, Sonnet, and Opus",
+      "start": 150.239,
+      "duration": 1.601
+    },
+    {
+      "text": "running the exact same prompt. We're",
+      "start": 151.84,
+      "duration": 1.679
+    },
+    {
+      "text": "going to dig into this so that we can",
+      "start": 153.519,
+      "duration": 1.44
+    },
+    {
+      "text": "understand that we don't always need the",
+      "start": 154.959,
+      "duration": 2.961
+    },
+    {
+      "text": "highest levels of compute to solve",
+      "start": 157.92,
+      "duration": 1.599
+    },
+    {
+      "text": "problems. The ability to select the",
+      "start": 159.519,
+      "duration": 1.601
+    },
+    {
+      "text": "right model for the job is ultra",
+      "start": 161.12,
+      "duration": 1.92
+    },
+    {
+      "text": "important. And I think this powerful",
+      "start": 163.04,
+      "duration": 2.16
+    },
+    {
+      "text": "weak base, strong model stack for agents",
+      "start": 165.2,
+      "duration": 3.28
+    },
+    {
+      "text": "is going to be a great way to navigate",
+      "start": 168.48,
+      "duration": 2.16
+    },
+    {
+      "text": "not just rate limits, but it's going to",
+      "start": 170.64,
+      "duration": 1.52
+    },
+    {
+      "text": "help us navigate costs, speed, and",
+      "start": 172.16,
+      "duration": 1.84
+    },
+    {
+      "text": "intelligence trade-offs. I've been",
+      "start": 174,
+      "duration": 1.44
+    },
+    {
+      "text": "thinking about this for a while as I",
+      "start": 175.44,
+      "duration": 1.84
+    },
+    {
+      "text": "continue to, you know, discuss, use, and",
+      "start": 177.28,
+      "duration": 2.16
+    },
+    {
+      "text": "really lean on cloud code, we're",
+      "start": 179.44,
+      "duration": 1.68
+    },
+    {
+      "text": "overlevered, right? Just like an",
+      "start": 181.12,
+      "duration": 2.08
+    },
+    {
+      "text": "investor has too much stock, too much of",
+      "start": 183.2,
+      "duration": 2.08
+    },
+    {
+      "text": "their portfolio in one tool. We have a",
+      "start": 185.28,
+      "duration": 2.4
+    },
+    {
+      "text": "lot of engineering resources, time,",
+      "start": 187.68,
+      "duration": 1.68
+    },
+    {
+      "text": "dependency on cloud code at this point.",
+      "start": 189.36,
+      "duration": 2.4
+    },
+    {
+      "text": "So with the release of Quinn3 coder 480",
+      "start": 191.76,
+      "duration": 3.759
+    },
+    {
+      "text": "billion parameters everything that keeps",
+      "start": 195.519,
+      "duration": 2.08
+    },
+    {
+      "text": "shipping inside of the Gemini CLI right",
+      "start": 197.599,
+      "duration": 2.481
+    },
+    {
+      "text": "I'm keeping my eyes on all of these",
+      "start": 200.08,
+      "duration": 1.76
+    },
+    {
+      "text": "agentic coding tools all these agentic",
+      "start": 201.84,
+      "duration": 2
+    },
+    {
+      "text": "model developments and with uh the",
+      "start": 203.84,
+      "duration": 3.039
+    },
+    {
+      "text": "recent news that anthropic had to",
+      "start": 206.879,
+      "duration": 1.921
+    },
+    {
+      "text": "provoke open AAI's access to claude two",
+      "start": 208.8,
+      "duration": 2.88
+    },
+    {
+      "text": "things are very very clear to me now",
+      "start": 211.68,
+      "duration": 2.639
+    },
+    {
+      "text": "claw code has completely changed",
+      "start": 214.319,
+      "duration": 2.321
+    },
+    {
+      "text": "engineering and alternatives are on the",
+      "start": 216.64,
+      "duration": 3.92
+    },
+    {
+      "text": "way if you're an IND industry leader,",
+      "start": 220.56,
+      "duration": 1.679
+    },
+    {
+      "text": "you will always be copied and cloned.",
+      "start": 222.239,
+      "duration": 2.08
+    },
+    {
+      "text": "Cloud code is the industry leader for",
+      "start": 224.319,
+      "duration": 1.84
+    },
+    {
+      "text": "agentic coding. It is being copied and",
+      "start": 226.159,
+      "duration": 2.16
+    },
+    {
+      "text": "cloned all over the place. In upcoming",
+      "start": 228.319,
+      "duration": 2.161
+    },
+    {
+      "text": "videos, we're going to be looking and",
+      "start": 230.48,
+      "duration": 1.679
+    },
+    {
+      "text": "investigating, you know, some of these",
+      "start": 232.159,
+      "duration": 1.841
+    },
+    {
+      "text": "open source alternatives, some other",
+      "start": 234,
+      "duration": 1.84
+    },
+    {
+      "text": "closed source alternatives. It is time",
+      "start": 235.84,
+      "duration": 1.52
+    },
+    {
+      "text": "to diversify. All right, but you know,",
+      "start": 237.36,
+      "duration": 2.32
+    },
+    {
+      "text": "let's be super real. Uh, no one is close",
+      "start": 239.68,
+      "duration": 2.639
+    },
+    {
+      "text": "to cloud code. Let's keep cooking with",
+      "start": 242.319,
+      "duration": 1.84
+    },
+    {
+      "text": "the best agent coding tool in the game.",
+      "start": 244.159,
+      "duration": 2.241
+    },
+    {
+      "text": "Let's break down a few powerful agent",
+      "start": 246.4,
+      "duration": 2.399
+    },
+    {
+      "text": "orchestration patterns with sub aent",
+      "start": 248.799,
+      "duration": 2.16
+    },
+    {
+      "text": "model selection so we can use the right",
+      "start": 250.959,
+      "duration": 2
+    },
+    {
+      "text": "agent coding model for the job at hand",
+      "start": 252.959,
+      "duration": 2.881
+    },
+    {
+      "text": "while avoiding these new rate limits.",
+      "start": 255.84,
+      "duration": 5.48
+    },
+    {
+      "text": "",
+      "start": 257,
+      "duration": 288
+    },
+    {
+      "text": "My crypto research can run with this",
+      "start": 263.36,
+      "duration": 2.24
+    },
+    {
+      "text": "single slash command and it kicked off",
+      "start": 265.6,
+      "duration": 2.48
+    },
+    {
+      "text": "12 agents. Right away we have to point",
+      "start": 268.08,
+      "duration": 2.48
+    },
+    {
+      "text": "out something really really important.",
+      "start": 270.56,
+      "duration": 1.44
+    },
+    {
+      "text": "Look at the time differences. Look at",
+      "start": 272,
+      "duration": 1.44
+    },
+    {
+      "text": "the token differences. These small,",
+      "start": 273.44,
+      "duration": 2.08
+    },
+    {
+      "text": "fast, cheap models are going to do less",
+      "start": 275.52,
+      "duration": 2.48
+    },
+    {
+      "text": "work for you, but they're going to do it",
+      "start": 278,
+      "duration": 1.44
+    },
+    {
+      "text": "in a short amount of time, while Sonnet",
+      "start": 279.44,
+      "duration": 2.56
+    },
+    {
+      "text": "and Opus are going to scale up the",
+      "start": 282,
+      "duration": 2
+    },
+    {
+      "text": "amount of tokens, the cost, and the time",
+      "start": 284,
+      "duration": 2.56
+    },
+    {
+      "text": "consumed. You can see it's writing this",
+      "start": 286.56,
+      "duration": 1.68
+    },
+    {
+      "text": "comprehensive summary for us with 12",
+      "start": 288.24,
+      "duration": 2.48
+    },
+    {
+      "text": "output tool calls in parallel. Let's let",
+      "start": 290.72,
+      "duration": 2.16
+    },
+    {
+      "text": "our primary agent cook some more, and",
+      "start": 292.88,
+      "duration": 1.759
+    },
+    {
+      "text": "let's answer the question, what does",
+      "start": 294.639,
+      "duration": 2.241
+    },
+    {
+      "text": "model selection really offer you?",
+      "start": 296.88,
+      "duration": 2.08
+    },
+    {
+      "text": "Ultimately, it lets you solve two",
+      "start": 298.96,
+      "duration": 1.76
+    },
+    {
+      "text": "problems. model overkill, where you're",
+      "start": 300.72,
+      "duration": 2.16
+    },
+    {
+      "text": "wasting tokens and money, and model",
+      "start": 302.88,
+      "duration": 2.64
+    },
+    {
+      "text": "underperformance, where you waste time",
+      "start": 305.52,
+      "duration": 2
+    },
+    {
+      "text": "having to improve your prompt or fire",
+      "start": 307.52,
+      "duration": 2.08
+    },
+    {
+      "text": "off the larger, more powerful model",
+      "start": 309.6,
+      "duration": 1.84
+    },
+    {
+      "text": "after wasting time on the cheaper model.",
+      "start": 311.44,
+      "duration": 2.479
+    },
+    {
+      "text": "Okay, it's all about the tradeoff,",
+      "start": 313.919,
+      "duration": 2.72
+    },
+    {
+      "text": "right? We're always trading off three",
+      "start": 316.639,
+      "duration": 2.081
+    },
+    {
+      "text": "things when we're selecting our models:",
+      "start": 318.72,
+      "duration": 2.08
+    },
+    {
+      "text": "performance, speed, and cost. You can",
+      "start": 320.8,
+      "duration": 3.119
+    },
+    {
+      "text": "optimize for performance, you can",
+      "start": 323.919,
+      "duration": 1.761
+    },
+    {
+      "text": "optimize for speed, and you can optimize",
+      "start": 325.68,
+      "duration": 2.16
+    },
+    {
+      "text": "for cost. I always advocate that you",
+      "start": 327.84,
+      "duration": 3.12
+    },
+    {
+      "text": "want performance over everything else,",
+      "start": 330.96,
+      "duration": 2.079
+    },
+    {
+      "text": "right? This is why we spend to win. This",
+      "start": 333.039,
+      "duration": 2
+    },
+    {
+      "text": "is why we have that big claw code max",
+      "start": 335.039,
+      "duration": 2.72
+    },
+    {
+      "text": "$200 subscription, right? However much",
+      "start": 337.759,
+      "duration": 1.841
+    },
+    {
+      "text": "you can push it, you want to be pushing",
+      "start": 339.6,
+      "duration": 1.52
+    },
+    {
+      "text": "it for the compute. The compute is",
+      "start": 341.12,
+      "duration": 2.16
+    },
+    {
+      "text": "absolutely worth it. There's nothing",
+      "start": 343.28,
+      "duration": 1.68
+    },
+    {
+      "text": "more important in the generative AI age",
+      "start": 344.96,
+      "duration": 2.079
+    },
+    {
+      "text": "as an engineer than your ability to",
+      "start": 347.039,
+      "duration": 2.641
+    },
+    {
+      "text": "scale up compute and use it to solve",
+      "start": 349.68,
+      "duration": 2.48
+    },
+    {
+      "text": "real engineering problems. This is the",
+      "start": 352.16,
+      "duration": 2.319
+    },
+    {
+      "text": "name of the game. This is what every",
+      "start": 354.479,
+      "duration": 1.681
+    },
+    {
+      "text": "winning engineer is doing right now. I",
+      "start": 356.16,
+      "duration": 2.479
+    },
+    {
+      "text": "guarantee you that bar none. You know,",
+      "start": 358.639,
+      "duration": 1.84
+    },
+    {
+      "text": "when we double click into this, it's",
+      "start": 360.479,
+      "duration": 1.681
+    },
+    {
+      "text": "quite a simple equation, right? We have",
+      "start": 362.16,
+      "duration": 1.599
+    },
+    {
+      "text": "Hiku 3.5, our weak model. We have Sonnet",
+      "start": 363.759,
+      "duration": 3.121
+    },
+    {
+      "text": "4, our balanced workhorse model. And",
+      "start": 366.88,
+      "duration": 2.4
+    },
+    {
+      "text": "then, of course, Opus 4. When you're",
+      "start": 369.28,
+      "duration": 1.759
+    },
+    {
+      "text": "solving real problems, when you're",
+      "start": 371.039,
+      "duration": 2
+    },
+    {
+      "text": "building out things and you want",
+      "start": 373.039,
+      "duration": 1.361
+    },
+    {
+      "text": "performance over everything, you choose",
+      "start": 374.4,
+      "duration": 1.919
+    },
+    {
+      "text": "the best model. And you can even push",
+      "start": 376.319,
+      "duration": 1.761
+    },
+    {
+      "text": "this further, right? Model selection is",
+      "start": 378.08,
+      "duration": 1.76
+    },
+    {
+      "text": "just layer one. The next layer is of",
+      "start": 379.84,
+      "duration": 1.84
+    },
+    {
+      "text": "course thinking, right? You can specify",
+      "start": 381.68,
+      "duration": 2.4
+    },
+    {
+      "text": "the information dense keyword the IDK",
+      "start": 384.08,
+      "duration": 2.64
+    },
+    {
+      "text": "think hard ultra think right anthropic",
+      "start": 386.72,
+      "duration": 3.039
+    },
+    {
+      "text": "has encoded this keyword for us so that",
+      "start": 389.759,
+      "duration": 2.401
+    },
+    {
+      "text": "in our prompts we can activate this",
+      "start": 392.16,
+      "duration": 1.68
+    },
+    {
+      "text": "feature whenever we need to right and I",
+      "start": 393.84,
+      "duration": 2.32
+    },
+    {
+      "text": "highly highly recommend if you're not",
+      "start": 396.16,
+      "duration": 1.44
+    },
+    {
+      "text": "doing this you need to be using this if",
+      "start": 397.6,
+      "duration": 2.08
+    },
+    {
+      "text": "you look at the charts if you go on",
+      "start": 399.68,
+      "duration": 1.2
+    },
+    {
+      "text": "artificial analysis if you run you know",
+      "start": 400.88,
+      "duration": 1.599
+    },
+    {
+      "text": "examples yourself 4 thinking beats opus",
+      "start": 402.479,
+      "duration": 3.041
+    },
+    {
+      "text": "4 bass also of course opus 4 thinking",
+      "start": 405.52,
+      "duration": 2.88
+    },
+    {
+      "text": "beats sonet 4 thinking so that's a",
+      "start": 408.4,
+      "duration": 2.16
+    },
+    {
+      "text": "really important call out there are",
+      "start": 410.56,
+      "duration": 1.28
+    },
+    {
+      "text": "other dimensions of your model that you",
+      "start": 411.84,
+      "duration": 2
+    },
+    {
+      "text": "can push. This is the trade-off we're",
+      "start": 413.84,
+      "duration": 1.52
+    },
+    {
+      "text": "making when we're selecting models, when",
+      "start": 415.36,
+      "duration": 1.279
+    },
+    {
+      "text": "we're using models. And you know,",
+      "start": 416.639,
+      "duration": 1.521
+    },
+    {
+      "text": "there's a fourth kind of hidden",
+      "start": 418.16,
+      "duration": 1.36
+    },
+    {
+      "text": "dimension here. We also have to work",
+      "start": 419.52,
+      "duration": 2
+    },
+    {
+      "text": "against um APIs and rate limits here.",
+      "start": 421.52,
+      "duration": 2.399
+    },
+    {
+      "text": "This is kind of the hidden dimension.",
+      "start": 423.919,
+      "duration": 1.361
+    },
+    {
+      "text": "This is probably something we're going",
+      "start": 425.28,
+      "duration": 0.96
+    },
+    {
+      "text": "to want to add in the future as we scale",
+      "start": 426.24,
+      "duration": 2.16
+    },
+    {
+      "text": "up our compute and start running those",
+      "start": 428.4,
+      "duration": 1.919
+    },
+    {
+      "text": "big big long running, we're talking",
+      "start": 430.319,
+      "duration": 2
+    },
+    {
+      "text": "hours and hours and hours long",
+      "start": 432.319,
+      "duration": 1.761
+    },
+    {
+      "text": "engineering workflow. All right. Why are",
+      "start": 434.08,
+      "duration": 1.519
+    },
+    {
+      "text": "we hitting these rate limits more?",
+      "start": 435.599,
+      "duration": 1.6
+    },
+    {
+      "text": "What's going on, right? How are we able",
+      "start": 437.199,
+      "duration": 1.761
+    },
+    {
+      "text": "to scale up further? It's of course",
+      "start": 438.96,
+      "duration": 1.44
+    },
+    {
+      "text": "because of sub agents, right? We can now",
+      "start": 440.4,
+      "duration": 1.919
+    },
+    {
+      "text": "spin up multiple agents from our primary",
+      "start": 442.319,
+      "duration": 2.32
+    },
+    {
+      "text": "agent. We covered this in our last",
+      "start": 444.639,
+      "duration": 1.361
+    },
+    {
+      "text": "video. And now we have more compute than",
+      "start": 446,
+      "duration": 2.4
+    },
+    {
+      "text": "ever. And we can specify what our sub",
+      "start": 448.4,
+      "duration": 3.04
+    },
+    {
+      "text": "aents do. We can now write system",
+      "start": 451.44,
+      "duration": 1.599
+    },
+    {
+      "text": "prompts for our sub aents. Okay. So, we",
+      "start": 453.039,
+      "duration": 2.321
+    },
+    {
+      "text": "just had this crypto analysis run. I",
+      "start": 455.36,
+      "duration": 1.76
+    },
+    {
+      "text": "have a couple interesting ideas here",
+      "start": 457.12,
+      "duration": 1.28
+    },
+    {
+      "text": "that I want to share with you. All",
+      "start": 458.4,
+      "duration": 1.519
+    },
+    {
+      "text": "stemming from this crypto research",
+      "start": 459.919,
+      "duration": 1.921
+    },
+    {
+      "text": "custom/comand. All right. And so, you",
+      "start": 461.84,
+      "duration": 1.919
+    },
+    {
+      "text": "know, funnily enough, um I am at my rate",
+      "start": 463.759,
+      "duration": 2.081
+    },
+    {
+      "text": "limits for the day. This is kind of",
+      "start": 465.84,
+      "duration": 1.04
+    },
+    {
+      "text": "perfect timing. I'm glad I'm filming it",
+      "start": 466.88,
+      "duration": 1.36
+    },
+    {
+      "text": "right here. Uh rate limits are",
+      "start": 468.24,
+      "duration": 2.079
+    },
+    {
+      "text": "obnoxious. you know, I'm on that $200",
+      "start": 470.319,
+      "duration": 1.921
+    },
+    {
+      "text": "plan, but you can still see here I am",
+      "start": 472.24,
+      "duration": 1.92
+    },
+    {
+      "text": "hitting rate limit. There is absolutely",
+      "start": 474.16,
+      "duration": 2.479
+    },
+    {
+      "text": "an argument for selecting the right",
+      "start": 476.639,
+      "duration": 2.4
+    },
+    {
+      "text": "model for the job, right? You don't",
+      "start": 479.039,
+      "duration": 1.521
+    },
+    {
+      "text": "always need top-end compute. And",
+      "start": 480.56,
+      "duration": 1.84
+    },
+    {
+      "text": "especially when we're deploying our",
+      "start": 482.4,
+      "duration": 1.44
+    },
+    {
+      "text": "agents into production environments, you",
+      "start": 483.84,
+      "duration": 1.919
+    },
+    {
+      "text": "want to use the right model for the job.",
+      "start": 485.759,
+      "duration": 1.521
+    },
+    {
+      "text": "You don't want to go overkill, right?",
+      "start": 487.28,
+      "duration": 1.52
+    },
+    {
+      "text": "Remember, model selection solves two",
+      "start": 488.8,
+      "duration": 1.679
+    },
+    {
+      "text": "problems. Model overkill and model",
+      "start": 490.479,
+      "duration": 1.921
+    },
+    {
+      "text": "underperformance. You want to hit that",
+      "start": 492.4,
+      "duration": 1.359
+    },
+    {
+      "text": "sweet spot if and when it matters. A lot",
+      "start": 493.759,
+      "duration": 2.56
+    },
+    {
+      "text": "of the time, you probably do this too,",
+      "start": 496.319,
+      "duration": 1.44
+    },
+    {
+      "text": "right? A lot of the times we just go",
+      "start": 497.759,
+      "duration": 1.361
+    },
+    {
+      "text": "model and we just go right to opus,",
+      "start": 499.12,
+      "duration": 1.6
+    },
+    {
+      "text": "right? I just want the best model and",
+      "start": 500.72,
+      "duration": 1.759
+    },
+    {
+      "text": "then you always throw on thinking mode",
+      "start": 502.479,
+      "duration": 2.16
+    },
+    {
+      "text": "and you let it operate at the highest",
+      "start": 504.639,
+      "duration": 2.081
+    },
+    {
+      "text": "possible intelligence level just to get",
+      "start": 506.72,
+      "duration": 1.759
+    },
+    {
+      "text": "the job done, right? Uh this is great. I",
+      "start": 508.479,
+      "duration": 2.16
+    },
+    {
+      "text": "do this all the time too. But as you're",
+      "start": 510.639,
+      "duration": 1.76
+    },
+    {
+      "text": "scaling up parallel sub agents, parallel",
+      "start": 512.399,
+      "duration": 1.921
+    },
+    {
+      "text": "agents, running multi- aent workflows,",
+      "start": 514.32,
+      "duration": 2.159
+    },
+    {
+      "text": "right? Ondevice and offdevice, um these",
+      "start": 516.479,
+      "duration": 2.641
+    },
+    {
+      "text": "rate limits, I think, are going to come",
+      "start": 519.12,
+      "duration": 1.599
+    },
+    {
+      "text": "into play more and more. Feel like rate",
+      "start": 520.719,
+      "duration": 2
+    },
+    {
+      "text": "limits have never truly been more",
+      "start": 522.719,
+      "duration": 2.161
+    },
+    {
+      "text": "important than with compute, right?",
+      "start": 524.88,
+      "duration": 1.92
+    },
+    {
+      "text": "because let's say you hit the daily or",
+      "start": 526.8,
+      "duration": 1.44
+    },
+    {
+      "text": "the weekly limit. Uh that's it, right?",
+      "start": 528.24,
+      "duration": 2.24
+    },
+    {
+      "text": "And this is also why it's so important",
+      "start": 530.48,
+      "duration": 1.52
+    },
+    {
+      "text": "for us to find alternatives. Anyway,",
+      "start": 532,
+      "duration": 1.68
+    },
+    {
+      "text": "more on that in the future. Make sure",
+      "start": 533.68,
+      "duration": 1.2
+    },
+    {
+      "text": "you're subscribed and like we're going",
+      "start": 534.88,
+      "duration": 1.28
+    },
+    {
+      "text": "to be investigating and benchmarking",
+      "start": 536.16,
+      "duration": 1.6
+    },
+    {
+      "text": "agentic coding tool alternatives. Um",
+      "start": 537.76,
+      "duration": 2.72
+    },
+    {
+      "text": "back to this prompt, right? Let's talk",
+      "start": 540.48,
+      "duration": 1.44
+    },
+    {
+      "text": "about model selection. So, let's go",
+      "start": 541.92,
+      "duration": 1.44
+    },
+    {
+      "text": "ahead and open up cursor. Let's",
+      "start": 543.36,
+      "duration": 1.68
+    },
+    {
+      "text": "",
+      "start": 545,
+      "duration": 256
+    },
+    {
+      "text": "understand this crypto research prompt.",
+      "start": 545.04,
+      "duration": 1.76
+    },
+    {
+      "text": "Couple new features coming out of the",
+      "start": 546.8,
+      "duration": 2.08
+    },
+    {
+      "text": "cloud code team. Let's just go ahead and",
+      "start": 548.88,
+      "duration": 1.28
+    },
+    {
+      "text": "pull up the official docs/re. And we",
+      "start": 550.16,
+      "duration": 2.799
+    },
+    {
+      "text": "have three important features to cover",
+      "start": 552.959,
+      "duration": 1.44
+    },
+    {
+      "text": "here. So we have agents with custom",
+      "start": 554.399,
+      "duration": 1.681
+    },
+    {
+      "text": "model support, appmentions for custom",
+      "start": 556.08,
+      "duration": 2.4
+    },
+    {
+      "text": "agents, and we have app meions for",
+      "start": 558.48,
+      "duration": 2.4
+    },
+    {
+      "text": "hidden files. This is super important.",
+      "start": 560.88,
+      "duration": 1.84
+    },
+    {
+      "text": "Now we can do something like this. And",
+      "start": 562.72,
+      "duration": 1.28
+    },
+    {
+      "text": "now we can see all of our cloud files.",
+      "start": 564,
+      "duration": 2.24
+    },
+    {
+      "text": "And do we have anything else here? Let's",
+      "start": 566.24,
+      "duration": 1.52
+    },
+    {
+      "text": "see. MCP, right? So now we can see our",
+      "start": 567.76,
+      "duration": 2.16
+    },
+    {
+      "text": "MCP file here. What's going on here? So",
+      "start": 569.92,
+      "duration": 2.24
+    },
+    {
+      "text": "I have a custom slash command that is",
+      "start": 572.16,
+      "duration": 2
+    },
+    {
+      "text": "kicking off 12 agents. And really it's",
+      "start": 574.16,
+      "duration": 1.76
+    },
+    {
+      "text": "kicking off four distinct solutions with",
+      "start": 575.92,
+      "duration": 3.68
+    },
+    {
+      "text": "three levels of agent each, right?",
+      "start": 579.6,
+      "duration": 2.48
+    },
+    {
+      "text": "Haiku, sonnet, opus. This is a great way",
+      "start": 582.08,
+      "duration": 2.24
+    },
+    {
+      "text": "to understand what model do I really",
+      "start": 584.32,
+      "duration": 2.079
+    },
+    {
+      "text": "need to solve this problem. Okay, so you",
+      "start": 586.399,
+      "duration": 2.081
+    },
+    {
+      "text": "can see they're working off a bunch of",
+      "start": 588.48,
+      "duration": 1.68
+    },
+    {
+      "text": "crypto agents doing crypto research,",
+      "start": 590.16,
+      "duration": 2.32
+    },
+    {
+      "text": "macro analysis, investment play ideas,",
+      "start": 592.48,
+      "duration": 2.32
+    },
+    {
+      "text": "so on and so forth, right? So we can go",
+      "start": 594.8,
+      "duration": 1.28
+    },
+    {
+      "text": "ahead and just collapse. Here's the",
+      "start": 596.08,
+      "duration": 1.12
+    },
+    {
+      "text": "prompt format we have here. Top level",
+      "start": 597.2,
+      "duration": 1.6
+    },
+    {
+      "text": "kind of purpose variables. We're just",
+      "start": 598.8,
+      "duration": 2.159
+    },
+    {
+      "text": "passing in a ticker. We have our agent",
+      "start": 600.959,
+      "duration": 1.761
+    },
+    {
+      "text": "groups. So we're defining, you know,",
+      "start": 602.72,
+      "duration": 1.44
+    },
+    {
+      "text": "what teams of agents are going to run.",
+      "start": 604.16,
+      "duration": 1.84
+    },
+    {
+      "text": "And then we have execution instructions.",
+      "start": 606,
+      "duration": 1.92
+    },
+    {
+      "text": "So this is, you know, I also like to",
+      "start": 607.92,
+      "duration": 1.28
+    },
+    {
+      "text": "call this workflow. And then we have our",
+      "start": 609.2,
+      "duration": 2.96
+    },
+    {
+      "text": "output format. So output format super",
+      "start": 612.16,
+      "duration": 2
+    },
+    {
+      "text": "important when you're writing these",
+      "start": 614.16,
+      "duration": 0.96
+    },
+    {
+      "text": "prompts. This forces your primary agent",
+      "start": 615.12,
+      "duration": 2.08
+    },
+    {
+      "text": "to communicate to you what you want your",
+      "start": 617.2,
+      "duration": 1.759
+    },
+    {
+      "text": "output format to be. And for your",
+      "start": 618.959,
+      "duration": 1.361
+    },
+    {
+      "text": "agents, it forces your agents to report",
+      "start": 620.32,
+      "duration": 3.519
+    },
+    {
+      "text": "their output. So right away you can see",
+      "start": 623.839,
+      "duration": 2
+    },
+    {
+      "text": "something interesting here in this",
+      "start": 625.839,
+      "duration": 1.361
+    },
+    {
+      "text": "system prompt for my crypto market",
+      "start": 627.2,
+      "duration": 1.92
+    },
+    {
+      "text": "agent. There's not much here. In fact,",
+      "start": 629.12,
+      "duration": 1.92
+    },
+    {
+      "text": "all I'm doing here is referencing",
+      "start": 631.04,
+      "duration": 2.4
+    },
+    {
+      "text": "another prompt. And so this is a pattern",
+      "start": 633.44,
+      "duration": 2.079
+    },
+    {
+      "text": "that I want to share with you here. You",
+      "start": 635.519,
+      "duration": 1.44
+    },
+    {
+      "text": "can have sets of agents at different",
+      "start": 636.959,
+      "duration": 1.761
+    },
+    {
+      "text": "levels, right? Different model levels,",
+      "start": 638.72,
+      "duration": 1.679
+    },
+    {
+      "text": "different descriptions, right? so that",
+      "start": 640.399,
+      "duration": 2.241
+    },
+    {
+      "text": "you can ABC test against one prompt,",
+      "start": 642.64,
+      "duration": 3.28
+    },
+    {
+      "text": "right? So, I think this is a really",
+      "start": 645.92,
+      "duration": 0.96
+    },
+    {
+      "text": "powerful pattern. It's also useful so",
+      "start": 646.88,
+      "duration": 2
+    },
+    {
+      "text": "that you can test this on your primary",
+      "start": 648.88,
+      "duration": 1.76
+    },
+    {
+      "text": "agent, right? Instead of it just being",
+      "start": 650.64,
+      "duration": 1.68
+    },
+    {
+      "text": "one system prompt inside a specific",
+      "start": 652.32,
+      "duration": 2.8
+    },
+    {
+      "text": "agent, you can test multiple prompts",
+      "start": 655.12,
+      "duration": 2.399
+    },
+    {
+      "text": "against multiple agents. Now, you do",
+      "start": 657.519,
+      "duration": 1.521
+    },
+    {
+      "text": "have to keep in mind this is still the",
+      "start": 659.04,
+      "duration": 1.359
+    },
+    {
+      "text": "system prompt, right? So, what we have",
+      "start": 660.399,
+      "duration": 2.321
+    },
+    {
+      "text": "here is a system prompt, right? And you",
+      "start": 662.72,
+      "duration": 2.48
+    },
+    {
+      "text": "can see here we have that output format",
+      "start": 665.2,
+      "duration": 1.68
+    },
+    {
+      "text": "from our agent system prompt. The key",
+      "start": 666.88,
+      "duration": 2.399
+    },
+    {
+      "text": "thing here is that you know, let me copy",
+      "start": 669.279,
+      "duration": 1.361
+    },
+    {
+      "text": "this uh reference here. You can see for",
+      "start": 670.64,
+      "duration": 2.639
+    },
+    {
+      "text": "our three agents, Hiku, Opus, Sonnet,",
+      "start": 673.279,
+      "duration": 2.56
+    },
+    {
+      "text": "we're using this exact same prompt. So",
+      "start": 675.839,
+      "duration": 2.401
+    },
+    {
+      "text": "here's Hiku, here's Opus. You can see",
+      "start": 678.24,
+      "duration": 2.56
+    },
+    {
+      "text": "all that change there. Let's go back and",
+      "start": 680.8,
+      "duration": 1.68
+    },
+    {
+      "text": "forth. All that's changing there is our",
+      "start": 682.48,
+      "duration": 2.24
+    },
+    {
+      "text": "model color and agent name, right? So",
+      "start": 684.72,
+      "duration": 2.799
+    },
+    {
+      "text": "this lets us again ABC test our model",
+      "start": 687.519,
+      "duration": 3.121
+    },
+    {
+      "text": "and our description. Okay, this is cool.",
+      "start": 690.64,
+      "duration": 2.4
+    },
+    {
+      "text": "Inside of each one of these prompts, we",
+      "start": 693.04,
+      "duration": 1.44
+    },
+    {
+      "text": "are of course doing specific crypto",
+      "start": 694.48,
+      "duration": 1.84
+    },
+    {
+      "text": "analysis, crypto research. So let's go",
+      "start": 696.32,
+      "duration": 1.84
+    },
+    {
+      "text": "ahead and open up macro",
+      "start": 698.16,
+      "duration": 1.28
+    },
+    {
+      "text": "cryptocorrelation. You know, inside of",
+      "start": 699.44,
+      "duration": 1.76
+    },
+    {
+      "text": "this prompt, let's go ahead and just",
+      "start": 701.2,
+      "duration": 1.12
+    },
+    {
+      "text": "open this up. We have, you know, classic",
+      "start": 702.32,
+      "duration": 2.079
+    },
+    {
+      "text": "prompt format, purpose, instructions,",
+      "start": 704.399,
+      "duration": 1.521
+    },
+    {
+      "text": "workflow, output. You are a macro crypto",
+      "start": 705.92,
+      "duration": 2.56
+    },
+    {
+      "text": "correlation analysis expert. Here we",
+      "start": 708.48,
+      "duration": 2.32
+    },
+    {
+      "text": "want to understand how global macro",
+      "start": 710.8,
+      "duration": 2.24
+    },
+    {
+      "text": "plays into the traditional market. Of",
+      "start": 713.04,
+      "duration": 1.76
+    },
+    {
+      "text": "course, we have instructions and then we",
+      "start": 714.8,
+      "duration": 1.599
+    },
+    {
+      "text": "have our workflow. We're at our",
+      "start": 716.399,
+      "duration": 1.12
+    },
+    {
+      "text": "step-by-step play for the sub aent.",
+      "start": 717.519,
+      "duration": 2.56
+    },
+    {
+      "text": "Always remember this is the system",
+      "start": 720.079,
+      "duration": 1.601
+    },
+    {
+      "text": "prompt we're operating in here when",
+      "start": 721.68,
+      "duration": 1.839
+    },
+    {
+      "text": "we're calling sub aents. And you know,",
+      "start": 723.519,
+      "duration": 2.481
+    },
+    {
+      "text": "just to make this super clear, we",
+      "start": 726,
+      "duration": 1.279
+    },
+    {
+      "text": "covered this in our previous sub aent",
+      "start": 727.279,
+      "duration": 1.601
+    },
+    {
+      "text": "video from last week. You are prompting",
+      "start": 728.88,
+      "duration": 2.079
+    },
+    {
+      "text": "your primary agent. Your primary agent",
+      "start": 730.959,
+      "duration": 2.081
+    },
+    {
+      "text": "is prompting your sub agents. Your sub",
+      "start": 733.04,
+      "duration": 1.919
+    },
+    {
+      "text": "agents are responding to your primary",
+      "start": 734.959,
+      "duration": 2.161
+    },
+    {
+      "text": "agent, not to you. The flow of",
+      "start": 737.12,
+      "duration": 2
+    },
+    {
+      "text": "information matters here, especially",
+      "start": 739.12,
+      "duration": 1.92
+    },
+    {
+      "text": "when you start scaling up to, and we've",
+      "start": 741.04,
+      "duration": 1.52
+    },
+    {
+      "text": "covered this, multi- aent workflow",
+      "start": 742.56,
+      "duration": 2.079
+    },
+    {
+      "text": "orchestration where you have multiple",
+      "start": 744.639,
+      "duration": 1.361
+    },
+    {
+      "text": "prompts firing off back to back to back.",
+      "start": 746,
+      "duration": 1.68
+    },
+    {
+      "text": "It all feeds into your primary agents",
+      "start": 747.68,
+      "duration": 1.76
+    },
+    {
+      "text": "context window. Okay? It doesn't return",
+      "start": 749.44,
+      "duration": 1.68
+    },
+    {
+      "text": "to you. So when you read these agent",
+      "start": 751.12,
+      "duration": 2
+    },
+    {
+      "text": "prompts, right, we have a bunch of",
+      "start": 753.12,
+      "duration": 1.6
+    },
+    {
+      "text": "underscore agent_prompt.",
+      "start": 754.72,
+      "duration": 2.16
+    },
+    {
+      "text": "MD, these are all returning to your",
+      "start": 756.88,
+      "duration": 3.04
+    },
+    {
+      "text": "primary agent. And so that's why we have",
+      "start": 759.92,
+      "duration": 2.159
+    },
+    {
+      "text": "this and we if we go up to the top level",
+      "start": 762.079,
+      "duration": 1.76
+    },
+    {
+      "text": "crypto research, we have this output",
+      "start": 763.839,
+      "duration": 2
+    },
+    {
+      "text": "format call on the top level crypto",
+      "start": 765.839,
+      "duration": 2.721
+    },
+    {
+      "text": "research. Right? This is that top level",
+      "start": 768.56,
+      "duration": 1.76
+    },
+    {
+      "text": "prompt that we executed to kick off our",
+      "start": 770.32,
+      "duration": 1.84
+    },
+    {
+      "text": "12 agents across three different models.",
+      "start": 772.16,
+      "duration": 2.72
+    },
+    {
+      "text": "Their output format here is really",
+      "start": 774.88,
+      "duration": 1.519
+    },
+    {
+      "text": "important. So, we're taking each",
+      "start": 776.399,
+      "duration": 1.361
+    },
+    {
+      "text": "response directly with no modifications,",
+      "start": 777.76,
+      "duration": 2.8
+    },
+    {
+      "text": "no summarizations, and no changes. Okay,",
+      "start": 780.56,
+      "duration": 2.88
+    },
+    {
+      "text": "super important. Again, we're",
+      "start": 783.44,
+      "duration": 1.839
+    },
+    {
+      "text": "referencing anthropics encoded keyword",
+      "start": 785.279,
+      "duration": 2.641
+    },
+    {
+      "text": "important. We're prefixing this with",
+      "start": 787.92,
+      "duration": 1.599
+    },
+    {
+      "text": "important so our agent pays more",
+      "start": 789.519,
+      "duration": 1.361
+    },
+    {
+      "text": "attention to it. And then we have our",
+      "start": 790.88,
+      "duration": 1.36
+    },
+    {
+      "text": "output format. All right, so now we",
+      "start": 792.24,
+      "duration": 1.36
+    },
+    {
+      "text": "should be able to just find these,",
+      "start": 793.6,
+      "duration": 1.28
+    },
+    {
+      "text": "right? So, if we open this up, collapse",
+      "start": 794.88,
+      "duration": 1.92
+    },
+    {
+      "text": "everything. And we go into outputs, you",
+      "start": 796.8,
+      "duration": 2
+    },
+    {
+      "text": "can see we have two files here, 10 5614.",
+      "start": 798.8,
+      "duration": 3.44
+    },
+    {
+      "text": "",
+      "start": 801,
+      "duration": 294
+    },
+    {
+      "text": "Here we go. There are all of our",
+      "start": 802.24,
+      "duration": 1.279
+    },
+    {
+      "text": "prompts. You can see it's in that exact",
+      "start": 803.519,
+      "duration": 1.44
+    },
+    {
+      "text": "same format as specified. And then we",
+      "start": 804.959,
+      "duration": 2
+    },
+    {
+      "text": "can take a look at each level. Okay. And",
+      "start": 806.959,
+      "duration": 2.401
+    },
+    {
+      "text": "so this is the really important part,",
+      "start": 809.36,
+      "duration": 1.279
+    },
+    {
+      "text": "right? Every level matters, right? You",
+      "start": 810.639,
+      "duration": 2
+    },
+    {
+      "text": "don't always need opus for certain",
+      "start": 812.639,
+      "duration": 2
+    },
+    {
+      "text": "things. You don't always need sonnet,",
+      "start": 814.639,
+      "duration": 1.44
+    },
+    {
+      "text": "but you can see in some cases you can",
+      "start": 816.079,
+      "duration": 2.32
+    },
+    {
+      "text": "drop all the way down to a cheap fast",
+      "start": 818.399,
+      "duration": 2.081
+    },
+    {
+      "text": "haiku model. Let's see if for something",
+      "start": 820.48,
+      "duration": 2
+    },
+    {
+      "text": "like a cryptocoin analyzer. Do a",
+      "start": 822.48,
+      "duration": 2.56
+    },
+    {
+      "text": "sidebyside here. So that's haiku. Here's",
+      "start": 825.04,
+      "duration": 2.08
+    },
+    {
+      "text": "opus. Here's sonnet. You know, very",
+      "start": 827.12,
+      "duration": 2.08
+    },
+    {
+      "text": "clearly the haiku model is having a",
+      "start": 829.2,
+      "duration": 1.92
+    },
+    {
+      "text": "problem. It's having a challenge with",
+      "start": 831.12,
+      "duration": 1.519
+    },
+    {
+      "text": "the format. And if we open up our",
+      "start": 832.639,
+      "duration": 1.521
+    },
+    {
+      "text": "cryptocoin prompt and go down to our",
+      "start": 834.16,
+      "duration": 2.88
+    },
+    {
+      "text": "output format, you can always check for",
+      "start": 837.04,
+      "duration": 2.159
+    },
+    {
+      "text": "model strength by looking to see if it",
+      "start": 839.199,
+      "duration": 1.841
+    },
+    {
+      "text": "can obey your output formats. So we're",
+      "start": 841.04,
+      "duration": 2.56
+    },
+    {
+      "text": "looking for output in this structure,",
+      "start": 843.6,
+      "duration": 1.76
+    },
+    {
+      "text": "cryptocurrency analysis. And you can see",
+      "start": 845.36,
+      "duration": 2.08
+    },
+    {
+      "text": "here right away IU goes off the rails,",
+      "start": 847.44,
+      "duration": 2.72
+    },
+    {
+      "text": "right? If we move over to sonnet, we can",
+      "start": 850.16,
+      "duration": 2
+    },
+    {
+      "text": "see that it's not exact, but it gets a",
+      "start": 852.16,
+      "duration": 1.919
+    },
+    {
+      "text": "lot closer. We have, you know, market",
+      "start": 854.079,
+      "duration": 1.921
+    },
+    {
+      "text": "data, recent news and developments.",
+      "start": 856,
+      "duration": 2.079
+    },
+    {
+      "text": "There's the market data and if we search",
+      "start": 858.079,
+      "duration": 2.56
+    },
+    {
+      "text": "for news, you can see we have a news",
+      "start": 860.639,
+      "duration": 1.521
+    },
+    {
+      "text": "section here on sonnet, right? So, this",
+      "start": 862.16,
+      "duration": 2.08
+    },
+    {
+      "text": "looks better, right? We can work with",
+      "start": 864.24,
+      "duration": 1.68
+    },
+    {
+      "text": "this. Um, if we go to Opus, however, and",
+      "start": 865.92,
+      "duration": 3.599
+    },
+    {
+      "text": "search for that exact header, we can see",
+      "start": 869.519,
+      "duration": 1.76
+    },
+    {
+      "text": "we're getting that exact header. And",
+      "start": 871.279,
+      "duration": 2.401
+    },
+    {
+      "text": "this is a really important call out,",
+      "start": 873.68,
+      "duration": 1.2
+    },
+    {
+      "text": "right? If you want maximum performance,",
+      "start": 874.88,
+      "duration": 2.319
+    },
+    {
+      "text": "you always scale it up to that top",
+      "start": 877.199,
+      "duration": 2.721
+    },
+    {
+      "text": "model, right? You pay to play. And this",
+      "start": 879.92,
+      "duration": 2.719
+    },
+    {
+      "text": "is something I see some engineers are so",
+      "start": 882.639,
+      "duration": 2.32
+    },
+    {
+      "text": "scared to spend. they're so scared to,",
+      "start": 884.959,
+      "duration": 2.161
+    },
+    {
+      "text": "you know, use that maximum compute and",
+      "start": 887.12,
+      "duration": 1.519
+    },
+    {
+      "text": "really pay to play. This is a massive",
+      "start": 888.639,
+      "duration": 1.921
+    },
+    {
+      "text": "advantage. Understanding what the",
+      "start": 890.56,
+      "duration": 1.68
+    },
+    {
+      "text": "maximum capabilities are and getting the",
+      "start": 892.24,
+      "duration": 2.08
+    },
+    {
+      "text": "advantage of using them will set you",
+      "start": 894.32,
+      "duration": 2.959
+    },
+    {
+      "text": "ahead. It'll break you away from the",
+      "start": 897.279,
+      "duration": 1.761
+    },
+    {
+      "text": "pack. When I want to use the best, I",
+      "start": 899.04,
+      "duration": 1.68
+    },
+    {
+      "text": "don't hesitate. Okay? You can even push",
+      "start": 900.72,
+      "duration": 1.919
+    },
+    {
+      "text": "that further. Of course, as you know,",
+      "start": 902.639,
+      "duration": 1.521
+    },
+    {
+      "text": "you can add thinking to these models.",
+      "start": 904.16,
+      "duration": 1.84
+    },
+    {
+      "text": "You can force them to think more. Use",
+      "start": 906,
+      "duration": 2.24
+    },
+    {
+      "text": "their reasoning effort. Increase",
+      "start": 908.24,
+      "duration": 1.44
+    },
+    {
+      "text": "intelligence even further. Of course,",
+      "start": 909.68,
+      "duration": 1.68
+    },
+    {
+      "text": "you're going to spend more to do this,",
+      "start": 911.36,
+      "duration": 1.44
+    },
+    {
+      "text": "right? they're still generating those",
+      "start": 912.8,
+      "duration": 1.36
+    },
+    {
+      "text": "tokens even if you can't see them. And",
+      "start": 914.16,
+      "duration": 1.84
+    },
+    {
+      "text": "you want to be especially careful with",
+      "start": 916,
+      "duration": 1.76
+    },
+    {
+      "text": "this with sub agents, right? Because",
+      "start": 917.76,
+      "duration": 2.16
+    },
+    {
+      "text": "this stuff is still happening. You want",
+      "start": 919.92,
+      "duration": 1.76
+    },
+    {
+      "text": "to be making sure that you're using the",
+      "start": 921.68,
+      "duration": 1.839
+    },
+    {
+      "text": "value of your top level agents,",
+      "start": 923.519,
+      "duration": 1.921
+    },
+    {
+      "text": "specifically your opus agents or",
+      "start": 925.44,
+      "duration": 1.519
+    },
+    {
+      "text": "whatever your strong model is. Make sure",
+      "start": 926.959,
+      "duration": 2.24
+    },
+    {
+      "text": "you're getting value out of this. Don't",
+      "start": 929.199,
+      "duration": 1.361
+    },
+    {
+      "text": "be wasteful with this stuff. Unless",
+      "start": 930.56,
+      "duration": 1.76
+    },
+    {
+      "text": "you're learning something or",
+      "start": 932.32,
+      "duration": 0.959
+    },
+    {
+      "text": "experimenting, you really want to, you",
+      "start": 933.279,
+      "duration": 1.761
+    },
+    {
+      "text": "know, use these models with a clear",
+      "start": 935.04,
+      "duration": 2.32
+    },
+    {
+      "text": "purpose. All right, keep that in mind,",
+      "start": 937.36,
+      "duration": 1.68
+    },
+    {
+      "text": "too. And always remember, you can push",
+      "start": 939.04,
+      "duration": 1.28
+    },
+    {
+      "text": "the model further with thinking mode.",
+      "start": 940.32,
+      "duration": 1.199
+    },
+    {
+      "text": "Just to mention it, uh, Sonic 4th",
+      "start": 941.519,
+      "duration": 1.521
+    },
+    {
+      "text": "thinking is very, very powerful, right?",
+      "start": 943.04,
+      "duration": 2
+    },
+    {
+      "text": "More broadly, this pattern of having a",
+      "start": 945.04,
+      "duration": 2.56
+    },
+    {
+      "text": "weak base and strong model for your",
+      "start": 947.6,
+      "duration": 2.4
+    },
+    {
+      "text": "agent model stack is super powerful,",
+      "start": 950,
+      "duration": 2.24
+    },
+    {
+      "text": "right? It's super important because you",
+      "start": 952.24,
+      "duration": 1.36
+    },
+    {
+      "text": "don't always need Opus, right? Sometimes",
+      "start": 953.6,
+      "duration": 1.359
+    },
+    {
+      "text": "you're just summarizing some work, so",
+      "start": 954.959,
+      "duration": 1.281
+    },
+    {
+      "text": "you can drop down to a simple model. And",
+      "start": 956.24,
+      "duration": 1.76
+    },
+    {
+      "text": "this applies across model providers,",
+      "start": 958,
+      "duration": 1.759
+    },
+    {
+      "text": "right? Gemini Flash Light, 2.5 Flash,",
+      "start": 959.759,
+      "duration": 2.241
+    },
+    {
+      "text": "2.5 Pro, and then, you know, there are",
+      "start": 962,
+      "duration": 2.399
+    },
+    {
+      "text": "bigger levels above and below. Gemini",
+      "start": 964.399,
+      "duration": 2.24
+    },
+    {
+      "text": "just put out their deep think model,",
+      "start": 966.639,
+      "duration": 1.921
+    },
+    {
+      "text": "while OpenAI has 03 Pro. They have their",
+      "start": 968.56,
+      "duration": 2.8
+    },
+    {
+      "text": "new agent model and they have apparently",
+      "start": 971.36,
+      "duration": 2.64
+    },
+    {
+      "text": "GPT5. We'll see about that. I think this",
+      "start": 974,
+      "duration": 2.079
+    },
+    {
+      "text": "is a great pattern for you to kind of",
+      "start": 976.079,
+      "duration": 1.68
+    },
+    {
+      "text": "select models and use the right model,",
+      "start": 977.759,
+      "duration": 1.601
+    },
+    {
+      "text": "right? It's all about that PF speed cost",
+      "start": 979.36,
+      "duration": 2.08
+    },
+    {
+      "text": "trade-off and you know the kind of",
+      "start": 981.44,
+      "duration": 1.6
+    },
+    {
+      "text": "hidden layer rate limits. We're scaling",
+      "start": 983.04,
+      "duration": 2.08
+    },
+    {
+      "text": "up our compute across multiple",
+      "start": 985.12,
+      "duration": 1.76
+    },
+    {
+      "text": "dimensions. Now, if you want to scale,",
+      "start": 986.88,
+      "duration": 2.16
+    },
+    {
+      "text": "it's pretty clear that reusable prompts",
+      "start": 989.04,
+      "duration": 2.239
+    },
+    {
+      "text": "aka custom/comands and sub agents is the",
+      "start": 991.279,
+      "duration": 2.8
+    },
+    {
+      "text": "way to scale up your compute and get",
+      "start": 994.079,
+      "duration": 1.361
+    },
+    {
+      "text": "more work done than ever. So, this is a",
+      "start": 995.44,
+      "duration": 1.92
+    },
+    {
+      "text": "powerful agent pattern you can use. You",
+      "start": 997.36,
+      "duration": 1.68
+    },
+    {
+      "text": "have your top level agent calling a",
+      "start": 999.04,
+      "duration": 2
+    },
+    {
+      "text": "custom SL command. Here we're doing",
+      "start": 1001.04,
+      "duration": 1.84
+    },
+    {
+      "text": "crypto research. This fires off many sub",
+      "start": 1002.88,
+      "duration": 2.72
+    },
+    {
+      "text": "aents, right, across different model",
+      "start": 1005.6,
+      "duration": 1.84
+    },
+    {
+      "text": "levels and then it takes the results and",
+      "start": 1007.44,
+      "duration": 2.88
+    },
+    {
+      "text": "refuses them, right, in a big way. We're",
+      "start": 1010.32,
+      "duration": 2.24
+    },
+    {
+      "text": "just doing what we've done for years on",
+      "start": 1012.56,
+      "duration": 2
+    },
+    {
+      "text": "the channel, prompt chaining and fusion",
+      "start": 1014.56,
+      "duration": 2
+    },
+    {
+      "text": "chaining. Okay, we've covered this stuff",
+      "start": 1016.56,
+      "duration": 1.76
+    },
+    {
+      "text": "a long time ago before reusing models",
+      "start": 1018.32,
+      "duration": 2.079
+    },
+    {
+      "text": "even existed. Inside of your agents, you",
+      "start": 1020.399,
+      "duration": 2.88
+    },
+    {
+      "text": "can do something really powerful. You",
+      "start": 1023.279,
+      "duration": 1.601
+    },
+    {
+      "text": "can create dedicated agent prompts to",
+      "start": 1024.88,
+      "duration": 2.319
+    },
+    {
+      "text": "reuse across different agents to",
+      "start": 1027.199,
+      "duration": 2.561
+    },
+    {
+      "text": "understand what model performance you",
+      "start": 1029.76,
+      "duration": 1.76
+    },
+    {
+      "text": "really need. That looks like this. If we",
+      "start": 1031.52,
+      "duration": 1.518
+    },
+    {
+      "text": "go into agents, we go into crypto, you",
+      "start": 1033.039,
+      "duration": 1.92
+    },
+    {
+      "text": "can see we have cryptocoin analyzer",
+      "start": 1034.959,
+      "duration": 2.079
+    },
+    {
+      "text": "haiku. We have the exact same version",
+      "start": 1037.039,
+      "duration": 1.92
+    },
+    {
+      "text": "for sonnet. Right? There's that sonnet.",
+      "start": 1038.959,
+      "duration": 2.161
+    },
+    {
+      "text": "And we have the exact same version for",
+      "start": 1041.12,
+      "duration": 2.24
+    },
+    {
+      "text": "opus as well. So it's all just a small",
+      "start": 1043.36,
+      "duration": 2.558
+    },
+    {
+      "text": "tweak to understand what model you",
+      "start": 1045.919,
+      "duration": 2.4
+    },
+    {
+      "text": "really need for the job you're doing.",
+      "start": 1048.319,
+      "duration": 1.441
+    },
+    {
+      "text": "And this is why it's so important to",
+      "start": 1049.76,
+      "duration": 1.36
+    },
+    {
+      "text": "isolate your prompt for your sub agents.",
+      "start": 1051.12,
+      "duration": 2.48
+    },
+    {
+      "text": "This is just a pattern. It's an idea",
+      "start": 1053.6,
+      "duration": 1.84
+    },
+    {
+      "text": "that you can use. And another advantage",
+      "start": 1055.44,
+      "duration": 1.92
+    },
+    {
+      "text": "here is of course we can just hop into a",
+      "start": 1057.36,
+      "duration": 2.16
+    },
+    {
+      "text": "new agent and we can just fire this",
+      "start": 1059.52,
+      "duration": 1.6
+    },
+    {
+      "text": "prompt off oursel right on the top",
+      "start": 1061.12,
+      "duration": 2.24
+    },
+    {
+      "text": "level. Okay? You know whenever you want",
+      "start": 1063.36,
+      "duration": 1.84
+    },
+    {
+      "text": "to you can understand what your prompt",
+      "start": 1065.2,
+      "duration": 2.16
+    },
+    {
+      "text": "is doing and how it performs by just",
+      "start": 1067.36,
+      "duration": 1.76
+    },
+    {
+      "text": "running it on the top level. Right? So",
+      "start": 1069.12,
+      "duration": 1.439
+    },
+    {
+      "text": "here we can just run our cryptocoin",
+      "start": 1070.559,
+      "duration": 1.521
+    },
+    {
+      "text": "analyzer agent and actually we need to",
+      "start": 1072.08,
+      "duration": 1.68
+    },
+    {
+      "text": "pass in a uh let's do B&B. This is a",
+      "start": 1073.76,
+      "duration": 3.039
+    },
+    {
+      "text": "great way to understand what your prompt",
+      "start": 1076.799,
+      "duration": 1.521
+    },
+    {
+      "text": "does end to end and to make tweaks to it",
+      "start": 1078.32,
+      "duration": 1.84
+    },
+    {
+      "text": "by running it on the top level right in",
+      "start": 1080.16,
+      "duration": 2.32
+    },
+    {
+      "text": "your primary agent. A lot of things get",
+      "start": 1082.48,
+      "duration": 1.84
+    },
+    {
+      "text": "lost when you're running sub aents. So",
+      "start": 1084.32,
+      "duration": 1.92
+    },
+    {
+      "text": "you can use this dedicated agent prompt",
+      "start": 1086.24,
+      "duration": 2.48
+    },
+    {
+      "text": "pattern to understand, you know, what",
+      "start": 1088.72,
+      "duration": 2.319
+    },
+    {
+      "text": "model you really need for the job. The",
+      "start": 1091.039,
+      "duration": 1.441
+    },
+    {
+      "text": "way I look at it is a lot of my simpler",
+      "start": 1092.48,
+      "duration": 2.24
+    },
+    {
+      "text": "tasks where we're just generating unique",
+      "start": 1094.72,
+      "duration": 1.92
+    },
+    {
+      "text": "",
+      "start": 1095,
+      "duration": 115
+    },
+    {
+      "text": "names for files where we're doing some",
+      "start": 1096.64,
+      "duration": 2.399
+    },
+    {
+      "text": "small file moving, some file migration,",
+      "start": 1099.039,
+      "duration": 2.161
+    },
+    {
+      "text": "some quick summarizations. Haiku 3.5 can",
+      "start": 1101.2,
+      "duration": 2.96
+    },
+    {
+      "text": "do a lot of that stuff, right? In fact,",
+      "start": 1104.16,
+      "duration": 2.08
+    },
+    {
+      "text": "you probably have seen, you know, this",
+      "start": 1106.24,
+      "duration": 1.52
+    },
+    {
+      "text": "little popup here from cloud code. Guess",
+      "start": 1107.76,
+      "duration": 2.4
+    },
+    {
+      "text": "who's running that? This is a ha coup",
+      "start": 1110.16,
+      "duration": 1.68
+    },
+    {
+      "text": "model making up, you know, a relevant",
+      "start": 1111.84,
+      "duration": 1.839
+    },
+    {
+      "text": "one-word description, right? The perfect",
+      "start": 1113.679,
+      "duration": 1.761
+    },
+    {
+      "text": "example for that, right? You don't need",
+      "start": 1115.44,
+      "duration": 1.2
+    },
+    {
+      "text": "a big model to do that. You need",
+      "start": 1116.64,
+      "duration": 1.279
+    },
+    {
+      "text": "something fast and cheap and simple. So,",
+      "start": 1117.919,
+      "duration": 1.441
+    },
+    {
+      "text": "that's a small example of how you can",
+      "start": 1119.36,
+      "duration": 1.36
+    },
+    {
+      "text": "use a small fast model and avoid using a",
+      "start": 1120.72,
+      "duration": 2.4
+    },
+    {
+      "text": "bigger, stronger model, right? Even like",
+      "start": 1123.12,
+      "duration": 1.439
+    },
+    {
+      "text": "Sonnet 4. Then there's of course the",
+      "start": 1124.559,
+      "duration": 2.081
+    },
+    {
+      "text": "Sonet 4. This is a workhorse model,",
+      "start": 1126.64,
+      "duration": 1.76
+    },
+    {
+      "text": "right? This is our base level model.",
+      "start": 1128.4,
+      "duration": 1.84
+    },
+    {
+      "text": "This is going to be a great balance. I",
+      "start": 1130.24,
+      "duration": 1.52
+    },
+    {
+      "text": "think a lot of work happening right now",
+      "start": 1131.76,
+      "duration": 1.52
+    },
+    {
+      "text": "is coming out of Sonet 4. It's funny to",
+      "start": 1133.28,
+      "duration": 1.84
+    },
+    {
+      "text": "think about, you know, what model is",
+      "start": 1135.12,
+      "duration": 1.52
+    },
+    {
+      "text": "responsible for the most code in the",
+      "start": 1136.64,
+      "duration": 1.919
+    },
+    {
+      "text": "world. And I think right now it's very",
+      "start": 1138.559,
+      "duration": 2.401
+    },
+    {
+      "text": "clearly sonnet 4. And then of course we",
+      "start": 1140.96,
+      "duration": 1.76
+    },
+    {
+      "text": "have opus, right? When you're doing",
+      "start": 1142.72,
+      "duration": 1.44
+    },
+    {
+      "text": "serious work, when you're putting the",
+      "start": 1144.16,
+      "duration": 1.28
+    },
+    {
+      "text": "pellet to the metal, you use opus 4 and",
+      "start": 1145.44,
+      "duration": 2
+    },
+    {
+      "text": "you scale it with thinking mode, right?",
+      "start": 1147.44,
+      "duration": 1.52
+    },
+    {
+      "text": "I do this all the time. Any complex",
+      "start": 1148.96,
+      "duration": 2
+    },
+    {
+      "text": "work, any, you know, serious engineering",
+      "start": 1150.96,
+      "duration": 1.839
+    },
+    {
+      "text": "work, production work, opus for think,",
+      "start": 1152.799,
+      "duration": 2
+    },
+    {
+      "text": "burn up the tokens, hit the right",
+      "start": 1154.799,
+      "duration": 1.441
+    },
+    {
+      "text": "limits, it doesn't matter. The compute",
+      "start": 1156.24,
+      "duration": 1.679
+    },
+    {
+      "text": "is there for you to use, right? And so",
+      "start": 1157.919,
+      "duration": 2.481
+    },
+    {
+      "text": "we can take all these models, we can",
+      "start": 1160.4,
+      "duration": 1.36
+    },
+    {
+      "text": "take them in thinking mode, we can embed",
+      "start": 1161.76,
+      "duration": 1.44
+    },
+    {
+      "text": "them in sub aents and scale them up,",
+      "start": 1163.2,
+      "duration": 1.92
+    },
+    {
+      "text": "right? And so in the end we get",
+      "start": 1165.12,
+      "duration": 1.52
+    },
+    {
+      "text": "something like this, right? A powerful",
+      "start": 1166.64,
+      "duration": 1.6
+    },
+    {
+      "text": "multi- aent orchestration workflow. This",
+      "start": 1168.24,
+      "duration": 1.84
+    },
+    {
+      "text": "is just one simple example of work",
+      "start": 1170.08,
+      "duration": 1.52
+    },
+    {
+      "text": "happening. All feeds back into the",
+      "start": 1171.6,
+      "duration": 1.439
+    },
+    {
+      "text": "primary agent. Primary agent can then",
+      "start": 1173.039,
+      "duration": 2
+    },
+    {
+      "text": "execute on all that work, right? This is",
+      "start": 1175.039,
+      "duration": 1.921
+    },
+    {
+      "text": "just one workflow. Again, we covered",
+      "start": 1176.96,
+      "duration": 1.28
+    },
+    {
+      "text": "this in our previous week's video. I'll",
+      "start": 1178.24,
+      "duration": 1.28
+    },
+    {
+      "text": "make sure to link that. You want to",
+      "start": 1179.52,
+      "duration": 1.279
+    },
+    {
+      "text": "understand the model controls. You want",
+      "start": 1180.799,
+      "duration": 1.601
+    },
+    {
+      "text": "to understand your tool and you want to",
+      "start": 1182.4,
+      "duration": 1.36
+    },
+    {
+      "text": "understand what you can do with them.",
+      "start": 1183.76,
+      "duration": 1.52
+    },
+    {
+      "text": "Right? every week here. That's what",
+      "start": 1185.28,
+      "duration": 1.279
+    },
+    {
+      "text": "we're pushing toward. Understanding the",
+      "start": 1186.559,
+      "duration": 2.161
+    },
+    {
+      "text": "best agent coding tools so that we can",
+      "start": 1188.72,
+      "duration": 2.56
+    },
+    {
+      "text": "build systems that work for us while we",
+      "start": 1191.28,
+      "duration": 2.88
+    },
+    {
+      "text": "sleep. That's always been the focus.",
+      "start": 1194.16,
+      "duration": 2.56
+    },
+    {
+      "text": "It's always been the mission of this",
+      "start": 1196.72,
+      "duration": 2
+    },
+    {
+      "text": "channel. We're going to build living",
+      "start": 1198.72,
+      "duration": 1.36
+    },
+    {
+      "text": "software that works for us while we",
+      "start": 1200.08,
+      "duration": 1.839
+    },
+    {
+      "text": "sleep. We're getting closer than ever",
+      "start": 1201.919,
+      "duration": 1.921
+    },
+    {
+      "text": "with cloud code, with these incredible",
+      "start": 1203.84,
+      "duration": 2.24
+    },
+    {
+      "text": "longrunning jobs and sub agents. But we",
+      "start": 1206.08,
+      "duration": 2.88
+    },
+    {
+      "text": "also need to make sure that you know",
+      "start": 1208.96,
+      "duration": 1.68
+    },
+    {
+      "text": "",
+      "start": 1210,
+      "duration": 253
+    },
+    {
+      "text": "when rate limits pop up when the next",
+      "start": 1210.64,
+      "duration": 3.12
+    },
+    {
+      "text": "set of restrictions or you know whatever",
+      "start": 1213.76,
+      "duration": 2.72
+    },
+    {
+      "text": "comes next we need to make sure we can",
+      "start": 1216.48,
+      "duration": 1.439
+    },
+    {
+      "text": "diversify. So you know again as you know",
+      "start": 1217.919,
+      "duration": 2.241
+    },
+    {
+      "text": "this is like my 15th cloud code video in",
+      "start": 1220.16,
+      "duration": 2
+    },
+    {
+      "text": "a row unprecedented for this channel but",
+      "start": 1222.16,
+      "duration": 2.399
+    },
+    {
+      "text": "um I follow and focus on the signal of",
+      "start": 1224.559,
+      "duration": 2
+    },
+    {
+      "text": "the best tool for the job right now for",
+      "start": 1226.559,
+      "duration": 1.681
+    },
+    {
+      "text": "engineering. There's no better tool than",
+      "start": 1228.24,
+      "duration": 1.52
+    },
+    {
+      "text": "cloud code but we need to make sure we",
+      "start": 1229.76,
+      "duration": 2.64
+    },
+    {
+      "text": "diversify. We can't be so reliant on a",
+      "start": 1232.4,
+      "duration": 2.48
+    },
+    {
+      "text": "single tool on a single set of models,",
+      "start": 1234.88,
+      "duration": 3.52
+    },
+    {
+      "text": "right? We have to make sure that we can",
+      "start": 1238.4,
+      "duration": 2.399
+    },
+    {
+      "text": "do more. We have to make sure that, you",
+      "start": 1240.799,
+      "duration": 2.561
+    },
+    {
+      "text": "know, we have other agent coding tools.",
+      "start": 1243.36,
+      "duration": 2.16
+    },
+    {
+      "text": "So, I'm keeping an eye out for that,",
+      "start": 1245.52,
+      "duration": 1.36
+    },
+    {
+      "text": "right? We just had that Quinn 3 drop. We",
+      "start": 1246.88,
+      "duration": 2.32
+    },
+    {
+      "text": "have Gemini CLI improving all the time.",
+      "start": 1249.2,
+      "duration": 2.08
+    },
+    {
+      "text": "And then we have a bunch of open source",
+      "start": 1251.28,
+      "duration": 1.279
+    },
+    {
+      "text": "alternatives that I'm going to give a",
+      "start": 1252.559,
+      "duration": 1.281
+    },
+    {
+      "text": "serious sit down to really soon here. If",
+      "start": 1253.84,
+      "duration": 2.64
+    },
+    {
+      "text": "you've reached out or emailed, I'm going",
+      "start": 1256.48,
+      "duration": 1.84
+    },
+    {
+      "text": "to be covering a lot of the open source",
+      "start": 1258.32,
+      "duration": 1.52
+    },
+    {
+      "text": "agent coding tools coming up here and",
+      "start": 1259.84,
+      "duration": 2.319
+    },
+    {
+      "text": "comparing them, doing really concrete",
+      "start": 1262.159,
+      "duration": 1.921
+    },
+    {
+      "text": "comparisons to the industry leader,",
+      "start": 1264.08,
+      "duration": 2.079
+    },
+    {
+      "text": "Cloud Code. Don't underestimate the",
+      "start": 1266.159,
+      "duration": 2.241
+    },
+    {
+      "text": "power of model selection, right? Our",
+      "start": 1268.4,
+      "duration": 2
+    },
+    {
+      "text": "crypto research agents did a ton of",
+      "start": 1270.4,
+      "duration": 2.08
+    },
+    {
+      "text": "research for us. We can look at Opus big",
+      "start": 1272.48,
+      "duration": 2.4
+    },
+    {
+      "text": "plays, right? Let's go into markdown",
+      "start": 1274.88,
+      "duration": 1.84
+    },
+    {
+      "text": "format. Crypto play report, strong",
+      "start": 1276.72,
+      "duration": 1.68
+    },
+    {
+      "text": "bullish momentum, XRP, interesting,",
+      "start": 1278.4,
+      "duration": 2.96
+    },
+    {
+      "text": "right? SEC settlement rally. Thesis,",
+      "start": 1281.36,
+      "duration": 2.319
+    },
+    {
+      "text": "there's an execution, right? Right. So",
+      "start": 1283.679,
+      "duration": 1.281
+    },
+    {
+      "text": "we have this interesting bullc case. All",
+      "start": 1284.96,
+      "duration": 1.92
+    },
+    {
+      "text": "this interesting research, right? Salana",
+      "start": 1286.88,
+      "duration": 1.36
+    },
+    {
+      "text": "DeFi ecosystem. Okay. Huge huge return",
+      "start": 1288.24,
+      "duration": 2.64
+    },
+    {
+      "text": "on investment. Again, not investment",
+      "start": 1290.88,
+      "duration": 1.84
+    },
+    {
+      "text": "advice. Uh we're just looking at some of",
+      "start": 1292.72,
+      "duration": 1.36
+    },
+    {
+      "text": "the results that our agents created for",
+      "start": 1294.08,
+      "duration": 1.76
+    },
+    {
+      "text": "us. Okay. Crypto investment agent",
+      "start": 1295.84,
+      "duration": 2.64
+    },
+    {
+      "text": "prompt. If we look at the uh response",
+      "start": 1298.48,
+      "duration": 2.16
+    },
+    {
+      "text": "format once again, we can see that Opus",
+      "start": 1300.64,
+      "duration": 3.6
+    },
+    {
+      "text": "is obeying the prompt output format very",
+      "start": 1304.24,
+      "duration": 2.559
+    },
+    {
+      "text": "well. We can open up the equivalent",
+      "start": 1306.799,
+      "duration": 2.081
+    },
+    {
+      "text": "sonnet version. And you can see sonnet",
+      "start": 1308.88,
+      "duration": 1.919
+    },
+    {
+      "text": "is getting close here as well. Um, it",
+      "start": 1310.799,
+      "duration": 2.321
+    },
+    {
+      "text": "also has this, you know, little header",
+      "start": 1313.12,
+      "duration": 1.84
+    },
+    {
+      "text": "here which we didn't ask for. But",
+      "start": 1314.96,
+      "duration": 1.68
+    },
+    {
+      "text": "overall, you know, looks like Sonnet is",
+      "start": 1316.64,
+      "duration": 1.919
+    },
+    {
+      "text": "doing the job for the crypto investment",
+      "start": 1318.559,
+      "duration": 1.681
+    },
+    {
+      "text": "plays idea, right? You know, it has a",
+      "start": 1320.24,
+      "duration": 1.52
+    },
+    {
+      "text": "play here, crypto accumulation at key",
+      "start": 1321.76,
+      "duration": 1.76
+    },
+    {
+      "text": "supports. You know, it's identified some",
+      "start": 1323.52,
+      "duration": 1.84
+    },
+    {
+      "text": "dip spots for us to come into, right? We",
+      "start": 1325.36,
+      "duration": 2.4
+    },
+    {
+      "text": "have our kill criteria, right? This is a",
+      "start": 1327.76,
+      "duration": 2.32
+    },
+    {
+      "text": "concrete section we ask for from this",
+      "start": 1330.08,
+      "duration": 2.32
+    },
+    {
+      "text": "template. This looks great. We have",
+      "start": 1332.4,
+      "duration": 1.519
+    },
+    {
+      "text": "Ethereum liquid staking opportunity,",
+      "start": 1333.919,
+      "duration": 2.481
+    },
+    {
+      "text": "six-month time frame, so on and so",
+      "start": 1336.4,
+      "duration": 1.84
+    },
+    {
+      "text": "forth, right? And then we can drop all",
+      "start": 1338.24,
+      "duration": 1.28
+    },
+    {
+      "text": "the way down to Haiku. You can see here",
+      "start": 1339.52,
+      "duration": 2.08
+    },
+    {
+      "text": "haiku way off. This problem is too",
+      "start": 1341.6,
+      "duration": 2.559
+    },
+    {
+      "text": "complicated for haiku. Right? And this",
+      "start": 1344.159,
+      "duration": 2.4
+    },
+    {
+      "text": "pattern repeats across the rest of our",
+      "start": 1346.559,
+      "duration": 2.881
+    },
+    {
+      "text": "analysis. Right? So this is one more",
+      "start": 1349.44,
+      "duration": 1.68
+    },
+    {
+      "text": "idea that you can add to your toolbox",
+      "start": 1351.12,
+      "duration": 2.32
+    },
+    {
+      "text": "when you're agent coding. Use the right",
+      "start": 1353.44,
+      "duration": 2.08
+    },
+    {
+      "text": "model for the job. Isolate your system",
+      "start": 1355.52,
+      "duration": 1.84
+    },
+    {
+      "text": "prompts so that you can run them against",
+      "start": 1357.36,
+      "duration": 1.84
+    },
+    {
+      "text": "any model that you want. And make sure",
+      "start": 1359.2,
+      "duration": 3.12
+    },
+    {
+      "text": "you are diversifying. I love cloud code",
+      "start": 1362.32,
+      "duration": 2.4
+    },
+    {
+      "text": "just as much as the next engineer. We",
+      "start": 1364.72,
+      "duration": 1.36
+    },
+    {
+      "text": "were one of the first channels to cover",
+      "start": 1366.08,
+      "duration": 1.44
+    },
+    {
+      "text": "it. But um drop a like and a comment if",
+      "start": 1367.52,
+      "duration": 2.56
+    },
+    {
+      "text": "you were here before and during the",
+      "start": 1370.08,
+      "duration": 2.479
+    },
+    {
+      "text": "early days of covering Claude Code. It's",
+      "start": 1372.559,
+      "duration": 2
+    },
+    {
+      "text": "not over. It's definitely not over.",
+      "start": 1374.559,
+      "duration": 1.841
+    },
+    {
+      "text": "Claude Code is an incredible tool. The",
+      "start": 1376.4,
+      "duration": 1.36
+    },
+    {
+      "text": "team is shipping back to back to back.",
+      "start": 1377.76,
+      "duration": 1.52
+    },
+    {
+      "text": "But we have to think as independent",
+      "start": 1379.28,
+      "duration": 2.399
+    },
+    {
+      "text": "actors. We can't overinvest into one",
+      "start": 1381.679,
+      "duration": 2.641
+    },
+    {
+      "text": "tool. Okay, this is a really balanced",
+      "start": 1384.32,
+      "duration": 2.32
+    },
+    {
+      "text": "take out of Enthropic. these weekly",
+      "start": 1386.64,
+      "duration": 2
+    },
+    {
+      "text": "limits had to get set into place because",
+      "start": 1388.64,
+      "duration": 1.84
+    },
+    {
+      "text": "yes, people are abusing this incredible",
+      "start": 1390.48,
+      "duration": 2.319
+    },
+    {
+      "text": "tool with 24/7 hour in the background",
+      "start": 1392.799,
+      "duration": 3.12
+    },
+    {
+      "text": "agents and agent workflows. But um you",
+      "start": 1395.919,
+      "duration": 2.561
+    },
+    {
+      "text": "know it's important that we diversify,",
+      "start": 1398.48,
+      "duration": 1.439
+    },
+    {
+      "text": "right? Every single day we have more and",
+      "start": 1399.919,
+      "duration": 1.681
+    },
+    {
+      "text": "more options emerging. Quinn 3 coder",
+      "start": 1401.6,
+      "duration": 2.079
+    },
+    {
+      "text": "Gemini CLI with the new Gemini models",
+      "start": 1403.679,
+      "duration": 2.161
+    },
+    {
+      "text": "pretty crazy you know anthropic getting",
+      "start": 1405.84,
+      "duration": 1.76
+    },
+    {
+      "text": "kind of defensive here around the API",
+      "start": 1407.6,
+      "duration": 2.079
+    },
+    {
+      "text": "we'll see how that progresses a hend",
+      "start": 1409.679,
+      "duration": 1.761
+    },
+    {
+      "text": "coding tools will continue to evolve as",
+      "start": 1411.44,
+      "duration": 1.92
+    },
+    {
+      "text": "well as the models but what remains the",
+      "start": 1413.36,
+      "duration": 2.08
+    },
+    {
+      "text": "same is of course the principles of AI",
+      "start": 1415.44,
+      "duration": 2.32
+    },
+    {
+      "text": "coding keep your eyes on the big three",
+      "start": 1417.76,
+      "duration": 2
+    },
+    {
+      "text": "context model and prompt understand how",
+      "start": 1419.76,
+      "duration": 2.08
+    },
+    {
+      "text": "to use these three elements to solve",
+      "start": 1421.84,
+      "duration": 1.92
+    },
+    {
+      "text": "problems that you face because if you",
+      "start": 1423.76,
+      "duration": 2.08
+    },
+    {
+      "text": "master these you will master Genai no",
+      "start": 1425.84,
+      "duration": 2.56
+    },
+    {
+      "text": "matter the current drama no matter the",
+      "start": 1428.4,
+      "duration": 1.759
+    },
+    {
+      "text": "current rate limits no matter the models",
+      "start": 1430.159,
+      "duration": 2.081
+    },
+    {
+      "text": "All right, stick to the principles of AI",
+      "start": 1432.24,
+      "duration": 2.319
+    },
+    {
+      "text": "coding. I'll be starting the countdown",
+      "start": 1434.559,
+      "duration": 2.161
+    },
+    {
+      "text": "for the phase 2 aentic coding course",
+      "start": 1436.72,
+      "duration": 2.64
+    },
+    {
+      "text": "very very soon. I'll be locking in a",
+      "start": 1439.36,
+      "duration": 2.08
+    },
+    {
+      "text": "release date for that. So stay tuned for",
+      "start": 1441.44,
+      "duration": 1.68
+    },
+    {
+      "text": "that. If you made it to the end, drop a",
+      "start": 1443.12,
+      "duration": 1.84
+    },
+    {
+      "text": "comment and let me know what you think",
+      "start": 1444.96,
+      "duration": 1.28
+    },
+    {
+      "text": "about the current agentic coding",
+      "start": 1446.24,
+      "duration": 2
+    },
+    {
+      "text": "ecosystem and these brand new rate",
+      "start": 1448.24,
+      "duration": 2.08
+    },
+    {
+      "text": "limits around cloud code. If you're",
+      "start": 1450.32,
+      "duration": 1.599
+    },
+    {
+      "text": "experimenting with alternatives, let me",
+      "start": 1451.919,
+      "duration": 1.921
+    },
+    {
+      "text": "know what you're working with and I'll",
+      "start": 1453.84,
+      "duration": 1.6
+    },
+    {
+      "text": "use that as a great starting place. No",
+      "start": 1455.44,
+      "duration": 1.76
+    },
+    {
+      "text": "matter what, stay focused and keep",
+      "start": 1457.2,
+      "duration": 3.28
+    },
+    {
+      "text": "building.",
+      "start": 1460.48,
+      "duration": 2.559
+    }
+  ],
+  "fullText": "weak, base, strong. Three levels of model control, simple, and beautiful. We now have access to the haik coup, sonnet, and opus models in our sub aents. In the background here, I have 12 sub aents operating across these three levels of intelligence, speed, and cost conducting crypto research for me. They're setting up my next big trade. Now, obviously not financial advice, but you can see here running 12 agents in parallel with different levels of compute, Haiku, Sonnet, and Opus, you and I are able to do more deep research and more wide research than we ever could before. The Claudeco team continues their blazing red hot streak as they ship another set of surgical minimal useful features. We have sub agent model selection, agent mentions, and hidden file mentions. We do have bad news though. We have new rate limits. Someone watching the Andy Dev Dan channel took the infinite agentic loop, parallelized it, and ran it 24/7 and ruined it for the rest of us. In this post, Anthropic mentioned something really, really interesting that caught my attention. We're committed to supporting longunning use cases through other options in the future. With the success of Claude Code and the Claude 4 series, you and I can bet that Enthropic is betting on highly agentic longrunning systems and models. So, I'm thinking ahead toward what Enthropic could be releasing next. But I have to say with all the excitement around cloud code, it's pretty clear engineers like you and I and now a decent portion of the Genai tech industry, we're all overexposed to claw code. We have too many eggs in one basket. This is bad investing. I don't think these rate limits are unfair at all, but it's woken me up. And maybe it's woken you up, too. We need cloud code alternatives. We have too many eggs in one basket, right? We're addicted. We need help. We're clawholics now. We need alternatives. Not because cloud code isn't great. It's because it's too great. With these new rate limits coming in, as they mentioned, it'll affect less than 5% of users, but you and I, we're probably in the 10 or 5%. And these rate limits are coming. All right. August 28th. It's kind of perfect timing that this came out with their brand new model selection feature. In this video, we're going to take a look at that because you can see across three versions. And you know, speaking of limits, right, there's my Opus limit coming up right here. But you can see across three versions, you know, I have Haiku, Sonnet, and Opus running the exact same prompt. We're going to dig into this so that we can understand that we don't always need the highest levels of compute to solve problems. The ability to select the right model for the job is ultra important. And I think this powerful weak base, strong model stack for agents is going to be a great way to navigate not just rate limits, but it's going to help us navigate costs, speed, and intelligence trade-offs. I've been thinking about this for a while as I continue to, you know, discuss, use, and really lean on cloud code, we're overlevered, right? Just like an investor has too much stock, too much of their portfolio in one tool. We have a lot of engineering resources, time, dependency on cloud code at this point. So with the release of Quinn3 coder 480 billion parameters everything that keeps shipping inside of the Gemini CLI right I'm keeping my eyes on all of these agentic coding tools all these agentic model developments and with uh the recent news that anthropic had to provoke open AAI's access to claude two things are very very clear to me now claw code has completely changed engineering and alternatives are on the way if you're an IND industry leader, you will always be copied and cloned. Cloud code is the industry leader for agentic coding. It is being copied and cloned all over the place. In upcoming videos, we're going to be looking and investigating, you know, some of these open source alternatives, some other closed source alternatives. It is time to diversify. All right, but you know, let's be super real. Uh, no one is close to cloud code. Let's keep cooking with the best agent coding tool in the game. Let's break down a few powerful agent orchestration patterns with sub aent model selection so we can use the right agent coding model for the job at hand while avoiding these new rate limits. My crypto research can run with this single slash command and it kicked off 12 agents. Right away we have to point out something really really important. Look at the time differences. Look at the token differences. These small, fast, cheap models are going to do less work for you, but they're going to do it in a short amount of time, while Sonnet and Opus are going to scale up the amount of tokens, the cost, and the time consumed. You can see it's writing this comprehensive summary for us with 12 output tool calls in parallel. Let's let our primary agent cook some more, and let's answer the question, what does model selection really offer you? Ultimately, it lets you solve two problems. model overkill, where you're wasting tokens and money, and model underperformance, where you waste time having to improve your prompt or fire off the larger, more powerful model after wasting time on the cheaper model. Okay, it's all about the tradeoff, right? We're always trading off three things when we're selecting our models: performance, speed, and cost. You can optimize for performance, you can optimize for speed, and you can optimize for cost. I always advocate that you want performance over everything else, right? This is why we spend to win. This is why we have that big claw code max $200 subscription, right? However much you can push it, you want to be pushing it for the compute. The compute is absolutely worth it. There's nothing more important in the generative AI age as an engineer than your ability to scale up compute and use it to solve real engineering problems. This is the name of the game. This is what every winning engineer is doing right now. I guarantee you that bar none. You know, when we double click into this, it's quite a simple equation, right? We have Hiku 3.5, our weak model. We have Sonnet 4, our balanced workhorse model. And then, of course, Opus 4. When you're solving real problems, when you're building out things and you want performance over everything, you choose the best model. And you can even push this further, right? Model selection is just layer one. The next layer is of course thinking, right? You can specify the information dense keyword the IDK think hard ultra think right anthropic has encoded this keyword for us so that in our prompts we can activate this feature whenever we need to right and I highly highly recommend if you're not doing this you need to be using this if you look at the charts if you go on artificial analysis if you run you know examples yourself 4 thinking beats opus 4 bass also of course opus 4 thinking beats sonet 4 thinking so that's a really important call out there are other dimensions of your model that you can push. This is the trade-off we're making when we're selecting models, when we're using models. And you know, there's a fourth kind of hidden dimension here. We also have to work against um APIs and rate limits here. This is kind of the hidden dimension. This is probably something we're going to want to add in the future as we scale up our compute and start running those big big long running, we're talking hours and hours and hours long engineering workflow. All right. Why are we hitting these rate limits more? What's going on, right? How are we able to scale up further? It's of course because of sub agents, right? We can now spin up multiple agents from our primary agent. We covered this in our last video. And now we have more compute than ever. And we can specify what our sub aents do. We can now write system prompts for our sub aents. Okay. So, we just had this crypto analysis run. I have a couple interesting ideas here that I want to share with you. All stemming from this crypto research custom/comand. All right. And so, you know, funnily enough, um I am at my rate limits for the day. This is kind of perfect timing. I'm glad I'm filming it right here. Uh rate limits are obnoxious. you know, I'm on that $200 plan, but you can still see here I am hitting rate limit. There is absolutely an argument for selecting the right model for the job, right? You don't always need top-end compute. And especially when we're deploying our agents into production environments, you want to use the right model for the job. You don't want to go overkill, right? Remember, model selection solves two problems. Model overkill and model underperformance. You want to hit that sweet spot if and when it matters. A lot of the time, you probably do this too, right? A lot of the times we just go model and we just go right to opus, right? I just want the best model and then you always throw on thinking mode and you let it operate at the highest possible intelligence level just to get the job done, right? Uh this is great. I do this all the time too. But as you're scaling up parallel sub agents, parallel agents, running multi- aent workflows, right? Ondevice and offdevice, um these rate limits, I think, are going to come into play more and more. Feel like rate limits have never truly been more important than with compute, right? because let's say you hit the daily or the weekly limit. Uh that's it, right? And this is also why it's so important for us to find alternatives. Anyway, more on that in the future. Make sure you're subscribed and like we're going to be investigating and benchmarking agentic coding tool alternatives. Um back to this prompt, right? Let's talk about model selection. So, let's go ahead and open up cursor. Let's understand this crypto research prompt. Couple new features coming out of the cloud code team. Let's just go ahead and pull up the official docs/re. And we have three important features to cover here. So we have agents with custom model support, appmentions for custom agents, and we have app meions for hidden files. This is super important. Now we can do something like this. And now we can see all of our cloud files. And do we have anything else here? Let's see. MCP, right? So now we can see our MCP file here. What's going on here? So I have a custom slash command that is kicking off 12 agents. And really it's kicking off four distinct solutions with three levels of agent each, right? Haiku, sonnet, opus. This is a great way to understand what model do I really need to solve this problem. Okay, so you can see they're working off a bunch of crypto agents doing crypto research, macro analysis, investment play ideas, so on and so forth, right? So we can go ahead and just collapse. Here's the prompt format we have here. Top level kind of purpose variables. We're just passing in a ticker. We have our agent groups. So we're defining, you know, what teams of agents are going to run. And then we have execution instructions. So this is, you know, I also like to call this workflow. And then we have our output format. So output format super important when you're writing these prompts. This forces your primary agent to communicate to you what you want your output format to be. And for your agents, it forces your agents to report their output. So right away you can see something interesting here in this system prompt for my crypto market agent. There's not much here. In fact, all I'm doing here is referencing another prompt. And so this is a pattern that I want to share with you here. You can have sets of agents at different levels, right? Different model levels, different descriptions, right? so that you can ABC test against one prompt, right? So, I think this is a really powerful pattern. It's also useful so that you can test this on your primary agent, right? Instead of it just being one system prompt inside a specific agent, you can test multiple prompts against multiple agents. Now, you do have to keep in mind this is still the system prompt, right? So, what we have here is a system prompt, right? And you can see here we have that output format from our agent system prompt. The key thing here is that you know, let me copy this uh reference here. You can see for our three agents, Hiku, Opus, Sonnet, we're using this exact same prompt. So here's Hiku, here's Opus. You can see all that change there. Let's go back and forth. All that's changing there is our model color and agent name, right? So this lets us again ABC test our model and our description. Okay, this is cool. Inside of each one of these prompts, we are of course doing specific crypto analysis, crypto research. So let's go ahead and open up macro cryptocorrelation. You know, inside of this prompt, let's go ahead and just open this up. We have, you know, classic prompt format, purpose, instructions, workflow, output. You are a macro crypto correlation analysis expert. Here we want to understand how global macro plays into the traditional market. Of course, we have instructions and then we have our workflow. We're at our step-by-step play for the sub aent. Always remember this is the system prompt we're operating in here when we're calling sub aents. And you know, just to make this super clear, we covered this in our previous sub aent video from last week. You are prompting your primary agent. Your primary agent is prompting your sub agents. Your sub agents are responding to your primary agent, not to you. The flow of information matters here, especially when you start scaling up to, and we've covered this, multi- aent workflow orchestration where you have multiple prompts firing off back to back to back. It all feeds into your primary agents context window. Okay? It doesn't return to you. So when you read these agent prompts, right, we have a bunch of underscore agent_prompt. MD, these are all returning to your primary agent. And so that's why we have this and we if we go up to the top level crypto research, we have this output format call on the top level crypto research. Right? This is that top level prompt that we executed to kick off our 12 agents across three different models. Their output format here is really important. So, we're taking each response directly with no modifications, no summarizations, and no changes. Okay, super important. Again, we're referencing anthropics encoded keyword important. We're prefixing this with important so our agent pays more attention to it. And then we have our output format. All right, so now we should be able to just find these, right? So, if we open this up, collapse everything. And we go into outputs, you can see we have two files here, 10 5614. Here we go. There are all of our prompts. You can see it's in that exact same format as specified. And then we can take a look at each level. Okay. And so this is the really important part, right? Every level matters, right? You don't always need opus for certain things. You don't always need sonnet, but you can see in some cases you can drop all the way down to a cheap fast haiku model. Let's see if for something like a cryptocoin analyzer. Do a sidebyside here. So that's haiku. Here's opus. Here's sonnet. You know, very clearly the haiku model is having a problem. It's having a challenge with the format. And if we open up our cryptocoin prompt and go down to our output format, you can always check for model strength by looking to see if it can obey your output formats. So we're looking for output in this structure, cryptocurrency analysis. And you can see here right away IU goes off the rails, right? If we move over to sonnet, we can see that it's not exact, but it gets a lot closer. We have, you know, market data, recent news and developments. There's the market data and if we search for news, you can see we have a news section here on sonnet, right? So, this looks better, right? We can work with this. Um, if we go to Opus, however, and search for that exact header, we can see we're getting that exact header. And this is a really important call out, right? If you want maximum performance, you always scale it up to that top model, right? You pay to play. And this is something I see some engineers are so scared to spend. they're so scared to, you know, use that maximum compute and really pay to play. This is a massive advantage. Understanding what the maximum capabilities are and getting the advantage of using them will set you ahead. It'll break you away from the pack. When I want to use the best, I don't hesitate. Okay? You can even push that further. Of course, as you know, you can add thinking to these models. You can force them to think more. Use their reasoning effort. Increase intelligence even further. Of course, you're going to spend more to do this, right? they're still generating those tokens even if you can't see them. And you want to be especially careful with this with sub agents, right? Because this stuff is still happening. You want to be making sure that you're using the value of your top level agents, specifically your opus agents or whatever your strong model is. Make sure you're getting value out of this. Don't be wasteful with this stuff. Unless you're learning something or experimenting, you really want to, you know, use these models with a clear purpose. All right, keep that in mind, too. And always remember, you can push the model further with thinking mode. Just to mention it, uh, Sonic 4th thinking is very, very powerful, right? More broadly, this pattern of having a weak base and strong model for your agent model stack is super powerful, right? It's super important because you don't always need Opus, right? Sometimes you're just summarizing some work, so you can drop down to a simple model. And this applies across model providers, right? Gemini Flash Light, 2.5 Flash, 2.5 Pro, and then, you know, there are bigger levels above and below. Gemini just put out their deep think model, while OpenAI has 03 Pro. They have their new agent model and they have apparently GPT5. We'll see about that. I think this is a great pattern for you to kind of select models and use the right model, right? It's all about that PF speed cost trade-off and you know the kind of hidden layer rate limits. We're scaling up our compute across multiple dimensions. Now, if you want to scale, it's pretty clear that reusable prompts aka custom/comands and sub agents is the way to scale up your compute and get more work done than ever. So, this is a powerful agent pattern you can use. You have your top level agent calling a custom SL command. Here we're doing crypto research. This fires off many sub aents, right, across different model levels and then it takes the results and refuses them, right, in a big way. We're just doing what we've done for years on the channel, prompt chaining and fusion chaining. Okay, we've covered this stuff a long time ago before reusing models even existed. Inside of your agents, you can do something really powerful. You can create dedicated agent prompts to reuse across different agents to understand what model performance you really need. That looks like this. If we go into agents, we go into crypto, you can see we have cryptocoin analyzer haiku. We have the exact same version for sonnet. Right? There's that sonnet. And we have the exact same version for opus as well. So it's all just a small tweak to understand what model you really need for the job you're doing. And this is why it's so important to isolate your prompt for your sub agents. This is just a pattern. It's an idea that you can use. And another advantage here is of course we can just hop into a new agent and we can just fire this prompt off oursel right on the top level. Okay? You know whenever you want to you can understand what your prompt is doing and how it performs by just running it on the top level. Right? So here we can just run our cryptocoin analyzer agent and actually we need to pass in a uh let's do B&B. This is a great way to understand what your prompt does end to end and to make tweaks to it by running it on the top level right in your primary agent. A lot of things get lost when you're running sub aents. So you can use this dedicated agent prompt pattern to understand, you know, what model you really need for the job. The way I look at it is a lot of my simpler tasks where we're just generating unique names for files where we're doing some small file moving, some file migration, some quick summarizations. Haiku 3.5 can do a lot of that stuff, right? In fact, you probably have seen, you know, this little popup here from cloud code. Guess who's running that? This is a ha coup model making up, you know, a relevant one-word description, right? The perfect example for that, right? You don't need a big model to do that. You need something fast and cheap and simple. So, that's a small example of how you can use a small fast model and avoid using a bigger, stronger model, right? Even like Sonnet 4. Then there's of course the Sonet 4. This is a workhorse model, right? This is our base level model. This is going to be a great balance. I think a lot of work happening right now is coming out of Sonet 4. It's funny to think about, you know, what model is responsible for the most code in the world. And I think right now it's very clearly sonnet 4. And then of course we have opus, right? When you're doing serious work, when you're putting the pellet to the metal, you use opus 4 and you scale it with thinking mode, right? I do this all the time. Any complex work, any, you know, serious engineering work, production work, opus for think, burn up the tokens, hit the right limits, it doesn't matter. The compute is there for you to use, right? And so we can take all these models, we can take them in thinking mode, we can embed them in sub aents and scale them up, right? And so in the end we get something like this, right? A powerful multi- aent orchestration workflow. This is just one simple example of work happening. All feeds back into the primary agent. Primary agent can then execute on all that work, right? This is just one workflow. Again, we covered this in our previous week's video. I'll make sure to link that. You want to understand the model controls. You want to understand your tool and you want to understand what you can do with them. Right? every week here. That's what we're pushing toward. Understanding the best agent coding tools so that we can build systems that work for us while we sleep. That's always been the focus. It's always been the mission of this channel. We're going to build living software that works for us while we sleep. We're getting closer than ever with cloud code, with these incredible longrunning jobs and sub agents. But we also need to make sure that you know when rate limits pop up when the next set of restrictions or you know whatever comes next we need to make sure we can diversify. So you know again as you know this is like my 15th cloud code video in a row unprecedented for this channel but um I follow and focus on the signal of the best tool for the job right now for engineering. There's no better tool than cloud code but we need to make sure we diversify. We can't be so reliant on a single tool on a single set of models, right? We have to make sure that we can do more. We have to make sure that, you know, we have other agent coding tools. So, I'm keeping an eye out for that, right? We just had that Quinn 3 drop. We have Gemini CLI improving all the time. And then we have a bunch of open source alternatives that I'm going to give a serious sit down to really soon here. If you've reached out or emailed, I'm going to be covering a lot of the open source agent coding tools coming up here and comparing them, doing really concrete comparisons to the industry leader, Cloud Code. Don't underestimate the power of model selection, right? Our crypto research agents did a ton of research for us. We can look at Opus big plays, right? Let's go into markdown format. Crypto play report, strong bullish momentum, XRP, interesting, right? SEC settlement rally. Thesis, there's an execution, right? Right. So we have this interesting bullc case. All this interesting research, right? Salana DeFi ecosystem. Okay. Huge huge return on investment. Again, not investment advice. Uh we're just looking at some of the results that our agents created for us. Okay. Crypto investment agent prompt. If we look at the uh response format once again, we can see that Opus is obeying the prompt output format very well. We can open up the equivalent sonnet version. And you can see sonnet is getting close here as well. Um, it also has this, you know, little header here which we didn't ask for. But overall, you know, looks like Sonnet is doing the job for the crypto investment plays idea, right? You know, it has a play here, crypto accumulation at key supports. You know, it's identified some dip spots for us to come into, right? We have our kill criteria, right? This is a concrete section we ask for from this template. This looks great. We have Ethereum liquid staking opportunity, six-month time frame, so on and so forth, right? And then we can drop all the way down to Haiku. You can see here haiku way off. This problem is too complicated for haiku. Right? And this pattern repeats across the rest of our analysis. Right? So this is one more idea that you can add to your toolbox when you're agent coding. Use the right model for the job. Isolate your system prompts so that you can run them against any model that you want. And make sure you are diversifying. I love cloud code just as much as the next engineer. We were one of the first channels to cover it. But um drop a like and a comment if you were here before and during the early days of covering Claude Code. It's not over. It's definitely not over. Claude Code is an incredible tool. The team is shipping back to back to back. But we have to think as independent actors. We can't overinvest into one tool. Okay, this is a really balanced take out of Enthropic. these weekly limits had to get set into place because yes, people are abusing this incredible tool with 24/7 hour in the background agents and agent workflows. But um you know it's important that we diversify, right? Every single day we have more and more options emerging. Quinn 3 coder Gemini CLI with the new Gemini models pretty crazy you know anthropic getting kind of defensive here around the API we'll see how that progresses a hend coding tools will continue to evolve as well as the models but what remains the same is of course the principles of AI coding keep your eyes on the big three context model and prompt understand how to use these three elements to solve problems that you face because if you master these you will master Genai no matter the current drama no matter the current rate limits no matter the models All right, stick to the principles of AI coding. I'll be starting the countdown for the phase 2 aentic coding course very very soon. I'll be locking in a release date for that. So stay tuned for that. If you made it to the end, drop a comment and let me know what you think about the current agentic coding ecosystem and these brand new rate limits around cloud code. If you're experimenting with alternatives, let me know what you're working with and I'll use that as a great starting place. No matter what, stay focused and keep building."
+}
