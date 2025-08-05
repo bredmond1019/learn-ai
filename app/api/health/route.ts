@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { env, validateEmailConfig, getPublicEnvInfo } from '@/lib/env';
+import { env, validateEmailConfig, getPublicEnvInfo } from '@/lib/core/environment/env';
 
 export async function GET() {
   try {

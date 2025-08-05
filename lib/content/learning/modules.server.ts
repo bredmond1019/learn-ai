@@ -2,7 +2,7 @@ import { cache } from 'react';
 import fs from 'fs/promises';
 import path from 'path';
 import { Module, LearningPath } from '@/types/module';
-import { modulesCache, cacheKeys } from './cache-manager';
+import { modulesCache, cacheKeys } from '@/lib/core/caching/cache-manager';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'learn', 'paths');
 

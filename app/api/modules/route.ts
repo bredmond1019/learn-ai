@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllLearningPaths, getModulesForPath } from '@/lib/modules.server';
-import { apiCache, cacheKeys } from '@/lib/cache-manager';
+import { getAllLearningPaths, getModulesForPath } from '@/lib/content/learning/modules.server';
+import { apiCache, cacheKeys } from '@/lib/core/caching/cache-manager';
 
 // GET /api/modules - Get all modules or modules for a specific path
 export async function GET(request: NextRequest) {

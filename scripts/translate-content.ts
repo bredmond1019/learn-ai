@@ -4,7 +4,7 @@ import { promises as fs } from 'fs';
 import { join, dirname, basename, extname } from 'path';
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { translateContent, estimateCost, validateApiKey, type TranslationOptions } from '../lib/claude-translator';
+import { translateContent, estimateCost, validateApiKey, type TranslationOptions } from '../lib/services/translation/claude-translator';
 
 // Configuration
 const CONTENT_ROOT = join(process.cwd(), 'content');

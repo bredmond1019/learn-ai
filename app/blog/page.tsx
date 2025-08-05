@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { Container } from '@/components/Container'
 import { Section } from '@/components/Section'
 import { BlogCardServer } from '@/components/BlogCardServer'
-import { getAllPostsMeta } from '@/lib/mdx.server'
+import { getAllPostsMeta } from '@/lib/content/blog/mdx.server'
 
 export const metadata: Metadata = {
   title: 'Blog | Brandon - AI Engineer',

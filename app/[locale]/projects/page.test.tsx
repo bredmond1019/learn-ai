@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ProjectsPage from './page';
-import { getAllProjects } from '@/lib/projects';
+import { getAllProjects } from '@/lib/content/projects/projects';
 
 // Mock the dependencies
 jest.mock('@/lib/projects', () => ({

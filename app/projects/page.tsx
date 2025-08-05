@@ -1,4 +1,4 @@
-import { getAllProjects } from '@/lib/projects';
+import { getAllProjects } from '@/lib/content/projects/projects';
 import { ProjectsPageClient } from '@/components/ProjectsPageClient';
 
 // Server component that fetches projects and passes to client component

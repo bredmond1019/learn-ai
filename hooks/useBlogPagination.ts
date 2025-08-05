@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
-import { BlogPostMeta } from '@/lib/mdx'
+import { BlogPostMeta } from '@/lib/content/blog/mdx'
 
 interface MonthGroup {
   monthYear: string

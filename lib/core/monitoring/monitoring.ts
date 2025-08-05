@@ -3,7 +3,7 @@
  * Integrates with external services for comprehensive observability
  */
 
-import { env, isProduction } from './env';
+import { env, isProduction } from '@/lib/core/environment/env';
 import { logger } from './logger';
 
 // Types for monitoring data

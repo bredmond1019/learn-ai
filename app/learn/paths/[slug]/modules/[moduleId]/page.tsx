@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { allModuleContent as moduleContent } from '@/components/learn/ModuleContent';
-import { getLearningPathById } from '@/lib/learn';
+import { getLearningPathById } from '@/lib/content/learning/learn';
 import { CodeBlock } from '@/components/ui/code-block';
 
 interface PageProps {

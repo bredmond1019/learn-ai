@@ -4,7 +4,7 @@ import Container from '@/components/Container';
 import Card from '@/components/Card';
 import Link from 'next/link';
 import Button from '@/components/Button';
-import { getLearningPathById, getPrerequisitePaths, type Locale } from '@/lib/learn';
+import { getLearningPathById, getPrerequisitePaths, type Locale } from '@/lib/content/learning/learn';
 import { getTranslations } from '@/lib/translations';
 
 interface PathPageProps {

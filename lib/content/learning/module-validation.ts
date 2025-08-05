@@ -7,10 +7,10 @@
 
 import fs from 'fs';
 import path from 'path';
-import type { Module } from '../types/module';
+import type { Module } from '@/types/module';
 
 // Import the JSON schema for runtime validation
-import moduleSchema from '../content/learn/schemas/module-schema.json';
+import moduleSchema from '@/content/learn/schemas/module-schema.json';
 
 /**
  * Validation result interface

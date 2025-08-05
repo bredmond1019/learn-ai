@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { BlogCardServer } from './BlogCardServer'
 import { BlogContentDate } from './BlogContentDate'
-import { BlogPostMeta } from '@/lib/mdx'
+import { BlogPostMeta } from '@/lib/content/blog/mdx'
 
 type FilterType = 'category' | 'date'
 

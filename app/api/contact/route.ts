@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { sendContactFormEmails } from '@/lib/email'
-import { rateLimitMiddleware } from '@/lib/rate-limit'
-import { performSpamChecks } from '@/lib/spam-protection'
+import { sendContactFormEmails } from '@/lib/services/email/email'
+import { rateLimitMiddleware } from '@/lib/core/security/rate-limit'
+import { performSpamChecks } from '@/lib/services/email/spam-protection'
 
 export async function POST(request: NextRequest) {
   // Apply rate limiting

@@ -2,8 +2,8 @@
  * @jest-environment node
  */
 
-import { calculateReadingTime, generateSlug } from '@/lib/mdx'
-import { getPostBySlug, getAllPosts, getAllPostSlugs } from '@/lib/mdx.server'
+import { calculateReadingTime, generateSlug } from '@/lib/content/blog/mdx'
+import { getPostBySlug, getAllPosts, getAllPostSlugs } from '@/lib/content/blog/mdx.server'
 
 // Mock the file system since we're testing server-side functions
 jest.mock('fs')

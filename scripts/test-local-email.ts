@@ -3,7 +3,7 @@
  * Test email functionality locally
  */
 
-import { sendContactFormEmails } from '../lib/email'
+import { sendContactFormEmails } from '../lib/services/email/email'
 
 async function testLocalEmail() {
   console.log('🧪 Testing Email Service Locally\n')

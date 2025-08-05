@@ -2,10 +2,10 @@
 // All server-side operations are in mdx.server.ts
 
 // Re-export types that are safe for client use
-export type { BlogPost, BlogPostMeta } from './types/blog'
+export type { BlogPost, BlogPostMeta } from '@/lib/types/blog'
 
 // Re-export client-safe utilities
-export { formatDate } from './utils/date'
+export { formatDate } from '@/lib/utils/date'
 
 // Calculate reading time (approximately 200 words per minute)
 export function calculateReadingTime(content: string): number {

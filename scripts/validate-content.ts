@@ -16,7 +16,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { glob } from 'glob';
 import type { Module, LearningPath } from '../types/module';
-import { ModuleValidator, ValidationError, ValidationWarning } from '../lib/module-validation';
+import { ModuleValidator, ValidationError, ValidationWarning } from '../lib/content/learning/module-validation';
 
 // ANSI color codes for terminal output
 const colors = {

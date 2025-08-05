@@ -202,11 +202,18 @@ npm run k8s:status      # Check Kubernetes pod status
 
 ## Service-Specific Documentation
 
-- **YouTube Transcript API**: See `lib/CLAUDE.md` for detailed documentation on the YouTube transcript fetching and management system, including API architecture, usage patterns, and integration points.
-- **YouTube Transcript Summaries**: See `content/summaries/CLAUDE.md` for guidelines on creating comprehensive summaries from YouTube transcripts using the standardized template.
-- **Blog Writing Guide**: See `content/blog/CLAUDE.md` for comprehensive blog writing guidelines, style guide, MDX troubleshooting, and content management patterns.
-- **LinkedIn Social Posts**: See `content/socials/linkedin/CLAUDE.md` for LinkedIn post formatting and website URL guidelines.
-- **Dev.to Publishing**: See `content/socials/dev-to/CLAUDE.md` for Dev.to API usage, publishing workflows, and multi-part series guidelines.
+### Library Services
+- **Library Documentation Hub**: See `lib/CLAUDE.md` for the main library documentation hub that references all subdirectory documentation
+- **External Services**: See `lib/services/CLAUDE.md` for email, Dev.to, YouTube, and translation service documentation
+- **Content Management**: See `lib/content/CLAUDE.md` for blog, learning, and project system documentation
+- **Core Infrastructure**: See `lib/core/CLAUDE.md` for caching, environment, monitoring, and security documentation
+- **Client Utilities**: See `lib/client/CLAUDE.md` for progress tracking, icons, and image optimization documentation
+
+### Content Guidelines
+- **YouTube Transcript Summaries**: See `content/summaries/CLAUDE.md` for guidelines on creating comprehensive summaries from YouTube transcripts using the standardized template
+- **Blog Writing Guide**: See `content/blog/CLAUDE.md` for comprehensive blog writing guidelines, style guide, MDX troubleshooting, and content management patterns
+- **LinkedIn Social Posts**: See `content/socials/linkedin/CLAUDE.md` for LinkedIn post formatting and website URL guidelines
+- **Dev.to Publishing**: See `content/socials/dev-to/CLAUDE.md` for Dev.to API usage, publishing workflows, and multi-part series guidelines
 
 ## Common Development Patterns
 

@@ -3,9 +3,9 @@
  * Tests the complete flow of publishing articles to Dev.to
  */
 
-import { DevToAPI } from '../../lib/devto-api';
-import { DevToMarkdownParser } from '../../lib/devto-markdown';
-import { DevToMapping } from '../../lib/devto-mapping';
+import { DevToAPI } from '../../lib/services/devto/devto-api';
+import { DevToMarkdownParser } from '../../lib/services/devto/devto-markdown';
+import { DevToMapping } from '../../lib/services/devto/devto-mapping';
 import fs from 'fs/promises';
 import path from 'path';
 

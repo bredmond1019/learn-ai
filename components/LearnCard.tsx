@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Card from './Card';
 import Button from './Button';
-import { LearningPath } from '@/lib/learn';
+import { LearningPath } from '@/lib/content/learning/learn';
 
 interface LearnCardProps {
   path: LearningPath;

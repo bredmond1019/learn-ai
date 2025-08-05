@@ -338,7 +338,7 @@ async function validateSystemCompatibility() {
   
   // Check if validation functions work with current content structure
   try {
-    const validationLib = await import('../lib/content-validation');
+    const validationLib = await import('../lib/content/content-validation');
     
     // Test with a sample module
     const testModulePath = path.join(CONTENT_ROOT, 'paths/mcp-fundamentals/modules/00-test-module.json');

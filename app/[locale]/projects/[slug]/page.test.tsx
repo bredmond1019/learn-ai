@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { notFound } from 'next/navigation';
 import ProjectDetailPage, { generateMetadata, generateStaticParams } from './page';
-import { getProjectBySlug, getAllProjectSlugs } from '@/lib/projects';
-import { getProjectIcon, isRepoPrivate } from '@/lib/icons';
+import { getProjectBySlug, getAllProjectSlugs } from '@/lib/content/projects/projects';
+import { getProjectIcon, isRepoPrivate } from '@/lib/client/icons';
 import type { Project } from '@/types/project';
 
 // Mock dependencies

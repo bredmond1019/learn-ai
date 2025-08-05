@@ -13,7 +13,7 @@ import {
   ImagePerformanceMonitor,
   defaultResponsiveConfig,
   imageConfigs
-} from '@/lib/image-optimization'
+} from '@/lib/client/image-optimization'
 
 // Mock Buffer for Node.js environment
 Object.defineProperty(global, 'Buffer', {

@@ -4,7 +4,7 @@ import React, { Component, ReactNode } from 'react';
 import { ExclamationTriangleIcon as AlertTriangleIcon, ArrowPathIcon as RefreshCwIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { logComponentError } from '@/lib/error-logger';
+import { logComponentError } from '@/lib/core/monitoring/error-logger';
 
 interface ErrorBoundaryState {
   hasError: boolean;

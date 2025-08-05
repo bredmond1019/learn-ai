@@ -8,7 +8,7 @@ import {
   getAllLearningPaths,
   validateModuleId,
   getModuleNeighbors,
-} from '@/lib/modules.server';
+} from '@/lib/content/learning/modules.server';
 
 // Mock fs/promises
 jest.mock('fs/promises', () => ({

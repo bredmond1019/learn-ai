@@ -2,9 +2,9 @@ import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 import { OptimizedImage } from '@/components/ui/optimized-image';
-import { generateBlurDataURL } from '@/lib/image-optimization';
+import { generateBlurDataURL } from '@/lib/client/image-optimization';
 import { getTranslations } from '@/lib/translations';
-import { type Locale } from '@/lib/learn';
+import { type Locale } from '@/lib/content/learning/learn';
 
 interface Props {
   params: Promise<{ locale: string }>;

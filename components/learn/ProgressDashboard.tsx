@@ -29,7 +29,7 @@ import {
   ArrowDown,
   Minus
 } from 'lucide-react';
-import { useProgress } from '@/lib/progress';
+import { useProgress } from '@/lib/client/progress';
 import type { 
   PathProgress, 
   ModuleProgress, 

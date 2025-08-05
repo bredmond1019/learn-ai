@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { Container } from '@/components/Container'
 import { Section } from '@/components/Section'
 import { BlogContent } from '@/components/BlogContent'
-import { getAllPostsMeta } from '@/lib/mdx.server'
+import { getAllPostsMeta } from '@/lib/content/blog/mdx.server'
 import { createTranslator } from '@/lib/translations'
 
 type Props = {

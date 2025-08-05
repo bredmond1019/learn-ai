@@ -9,7 +9,7 @@ import {
   apiCache,
   staticCache,
   mdxCache
-} from '@/lib/cache-manager';
+} from '@/lib/core/caching/cache-manager';
 
 // GET /api/cache - Get cache statistics
 export async function GET(request: NextRequest) {

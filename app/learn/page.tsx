@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 import LearnCardServer from '@/components/LearnCardServer';
 import ConceptCard from '@/components/ConceptCard';
 import Link from 'next/link';
-import { learningPaths, concepts } from '@/lib/learn';
+import { learningPaths, concepts } from '@/lib/content/learning/learn';
 
 export const metadata = {
   title: 'Learn Agentic AI & MCP Servers',

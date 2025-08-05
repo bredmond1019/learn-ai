@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Card } from './Card';
-import { formatDate, BlogPostMeta } from '@/lib/mdx';
+import { formatDate, BlogPostMeta } from '@/lib/content/blog/mdx';
 
 interface BlogCardProps {
   post: BlogPostMeta

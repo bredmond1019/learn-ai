@@ -1,7 +1,7 @@
 import { Project } from '@/types/project';
 import fs from 'fs';
 import path from 'path';
-import { projectsCache, cacheKeys } from './cache-manager';
+import { projectsCache, cacheKeys } from '@/lib/core/caching/cache-manager';
 
 
 const CONTENT_BASE = path.join(process.cwd(), 'content');

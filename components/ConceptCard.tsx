@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Card from './Card';
 import Button from './Button';
-import { Concept } from '@/lib/learn';
+import { Concept } from '@/lib/content/learning/learn';
 
 interface ConceptCardProps {
   concept: Concept;

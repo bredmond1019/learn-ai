@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getProjectBySlug, getAllProjectSlugs } from '@/lib/projects';
-import { getProjectIcon, isRepoPrivate } from '@/lib/icons';
+import { getProjectBySlug, getAllProjectSlugs } from '@/lib/content/projects/projects';
+import { getProjectIcon, isRepoPrivate } from '@/lib/client/icons';
 import GitHubButton from '@/components/GitHubButton';
 import CollapsibleCodeBlock from '@/components/CollapsibleCodeBlock';
 import type { Metadata } from 'next';

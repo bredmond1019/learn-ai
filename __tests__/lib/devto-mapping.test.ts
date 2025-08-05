@@ -1,4 +1,4 @@
-import { DevToMapping, ArticleMapping, MappingData } from '../../lib/devto-mapping';
+import { DevToMapping, ArticleMapping, MappingData } from '../../lib/services/devto/devto-mapping';
 import path from 'path';
 
 // Mock fs/promises module

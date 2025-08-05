@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateMDXContent } from '@/lib/mdx-parser.server';
-import { validateModuleId } from '@/lib/modules.server';
+import { validateMDXContent } from '@/lib/content/blog/mdx-parser.server';
+import { validateModuleId } from '@/lib/content/learning/modules.server';
 
 // POST /api/validate - Validate content or module structure
 export async function POST(request: NextRequest) {

@@ -4,7 +4,7 @@ import Container from '@/components/Container';
 import Card from '@/components/Card';
 import Link from 'next/link';
 import Button from '@/components/Button';
-import { getLearningPathById, getPrerequisitePaths } from '@/lib/learn';
+import { getLearningPathById, getPrerequisitePaths } from '@/lib/content/learning/learn';
 
 interface PathPageProps {
   params: Promise<{ slug: string }>;

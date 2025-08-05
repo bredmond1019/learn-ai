@@ -12,9 +12,9 @@ import path from 'path';
 import fs from 'fs/promises';
 import { config } from 'dotenv';
 
-import { DevToAPI, DevToAPIError } from '../lib/devto-api';
-import { DevToMarkdownParser } from '../lib/devto-markdown';
-import { DevToMapping } from '../lib/devto-mapping';
+import { DevToAPI, DevToAPIError } from '../lib/services/devto/devto-api';
+import { DevToMarkdownParser } from '../lib/services/devto/devto-markdown';
+import { DevToMapping } from '../lib/services/devto/devto-mapping';
 
 // Load environment variables
 config({ path: '.env.development.local' });

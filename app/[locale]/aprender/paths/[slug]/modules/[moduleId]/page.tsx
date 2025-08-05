@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { allModuleContent as moduleContent } from '@/components/learn/ModuleContent';
-import { getLearningPathById, type Locale } from '@/lib/learn';
+import { getLearningPathById, type Locale } from '@/lib/content/learning/learn';
 import { getTranslations } from '@/lib/translations';
 import { CodeBlock } from '@/components/ui/code-block';
-import { getModule } from '@/lib/modules.server';
+import { getModule } from '@/lib/content/learning/modules.server';
 import { ModuleRenderer } from '@/components/learn/ModuleRenderer';
 
 interface PageProps {

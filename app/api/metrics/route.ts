@@ -4,7 +4,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { logger } from '@/lib/logger';
+import { logger } from '@/lib/core/monitoring/logger';
 
 // Simple in-memory metrics store (in production, use Redis or proper metrics store)
 class MetricsStore {

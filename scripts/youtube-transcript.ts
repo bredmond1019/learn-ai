@@ -3,10 +3,10 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { YouTubeAPIError } from '../lib/youtube-api';
-import { YouTubeAPIv2 } from '../lib/youtube-api-v2';
-import { TranscriptFormatter, TranscriptExportOptions } from '../lib/youtube-transcript';
-import { YouTubeMapping } from '../lib/youtube-mapping';
+import { YouTubeAPIError } from '../lib/services/youtube/youtube-api';
+import { YouTubeAPIv2 } from '../lib/services/youtube/youtube-api-v2';
+import { TranscriptFormatter, TranscriptExportOptions } from '../lib/services/youtube/youtube-transcript';
+import { YouTubeMapping } from '../lib/services/youtube/youtube-mapping';
 
 const program = new Command();
 const api = new YouTubeAPIv2();

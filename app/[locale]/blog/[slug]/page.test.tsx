@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { notFound } from 'next/navigation';
 import BlogPostPage, { generateMetadata, generateStaticParams } from './page';
-import { getPostBySlug, getAllPostSlugs } from '@/lib/mdx.server';
+import { getPostBySlug, getAllPostSlugs } from '@/lib/content/blog/mdx.server';
 
 // Mock dependencies
 jest.mock('next/navigation', () => ({

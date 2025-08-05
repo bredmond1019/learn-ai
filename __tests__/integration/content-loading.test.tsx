@@ -4,7 +4,7 @@
  */
 
 import { render, screen, waitFor } from '@testing-library/react'
-import { getAllPostsMeta } from '@/lib/mdx.server'
+import { getAllPostsMeta } from '@/lib/content/blog/mdx.server'
 import { BlogCardServer } from '@/components/BlogCardServer'
 
 // Mock server-side data fetching

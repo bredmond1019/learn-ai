@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAllPostsMeta } from '@/lib/mdx.server'
-import { BlogPostMeta } from '@/lib/mdx'
+import { getAllPostsMeta } from '@/lib/content/blog/mdx.server'
+import { BlogPostMeta } from '@/lib/content/blog/mdx'
 
 interface PaginationParams {
   cursor?: string

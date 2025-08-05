@@ -1,4 +1,4 @@
-import { getAllProjects } from '@/lib/projects';
+import { getAllProjects } from '@/lib/content/projects/projects';
 import { ProjectsPageClient } from '@/components/ProjectsPageClient';
 
 interface Props {

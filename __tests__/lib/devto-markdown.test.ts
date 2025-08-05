@@ -1,4 +1,4 @@
-import { DevToMarkdownParser, MarkdownParseError } from '../../lib/devto-markdown';
+import { DevToMarkdownParser, MarkdownParseError } from '../../lib/services/devto/devto-markdown';
 import * as fs from 'fs/promises';
 
 // Mock fs/promises module

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getModule, validateModuleId } from '@/lib/modules.server';
-import { validateMDXContent } from '@/lib/mdx-parser.server';
+import { getModule, validateModuleId } from '@/lib/content/learning/modules.server';
+import { validateMDXContent } from '@/lib/content/blog/mdx-parser.server';
 
 interface RouteParams {
   params: Promise<{

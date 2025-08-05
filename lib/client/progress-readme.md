@@ -102,7 +102,7 @@ React hook providing:
 
 ### Basic Progress Tracking
 ```typescript
-import { useProgress } from '@/lib/progress';
+import { useProgress } from '@/lib/client/progress';
 
 function ModulePage({ pathId, moduleId }) {
   const {
@@ -129,7 +129,7 @@ function ModulePage({ pathId, moduleId }) {
 
 ### Time Tracking
 ```typescript
-import { useProgress } from '@/lib/progress';
+import { useProgress } from '@/lib/client/progress';
 import { useEffect, useRef } from 'react';
 
 function TimedSection({ pathId, moduleId, sectionId }) {
@@ -149,7 +149,7 @@ function TimedSection({ pathId, moduleId, sectionId }) {
 
 ### Exercise Results
 ```typescript
-import { addExerciseResult } from '@/lib/progress';
+import { addExerciseResult } from '@/lib/client/progress';
 
 function CodeExercise({ pathId, moduleId, sectionId, exerciseId }) {
   const handleSubmit = (code: string, passed: boolean) => {

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ThumbnailImage } from './ui/optimized-image';
 import Card, { CardHeader, CardTitle, CardContent } from './Card';
 import { cn } from '@/lib/utils';
-import { getProjectIcon, isRepoPrivate } from '@/lib/icons';
+import { getProjectIcon, isRepoPrivate } from '@/lib/client/icons';
 import { Lock } from 'lucide-react';
 
 export interface ProjectCardProps {

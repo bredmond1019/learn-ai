@@ -13,7 +13,7 @@
  */
 
 import { program } from 'commander'
-import { sendEmail, sendContactFormEmails, ContactFormData } from '../lib/email'
+import { sendEmail, sendContactFormEmails, ContactFormData } from '../lib/services/email/email'
 
 // Test email addresses
 const TEST_EMAILS = [

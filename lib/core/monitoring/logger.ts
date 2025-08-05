@@ -3,7 +3,7 @@
  * Provides structured logging with different levels and formats
  */
 
-import { env, getLogConfig, isProduction } from './env';
+import { env, getLogConfig, isProduction } from '@/lib/core/environment/env';
 
 export type LogLevel = 'error' | 'warn' | 'info' | 'debug';
 

@@ -9,7 +9,7 @@
  * - CONTACT_EMAIL (defaults to bredmond1019@gmail.com)
  */
 
-import { sendEmail, sendContactFormEmails, ContactFormData } from '@/lib/email'
+import { sendEmail, sendContactFormEmails, ContactFormData } from '@/lib/services/email/email'
 
 // Skip these tests in CI/CD unless explicitly running production tests
 const isProductionTest = process.env.NODE_ENV === 'production' || process.env.TEST_EMAIL_PRODUCTION === 'true'

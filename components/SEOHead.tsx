@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { generateMetaTags, type SEOConfig } from '@/lib/performance';
+import { generateMetaTags, type SEOConfig } from '@/lib/core/monitoring/performance';
 
 interface SEOHeadProps {
   title?: string;

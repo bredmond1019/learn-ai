@@ -1,4 +1,4 @@
-import { DevToAPI, DevToAPIError } from '../../lib/devto-api';
+import { DevToAPI, DevToAPIError } from '../../lib/services/devto/devto-api';
 
 // Mock fetch globally
 global.fetch = jest.fn();

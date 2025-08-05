@@ -4,9 +4,9 @@
  * Run with: npx tsx scripts/test-devto.ts
  */
 
-import { DevToAPI } from '../lib/devto-api';
-import { DevToMarkdownParser } from '../lib/devto-markdown';
-import { DevToMapping } from '../lib/devto-mapping';
+import { DevToAPI } from '../lib/services/devto/devto-api';
+import { DevToMarkdownParser } from '../lib/services/devto/devto-markdown';
+import { DevToMapping } from '../lib/services/devto/devto-mapping';
 import path from 'path';
 import { config } from 'dotenv';
 

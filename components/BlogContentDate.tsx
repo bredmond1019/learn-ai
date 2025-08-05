@@ -1,7 +1,7 @@
 'use client'
 
 import { BlogCardServer } from './BlogCardServer'
-import { BlogPostMeta } from '@/lib/mdx'
+import { BlogPostMeta } from '@/lib/content/blog/mdx'
 import { useBlogPagination } from '@/hooks/useBlogPagination'
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 

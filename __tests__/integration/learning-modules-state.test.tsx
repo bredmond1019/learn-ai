@@ -57,7 +57,7 @@ jest.mock('next/dynamic', () => () => {
 });
 
 // Mock server modules loading
-jest.mock('@/lib/modules.server', () => ({
+jest.mock('@/lib/content/learning/modules.server', () => ({
   getModule: jest.fn(),
   getAllModules: jest.fn(),
 }))

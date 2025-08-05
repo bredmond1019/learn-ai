@@ -6,8 +6,8 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { cache } from 'react';
 import React from 'react';
 import matter from 'gray-matter';
-import { logError } from './error-logger';
-import { mdxCache, cacheKeys } from './cache-manager';
+import { logError } from '@/lib/core/monitoring/error-logger';
+import { mdxCache, cacheKeys } from '@/lib/core/caching/cache-manager';
 
 // Custom components for MDX content
 const mdxComponents = {

@@ -4,7 +4,7 @@ import Section from '@/components/Section';
 import Container from '@/components/Container';
 import Card from '@/components/Card';
 import Button from '@/components/Button';
-import { getLearningPathById } from '@/lib/learn';
+import { getLearningPathById } from '@/lib/content/learning/learn';
 
 interface PreviewPageProps {
   params: Promise<{ slug: string }>;

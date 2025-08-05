@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { BlogPost } from '@/components/BlogPost'
-import { getPostBySlug, getAllPostSlugs } from '@/lib/mdx.server'
+import { getPostBySlug, getAllPostSlugs } from '@/lib/content/blog/mdx.server'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

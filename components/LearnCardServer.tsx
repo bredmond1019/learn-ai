@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Card from './Card';
 import Button from './Button';
-import { LearningPath, type Locale } from '@/lib/learn';
+import { LearningPath, type Locale } from '@/lib/content/learning/learn';
 import { createTranslator } from '@/lib/translations';
 
 interface LearnCardServerProps {

@@ -4,7 +4,7 @@ import Container from '@/components/Container';
 import Card from '@/components/Card';
 import Link from 'next/link';
 import Button from '@/components/Button';
-import { getConceptById, getRelatedConcepts } from '@/lib/learn';
+import { getConceptById, getRelatedConcepts } from '@/lib/content/learning/learn';
 
 interface ConceptPageProps {
   params: Promise<{ slug: string }>;

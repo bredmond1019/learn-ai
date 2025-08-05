@@ -4,9 +4,9 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
-import { BlogPost, BlogPostMeta } from './types/blog'
+import { BlogPost, BlogPostMeta } from '@/lib/types/blog'
 import { calculateReadingTime } from './mdx'
-import { blogCache, cacheKeys, createCachedLoader } from './cache-manager'
+import { blogCache, cacheKeys, createCachedLoader } from '@/lib/core/caching/cache-manager'
 
 // Type declaration for gray-matter since @types/gray-matter doesn't exist
 declare module 'gray-matter'

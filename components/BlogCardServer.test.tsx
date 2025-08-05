@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { BlogCardServer } from './BlogCardServer';
-import { formatDate } from '@/lib/mdx';
+import { formatDate } from '@/lib/content/blog/mdx';
 
 // Mock the dependencies
 jest.mock('./Card', () => ({

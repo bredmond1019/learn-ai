@@ -1,5 +1,5 @@
-import { getAllProjects } from '@/lib/projects'
-import { getAllPosts } from '@/lib/mdx.server'
+import { getAllProjects } from '@/lib/content/projects/projects'
+import { getAllPosts } from '@/lib/content/blog/mdx.server'
 
 const baseUrl = 'https://brandon-redmond.dev'
 

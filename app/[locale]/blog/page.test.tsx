@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import BlogPage from './page';
-import { getAllPostsMeta } from '@/lib/mdx.server';
+import { getAllPostsMeta } from '@/lib/content/blog/mdx.server';
 import { createTranslator } from '@/lib/translations';
 
 // Mock the server-side dependencies

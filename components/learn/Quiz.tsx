@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, XCircle, Clock, Award, RefreshCw } from 'lucide-react';
-import { useProgress } from '@/lib/progress';
+import { useProgress } from '@/lib/client/progress';
 import { ComponentErrorBoundary } from '@/components/ErrorBoundary';
-import { logQuizError } from '@/lib/error-logger';
+import { logQuizError } from '@/lib/core/monitoring/error-logger';
 import type { QuizResult, QuizAnswer } from '@/types/progress';
 
 /**

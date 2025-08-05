@@ -1,345 +1,184 @@
-# Library Services Documentation
+# Library Documentation Hub
 
-This directory contains essential service APIs and utilities for the portfolio site.
+This directory contains the core library code for the portfolio application, organized into logical subdirectories for better maintainability and clarity.
 
-## Services Overview
+## Directory Structure Overview
 
-1. **YouTube Transcript API** - Fetch and manage YouTube video transcripts
-2. **Dev.to Publishing API** - Publish and manage articles on Dev.to platform
-3. **Content Management** - MDX processing, caching, and content utilities
-4. **Translation Services** - AI-powered content translation with Claude
+### 📡 External Services (`/services`)
+Third-party API integrations and external service clients.
 
----
+See [services/CLAUDE.md](./services/CLAUDE.md) for documentation on:
+- **Email Service** - Resend API integration with spam protection
+- **Dev.to Publishing** - Article publishing and management  
+- **YouTube Services** - Transcript fetching and formatting
+- **Translation Service** - AI-powered content translation
 
-# Dev.to Publishing API
+### 📄 Content Management (`/content`)
+Content processing, validation, and management systems.
 
-## Quick Start
+See [content/CLAUDE.md](./content/CLAUDE.md) for documentation on:
+- **Blog System** - MDX processing and blog post management
+- **Learning System** - Module loading and validation
+- **Projects System** - Project data management
+- **Content Validation** - Cross-content validation utilities
 
-The Dev.to API integration enables publishing blog posts directly from markdown files to Dev.to.
+### 🏗️ Core Infrastructure (`/core`)
+Essential infrastructure components and utilities.
 
-### Basic Commands
+See [core/CLAUDE.md](./core/CLAUDE.md) for documentation on:
+- **Caching System** - LRU cache with namespaces
+- **Environment Config** - Type-safe environment management
+- **Monitoring & Logging** - Observability and debugging
+- **Security** - Rate limiting and protection
+- **Navigation** - Route generation utilities
 
-```bash
-# Publish a single article
-npm run devto:publish <file-path>
+### 💻 Client Utilities (`/client`)
+Client-side specific utilities and components.
 
-# Publish with options
-npm run devto:publish <file> -- --draft    # Publish as draft
-npm run devto:publish <file> -- --force    # Force republish
+See [client/CLAUDE.md](./client/CLAUDE.md) for documentation on:
+- **Progress Tracking** - Learning progress persistence
+- **Icons Library** - SVG icon components
+- **Image Optimization** - Client-side image utilities
 
-# Publish entire directory (e.g., series)
-npm run devto:publish-dir <directory-path>
+### 🔧 Other Directories
 
-# Update existing article
-npm run devto:update <file-path>
+#### Hooks (`/hooks`)
+React hooks for common functionality.
+- `useCodePlaygroundOptimization.ts` - Code editor optimization
 
-# List all published articles
-npm run devto:list
+#### Utils (`/utils`)
+General utility functions.
+- `date.ts` - Date formatting utilities
+- `code-splitting.ts` - Bundle optimization helpers
 
-# Sync changed articles
-npm run devto:sync
-```
+#### Types (`/types`)
+TypeScript type definitions.
+- `blog.ts` - Blog-related types
 
-### Multi-Part Series Publishing
+#### Translations (`/translations`)
+Internationalization files.
+- `en.ts` - English translations
+- `pt-BR.ts` - Portuguese translations
+- `index.ts` - Translation exports
 
-For publishing article series (like the Claude Code series):
+#### Claude SDK (`/claude-sdk`)
+Claude AI integration experiments.
+- `playground.ts` - Experimental Claude features
 
-```bash
-# Publish series in order
-npm run devto:publish content/socials/dev-to/series/part-1.md
-npm run devto:publish content/socials/dev-to/series/part-2.md
-npm run devto:publish content/socials/dev-to/series/part-3.md
+## Architecture Principles
 
-# Or publish entire directory
-npm run devto:publish-dir content/socials/dev-to/series/
-```
+### 1. **Separation of Concerns**
+Each subdirectory handles a specific domain, making it easy to find and maintain related code.
 
-## Architecture
+### 2. **Documentation First**
+Every major directory has its own CLAUDE.md file documenting its contents and usage patterns.
 
-### Core Components
+### 3. **Type Safety**
+Full TypeScript coverage with strict typing for better developer experience and fewer runtime errors.
 
-1. **DevToAPI** (`devto-api.ts`): API client with rate limiting
-   - Handles all Dev.to API interactions
-   - Built-in rate limiting (30 requests/30 seconds)
-   - Error handling and retry logic
+### 4. **Performance Optimization**
+Built-in caching, lazy loading, and optimization utilities throughout the library.
 
-2. **DevToMarkdown** (`devto-markdown.ts`): Content processor
-   - Parses markdown frontmatter
-   - Validates YAML structure
-   - Handles special characters and formatting
+### 5. **Testing Coverage**
+Comprehensive test suites for critical functionality with examples in documentation.
 
-3. **DevToMapping** (`devto-mapping.ts`): Article tracking
-   - Maps local files to Dev.to article IDs
-   - Tracks publication status
-   - Detects content changes for syncing
+## Quick Reference
 
-### Programmatic Usage
-
-```typescript
-import { DevToAPI } from '@/lib/devto-api';
-import { DevToMarkdown } from '@/lib/devto-markdown';
-import { DevToMapping } from '@/lib/devto-mapping';
-
-// Initialize services
-const api = new DevToAPI(process.env.DEV_TO_API_KEY);
-const markdown = new DevToMarkdown();
-const mapping = new DevToMapping();
-
-// Publish article
-const content = await markdown.parseFile('article.md');
-const article = await api.createArticle({
-  title: content.title,
-  body_markdown: content.content,
-  published: true,
-  tags: content.tags,
-  series: content.series
-});
-
-// Track publication
-await mapping.set('article.md', article.id);
-```
-
-## Markdown Format Requirements
-
-```markdown
----
-title: "Article Title"           # Required, quote if contains colons
-published: true                   # true/false for publication status
-tags: ai, programming, claude     # Max 4 tags, comma-separated
-series: "Series Name"             # Optional, for multi-part articles
-description: "Brief summary"      # Optional, article excerpt
-canonical_url: "https://..."      # Optional, original source URL
-cover_image: "https://..."        # Optional, article header image
----
-
-Article content in markdown...
-```
-
-## Common Issues & Solutions
-
-### YAML Parsing Errors
-- **Problem**: Title contains colon without quotes
-- **Solution**: Wrap title in quotes: `title: "Part 1: Introduction"`
-
-### Rate Limiting
-- **Problem**: "Rate limit reached" error
-- **Solution**: Wait 30 seconds between bulk operations
-
-### Duplicate Publication
-- **Problem**: Article already published error
-- **Solution**: Use `--force` flag or `npm run devto:update`
-
-### Missing Mapping File
-- **Problem**: Lost track of published articles
-- **Solution**: `.devto-mapping.json` stores mappings (gitignored)
-
-## Website URL References
-
-When linking back to the main site in Dev.to articles:
-- Main site: `https://learn-agentic-ai.com`
-- Blog posts: `https://learn-agentic-ai.com/blog/[slug]`
-- Learning paths: `https://learn-agentic-ai.com/en/learn/paths/[path-id]`
-
----
-
-# YouTube Transcript API Service Documentation
-
-The YouTube transcript fetching and management system for the portfolio site.
-
-## Architecture Overview
-
-The YouTube transcript service is built with a modular architecture consisting of:
-
-1. **YouTubeAPI** (`youtube-api.ts`): Legacy API wrapper (deprecated)
-   - Basic video metadata fetching using YouTube Data API v3
-   - Deprecated transcript methods redirect to v2
-
-2. **YouTubeAPIv2** (`youtube-api-v2.ts`): Modern transcript fetcher
-   - Uses `youtubei.js` (Innertube) for transcript extraction
-   - No API key required for transcript fetching
-   - Handles video metadata and transcript segments
-
-3. **TranscriptFormatter** (`youtube-transcript.ts`): Content formatting engine
-   - Multiple export formats: TXT, MD, SRT, VTT, JSON
-   - Timestamp formatting options
-   - Smart paragraph detection based on timing gaps
-   - Searchable chunk creation for large transcripts
-
-4. **YouTubeMapping** (`youtube-mapping.ts`): Storage and indexing system
-   - File-based transcript storage in `/content/youtube-transcripts/`
-   - Mapping file (`.youtube-mapping.json`) tracks all transcripts
-   - Metadata preservation and search capabilities
-   - Update detection and versioning
-
-## Usage Patterns
-
-### CLI Usage (Primary Interface)
-
-```bash
-# Fetch a new transcript
-npx tsx scripts/youtube-transcript.ts fetch <url> [options]
-  -l, --language <lang>    Transcript language (default: en)
-  -f, --format <format>    Export format (txt, md, srt, vtt, json)
-  --no-timestamps          Exclude timestamps from output
-  --no-metadata           Skip fetching video metadata
-
-# Update existing transcript
-npx tsx scripts/youtube-transcript.ts update <url> [options]
-
-# List all transcripts
-npx tsx scripts/youtube-transcript.ts list
-  -s, --sort <field>      Sort by: date, title, author, duration
-  -r, --reverse           Reverse sort order
-
-# Export transcript in different format
-npx tsx scripts/youtube-transcript.ts export <video-id> [options]
-  -f, --format <format>   Export format
-  -o, --output <path>     Output file path
-
-# Search transcripts
-npx tsx scripts/youtube-transcript.ts search <keyword>
-
-# Remove transcript
-npx tsx scripts/youtube-transcript.ts remove <video-id>
-  -f, --force            Force removal without confirmation
-```
-
-### Programmatic Usage
+### Common Imports
 
 ```typescript
-import { YouTubeAPIv2 } from '@/lib/youtube-api-v2';
-import { TranscriptFormatter } from '@/lib/youtube-transcript';
-import { YouTubeMapping } from '@/lib/youtube-mapping';
+// Services
+import { sendContactFormEmails } from '@/lib/services/email/email'
+import { DevToAPI } from '@/lib/services/devto/devto-api'
+import { YouTubeAPIv2 } from '@/lib/services/youtube/youtube-api-v2'
+import { translateContent } from '@/lib/services/translation/claude-translator'
 
-// Initialize services
-const api = new YouTubeAPIv2();
-const formatter = new TranscriptFormatter();
-const mapping = new YouTubeMapping();
+// Content
+import { getAllPosts } from '@/lib/content/blog/mdx.server'
+import { getModule } from '@/lib/content/learning/modules.server'
+import { getAllProjects } from '@/lib/content/projects/projects'
 
-// Fetch transcript
-const videoId = api.extractVideoId(url);
-const transcript = await api.fetchTranscript(videoId);
-const metadata = await api.getVideoMetadata(videoId);
+// Core
+import { blogCache } from '@/lib/core/caching/cache-manager'
+import { env, isProduction } from '@/lib/core/environment/env'
+import { logger } from '@/lib/core/monitoring/logger'
+import { rateLimitMiddleware } from '@/lib/core/security/rate-limit'
 
-// Store transcript
-await mapping.initialize();
-await mapping.add(videoId, transcript, metadata);
+// Client
+import { useProgress } from '@/lib/client/progress'
+import { CheckIcon } from '@/lib/client/icons'
+import { getOptimizedImageProps } from '@/lib/client/image-optimization'
 
-// Format and export
-const formatted = formatter.formatMarkdown(transcript, {
-  includeTimestamps: true,
-  timestampFormat: 'hms',
-  paragraphBreaks: true
-}, metadata);
-
-// Save to file
-await mapping.saveTranscript(videoId, formatted, 'md');
+// Utils
+import { cn } from '@/lib/utils'
+import { formatDate } from '@/lib/utils/date'
 ```
 
-## Data Flow
+## Getting Started
 
-1. **URL Input** → Extract video ID
-2. **Fetch Phase**:
-   - Metadata via Innertube (no API key needed)
-   - Transcript segments via Innertube
-3. **Processing**:
-   - Parse transcript segments with timing
-   - Calculate statistics (word count, duration)
-   - Format according to export options
-4. **Storage**:
-   - Save formatted transcript to file system
-   - Update mapping index with metadata
-   - Store raw JSON for re-formatting
+### For New Features
 
-## File Structure
+1. **Identify the category** - Is it a service, content type, core infrastructure, or client utility?
+2. **Create in appropriate directory** - Follow the established patterns
+3. **Add documentation** - Update the relevant CLAUDE.md file
+4. **Include tests** - Add unit tests for new functionality
+5. **Export properly** - Ensure clean, typed exports
 
-```
-content/youtube-transcripts/
-├── .youtube-mapping.json          # Index of all transcripts (gitignored)
-├── video-title-1.txt             # Formatted transcript
-├── video-title-1.json            # Raw transcript data
-├── video-title-2.md              # Markdown formatted
-└── ...
-```
+### For Bug Fixes
 
-## Key Features
+1. **Locate the module** - Use the directory structure to find relevant code
+2. **Check documentation** - Read the CLAUDE.md file for context
+3. **Review tests** - Understand expected behavior
+4. **Make minimal changes** - Fix the specific issue
+5. **Update tests** - Add tests for the bug scenario
 
-### Smart Formatting
-- **Paragraph Detection**: Automatically inserts paragraph breaks when gaps > 2 seconds
-- **Timestamp Options**: Multiple formats (seconds, HH:MM:SS, [HH:MM:SS])
-- **Cultural Adaptation**: Handles multiple languages with proper encoding
+## Best Practices
 
-### Search & Discovery
-- Full-text search across all transcripts
-- Metadata search (title, author)
-- Statistics tracking (word count, duration, languages)
+### 1. **Use Existing Patterns**
+Before creating new utilities, check if similar functionality exists.
 
-### Update Management
-- Detects when transcripts need updating (> 30 days old)
-- Metadata change detection
-- Preserves original download timestamps
+### 2. **Keep Dependencies Minimal**
+Each module should have minimal dependencies on other modules.
 
-### Export Flexibility
-- **TXT**: Plain text with optional timestamps
-- **MD**: Markdown with metadata header and formatting
-- **SRT/VTT**: Standard subtitle formats for video players
-- **JSON**: Raw data for programmatic use
+### 3. **Document Complex Logic**
+Add inline comments for complex algorithms or business logic.
 
-## Error Handling
+### 4. **Export Types**
+Always export TypeScript types alongside implementations.
 
-The service includes comprehensive error handling:
+### 5. **Handle Errors Gracefully**
+Use consistent error handling patterns throughout the library.
 
-```typescript
-try {
-  const transcript = await api.fetchTranscript(videoId);
-} catch (error) {
-  if (error instanceof YouTubeAPIError) {
-    if (error.statusCode === 404) {
-      // Video not found or no captions available
-    }
-  }
-}
-```
+## Contributing
 
-## Performance Considerations
+When adding new functionality:
 
-- **Innertube Connection**: Reused across requests for efficiency
-- **File I/O**: Async operations prevent blocking
-- **Memory Usage**: Streaming not required due to typical transcript sizes
-- **Cache Strategy**: Raw JSON stored for quick re-formatting
+1. **Follow the directory structure** - Place code in the appropriate subdirectory
+2. **Update documentation** - Add to the relevant CLAUDE.md file
+3. **Maintain consistency** - Follow existing code patterns and styles
+4. **Test thoroughly** - Include unit tests for new code
+5. **Consider performance** - Use caching and optimization where appropriate
 
-## Security Notes
+## Maintenance
 
-- No API keys stored in code
-- YouTube Data API key optional (only for enhanced metadata)
-- File names sanitized to prevent path traversal
-- Content stored locally, no external dependencies
+### Regular Tasks
+- Review and update dependencies
+- Check for unused exports
+- Update documentation as needed
+- Monitor bundle sizes
+- Review error logs
 
-## Integration Points
+### Performance Monitoring
+- Cache hit rates
+- API response times
+- Bundle size analysis
+- Memory usage patterns
 
-### With Blog System
-- YouTube transcripts can be referenced in blog posts
-- Potential for automatic blog post generation from transcripts
-- Search integration for finding relevant video content
+## Future Considerations
 
-### With Learning Modules
-- Video transcripts as supplementary learning material
-- Timestamp-based navigation for specific topics
-- Quiz generation from transcript content
-
-## Common Issues & Solutions
-
-### No Transcript Available
-- Some videos don't have captions
-- Try different language options
-- Check if video is private or age-restricted
-
-### Innertube Connection Errors
-- Usually temporary, retry after a moment
-- Check network connectivity
-- May indicate YouTube API changes
-
-### Large Transcript Handling
-- Use chunk creation for search indexing
-- Consider pagination for display
-- JSON format preserves all segment data
+As the library grows, consider:
+- Breaking into separate packages
+- Implementing a monorepo structure
+- Adding more comprehensive testing
+- Creating developer tools
+- Publishing reusable components

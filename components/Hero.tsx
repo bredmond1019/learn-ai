@@ -4,7 +4,7 @@ import Container from './Container';
 import Button from './Button';
 import Link from 'next/link';
 import { HeroImage } from './ui/optimized-image';
-import { generateBlurDataURL } from '@/lib/image-optimization';
+import { generateBlurDataURL } from '@/lib/client/image-optimization';
 import { createTranslator, type Locale } from '@/lib/translations';
 
 interface HeroProps {

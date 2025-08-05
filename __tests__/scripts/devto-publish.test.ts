@@ -3,16 +3,16 @@
 
 /*
 import { DevToPublisher } from '../../scripts/devto-publish';
-import { DevToAPI } from '../../lib/devto-api';
-import { DevToMarkdownParser } from '../../lib/devto-markdown';
-import { DevToMappingService } from '../../lib/devto-mapping';
+import { DevToAPI } from '../../lib/services/devto/devto-api';
+import { DevToMarkdownParser } from '../../lib/services/devto/devto-markdown';
+import { DevToMappingService } from '../../lib/services/devto/devto-mapping';
 import { join } from 'path';
 import * as fs from 'fs';
 
 // Mock all dependencies
-jest.mock('../../lib/devto-api');
-jest.mock('../../lib/devto-markdown');
-jest.mock('../../lib/devto-mapping');
+jest.mock('../../lib/services/devto/devto-api');
+jest.mock('../../lib/services/devto/devto-markdown');
+jest.mock('../../lib/services/devto/devto-mapping');
 jest.mock('fs');
 
 // Mock console methods

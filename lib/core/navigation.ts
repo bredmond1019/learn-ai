@@ -55,7 +55,7 @@ export function createBreadcrumb(
  * Helper for components that need navigation utilities
  * Usage:
  * ```tsx
- * import { createLocalizedNavigation } from '@/lib/navigation';
+ * import { createLocalizedNavigation } from '@/lib/core/navigation';
  * 
  * function MyComponent() {
  *   const pathname = usePathname();

@@ -6,7 +6,7 @@ import Container from '@/components/Container';
 import ProjectCard from '@/components/ProjectCard';
 import { Project } from '@/types/project';
 import { getTranslations } from '@/lib/translations';
-import { type Locale } from '@/lib/learn';
+import { type Locale } from '@/lib/content/learning/learn';
 
 interface ProjectsPageProps {
   initialProjects: Project[];
