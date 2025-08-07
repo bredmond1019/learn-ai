@@ -32,6 +32,14 @@ See [translation/CLAUDE.md](./translation/CLAUDE.md) for AI translation document
 - Cultural adaptation
 - Batch translation workflows
 
+### 📄 Notion Service (`/notion`)
+See [notion/CLAUDE.md](./notion/CLAUDE.md) for Notion API documentation including:
+- Full TypeScript client implementation
+- Page and block operations
+- Property management
+- Error handling and rate limiting
+- Helper utilities for content creation
+
 ## Common Patterns
 
 All services in this directory follow these patterns:

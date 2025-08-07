@@ -49,3 +49,7 @@ docs/misc/
 # YouTube transcript mapping file
 .youtube-mapping.json
 content/youtube-transcripts/.youtube-mapping.json
+
+# Notion page ID mapping file
+.notion-page-mappings.json
+notion-content-structure.json
