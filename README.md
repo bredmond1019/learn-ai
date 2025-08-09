@@ -2,19 +2,23 @@
 
 **Brandon J. Redmond - AI Engineer & Agentic Systems Architect**
 
-A modern, production-ready portfolio website showcasing AI engineering expertise, built with Next.js 15, TypeScript, and Tailwind CSS. Features comprehensive internationalization (English/Portuguese), advanced content management, and professional deployment configurations.
+A modern, production-ready portfolio website showcasing AI engineering expertise, built with Next.js 15, TypeScript, and Tailwind CSS. Features a comprehensive Learning Management System (LMS), internationalization (English/Portuguese), AI-powered content translation, and professional deployment configurations.
+
+**Live Website**: [https://learn-agentic-ai.com](https://learn-agentic-ai.com)
 
 ## ✨ Key Features
 
-- **🌐 Internationalization**: Full English/Portuguese support with dynamic content translation
-- **📱 Responsive Design**: Mobile-first approach with dark theme
-- **📝 Content Management**: MDX blog posts and JSON-based project data
-- **🧪 Testing**: Comprehensive test suite with Jest and React Testing Library
-- **🚀 Performance**: Optimized for Core Web Vitals and SEO
-- **📧 Contact Form**: Integrated email functionality with Resend
-- **🔍 SEO**: Advanced SEO with structured data, sitemap, and metadata
-- **⚡ Translation System**: AI-powered content translation with caching
-- **📊 Analytics Ready**: Google Analytics and error tracking integration
+- **🎓 Learning Management System**: Interactive courses with 7+ learning paths, 50+ modules, quizzes, and progress tracking
+- **🌐 Full Internationalization**: English/Portuguese support with AI-powered translation
+- **📝 Advanced Content System**: MDX blog with syntax highlighting, Dev.to integration, YouTube transcripts
+- **🤖 AI Integrations**: Claude API for translations, Notion API for content sync
+- **📱 Responsive Design**: Mobile-first approach with dark theme and accessibility
+- **🧪 Comprehensive Testing**: Jest, React Testing Library, production email tests
+- **🚀 Performance Optimized**: Aggressive code splitting, WASM support, image optimization
+- **📧 Email System**: Contact forms with Resend API, rate limiting, spam protection
+- **🔍 Advanced SEO**: Structured data, dynamic sitemaps, Open Graph, hreflang
+- **📊 Analytics & Monitoring**: Google Analytics, Sentry error tracking, performance monitoring
+- **🚢 Production Ready**: Docker, Kubernetes configs, Vercel optimizations
 
 ## 🚀 Quick Start
 
@@ -33,15 +37,15 @@ cd portfolio
 # Install dependencies
 npm install
 
-# Copy environment template
-cp .env.example .env.local
+# Copy environment template (if exists)
+cp .env.example .env.local 2>/dev/null || touch .env.local
 # Edit .env.local with your values
 
 # Start development server
 npm run dev
 ```
 
-**Development server**: [http://localhost:3000](http://localhost:3000)
+**Development server**: [http://localhost:3003](http://localhost:3003)
 
 ### Environment Variables
 
@@ -50,11 +54,20 @@ Required for full functionality:
 ```bash
 # Required: Email functionality
 RESEND_API_KEY=your_resend_api_key_here
+RESEND_FROM_EMAIL=verified-sender@yourdomain.com
 CONTACT_EMAIL=your-email@domain.com
 
 # Optional: Analytics and monitoring
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 SENTRY_DSN=your_sentry_dsn_here
+GOOGLE_SITE_VERIFICATION=verification_code
+
+# Optional: Content integrations
+DEV_TO_API_KEY=dev_to_api_key
+ANTHROPIC_API_KEY=claude_api_key
+YOUTUBE_API_KEY=youtube_data_api_v3_key
+NOTION_API_KEY=notion_integration_key
+NOTION_DATABASE_ID=notion_database_id
 ```
 
 ## 📁 Project Structure
@@ -62,51 +75,88 @@ SENTRY_DSN=your_sentry_dsn_here
 ```
 portfolio/
 ├── app/
-│   ├── [locale]/              # Internationalized routes (en/pt)
-│   │   ├── about/            # About page
-│   │   ├── blog/             # Blog listing and posts
-│   │   │   └── [slug]/       # Dynamic blog post pages
-│   │   ├── projects/         # Project showcase
-│   │   │   └── [slug]/       # Dynamic project detail pages
-│   │   ├── learn/            # Learning resources
-│   │   ├── contact/          # Contact form
-│   │   ├── co-founder/       # Co-founder services
-│   │   └── page.tsx          # Homepage
-│   ├── api/                  # API routes
-│   │   ├── contact/          # Contact form handler
-│   │   └── health/           # Health check endpoint
-│   └── globals.css           # Global styles
-├── components/               # React components with tests
-│   ├── Navigation.tsx        # Multi-language navigation
-│   ├── Hero.tsx             # Homepage hero section
-│   ├── ProjectCard.tsx      # Project showcase cards
-│   ├── ContactForm.tsx      # Contact form with validation
-│   ├── Toast.tsx            # Notification system
-│   └── *.test.tsx           # Component tests
-├── content/                 # Content management
-│   ├── blog/
-│   │   ├── en/published/    # English blog posts (MDX)
-│   │   └── pt/published/    # Portuguese blog posts (MDX)
-│   ├── projects/
-│   │   ├── en/published/    # English project data (JSON)
-│   │   └── pt/published/    # Portuguese project data (JSON)
-│   └── translations/        # UI translations
-├── lib/                     # Utilities and business logic
-│   ├── mdx.server.ts       # Server-side MDX processing
-│   ├── projects.ts         # Project data management
-│   ├── claude-translator.ts # AI translation system
-│   ├── email.ts            # Email service integration
-│   ├── i18n.ts             # Internationalization
-│   └── *.test.ts           # Utility tests
-├── scripts/                # Build and translation scripts
-│   ├── translate-content.ts # Content translation automation
-│   └── manage-translations.ts # Translation management
-├── public/                 # Static assets
-│   ├── images/            # Optimized images
-│   ├── robots.txt         # SEO robots file
-│   └── manifest.json      # PWA manifest
-└── types/                 # TypeScript type definitions
-    └── project.ts         # Project data types
+│   ├── [locale]/                    # Internationalized routes (en/pt-BR)
+│   │   ├── about/                  # About page
+│   │   ├── blog/                   # Blog listing and posts
+│   │   │   └── [slug]/            # Dynamic blog post pages
+│   │   ├── projects/               # Project showcase
+│   │   │   └── [slug]/            # Dynamic project detail pages
+│   │   ├── learn/                  # Learning Management System
+│   │   │   ├── paths/             # Learning paths
+│   │   │   │   └── [slug]/
+│   │   │   │       └── modules/
+│   │   │   │           └── [moduleId]/  # Interactive modules
+│   │   │   └── concepts/          # Concept pages
+│   │   ├── contact/                # Contact form
+│   │   ├── co-founder/             # Co-founder services
+│   │   └── page.tsx                # Homepage
+│   ├── api/                        # API routes
+│   │   ├── contact/                # Contact form handler
+│   │   ├── learn/                  # LMS API endpoints
+│   │   │   ├── paths/             # Learning path data
+│   │   │   ├── progress/          # Progress tracking
+│   │   │   └── modules/           # Module content
+│   │   └── health/                 # Health check endpoint
+│   └── globals.css                 # Global styles
+├── components/                     # React components
+│   ├── learn/                     # Learning components
+│   │   ├── ModuleRenderer.tsx    # MDX module renderer
+│   │   ├── Quiz.tsx               # Interactive quizzes
+│   │   ├── ProgressDashboard.tsx # Progress tracking
+│   │   └── CodeValidation.tsx    # Code exercise validation
+│   ├── blog/                      # Blog components
+│   ├── ui/                        # UI components
+│   └── *.test.tsx                 # Component tests
+├── content/                        # Content management
+│   ├── blog/                      # Blog posts (MDX)
+│   │   ├── [locale]/published/
+│   │   └── [locale]/draft/
+│   ├── learn/                     # Learning content
+│   │   ├── paths/                # Learning paths
+│   │   │   ├── mcp-fundamentals/ # MCP course
+│   │   │   ├── agentic-workflows/# Agent development
+│   │   │   ├── production-ai/    # Production systems
+│   │   │   ├── ai-systems-intro/ # Intro course
+│   │   │   ├── claude-code-mastery/
+│   │   │   ├── agent-memory-systems/
+│   │   │   └── 12-factor-agent-development/
+│   │   └── shared/                # Shared learning resources
+│   ├── projects/                  # Project data (JSON)
+│   │   ├── published/[locale]/
+│   │   └── draft/
+│   ├── summaries/                 # YouTube transcript summaries
+│   └── socials/                   # Social media content
+│       ├── linkedin/
+│       └── dev-to/
+├── lib/                           # Core libraries
+│   ├── services/                 # External services
+│   │   ├── email/               # Email service
+│   │   ├── devto/               # Dev.to API
+│   │   ├── youtube/             # YouTube transcripts
+│   │   └── notion/              # Notion integration
+│   ├── content/                  # Content processing
+│   │   ├── blog/                # Blog utilities
+│   │   ├── learning/            # LMS utilities
+│   │   └── projects/            # Project utilities
+│   ├── core/                    # Core infrastructure
+│   │   ├── cache/               # Caching system
+│   │   ├── environment/         # Environment config
+│   │   ├── monitoring/          # Performance monitoring
+│   │   └── security/            # Security utilities
+│   └── client/                  # Client utilities
+├── scripts/                      # Automation scripts
+│   ├── translate-content.ts    # AI translation
+│   ├── devto-publish.ts        # Dev.to publishing
+│   ├── youtube-transcript.ts   # YouTube fetching
+│   ├── test-notion-api.ts      # Notion testing
+│   ├── validate-content.ts     # Content validation
+│   ├── comprehensive-validation.ts
+│   ├── test-email.ts           # Email testing
+│   └── video-blog-mapping.ts   # Video to blog conversion
+├── public/                      # Static assets
+├── __tests__/                   # Test suites
+├── __mocks__/                   # Test mocks
+└── types/                       # TypeScript definitions
 ```
 
 ## 🎨 Tech Stack
@@ -147,49 +197,121 @@ portfolio/
 
 ### Core Development
 ```bash
-npm run dev          # Start development server (localhost:3000)
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
+npm run dev              # Start dev server (localhost:3003)
+npm run build            # Production build
+npm run build:production # Production build (ignores ESLint warnings)
+npm run start            # Start production server (port 3003)
+npm run lint             # Run ESLint
+npm run analyze          # Analyze bundle size
 ```
 
 ### Testing
 ```bash
-npm run test         # Run all tests
-npm run test:watch   # Run tests in watch mode
-npm run test:coverage # Generate coverage report
+npm test                 # Run all tests
+npm test:watch          # Watch mode
+npm test:coverage       # Generate coverage report
 
-# Test specific files
-npm test -- ComponentName.test.tsx
-npm test -- --testNamePattern="specific test name"
+# Test specific files/patterns
+npm test ComponentName.test.tsx
+npm test -- Button
+npm test -- --testPathPattern=components
+npm test -- --updateSnapshot
+```
+
+### Content Management
+```bash
+npm run validate:content                  # Validate all content files
+npx tsx scripts/comprehensive-validation.ts # Comprehensive validation
+npx tsx scripts/test-error-boundaries.ts  # Test error boundaries
 ```
 
 ### Translation System
 ```bash
-npm run translate:status    # Check translation status
-npm run translate:blog      # Translate blog posts
-npm run translate:projects  # Translate project data
+npm run translate:scan      # Scan for missing translations
+npm run translate:priority  # Translate high-priority content
+npm run translate:blog      # Translate blog posts only
+npm run translate:learning  # Translate learning modules
 npm run translate:all       # Translate all content
-npm run translate:validate  # Validate translations
-npm run translate:costs     # Check translation costs
 ```
+
+### Email Testing
+```bash
+npm run email:test          # Send test email
+npm run email:test-contact  # Test contact form
+npm run email:test-all      # Test all email addresses
+npm run email:verify        # Verify configuration
+npm run email:stress        # Stress test delivery
+npm test:email:integration  # Production integration tests
+```
+
+### Dev.to Publishing
+```bash
+npm run devto:publish <file>    # Publish single article
+npm run devto:update <file>     # Update existing article
+npm run devto:unpublish <file>  # Unpublish article
+npm run devto:publish-dir <dir> # Publish directory
+npm run devto:sync              # Sync changed articles
+npm run devto:list              # List published articles
+npx tsx scripts/test-devto.ts   # Test Dev.to API
+```
+
+### YouTube Transcripts
+```bash
+npx tsx scripts/youtube-transcript.ts fetch <url>   # Fetch transcript
+npx tsx scripts/youtube-transcript.ts update <url>  # Update existing
+npx tsx scripts/youtube-transcript.ts list          # List all
+npx tsx scripts/youtube-transcript.ts export <id>   # Export format
+npx tsx scripts/youtube-transcript.ts search <term> # Search transcripts
+npx tsx scripts/youtube-transcript.ts remove <id>   # Remove transcript
+```
+
+### Other Integrations
+```bash
+npx tsx scripts/test-notion-api.ts      # Test Notion API
+npx tsx scripts/video-blog-mapping.ts   # Map videos to blogs
+```
+
+### Deployment
+```bash
+npm run build:prod      # Production build script
+npm run deploy          # Deploy script
+npm run docker:build    # Build Docker image
+npm run docker:run      # Run Docker container
+npm run k8s:deploy      # Deploy to Kubernetes
+npm run k8s:status      # Check pod status
+```
+
+## 🎓 Learning Management System
+
+The portfolio includes a comprehensive LMS with:
+
+### Available Learning Paths
+- **AI Systems Introduction** (10 modules) - Beginner-friendly introduction
+- **MCP Fundamentals** (5 modules) - Model Context Protocol basics
+- **Agentic Workflows** (6 modules) - Building AI agents
+- **Production AI** (5 modules) - Deployment and scaling
+- **Claude Code Mastery** (7 modules) - Advanced Claude Code usage
+- **Agent Memory Systems** (5 modules) - Memory architectures
+- **12-Factor Agent Development** (5 modules) - Production patterns
+
+### LMS Features
+- **Interactive Modules**: MDX content with quizzes and exercises
+- **Progress Tracking**: LocalStorage with API sync preparation
+- **Custom Components**: Quiz, Callout, CodeExample, Diagram (Mermaid)
+- **Multi-language**: Full English/Portuguese support with fallback
+- **Module Types**: concept, theory, project, practice
+- **30-Line Rule**: Code blocks optimized for comprehension
 
 ## 🌐 Internationalization
 
-The site supports English (primary) and Portuguese with:
+The site supports English (primary) and Portuguese (pt-BR) with:
 
-- **Dynamic routing**: `/en/...` and `/pt/...`
-- **Content translation**: Separate content files per language
-- **UI translations**: JSON-based translation files
-- **AI-powered translation**: Automated content translation with Claude
-- **SEO optimization**: Proper hreflang and metadata per locale
-
-### Adding New Languages
-
-1. Add locale to `i18n.ts`
-2. Create translation files in `content/translations/`
-3. Add content directories in `content/blog/[locale]/` and `content/projects/[locale]/`
-4. Update navigation and metadata
+- **Dynamic routing**: `/[locale]/...` pattern for all pages
+- **Content separation**: Organized by locale in content directories
+- **AI-powered translation**: Claude API for automated translation
+- **Cultural adaptation**: Localized idioms and technical terms
+- **SEO optimization**: Proper hreflang tags and locale-specific metadata
+- **Route translations**: `/en/about` → `/pt-BR/sobre`
 
 ## 📧 Contact Form Setup
 
@@ -231,11 +353,26 @@ The contact form requires Resend API integration:
 
 **Environment Variables:**
 ```bash
+# Required
 RESEND_API_KEY=prod_api_key
+RESEND_FROM_EMAIL=noreply@yourdomain.com
 CONTACT_EMAIL=your-email@domain.com
+
+# Analytics & Monitoring
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 SENTRY_DSN=your_sentry_dsn
+GOOGLE_SITE_VERIFICATION=verification_code
+
+# Content Integrations (Optional)
+DEV_TO_API_KEY=dev_to_api_key
+ANTHROPIC_API_KEY=claude_api_key
+YOUTUBE_API_KEY=youtube_api_key
+NOTION_API_KEY=notion_api_key
+NOTION_DATABASE_ID=database_id
+
+# Build Settings
 NODE_ENV=production
+ESLINT_NO_DEV_ERRORS=true  # For Vercel
 ```
 
 **Performance:**
@@ -289,18 +426,24 @@ npm test -- Hero.test.tsx
 ## 📈 Performance & SEO
 
 ### Built-in Optimizations
-- **Image Optimization**: Next.js Image component with WebP/AVIF
-- **Code Splitting**: Automatic route-based splitting
-- **Static Generation**: Pre-rendered pages for better performance
-- **Font Optimization**: Self-hosted fonts with font-display swap
-- **Bundle Analysis**: Webpack optimizations for production
+- **Aggressive Code Splitting**: Separate chunks for React, Next.js, Monaco, large libs
+- **WASM Support**: Async loading for WebAssembly modules
+- **Image Optimization**: WebP/AVIF with device-specific sizes
+- **Lazy Loading**: Learning components loaded on-demand with intersection observers
+- **Bundle Management**: 500KB max chunk size, tree shaking enabled
+- **Caching Strategy**:
+  - Static assets: 1 year immutable
+  - API responses: 60s with stale-while-revalidate
+  - WASM modules: 1 day with stale-while-revalidate
+  - Images: 7 days minimum cache TTL
 
 ### SEO Features
-- **Dynamic Metadata**: Per-page title, description, and OG tags
+- **Dynamic Metadata**: Per-page title, description, OG tags
 - **Structured Data**: JSON-LD for rich snippets
-- **Sitemap**: Auto-generated XML sitemap
+- **Dynamic Sitemap**: Auto-generated XML sitemap
 - **Robots.txt**: Search engine directives
 - **International SEO**: Proper hreflang implementation
+- **Performance Monitoring**: Web Vitals attribution (CLS, LCP)
 
 ## 🔧 Troubleshooting
 
@@ -312,27 +455,37 @@ npm test -- Hero.test.tsx
 rm -rf .next
 npm run build
 
+# Use production build to ignore ESLint warnings
+npm run build:production
+
 # Clear node modules if needed
 rm -rf node_modules package-lock.json
 npm install
 ```
 
-**Translation Issues:**
-```bash
-# Check translation status
-npm run translate:status
-
-# Validate translations
-npm run translate:validate
-
-# Clear translation cache
-npm run translate:cache
-```
+**MDX/Learning Module Issues:**
+- Escape curly braces in MDX: `\{` and `\}`
+- Use `<CodeExample>` instead of HTML `<details>` tags
+- Ensure all MDX components are imported
+- Follow 30-line rule for code blocks
+- Check Portuguese content fallback to English
 
 **Email Form Not Working:**
-- Verify `RESEND_API_KEY` in `.env.local`
-- Check domain verification in Resend dashboard
-- Ensure `CONTACT_EMAIL` is set correctly
+- Verify `RESEND_API_KEY` and `RESEND_FROM_EMAIL` in `.env.local`
+- Use domain-verified email for sender (not Gmail)
+- Check Vercel function logs for `[EMAIL ERROR]` prefixes
+- Test with `npm run email:test`
+
+**Dev.to Publishing Issues:**
+- Quote titles containing colons: `title: "Title: Subtitle"`
+- Maximum 4 tags allowed per article
+- Rate limit: ~30 requests per 30 seconds
+- Check `.devto-mapping.json` for article IDs
+
+**Bundle Size Warnings:**
+- Normal for pages using Shiki/Monaco (lazy loaded)
+- Run `npm run analyze` to investigate
+- Check chunk splitting in `next.config.mjs`
 
 ### Node Version Requirement
 **Important**: This project requires **Node.js 18.x** for Next.js 15 compatibility.
@@ -345,12 +498,57 @@ nvm use 18
 node --version  # Should show v18.x.x
 ```
 
-## 📚 Additional Resources
+## 📚 Documentation
 
-- **Architecture Guide**: See `CLAUDE.md` for development patterns
-- **Production Readiness**: Check `PRODUCTION-READINESS-ASSESSMENT.md`
-- **Deployment Guide**: Review `DEPLOYMENT-CHECKLIST.md`
-- **API Documentation**: `/api/health` for health checks
+### Core Documentation
+- **Development Guide**: `CLAUDE.md` - Comprehensive development patterns and commands
+- **Architecture Docs**: `lib/CLAUDE.md` - Library services documentation hub
+- **Content Guidelines**: 
+  - `content/blog/CLAUDE.md` - Blog writing and MDX troubleshooting
+  - `content/learn/CLAUDE.md` - Learning module creation guide
+  - `content/summaries/CLAUDE.md` - YouTube transcript summaries
+  - `content/socials/*/CLAUDE.md` - Social media content guides
+
+### Service Documentation
+- **Email Service**: `lib/services/CLAUDE.md`
+- **Content System**: `lib/content/CLAUDE.md`
+- **Core Infrastructure**: `lib/core/CLAUDE.md`
+- **Client Utilities**: `lib/client/CLAUDE.md`
+
+### Deployment & Operations
+- **Production Readiness**: `docs/misc/PRODUCTION-READINESS-ASSESSMENT.md`
+- **Deployment Checklist**: `docs/misc/DEPLOYMENT-CHECKLIST.md`
+- **Operations Guide**: `docs/OPERATIONS.md`
+- **API Documentation**: `docs/misc/API-DOCUMENTATION.md`
+
+## 🚀 Tech Stack
+
+### Core
+- **Framework**: Next.js 15.3.3 (App Router)
+- **Language**: TypeScript 5.x
+- **Styling**: Tailwind CSS 4.0
+- **Runtime**: React 19
+
+### Content & Data
+- **Blog**: MDX with syntax highlighting (Shiki)
+- **Learning**: JSON metadata + MDX content
+- **Database**: File-based (no DB required)
+- **Caching**: In-memory LRU cache
+
+### Integrations
+- **Email**: Resend API
+- **Translation**: Claude API (Anthropic)
+- **Publishing**: Dev.to API
+- **Video**: YouTube Data API v3
+- **Content**: Notion API
+- **Analytics**: Google Analytics
+- **Monitoring**: Sentry
+
+### Infrastructure
+- **Deployment**: Vercel (optimized)
+- **Containers**: Docker support
+- **Orchestration**: Kubernetes configs
+- **Testing**: Jest + React Testing Library
 
 ## 🤝 Contributing
 
@@ -360,3 +558,7 @@ This portfolio uses a multi-agent development approach with comprehensive testin
 
 **Built with ❤️ by Brandon J. Redmond**  
 *AI Engineer & Agentic Systems Architect*
+
+**LinkedIn**: [linkedin.com/in/bredmond1019](https://www.linkedin.com/in/bredmond1019/)  
+**GitHub**: [github.com/brandonredmond](https://github.com/brandonredmond)  
+**Website**: [learn-agentic-ai.com](https://learn-agentic-ai.com)

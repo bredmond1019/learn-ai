@@ -75,26 +75,32 @@ npx tsx scripts/test-devto.ts   # Test Dev.to API integration
 
 ### YouTube Transcript Management
 ```bash
-# Fetch and manage YouTube video transcripts
 npx tsx scripts/youtube-transcript.ts fetch <url> [options]   # Fetch new transcript
 npx tsx scripts/youtube-transcript.ts update <url>            # Update existing
 npx tsx scripts/youtube-transcript.ts list                    # List all transcripts
 npx tsx scripts/youtube-transcript.ts export <id> -f <format> # Export in different format
 npx tsx scripts/youtube-transcript.ts search <keyword>        # Search transcripts
 npx tsx scripts/youtube-transcript.ts remove <id>             # Remove transcript
-npx tsx scripts/youtube-transcript.ts --help                  # Show all commands
-
-# See lib/CLAUDE.md for detailed YouTube Transcript API documentation
 ```
 
 ### Deployment
 ```bash
-npm run build:prod      # Production build script
-npm run deploy          # Deploy script
+npm run build:prod      # Production build script (./scripts/build-production.sh)
+npm run deploy          # Deploy script (./scripts/deploy.sh)
 npm run docker:build    # Build Docker image
-npm run docker:run      # Run Docker container
-npm run k8s:deploy      # Deploy to Kubernetes
+npm run docker:run      # Run Docker container on port 3000
+npm run k8s:deploy      # Deploy to Kubernetes (kubectl apply -k k8s/)
 npm run k8s:status      # Check Kubernetes pod status
+```
+
+### Notion API Integration
+```bash
+npx tsx scripts/test-notion-api.ts  # Test Notion API integration
+```
+
+### Video to Blog Mapping
+```bash
+npx tsx scripts/video-blog-mapping.ts  # Map video content to blog posts
 ```
 
 ## Architecture & Key Patterns
@@ -192,13 +198,16 @@ npm run k8s:status      # Check Kubernetes pod status
 
 ### Testing Architecture
 - **Framework**: Jest + React Testing Library + Testing Playground
+- **Configuration**: `jest.config.js` with Next.js preset and custom module mappings
 - **Coverage Areas**: Components, utilities, API routes, integration tests
 - **Mocking Strategy**:
   - Server-only modules mocked in `jest.setup.js`
-  - Next.js navigation and router mocked
+  - Next.js navigation and router mocked (`__mocks__/next/navigation.ts`)
   - MDX components and external APIs mocked
+  - Resend, Monaco Editor, and rate limiting mocks in `__mocks__/`
 - **Accessibility**: Automated a11y testing with jest-axe
 - **Email Testing**: Production integration tests with real API calls
+- **TypeScript Config**: Separate `tsconfig.jest.json` for test environment
 
 ## Service-Specific Documentation
 
@@ -214,6 +223,21 @@ npm run k8s:status      # Check Kubernetes pod status
 - **Blog Writing Guide**: See `content/blog/CLAUDE.md` for comprehensive blog writing guidelines, style guide, MDX troubleshooting, and content management patterns
 - **LinkedIn Social Posts**: See `content/socials/linkedin/CLAUDE.md` for LinkedIn post formatting and website URL guidelines
 - **Dev.to Publishing**: See `content/socials/dev-to/CLAUDE.md` for Dev.to API usage, publishing workflows, and multi-part series guidelines
+
+## Project-Specific Scripts & Tools
+
+### Content Validation Scripts
+- `scripts/comprehensive-validation.ts`: Full content validation across all locales
+- `scripts/validate-content.ts`: Basic content validation
+- `scripts/test-error-boundaries.ts`: Test error boundary handling
+
+### Email Testing Scripts
+- `scripts/test-email.ts`: Main email testing utility with multiple commands
+- `scripts/test-email-production.ts`: Production email testing
+- `scripts/test-contact-form.ts`: Contact form specific testing
+- `scripts/test-resend-direct.ts`: Direct Resend API testing
+- `scripts/verify-vercel-env.ts`: Verify Vercel environment variables
+- `scripts/verify-api-key.ts`: Verify API key configuration
 
 ## Common Development Patterns
 
@@ -271,6 +295,15 @@ ANTHROPIC_API_KEY=        # Claude API key for content translation
 
 # YouTube Integration (Optional)
 YOUTUBE_API_KEY=          # YouTube Data API v3 key for transcript fetching
+
+# Notion Integration (Optional)
+NOTION_API_KEY=           # Notion API key for content integration
+NOTION_DATABASE_ID=       # Notion database ID for content sync
+
+# Build Configuration
+DOCKER_BUILD=             # Set to enable standalone output for Docker
+ANALYZE=                  # Set to 'true' to enable bundle analysis
+ESLINT_NO_DEV_ERRORS=     # Set to 'true' to ignore ESLint warnings in production build
 ```
 
 ## Common Issues & Solutions
@@ -330,7 +363,13 @@ YOUTUBE_API_KEY=          # YouTube Data API v3 key for transcript fetching
 
 ### Performance Budgets
 - **Bundle Size**: 1MB max per asset/entrypoint
+- **Chunk Splitting**: Aggressive splitting for React, Next.js, Monaco, large libs (see `next.config.mjs`)
 - **Caching Strategy**: 
   - Static assets: 1 year immutable
   - API responses: 60s with stale-while-revalidate
   - Images: Optimized with WebP/AVIF formats
+  - WASM modules: 1 day with stale-while-revalidate
+- **Image Optimization**: 
+  - Formats: WebP and AVIF
+  - Device sizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
+  - Minimum cache TTL: 7 days
